@@ -96,29 +96,44 @@ public class ControlsManager : MonoBehaviour {
         }
     }
 
-    // TODO: finish camera controls (yaw pitch)
     private void CameraControls()
     {
-        if (Input.GetAxis("Mouse ScrollWheel") != 0f) // forward
+
+        if (Input.GetMouseButtonDown(2))
         {
-            float fov = Camera.main.fieldOfView;
-            fov -= Input.GetAxis("Mouse ScrollWheel") * sensitivity;
-            fov = Mathf.Clamp(fov, minFov, maxFov);
-            Camera.main.fieldOfView = fov;
+            dragOrigin = Input.mousePosition;
+            return;
         }
 
-        ///if (Input.GetMouseButtonDown(0))
-        ///{
-        ///    dragOrigin = Input.mousePosition;
-        ///    return;
-        ///}
+        if (!Input.GetMouseButton(2))
+        {
+            if (Input.GetAxis("Mouse ScrollWheel") != 0f) // forward
+            {
+                float fov = Camera.main.fieldOfView;
+                fov -= Input.GetAxis("Mouse ScrollWheel") * sensitivity;
+                fov = Mathf.Clamp(fov, minFov, maxFov);
+                Camera.main.fieldOfView = fov;
+            }
+            return;
+        }
 
-        ///if (!Input.GetMouseButton(0)) return;
+        Vector3 pos = Camera.main.ScreenToViewportPoint(Input.mousePosition - dragOrigin);
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            Vector3 distance = Camera.main.transform.forward * 3.0f;
+            Vector3 point = Camera.main.transform.position + distance;
+            Vector3 perp = new Vector3(pos.y, -pos.x, 0);
+            Vector3 rotateAroundAxis = perp.x * Camera.main.transform.right + perp.y * Vector3.up;
+            Camera.main.transform.RotateAround(point, rotateAroundAxis, Mathf.Rad2Deg * Mathf.Atan(pos.magnitude / distance.magnitude));
+        }
+        else
+        {
+            Vector3 move = new Vector3(-pos.x, -pos.y, 0);
+            Camera.main.transform.Translate(move.normalized * dragSpeed, Space.Self);
+        }
 
-        ///Vector3 pos = Camera.main.ScreenToViewportPoint(Input.mousePosition - dragOrigin);
-        ///Vector3 move = new Vector3(pos.x * dragSpeed, 0, pos.y * dragSpeed);
+        dragOrigin = Input.mousePosition;
 
-        ///transform.Translate(move, Space.World);
     }
 
     /*void RotateCharater(Character character)
