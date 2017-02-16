@@ -19,7 +19,6 @@ public class TileLDHelper : EditorWindow {
     TileType selectedType = TileType.None; //The type selected by the user
     TileType currentType = TileType.None; //The current loaded type (update when selectedType is changed)
     GameObject[] models = null;
-    GameObject selectedModel = null;
     int selectedModelIndex = 0;
 
     bool createdHelper = false;
