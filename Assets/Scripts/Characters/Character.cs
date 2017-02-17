@@ -1,24 +1,35 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 /*
  * Contains common attributes for Keepers and Monsters
  *
  */
 public class Character {
-    private string name;
 
+    [SerializeField]
+    private string characterName = "CharacterBob";
+
+    [Header("Stats")]
+
+    [SerializeField]
     private int hp = 100;
+    [SerializeField]
     private int mp = 50;
+    [SerializeField]
     private short strength = 5;
+    [SerializeField]
     private short defense = 5;
+    [SerializeField]
     private short intelligence = 5;
+    [SerializeField]
     private short spirit = 5;
     private List<SkillBattle> battleSkills;
 
-    public string Name
+    public string CharacterName
     {
-        get { return name; }
-        set { name = value; }
+        get { return characterName; }
+        set { characterName = value; }
     }
 
     public int Hp
@@ -69,6 +80,7 @@ public class Character {
  * Contains definition of battle skills 
  * 
  */
+ [System.Serializable]
 public class SkillBattle
 {
 

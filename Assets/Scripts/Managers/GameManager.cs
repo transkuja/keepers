@@ -1,43 +1,35 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Keepers;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     private static GameManager instance = null;
 
-    // temp for debug
-    private bool once = false;
-
     private List<KeeperInstance> listOfSelectedKeepers = new List<KeeperInstance>();
 
-    // TODO: change it to a list of KeeperInstance @Remi
-    private List<Keepers.Selectable> allKeepersList = new List<Keepers.Selectable>();
-
+    private List<KeeperInstance> allKeepersList = new List<KeeperInstance>();
+    
     private bool characterPanelIngameNeedUpdate = true;
     private bool characterPanelMenuNeedUpdate = false;
 
     void Awake()
     {
         if (instance == null)
+        {
             instance = this;
+        }
         else if (instance != this)
+        {
             Destroy(gameObject);
-
+            
+        }
         DontDestroyOnLoad(gameObject);
     }
 
     private void Update()
     {
-        // debug only
-        if (!once)
-        {
-            if (KeeperManager.listKeepers != null)
-                Debug.Log("NbPersonnages : " + KeeperManager.listKeepers.Count);
-
-            once = true;
-        }
+        Debug.Log(allKeepersList.Count);
     }
 
     public void ClearListKeeperSelected()
@@ -50,9 +42,17 @@ public class GameManager : MonoBehaviour
         listOfSelectedKeepers.Clear();
     }
 
+    public void InitializeInGameKeepers()
+    {
+        foreach (KeeperInstance ki in allKeepersList)
+        {
+            ki.gameObject.transform.SetParent(transform);
+        }
+                
+    }
 
     /* ------------------------------------------------------------------------------------ */
-    /* ------------------------------------------ Accessors ------------------------------- */
+    /* ------------------------------------- Accessors ------------------------------------ */
     /* ------------------------------------------------------------------------------------ */
 
     public static GameManager Instance
@@ -102,7 +102,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public List<Keepers.Selectable> AllKeepersList
+    public List<KeeperInstance> AllKeepersList
     {
         get
         {

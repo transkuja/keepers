@@ -1,24 +1,106 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
  
+[System.Serializable]
 public class Keeper : Character
 {
+    [SerializeField]
+    private GameObject associatedSprite;
 
-    private short hunger = 100;
-    private short mentalHealth = 100;
- 
-    public short Hunger {
-        get { return hunger; }
-        set { hunger = value; }
+    [Header("Status")]
+
+    [SerializeField]
+    private short actualHunger = 0;
+    [SerializeField]
+    [Range(50, 120)]
+    private short maxHunger = 100;
+
+    [SerializeField]
+    private short maxMentalHealth = 100;
+
+    [SerializeField]
+    private short actualMentalHealth;
+
+
+    private bool isStarving = false;
+    private bool isMentalHealthLow = false;
+
+    public short ActualHunger {
+        get { return actualHunger; }
+        set {
+            actualHunger = value;
+            if (actualHunger > MaxHunger)
+            {
+                actualHunger = MaxHunger;
+                isStarving = true;
+            }
+            else if (actualHunger < 0)
+            {
+                actualHunger = 0;
+                isStarving = false;
+            }
+            else
+            {
+                isStarving = false;
+            }
+            Debug.Log(actualHunger);
+            Debug.Log(isStarving);
+
+        }
     }
 
-    public short MentalHealth {
-        get { return mentalHealth; }
-        set { mentalHealth = value; }
+    public short ActualMentalHealth {
+        get { return actualMentalHealth; }
+        set {
+            actualMentalHealth = value;
+            if (actualMentalHealth < 0)
+            {
+                actualMentalHealth = 0;
+                isMentalHealthLow = true;
+            }
+            else if (actualMentalHealth > maxMentalHealth)
+            {
+                actualMentalHealth = maxMentalHealth;
+                isMentalHealthLow = false;
+            }
+            else
+            {
+                isMentalHealthLow = false;
+            }
+        }
+    }
+
+    public GameObject AssociatedSprite
+    {
+        get
+        {
+            return associatedSprite;
+        }
+
+        set
+        {
+            associatedSprite = value;
+        }
+    }
+
+    public short MaxHunger
+    {
+        get
+        {
+            return maxHunger;
+        }
+
+        private set {}
     }
 
     public Keeper()
     {
+        actualMentalHealth = maxMentalHealth;
     }
-    
+
+    public Keeper(Keeper from)
+    {
+        associatedSprite = from.associatedSprite;
+    }
+
 }

@@ -37,14 +37,16 @@ public class MenuUI : MonoBehaviour
         int nbCaracters = GameManager.Instance.AllKeepersList.Count;
         for (int i = 0; i < nbCaracters; i++)
         {
-            Keepers.Selectable currentSelectedCharacter = GameManager.Instance.AllKeepersList[i];
-            if ( currentSelectedCharacter.selected)
+            KeeperInstance currentSelectedCharacter = GameManager.Instance.AllKeepersList[i];
+
+            if (currentSelectedCharacter.IsSelectedInMenu)
             {
-                if ( currentSelectedCharacter.associatedSprite != null)
+                GameObject associatedSprite = currentSelectedCharacter.Keeper.AssociatedSprite;
+                if (associatedSprite != null)
                 {
    
-                    float value = margeY + (offsetY * (i)) + ((currentSelectedCharacter.associatedSprite.GetComponent<Image>().rectTransform.rect.height) * (i));
-                    GameObject characterImage = Instantiate(currentSelectedCharacter.associatedSprite, CaracterPanel.transform);
+                    float value = margeY + (offsetY * (i)) + ((associatedSprite.GetComponent<Image>().rectTransform.rect.height) * (i));
+                    GameObject characterImage = Instantiate(associatedSprite, CaracterPanel.transform);
                     characterImage.transform.localPosition = new Vector3(margeX, -value, 0.0f);
                     characterImage.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
 

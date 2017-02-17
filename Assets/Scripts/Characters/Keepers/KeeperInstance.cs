@@ -4,47 +4,53 @@ using UnityEngine;
 
 public class KeeperInstance : MonoBehaviour {
 
-    private Keeper associatedKeeper = null;
-    private bool isSelected = false;
-
     [Header("Keeper Info")]
     [SerializeField]
-    private new string name = "Perso1";
+    private Keeper keeper = null;
+    private bool isSelected = false;
 
-    [Header("Stats")]
-
-    [Range(1, 100)]
     [SerializeField]
-    private short hpValue = 100;
+    private GameObject goSelectionAura;
 
-    [Range(1, 100)]
+    // Used only in menu. Handles selection in main menu.
     [SerializeField]
-    private short mpValue = 50;
+    private bool isSelectedInMenu = false;
+    public MeshRenderer meshToHighlight;
 
-    [Range(1, 10)]
-    [SerializeField]
-    private short strengthValue = 5;
+    private void ToggleHighlightOnMesh(bool isSelected)
+    {
+        if (meshToHighlight != null)
+        {
+            if (isSelected)
+            {
+                meshToHighlight.material.shader = Shader.Find("Outlined/Silhouetted Diffuse");
+                meshToHighlight.material.SetColor("_OutlineColor", Color.blue);
+            }
+            else
+            {
+                meshToHighlight.material.shader = Shader.Find("Diffuse");
+            }
+        }
+    }
 
-    [Range(1, 10)]
-    [SerializeField]
-    private short defenseValue = 5;
+    public void OnTriggerEnter(Collider colliderInfo)
+    {
+        if (colliderInfo.gameObject.tag == "TilePath")
+        {
+            // TODO Trigger UI Change Tile
+        }
+    }
 
-    [Range(1, 10)]
-    [SerializeField]
-    private short intelligenceValue = 5;
+    public KeeperInstance(KeeperInstance from)
+    {
+        keeper = from.keeper;
+        goSelectionAura = from.goSelectionAura;
 
-    [Range(1, 10)]
-    [SerializeField]
-    private short spiritValue = 5;
+    }
 
-    [Header("Status")]
-    [Range(1, 100)]
-    [SerializeField]
-    private short hungerValue = 100;
-
-    [Range(1, 100)]
-    [SerializeField]
-    private short mentalHealthValue = 100;
+    /* ------------------------------------------------------------------------------------ */
+    /* ------------------------------------- Accessors ------------------------------------ */
+    /* ------------------------------------------------------------------------------------ */
 
     public bool IsSelected
     {
@@ -56,52 +62,49 @@ public class KeeperInstance : MonoBehaviour {
         set
         {
             isSelected = value;
-            goSelectionAura.SetActive(value);
+            GoSelectionAura.SetActive(value);
         }
     }
 
-    [SerializeField]
-    private GameObject goSelectionAura;
 
-    void Awake()
+
+    public bool IsSelectedInMenu
     {
-        associatedKeeper = new Keeper();
-
-        associatedKeeper.Name = name;
-
-        associatedKeeper.Hp = hpValue;
-        associatedKeeper.Mp = mpValue;
-        associatedKeeper.Strength = strengthValue;
-        associatedKeeper.Defense = defenseValue;
-        associatedKeeper.Intelligence = intelligenceValue;
-        associatedKeeper.Spirit = spiritValue;
-        associatedKeeper.Hunger = hungerValue;
-        associatedKeeper.MentalHealth = mentalHealthValue;
-
-        KeeperManager.AddKeeper(associatedKeeper);
-    }
-
-    public Keeper getAssociatedPersonnage()
-    {
-        return associatedKeeper;
-    }
-
-    private void Update()
-    {
-
-    }
-
-    private void OnDestroy()
-    {
-        if (associatedKeeper != null)
-            KeeperManager.RemoveKeeper(associatedKeeper);
-    }
-
-    public void OnTriggerEnter(Collider colliderInfo)
-    {
-        if (colliderInfo.gameObject.tag == "TilePath")
+        get
         {
-            // TODO Trigger UI Change Tile
+            return isSelectedInMenu;
+        }
+
+        set
+        {
+            isSelectedInMenu = value;
+            ToggleHighlightOnMesh(isSelectedInMenu);
+        }
+    }
+
+    public Keeper Keeper
+    {
+        get
+        {
+            return keeper;
+        }
+
+        set
+        {
+            keeper = value;
+        }
+    }
+
+    public GameObject GoSelectionAura
+    {
+        get
+        {
+            return goSelectionAura;
+        }
+
+        set
+        {
+            goSelectionAura = value;
         }
     }
 }

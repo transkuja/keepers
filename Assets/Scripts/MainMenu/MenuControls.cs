@@ -5,7 +5,7 @@ using UnityEngine;
 // Temp
 using UnityEngine.SceneManagement;
 
-public class MenuController : MonoBehaviour {
+public class MenuControls : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
@@ -21,22 +21,23 @@ public class MenuController : MonoBehaviour {
                     // On Click on a personnage
                     if (hit.transform.gameObject.layer == LayerMask.NameToLayer("KeeperInstance"))
                     {
-                        Keepers.Selectable s = hit.transform.gameObject.GetComponent<Keepers.Selectable>();
-                        if (s != null)
+                        KeeperInstance k = hit.transform.gameObject.GetComponent<KeeperInstance>();
+                        if (k != null)
                         {
-                            if (GameManager.Instance.AllKeepersList.Contains(s))
+                            if (GameManager.Instance.AllKeepersList.Contains(k))
                             {
-                                s.Selected = false;
-                                GameManager.Instance.AllKeepersList.Remove(s);
-                                GameManager.Instance.CharacterPanelMenuNeedUpdate = true;
+                                k.IsSelectedInMenu = false;
+                                GameManager.Instance.AllKeepersList.Remove(k);
                             }
                             else
                             {
-                                s.Selected = true;
-                                GameManager.Instance.AllKeepersList.Add(s);
-                                GameManager.Instance.CharacterPanelMenuNeedUpdate = true;
+                                k.IsSelectedInMenu = true;
+                                GameManager.Instance.AllKeepersList.Add(k);
                             }
+                            GameManager.Instance.CharacterPanelMenuNeedUpdate = true;
+                            
                         }
+                                                 
                     }
                 }
             }
@@ -44,11 +45,10 @@ public class MenuController : MonoBehaviour {
             // Deselect all
             if (Input.GetKeyDown(KeyCode.A))
             {
-                foreach (Keepers.Selectable s in GameManager.Instance.AllKeepersList)
+                foreach (KeeperInstance ki in GameManager.Instance.AllKeepersList)
                 {
-                    s.Selected = false;
+                    ki.IsSelectedInMenu = false;
                 }
-                GameManager.Instance.AllKeepersList.Clear();
                 GameManager.Instance.CharacterPanelMenuNeedUpdate = true;
             }
         }
@@ -56,7 +56,16 @@ public class MenuController : MonoBehaviour {
         // Skip Cinematique
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if(AudioManager.Instance!= null)
+            if (GameManager.Instance.AllKeepersList.Count == 0)
+            {
+                KeeperInstance[] keeperInstances = FindObjectsOfType<KeeperInstance>();
+                for (int i = 0; i < keeperInstances.Length; i++)
+                {
+                    GameManager.Instance.AllKeepersList.Add(keeperInstances[i]);
+                }
+            }
+            GameManager.Instance.InitializeInGameKeepers();
+            if (AudioManager.Instance != null)
             {
                 AudioManager.Instance.Fade(AudioManager.Instance.themeMusic);
             }
