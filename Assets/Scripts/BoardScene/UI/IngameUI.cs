@@ -58,17 +58,13 @@ public class IngameUI : MonoBehaviour
         {
             KeeperInstance currentSelectedCharacter = GameManager.Instance.AllKeepersList[i];
 
-            if (currentSelectedCharacter.IsSelectedInMenu)
+            GameObject associatedSprite = currentSelectedCharacter.Keeper.AssociatedSprite;
+            if (associatedSprite != null)
             {
-                GameObject associatedSprite = currentSelectedCharacter.Keeper.AssociatedSprite;
-                if (associatedSprite != null)
-                {
-                    float value = margeY + (offsetY * (i)) + ((associatedSprite.GetComponent<Image>().rectTransform.rect.height) * (i));
-                    GameObject characterImage = Instantiate(associatedSprite, CharacterPanel.transform);
-                    characterImage.transform.localPosition = new Vector3(value, -margeX, 0.0f);
-                    characterImage.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-
-                }
+                float value = margeY + (offsetY * (i)) + ((associatedSprite.GetComponent<Image>().rectTransform.rect.height) * (i));
+                GameObject characterImage = Instantiate(associatedSprite, CharacterPanel.transform);
+                characterImage.transform.localPosition = new Vector3(value, -margeX, 0.0f);
+                characterImage.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
             }
 
         }

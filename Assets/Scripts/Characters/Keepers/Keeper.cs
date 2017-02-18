@@ -43,8 +43,6 @@ public class Keeper : Character
             {
                 isStarving = false;
             }
-            Debug.Log(actualHunger);
-            Debug.Log(isStarving);
 
         }
     }

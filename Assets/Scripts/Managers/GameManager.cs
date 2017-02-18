@@ -27,11 +27,6 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    private void Update()
-    {
-        Debug.Log(allKeepersList.Count);
-    }
-
     public void ClearListKeeperSelected()
     {
         for (int i = 0; i < listOfSelectedKeepers.Count; i++)

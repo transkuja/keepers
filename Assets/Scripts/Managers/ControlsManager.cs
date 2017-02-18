@@ -19,7 +19,6 @@ public class ControlsManager : MonoBehaviour {
     bool bIsRotating = false;*/
 
     // Camera parameters
-    // TODO: suppress warnings by implementing full camera controls
     [Header("Camera Controls")]
     [SerializeField]
     float dragSpeed = 2;
@@ -124,7 +123,9 @@ public class ControlsManager : MonoBehaviour {
             Vector3 point = Camera.main.transform.position + distance;
             Vector3 perp = new Vector3(pos.y, -pos.x, 0);
             Vector3 rotateAroundAxis = perp.x * Camera.main.transform.right + perp.y * Vector3.up;
-            Camera.main.transform.RotateAround(point, rotateAroundAxis, Mathf.Rad2Deg * Mathf.Atan(pos.magnitude / distance.magnitude));
+            float rotateDegrees = Mathf.Rad2Deg * Mathf.Atan(pos.magnitude / distance.magnitude);
+            // TODO: Clamp
+            Camera.main.transform.RotateAround(point, rotateAroundAxis, rotateDegrees);
         }
         else
         {
