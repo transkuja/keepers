@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class KeeperInstance : MonoBehaviour {
 
@@ -16,6 +17,36 @@ public class KeeperInstance : MonoBehaviour {
     [SerializeField]
     private bool isSelectedInMenu = false;
     public MeshRenderer meshToHighlight;
+
+
+    // Update variables
+    NavMeshAgent agent;
+
+    private void Start()
+    {
+        agent = GetComponent<NavMeshAgent>();
+    }
+
+    private void Update()
+    {
+        Vector3 currentPosition;
+        if (agent.isOnOffMeshLink)
+        {
+            currentPosition = transform.position;
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                agent.CompleteOffMeshLink();
+            }
+
+            if (Input.GetKeyDown(KeyCode.B))
+            {
+
+                agent.CompleteOffMeshLink();
+                agent.Warp(currentPosition);
+            }
+        }
+
+    }
 
     private void ToggleHighlightOnMesh(bool isSelected)
     {
