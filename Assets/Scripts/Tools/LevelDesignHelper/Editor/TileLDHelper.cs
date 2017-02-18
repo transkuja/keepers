@@ -291,7 +291,7 @@ public class TileLDHelper : EditorWindow {
         HelperRoot hr = root.GetComponent<HelperRoot>();
         hr.Width = width;
         hr.Height = height;
-        string tilePath = "Assets/Prefabs/TilePrefab.prefab";
+        string tilePath = "Assets/Prefabs/Tiles/TilePrefab.prefab";
         GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(tilePath);
         Vector3 size = prefab.GetComponentInChildren<MeshFilter>().sharedMesh.bounds.size;
         if(prefab.transform.localRotation.y == 90)
