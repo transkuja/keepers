@@ -8,6 +8,8 @@ public class PrisonerInstance : MonoBehaviour {
     [SerializeField]
     private Prisoner prisoner = null;
 
+    private GameObject keeperFollowed = null;
+
     public PrisonerInstance(PrisonerInstance from)
     {
         prisoner = from.prisoner;
@@ -26,6 +28,19 @@ public class PrisonerInstance : MonoBehaviour {
         set
         {
             prisoner = value;
+        }
+    }
+
+    public GameObject KeeperFollowed
+    {
+        get
+        {
+            return keeperFollowed;
+        }
+
+        set
+        {
+            keeperFollowed = value;
         }
     }
 }
