@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class Keeper : Character
 {
     [SerializeField]
-    private GameObject associatedSprite;
+    private Sprite associatedSprite;
 
     [Header("Status")]
 
@@ -68,7 +68,7 @@ public class Keeper : Character
         }
     }
 
-    public GameObject AssociatedSprite
+    public Sprite AssociatedSprite
     {
         get
         {

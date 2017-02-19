@@ -13,6 +13,10 @@ public class GameManager : MonoBehaviour
     private bool characterPanelIngameNeedUpdate = true;
     private bool characterPanelMenuNeedUpdate = false;
 
+    // Actions
+    public List<Action> listOfActions = new List<Action>();
+    private bool actionPanelNeedUpdate = false;
+
     void Awake()
     {
         if (instance == null)
@@ -107,6 +111,19 @@ public class GameManager : MonoBehaviour
         set
         {
             allKeepersList = value;
+        }
+    }
+
+    public bool ActionPanelNeedUpdate
+    {
+        get
+        {
+            return actionPanelNeedUpdate;
+        }
+
+        set
+        {
+            actionPanelNeedUpdate = value;
         }
     }
 }

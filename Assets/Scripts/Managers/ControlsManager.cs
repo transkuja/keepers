@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class ControlsManager : MonoBehaviour {
 
@@ -45,21 +47,30 @@ public class ControlsManager : MonoBehaviour {
 
         if (Input.GetMouseButtonDown(0))
         {
-            RaycastHit hitInfo;
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo) == true)
+            if (!EventSystem.current.IsPointerOverGameObject())
             {
-                KeeperInstance c = null;
-                if ((c = hitInfo.transform.gameObject.GetComponent<KeeperInstance>()) != null)
+                RaycastHit hitInfo;
+                if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo) == true)
                 {
-                    if (Input.GetKey(KeyCode.LeftShift))
+                    if (hitInfo.transform.gameObject.GetComponent<KeeperInstance>() != null)
                     {
-                        if (GameManager.Instance.ListOfSelectedKeepers.Contains(c))
+                        KeeperInstance c = hitInfo.transform.gameObject.GetComponent<KeeperInstance>();
+                        if (Input.GetKey(KeyCode.LeftShift))
                         {
-                            GameManager.Instance.ListOfSelectedKeepers.Remove(c);
-                            c.IsSelected = false;
+                            if (GameManager.Instance.ListOfSelectedKeepers.Contains(c))
+                            {
+                                GameManager.Instance.ListOfSelectedKeepers.Remove(c);
+                                c.IsSelected = false;
+                            }
+                            else
+                            {
+                                GameManager.Instance.ListOfSelectedKeepers.Add(c);
+                                c.IsSelected = true;
+                            }
                         }
                         else
                         {
+                            GameManager.Instance.ClearListKeeperSelected();
                             GameManager.Instance.ListOfSelectedKeepers.Add(c);
                             c.IsSelected = true;
                         }
@@ -67,32 +78,46 @@ public class ControlsManager : MonoBehaviour {
                     else
                     {
                         GameManager.Instance.ClearListKeeperSelected();
-                        GameManager.Instance.ListOfSelectedKeepers.Add(c);
-                        c.IsSelected = true;
                     }
+                }
+                // Handle click on a actionnable
+                GameManager.Instance.listOfActions.Clear();
 
-                }
-                else
-                {
-                    Debug.Log("deselected");
-                    GameManager.Instance.ClearListKeeperSelected();
-                }
+                // Handle click on anything else
+                GameManager.Instance.ActionPanelNeedUpdate = true;
             }
         }
         else if (Input.GetMouseButtonDown(1))
         {
-            if (GameManager.Instance.ListOfSelectedKeepers.Count > 0)
+            if (!EventSystem.current.IsPointerOverGameObject())
             {
-                RaycastHit hitInfo;
-                if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo) == true)
+                if (GameManager.Instance.ListOfSelectedKeepers.Count > 0)
                 {
-                    for (int i = 0; i < GameManager.Instance.ListOfSelectedKeepers.Count; i++)
+                    RaycastHit hitInfo;
+                    if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo) == true)
                     {
-                        GameManager.Instance.ListOfSelectedKeepers[i].gameObject.GetComponent<NavMeshAgent>().destination = hitInfo.point;
+                        // Handle click on a actionnable
+                        GameManager.Instance.listOfActions.Clear();
+                        if (hitInfo.collider.GetComponent<Actionable>() != null)
+                        {
+                            HandleClickOnActionable(hitInfo.collider.GetComponent<Actionable>());
+                        }
+                        else
+                        {
+                            // Move the keeper
+                            for (int i = 0; i < GameManager.Instance.ListOfSelectedKeepers.Count; i++)
+                            {
+                                GameManager.Instance.ListOfSelectedKeepers[i].gameObject.GetComponent<NavMeshAgent>().destination = hitInfo.point;
+                            }
+                        }
                     }
+
+                    // Handle click on anything else
+                    GameManager.Instance.ActionPanelNeedUpdate = true;
                 }
             }
-        }
+        }                  
+
     }
 
     private void CameraControls()
@@ -134,7 +159,11 @@ public class ControlsManager : MonoBehaviour {
         }
 
         dragOrigin = Input.mousePosition;
+    }
 
+    private void HandleClickOnActionable(Actionable a)
+    {
+        GameManager.Instance.listOfActions.AddRange(a.listOfActions);
     }
 
     /*void RotateCharater(Character character)

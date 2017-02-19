@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 public class MenuUI : MonoBehaviour
 {
     public GameObject CaracterPanel;
+    public GameObject baseCharacterImage;
 
     public void ChangeLanguage(string language)
     {
@@ -41,15 +42,17 @@ public class MenuUI : MonoBehaviour
 
             if (currentSelectedCharacter.IsSelectedInMenu)
             {
-                GameObject associatedSprite = currentSelectedCharacter.Keeper.AssociatedSprite;
+                Sprite associatedSprite = currentSelectedCharacter.Keeper.AssociatedSprite;
                 if (associatedSprite != null)
                 {
-   
-                    float value = margeY + (offsetY * (i)) + ((associatedSprite.GetComponent<Image>().rectTransform.rect.height) * (i));
-                    GameObject characterImage = Instantiate(associatedSprite, CaracterPanel.transform);
-                    characterImage.transform.localPosition = new Vector3(margeX, -value, 0.0f);
-                    characterImage.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+                    GameObject CharacterImage = Instantiate(baseCharacterImage, CaracterPanel.transform);
+                    CharacterImage.name = currentSelectedCharacter.Keeper.CharacterName;
+                    CharacterImage.GetComponent<Image>().sprite = associatedSprite;
 
+
+                    float value = margeY + (offsetY * (i)) + ((CharacterImage.GetComponent<Image>().rectTransform.rect.height) * (i));
+                    CharacterImage.transform.localPosition = new Vector3(margeX, -value, 0.0f);
+                    CharacterImage.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
                 }
             }
 

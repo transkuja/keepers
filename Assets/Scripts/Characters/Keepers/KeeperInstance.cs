@@ -64,14 +64,6 @@ public class KeeperInstance : MonoBehaviour {
         }
     }
 
-    public void OnTriggerEnter(Collider colliderInfo)
-    {
-        if (colliderInfo.gameObject.tag == "TilePath")
-        {
-            // TODO Trigger UI Change Tile
-        }
-    }
-
     public KeeperInstance(KeeperInstance from)
     {
         keeper = from.keeper;
