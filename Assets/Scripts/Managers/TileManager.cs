@@ -14,6 +14,10 @@ public class TileManager : MonoBehaviour {
     Tile prisonerTile;
     public PrisonerInstance prisoner;
 
+    // For testing, to delete
+    public Tile monsterTileTest;
+    public MonsterInstance monsterInstanceTest;
+
     void Awake()
     {
         if (instance == null)
@@ -21,6 +25,7 @@ public class TileManager : MonoBehaviour {
             instance = this;
             prisonerTile = GameObject.FindGameObjectWithTag("BeginTile").GetComponentInParent<Tile>();
             keepersOnTile.Add(prisonerTile, GameManager.Instance.AllKeepersList);
+            AddMonsterOnTile(monsterTileTest, monsterInstanceTest);
         }
         else if (instance != this)
         {

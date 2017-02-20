@@ -69,6 +69,18 @@ public class KeeperInstance : MonoBehaviour {
         }
     }
 
+    private void OnCollisionEnter(Collision col)
+    {
+        Debug.Log("Collide");
+        if (col.gameObject.GetComponent<MonsterInstance>())
+        {
+            Debug.Log("yay");
+
+            BattleHandler.LaunchBattle(TileManager.Instance.GetTileFromKeeper[this]);
+        }
+    }
+
+
     private void ToggleHighlightOnMesh(bool isSelected)
     {
         if (meshToHighlight != null)
