@@ -3,16 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public enum TilePrefabChildren
-{
-    Model,
-    NorthCollider,
-    NorthEastCollider,
-    SouthEastCollider,
-    SouthCollider,
-    SouthWestCollider,
-    NorthWestCollider
-}
 
 public class TileManager : MonoBehaviour {
 
@@ -40,11 +30,16 @@ public class TileManager : MonoBehaviour {
         DontDestroyOnLoad(gameObject);
     }
 
-    public static TileManager Instance
+    public Tile PrisonerTile
     {
         get
         {
-            return instance;
+            return prisonerTile;
+        }
+
+        set
+        {
+            prisonerTile = value;
         }
     }
 
@@ -110,35 +105,47 @@ public class TileManager : MonoBehaviour {
         keepersOnTile[tile].Remove(keeper);
     }
 
-    private Transform[] GetSpawnPositions(Tile destinationTile, Direction moveDirection)
-    {
-        Transform[] spawnPositions = new Transform[2];
-        Transform[] tmp = new Transform[3];
-        switch (moveDirection)
-        {
-            case Direction.North:
-                tmp = destinationTile.transform.GetChild(0).GetChild((int)TilePrefabChildren.SouthCollider).GetComponentsInChildren<Transform>();
-                break;
-            case Direction.North_East:
-                tmp = destinationTile.transform.GetChild(0).GetChild((int)TilePrefabChildren.SouthWestCollider).GetComponentsInChildren<Transform>();
-                break;
-            case Direction.North_West:
-                tmp = destinationTile.transform.GetChild(0).GetChild((int)TilePrefabChildren.SouthEastCollider).GetComponentsInChildren<Transform>();
-                break;
-            case Direction.South:
-                tmp = destinationTile.transform.GetChild(0).GetChild((int)TilePrefabChildren.NorthCollider).GetComponentsInChildren<Transform>();
-                break;
-            case Direction.South_East:
-                tmp = destinationTile.transform.GetChild(0).GetChild((int)TilePrefabChildren.NorthWestCollider).GetComponentsInChildren<Transform>();
-                break;
-            case Direction.South_West:
-                tmp = destinationTile.transform.GetChild(0).GetChild((int)TilePrefabChildren.NorthEastCollider).GetComponentsInChildren<Transform>();
-                break;
-        }
 
-        spawnPositions[0] = tmp[1];
-        spawnPositions[1] = tmp[2];
-        return spawnPositions;
+    /* ------------------------------------------------------------------------------------ */
+    /* ------------------------------------- Accessors ------------------------------------ */
+    /* ------------------------------------------------------------------------------------ */
+
+    public static TileManager Instance
+    {
+        get
+        {
+            return instance;
+        }
     }
 
+    public Dictionary<Tile, List<MonsterInstance>> MonstersOnTile
+    {
+        get
+        {
+            return monstersOnTile;
+        }
+
+        private set { }
+
+    }
+
+    public Dictionary<Tile, List<KeeperInstance>> KeepersOnTile
+    {
+        get
+        {
+            return keepersOnTile;
+        }
+        private set { }
+
+    }
+
+    public Dictionary<KeeperInstance, Tile> GetTileFromKeeper
+    {
+        get
+        {
+            return getTileFromKeeper;
+        }
+        private set { }
+
+    }
 }
