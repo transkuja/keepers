@@ -99,26 +99,18 @@ public class IngameUI : MonoBehaviour
             }
         }
 
-
-        float margeX = 0.0f;
-        float margeY = 0.0f;
-        float offsetY = 10.0f;
-
         // Actions
         for (int i = 0; i < GameManager.Instance.listOfActions.Count; i++)
         {
             GameObject goAction = Instantiate(baseActionImage, ActionPanel.transform);
             goAction.name = GameManager.Instance.listOfActions[i].ActionName;
-            goAction.GetComponent<Image>().sprite = GameManager.Instance.listOfActions[i].ActionSprite;
 
             // Wait what !
             int n = i;
             GameManager.Instance.listOfActions[i].TypeAction = GameManager.Instance.listOfActions[i].TypeAction;
-            goAction.AddComponent<Button>().onClick.AddListener(() => { action(n); });
-
-            float value = margeY + (offsetY * (i)) + ((goAction.GetComponent<Image>().rectTransform.rect.height) * (i));
-            goAction.transform.localPosition = new Vector3(margeX, +value, 0.0f);
-            goAction.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+            Button btn = goAction.GetComponent<Button>();
+            btn.onClick.AddListener(() => { action(n); });
+            btn.GetComponentInChildren<Text>().text = GameManager.Instance.listOfActions[i].ActionName;
         }
 
         GameManager.Instance.ActionPanelNeedUpdate = false;
