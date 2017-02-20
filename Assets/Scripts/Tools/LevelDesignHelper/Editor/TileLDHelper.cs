@@ -538,7 +538,7 @@ public class TileLDHelper : EditorWindow {
                 for(int j = 0; j < nbChildren; j++)
                 {
                     GameObject child = tiles[i].transform.GetChild(j).gameObject;
-                    if(child.name == "Asset_tile")
+                    if(child.name == "TilePrefab")
                     {
                         toDestroy.Add(child);
                     }
@@ -563,7 +563,7 @@ public class TileLDHelper : EditorWindow {
 
     bool isTileEmpty(GameObject tile)
     {
-        if(tile.transform.childCount == 1 && tile.transform.GetChild(0).name == "Asset_tile")
+        if(tile.transform.childCount == 1 && tile.transform.GetChild(0).name == "TilePrefab")
         {
             return true;
         }
