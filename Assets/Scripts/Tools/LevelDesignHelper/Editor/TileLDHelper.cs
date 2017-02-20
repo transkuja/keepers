@@ -40,7 +40,6 @@ public class TileLDHelper : EditorWindow {
 
     void OnSelectionChange()
     {
-        Debug.Log(Selection.GetFiltered(typeof(GameObject), SelectionMode.TopLevel | SelectionMode.ExcludePrefab).Length);
         Object[] selection = Selection.GetFiltered(typeof(GameObject), SelectionMode.TopLevel | SelectionMode.ExcludePrefab);
         selectedObjects = new GameObject[selection.Length];
         for(int i = 0; i < selection.Length; i++)
@@ -164,7 +163,12 @@ public class TileLDHelper : EditorWindow {
                         if(go.transform.parent != null)
                             t = go.transform.parent.GetComponent<Tile>();
                         if (t == null)
-                            validSelection = false;
+                        {
+                            if (go.transform.parent != null && go.transform.parent.parent != null)
+                                t = go.transform.parent.parent.GetComponent<Tile>();
+                            if (t == null)
+                                validSelection = false;
+                        }
                     }
                 }
                 if (!validSelection)
@@ -230,6 +234,7 @@ public class TileLDHelper : EditorWindow {
         }
         GUILayout.FlexibleSpace();
         EditorGUILayout.EndHorizontal();
+        EditorGUILayout.HelpBox("Information Warning: the \"TilePrefab\" object must stay the first child of its parent (a Tile). Same goes for the model object, which must stay the first child of the \"TilePrefab\" object.", MessageType.Info);
     }
 
     void LoadHelper()
@@ -247,20 +252,23 @@ public class TileLDHelper : EditorWindow {
     {
         Undo.RecordObject(tile, "Changing model " + tile.name);
         tile.Type = type;
+        Vector3 prevPos = tile.transform.position;
         if(model != null)
         {
-            for (int i = 0; i < tile.transform.childCount; i++)
+            for (int i = 0; i < tile.transform.GetChild(0).childCount; i++)
             {
-                Transform child = tile.transform.GetChild(i);
-                if (child.name == "TileModel")
+                Transform child = tile.transform.GetChild(0).GetChild(i);
+                if (child.name == "TileModel" || child.name == "Model")
                 {
+                    prevPos = child.position;
                     Undo.DestroyObjectImmediate(child.gameObject);
                 }
             }
             GameObject go = PrefabUtility.InstantiatePrefab(model) as GameObject;
             go.name = "TileModel";
-            go.transform.parent = tile.transform;
-            go.transform.position = tile.transform.position;
+            go.transform.parent = tile.transform.GetChild(0);
+            go.transform.SetAsFirstSibling();
+            go.transform.position = prevPos;
             Undo.RegisterCreatedObjectUndo(go, "Created Model " + tile.name);
         }
     }
@@ -312,7 +320,7 @@ public class TileLDHelper : EditorWindow {
         
 
         if (prefab == null)
-            Debug.Log("Well, fuck.");
+            Debug.Log("No prefab");
         for(int j = 0; j < height * 2; j++)
         {
             for(int i = 0; i < width; i++)
@@ -532,23 +540,6 @@ public class TileLDHelper : EditorWindow {
             {
                 Undo.DestroyObjectImmediate(tiles[i]);
             }
-            else
-            {
-                int nbChildren = tiles[i].transform.childCount;
-                for(int j = 0; j < nbChildren; j++)
-                {
-                    GameObject child = tiles[i].transform.GetChild(j).gameObject;
-                    if(child.name == "TilePrefab")
-                    {
-                        toDestroy.Add(child);
-                    }
-                }
-            }
-        }
-
-        foreach(GameObject go in toDestroy)
-        {
-            Undo.DestroyObjectImmediate(go);
         }
         //HelperObject.name = "Level Tiles";
         Undo.RecordObject(helperRoot, "helperRoot Script CleanUp");
@@ -563,7 +554,7 @@ public class TileLDHelper : EditorWindow {
 
     bool isTileEmpty(GameObject tile)
     {
-        if(tile.transform.childCount == 1 && tile.transform.GetChild(0).name == "TilePrefab")
+        if(tile.transform.childCount == 1 && tile.transform.GetChild(0).GetChild(0).name == "Model")
         {
             return true;
         }
