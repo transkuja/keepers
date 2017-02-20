@@ -302,22 +302,42 @@ public class TileLDHelper : EditorWindow {
         string tilePath = "Assets/Prefabs/Tiles/TilePrefab.prefab";
         GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(tilePath);
         Vector3 size = prefab.GetComponentInChildren<MeshFilter>().sharedMesh.bounds.size;
-        if(prefab.transform.localRotation.y == 90)
+        float baseSpaceX = spaceX;
+        float baseSpaceZ = spaceZ;
+        //We apply all the size transformations to match what we see in the scene
+        if (prefab.transform.GetChild(0).localRotation.eulerAngles.y == 90.0f)
         {
+            
             size.x *= prefab.transform.localScale.z; // Le x et le z sont inversés car le mesh utilisé pour l'instant est mal orienté
             size.y *= prefab.transform.localScale.y;
             size.z *= prefab.transform.localScale.x;
+
+            size.x *= prefab.transform.GetChild(0).localScale.z;
+            size.y *= prefab.transform.GetChild(0).localScale.y;
+            size.z *= prefab.transform.GetChild(0).localScale.x;
+
+            size.x *= prefab.transform.GetChild(0).GetChild(0).localScale.z;
+            size.y *= prefab.transform.GetChild(0).GetChild(0).localScale.y;
+            size.z *= prefab.transform.GetChild(0).GetChild(0).localScale.x;
+            spaceX += size.z;
+            spaceZ += size.x;
         }
         else
         {
             size.x *= prefab.transform.localScale.x;
             size.y *= prefab.transform.localScale.y;
             size.z *= prefab.transform.localScale.z;
-        }
-        spaceX += size.x;
-        spaceZ += size.z;
 
-        
+            size.x *= prefab.transform.GetChild(0).localScale.x;
+            size.y *= prefab.transform.GetChild(0).localScale.y;
+            size.z *= prefab.transform.GetChild(0).localScale.z;
+
+            size.x *= prefab.transform.GetChild(0).GetChild(0).localScale.x;
+            size.y *= prefab.transform.GetChild(0).GetChild(0).localScale.y;
+            size.z *= prefab.transform.GetChild(0).GetChild(0).localScale.z;
+            spaceX += size.x;
+            spaceZ += size.z;
+        }
 
         if (prefab == null)
             Debug.Log("No prefab");
@@ -348,8 +368,9 @@ public class TileLDHelper : EditorWindow {
         }
         EditorUtility.DisplayProgressBar("Generation", "Done", 1.0f);
         space -= 2.0f;
-        spaceX -= size.x;
-        spaceZ -= size.z;
+        spaceX = baseSpaceX;
+        spaceZ = baseSpaceZ;
+
         EditorUtility.ClearProgressBar();
         helperRoot = null;
         HelperObject = null;
