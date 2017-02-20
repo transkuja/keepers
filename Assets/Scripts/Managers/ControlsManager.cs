@@ -100,6 +100,7 @@ public class ControlsManager : MonoBehaviour {
                         GameManager.Instance.listOfActions.Clear();
                         if (hitInfo.collider.GetComponent<Actionable>() != null)
                         {
+                            GameManager.Instance.GoTarget = hitInfo.collider.gameObject;
                             HandleClickOnActionable(hitInfo.collider.GetComponent<Actionable>());
                         }
                         else
@@ -107,7 +108,11 @@ public class ControlsManager : MonoBehaviour {
                             // Move the keeper
                             for (int i = 0; i < GameManager.Instance.ListOfSelectedKeepers.Count; i++)
                             {
-                                GameManager.Instance.ListOfSelectedKeepers[i].gameObject.GetComponent<NavMeshAgent>().destination = hitInfo.point;
+                                //GameManager.Instance.ListOfSelectedKeepers[i].gameObject.GetComponent<NavMeshAgent>().enabled = true;
+                                //GameManager.Instance.ListOfSelectedKeepers[i].gameObject.GetComponent<NavMeshAgent>().destination = hitInfo.point;
+
+                                GameManager.Instance.ListOfSelectedKeepers[i].TriggerRotation(hitInfo.point);
+
                             }
                         }
                     }
@@ -165,23 +170,6 @@ public class ControlsManager : MonoBehaviour {
     {
         GameManager.Instance.listOfActions.AddRange(a.listOfActions);
     }
-
-    /*void RotateCharater(Character character)
-    {
-        if(fLerpRotation >= 1.0f)
-        {
-            character.transform.rotation = quatTargetRotation;
-            fLerpRotation = 0.0f;
-            bIsRotating = false;
-        }
-        else
-        {
-            fLerpRotation += fRotateSpeed * Time.unscaledDeltaTime;
-            character.transform.rotation = Quaternion.Lerp(quatPreviousRotation, quatTargetRotation, 0.2f);
-        }
-    }*/
-
-
 }
 
 /*float fHorizontalAxis = Input.GetAxisRaw("Horizontal"), fVerticalAxis = Input.GetAxisRaw("Vertical");
@@ -203,23 +191,4 @@ if (v3InputDirection.magnitude > 0.0f)
     {
         bIsRotating = false;
     }
-}
-
-if (bIsRotating)
-{
-    RotateCharater(currentCharacter);
-}
-
-if (Input.GetKeyDown(KeyCode.J) || Input.GetKeyDown(KeyCode.K))
-{
-    if (Input.GetKeyDown(KeyCode.J)){
-        iIdCurrentCharacter = (iIdCurrentCharacter - 1 + listCharacters.Count) % listCharacters.Count;
-    }
-    else if (Input.GetKeyDown(KeyCode.K))
-    {
-        iIdCurrentCharacter = (iIdCurrentCharacter + 1) % listCharacters.Count;
-    }
-    currentCharacter.gameObject.GetComponentInChildren<MeshRenderer>().material.shader = Shader.Find("Diffuse");
-    currentCharacter = listCharacters[iIdCurrentCharacter];
-    currentCharacter.gameObject.GetComponentInChildren<MeshRenderer>().material.shader = Shader.Find("Outlined/Silhouetted Diffuse");
 }*/

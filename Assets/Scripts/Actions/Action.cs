@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.AI;
 
 public enum TypeAction { Suivre };
 
@@ -18,11 +18,15 @@ public class Action {
     private TypeAction typeAction;
 
     public delegate void Use();
+
     public Use action = null;
 
     public void suivre()
     {
         Debug.Log("Keeper que le Prisonier doit suivre : " + GameManager.Instance.ListOfSelectedKeepers[0]);
+
+        GameManager.Instance.ListOfSelectedKeepers[0].Keeper.GoListCharacterFollowing.Add(GameManager.Instance.GoTarget);
+        GameManager.Instance.GoTarget.GetComponent<NavMeshAgent>().stoppingDistance = 0.75f;
     }
 
 

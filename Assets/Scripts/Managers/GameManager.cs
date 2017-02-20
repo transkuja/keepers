@@ -7,6 +7,9 @@ public class GameManager : MonoBehaviour
     private static GameManager instance = null;
 
     private List<KeeperInstance> listOfSelectedKeepers = new List<KeeperInstance>();
+    private GameObject goTarget;
+
+
 
     private List<KeeperInstance> allKeepersList = new List<KeeperInstance>();
     
@@ -124,6 +127,19 @@ public class GameManager : MonoBehaviour
         set
         {
             actionPanelNeedUpdate = value;
+        }
+    }
+
+    public GameObject GoTarget
+    {
+        get
+        {
+            return goTarget;
+        }
+
+        set
+        {
+            goTarget = value;
         }
     }
 }

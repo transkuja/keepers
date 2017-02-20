@@ -26,6 +26,8 @@ public class Character {
     private short spirit = 5;
     private List<SkillBattle> battleSkills;
 
+    private List<GameObject> goListCharacterFollowing = new List<GameObject>();
+
     public string CharacterName
     {
         get { return characterName; }
@@ -74,6 +76,18 @@ public class Character {
         set { battleSkills = value; }
     }
 
+    public List<GameObject> GoListCharacterFollowing
+    {
+        get
+        {
+            return goListCharacterFollowing;
+        }
+
+        set
+        {
+            goListCharacterFollowing = value;
+        }
+    }
 }
 
 /*
@@ -92,3 +106,4 @@ public class SkillBattle
         set { damage = value; }
     }
 }
+

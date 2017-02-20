@@ -22,9 +22,20 @@ public class KeeperInstance : MonoBehaviour {
     // Update variables
     NavMeshAgent agent;
 
+    Vector3 v3AgentDirectionTemp;
+
+    // Rotations
+    float fLerpRotation = 0.666f;
+    Quaternion quatTargetRotation;
+    Quaternion quatPreviousRotation;
+    bool bIsRotating = false;
+    [SerializeField]
+    float fRotateSpeed = 1.0f;
+
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        fRotateSpeed = 5.0f;
     }
 
     private void Update()
@@ -46,6 +57,16 @@ public class KeeperInstance : MonoBehaviour {
             }
         }
 
+        /*GameObject goDestinationTemp = gameObject;
+        for(int i=0; i < keeper.GoListCharacterFollowing.Count; goDestinationTemp = keeper.GoListCharacterFollowing[i], i++)
+        {
+            keeper.GoListCharacterFollowing[i].GetComponent<NavMeshAgent>().destination = goDestinationTemp.transform.position;
+        }*/
+
+        if (bIsRotating)
+        {
+            Rotate();
+        }
     }
 
     private void ToggleHighlightOnMesh(bool isSelected)
@@ -128,6 +149,44 @@ public class KeeperInstance : MonoBehaviour {
         set
         {
             goSelectionAura = value;
+        }
+    }
+
+    public void TriggerRotation(Vector3 v3Direction)
+    {
+        agent.angularSpeed = 0.0f;
+
+        quatPreviousRotation = transform.rotation;
+
+        quatTargetRotation.SetLookRotation(v3Direction - transform.position);
+
+        bIsRotating = true;
+
+        agent.enabled = false;
+
+        v3AgentDirectionTemp = v3Direction;
+
+        fLerpRotation = 0.0f;
+    }
+
+    void Rotate()
+    {
+        if(fLerpRotation >= 1.0f)
+        {
+            transform.rotation = quatTargetRotation;
+            bIsRotating = false;
+            agent.enabled = true;
+            fLerpRotation = 0.0f;
+            Debug.Log("OUT");
+            agent.destination = v3AgentDirectionTemp;
+            agent.angularSpeed = 100.0f;
+        }
+        else
+        {
+            Debug.Log("BEFORE = " + fLerpRotation);
+            fLerpRotation += fRotateSpeed * Time.deltaTime;
+            Debug.Log("AFTER = " + fLerpRotation);
+            transform.rotation = Quaternion.Lerp(quatPreviousRotation, quatTargetRotation, fLerpRotation);
         }
     }
 }
