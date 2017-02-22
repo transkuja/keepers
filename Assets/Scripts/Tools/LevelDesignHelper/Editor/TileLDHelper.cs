@@ -211,6 +211,8 @@ public class TileLDHelper : EditorWindow {
             GUI.enabled = true;
             EditorGUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
+            if (HelperObject == null)
+                GUI.enabled = false;
             if (GUILayout.Button("Link all Tiles", GUILayout.Height(30), GUILayout.Width(200)))
             {
                 LinkTiles();
