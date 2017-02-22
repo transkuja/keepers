@@ -11,10 +11,10 @@ public class BattleHandler {
     public static void LaunchBattle(Tile tile)
     {
         List<KeeperInstance> keepersUsedForBattle = SelectKeepersForBattle(tile);
-        
+
         if (ResolveBattle(keepersUsedForBattle, tile))
         {
-            HandleBattleVictory(keepersUsedForBattle);
+            HandleBattleVictory(keepersUsedForBattle, tile);
         }
         else
         {
@@ -47,6 +47,7 @@ public class BattleHandler {
         // General melee!
 
         // Mock
+
         if (keepers[0].Keeper.CharacterName == "MockBattle")
         {
             Debug.Log("Battle lost");
@@ -61,13 +62,15 @@ public class BattleHandler {
     /*
      * Process everything that needs to be processed after a victory
      */
-    private static void HandleBattleVictory(List<KeeperInstance> keepers)
+    private static void HandleBattleVictory(List<KeeperInstance> keepers, Tile tile)
     {
         foreach (KeeperInstance ki in keepers)
         {
             ki.Keeper.ActualMentalHealth += 10;
-            ki.Keeper.ActualHunger -= 5;
+            ki.Keeper.ActualHunger += 5;
         }
+
+        TileManager.Instance.RemoveDefeatedMonsters(tile);
     }
 
     /*
@@ -78,9 +81,9 @@ public class BattleHandler {
         foreach (KeeperInstance ki in keepers)
         {
             ki.Keeper.ActualMentalHealth -= 10;
-            ki.Keeper.ActualHunger -= 5;
+            ki.Keeper.ActualHunger += 5;
 
-            // TODO: @Anthony refactor Character to have base<Stat>s, bonusTo<Stat>s, currentHP, currentMP
+            // TODO: @Anthony refactor Character to have base<Stat>s, bonusTo<Stat>s, currentMP, currentHP
             ki.Keeper.Hp -= 10;
         }
     }

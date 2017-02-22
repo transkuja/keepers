@@ -47,6 +47,7 @@ public class KeeperInstance : MonoBehaviour {
             if (Input.GetKeyDown(KeyCode.A))
             {
                 agent.CompleteOffMeshLink();
+                TileManager.Instance.MoveKeeper(this, TileManager.Instance.GetTileFromKeeper[this], Direction.North_East);
             }
 
             if (Input.GetKeyDown(KeyCode.B))
@@ -69,14 +70,14 @@ public class KeeperInstance : MonoBehaviour {
         }
     }
 
-    private void OnCollisionEnter(Collision col)
+    private void OnTriggerEnter(Collider col)
     {
-        Debug.Log("Collide");
         if (col.gameObject.GetComponent<MonsterInstance>())
         {
-            Debug.Log("yay");
-
+            agent.Stop();
+            agent.ResetPath();
             BattleHandler.LaunchBattle(TileManager.Instance.GetTileFromKeeper[this]);
+            agent.Resume();
         }
     }
 
@@ -189,15 +190,13 @@ public class KeeperInstance : MonoBehaviour {
             bIsRotating = false;
             agent.enabled = true;
             fLerpRotation = 0.0f;
-            Debug.Log("OUT");
+
             agent.destination = v3AgentDirectionTemp;
             agent.angularSpeed = 100.0f;
         }
         else
         {
-            Debug.Log("BEFORE = " + fLerpRotation);
             fLerpRotation += fRotateSpeed * Time.deltaTime;
-            Debug.Log("AFTER = " + fLerpRotation);
             transform.rotation = Quaternion.Lerp(quatPreviousRotation, quatTargetRotation, fLerpRotation);
         }
     }

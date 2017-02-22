@@ -24,7 +24,10 @@ public class TileManager : MonoBehaviour {
         {
             instance = this;
             prisonerTile = GameObject.FindGameObjectWithTag("BeginTile").GetComponentInParent<Tile>();
-            keepersOnTile.Add(prisonerTile, GameManager.Instance.AllKeepersList);
+            foreach (KeeperInstance ki in GameManager.Instance.AllKeepersList)
+            {
+                AddKeeperOnTile(prisonerTile, ki);
+            }
             AddMonsterOnTile(monsterTileTest, monsterInstanceTest);
         }
         else if (instance != this)
@@ -65,6 +68,15 @@ public class TileManager : MonoBehaviour {
     {
         RemoveMonsterFromTile(from, monster);
         AddMonsterOnTile(from.Neighbors[(int)direction], monster);        
+    }
+
+    public void RemoveDefeatedMonsters(Tile tile)
+    {
+        foreach (MonsterInstance mi in monstersOnTile[tile])
+        {
+            Destroy(mi.gameObject);
+        }
+        monstersOnTile.Remove(tile);
     }
 
     private void AddMonsterOnTile(Tile tile, MonsterInstance monster)
