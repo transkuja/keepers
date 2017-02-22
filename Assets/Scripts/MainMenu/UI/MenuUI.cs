@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class MenuUI : MonoBehaviour
 {
-    public GameObject CaracterPanel;
+    public GameObject CharacterPanel;
     public GameObject baseCharacterImage;
 
     public void ChangeLanguage(string language)
@@ -23,18 +23,12 @@ public class MenuUI : MonoBehaviour
     void UpdateUI()
     {
         // Clear
-        if (CaracterPanel.GetComponentsInChildren<Image>().Length > 0)
+        for (int i = 0; i < CharacterPanel.transform.childCount; i++)
         {
-            foreach (Image characterImage in CaracterPanel.GetComponentsInChildren<Image>())
-            {
-                Destroy(characterImage.gameObject);
-            }
+            Destroy(CharacterPanel.transform.GetChild(i).gameObject);
         }
 
         // On selection 
-        float margeX = 60.0f;
-        float margeY = 70.0f;
-        float offsetY = 20.0f;
         int nbCaracters = GameManager.Instance.AllKeepersList.Count;
         for (int i = 0; i < nbCaracters; i++)
         {
@@ -45,14 +39,9 @@ public class MenuUI : MonoBehaviour
                 Sprite associatedSprite = currentSelectedCharacter.Keeper.AssociatedSprite;
                 if (associatedSprite != null)
                 {
-                    GameObject CharacterImage = Instantiate(baseCharacterImage, CaracterPanel.transform);
-                    CharacterImage.name = currentSelectedCharacter.Keeper.CharacterName;
-                    CharacterImage.GetComponent<Image>().sprite = associatedSprite;
-
-
-                    float value = margeY + (offsetY * (i)) + ((CharacterImage.GetComponent<Image>().rectTransform.rect.height) * (i));
-                    CharacterImage.transform.localPosition = new Vector3(margeX, -value, 0.0f);
-                    CharacterImage.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+                    GameObject CharacterImage = Instantiate(baseCharacterImage, CharacterPanel.transform);
+                    CharacterImage.name = currentSelectedCharacter.Keeper.CharacterName + ".Panel";
+                    CharacterImage.transform.GetChild(0).GetComponent<Image>().sprite = associatedSprite;
                 }
             }
 

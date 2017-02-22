@@ -50,20 +50,11 @@ public class IngameUI : MonoBehaviour
         if (GameManager.Instance == null){ return; }
         if (CharacterPanel == null) { return; }
 
-        // Clear
-        if (CharacterPanel.GetComponentsInChildren<Image>().Length > 0)
+        for (int i = 0; i < CharacterPanel.transform.childCount; i++)
         {
-            foreach (Image characterImage in CharacterPanel.GetComponentsInChildren<Image>())
-            {
-                Destroy(characterImage.gameObject);
-            }
+            Destroy(CharacterPanel.transform.GetChild(i).gameObject);
         }
 
-        // On selection
-        float margeX = 60.0f;
-        float margeY = 70.0f;
-        float offsetY = 20.0f;
-  
         int nbCaracters = GameManager.Instance.AllKeepersList.Count;
         for (int i = 0; i < nbCaracters; i++)
         {
@@ -73,12 +64,29 @@ public class IngameUI : MonoBehaviour
             if (associatedSprite != null)
             {
                 GameObject goKeeper = Instantiate(baseCharacterImage, CharacterPanel.transform);
-                goKeeper.name = currentSelectedCharacter.Keeper.CharacterName;
-                goKeeper.GetComponent<Image>().sprite = associatedSprite;
 
-                float value = margeY + (offsetY * (i)) + ((goKeeper.GetComponent<Image>().rectTransform.rect.height) * (i));
-                goKeeper.transform.localPosition = new Vector3(value, -margeX, 0.0f);
-                goKeeper.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+                goKeeper.name = currentSelectedCharacter.Keeper.CharacterName + ".Panel";
+                goKeeper.transform.GetChild(0).GetComponent<Image>().sprite = associatedSprite;
+                
+                // Stats
+                // HP
+                goKeeper.transform.GetChild(0).GetChild(0).GetChild(0).gameObject.GetComponentInChildren<Text>().text = "HP: " + currentSelectedCharacter.Keeper.Hp.ToString();
+                // MP
+                goKeeper.transform.GetChild(0).GetChild(0).GetChild(1).gameObject.GetComponentInChildren<Text>().text = "MP: " + currentSelectedCharacter.Keeper.Mp.ToString();
+                // Strengh
+                goKeeper.transform.GetChild(0).GetChild(0).GetChild(2).gameObject.GetComponentInChildren<Text>().text = "S: " + currentSelectedCharacter.Keeper.Strength.ToString();
+                // Defense
+                goKeeper.transform.GetChild(0).GetChild(0).GetChild(3).gameObject.GetComponentInChildren<Text>().text = "D: " + currentSelectedCharacter.Keeper.Defense.ToString();
+                // Intelligence
+                goKeeper.transform.GetChild(0).GetChild(0).GetChild(4).gameObject.GetComponentInChildren<Text>().text = "I: " + currentSelectedCharacter.Keeper.Intelligence.ToString();
+                // Spirit
+                goKeeper.transform.GetChild(0).GetChild(0).GetChild(5).gameObject.GetComponentInChildren<Text>().text = "S: " + currentSelectedCharacter.Keeper.Spirit.ToString();
+
+                // Status
+                // Hunger
+                goKeeper.transform.GetChild(0).GetChild(1).GetChild(0).gameObject.GetComponentInChildren<Text>().text = "H: " + currentSelectedCharacter.Keeper.ActualHunger.ToString();
+                // MentalHealth
+                goKeeper.transform.GetChild(0).GetChild(1).GetChild(1).gameObject.GetComponentInChildren<Text>().text = "MH: " + currentSelectedCharacter.Keeper.ActualMentalHealth.ToString();
             }
         }
 
