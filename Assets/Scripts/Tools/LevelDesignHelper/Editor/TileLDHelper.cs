@@ -211,6 +211,8 @@ public class TileLDHelper : EditorWindow {
             GUI.enabled = true;
             EditorGUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
+            if (HelperObject == null)
+                GUI.enabled = false;
             if (GUILayout.Button("Link all Tiles", GUILayout.Height(30), GUILayout.Width(200)))
             {
                 LinkTiles();
@@ -552,7 +554,6 @@ public class TileLDHelper : EditorWindow {
     void CleanUp()
     {
         EditorUtility.DisplayProgressBar("Clean Up", "Starting Cleaning process...", 0.0f);
-        List<GameObject> toDestroy = new List<GameObject>();
         for (int i = 0; i < tiles.Length; i++)
         {
             Undo.RecordObject(tiles[i].transform, "CleanUp transform tile " + i);
