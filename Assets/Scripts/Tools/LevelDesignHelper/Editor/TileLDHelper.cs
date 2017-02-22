@@ -205,6 +205,14 @@ public class TileLDHelper : EditorWindow {
                     {
                         UpdateTile(selectedObjects[i].GetComponent<Tile>(), currentType, (selectedModelIndex -1 >= 0)?models[selectedModelIndex - 1]:null);
                     }
+                    else if(selectedObjects[i].transform.parent != null && selectedObjects[i].transform.parent.GetComponent<Tile>() != null)
+                    {
+                        UpdateTile(selectedObjects[i].transform.parent.GetComponent<Tile>(), currentType, (selectedModelIndex - 1 >= 0) ? models[selectedModelIndex - 1] : null);
+                    }
+                    else if (selectedObjects[i].transform.parent != null && selectedObjects[i].transform.parent.parent != null && selectedObjects[i].transform.parent.parent.GetComponent<Tile>() != null)
+                    {
+                        UpdateTile(selectedObjects[i].transform.parent.parent.GetComponent<Tile>(), currentType, (selectedModelIndex - 1 >= 0) ? models[selectedModelIndex - 1] : null);
+                    }
                 }
             }
 
@@ -280,13 +288,13 @@ public class TileLDHelper : EditorWindow {
         switch(currentType)
         {
             case TileType.Mountain:
-                models = GetAtPath<GameObject>("Models/Tiles/Mountain") as GameObject[];
+                models = GetAtPath<GameObject>("Prefabs/Tiles/Mountain") as GameObject[];
                 break;
             case TileType.Plain:
-                models = GetAtPath<GameObject>("Models/Tiles/Plain") as GameObject[];
+                models = GetAtPath<GameObject>("Prefabs/Tiles/Plain") as GameObject[];
                 break;
             case TileType.Snow:
-                models = GetAtPath<GameObject>("Models/Tiles/Snow") as GameObject[];
+                models = GetAtPath<GameObject>("Prefabs/Tiles/Snow") as GameObject[];
                 break;
         }
     }
