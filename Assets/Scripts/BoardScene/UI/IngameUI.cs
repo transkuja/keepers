@@ -67,7 +67,8 @@ public class IngameUI : MonoBehaviour
 
                 goKeeper.name = currentSelectedCharacter.Keeper.CharacterName + ".Panel";
                 goKeeper.transform.GetChild(0).GetComponent<Image>().sprite = associatedSprite;
-                
+                goKeeper.transform.localScale = Vector3.one;
+
                 // Stats
                 // HP
                 goKeeper.transform.GetChild(0).GetChild(0).GetChild(0).gameObject.GetComponentInChildren<Text>().text = "HP: " + currentSelectedCharacter.Keeper.Hp.ToString();

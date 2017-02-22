@@ -42,6 +42,7 @@ public class MenuUI : MonoBehaviour
                     GameObject CharacterImage = Instantiate(baseCharacterImage, CharacterPanel.transform);
                     CharacterImage.name = currentSelectedCharacter.Keeper.CharacterName + ".Panel";
                     CharacterImage.transform.GetChild(0).GetComponent<Image>().sprite = associatedSprite;
+                    CharacterImage.transform.localScale = Vector3.one;
                 }
             }
 

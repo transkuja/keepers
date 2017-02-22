@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class AnimationButtonClick : MonoBehaviour {
 
-    public IngameUI canvasMabite;
-    public Animator test;
+    public IngameUI ingameUI;
 
     // Update is called once per frame
     public void HandleAnimation() {
-        canvasMabite.isTurnEnding = false;
-        test.enabled = false;
+        ingameUI.isTurnEnding = false;
+        GetComponent<Animator>().enabled = false;
     }
 }
