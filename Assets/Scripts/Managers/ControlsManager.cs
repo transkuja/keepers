@@ -98,10 +98,12 @@ public class ControlsManager : MonoBehaviour {
                     {
                         // Handle click on a actionnable
                         GameManager.Instance.listOfActions.Clear();
-                        if (hitInfo.collider.GetComponent<Actionable>() != null)
+                        if (hitInfo.collider.gameObject.GetComponent<ItemInstance>() != null)
                         {
-                            GameManager.Instance.GoTarget = hitInfo.collider.gameObject;
-                            HandleClickOnActionable(hitInfo.collider.GetComponent<Actionable>());
+                            IngameUI ui = GameObject.Find("IngameUI").GetComponent<IngameUI>();
+                            ui.UpdateActionPanelUIQ(hitInfo.collider.gameObject.GetComponent<ItemInstance>().listActionContainers);
+                            //hitInfo.collider.gameObject.GetComponent<ItemInstance>().actionPick.Invoke();
+                            Debug.Log("Is ItemInstance");
                         }
                         else
                         {
@@ -116,9 +118,6 @@ public class ControlsManager : MonoBehaviour {
                             }
                         }
                     }
-
-                    // Handle click on anything else
-                    GameManager.Instance.ActionPanelNeedUpdate = true;
                 }
             }
         }                  
@@ -164,11 +163,6 @@ public class ControlsManager : MonoBehaviour {
         }
 
         dragOrigin = Input.mousePosition;
-    }
-
-    private void HandleClickOnActionable(Actionable a)
-    {
-        GameManager.Instance.listOfActions.AddRange(a.listOfActions);
     }
 }
 

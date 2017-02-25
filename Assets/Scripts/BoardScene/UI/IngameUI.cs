@@ -19,7 +19,7 @@ public class IngameUI : MonoBehaviour
 
     // CharacterPanel
     [Header("Action Panel")]
-    public GameObject ActionPanel;
+    public GameObject goActionPanelQ;
     public GameObject baseActionImage;
 
     public bool isTurnEnding = false;
@@ -36,11 +36,6 @@ public class IngameUI : MonoBehaviour
             if (GameManager.Instance.CharacterPanelIngameNeedUpdate)
             {
                 UpdateCharacterPanelUI();
-            }
-
-            if (GameManager.Instance.ActionPanelNeedUpdate)
-            {
-                UpdateActionPanelUI();
             }
         }
     }
@@ -94,35 +89,39 @@ public class IngameUI : MonoBehaviour
         GameManager.Instance.CharacterPanelIngameNeedUpdate = false;
     }
 
-    void UpdateActionPanelUI()
+
+    public void UpdateActionPanelUIQ(List<ActionContainer> listActionContainers)
     {
         if (GameManager.Instance == null) { return; }
-        if (ActionPanel == null) { return; }
+        if (goActionPanelQ == null) { return; }
 
         // Clear
-        if (ActionPanel.GetComponentsInChildren<Image>().Length > 0)
+        if (goActionPanelQ.GetComponentsInChildren<Image>().Length > 0)
         {
-            foreach (Image ActionPanel in ActionPanel.GetComponentsInChildren<Image>())
+            foreach (Image ActionPanel in goActionPanelQ.GetComponentsInChildren<Image>())
             {
-                Destroy(ActionPanel.gameObject);
+                Destroy(goActionPanelQ.gameObject);
             }
         }
 
         // Actions
-        for (int i = 0; i < GameManager.Instance.listOfActions.Count; i++)
+        Debug.Log("Nb actions = " + listActionContainers.Count);
+        for (int i = 0; i < listActionContainers.Count; i++)
         {
-            GameObject goAction = Instantiate(baseActionImage, ActionPanel.transform);
-            goAction.name = GameManager.Instance.listOfActions[i].ActionName;
+            Debug.Log("Num action = " + i);
+            GameObject goAction = Instantiate(baseActionImage, goActionPanelQ.transform);
+            goAction.name = listActionContainers[i].strName;
 
-            // Wait what !
-            int n = i;
-            GameManager.Instance.listOfActions[i].TypeAction = GameManager.Instance.listOfActions[i].TypeAction;
+            goAction.GetComponent<RectTransform>().position = (Input.mousePosition);
+
             Button btn = goAction.GetComponent<Button>();
-            btn.onClick.AddListener(() => { action(n); });
-            btn.GetComponentInChildren<Text>().text = GameManager.Instance.listOfActions[i].ActionName;
-        }
 
-        GameManager.Instance.ActionPanelNeedUpdate = false;
+            int n = i;
+            btn.onClick.AddListener(() => { listActionContainers[n].action(); });
+
+            btn.GetComponentInChildren<Text>().text = listActionContainers[i].strName;
+            //btn.onClick.AddListener(() => { action(n); });
+        }
     }
 
     public void action(int index)
