@@ -10,12 +10,12 @@ public class CharactersInitializer : MonoBehaviour {
 
     void Awake()
     {
-        KeeperInstance[] keeperInstances = GameManager.Instance.GetComponentsInChildren<KeeperInstance>();
-        for (int i = 0; i < keeperInstances.Length; i++)
+    
+        for (int i = 0; i < GameManager.Instance.AllKeepersList.Count; i++)
         {
-            keeperInstances[i].transform.position = beginPositions.transform.GetChild(i).position;
-            keeperInstances[i].transform.SetParent(null);
-            keeperInstances[i].transform.GetComponent<NavMeshAgent>().enabled = true;
+            GameManager.Instance.AllKeepersList[i].transform.position = beginPositions.transform.GetChild(i).position;
+            GameManager.Instance.AllKeepersList[i].transform.SetParent(null);
+            GameManager.Instance.AllKeepersList[i].transform.GetComponent<NavMeshAgent>().enabled = true;
         }
     }
 }

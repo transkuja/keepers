@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
     private List<KeeperInstance> listOfSelectedKeepers = new List<KeeperInstance>();
     private GameObject goTarget;
 
+    public bool isDebugGameManager;
+
 
 
     private List<KeeperInstance> allKeepersList = new List<KeeperInstance>();
@@ -27,6 +29,15 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
             
         }
+
+        if (isDebugGameManager)
+        {
+            foreach( KeeperInstance ki in GetComponentsInChildren<KeeperInstance>())
+            {
+                allKeepersList.Add(ki);
+            }
+        }
+
         DontDestroyOnLoad(gameObject);
     }
 
