@@ -22,11 +22,16 @@ public class IngameUI : MonoBehaviour
     public GameObject goActionPanelQ;
     public GameObject baseActionImage;
 
+    // Quentin
+    //public List<GameObject> listGoActionPanelButton;
+
     public bool isTurnEnding = false;
 
     public void Awake()
     {
         UpdateCharacterPanelUI();
+
+        //listGoActionPanelButton = new List<GameObject>();
     }
 
     public void Update()
@@ -89,50 +94,91 @@ public class IngameUI : MonoBehaviour
         GameManager.Instance.CharacterPanelIngameNeedUpdate = false;
     }
 
-
-    public void UpdateActionPanelUIQ(List<ActionContainer> listActionContainers)
+    // TODO : optimise
+    /*
+    public void UpdateActionPanelUIOptimize(InteractionImplementer ic)
     {
         if (GameManager.Instance == null) { return; }
         if (goActionPanelQ == null) { return; }
 
-        // Clear
-        if (goActionPanelQ.GetComponentsInChildren<Image>().Length > 0)
+        goActionPanelQ.GetComponent<RectTransform>().position = (Input.mousePosition) + new Vector3(30.0f, 0.0f);
+
+        int i;
+
+        for (i = 0; i < ic.listActionContainers.Count; ++i)
         {
-            foreach (Image ActionPanel in goActionPanelQ.GetComponentsInChildren<Image>())
+            int n = i;
+
+            if (i < listGoActionPanelButton.Count && listGoActionPanelButton[i] != null)
             {
-                Destroy(goActionPanelQ.gameObject);
+                listGoActionPanelButton[i].name = ic.listActionContainers[i].strName;
+
+                Button btn = listGoActionPanelButton[i].GetComponent<Button>();
+
+                btn.onClick.RemoveAllListeners();  
+
+                btn.onClick.AddListener(() => { ic.listActionContainers[n].action(); });
+
+                btn.GetComponentInChildren<Text>().text = ic.listActionContainers[i].strName;
+            }
+            else
+            {
+                GameObject goAction = Instantiate(baseActionImage, goActionPanelQ.transform);
+
+                goAction.name = ic.listActionContainers[i].strName;
+
+                Button btn = goAction.GetComponent<Button>();
+
+                btn.onClick.AddListener(() => { ic.listActionContainers[n].action(); });
+
+                btn.GetComponentInChildren<Text>().text = ic.listActionContainers[i].strName;
+
+                listGoActionPanelButton.Add(goAction);
             }
         }
 
-        // Actions
-        Debug.Log("Nb actions = " + listActionContainers.Count);
-        for (int i = 0; i < listActionContainers.Count; i++)
+        for(int k = listGoActionPanelButton.Count-1; k >= i; k--)
         {
-            Debug.Log("Num action = " + i);
-            GameObject goAction = Instantiate(baseActionImage, goActionPanelQ.transform);
-            goAction.name = listActionContainers[i].strName;
-
-            goAction.GetComponent<RectTransform>().position = (Input.mousePosition);
-
-            Button btn = goAction.GetComponent<Button>();
-
-            int n = i;
-            btn.onClick.AddListener(() => { listActionContainers[n].action(); });
-
-            btn.GetComponentInChildren<Text>().text = listActionContainers[i].strName;
-            //btn.onClick.AddListener(() => { action(n); });
+            GameObject goTemp = listGoActionPanelButton[k];
+            listGoActionPanelButton.Remove(goTemp);
+            Destroy(goTemp);
         }
-    }
 
-    public void action(int index)
+    }*/
+
+    public void UpdateActionPanelUIQ(InteractionImplementer ic)
     {
-        GameManager.Instance.listOfActions[index].action.Invoke();
+        if (GameManager.Instance == null) { return; }
+        if (goActionPanelQ == null) { return; }
 
-        // Handle click on a actionnable
-        GameManager.Instance.listOfActions.Clear();
+        //Clear
+        ClearActionPanel();
 
-        // Handle click on anything else
-        GameManager.Instance.ActionPanelNeedUpdate = true;
+        goActionPanelQ.GetComponent<RectTransform>().position = (Input.mousePosition) + new Vector3(30.0f, 0.0f);
+
+        // Actions
+        for (int i = 0; i < ic.listActionContainers.Count; i++)
+        {
+            bool bIsForbiden = ic.listActionContainers[i].strName == "Escort" && !GameManager.Instance.ListOfSelectedKeepers[0].isEscortAvailable;
+            bIsForbiden = bIsForbiden || ic.listActionContainers[i].strName == "Unescort" && GameManager.Instance.ListOfSelectedKeepers[0].isEscortAvailable;
+            if (!bIsForbiden)
+            {
+                GameObject goAction = Instantiate(baseActionImage, goActionPanelQ.transform);
+                goAction.name = ic.listActionContainers[i].strName;
+
+                goAction.GetComponent<RectTransform>().position = (Input.mousePosition);
+
+                Button btn = goAction.GetComponent<Button>();
+
+                int n = i;
+                btn.onClick.AddListener(() => {
+                    ic.listActionContainers[n].action();
+                    GameObject.Find("IngameUI").GetComponent<IngameUI>().ClearActionPanel();
+                });
+
+                btn.GetComponentInChildren<Text>().text = ic.listActionContainers[i].strName;
+            }
+        }   
     }
 
     // TODO: @Rémi bouton à corriger (on ne doit pas pouvoir cliquer 2x de suite)
@@ -155,4 +201,15 @@ public class IngameUI : MonoBehaviour
         anim_button.enabled = true;
         isTurnEnding = false;
     }  
+
+    public void ClearActionPanel()
+    {
+        if (goActionPanelQ.GetComponentsInChildren<Image>().Length > 0)
+        {
+            foreach (Image ActionPanel in goActionPanelQ.GetComponentsInChildren<Image>())
+            {
+                Destroy(ActionPanel.gameObject);
+            }
+        }
+    }
 }

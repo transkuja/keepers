@@ -24,6 +24,8 @@ public class KeeperInstance : MonoBehaviour {
 
     Vector3 v3AgentDirectionTemp;
 
+    public bool isEscortAvailable;
+
     // Rotations
     float fLerpRotation = 0.666f;
     Quaternion quatTargetRotation;
@@ -36,6 +38,7 @@ public class KeeperInstance : MonoBehaviour {
     {
         agent = GetComponent<NavMeshAgent>();
         fRotateSpeed = 5.0f;
+        isEscortAvailable = true;
     }
 
     private void Update()
@@ -58,11 +61,12 @@ public class KeeperInstance : MonoBehaviour {
             }
         }
 
-        /*GameObject goDestinationTemp = gameObject;
-        for(int i=0; i < keeper.GoListCharacterFollowing.Count; goDestinationTemp = keeper.GoListCharacterFollowing[i], i++)
+        GameObject goDestinationTemp = gameObject;
+        for (int i = 0; i < keeper.GoListCharacterFollowing.Count; i++)
         {
             keeper.GoListCharacterFollowing[i].GetComponent<NavMeshAgent>().destination = goDestinationTemp.transform.position;
-        }*/
+            goDestinationTemp = keeper.GoListCharacterFollowing[i];
+        }
 
         if (bIsRotating)
         {

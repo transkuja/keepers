@@ -80,11 +80,6 @@ public class ControlsManager : MonoBehaviour {
                         GameManager.Instance.ClearListKeeperSelected();
                     }
                 }
-                // Handle click on a actionnable
-                GameManager.Instance.listOfActions.Clear();
-
-                // Handle click on anything else
-                GameManager.Instance.ActionPanelNeedUpdate = true;
             }
         }
         else if (Input.GetMouseButtonDown(1))
@@ -94,30 +89,37 @@ public class ControlsManager : MonoBehaviour {
                 if (GameManager.Instance.ListOfSelectedKeepers.Count > 0)
                 {
                     RaycastHit hitInfo;
-                    if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo) == true)
+                    LayerMask layermask = 1 << LayerMask.NameToLayer("TilePortal");
+                    layermask = ~layermask;
+
+                    if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo, Mathf.Infinity, layermask) == true)
                     {
-                        // Handle click on a actionnable
-                        GameManager.Instance.listOfActions.Clear();
+
+                        IngameUI ui = GameObject.Find("IngameUI").GetComponent<IngameUI>();
+                        // Handle click on a ItemInstance
                         if (hitInfo.collider.gameObject.GetComponent<ItemInstance>() != null)
                         {
-                            IngameUI ui = GameObject.Find("IngameUI").GetComponent<IngameUI>();
-                            ui.UpdateActionPanelUIQ(hitInfo.collider.gameObject.GetComponent<ItemInstance>().listActionContainers);
-                            //hitInfo.collider.gameObject.GetComponent<ItemInstance>().actionPick.Invoke();
-                            Debug.Log("Is ItemInstance");
+                            ui.UpdateActionPanelUIQ(hitInfo.collider.gameObject.GetComponent<ItemInstance>().InteractionImplementer);
+                        }
+                        // Handle click on a PrisonerInstance
+                        else if (hitInfo.collider.gameObject.GetComponent<PrisonerInstance>() != null)
+                        {
+                            GameManager.Instance.GoTarget = hitInfo.collider.gameObject;
+                            ui.UpdateActionPanelUIQ(hitInfo.collider.gameObject.GetComponent<PrisonerInstance>().InteractionImplementer);
                         }
                         else
                         {
+                            ui.ClearActionPanel();
                             // Move the keeper
                             for (int i = 0; i < GameManager.Instance.ListOfSelectedKeepers.Count; i++)
                             {
-                                //GameManager.Instance.ListOfSelectedKeepers[i].gameObject.GetComponent<NavMeshAgent>().enabled = true;
-                                //GameManager.Instance.ListOfSelectedKeepers[i].gameObject.GetComponent<NavMeshAgent>().destination = hitInfo.point;
 
                                 GameManager.Instance.ListOfSelectedKeepers[i].TriggerRotation(hitInfo.point);
 
                             }
                         }
                     }
+    
                 }
             }
         }                  

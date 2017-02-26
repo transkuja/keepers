@@ -7,38 +7,38 @@ public class ItemInstance : MonoBehaviour, IPickable {
 
     Item item;
 
-    public delegate void Action();
-
-    public List<Action> listActions = new List<Action>();
-    public Action actionPick;
-
-    [SerializeField]
-    private string actionName = "";
-
-    [SerializeField]
-    private Sprite actionSprite;
-
-    public List<ActionContainer> listActionContainers = new List<ActionContainer>();
+    private InteractionImplementer interactionImplementer;
 
     // Use this for initialization
-    void Start () {
-
-        listActions.Add(new Action(Pick));
-
-        actionPick = new Action(Pick);
-
-        listActionContainers.Add(new ActionContainer(new ActionQ(Pick), "Pick", null));
+    void Awake() {
+        Init();
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
     public void Pick()
     {
         Debug.Log("Picked");
-        /*GameManager.Instance.listItemsInventory.Add(item);
-        Destroy(gameObject);*/
     }
+
+    #region Constructors
+    public void Init()
+    {
+        interactionImplementer = new InteractionImplementer();
+        interactionImplementer.Add(new Interaction(Pick), "Pick", null);
+    }
+    #endregion
+
+    #region Accessors
+    public InteractionImplementer InteractionImplementer
+    {
+        get
+        {
+            return interactionImplementer;
+        }
+
+        set
+        {
+            interactionImplementer = value;
+        }
+    }
+    #endregion
 }
