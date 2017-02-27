@@ -19,7 +19,8 @@ public enum Direction
     South_East,
     South,
     South_West,
-    North_West
+    North_West,
+    None
 }
 
 public class Tile : MonoBehaviour{

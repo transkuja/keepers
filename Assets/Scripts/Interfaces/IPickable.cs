@@ -6,5 +6,5 @@ public delegate void Handler();
 
 public interface IPickable{
 
-    void Pick();
+    void Pick(int i = 0);
 }

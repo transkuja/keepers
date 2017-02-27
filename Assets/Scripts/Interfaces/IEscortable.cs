@@ -4,8 +4,8 @@ using UnityEngine;
 
 public interface IEscortable {
 
-    void Escort();
-    void UnEscort();
+    void Escort(int i = 0);
+    void UnEscort(int i = 0);
 
 
 }

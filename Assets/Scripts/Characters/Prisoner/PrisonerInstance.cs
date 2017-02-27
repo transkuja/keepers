@@ -71,7 +71,7 @@ public class PrisonerInstance : MonoBehaviour, IEscortable {
     }
     #endregion
 
-    public void Escort()
+    public void Escort(int _i = 0)
     {
         for(int i = 0; i < GameManager.Instance.AllKeepersList.Count; i++)
         {
@@ -84,7 +84,7 @@ public class PrisonerInstance : MonoBehaviour, IEscortable {
         GameManager.Instance.ListOfSelectedKeepers[0].isEscortAvailable = false;
     }
 
-    public void UnEscort()
+    public void UnEscort(int _i = 0)
     {
         GameManager.Instance.ListOfSelectedKeepers[0].Keeper.GoListCharacterFollowing.Remove(this.gameObject);
         GameManager.Instance.ListOfSelectedKeepers[0].isEscortAvailable = true;

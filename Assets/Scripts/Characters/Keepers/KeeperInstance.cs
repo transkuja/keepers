@@ -84,20 +84,60 @@ public class KeeperInstance : MonoBehaviour {
             agent.Resume();
         }
 
-        if (col.gameObject.CompareTag("NorthTrigger"))
+        InteractionImplementer ii = new InteractionImplementer();
+
+        Direction eTrigger = Direction.None;
+
+        string strTag = col.gameObject.tag;
+
+        switch (strTag)
         {
-            TileManager.Instance.MoveKeeper(this, TileManager.Instance.GetTileFromKeeper[this], Direction.North);
+            case "NorthTrigger":
+                eTrigger = Direction.North;
+                break;
+            case "NorthEastTrigger":
+                eTrigger = Direction.North_East;
+                break;
+            case "SouthEastTrigger":
+                eTrigger = Direction.South_East;
+                break;
+            case "SouthTrigger":
+                eTrigger = Direction.South;
+                break;
+            case "SouthWestTrigger":
+                eTrigger = Direction.South_West;
+                break;
+            case "NorthWestTrigger":
+                eTrigger = Direction.North_West;
+                break;
+            default:
+                eTrigger = Direction.None;
+                break;
+        }
+
+        
+        if (eTrigger != Direction.None && col.gameObject.GetComponentInParent<Tile>().Neighbors[(int)eTrigger] != null)
+        {
+            ii.Add(new Interaction(Move), "Move", null, true, (int)eTrigger);
+            IngameUI ui = GameObject.Find("IngameUI").GetComponent<IngameUI>();
+            ui.UpdateActionPanelUIQ(ii);
+        }
+
+        /*   TileManager.Instance.MoveKeeper(this, TileManager.Instance.GetTileFromKeeper[this], Direction.North);
         }
         else if (col.gameObject.CompareTag("SouthTrigger"))
         {
+            iIdTrigger = 0;
             TileManager.Instance.MoveKeeper(this, TileManager.Instance.GetTileFromKeeper[this], Direction.South);
         }
         else if (col.gameObject.CompareTag("NorthEastTrigger"))
         {
+            iIdTrigger = 0;
             TileManager.Instance.MoveKeeper(this, TileManager.Instance.GetTileFromKeeper[this], Direction.North_East);
         }
         else if (col.gameObject.CompareTag("NorthWestTrigger"))
         {
+            iIdTrigger = 0;
             TileManager.Instance.MoveKeeper(this, TileManager.Instance.GetTileFromKeeper[this], Direction.North_West);
         }
         else if (col.gameObject.CompareTag("SouthEastTrigger"))
@@ -107,7 +147,7 @@ public class KeeperInstance : MonoBehaviour {
         else if (col.gameObject.CompareTag("SouthWestTrigger"))
         {
             TileManager.Instance.MoveKeeper(this, TileManager.Instance.GetTileFromKeeper[this], Direction.South_West);
-        }
+        }*/
     }
 
 
@@ -227,6 +267,16 @@ public class KeeperInstance : MonoBehaviour {
         {
             fLerpRotation += fRotateSpeed * Time.deltaTime;
             transform.rotation = Quaternion.Lerp(quatPreviousRotation, quatTargetRotation, fLerpRotation);
+        }
+    }
+
+    void Move(int _i)
+    {
+        
+        TileManager.Instance.MoveKeeper(this, TileManager.Instance.GetTileFromKeeper[this], (Direction)_i);
+        for(int i =0; i< keeper.GoListCharacterFollowing.Count; i++)
+        {
+
         }
     }
 }

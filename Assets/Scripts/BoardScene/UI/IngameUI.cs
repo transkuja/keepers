@@ -171,8 +171,9 @@ public class IngameUI : MonoBehaviour
                 Button btn = goAction.GetComponent<Button>();
 
                 int n = i;
+                int iParam = ic.listActionContainers[n].iParam;
                 btn.onClick.AddListener(() => {
-                    ic.listActionContainers[n].action();
+                    ic.listActionContainers[n].action(iParam);
                     GameObject.Find("IngameUI").GetComponent<IngameUI>().ClearActionPanel();
                 });
 

@@ -6,9 +6,9 @@ public class InteractionImplementer {
 
     public List<InteractionContainer> listActionContainers = new List<InteractionContainer>();
 
-    public void Add(Interaction _action, string _strName, Sprite _sprite, bool _isAllowed = true)
+    public void Add(Interaction _action, string _strName, Sprite _sprite, bool _isAllowed = true, int _iParam = -1)
     {
-        listActionContainers.Add(new InteractionContainer(_action, _strName, _sprite, _isAllowed));
+        listActionContainers.Add(new InteractionContainer(_action, _strName, _sprite, _isAllowed, _iParam));
     }
 
     public bool Remove(string strName)

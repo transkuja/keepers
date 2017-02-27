@@ -14,7 +14,7 @@ public class ItemInstance : MonoBehaviour, IPickable {
         Init();
     }
 
-    public void Pick()
+    public void Pick(int _i = 0)
     {
         Debug.Log("Picked");
     }
