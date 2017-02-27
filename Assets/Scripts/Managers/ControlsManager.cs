@@ -52,6 +52,7 @@ public class ControlsManager : MonoBehaviour {
                 RaycastHit hitInfo;
                 if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo) == true)
                 {
+                    GameManager.Instance.Ui.ClearActionPanel();
                     if (hitInfo.transform.gameObject.GetComponent<KeeperInstance>() != null)
                     {
                         KeeperInstance c = hitInfo.transform.gameObject.GetComponent<KeeperInstance>();
@@ -95,7 +96,7 @@ public class ControlsManager : MonoBehaviour {
                     if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo, Mathf.Infinity, layermask) == true)
                     {
 
-                        IngameUI ui = GameObject.Find("IngameUI").GetComponent<IngameUI>();
+                        IngameUI ui = GameManager.Instance.Ui;
                         // Handle click on a ItemInstance
                         if (hitInfo.collider.gameObject.GetComponent<ItemInstance>() != null)
                         {
@@ -106,6 +107,10 @@ public class ControlsManager : MonoBehaviour {
                         {
                             GameManager.Instance.GoTarget = hitInfo.collider.gameObject;
                             ui.UpdateActionPanelUIQ(hitInfo.collider.gameObject.GetComponent<PrisonerInstance>().InteractionImplementer);
+                        }
+                        else if(hitInfo.collider.gameObject.GetComponent<Arrival>() != null)
+                        {
+                            ui.UpdateActionPanelUIQ(hitInfo.collider.gameObject.GetComponent<Arrival>().InterationImplementer);
                         }
                         else
                         {
@@ -118,8 +123,11 @@ public class ControlsManager : MonoBehaviour {
 
                             }
                         }
-                    }
-    
+                    } 
+                }
+                else
+                {
+                    GameManager.Instance.Ui.ClearActionPanel();
                 }
             }
         }                  

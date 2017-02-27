@@ -18,6 +18,8 @@ public class GameManager : MonoBehaviour
     private bool characterPanelIngameNeedUpdate = true;
     private bool characterPanelMenuNeedUpdate = false;
 
+    private IngameUI ui;
+
     void Awake()
     {
         if (instance == null)
@@ -134,6 +136,18 @@ public class GameManager : MonoBehaviour
         set
         {
             goTarget = value;
+        }
+    }
+
+    public IngameUI Ui
+    {
+        get
+        {
+            if(ui == null)
+            {
+                ui = GameObject.Find("IngameUI").GetComponent<IngameUI>();
+            }
+            return ui;
         }
     }
 }
