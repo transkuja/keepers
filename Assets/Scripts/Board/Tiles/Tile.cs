@@ -23,10 +23,18 @@ public enum Direction
     None
 }
 
+public enum TileState
+{
+    Hidden,
+    Greyed,
+    Discovered
+}
+
 public class Tile : MonoBehaviour{
     [SerializeField]
     private TileType type;
-
+    [SerializeField]
+    private TileState state;
     private static bool showLinks;
 
     /* Neighbors:
@@ -173,6 +181,19 @@ public class Tile : MonoBehaviour{
         set
         {
             monstersOnTile = value;
+        }
+    }
+
+    public TileState State
+    {
+        get
+        {
+            return state;
+        }
+
+        set
+        {
+            state = value;
         }
     }
 

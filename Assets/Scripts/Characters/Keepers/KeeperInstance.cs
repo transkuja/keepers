@@ -121,6 +121,12 @@ public class KeeperInstance : MonoBehaviour {
             ii.Add(new Interaction(Move), "Move", null, true, (int)eTrigger);
             IngameUI ui = GameObject.Find("IngameUI").GetComponent<IngameUI>();
             ui.UpdateActionPanelUIQ(ii);
+
+            if(col.gameObject.GetComponentInParent<Tile>().Neighbors[(int)eTrigger].State == TileState.Greyed)
+            {
+                ii.Add(new Interaction(Explore), "Explore", null, true, (int)eTrigger);
+                ui.UpdateActionPanelUIQ(ii);
+            }
         }
 
         /*   TileManager.Instance.MoveKeeper(this, TileManager.Instance.GetTileFromKeeper[this], Direction.North);
@@ -278,5 +284,10 @@ public class KeeperInstance : MonoBehaviour {
         {
 
         }
+    }
+
+    void Explore(int _i)
+    {
+        TileManager.Instance.GetTileFromKeeper[this].Neighbors[_i].State = TileState.Discovered;
     }
 }
