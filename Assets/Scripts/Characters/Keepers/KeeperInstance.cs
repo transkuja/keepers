@@ -83,6 +83,31 @@ public class KeeperInstance : MonoBehaviour {
             BattleHandler.LaunchBattle(TileManager.Instance.GetTileFromKeeper[this]);
             agent.Resume();
         }
+
+        if (col.gameObject.CompareTag("NorthTrigger"))
+        {
+            TileManager.Instance.MoveKeeper(this, TileManager.Instance.GetTileFromKeeper[this], Direction.North);
+        }
+        else if (col.gameObject.CompareTag("SouthTrigger"))
+        {
+            TileManager.Instance.MoveKeeper(this, TileManager.Instance.GetTileFromKeeper[this], Direction.South);
+        }
+        else if (col.gameObject.CompareTag("NorthEastTrigger"))
+        {
+            TileManager.Instance.MoveKeeper(this, TileManager.Instance.GetTileFromKeeper[this], Direction.North_East);
+        }
+        else if (col.gameObject.CompareTag("NorthWestTrigger"))
+        {
+            TileManager.Instance.MoveKeeper(this, TileManager.Instance.GetTileFromKeeper[this], Direction.North_West);
+        }
+        else if (col.gameObject.CompareTag("SouthEastTrigger"))
+        {
+            TileManager.Instance.MoveKeeper(this, TileManager.Instance.GetTileFromKeeper[this], Direction.South_East);
+        }
+        else if (col.gameObject.CompareTag("SouthWestTrigger"))
+        {
+            TileManager.Instance.MoveKeeper(this, TileManager.Instance.GetTileFromKeeper[this], Direction.South_West);
+        }
     }
 
 
