@@ -21,10 +21,6 @@ public class TileManager : MonoBehaviour {
     Tile prisonerTile;
     public PrisonerInstance prisoner;
 
-    // Used to reactivate triggers when agent has finished moving between tiles
-    NavMeshAgent agentMoving = null;
-    GameObject triggersToReactivate = null;
-
     // For testing, to delete
     public Tile monsterTileTest;
     public MonsterInstance monsterInstanceTest;
@@ -50,20 +46,6 @@ public class TileManager : MonoBehaviour {
         DontDestroyOnLoad(gameObject);
     }
 
-    private void Update()
-    {
-        // Reactivate triggers when agent has reached destination
-        if (agentMoving != null)
-        {
-            if (agentMoving.isOnNavMesh && agentMoving.remainingDistance == 0)
-            {
-                agentMoving = null;
-                triggersToReactivate.SetActive(true);
-                triggersToReactivate = null;
-            }
-        }
-    }
-
     public Tile PrisonerTile
     {
         get
@@ -87,21 +69,41 @@ public class TileManager : MonoBehaviour {
         AddKeeperOnTile(destination, keeper);
         Transform[] spawnPoints = GetSpawnPositions(destination, direction);
 
+
         // Physical movement
         NavMeshAgent agent = keeper.GetComponent<NavMeshAgent>();
 
-        agentMoving = agent;
-        triggersToReactivate = destination.transform.GetChild(0).GetChild((int)TilePrefabChildren.PortalTriggers).gameObject;
-
         agent.enabled = false;
-        destination.transform.GetChild(0).GetChild((int)TilePrefabChildren.PortalTriggers).gameObject.SetActive(false);
         keeper.transform.position = spawnPoints[0].position;
         agent.enabled = true;
-        agent.SetDestination(keeper.transform.position + keeper.transform.forward);
+
+        GameObject goCurrentCharacter;
+
+        for (int i = 0; i < keeper.Keeper.GoListCharacterFollowing.Count; i++)
+        {
+            goCurrentCharacter = keeper.Keeper.GoListCharacterFollowing[i];
+
+            if (goCurrentCharacter.GetComponent<PrisonerInstance>() != null)
+            {
+                prisonerTile = destination;
+            }
+            else
+            {
+                RemoveKeeperFromTile(from, goCurrentCharacter.GetComponent<KeeperInstance>());
+                AddKeeperOnTile(destination, goCurrentCharacter.GetComponent<KeeperInstance>());
+            }
+
+            agent = goCurrentCharacter.GetComponent<NavMeshAgent>();
+
+            agent.enabled = false;
+            goCurrentCharacter.transform.position = spawnPoints[i+1 % spawnPoints.Length].position;
+            agent.enabled = true;
+        }
+
 
         // Handle prisoner
-        if (prisoner.KeeperFollowed != null && prisoner.KeeperFollowed == keeper)
-        prisonerTile = destination;
+        /*if (prisoner.KeeperFollowed != null && prisoner.KeeperFollowed == keeper)
+        prisonerTile = destination;*/
     }
 
     public void MoveMonster(MonsterInstance monster, Tile from, Direction direction)

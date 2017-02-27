@@ -17,7 +17,7 @@ public class KeeperInstance : MonoBehaviour {
     [SerializeField]
     private bool isSelectedInMenu = false;
     public MeshRenderer meshToHighlight;
-
+    
 
     // Update variables
     NavMeshAgent agent;
@@ -246,7 +246,11 @@ public class KeeperInstance : MonoBehaviour {
 
         quatPreviousRotation = transform.rotation;
 
-        quatTargetRotation.SetLookRotation(v3Direction - transform.position);
+        Vector3 v3PosTemp = transform.position;
+        v3PosTemp.y = 0;
+        v3Direction.y = 0.0f;
+
+        quatTargetRotation.SetLookRotation(v3Direction - v3PosTemp);
 
         bIsRotating = true;
 
@@ -280,10 +284,6 @@ public class KeeperInstance : MonoBehaviour {
     {
         
         TileManager.Instance.MoveKeeper(this, TileManager.Instance.GetTileFromKeeper[this], (Direction)_i);
-        for(int i =0; i< keeper.GoListCharacterFollowing.Count; i++)
-        {
-
-        }
     }
 
     void Explore(int _i)
