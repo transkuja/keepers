@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-// TilePrefab is the first child of a Tile
+/// <summary>
+/// Return the position TilePrefab's children in hierarchy.
+/// TilePrefab is the first child of a Tile
+/// </summary>
 public enum TilePrefabChildren
 {
     Model,
@@ -11,6 +14,9 @@ public enum TilePrefabChildren
     SpawnPoints
 }
 
+/// <summary>
+/// Handle tile specific behaviours like movements to new tiles. Has the knowledge of who is where.
+/// </summary>
 public class TileManager : MonoBehaviour {
 
     private static TileManager instance = null;
@@ -59,6 +65,12 @@ public class TileManager : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Move keeper and its followers from a tile to another.
+    /// </summary>
+    /// <param name="keeper">The keeper to move</param>
+    /// <param name="from">The origin tile</param>
+    /// <param name="direction">The direction of the movement from the origin tile</param>
     public void MoveKeeper(KeeperInstance keeper, Tile from, Direction direction)
     {
         Tile destination = from.Neighbors[(int)direction];
@@ -100,18 +112,24 @@ public class TileManager : MonoBehaviour {
             agent.enabled = true;
         }
 
-
-        // Handle prisoner
-        /*if (prisoner.KeeperFollowed != null && prisoner.KeeperFollowed == keeper)
-        prisonerTile = destination;*/
     }
 
+    /// <summary>
+    /// Move a monster to another tile.
+    /// </summary>
+    /// <param name="monster">The monster to move</param>
+    /// <param name="from">The origin tile of the monster</param>
+    /// <param name="direction">The direction of the movement from the origin tile</param>
     public void MoveMonster(MonsterInstance monster, Tile from, Direction direction)
     {
         RemoveMonsterFromTile(from, monster);
         AddMonsterOnTile(from.Neighbors[(int)direction], monster);        
     }
 
+    /// <summary>
+    /// Destroy monsters beaten in battle and remove them from dictionaries.
+    /// </summary>
+    /// <param name="tile">The tile concerned</param>
     public void RemoveDefeatedMonsters(Tile tile)
     {
         foreach (MonsterInstance mi in monstersOnTile[tile])
@@ -121,6 +139,12 @@ public class TileManager : MonoBehaviour {
         monstersOnTile.Remove(tile);
     }
 
+
+    /// <summary>
+    /// Add a monster on a tile
+    /// </summary>
+    /// <param name="tile">A Tile</param>
+    /// <param name="monster">A new MonsterInstance</param>
     private void AddMonsterOnTile(Tile tile, MonsterInstance monster)
     {
         if (monstersOnTile.ContainsKey(tile))
@@ -135,6 +159,12 @@ public class TileManager : MonoBehaviour {
         }
     }
 
+
+    /// <summary>
+    /// Update tile references for a keeper.
+    /// </summary>
+    /// <param name="tile">New tile</param>
+    /// <param name="keeper">KeeperInstance</param>
     private void AddKeeperOnTile(Tile tile, KeeperInstance keeper)
     {
         if (keepersOnTile.ContainsKey(tile))
@@ -154,16 +184,32 @@ public class TileManager : MonoBehaviour {
             getTileFromKeeper.Add(keeper, tile);
     }
 
+    /// <summary>
+    /// Remove monster from a tile after a movement.
+    /// </summary>
+    /// <param name="tile">Old tile</param>
+    /// <param name="monster">MonsterInstance</param>
     private void RemoveMonsterFromTile(Tile tile, MonsterInstance monster)
     {
         monstersOnTile[tile].Remove(monster);
     }
 
+    /// <summary>
+    /// Remove keeper from a tile after a movement.
+    /// </summary>
+    /// <param name="tile">Old tile</param>
+    /// <param name="keeper">KeeperInstance</param>
     private void RemoveKeeperFromTile(Tile tile, KeeperInstance keeper)
     {
         keepersOnTile[tile].Remove(keeper);
     }
 
+    /// <summary>
+    /// Return the spawn positions based on destination tile and the direction of the movement.
+    /// </summary>
+    /// <param name="destinationTile">Destination Tile</param>
+    /// <param name="moveDirection">Movement direction</param>
+    /// <returns></returns>
     private Transform[] GetSpawnPositions(Tile destinationTile, Direction moveDirection)
     {
         Transform[] spawnPositions = new Transform[2];
