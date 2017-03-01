@@ -13,63 +13,41 @@ public class Character {
     [Header("Stats")]
 
     [SerializeField]
-    private int hp = 100;
+    private int maxHp = 100;
     [SerializeField]
-    private int mp = 50;
+    private int currentHp = 100;
     [SerializeField]
-    private short strength = 5;
+    private int maxMp = 50;
     [SerializeField]
-    private short defense = 5;
+    private int currentMp = 50;
     [SerializeField]
-    private short intelligence = 5;
+    private short baseStrength = 5;
     [SerializeField]
-    private short spirit = 5;
+    private short bonusStrength = 5;
+    [SerializeField]
+    private short baseDefense = 5;
+    [SerializeField]
+    private short bonusDefense = 5;
+    [SerializeField]
+    private short baseIntelligence = 5;
+    [SerializeField]
+    private short bonusIntelligence = 5;
+    [SerializeField]
+    private short baseSpirit = 5;
+    [SerializeField]
+    private short bonusSpirit = 5;
     private List<SkillBattle> battleSkills;
 
     private List<GameObject> goListCharacterFollowing = new List<GameObject>();
 
+    #region Accessors
     public string CharacterName
     {
         get { return characterName; }
         set { characterName = value; }
     }
 
-    public int Hp
-    {
-        get { return hp; }
-        set { hp = value; }
-    }
-
-    public int Mp
-    {
-        get { return mp; }
-        set { mp = value; }
-    }
-
-    public short Strength
-    {
-        get { return strength; }
-        set { strength = value; }
-    }
-
-    public short Defense
-    {
-        get { return defense; }
-        set { defense = value; }
-    }
-
-    public short Intelligence
-    {
-        get { return intelligence; }
-        set { intelligence = value; }
-    }
-
-    public short Spirit
-    {
-        get { return spirit; }
-        set { spirit = value; }
-    }
-
+   
     public List<SkillBattle> BattleSkills
     {
         get { return battleSkills; }
@@ -88,13 +66,187 @@ public class Character {
             goListCharacterFollowing = value;
         }
     }
+
+    public int MaxHp
+    {
+        get
+        {
+            return maxHp;
+        }
+
+        set
+        {
+            maxHp = value;
+        }
+    }
+
+    public int CurrentHp
+    {
+        get
+        {
+            return currentHp;
+        }
+
+        set
+        {
+            currentHp = value;
+        }
+    }
+
+    public int MaxMp
+    {
+        get
+        {
+            return maxMp;
+        }
+
+        set
+        {
+            maxMp = value;
+        }
+    }
+
+    public int CurrentMp
+    {
+        get
+        {
+            return currentMp;
+        }
+
+        set
+        {
+            currentMp = value;
+        }
+    }
+
+    public short BaseStrength
+    {
+        get
+        {
+            return baseStrength;
+        }
+
+        private set { }
+    }
+
+    public short BonusStrength
+    {
+        get
+        {
+            return bonusStrength;
+        }
+
+        set
+        {
+            bonusStrength = value;
+        }
+    }
+
+    public short BaseDefense
+    {
+        get
+        {
+            return baseDefense;
+        }
+
+        private set { }
+
+    }
+
+    public short BonusDefense
+    {
+        get
+        {
+            return bonusDefense;
+        }
+
+        set
+        {
+            bonusDefense = value;
+        }
+    }
+
+    public short BaseIntelligence
+    {
+        get
+        {
+            return baseIntelligence;
+        }
+        private set { }
+
+    }
+
+    public short BonusIntelligence
+    {
+        get
+        {
+            return bonusIntelligence;
+        }
+
+        set
+        {
+            bonusIntelligence = value;
+        }
+    }
+
+    public short BaseSpirit
+    {
+        get
+        {
+            return baseSpirit;
+        }
+        private set { }
+
+    }
+
+    public short BonusSpirit
+    {
+        get
+        {
+            return bonusSpirit;
+        }
+
+        set
+        {
+            bonusSpirit = value;
+        }
+    }
+
+    public short GetEffectiveStrength()
+    {
+        short result = baseStrength;
+        result += bonusStrength;
+        return result;
+    }
+
+    public short GetEffectiveIntelligence()
+    {
+        short result = baseIntelligence;
+        result += bonusIntelligence;
+        return result;
+    }
+
+    public short GetEffectiveDefense()
+    {
+        short result = baseDefense;
+        result += bonusDefense;
+        return result;
+    }
+
+    public short GetEffectiveSpirit()
+    {
+        short result = baseSpirit;
+        result += bonusSpirit;
+        return result;
+    }
+    #endregion
 }
 
 /*
  * Contains definition of battle skills 
  * 
  */
- [System.Serializable]
+[System.Serializable]
 public class SkillBattle
 {
 
