@@ -20,7 +20,23 @@ public class MonsterInstance : MonoBehaviour {
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        GetComponent<BoxCollider>().enabled = false;
+        Invoke("ReactivateTrigger", 1.0f);
+    }
+
     void Update () {
 		
 	}
+
+    private void ReactivateTrigger()
+    {
+        GetComponent<BoxCollider>().enabled = true;
+    }
 }

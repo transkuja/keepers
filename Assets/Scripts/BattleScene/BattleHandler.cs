@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using UnityEngine.UI;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -71,6 +70,7 @@ public class BattleHandler {
         }
 
         TileManager.Instance.RemoveDefeatedMonsters(tile);
+        PrintVictoryScreen();
     }
 
     /*
@@ -83,8 +83,48 @@ public class BattleHandler {
             ki.Keeper.ActualMentalHealth -= 10;
             ki.Keeper.ActualHunger += 5;
 
-            // TODO: @Anthony refactor Character to have base<Stat>s, bonusTo<Stat>s, currentMP, currentHP
             ki.Keeper.CurrentHp -= 10;
         }
+
+        foreach (KeeperInstance ki in GameManager.Instance.ListOfSelectedKeepers)
+        {
+            ki.transform.position = ki.transform.position - ki.transform.forward * 0.5f;
+        }
+
+        PrintDefeatScreen(10, 5, 10);
     }
+
+    private static void PrintVictoryScreen()
+    {
+        GameManager.Instance.BattleResultScreen.gameObject.SetActive(true);
+
+        Transform header = GameManager.Instance.BattleResultScreen.GetChild((int)BattleResultScreenChildren.Header);
+        Transform loot = GameManager.Instance.BattleResultScreen.GetChild((int)BattleResultScreenChildren.Loot);
+
+        header.GetComponent<Text>().text = "Victory!";
+        GameManager.Instance.BattleResultScreen.GetChild((int)BattleResultScreenChildren.Lost).gameObject.SetActive(false);
+
+        loot.GetComponent<Text>().text = "Legendary Meat!\nPaper Sword!";
+
+    }
+
+    private static void PrintDefeatScreen(int moraleLost, int hungerIncreased, int hpLost)
+    {
+        GameManager.Instance.BattleResultScreen.gameObject.SetActive(true);
+
+        Transform header = GameManager.Instance.BattleResultScreen.GetChild((int)BattleResultScreenChildren.Header);
+        Transform lost = GameManager.Instance.BattleResultScreen.GetChild((int)BattleResultScreenChildren.Lost);
+
+        header.GetComponent<Text>().text = "Defeat";
+        GameManager.Instance.BattleResultScreen.GetChild((int)BattleResultScreenChildren.Loot).gameObject.SetActive(false);
+
+        lost.GetComponent<Text>().text = hpLost + " HP lost\n"
+                                        + moraleLost + " morale lost\n"
+                                        + "Hunger increased by " + hungerIncreased;
+
+        // Freeze time until close button is pressed
+        GameManager.Instance.ClearListKeeperSelected();
+        Time.timeScale = 0.0f;
+    }
+
 }

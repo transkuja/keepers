@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     private bool characterPanelMenuNeedUpdate = false;
 
     private IngameUI ui;
+    private IngameScreens gameScreens;
 
     void Awake()
     {
@@ -148,6 +149,33 @@ public class GameManager : MonoBehaviour
                 ui = GameObject.Find("IngameUI").GetComponent<IngameUI>();
             }
             return ui;
+        }
+    }
+
+    public IngameScreens GameScreens
+    {
+        get
+        {
+            if (gameScreens == null)
+            {
+                gameScreens = GameObject.Find("IngameScreens").GetComponent<IngameScreens>();
+            }
+            return gameScreens;
+        }
+    }
+
+    /// <summary>
+    /// Returns the battle results screen
+    /// </summary>
+    public Transform BattleResultScreen
+    {
+        get
+        {
+            if (gameScreens == null)
+            {
+                gameScreens = GameObject.Find("IngameScreens").GetComponent<IngameScreens>();
+            }
+            return gameScreens.transform.GetChild(0).GetChild((int)IngameScreensEnum.BattleResultScreens);
         }
     }
 }
