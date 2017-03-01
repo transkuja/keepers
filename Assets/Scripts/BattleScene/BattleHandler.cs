@@ -86,7 +86,14 @@ public class BattleHandler {
             ki.Keeper.CurrentHp -= 10;
         }
 
+        foreach (KeeperInstance ki in GameManager.Instance.ListOfSelectedKeepers)
+        {
+            ki.transform.position = ki.transform.position - ki.transform.forward * 0.5f;
+        }
+
         PrintDefeatScreen(10, 5, 10);
+    }
+
     private static void PrintVictoryScreen()
     {
         GameManager.Instance.BattleResultScreen.gameObject.SetActive(true);
