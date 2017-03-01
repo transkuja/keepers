@@ -43,24 +43,6 @@ public class KeeperInstance : MonoBehaviour {
 
     private void Update()
     {
-        Vector3 currentPosition;
-        if (agent.isOnOffMeshLink)
-        {
-            currentPosition = transform.position;
-            if (Input.GetKeyDown(KeyCode.A))
-            {
-                agent.CompleteOffMeshLink();
-                TileManager.Instance.MoveKeeper(this, TileManager.Instance.GetTileFromKeeper[this], Direction.North_East);
-            }
-
-            if (Input.GetKeyDown(KeyCode.B))
-            {
-
-                agent.CompleteOffMeshLink();
-                agent.Warp(currentPosition);
-            }
-        }
-
         GameObject goDestinationTemp = gameObject;
         for (int i = 0; i < keeper.GoListCharacterFollowing.Count; i++)
         {
@@ -131,32 +113,6 @@ public class KeeperInstance : MonoBehaviour {
                 ui.UpdateActionPanelUIQ(ii);
             }
         }
-
-        /*   TileManager.Instance.MoveKeeper(this, TileManager.Instance.GetTileFromKeeper[this], Direction.North);
-        }
-        else if (col.gameObject.CompareTag("SouthTrigger"))
-        {
-            iIdTrigger = 0;
-            TileManager.Instance.MoveKeeper(this, TileManager.Instance.GetTileFromKeeper[this], Direction.South);
-        }
-        else if (col.gameObject.CompareTag("NorthEastTrigger"))
-        {
-            iIdTrigger = 0;
-            TileManager.Instance.MoveKeeper(this, TileManager.Instance.GetTileFromKeeper[this], Direction.North_East);
-        }
-        else if (col.gameObject.CompareTag("NorthWestTrigger"))
-        {
-            iIdTrigger = 0;
-            TileManager.Instance.MoveKeeper(this, TileManager.Instance.GetTileFromKeeper[this], Direction.North_West);
-        }
-        else if (col.gameObject.CompareTag("SouthEastTrigger"))
-        {
-            TileManager.Instance.MoveKeeper(this, TileManager.Instance.GetTileFromKeeper[this], Direction.South_East);
-        }
-        else if (col.gameObject.CompareTag("SouthWestTrigger"))
-        {
-            TileManager.Instance.MoveKeeper(this, TileManager.Instance.GetTileFromKeeper[this], Direction.South_West);
-        }*/
     }
 
 
