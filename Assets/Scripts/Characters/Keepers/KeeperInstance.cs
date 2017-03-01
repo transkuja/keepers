@@ -98,7 +98,7 @@ public class KeeperInstance : MonoBehaviour {
         }
 
         
-        if (eTrigger != Direction.None && col.gameObject.GetComponentInParent<Tile>().Neighbors[(int)eTrigger] != null)
+        if (eTrigger != Direction.None && col.gameObject.GetComponentInParent<Tile>().Neighbors[(int)eTrigger] != null && keeper.ActionPoints > 0)
         {
             IngameUI ui = GameObject.Find("IngameUI").GetComponent<IngameUI>();
             if (col.gameObject.GetComponentInParent<Tile>().Neighbors[(int)eTrigger].State == TileState.Discovered)
@@ -241,7 +241,6 @@ public class KeeperInstance : MonoBehaviour {
 
     void Move(int _i)
     {
-        
         TileManager.Instance.MoveKeeper(this, TileManager.Instance.GetTileFromKeeper[this], (Direction)_i);
     }
 
