@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class EventManager : MonoBehaviour {
 
+    private static short actionPointsResetValue = 3;
+
     public static void EndTurnEvent()
     {
         DecreaseMentalHealth();
         IncreaseHunger();
+
+        ResetActionPointsForNextTurn();
     }
 
     private static void DecreaseMentalHealth()
@@ -23,6 +27,14 @@ public class EventManager : MonoBehaviour {
         foreach (KeeperInstance ki in GameManager.Instance.AllKeepersList)
         {
             ki.Keeper.ActualHunger += 10;
+        }
+    }
+
+    private static void ResetActionPointsForNextTurn()
+    {
+        foreach (KeeperInstance ki in GameManager.Instance.AllKeepersList)
+        {
+            ki.Keeper.ActionPoints = actionPointsResetValue;
         }
     }
 

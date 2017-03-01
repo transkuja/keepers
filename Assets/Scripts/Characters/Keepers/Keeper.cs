@@ -21,6 +21,8 @@ public class Keeper : Character
     [SerializeField]
     private short actualMentalHealth;
 
+    [SerializeField]
+    private short actionPoints = 3;
 
     private bool isStarving = false;
     private bool isMentalHealthLow = false;
@@ -89,6 +91,19 @@ public class Keeper : Character
         }
 
         private set {}
+    }
+
+    public short ActionPoints
+    {
+        get
+        {
+            return actionPoints;
+        }
+
+        set
+        {
+            actionPoints = value;
+        }
     }
 
     public Keeper()
