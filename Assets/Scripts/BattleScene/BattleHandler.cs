@@ -84,7 +84,7 @@ public class BattleHandler {
             ki.Keeper.ActualHunger += 5;
 
             // TODO: @Anthony refactor Character to have base<Stat>s, bonusTo<Stat>s, currentMP, currentHP
-            ki.Keeper.Hp -= 10;
+            ki.Keeper.CurrentHp -= 10;
         }
     }
 }
