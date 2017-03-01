@@ -1,0 +1,28 @@
+Prioritaire:
+	Un personnage
+	Un monstre
+
+	Un tile pas accueillant
+	Un tile accueillant
+	Un tile neutre
+	Un objet recoltable (champ de ble, pommier, arbre a baies)
+	Le tile début
+	Le tile de fin
+
+	Un premier jet d'UI
+		Les icones
+		Les boutons
+		Les "actions"
+		Les cartes de personnage
+		...
+		
+	Ecran de victoire combat
+	
+Secondaire:
+	Ashley
+	
+	Plus de recoltables
+	Coffre
+	
+	Plus de biomes et tiles differents
+	
