@@ -118,11 +118,14 @@ public class KeeperInstance : MonoBehaviour {
         
         if (eTrigger != Direction.None && col.gameObject.GetComponentInParent<Tile>().Neighbors[(int)eTrigger] != null)
         {
-            ii.Add(new Interaction(Move), "Move", null, true, (int)eTrigger);
             IngameUI ui = GameObject.Find("IngameUI").GetComponent<IngameUI>();
-            ui.UpdateActionPanelUIQ(ii);
+            if (col.gameObject.GetComponentInParent<Tile>().Neighbors[(int)eTrigger].State == TileState.Discovered)
+            {
+                ii.Add(new Interaction(Move), "Move", null, true, (int)eTrigger);
+                ui.UpdateActionPanelUIQ(ii);
+            }
 
-            if(col.gameObject.GetComponentInParent<Tile>().Neighbors[(int)eTrigger].State == TileState.Greyed)
+            if (col.gameObject.GetComponentInParent<Tile>().Neighbors[(int)eTrigger].State == TileState.Greyed)
             {
                 ii.Add(new Interaction(Explore), "Explore", null, true, (int)eTrigger);
                 ui.UpdateActionPanelUIQ(ii);
@@ -288,6 +291,43 @@ public class KeeperInstance : MonoBehaviour {
 
     void Explore(int _i)
     {
-        TileManager.Instance.GetTileFromKeeper[this].Neighbors[_i].State = TileState.Discovered;
+        //Check if the prisoner is following
+        PrisonerInstance prisoner = null;
+        if (keeper.GoListCharacterFollowing.Count > 0 && keeper.GoListCharacterFollowing[0].GetComponent<PrisonerInstance>())
+        {
+            prisoner = keeper.GoListCharacterFollowing[0].GetComponent<PrisonerInstance>();
+        }
+
+        // Move to explored tile
+        TileManager.Instance.MoveKeeper(this, TileManager.Instance.GetTileFromKeeper[this], (Direction)_i);
+
+        // Tell the tile it has been discovered (and watch it panic)
+        Tile exploredTile = TileManager.Instance.GetTileFromKeeper[this];
+        exploredTile.State = TileState.Discovered;
+
+        // Apply exploration costs
+        keeper.ActualHunger -= 5;
+        //TODO: Apply this only when the discovered tile is unfriendly
+        keeper.ActualMentalHealth -= 5;
+
+        // If the player is exploring with the prisoner following, apply costs to him too
+        if (prisoner != null)
+        {
+            prisoner.Prisoner.ActualHunger -= 5;
+            //TODO: Apply this only when the discovered tile is unfriendly
+            prisoner.Prisoner.ActualMentalHealth -= 5;
+        }
+
+        // Apply bad effects if monsters are discovered
+        if(exploredTile.MonstersOnTile.Count > 0)
+        {
+            keeper.CurrentHp -= 5;
+            keeper.ActualMentalHealth -= 5;
+            if (prisoner != null)
+            {
+                prisoner.Prisoner.CurrentHp -= 5;
+                prisoner.Prisoner.ActualMentalHealth -= 5;
+            }
+        }
     }
 }
