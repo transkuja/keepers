@@ -39,6 +39,7 @@ public class ControlsManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         SelectionControls();
+        ChangeSelectedKeeper();
         CameraControls();
     }
 
@@ -132,6 +133,31 @@ public class ControlsManager : MonoBehaviour {
             }
         }                  
 
+    }
+
+    private void ChangeSelectedKeeper()
+    {
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            if (GameManager.Instance.ListOfSelectedKeepers != null && GameManager.Instance.ListOfSelectedKeepers.Count > 0)
+            {
+                // Get first selected
+                KeeperInstance currentKeeperSelected = GameManager.Instance.ListOfSelectedKeepers[0];
+
+                // Get his tile
+                Tile currentKeeperTile = TileManager.Instance.GetTileFromKeeper[currentKeeperSelected];
+
+                // Get next on tile
+                List<KeeperInstance> keepersOnTile = TileManager.Instance.KeepersOnTile[currentKeeperTile];
+                int currentKeeperSelectedIndex = keepersOnTile.FindIndex(x => x == currentKeeperSelected);
+
+                // Next keeper on the same tile is now active
+                GameManager.Instance.ClearListKeeperSelected();
+                GameManager.Instance.ListOfSelectedKeepers.Add(keepersOnTile[(currentKeeperSelectedIndex + 1)%keepersOnTile.Count]);
+                keepersOnTile[(currentKeeperSelectedIndex + 1) % keepersOnTile.Count].IsSelected = true;
+
+            }
+        }
     }
 
     private void CameraControls()
