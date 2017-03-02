@@ -22,6 +22,12 @@ public class IngameUI : MonoBehaviour
     public GameObject goActionPanelQ;
     public GameObject baseActionImage;
 
+ 
+    // ShortcutPanel
+    [Header("ShortcutPanel Panel")]
+    public GameObject baseKeeperShortcutPanel;
+    public GameObject goShortcutKeepersPanel;
+
     // Quentin
     //public List<GameObject> listGoActionPanelButton;
 
@@ -34,6 +40,11 @@ public class IngameUI : MonoBehaviour
         //listGoActionPanelButton = new List<GameObject>();
     }
 
+    public void Start()
+    {
+        CreateShortcutPanel();
+    }
+
     public void Update()
     {
         if (GameManager.Instance != null )
@@ -42,6 +53,7 @@ public class IngameUI : MonoBehaviour
             {
                 UpdateCharacterPanelUI();
             }
+
         }
     }
 
@@ -210,6 +222,74 @@ public class IngameUI : MonoBehaviour
             foreach (Image ActionPanel in goActionPanelQ.GetComponentsInChildren<Image>())
             {
                 Destroy(ActionPanel.gameObject);
+            }
+        }
+    }
+
+    public void ToogleShortcutPanel()
+    {
+        goShortcutKeepersPanel.SetActive(!goShortcutKeepersPanel.activeSelf);
+    }
+
+    public void CreateShortcutPanel()
+    {
+        if (GameManager.Instance == null) { return; }
+        if (goShortcutKeepersPanel == null) { return; }
+
+        int nbCaracters = GameManager.Instance.AllKeepersList.Count;
+
+        for (int i = 0; i < nbCaracters; i++)
+        {
+            KeeperInstance currentSelectedCharacter = GameManager.Instance.AllKeepersList[i];
+
+            Sprite associatedSprite = currentSelectedCharacter.Keeper.AssociatedSprite;
+
+            if (associatedSprite != null)
+            {
+                GameObject goKeeper = Instantiate(baseKeeperShortcutPanel, goShortcutKeepersPanel.transform);
+
+                goKeeper.name = "Panel_Shortcut_" + currentSelectedCharacter.Keeper.CharacterName;
+                goKeeper.transform.GetChild(0).GetComponent<Image>().sprite = associatedSprite;
+                goKeeper.transform.localScale = Vector3.one;
+
+                UpdateShortcutPanel();
+            }
+        }
+    }
+
+    public void UpdateShortcutPanel()
+    {
+        if (GameManager.Instance == null) { return; }
+        if (goShortcutKeepersPanel == null) { return; }
+
+        // nb Character + Ashley
+        for (int i = 0; i < goShortcutKeepersPanel.transform.childCount; i++)
+        {
+            if (i == 0)
+            {
+                //Prisoner prisonner = GameManager.Instance.Prisonner ;
+                //// Update HP
+                //goShortcutKeepersPanel.transform.GetChild(i).GetChild(0).GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)prisonner.CurrentHp / (float)prisonner.MaxHp;
+                //// Update Hunger
+                //goShortcutKeepersPanel.transform.GetChild(i).GetChild(1).GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)prisonner.ActualHunger / (float)prisonner.MaxHunger;
+            }
+            else
+            {
+                Keeper currentCharacter = GameManager.Instance.AllKeepersList[i-1].Keeper;
+
+                if (currentCharacter != null)
+                {
+                    int f = 1;
+                    // Update HP
+                    goShortcutKeepersPanel.transform.GetChild(i).GetChild(f++).GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)currentCharacter.CurrentHp / (float)currentCharacter.MaxHp;
+                    // Update Hunger
+                    goShortcutKeepersPanel.transform.GetChild(i).GetChild(f++).GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)currentCharacter.ActualHunger / (float)currentCharacter.MaxHunger;
+                    // Update MentalHealth
+                    goShortcutKeepersPanel.transform.GetChild(i).GetChild(f++).GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)currentCharacter.ActualMentalHealth / (float)currentCharacter.MaxMentalHealth;
+
+                    // Update Action Points
+                    goShortcutKeepersPanel.transform.GetChild(i).GetChild(f).gameObject.GetComponent<Text>().text = currentCharacter.ActionPoints.ToString();
+                }
             }
         }
     }

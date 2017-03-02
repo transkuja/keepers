@@ -58,9 +58,9 @@ public class Keeper : Character
                 actualMentalHealth = 0;
                 isMentalHealthLow = true;
             }
-            else if (actualMentalHealth > maxMentalHealth)
+            else if (actualMentalHealth > MaxMentalHealth)
             {
-                actualMentalHealth = maxMentalHealth;
+                actualMentalHealth = MaxMentalHealth;
                 isMentalHealthLow = false;
             }
             else
@@ -106,9 +106,17 @@ public class Keeper : Character
         }
     }
 
+    public short MaxMentalHealth
+    {
+        get
+        {
+            return maxMentalHealth;
+        }
+    }
+
     public Keeper()
     {
-        actualMentalHealth = maxMentalHealth;
+        actualMentalHealth = MaxMentalHealth;
     }
 
     public Keeper(Keeper from)
