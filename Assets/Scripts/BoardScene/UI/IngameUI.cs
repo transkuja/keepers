@@ -6,10 +6,9 @@ using System.Collections.Generic;
 
 public class IngameUI : MonoBehaviour
 {
-    // CharacterPanel
+    // KeeperPanel
     [Header("Character Panel")]
-    public GameObject CharacterPanel;
-    public GameObject baseCharacterImage;
+    public GameObject goSelectedKeeperPanel;
 
     // Turn Panel
     [Header("Turn Panel")]
@@ -17,7 +16,7 @@ public class IngameUI : MonoBehaviour
     public GameObject TurnButton;
     public float buttonRotationSpeed = 1.0f;
 
-    // CharacterPanel
+    // ActionPanel
     [Header("Action Panel")]
     public GameObject goActionPanelQ;
     public GameObject baseActionImage;
@@ -31,14 +30,8 @@ public class IngameUI : MonoBehaviour
     // Quentin
     //public List<GameObject> listGoActionPanelButton;
 
+    [HideInInspector]
     public bool isTurnEnding = false;
-
-    public void Awake()
-    {
-        UpdateCharacterPanelUI();
-
-        //listGoActionPanelButton = new List<GameObject>();
-    }
 
     public void Start()
     {
@@ -49,9 +42,9 @@ public class IngameUI : MonoBehaviour
     {
         if (GameManager.Instance != null )
         {
-            if (GameManager.Instance.CharacterPanelIngameNeedUpdate)
+            if (GameManager.Instance.SelectedKeeperNeedUpdate)
             {
-                UpdateCharacterPanelUI();
+                UpdateSelectedKeeperPanel();
             }
             if (GameManager.Instance.ShortcutPanel_NeedUpdate)
             {
@@ -59,55 +52,6 @@ public class IngameUI : MonoBehaviour
             }
 
         }
-    }
-
-    void UpdateCharacterPanelUI()
-    {
-        if (GameManager.Instance == null){ return; }
-        if (CharacterPanel == null) { return; }
-
-        for (int i = 0; i < CharacterPanel.transform.childCount; i++)
-        {
-            Destroy(CharacterPanel.transform.GetChild(i).gameObject);
-        }
-
-        int nbCaracters = GameManager.Instance.AllKeepersList.Count;
-        for (int i = 0; i < nbCaracters; i++)
-        {
-            KeeperInstance currentSelectedCharacter = GameManager.Instance.AllKeepersList[i];
-
-            Sprite associatedSprite = currentSelectedCharacter.Keeper.AssociatedSprite;
-            if (associatedSprite != null)
-            {
-                GameObject goKeeper = Instantiate(baseCharacterImage, CharacterPanel.transform);
-
-                goKeeper.name = currentSelectedCharacter.Keeper.CharacterName + ".Panel";
-                goKeeper.transform.GetChild(0).GetComponent<Image>().sprite = associatedSprite;
-                goKeeper.transform.localScale = Vector3.one;
-
-                // Stats
-                // HP
-                goKeeper.transform.GetChild(0).GetChild(0).GetChild(0).gameObject.GetComponentInChildren<Text>().text = "HP: " + currentSelectedCharacter.Keeper.CurrentHp.ToString();
-                // MP
-                goKeeper.transform.GetChild(0).GetChild(0).GetChild(1).gameObject.GetComponentInChildren<Text>().text = "MP: " + currentSelectedCharacter.Keeper.CurrentMp.ToString();
-                // Strengh
-                goKeeper.transform.GetChild(0).GetChild(0).GetChild(2).gameObject.GetComponentInChildren<Text>().text = "S: " + currentSelectedCharacter.Keeper.GetEffectiveStrength().ToString();
-                // Defense
-                goKeeper.transform.GetChild(0).GetChild(0).GetChild(3).gameObject.GetComponentInChildren<Text>().text = "D: " + currentSelectedCharacter.Keeper.GetEffectiveDefense().ToString();
-                // Intelligence
-                goKeeper.transform.GetChild(0).GetChild(0).GetChild(4).gameObject.GetComponentInChildren<Text>().text = "I: " + currentSelectedCharacter.Keeper.GetEffectiveIntelligence().ToString();
-                // Spirit
-                goKeeper.transform.GetChild(0).GetChild(0).GetChild(5).gameObject.GetComponentInChildren<Text>().text = "S: " + currentSelectedCharacter.Keeper.GetEffectiveSpirit().ToString();
-
-                // Status
-                // Hunger
-                goKeeper.transform.GetChild(0).GetChild(1).GetChild(0).gameObject.GetComponentInChildren<Text>().text = "H: " + currentSelectedCharacter.Keeper.ActualHunger.ToString();
-                // MentalHealth
-                goKeeper.transform.GetChild(0).GetChild(1).GetChild(1).gameObject.GetComponentInChildren<Text>().text = "MH: " + currentSelectedCharacter.Keeper.ActualMentalHealth.ToString();
-            }
-        }
-
-        GameManager.Instance.CharacterPanelIngameNeedUpdate = false;
     }
 
     // TODO : optimise
@@ -162,6 +106,7 @@ public class IngameUI : MonoBehaviour
 
     }*/
 
+    #region Action
     public void UpdateActionPanelUIQ(InteractionImplementer ic)
     {
         if (GameManager.Instance == null) { return; }
@@ -198,6 +143,19 @@ public class IngameUI : MonoBehaviour
         }   
     }
 
+    public void ClearActionPanel()
+    {
+        if (goActionPanelQ.GetComponentsInChildren<Image>().Length > 0)
+        {
+            foreach (Image ActionPanel in goActionPanelQ.GetComponentsInChildren<Image>())
+            {
+                Destroy(ActionPanel.gameObject);
+            }
+        }
+    }
+    #endregion
+
+    #region Turn
     // TODO: @Rémi bouton à corriger (on ne doit pas pouvoir cliquer 2x de suite)
     public void EndTurn()
     {
@@ -216,18 +174,8 @@ public class IngameUI : MonoBehaviour
         anim_button.speed = buttonRotationSpeed;
         anim_button.enabled = true;
         isTurnEnding = false;
-    }  
-
-    public void ClearActionPanel()
-    {
-        if (goActionPanelQ.GetComponentsInChildren<Image>().Length > 0)
-        {
-            foreach (Image ActionPanel in goActionPanelQ.GetComponentsInChildren<Image>())
-            {
-                Destroy(ActionPanel.gameObject);
-            }
-        }
     }
+    #endregion
 
     #region ShortcutPanel
     public void ToogleShortcutPanel()
@@ -298,6 +246,61 @@ public class IngameUI : MonoBehaviour
         }
 
         GameManager.Instance.ShortcutPanel_NeedUpdate = false;
+    }
+    #endregion
+
+    #region SelectedKeeper
+    public void UpdateSelectedKeeperPanel()
+    {
+        if (GameManager.Instance == null) { return; }
+        if (goSelectedKeeperPanel == null) { return; }
+
+        KeeperInstance currentSelectedKeeper = GameManager.Instance.ListOfSelectedKeepers[0];
+
+        Sprite associatedSprite = currentSelectedKeeper.Keeper.AssociatedSprite;
+        //if (associatedSprite != null)
+        //{
+        //    GameObject goKeeperSlected = Instantiate(baseCharacterImage, goSelectedKeeperPanel.transform);
+
+        //    goKeeper.name = currentSelectedCharacter.Keeper.CharacterName + ".Panel";
+        //    goKeeper.transform.GetChild(0).GetComponent<Image>().sprite = associatedSprite;
+        //    goKeeper.transform.localScale = Vector3.one;
+
+        //}
+
+
+        //if (inventoryManager.GetComponent<InventoryManager>().InventoryPanel != null)
+        //{
+        //    foreach (ItemInstance holder in inventoryManager.GetComponent<InventoryManager>().InventoryPanel.transform.GetComponentsInChildren<ItemInstance>())
+        //    {
+        //        DestroyImmediate(holder.gameObject);
+        //    }
+        //    for (int i = 0; i < inventoryManager.GetComponent<KeeperInstance>().Inventory.Length; i++)
+        //    {
+        //        GameObject currentSlot = inventoryManager.GetComponent<InventoryManager>().SlotList[i];
+        //        if (inventoryManager.GetComponent<KeeperInstance>().Inventory[i] != null)
+        //        {
+        //            GameObject go = Instantiate(itemUI);
+        //            go.transform.SetParent(currentSlot.transform);
+
+
+
+
+        //            go.GetComponent<ItemInstance>().itemContainer = inventoryManager.GetComponent<KeeperInstance>().Inventory[i];
+
+        //            go.GetComponent<Image>().sprite = inventoryManager.GetComponent<KeeperInstance>().Inventory[i].item.spirte;
+        //            go.transform.localScale = Vector3.one;
+
+        //            go.transform.position = currentSlot.transform.position;
+        //            go.transform.SetAsFirstSibling();
+
+        //            go.transform.GetComponentInChildren<Text>().text = inventoryManager.GetComponent<KeeperInstance>().Inventory[i].quantity.ToString();
+        //        }
+        //    }
+        //}
+
+
+        //GameManager.Instance.SelectedKeeperNeedUpdate = false;
     }
     #endregion
 }

@@ -89,7 +89,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public bool CharacterPanelIngameNeedUpdate
+    public bool SelectedKeeperNeedUpdate
     {
         get
         {
