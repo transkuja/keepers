@@ -10,8 +10,10 @@ public class EventManager : MonoBehaviour {
     {
         DecreaseMentalHealth();
         IncreaseHunger();
+        GameManager.Instance.ShortcutPanel_NeedUpdate = true;
 
         ResetActionPointsForNextTurn();
+
     }
 
     private static void DecreaseMentalHealth()

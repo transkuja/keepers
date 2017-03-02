@@ -53,6 +53,10 @@ public class IngameUI : MonoBehaviour
             {
                 UpdateCharacterPanelUI();
             }
+            if (GameManager.Instance.ShortcutPanel_NeedUpdate)
+            {
+                UpdateShortcutPanel();
+            }
 
         }
     }
@@ -200,7 +204,6 @@ public class IngameUI : MonoBehaviour
         if (!isTurnEnding)
         {
             AnimateButtonOnClick();
-            EventManager.EndTurnEvent();
         }
     }
     
@@ -226,6 +229,7 @@ public class IngameUI : MonoBehaviour
         }
     }
 
+    #region ShortcutPanel
     public void ToogleShortcutPanel()
     {
         goShortcutKeepersPanel.SetActive(!goShortcutKeepersPanel.activeSelf);
@@ -288,9 +292,12 @@ public class IngameUI : MonoBehaviour
                     goShortcutKeepersPanel.transform.GetChild(i).GetChild(f++).GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)currentCharacter.ActualMentalHealth / (float)currentCharacter.MaxMentalHealth;
 
                     // Update Action Points
-                    goShortcutKeepersPanel.transform.GetChild(i).GetChild(f).gameObject.GetComponent<Text>().text = currentCharacter.ActionPoints.ToString();
+                    goShortcutKeepersPanel.transform.GetChild(i).GetChild(f).gameObject.GetComponentInChildren<Text>().text = currentCharacter.ActionPoints.ToString();
                 }
             }
         }
+
+        GameManager.Instance.ShortcutPanel_NeedUpdate = false;
     }
+    #endregion
 }

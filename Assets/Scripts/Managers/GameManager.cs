@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     private List<KeeperInstance> allKeepersList = new List<KeeperInstance>();
     
     private bool characterPanelIngameNeedUpdate = true;
+    private bool shortcutPanel_NeedUpdate = true;
     private bool characterPanelMenuNeedUpdate = false;
 
     private IngameUI ui;
@@ -176,6 +177,19 @@ public class GameManager : MonoBehaviour
                 gameScreens = GameObject.Find("IngameScreens").GetComponent<IngameScreens>();
             }
             return gameScreens.transform.GetChild(0).GetChild((int)IngameScreensEnum.BattleResultScreens);
+        }
+    }
+
+    public bool ShortcutPanel_NeedUpdate
+    {
+        get
+        {
+            return shortcutPanel_NeedUpdate;
+        }
+
+        set
+        {
+            shortcutPanel_NeedUpdate = value;
         }
     }
 }
