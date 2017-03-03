@@ -17,7 +17,10 @@ public class KeeperInstance : MonoBehaviour {
     [SerializeField]
     private bool isSelectedInMenu = false;
     public MeshRenderer meshToHighlight;
-    
+
+    // Inventory
+    private Item[] inventory;
+    private Item[] equipment;
 
     // Update variables
     NavMeshAgent agent;
@@ -39,6 +42,8 @@ public class KeeperInstance : MonoBehaviour {
         agent = GetComponent<NavMeshAgent>();
         fRotateSpeed = 5.0f;
         isEscortAvailable = true;
+        inventory = new Item[4];
+        equipment = new Item[3];
     }
 
     private void Update()
@@ -196,6 +201,32 @@ public class KeeperInstance : MonoBehaviour {
         set
         {
             goSelectionAura = value;
+        }
+    }
+
+    public Item[] Inventory
+    {
+        get
+        {
+            return inventory;
+        }
+
+        set
+        {
+            inventory = value;
+        }
+    }
+
+    public Item[] Equipment
+    {
+        get
+        {
+            return equipment;
+        }
+
+        set
+        {
+            equipment = value;
         }
     }
 

@@ -8,7 +8,15 @@ public class IngameUI : MonoBehaviour
 {
     // KeeperPanel
     [Header("Character Panel")]
-    public GameObject goSelectedKeeperPanel;
+    //public GameObject goSelectedKeeperPanel;
+    // Inventory
+    public GameObject goInventory;
+    public GameObject goEquipement;
+    public GameObject goStats;
+    public GameObject keeper_inventory_prefab;
+    public GameObject panel_keepers_inventory;
+    public GameObject slotPrefab;
+    public GameObject itemUI;
 
     // Turn Panel
     [Header("Turn Panel")]
@@ -250,57 +258,75 @@ public class IngameUI : MonoBehaviour
     #endregion
 
     #region SelectedKeeper
+  
+
     public void UpdateSelectedKeeperPanel()
     {
         if (GameManager.Instance == null) { return; }
-        if (goSelectedKeeperPanel == null) { return; }
+        if (goInventory == null) { return; }
 
         KeeperInstance currentSelectedKeeper = GameManager.Instance.ListOfSelectedKeepers[0];
 
         Sprite associatedSprite = currentSelectedKeeper.Keeper.AssociatedSprite;
-        //if (associatedSprite != null)
-        //{
-        //    GameObject goKeeperSlected = Instantiate(baseCharacterImage, goSelectedKeeperPanel.transform);
+        if (associatedSprite != null)
+        {
+            goInventory.name = "Panel_Inventory" + currentSelectedKeeper.Keeper.CharacterName;
+            goStats.GetComponentInChildren<Image>().sprite = associatedSprite;
 
-        //    goKeeper.name = currentSelectedCharacter.Keeper.CharacterName + ".Panel";
-        //    goKeeper.transform.GetChild(0).GetComponent<Image>().sprite = associatedSprite;
-        //    goKeeper.transform.localScale = Vector3.one;
+            if (currentSelectedKeeper.Inventory != null)
+            {
+                Item[] inventory = currentSelectedKeeper.Inventory;
 
-        //}
+                for (int i = 0; i < inventory.Length; i++)
+                {
 
+                    GameObject currentSlot = goInventory.transform.GetChild(i).gameObject;
+                    GameObject go = Instantiate(itemUI);
+                    go.transform.SetParent(currentSlot.transform);
+                    go.GetComponent<ItemInstance>().item = inventory[i];
+                    go.name = inventory[i].ToString();
 
-        //if (inventoryManager.GetComponent<InventoryManager>().InventoryPanel != null)
-        //{
-        //    foreach (ItemInstance holder in inventoryManager.GetComponent<InventoryManager>().InventoryPanel.transform.GetComponentsInChildren<ItemInstance>())
-        //    {
-        //        DestroyImmediate(holder.gameObject);
-        //    }
-        //    for (int i = 0; i < inventoryManager.GetComponent<KeeperInstance>().Inventory.Length; i++)
-        //    {
-        //        GameObject currentSlot = inventoryManager.GetComponent<InventoryManager>().SlotList[i];
-        //        if (inventoryManager.GetComponent<KeeperInstance>().Inventory[i] != null)
-        //        {
-        //            GameObject go = Instantiate(itemUI);
-        //            go.transform.SetParent(currentSlot.transform);
+                    //go.GetComponent<Image>().sprite = inventory[i].sprite;
+                    //go.transform.localScale = Vector3.one;
 
+                    go.transform.position = currentSlot.transform.position;
+                    go.transform.SetAsFirstSibling();
 
+                    //if (go.GetComponent<ItemInstance>().item.GetType() == Consummable)
+                    //{
+                    //    go.transform.GetComponentInChildren<Text>().text = ((Consummable)inventory[i]).quantite.ToString();
+                    //}
+                }
+            }
 
+        }
 
-        //            go.GetComponent<ItemInstance>().itemContainer = inventoryManager.GetComponent<KeeperInstance>().Inventory[i];
+        GameManager.Instance.SelectedKeeperNeedUpdate = false;
+    }
+    #endregion
 
-        //            go.GetComponent<Image>().sprite = inventoryManager.GetComponent<KeeperInstance>().Inventory[i].item.spirte;
-        //            go.transform.localScale = Vector3.one;
+    #region Keepers_Inventory
+    public void CreateInventorySlot()
+    {
+        foreach (KeeperInstance ki in GameManager.Instance.AllKeepersList)
+        {
+            goInventory = Instantiate(keeper_inventory_prefab, panel_keepers_inventory.transform);
+            goInventory.transform.localPosition = Vector3.zero;
+            goInventory.name = "Inventory_" + ki.Keeper.CharacterName;
+            goInventory.SetActive(false);
 
-        //            go.transform.position = currentSlot.transform.position;
-        //            go.transform.SetAsFirstSibling();
+            int maxSlots = ki.Keeper.MaxInventorySlots;
+            for (int i = 0; i < maxSlots; i++)
+            {
+                //Create Slots
+                GameObject currentgoSlotPanel = Instantiate(slotPrefab, Vector3.zero, Quaternion.identity) as GameObject;
+                currentgoSlotPanel.transform.SetParent(goInventory.transform);
 
-        //            go.transform.GetComponentInChildren<Text>().text = inventoryManager.GetComponent<KeeperInstance>().Inventory[i].quantity.ToString();
-        //        }
-        //    }
-        //}
-
-
-        //GameManager.Instance.SelectedKeeperNeedUpdate = false;
+                currentgoSlotPanel.transform.localPosition = Vector3.zero;
+                currentgoSlotPanel.transform.localScale = Vector3.one;
+                currentgoSlotPanel.name = "Slot" + i;
+            }
+        }
     }
     #endregion
 }

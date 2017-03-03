@@ -26,6 +26,7 @@ public class Keeper : Character
 
     private bool isStarving = false;
     private bool isMentalHealthLow = false;
+    private int maxInventorySlots = 99;
 
     public short ActualHunger {
         get { return actualHunger; }
@@ -111,6 +112,19 @@ public class Keeper : Character
         get
         {
             return maxMentalHealth;
+        }
+    }
+
+    public int MaxInventorySlots
+    {
+        get
+        {
+            return maxInventorySlots;
+        }
+
+        set
+        {
+            maxInventorySlots = value;
         }
     }
 

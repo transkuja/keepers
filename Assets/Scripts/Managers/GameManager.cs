@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
 
     private List<KeeperInstance> allKeepersList = new List<KeeperInstance>();
     
-    private bool characterPanelIngameNeedUpdate = true;
+    private bool characterPanelIngameNeedUpdate = false;
     private bool shortcutPanel_NeedUpdate = true;
     private bool characterPanelMenuNeedUpdate = false;
 
