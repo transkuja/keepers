@@ -99,18 +99,23 @@ public class ControlsManager : MonoBehaviour {
                     {
 
                         IngameUI ui = GameManager.Instance.Ui;
+                        Tile tileHit = hitInfo.collider.gameObject.GetComponentInParent<Tile>();
+
                         // Handle click on a ItemInstance
-                        if (hitInfo.collider.gameObject.GetComponent<ItemInstance>() != null)
+                        if (hitInfo.collider.gameObject.GetComponent<ItemInstance>() != null
+                            && tileHit == TileManager.Instance.GetTileFromKeeper[GameManager.Instance.ListOfSelectedKeepers[0]])
                         {
                             ui.UpdateActionPanelUIQ(hitInfo.collider.gameObject.GetComponent<ItemInstance>().InteractionImplementer);
                         }
                         // Handle click on a PrisonerInstance
-                        else if (hitInfo.collider.gameObject.GetComponent<PrisonerInstance>() != null)
+                        else if (hitInfo.collider.gameObject.GetComponent<PrisonerInstance>() != null
+                            && TileManager.Instance.PrisonerTile == TileManager.Instance.GetTileFromKeeper[GameManager.Instance.ListOfSelectedKeepers[0]])
                         {
                             GameManager.Instance.GoTarget = hitInfo.collider.gameObject;
                             ui.UpdateActionPanelUIQ(hitInfo.collider.gameObject.GetComponent<PrisonerInstance>().InteractionImplementer);
                         }
-                        else if(hitInfo.collider.gameObject.GetComponent<Arrival>() != null)
+                        else if (hitInfo.collider.gameObject.GetComponent<Arrival>() != null
+                            && tileHit == TileManager.Instance.GetTileFromKeeper[GameManager.Instance.ListOfSelectedKeepers[0]])
                         {
                             ui.UpdateActionPanelUIQ(hitInfo.collider.gameObject.GetComponent<Arrival>().InterationImplementer);
                         }
