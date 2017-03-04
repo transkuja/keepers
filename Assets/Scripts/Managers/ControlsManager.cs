@@ -122,12 +122,15 @@ public class ControlsManager : MonoBehaviour {
                         else
                         {
                             ui.ClearActionPanel();
-                            // Move the keeper
-                            for (int i = 0; i < GameManager.Instance.ListOfSelectedKeepers.Count; i++)
+                            if (tileHit == TileManager.Instance.GetTileFromKeeper[GameManager.Instance.ListOfSelectedKeepers[0]])
                             {
+                                // Move the keeper
+                                for (int i = 0; i < GameManager.Instance.ListOfSelectedKeepers.Count; i++)
+                                {
 
-                                GameManager.Instance.ListOfSelectedKeepers[i].TriggerRotation(hitInfo.point);
+                                    GameManager.Instance.ListOfSelectedKeepers[i].TriggerRotation(hitInfo.point);
 
+                                }
                             }
                         }
                     } 
