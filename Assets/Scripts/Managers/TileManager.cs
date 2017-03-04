@@ -114,6 +114,7 @@ public class TileManager : MonoBehaviour {
             agent.enabled = true;
         }
 
+        Camera.main.GetComponent<CameraManager>().UpdateCameraPosition(keeper);
     }
 
     /// <summary>

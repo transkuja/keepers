@@ -76,6 +76,7 @@ public class ControlsManager : MonoBehaviour {
                             GameManager.Instance.ListOfSelectedKeepers.Add(c);
                             c.IsSelected = true;
                         }
+                        Camera.main.GetComponent<CameraManager>().UpdateCameraPosition(c);
                     }
                     else
                     {
@@ -153,9 +154,11 @@ public class ControlsManager : MonoBehaviour {
 
                 // Next keeper on the same tile is now active
                 GameManager.Instance.ClearListKeeperSelected();
-                GameManager.Instance.ListOfSelectedKeepers.Add(keepersOnTile[(currentKeeperSelectedIndex + 1)%keepersOnTile.Count]);
-                keepersOnTile[(currentKeeperSelectedIndex + 1) % keepersOnTile.Count].IsSelected = true;
+                KeeperInstance nextKeeper = keepersOnTile[(currentKeeperSelectedIndex + 1) % keepersOnTile.Count];
+                GameManager.Instance.ListOfSelectedKeepers.Add(nextKeeper);
+                nextKeeper.IsSelected = true;
 
+                Camera.main.GetComponent<CameraManager>().UpdateCameraPosition(nextKeeper);
             }
         }
     }
