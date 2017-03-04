@@ -259,6 +259,14 @@ public class KeeperInstance : MonoBehaviour {
         // Tell the tile it has been discovered (and watch it panic)
         Tile exploredTile = TileManager.Instance.GetTileFromKeeper[this];
         exploredTile.State = TileState.Discovered;
+        foreach (Tile t in exploredTile.Neighbors)
+        {
+            if (t != null && t.State == TileState.Hidden)
+            {
+                t.State = TileState.Greyed;
+            }
+
+        }
 
         // Apply exploration costs
         keeper.ActualHunger -= 5;

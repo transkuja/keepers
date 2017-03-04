@@ -2,11 +2,11 @@
 
 1: Endgame: victoire/défaite avec possibilité de relancer une partie et affichage du score
 1: Défaite: implementer les conditions de défaite
-
 1: Implémenter les 2 modes de caméra
 1: Implémenter toutes les composantes de l'UI avec mise à jour quand nécessaire des infos affichées (points d'actions notamment)
 
 2: Exploration: ajouter un visuel pour indiquer l'état du Tile (de préférence un visuel sur tout le Tile)
+2: Adapter les triggers de sol pour les raycast
 
 3: Inventaire
 3: Combat: Implémenter la selection de personnages au lancement du combat parmi ceux présents sur le Tile
