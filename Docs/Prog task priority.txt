@@ -5,7 +5,6 @@
 1: Implémenter les 2 modes de caméra
 1: Implémenter toutes les composantes de l'UI avec mise à jour quand nécessaire des infos affichées (points d'actions notamment)
 
-2: Exploration: ajouter un visuel pour indiquer l'état du Tile (de préférence un visuel sur tout le Tile)
 2: Adapter les triggers de sol pour les raycast
 
 3: Inventaire

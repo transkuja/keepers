@@ -50,7 +50,39 @@ public class Tile : MonoBehaviour{
     [SerializeField]
     private Tile[] neighbors = new Tile[NEIGHBORSCOUNT];
 
-    private List<Monster> monstersOnTile = new List<Monster>();
+    private void Awake()
+    {
+        UpdateTileVisual();
+    }
+
+    private void UpdateTileVisual()
+    {
+        if (state == TileState.Hidden)
+        {
+            for (int i = 0; i < transform.childCount; i++)
+                transform.GetChild(i).gameObject.SetActive(false);
+        }
+        else if (state == TileState.Greyed)
+        {
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                Transform child = transform.GetChild(i);
+                if (child.name.Contains("TilePrefab"))
+                {
+                    child.gameObject.SetActive(true);
+                }
+                else
+                {
+                    child.gameObject.SetActive(false);
+                }
+            }
+        }
+        else if (state == TileState.Discovered)
+        {
+            for (int i = 0; i < transform.childCount; i++)
+                transform.GetChild(i).gameObject.SetActive(true);
+        }
+    }
 
     //Accessors
     public TileType Type
@@ -171,19 +203,6 @@ public class Tile : MonoBehaviour{
         }
     }
 
-    public List<Monster> MonstersOnTile
-    {
-        get
-        {
-            return monstersOnTile;
-        }
-
-        set
-        {
-            monstersOnTile = value;
-        }
-    }
-
     public TileState State
     {
         get
@@ -194,6 +213,7 @@ public class Tile : MonoBehaviour{
         set
         {
             state = value;
+            UpdateTileVisual();
         }
     }
 

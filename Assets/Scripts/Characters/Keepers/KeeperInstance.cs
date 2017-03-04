@@ -282,7 +282,8 @@ public class KeeperInstance : MonoBehaviour {
         }
 
         // Apply bad effects if monsters are discovered
-        if(exploredTile.MonstersOnTile != null && exploredTile.MonstersOnTile.Count > 0)
+        if(TileManager.Instance.MonstersOnTile[exploredTile] != null 
+            && TileManager.Instance.MonstersOnTile[exploredTile].Count > 0)
         {
             keeper.CurrentHp -= 5;
             keeper.ActualMentalHealth -= 5;
