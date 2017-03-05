@@ -10,6 +10,9 @@ public class CameraManager : MonoBehaviour {
     Tile activeTile;
     Vector3 positionFromATileClose;
     Vector3 positionFar;
+    bool isUpdateNeeded = false;
+    Vector3 oldPosition;
+    float lerpParameter = 0.0f;
 
     public void Start()
     {
@@ -18,9 +21,23 @@ public class CameraManager : MonoBehaviour {
 
     public void UpdateCameraPosition(KeeperInstance selectedKeeper)
     {
+        isUpdateNeeded = true;
+        oldPosition = transform.position;
         activeTile = TileManager.Instance.GetTileFromKeeper[selectedKeeper];
-        transform.SetParent(activeTile.transform);
-        transform.localPosition = positionFromATileClose;
-        transform.SetParent(null);
+    }
+
+    void Update()
+    {
+        if (isUpdateNeeded)
+        {
+            lerpParameter += Time.deltaTime;
+            transform.localPosition = Vector3.Lerp(oldPosition, positionFromATileClose + activeTile.transform.position, Mathf.Min(lerpParameter, 1.0f));
+            if (lerpParameter >= 1.0f)
+            {
+                isUpdateNeeded = false;
+                oldPosition = Vector3.zero;
+                lerpParameter = 0.0f;
+            }
+        }
     }
 }
