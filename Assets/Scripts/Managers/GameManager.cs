@@ -180,6 +180,21 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Returns the select battle characters screen
+    /// </summary>
+    public Transform SelectBattleCharactersScreen
+    {
+        get
+        {
+            if (gameScreens == null)
+            {
+                gameScreens = GameObject.Find("IngameScreens").GetComponent<IngameScreens>();
+            }
+            return gameScreens.transform.GetChild(0).GetChild((int)IngameScreensEnum.SelectBattleCharactersScreen);
+        }
+    }
+
     public bool ShortcutPanel_NeedUpdate
     {
         get

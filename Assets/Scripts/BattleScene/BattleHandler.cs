@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class BattleHandler {
 
+    private static List<KeeperInstance> selectedKeepers;
+
     /*
      * Battle entry point, called to start the battle.
      */
@@ -19,6 +21,11 @@ public class BattleHandler {
         {
             HandleBattleDefeat(keepersUsedForBattle);
         }
+    }
+
+    public static void SetSelectedKeepers(List<KeeperInstance> _selectedKeepers)
+    {
+        selectedKeepers = _selectedKeepers;
     }
 
     private static List<KeeperInstance> SelectKeepersForBattle(Tile tile)
