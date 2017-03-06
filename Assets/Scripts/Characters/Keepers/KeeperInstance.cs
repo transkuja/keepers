@@ -1,9 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class KeeperInstance : MonoBehaviour {
+public class KeeperInstance : MonoBehaviour, ITradable {
 
     [Header("Keeper Info")]
     [SerializeField]
@@ -17,14 +18,18 @@ public class KeeperInstance : MonoBehaviour {
     [SerializeField]
     private bool isSelectedInMenu = false;
     public MeshRenderer meshToHighlight;
-    
+
+    // Inventory
+    private Item[] inventory;
+    private Item[] equipment;
 
     // Update variables
     NavMeshAgent agent;
 
     Vector3 v3AgentDirectionTemp;
 
-    public bool isEscortAvailable;
+    private InteractionImplementer interactionImplementer;
+    public bool isEscortAvailable = true;
 
     // Rotations
     float fLerpRotation = 0.666f;
@@ -34,11 +39,16 @@ public class KeeperInstance : MonoBehaviour {
     [SerializeField]
     float fRotateSpeed = 1.0f;
 
+
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         fRotateSpeed = 5.0f;
+        inventory = new Item[4];
+        equipment = new Item[3];
         isEscortAvailable = true;
+        InteractionImplementer = new InteractionImplementer();
+        InteractionImplementer.Add(new Interaction(Trade), "Trade", null);
     }
 
     private void Update()
@@ -65,8 +75,6 @@ public class KeeperInstance : MonoBehaviour {
             BattleHandler.LaunchBattle(TileManager.Instance.GetTileFromKeeper[this]);
             agent.Resume();
         }
-
-        InteractionImplementer ii = new InteractionImplementer();
 
         Direction eTrigger = Direction.None;
 
@@ -103,14 +111,14 @@ public class KeeperInstance : MonoBehaviour {
             IngameUI ui = GameObject.Find("IngameUI").GetComponent<IngameUI>();
             if (col.gameObject.GetComponentInParent<Tile>().Neighbors[(int)eTrigger].State == TileState.Discovered)
             {
-                ii.Add(new Interaction(Move), "Move", null, true, (int)eTrigger);
-                ui.UpdateActionPanelUIQ(ii);
+                InteractionImplementer.Add(new Interaction(Move), "Move", null, true, (int)eTrigger);
+                ui.UpdateActionPanelUIQ(InteractionImplementer);
             }
 
             if (col.gameObject.GetComponentInParent<Tile>().Neighbors[(int)eTrigger].State == TileState.Greyed)
             {
-                ii.Add(new Interaction(Explore), "Explore", null, true, (int)eTrigger);
-                ui.UpdateActionPanelUIQ(ii);
+                InteractionImplementer.Add(new Interaction(Explore), "Explore", null, true, (int)eTrigger);
+                ui.UpdateActionPanelUIQ(InteractionImplementer);
             }
         }
     }
@@ -199,6 +207,45 @@ public class KeeperInstance : MonoBehaviour {
         }
     }
 
+    public Item[] Inventory
+    {
+        get
+        {
+            return inventory;
+        }
+
+        set
+        {
+            inventory = value;
+        }
+    }
+
+    public Item[] Equipment
+    {
+        get
+        {
+            return equipment;
+        }
+
+        set
+        {
+            equipment = value;
+        }
+    }
+
+    public InteractionImplementer InteractionImplementer
+    {
+        get
+        {
+            return interactionImplementer;
+        }
+
+        set
+        {
+            interactionImplementer = value;
+        }
+    }
+
     public void TriggerRotation(Vector3 v3Direction)
     {
         agent.angularSpeed = 0.0f;
@@ -242,6 +289,8 @@ public class KeeperInstance : MonoBehaviour {
     void Move(int _i)
     {
         TileManager.Instance.MoveKeeper(this, TileManager.Instance.GetTileFromKeeper[this], (Direction)_i);
+
+        GameManager.Instance.SelectedKeeperNeedUpdate =true ;
     }
 
     void Explore(int _i)
@@ -294,5 +343,12 @@ public class KeeperInstance : MonoBehaviour {
                 prisoner.Prisoner.ActualMentalHealth -= 5;
             }
         }
+
+        GameManager.Instance.SelectedKeeperNeedUpdate =true ;
+    }
+
+    public void Trade(int _i = 0)
+    {
+        GameManager.Instance.Ui.ShowInventoryPanels();
     }
 }

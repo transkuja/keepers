@@ -74,6 +74,8 @@ public class ControlsManager : MonoBehaviour {
                         {
                             GameManager.Instance.ClearListKeeperSelected();
                             GameManager.Instance.ListOfSelectedKeepers.Add(c);
+                            GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
+                            GameManager.Instance.Ui.HideInventoryPanels();
                             c.IsSelected = true;
                         }
                         Camera.main.GetComponent<CameraManager>().UpdateCameraPosition(c);
@@ -114,7 +116,16 @@ public class ControlsManager : MonoBehaviour {
                             GameManager.Instance.GoTarget = hitInfo.collider.gameObject;
                             ui.UpdateActionPanelUIQ(hitInfo.collider.gameObject.GetComponent<PrisonerInstance>().InteractionImplementer);
                         }
-                        else if (hitInfo.collider.gameObject.GetComponent<Arrival>() != null
+                        else if (hitInfo.collider.gameObject.GetComponent<KeeperInstance>() != null)
+                        {
+                            if (hitInfo.collider.gameObject.GetComponent<KeeperInstance>() != GameManager.Instance.ListOfSelectedKeepers[0])
+                            {
+                                GameManager.Instance.GoTarget = hitInfo.collider.gameObject;
+                                ui.UpdateActionPanelUIQ(hitInfo.collider.gameObject.GetComponent<KeeperInstance>().InteractionImplementer);
+                            }
+                     
+                        }
+                        else if(hitInfo.collider.gameObject.GetComponent<Arrival>() != null
                             && tileHit == TileManager.Instance.GetTileFromKeeper[GameManager.Instance.ListOfSelectedKeepers[0]])
                         {
                             ui.UpdateActionPanelUIQ(hitInfo.collider.gameObject.GetComponent<Arrival>().InterationImplementer);

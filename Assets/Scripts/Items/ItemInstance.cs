@@ -3,9 +3,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class ItemInstance : MonoBehaviour, IPickable {
 
-    Item item;
+    [SerializeField]
+    public TypeItem typeItem;
+
+    // Hide if not equipement
+    [HideInInspector]
+    public TypeEquipement equipType;
+
+    [HideInInspector]
+    public BonusStats bonusStats;
+
+    // Hide if not consummable
+    [HideInInspector]
+    public int quantite;
+
+    [SerializeField]
+    public Sprite spriteToCopy;
+
+    [SerializeField]
+    public Item item;
 
     private InteractionImplementer interactionImplementer;
 
@@ -16,12 +35,31 @@ public class ItemInstance : MonoBehaviour, IPickable {
 
     public void Pick(int _i = 0)
     {
-        Debug.Log("Picked");
+        ItemManager.AddItem(GameManager.Instance.ListOfSelectedKeepers[0], item);
+        GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
+        GameManager.Instance.Ui.UpdateKeeperInventoryPanel();
+        Destroy(gameObject);
     }
 
     #region Constructors
     public void Init()
     {
+        item = ItemManager.getInstanciateItem(typeItem);
+        item.sprite = spriteToCopy;
+        switch (typeItem)
+        {
+            case TypeItem.Equipement:
+                ((Equipement)item).type = equipType;
+                ((Equipement)item).stats = bonusStats;
+                break;
+            case TypeItem.Consummable:
+                ((Consummable)item).quantite = quantite;
+                break;
+            default:
+                break;
+
+        }
+
         interactionImplementer = new InteractionImplementer();
         interactionImplementer.Add(new Interaction(Pick), "Pick", null);
     }
