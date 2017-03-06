@@ -6,7 +6,13 @@ public class MonsterInstance : MonoBehaviour {
     [Header("Monster Info")]
     [SerializeField]
     private Monster monster = null;
-    
+
+    [SerializeField]
+    private int currentHp;
+
+    [SerializeField]
+    private int currentMp;
+
     public Monster Monster
     {
         get
@@ -17,6 +23,41 @@ public class MonsterInstance : MonoBehaviour {
         set
         {
             monster = value;
+        }
+    }
+
+    public int CurrentHp
+    {
+        get { return currentHp; }
+        set
+        {
+            currentHp = value;
+            if (currentHp > monster.MaxHp)
+            {
+                currentHp = monster.MaxHp;
+            }
+            else if (currentHp < 0)
+            {
+                currentHp = 0;
+            }
+        }
+    }
+
+    public int CurrentMp
+    {
+        get { return currentMp; }
+        set
+        {
+            currentMp = value;
+            if (currentMp > monster.MaxMp)
+            {
+                currentMp = monster.MaxMp;
+            }
+            else if (currentMp < 0)
+            {
+                currentMp = 0;
+            }
+
         }
     }
 

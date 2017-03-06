@@ -24,6 +24,9 @@ public class KeeperInstance : MonoBehaviour, ITradable {
     private int currentHp;
 
     [SerializeField]
+    private int currentMp;
+
+    [SerializeField]
     private short actionPoints = 3;
 
     [SerializeField]
@@ -94,7 +97,9 @@ public class KeeperInstance : MonoBehaviour, ITradable {
             else if (currentHp < 0)
             {
                 currentHp = 0;
+                
                 isAlive = false;
+                Die();
             }
             else
             {
@@ -104,6 +109,29 @@ public class KeeperInstance : MonoBehaviour, ITradable {
         }
     }
 
+    public int CurrentMp
+    {
+        get { return currentMp; }
+        set
+        {
+            currentMp = value;
+            if (currentMp > keeper.MaxMp)
+            {
+                currentMp = keeper.MaxMp;
+            }
+            else if (currentMp < 0)
+            {
+                currentMp = 0;
+            }
+
+        }
+    }
+
+    void Die()
+    {
+        Debug.Log("Blaeuurgh... *dead*");
+        GameManager.Instance.CheckGameOver();
+    }
 
     public short CurrentMentalHealth
     {
@@ -168,6 +196,11 @@ public class KeeperInstance : MonoBehaviour, ITradable {
         isEscortAvailable = true;
         InteractionImplementer = new InteractionImplementer();
         InteractionImplementer.Add(new Interaction(Trade), "Trade", null);
+        currentHp = keeper.MaxHp;
+        currentHunger = keeper.MaxHunger;
+        currentMentalHealth = keeper.MaxMentalHealth;
+        actionPoints = keeper.MaxActionPoints;
+        currentMp = keeper.MaxMp;
     }
 
     private void Update()
@@ -194,52 +227,52 @@ public class KeeperInstance : MonoBehaviour, ITradable {
             BattleHandler.LaunchBattle(TileManager.Instance.GetTileFromKeeper[this]);
             agent.Resume();
         }
-        }
-            }
-                ui.UpdateActionPanelUIQ(InteractionImplementer);
-                InteractionImplementer.Add(new Interaction(Explore), "Explore", null, true, (int)eTrigger);
-            {
-            if (col.gameObject.GetComponentInParent<Tile>().Neighbors[(int)eTrigger].State == TileState.Greyed)
-
-            }
-                ui.UpdateActionPanelUIQ(InteractionImplementer);
-            {
-                InteractionImplementer.Add(new Interaction(Move), "Move", null, true, (int)eTrigger);
-            if (col.gameObject.GetComponentInParent<Tile>().Neighbors[(int)eTrigger].State == TileState.Discovered)
-            IngameUI ui = GameObject.Find("IngameUI").GetComponent<IngameUI>();
-        {
-        if (eTrigger != Direction.None && col.gameObject.GetComponentInParent<Tile>().Neighbors[(int)eTrigger] != null && actionPoints > 0)
-        
-
-        }
-                break;
-                eTrigger = Direction.None;
-            default:
-                break;
-                eTrigger = Direction.North_West;
-            case "NorthWestTrigger":
-                break;
-                eTrigger = Direction.South_West;
-                break;
-            case "SouthWestTrigger":
-                eTrigger = Direction.South;
-            case "SouthTrigger":
-                break;
-                eTrigger = Direction.South_East;
-            case "SouthEastTrigger":
-                break;
-                eTrigger = Direction.North_East;
-            case "NorthEastTrigger":
-                break;
-            case "NorthTrigger":
-                eTrigger = Direction.North;
-        switch (strTag)
-        {
-
-        string strTag = col.gameObject.tag;
 
         Direction eTrigger = Direction.None;
 
+        string strTag = col.gameObject.tag;
+
+        switch (strTag)
+        {
+            case "NorthTrigger":
+                eTrigger = Direction.North;
+                break;
+            case "NorthEastTrigger":
+                eTrigger = Direction.North_East;
+                break;
+            case "SouthEastTrigger":
+                eTrigger = Direction.South_East;
+                break;
+            case "SouthTrigger":
+                eTrigger = Direction.South;
+                break;
+            case "SouthWestTrigger":
+                eTrigger = Direction.South_West;
+                break;
+            case "NorthWestTrigger":
+                eTrigger = Direction.North_West;
+                break;
+            default:
+                eTrigger = Direction.None;
+                break;
+        }
+
+        
+        if (eTrigger != Direction.None && col.gameObject.GetComponentInParent<Tile>().Neighbors[(int)eTrigger] != null && actionPoints > 0)
+        {
+            IngameUI ui = GameObject.Find("IngameUI").GetComponent<IngameUI>();
+            if (col.gameObject.GetComponentInParent<Tile>().Neighbors[(int)eTrigger].State == TileState.Discovered)
+            {
+                InteractionImplementer.Add(new Interaction(Move), "Move", null, true, (int)eTrigger);
+                ui.UpdateActionPanelUIQ(InteractionImplementer);
+            }
+
+            if (col.gameObject.GetComponentInParent<Tile>().Neighbors[(int)eTrigger].State == TileState.Greyed)
+            {
+                InteractionImplementer.Add(new Interaction(Explore), "Explore", null, true, (int)eTrigger);
+                ui.UpdateActionPanelUIQ(InteractionImplementer);
+            }
+        }
     }
 
 
@@ -364,6 +397,7 @@ public class KeeperInstance : MonoBehaviour, ITradable {
             interactionImplementer = value;
         }
     }
+
     public void TriggerRotation(Vector3 v3Direction)
     {
         agent.angularSpeed = 0.0f;
@@ -410,24 +444,24 @@ public class KeeperInstance : MonoBehaviour, ITradable {
 
         GameManager.Instance.SelectedKeeperNeedUpdate = true;
         GameManager.Instance.ShortcutPanel_NeedUpdate = true;
-        {
-        TileManager.Instance.MoveKeeper(this, TileManager.Instance.GetTileFromKeeper[this], (Direction)_i);
     }
 
     void Explore(int _i)
-        //Check if the prisoner is following
     {
+        //Check if the prisoner is following
         PrisonerInstance prisoner = null;
         if (keeper.GoListCharacterFollowing.Count > 0 && keeper.GoListCharacterFollowing[0].GetComponent<PrisonerInstance>())
+        {
             prisoner = keeper.GoListCharacterFollowing[0].GetComponent<PrisonerInstance>();
         }
 
         // Move to explored tile
+        TileManager.Instance.MoveKeeper(this, TileManager.Instance.GetTileFromKeeper[this], (Direction)_i);
 
         // Tell the tile it has been discovered (and watch it panic)
         Tile exploredTile = TileManager.Instance.GetTileFromKeeper[this];
-        foreach (Tile t in exploredTile.Neighbors)
         exploredTile.State = TileState.Discovered;
+        foreach (Tile t in exploredTile.Neighbors)
         {
             if (t != null && t.State == TileState.Hidden)
             {
@@ -440,26 +474,26 @@ public class KeeperInstance : MonoBehaviour, ITradable {
         CurrentHunger -= 5;
         //TODO: Apply this only when the discovered tile is unfriendly
         CurrentMentalHealth -= 5;
-        // If the player is exploring with the prisoner following, apply costs to him too
 
+        // If the player is exploring with the prisoner following, apply costs to him too
         if (prisoner != null)
-            prisoner.Prisoner.ActualHunger -= 5;
         {
+            prisoner.CurrentHunger -= 5;
             //TODO: Apply this only when the discovered tile is unfriendly
+            prisoner.CurrentMentalHealth -= 5;
         }
-            prisoner.Prisoner.ActualMentalHealth -= 5;
 
         // Apply bad effects if monsters are discovered
-            && TileManager.Instance.MonstersOnTile[exploredTile] != null 
         if (TileManager.Instance.MonstersOnTile.ContainsKey(exploredTile)
+            && TileManager.Instance.MonstersOnTile[exploredTile] != null 
             && TileManager.Instance.MonstersOnTile[exploredTile].Count > 0)
         {
-            CurrentMentalHealth -= 5;
             CurrentHp -= 5;
+            CurrentMentalHealth -= 5;
             if (prisoner != null)
             {
-                prisoner.Prisoner.CurrentHp -= 5;
-                prisoner.Prisoner.ActualMentalHealth -= 5;
+                prisoner.CurrentHp -= 5;
+                prisoner.CurrentMentalHealth -= 5;
             }
         }
 

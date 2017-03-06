@@ -10,13 +10,124 @@ public class PrisonerInstance : MonoBehaviour, IEscortable {
     [SerializeField]
     private Prisoner prisoner = null;
 
+    [SerializeField]
+    private short currentMentalHealth;
+    [SerializeField]
+    private short currentHunger = 0;
+    [SerializeField]
+    private int currentHp;
+    [SerializeField]
+    private int currentMp;
+
+    private bool isStarving = false;
+    private bool isMentalHealthLow = false;
+    private bool isAlive = true;
+
     private InteractionImplementer interactionImplementer;
 
     private GameObject keeperFollowed = null;
 
+    public int CurrentHp
+    {
+        get { return currentHp; }
+        set
+        {
+            currentHp = value;
+            if (currentHp > prisoner.MaxHp)
+            {
+                currentHp = prisoner.MaxHp;
+                isAlive = true;
+            }
+            else if (currentHp < 0)
+            {
+                currentHp = 0;
+
+                isAlive = false;
+                Die();
+            }
+            else
+            {
+                isAlive = true;
+            }
+
+        }
+    }
+
+    public int CurrentMp
+    {
+        get { return currentMp; }
+        set
+        {
+            currentMp = value;
+            if (currentMp > prisoner.MaxMp)
+            {
+                currentMp = prisoner.MaxMp;
+            }
+            else if (currentMp < 0)
+            {
+                currentMp = 0;
+            }
+
+        }
+    }
+
+    public short CurrentHunger
+    {
+        get { return currentHunger; }
+        set
+        {
+            currentHunger = value;
+            if (currentHunger > prisoner.MaxHunger)
+            {
+                currentHunger = prisoner.MaxHunger;
+                isStarving = true;
+            }
+            else if (currentHunger < 0)
+            {
+                currentHunger = 0;
+                isStarving = false;
+            }
+            else
+            {
+                isStarving = false;
+            }
+
+        }
+    }
+
+    public short CurrentMentalHealth
+    {
+        get { return currentMentalHealth; }
+        set
+        {
+            currentMentalHealth = value;
+            if (currentMentalHealth < 0)
+            {
+                currentMentalHealth = 0;
+                isMentalHealthLow = true;
+            }
+            else if (currentMentalHealth > prisoner.MaxMentalHealth)
+            {
+                currentMentalHealth = prisoner.MaxMentalHealth;
+                isMentalHealthLow = false;
+            }
+            else
+            {
+                isMentalHealthLow = false;
+            }
+        }
+    }
+
+
     public void Awake()
     {
         Init();
+    }
+
+    public void Die()
+    {
+        Debug.Log("Ashley is dead");
+        GameManager.Instance.CheckGameOver();
     }
 
     public PrisonerInstance(PrisonerInstance from)
@@ -29,6 +140,10 @@ public class PrisonerInstance : MonoBehaviour, IEscortable {
         interactionImplementer = new InteractionImplementer();
         interactionImplementer.Add(new Interaction(Escort), "Escort", null);
         interactionImplementer.Add(new Interaction(UnEscort), "Unescort", null, false);
+        currentHp = prisoner.MaxHp;
+        currentHunger = prisoner.MaxHunger;
+        currentMentalHealth = prisoner.MaxMentalHealth;
+        currentMp = prisoner.MaxMp;
     }
 
     #region Accessors
@@ -67,6 +182,19 @@ public class PrisonerInstance : MonoBehaviour, IEscortable {
         set
         {
             interactionImplementer = value;
+        }
+    }
+
+    public bool IsAlive
+    {
+        get
+        {
+            return isAlive;
+        }
+
+        set
+        {
+            isAlive = value;
         }
     }
     #endregion

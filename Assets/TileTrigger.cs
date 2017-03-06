@@ -42,7 +42,7 @@ public class TileTrigger : MonoBehaviour {
                     break;
             }
 
-            if (eTrigger != Direction.None && GetComponentInParent<Tile>().Neighbors[(int)eTrigger] != null && ki.Keeper.ActionPoints > 0)
+            if (eTrigger != Direction.None && GetComponentInParent<Tile>().Neighbors[(int)eTrigger] != null && ki.ActionPoints > 0)
             {
                 IngameUI ui = GameObject.Find("IngameUI").GetComponent<IngameUI>();
                 if (GetComponentInParent<Tile>().Neighbors[(int)eTrigger].State == TileState.Discovered)
@@ -95,16 +95,16 @@ public class TileTrigger : MonoBehaviour {
         }
 
         // Apply exploration costs
-        ki.Keeper.ActualHunger -= 5;
+        ki.CurrentHunger -= 5;
         //TODO: Apply this only when the discovered tile is unfriendly
-        ki.Keeper.ActualMentalHealth -= 5;
+        ki.CurrentMentalHealth -= 5;
 
         // If the player is exploring with the prisoner following, apply costs to him too
         if (prisoner != null)
         {
-            prisoner.Prisoner.ActualHunger -= 5;
+            prisoner.CurrentHunger -= 5;
             //TODO: Apply this only when the discovered tile is unfriendly
-            prisoner.Prisoner.ActualMentalHealth -= 5;
+            prisoner.CurrentMentalHealth -= 5;
         }
 
         // Apply bad effects if monsters are discovered
@@ -112,12 +112,12 @@ public class TileTrigger : MonoBehaviour {
             && TileManager.Instance.MonstersOnTile[exploredTile] != null
             && TileManager.Instance.MonstersOnTile[exploredTile].Count > 0)
         {
-            ki.Keeper.CurrentHp -= 5;
-            ki.Keeper.ActualMentalHealth -= 5;
+            ki.CurrentHp -= 5;
+            ki.CurrentMentalHealth -= 5;
             if (prisoner != null)
             {
-                prisoner.Prisoner.CurrentHp -= 5;
-                prisoner.Prisoner.ActualMentalHealth -= 5;
+                prisoner.CurrentHp -= 5;
+                prisoner.CurrentMentalHealth -= 5;
             }
         }
 

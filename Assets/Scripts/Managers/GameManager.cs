@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
 
 
     private List<KeeperInstance> allKeepersList = new List<KeeperInstance>();
+
     
     private bool characterPanelIngameNeedUpdate = false;
     private bool shortcutPanel_NeedUpdate = true;
@@ -192,5 +193,30 @@ public class GameManager : MonoBehaviour
         {
             shortcutPanel_NeedUpdate = value;
         }
+    }
+    public void CheckGameOver()
+    {
+        bool prisonerDied = !TileManager.Instance.prisoner.IsAlive;
+        if(prisonerDied)
+        {
+            Debug.Log("GameOver - Prisoner Died");
+        }
+        else
+        {
+            short nbDead = 0;
+            foreach (KeeperInstance ki in allKeepersList)
+            {
+                if (!ki.IsAlive)
+                {
+                    nbDead++;
+                }
+            }
+
+            if (nbDead == allKeepersList.Count)
+            {
+                Debug.Log("GameOver - All Keepers died");
+            }
+        }
+        
     }
 }
