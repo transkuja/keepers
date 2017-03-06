@@ -290,7 +290,8 @@ public class KeeperInstance : MonoBehaviour, ITradable {
     {
         TileManager.Instance.MoveKeeper(this, TileManager.Instance.GetTileFromKeeper[this], (Direction)_i);
 
-        GameManager.Instance.SelectedKeeperNeedUpdate =true ;
+        GameManager.Instance.SelectedKeeperNeedUpdate = true;
+        GameManager.Instance.ShortcutPanel_NeedUpdate = true;
     }
 
     void Explore(int _i)
@@ -344,7 +345,8 @@ public class KeeperInstance : MonoBehaviour, ITradable {
             }
         }
 
-        GameManager.Instance.SelectedKeeperNeedUpdate =true ;
+        GameManager.Instance.SelectedKeeperNeedUpdate = true;
+        GameManager.Instance.ShortcutPanel_NeedUpdate = true;
     }
 
     public void Trade(int _i = 0)
