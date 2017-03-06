@@ -44,6 +44,7 @@ public class KeeperInstance : MonoBehaviour {
     private void Update()
     {
         GameObject goDestinationTemp = gameObject;
+
         for (int i = 0; i < keeper.GoListCharacterFollowing.Count; i++)
         {
             keeper.GoListCharacterFollowing[i].GetComponent<NavMeshAgent>().destination = goDestinationTemp.transform.position;
@@ -62,7 +63,8 @@ public class KeeperInstance : MonoBehaviour {
         {
             agent.Stop();
             agent.ResetPath();
-            BattleHandler.LaunchBattle(TileManager.Instance.GetTileFromKeeper[this]);
+            // TODO: Open selection window
+            GameManager.Instance.OpenSelectBattleCharactersScreen(TileManager.Instance.GetTileFromKeeper[this]);
             agent.Resume();
         }
 
