@@ -21,14 +21,14 @@ public class ControlsManager : MonoBehaviour {
     bool bIsRotating = false;*/
 
     // Camera parameters
-    [Header("Camera Controls")]
+    /*[Header("Camera Controls")]
     [SerializeField]
     float dragSpeed = 2;
     Vector3 dragOrigin;
 
     float minFov = 15f;
     float maxFov = 90f;
-    float sensitivity = 10f;
+    float sensitivity = 10f;*/
 
 
     // Use this for initialization
@@ -40,7 +40,7 @@ public class ControlsManager : MonoBehaviour {
 	void Update () {
         SelectionControls();
         ChangeSelectedKeeper();
-        CameraControls();
+        //CameraControls();
     }
 
     private void SelectionControls()
@@ -182,8 +182,13 @@ public class ControlsManager : MonoBehaviour {
         }
     }
 
-    private void CameraControls()
+    /*private void CameraControls()
     {
+
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+
+        }
 
         if (Input.GetMouseButtonDown(2))
         {
@@ -216,12 +221,14 @@ public class ControlsManager : MonoBehaviour {
         }
         else
         {
-            Vector3 move = new Vector3(-pos.x, -pos.y, 0);
-            Camera.main.transform.Translate(move.normalized * dragSpeed, Space.Self);
+            //Vector3 move = new Vector3(-pos.x, -pos.y, 0);
+            //Camera.main.transform.Translate(move.normalized * dragSpeed, Space.Self);
+            Vector3 move = new Vector3(-pos.x, 0 ,-pos.y);
+            Camera.main.transform.Translate(move.normalized * dragSpeed, Space.World);
         }
 
         dragOrigin = Input.mousePosition;
-    }
+    }*/
 }
 
 /*float fHorizontalAxis = Input.GetAxisRaw("Horizontal"), fVerticalAxis = Input.GetAxisRaw("Vertical");
