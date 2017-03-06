@@ -289,6 +289,8 @@ public class KeeperInstance : MonoBehaviour, ITradable {
     void Move(int _i)
     {
         TileManager.Instance.MoveKeeper(this, TileManager.Instance.GetTileFromKeeper[this], (Direction)_i);
+
+        GameManager.Instance.SelectedKeeperNeedUpdate =true ;
     }
 
     void Explore(int _i)
@@ -331,6 +333,8 @@ public class KeeperInstance : MonoBehaviour, ITradable {
                 prisoner.Prisoner.ActualMentalHealth -= 5;
             }
         }
+
+        GameManager.Instance.SelectedKeeperNeedUpdate =true ;
     }
 
     public void Trade(int _i = 0)

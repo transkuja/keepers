@@ -174,6 +174,20 @@ public static class ItemManager {
             InventoryChanged.Invoke();*/
     }
 
+    public static void SwapItemBeetweenInventories (KeeperInstance kiFrom, int indexItemFrom, KeeperInstance kiTo, int indexItemTo)
+    {
+        Item temp = kiFrom.Inventory[indexItemFrom];
+        kiFrom.Inventory[indexItemFrom] = kiTo.Inventory[indexItemTo];
+        kiTo.Inventory[indexItemTo] = temp;
+    }
+
+    public static void SwapItemInSameInventory(KeeperInstance ki, int indexItemFrom, int indexItemTo)
+    {
+        Item temp = ki.Inventory[indexItemFrom];
+        ki.Inventory[indexItemFrom] = ki.Inventory[indexItemTo];
+        ki.Inventory[indexItemTo] = temp;
+    }
+
     public static void TransferItemBetweenPanelsAtSlot(Item[] dest, Item[] src, int slotDest, int slotSrc)
     {
         if (dest[slotDest] != null)
