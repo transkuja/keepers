@@ -103,6 +103,30 @@ public static class ItemManager {
         //StatsChanged.Invoke();
     }
 
+    public static void AddItemOnTheGround(KeeperInstance ki, Item item)
+    {
+        GameObject drop = GameObject.Instantiate(GameManager.Instance.prefabItemToDrop) as GameObject;
+
+
+        drop.transform.SetParent(TileManager.Instance.GetTileFromKeeper[ki].transform);
+        drop.transform.position = ki.gameObject.transform.localPosition;
+        if (item.GetType() == typeof(Equipement))
+        {
+
+            drop.GetComponent<ItemInstance>().typeItem = TypeItem.Equipement;
+            drop.GetComponent<ItemInstance>().spriteToCopy = item.sprite;
+            drop.GetComponent<ItemInstance>().Init();
+        }
+        else if (item.GetType() == typeof(Consummable))
+        {
+            drop.GetComponent<ItemInstance>().quantite = ((Consummable)item).quantite;
+            drop.GetComponent<ItemInstance>().typeItem = TypeItem.Consummable;
+            drop.GetComponent<ItemInstance>().spriteToCopy = item.sprite;
+            drop.GetComponent<ItemInstance>().Init();
+        }
+
+    }
+
     public static bool UnequipItem(KeeperInstance ki, TypeEquipement equipSlot)
     {
         int index = FindFreeInventorySlot(ki);

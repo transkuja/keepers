@@ -12,6 +12,9 @@ public class GameManager : MonoBehaviour
     public bool isDebugGameManager;
 
 
+    public GameObject prefabItemToDrop;
+
+
 
     private List<KeeperInstance> allKeepersList = new List<KeeperInstance>();
 
