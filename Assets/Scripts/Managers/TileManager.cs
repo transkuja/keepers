@@ -89,7 +89,7 @@ public class TileManager : MonoBehaviour {
         keeper.transform.position = spawnPoints[0].position;
         agent.enabled = true;
 
-        keeper.Keeper.ActionPoints = 0;
+        keeper.ActionPoints = 0;
         GameObject goCurrentCharacter;
 
         for (int i = 0; i < keeper.Keeper.GoListCharacterFollowing.Count; i++)
@@ -104,7 +104,7 @@ public class TileManager : MonoBehaviour {
             {
                 RemoveKeeperFromTile(from, goCurrentCharacter.GetComponent<KeeperInstance>());
                 AddKeeperOnTile(destination, goCurrentCharacter.GetComponent<KeeperInstance>());
-                goCurrentCharacter.GetComponent<KeeperInstance>().Keeper.ActionPoints = 0;
+                goCurrentCharacter.GetComponent<KeeperInstance>().ActionPoints = 0;
             }
 
             agent = goCurrentCharacter.GetComponent<NavMeshAgent>();

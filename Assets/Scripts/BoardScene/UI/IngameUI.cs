@@ -236,17 +236,17 @@ public class IngameUI : MonoBehaviour
             }
             else
             {
-                Keeper currentCharacter = GameManager.Instance.AllKeepersList[i-1].Keeper;
+                KeeperInstance currentCharacter = GameManager.Instance.AllKeepersList[i-1];
 
                 if (currentCharacter != null)
                 {
                     int f = 1;
                     // Update HP
-                    goShortcutKeepersPanel.transform.GetChild(i).GetChild(f++).GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)currentCharacter.CurrentHp / (float)currentCharacter.MaxHp;
+                    goShortcutKeepersPanel.transform.GetChild(i).GetChild(f++).GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)currentCharacter.CurrentHp / (float)currentCharacter.Keeper.MaxHp;
                     // Update Hunger
-                    goShortcutKeepersPanel.transform.GetChild(i).GetChild(f++).GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)currentCharacter.ActualHunger / (float)currentCharacter.MaxHunger;
+                    goShortcutKeepersPanel.transform.GetChild(i).GetChild(f++).GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)currentCharacter.CurrentHunger / (float)currentCharacter.Keeper.MaxHunger;
                     // Update MentalHealth
-                    goShortcutKeepersPanel.transform.GetChild(i).GetChild(f++).GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)currentCharacter.ActualMentalHealth / (float)currentCharacter.MaxMentalHealth;
+                    goShortcutKeepersPanel.transform.GetChild(i).GetChild(f++).GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)currentCharacter.CurrentMentalHealth / (float)currentCharacter.Keeper.MaxMentalHealth;
 
                     // Update Action Points
                     goShortcutKeepersPanel.transform.GetChild(i).GetChild(f).gameObject.GetComponentInChildren<Text>().text = currentCharacter.ActionPoints.ToString();

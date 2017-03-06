@@ -65,8 +65,8 @@ public class BattleHandler {
     {
         foreach (KeeperInstance ki in keepers)
         {
-            ki.Keeper.ActualMentalHealth += 10;
-            ki.Keeper.ActualHunger += 5;
+            ki.CurrentMentalHealth += 10;
+            ki.CurrentHunger += 5;
         }
 
         TileManager.Instance.RemoveDefeatedMonsters(tile);
@@ -80,10 +80,10 @@ public class BattleHandler {
     {
         foreach (KeeperInstance ki in keepers)
         {
-            ki.Keeper.ActualMentalHealth -= 10;
-            ki.Keeper.ActualHunger += 5;
+            ki.CurrentMentalHealth -= 10;
+            ki.CurrentHunger += 5;
 
-            ki.Keeper.CurrentHp -= 10;
+            ki.CurrentHp -= 10;
         }
 
         foreach (KeeperInstance ki in GameManager.Instance.ListOfSelectedKeepers)
