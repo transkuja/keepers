@@ -26,7 +26,7 @@ public class Keeper : Character
 
     private bool isStarving = false;
     private bool isMentalHealthLow = false;
-    private int maxInventorySlots = 99;
+    private int maxInventorySlots = 4;
 
     public short ActualHunger {
         get { return actualHunger; }

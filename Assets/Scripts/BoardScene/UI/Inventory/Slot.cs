@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 public class Slot : MonoBehaviour, IDropHandler {
 
-    public GameObject item
+    public GameObject currentItem
     {
         get
         {
@@ -29,7 +29,6 @@ public class Slot : MonoBehaviour, IDropHandler {
 
     public void OnDrop(PointerEventData eventData)
     {
-        /*
         if (eventData.pointerDrag.GetComponent<DragHandler>() != null)
         {
             // Get the original parent
@@ -39,17 +38,33 @@ public class Slot : MonoBehaviour, IDropHandler {
             GameObject inventaireDequi = aux.parent.parent.gameObject;
             GameObject inventaireversqui = transform.parent.parent.gameObject;
 
-            GameObject dequi = null;
-            GameObject versqui = null;
-            foreach (KeeperInstance ki in GameManager.Instance.AllKeepersList)
+            KeeperInstance dequi = null;
+            KeeperInstance versqui = null;
+            if (inventaireDequi == GameManager.Instance.Ui.goInventory.transform.parent.gameObject)
             {
-                if (ki.GetComponent<InventoryManager>().KeeperInventoryPanel == inventaireDequi)
+                dequi = GameManager.Instance.ListOfSelectedKeepers[0];
+            }
+            else
+            {
+                for (int i = 0; i < GameManager.Instance.AllKeepersList.Count; i++)
                 {
-                    dequi = ki.gameObject;
+                    if (i == inventaireDequi.transform.GetSiblingIndex())
+                    {
+                        dequi = GameManager.Instance.AllKeepersList[i];
+                    }
                 }
-                if (ki.GetComponent<InventoryManager>().KeeperInventoryPanel == inventaireversqui)
+            }
+            if (inventaireversqui == GameManager.Instance.Ui.goInventory.transform.parent.gameObject)
+            {
+                versqui = GameManager.Instance.ListOfSelectedKeepers[0];
+            } else
+            {
+                for (int i = 0; i< GameManager.Instance.AllKeepersList.Count; i++)
                 {
-                    versqui = ki.gameObject;
+                    if( i == inventaireversqui.transform.GetSiblingIndex())
+                    {
+                        versqui = GameManager.Instance.AllKeepersList[i];
+                    }
                 }
             }
 
@@ -61,19 +76,19 @@ public class Slot : MonoBehaviour, IDropHandler {
             {
                 if (hasAlreadyAnItem)
                 {
-                    Item itemDragged = eventData.pointerDrag.GetComponent<ItemInstance>().itemContainer.item;
-                    Item itemOn = item.GetComponent<ItemInstance>().itemContainer.item;
+                    Item itemDragged = eventData.pointerDrag.GetComponent<ItemInstance>().item;
+                    Item itemOn = currentItem.GetComponent<ItemInstance>().item;
 
-                    if (item.GetComponent<ItemInstance>().itemContainer.item.Stackable && eventData.pointerDrag.GetComponent<ItemInstance>().itemContainer.item.Stackable && (itemOn.GetType() == itemDragged.GetType()))
+                    if ((itemOn.GetType() == itemDragged.GetType()) && itemOn.GetType() == typeof(Consummable) && itemOn.sprite.name == itemDragged.sprite.name)
                     {
-                        int quantityLeft = versqui.GetComponent<InventoryManager>().MergeStackables2(item.GetComponent<ItemInstance>().itemContainer, eventData.pointerDrag.GetComponent<ItemInstance>().itemContainer);
+                        int quantityLeft = ItemManager.MergeStackables2(((Consummable)currentItem.GetComponent<ItemInstance>().item), ((Consummable)eventData.pointerDrag.GetComponent<ItemInstance>().item));
                         if (quantityLeft > 0)
                         {
-                            eventData.pointerDrag.GetComponent<ItemInstance>().itemContainer.quantity = quantityLeft;
+                            ((Consummable)eventData.pointerDrag.GetComponent<ItemInstance>().item).quantite = quantityLeft;
                         }
                         else
                         {
-                            dequi.GetComponent<InventoryManager>().RemoveItem(eventData.pointerDrag.GetComponent<ItemInstance>().itemContainer.item);
+                            ItemManager.RemoveItem(dequi, eventData.pointerDrag.GetComponent<ItemInstance>().item);
 
                         }
                         Destroy(eventData.pointerDrag.gameObject);
@@ -87,30 +102,26 @@ public class Slot : MonoBehaviour, IDropHandler {
                        // eventData.pointerDrag.transform.SetParent(transform);
 
                         // Doit swap
-                        Debug.Log("Ne swap pas a cause du remove add");
+                        Debug.Log("Ne swap pas a cause du remove");
 
-                        dequi.GetComponent<InventoryManager>().RemoveItem(eventData.pointerDrag.GetComponent<ItemInstance>().itemContainer.item);
-                        versqui.GetComponent<InventoryManager>().RemoveItem(item.GetComponent<ItemInstance>().itemContainer.item);
-
-                      
-
-
+                        ItemManager.RemoveItem(dequi, eventData.pointerDrag.GetComponent<ItemInstance>().item);
+                       ItemManager.RemoveItem(versqui, currentItem.GetComponent<ItemInstance>().item);
 
                         //Move the other item to the previous slot
                         //item.transform.SetParent(aux);
 
               
-                        dequi.GetComponent<InventoryManager>().AddItem(item.GetComponent<ItemInstance>().itemContainer, false);
-                        versqui.GetComponent<InventoryManager>().AddItem(eventData.pointerDrag.GetComponent<ItemInstance>().itemContainer, false);
+                        ItemManager.AddItem(dequi, currentItem.GetComponent<ItemInstance>().item, false);
+                        ItemManager.AddItem(versqui, eventData.pointerDrag.GetComponent<ItemInstance>().item, false);
 
-                        dequi.GetComponent<InventoryManager>().MoveItemToSlot(
-                                eventData.pointerDrag.GetComponent<ItemInstance>().itemContainer.item,
+                        ItemManager.MoveItemToSlot(dequi,
+                                eventData.pointerDrag.GetComponent<ItemInstance>().item,
                                 transform.GetSiblingIndex()
                            );
 
 
-                        versqui.GetComponent<InventoryManager>().MoveItemToSlot(
-                            item.GetComponent<ItemInstance>().itemContainer.item,
+                        ItemManager.MoveItemToSlot(versqui,
+                            currentItem.GetComponent<ItemInstance>().item,
                             aux.GetSiblingIndex()
                      
                         );
@@ -123,13 +134,17 @@ public class Slot : MonoBehaviour, IDropHandler {
                     //Move the item to the slot
                     eventData.pointerDrag.transform.SetParent(transform);
 
-                    dequi.GetComponent<InventoryManager>().RemoveItem(eventData.pointerDrag.GetComponent<ItemInstance>().itemContainer.item);
-                    versqui.GetComponent<InventoryManager>().AddItem(eventData.pointerDrag.GetComponent<ItemInstance>().itemContainer, false);
-
-                    versqui.GetComponent<InventoryManager>().MoveItemToSlot(
-                         item.GetComponent<ItemInstance>().itemContainer.item,
+                    ItemManager.RemoveItem(dequi, eventData.pointerDrag.GetComponent<ItemInstance>().item);
+                    ItemManager.AddItem(versqui, eventData.pointerDrag.GetComponent<ItemInstance>().item, false);
+                   
+                    ItemManager.MoveItemToSlot(
+                         versqui,
+                         eventData.pointerDrag.GetComponent<ItemInstance>().item,
                          transform.GetSiblingIndex()
                      );
+
+
+                    Destroy(eventData.pointerDrag.gameObject);    
                 }
             }
             // Si l'inventaire est le même
@@ -137,20 +152,21 @@ public class Slot : MonoBehaviour, IDropHandler {
             {
                 if (hasAlreadyAnItem)
                 {
-                    Item itemDragged = eventData.pointerDrag.GetComponent<ItemInstance>().itemContainer.item;
-                    Item itemOn = item.GetComponent<ItemInstance>().itemContainer.item;
+                    Item itemDragged = eventData.pointerDrag.GetComponent<ItemInstance>().item;
+                    Item itemOn = currentItem.GetComponent<ItemInstance>().item;
 
 
-                    if (item.GetComponent<ItemInstance>().itemContainer.item.Stackable && eventData.pointerDrag.GetComponent<ItemInstance>().itemContainer.item.Stackable && (itemOn.GetType() == itemDragged.GetType()))
+
+                    if ((itemOn.GetType() == itemDragged.GetType()) && itemOn.GetType() == typeof(Consummable) && itemOn.sprite.name == itemDragged.sprite.name)
                     {
-                        int quantityLeft = versqui.GetComponent<InventoryManager>().MergeStackables2(item.GetComponent<ItemInstance>().itemContainer, eventData.pointerDrag.GetComponent<ItemInstance>().itemContainer);
+                        int quantityLeft = ItemManager.MergeStackables2((Consummable)currentItem.GetComponent<ItemInstance>().item, (Consummable)eventData.pointerDrag.GetComponent<ItemInstance>().item);
                         if (quantityLeft > 0)
                         {
-                            eventData.pointerDrag.GetComponent<ItemInstance>().itemContainer.quantity = quantityLeft;
+                           ((Consummable)eventData.pointerDrag.GetComponent<ItemInstance>().item).quantite = quantityLeft;
                         }
                         else
                         {
-                            dequi.GetComponent<InventoryManager>().RemoveItem(eventData.pointerDrag.GetComponent<ItemInstance>().itemContainer.item);
+                            ItemManager.RemoveItem(dequi, eventData.pointerDrag.GetComponent<ItemInstance>().item);
               
                         }
                         Destroy(eventData.pointerDrag.gameObject);
@@ -159,17 +175,14 @@ public class Slot : MonoBehaviour, IDropHandler {
                     {
                         // swap dequi = versqui
                         eventData.pointerDrag.transform.SetParent(transform);
-
-                        dequi.GetComponent<InventoryManager>().MoveItemToSlot(
-                             eventData.pointerDrag.GetComponent<ItemInstance>().itemContainer.item,
-                             aux.GetSiblingIndex()
-                        );
+                        ItemManager.MoveItemToSlot(dequi, eventData.pointerDrag.GetComponent<ItemInstance>().item, aux.GetSiblingIndex());
 
 
                         //Move the other item to the previous slot
-                        item.transform.SetParent(aux);
-                        versqui.GetComponent<InventoryManager>().MoveItemToSlot(
-                            item.GetComponent<ItemInstance>().itemContainer.item,
+                        currentItem.transform.SetParent(aux);
+                        ItemManager.MoveItemToSlot(
+                            versqui,
+                            currentItem.GetComponent<ItemInstance>().item,
                             transform.GetSiblingIndex()
                         );
                     }
@@ -179,26 +192,26 @@ public class Slot : MonoBehaviour, IDropHandler {
                     //Move the item to the slot
                     // swap dequi = versqui
                     eventData.pointerDrag.transform.SetParent(transform);
-
-                    versqui.GetComponent<InventoryManager>().MoveItemToSlot(
-                          eventData.pointerDrag.GetComponent<ItemInstance>().itemContainer.item,
+            
+                    ItemManager.MoveItemToSlot(
+                          versqui,
+                          eventData.pointerDrag.GetComponent<ItemInstance>().item,
                           transform.GetSiblingIndex()
                     );
+                    Destroy(eventData.pointerDrag.gameObject);
+
+
                 }
             }
 
-
-
-
-            //GameManager.Instance.ui.UpdateInventoryPanel(dequi.GetComponent<InventoryManager>().gameObject);
-            //GameManager.Instance.ui.UpdateInventoryPanel(versqui.GetComponent<InventoryManager>().gameObject);
+            GameManager.Instance.Ui.UpdateKeeperInventoryPanel();
+            GameManager.Instance.SelectedKeeperNeedUpdate = true;
 
         }
         else if (eventData.pointerDrag.GetComponent<DragHandlerInventoryPanel>() != null)
         {
             Debug.Log("A panel was drop in a slot");
         }
-            */
     }
 
 }

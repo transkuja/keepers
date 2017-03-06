@@ -21,6 +21,9 @@ public class ItemInstance : MonoBehaviour, IPickable {
     public int quantite;
 
     [SerializeField]
+    public Sprite spriteToCopy;
+
+    [SerializeField]
     public Item item;
 
     private InteractionImplementer interactionImplementer;
@@ -34,6 +37,7 @@ public class ItemInstance : MonoBehaviour, IPickable {
     {
         ItemManager.AddItem(GameManager.Instance.ListOfSelectedKeepers[0], item);
         GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
+        GameManager.Instance.Ui.UpdateKeeperInventoryPanel();
         Destroy(gameObject);
     }
 
@@ -41,7 +45,8 @@ public class ItemInstance : MonoBehaviour, IPickable {
     public void Init()
     {
         item = ItemManager.getInstanciateItem(typeItem);
-        switch(typeItem)
+        item.sprite = spriteToCopy;
+        switch (typeItem)
         {
             case TypeItem.Equipement:
                 ((Equipement)item).type = equipType;

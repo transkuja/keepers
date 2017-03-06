@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class DragHandler : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler{
     Vector3 startPosition;
-    Transform startParent;
+    public Transform startParent;
     Transform absoluteParent;
 
     public void OnBeginDrag(PointerEventData eventData)

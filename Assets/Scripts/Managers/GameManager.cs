@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     private bool shortcutPanel_NeedUpdate = true;
     private bool characterPanelMenuNeedUpdate = false;
 
+
     private IngameUI ui;
     private IngameScreens gameScreens;
 

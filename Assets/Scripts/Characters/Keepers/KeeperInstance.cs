@@ -1,9 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class KeeperInstance : MonoBehaviour {
+public class KeeperInstance : MonoBehaviour, ITradable {
 
     [Header("Keeper Info")]
     [SerializeField]
@@ -27,7 +28,8 @@ public class KeeperInstance : MonoBehaviour {
 
     Vector3 v3AgentDirectionTemp;
 
-    public bool isEscortAvailable;
+    private InteractionImplementer interactionImplementer;
+    public bool isEscortAvailable = true;
 
     // Rotations
     float fLerpRotation = 0.666f;
@@ -37,13 +39,16 @@ public class KeeperInstance : MonoBehaviour {
     [SerializeField]
     float fRotateSpeed = 1.0f;
 
+
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         fRotateSpeed = 5.0f;
-        isEscortAvailable = true;
         inventory = new Item[4];
         equipment = new Item[3];
+        isEscortAvailable = true;
+        InteractionImplementer = new InteractionImplementer();
+        InteractionImplementer.Add(new Interaction(Trade), "Trade", null);
     }
 
     private void Update()
@@ -70,8 +75,6 @@ public class KeeperInstance : MonoBehaviour {
             BattleHandler.LaunchBattle(TileManager.Instance.GetTileFromKeeper[this]);
             agent.Resume();
         }
-
-        InteractionImplementer ii = new InteractionImplementer();
 
         Direction eTrigger = Direction.None;
 
@@ -108,14 +111,14 @@ public class KeeperInstance : MonoBehaviour {
             IngameUI ui = GameObject.Find("IngameUI").GetComponent<IngameUI>();
             if (col.gameObject.GetComponentInParent<Tile>().Neighbors[(int)eTrigger].State == TileState.Discovered)
             {
-                ii.Add(new Interaction(Move), "Move", null, true, (int)eTrigger);
-                ui.UpdateActionPanelUIQ(ii);
+                InteractionImplementer.Add(new Interaction(Move), "Move", null, true, (int)eTrigger);
+                ui.UpdateActionPanelUIQ(InteractionImplementer);
             }
 
             if (col.gameObject.GetComponentInParent<Tile>().Neighbors[(int)eTrigger].State == TileState.Greyed)
             {
-                ii.Add(new Interaction(Explore), "Explore", null, true, (int)eTrigger);
-                ui.UpdateActionPanelUIQ(ii);
+                InteractionImplementer.Add(new Interaction(Explore), "Explore", null, true, (int)eTrigger);
+                ui.UpdateActionPanelUIQ(InteractionImplementer);
             }
         }
     }
@@ -230,6 +233,19 @@ public class KeeperInstance : MonoBehaviour {
         }
     }
 
+    public InteractionImplementer InteractionImplementer
+    {
+        get
+        {
+            return interactionImplementer;
+        }
+
+        set
+        {
+            interactionImplementer = value;
+        }
+    }
+
     public void TriggerRotation(Vector3 v3Direction)
     {
         agent.angularSpeed = 0.0f;
@@ -315,5 +331,10 @@ public class KeeperInstance : MonoBehaviour {
                 prisoner.Prisoner.ActualMentalHealth -= 5;
             }
         }
+    }
+
+    public void Trade(int _i = 0)
+    {
+        GameManager.Instance.Ui.ShowInventoryPanels();
     }
 }

@@ -196,15 +196,21 @@ public static class ItemManager {
 
         bool add = true;
         if (stack)
-            if (item.GetType() == typeof(Consummable) && CheckIfItemTypeIsInInventory(ki, item))
+        {
+            if (item.GetType() == typeof(Consummable) && CheckIfItemTypeIsInInventory(ki, item) )
             {
                 for (int i = 0; i < inventory.Length; i++)
                 {
-                    add = MergeStackables((Consummable)inventory[i], (Consummable)item);
-                    if (!add)
-                        break;
+                    if (inventory[i] != null && inventory[i].sprite.name == item.sprite.name)
+                    {
+                        add = MergeStackables((Consummable)inventory[i], (Consummable)item);
+                        if (!add)
+                            break;
+                    }
+               
                 }
             }
+        }
         if (add)
         {
             int freeIndex = FindFreeInventorySlot(ki);
@@ -281,7 +287,6 @@ public static class ItemManager {
     public static void RemoveItem(KeeperInstance ki, Item ic)
     {
         Item[] inventory = ki.Inventory;
-
         int index = GetInventoryItemIndex(ki, ic);
         if (index == -1)
         {
