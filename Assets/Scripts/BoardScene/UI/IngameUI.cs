@@ -65,7 +65,6 @@ public class IngameUI : MonoBehaviour
         {
             if (GameManager.Instance.SelectedKeeperNeedUpdate)
             {
-                HideInventoryPanels();
                 UpdateSelectedKeeperPanel();
             }
             if (GameManager.Instance.ShortcutPanel_NeedUpdate)
@@ -248,6 +247,7 @@ public class IngameUI : MonoBehaviour
             Camera.main.GetComponent<CameraManager>().UpdateCameraPosition(nextKeeper);
             GameManager.Instance.SelectedKeeperNeedUpdate = true;
             GameManager.Instance.Ui.UpdateActionText();
+            HideInventoryPanels();
         }
     }
 
@@ -381,6 +381,7 @@ public class IngameUI : MonoBehaviour
         }
         GameManager.Instance.SelectedKeeperNeedUpdate = true;
         GameManager.Instance.Ui.UpdateActionText();
+        HideInventoryPanels();
     }
 
     public void UpdateActionText()
