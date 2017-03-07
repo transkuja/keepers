@@ -212,9 +212,29 @@ public class IngameUI : MonoBehaviour
                 goKeeper.name = "Panel_Shortcut_" + currentSelectedCharacter.Keeper.CharacterName;
                 goKeeper.transform.GetChild(0).GetComponent<Image>().sprite = associatedSprite;
                 goKeeper.transform.localScale = Vector3.one;
+                int n = i;
+                goKeeper.GetComponent<Button>().onClick.AddListener(() => GoToCharacter(n));
 
                 UpdateShortcutPanel();
             }
+        }
+    }
+
+    public void GoToCharacter(int i)
+    {
+        if ( i == -1)
+        {
+            // Go to prisonier
+            Camera.main.GetComponent<CameraManager>().UpdateCameraPosition();
+        } else
+        {
+            // Next keeper
+            GameManager.Instance.ClearListKeeperSelected();
+            KeeperInstance nextKeeper = GameManager.Instance.AllKeepersList[i];
+            GameManager.Instance.ListOfSelectedKeepers.Add(nextKeeper);
+            nextKeeper.IsSelected = true;
+
+            Camera.main.GetComponent<CameraManager>().UpdateCameraPosition(nextKeeper);
         }
     }
 
@@ -320,15 +340,9 @@ public class IngameUI : MonoBehaviour
             {
                 // Get first selected
                 KeeperInstance currentKeeperSelected = GameManager.Instance.ListOfSelectedKeepers[0];
-
-                // Get his tile
-                //Tile currentKeeperTile = TileManager.Instance.GetTileFromKeeper[currentKeeperSelected];
-
-                // Get next on tile
-                //List<KeeperInstance> keepersOnTile = TileManager.Instance.KeepersOnTile[currentKeeperTile];
                 int currentKeeperSelectedIndex = GameManager.Instance.AllKeepersList.FindIndex(x => x == currentKeeperSelected);
 
-                // Next keeper on the same tile is now active
+                // Next keeper
                 GameManager.Instance.ClearListKeeperSelected();
                 KeeperInstance nextKeeper = null;
                 if ((currentKeeperSelectedIndex + direction) % GameManager.Instance.AllKeepersList.Count < 0 )
@@ -338,7 +352,6 @@ public class IngameUI : MonoBehaviour
                 {
                     nextKeeper = GameManager.Instance.AllKeepersList[(currentKeeperSelectedIndex + direction) % GameManager.Instance.AllKeepersList.Count];
                 }
-                Debug.Log(nextKeeper);
                 GameManager.Instance.ListOfSelectedKeepers.Add(nextKeeper);
                 nextKeeper.IsSelected = true;
 

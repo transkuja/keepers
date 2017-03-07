@@ -76,6 +76,13 @@ public class CameraManager : MonoBehaviour {
         activeTile = TileManager.Instance.GetTileFromKeeper[selectedKeeper];
     }
 
+    public void UpdateCameraPosition()
+    {
+        isUpdateNeeded = true;
+        oldPosition = transform.position;
+        activeTile = TileManager.Instance.PrisonerTile;
+    }
+
     void Update()
     {
         if (isUpdateNeeded)
