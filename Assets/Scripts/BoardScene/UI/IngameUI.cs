@@ -41,8 +41,10 @@ public class IngameUI : MonoBehaviour
     public Sprite spriteTrade;
     public Sprite spriteEscort;
     public Sprite spriteUnescort;
-    public Sprite spriteMoral;
 
+    public Sprite spriteMoral;
+    public Sprite spriteMoralBuff;
+    public Sprite spriteMoralDebuff;
 
     // ShortcutPanel
     [Header("ShortcutPanel Panel")]
@@ -185,12 +187,12 @@ public class IngameUI : MonoBehaviour
         goMoralPanel.transform.position = Camera.main.WorldToScreenPoint(GameManager.Instance.GoTarget.transform.position);
         if (amount < 0)
         {
-            goMoralPanel.GetComponent<Image>().sprite = spriteMoral;
+            goMoralPanel.GetComponent<Image>().sprite = spriteMoralDebuff;
             goMoralPanel.GetComponentInChildren<Text>().color = Color.red;
             goMoralPanel.GetComponentInChildren<Text>().text = "";
         } else
         {
-            goMoralPanel.GetComponent<Image>().sprite = spriteMoral;
+            goMoralPanel.GetComponent<Image>().sprite = spriteMoralBuff;
             goMoralPanel.GetComponentInChildren<Text>().color = Color.green;
             goMoralPanel.GetComponentInChildren<Text>().text = "+ ";
         }
@@ -200,7 +202,7 @@ public class IngameUI : MonoBehaviour
     }
     private IEnumerator MoralPanelNormalState()
     {
-        for (float f = 2.0f; f >= 0; f -= 0.1f)
+        for (float f = 3.0f; f >= 0; f -= 0.1f)
         {
             Vector3 decal = new Vector3(0.0f, f, 0.0f);
             goMoralPanel.transform.position += decal;
