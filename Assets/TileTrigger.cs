@@ -63,7 +63,7 @@ public class TileTrigger : MonoBehaviour {
                 {
                     GameManager.Instance.Ui.ZeroActionTextAnimation();
                 }
-            } 
+            }
         }
    
     }
@@ -88,7 +88,6 @@ public class TileTrigger : MonoBehaviour {
 
         // Move to explored tile
         TileManager.Instance.MoveKeeper(ki, TileManager.Instance.GetTileFromKeeper[ki], (Direction)_i);
-        Debug.Log("test");
         // Tell the tile it has been discovered (and watch it panic)
         Tile exploredTile = TileManager.Instance.GetTileFromKeeper[ki];
         exploredTile.State = TileState.Discovered;
