@@ -25,7 +25,6 @@ public class TileManager : MonoBehaviour {
     Dictionary<Tile, List<KeeperInstance>> keepersOnTile = new Dictionary<Tile, List<KeeperInstance>>();
     Dictionary<KeeperInstance, Tile> getTileFromKeeper = new Dictionary<KeeperInstance, Tile>();
     Tile prisonerTile;
-    public PrisonerInstance prisoner;
 
     // For testing, to delete
     public Tile monsterTileTest;
