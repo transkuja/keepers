@@ -6,7 +6,7 @@ using UnityEngine;
 public class Prisoner : Character {
 
     [SerializeField]
-    private GameObject associatedSprite;
+    private Sprite associatedSprite;
 
     [Header("Status")]
 
@@ -17,7 +17,7 @@ public class Prisoner : Character {
     [SerializeField]
     private short maxMentalHealth = 100;
 
-    public GameObject AssociatedSprite
+    public Sprite AssociatedSprite
     {
         get
         {
