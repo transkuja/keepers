@@ -20,7 +20,7 @@ public class EventManager : MonoBehaviour {
     {
         foreach (KeeperInstance ki in GameManager.Instance.AllKeepersList)
         {
-            ki.Keeper.ActualMentalHealth -= 10;
+            ki.CurrentMentalHealth -= 10;
         }
     }
 
@@ -28,7 +28,7 @@ public class EventManager : MonoBehaviour {
     {
         foreach (KeeperInstance ki in GameManager.Instance.AllKeepersList)
         {
-            ki.Keeper.ActualHunger += 10;
+            ki.CurrentHunger += 10;
         }
     }
 
@@ -36,7 +36,7 @@ public class EventManager : MonoBehaviour {
     {
         foreach (KeeperInstance ki in GameManager.Instance.AllKeepersList)
         {
-            ki.Keeper.ActionPoints = actionPointsResetValue;
+            ki.ActionPoints = actionPointsResetValue;
         }
     }
 

@@ -15,11 +15,7 @@ public class Character {
     [SerializeField]
     private int maxHp = 100;
     [SerializeField]
-    private int currentHp = 100;
-    [SerializeField]
     private int maxMp = 50;
-    [SerializeField]
-    private int currentMp = 50;
     [SerializeField]
     private short baseStrength = 5;
     [SerializeField]
@@ -80,19 +76,6 @@ public class Character {
         }
     }
 
-    public int CurrentHp
-    {
-        get
-        {
-            return currentHp;
-        }
-
-        set
-        {
-            currentHp = value;
-        }
-    }
-
     public int MaxMp
     {
         get
@@ -105,20 +88,6 @@ public class Character {
             maxMp = value;
         }
     }
-
-    public int CurrentMp
-    {
-        get
-        {
-            return currentMp;
-        }
-
-        set
-        {
-            currentMp = value;
-        }
-    }
-
     public short BaseStrength
     {
         get

@@ -12,12 +12,17 @@ public class GameManager : MonoBehaviour
     public bool isDebugGameManager;
 
 
+    public GameObject prefabItemToDrop;
+
+
 
     private List<KeeperInstance> allKeepersList = new List<KeeperInstance>();
+
     
-    private bool characterPanelIngameNeedUpdate = true;
+    private bool characterPanelIngameNeedUpdate = false;
     private bool shortcutPanel_NeedUpdate = true;
     private bool characterPanelMenuNeedUpdate = false;
+
 
     private IngameUI ui;
     private IngameScreens gameScreens;
@@ -89,7 +94,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public bool CharacterPanelIngameNeedUpdate
+    public bool SelectedKeeperNeedUpdate
     {
         get
         {
@@ -218,5 +223,30 @@ public class GameManager : MonoBehaviour
         {
             shortcutPanel_NeedUpdate = value;
         }
+    }
+    public void CheckGameOver()
+    {
+        bool prisonerDied = !TileManager.Instance.prisoner.IsAlive;
+        if(prisonerDied)
+        {
+            Debug.Log("GameOver - Prisoner Died");
+        }
+        else
+        {
+            short nbDead = 0;
+            foreach (KeeperInstance ki in allKeepersList)
+            {
+                if (!ki.IsAlive)
+                {
+                    nbDead++;
+                }
+            }
+
+            if (nbDead == allKeepersList.Count)
+            {
+                Debug.Log("GameOver - All Keepers died");
+            }
+        }
+        
     }
 }

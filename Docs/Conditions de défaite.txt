@@ -1,0 +1,19 @@
+Défaite totale:
+
+- Mort de tous les personnages
+
+	ou
+
+- Mort du prisonnier
+
+Mort des personnages:
+
+- Les HP tombent à zero, comment?
+	- La faim les fait déscendre à chaque tour si le personnage n'est pas nourri
+	- Le moral au minimum augmente le nombre de HP perdu à chaque action entraînant une perte de HP
+	- Ils perdent un combat
+	- Ils meurent en explorant (s'ils sont vraiment faibles)
+
+- Le moral des autres personnages baisse
+
+- Ajouter des explosions
