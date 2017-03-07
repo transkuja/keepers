@@ -42,21 +42,28 @@ public class TileTrigger : MonoBehaviour {
                     break;
             }
 
-            if (eTrigger != Direction.None && GetComponentInParent<Tile>().Neighbors[(int)eTrigger] != null && ki.ActionPoints > 0)
+            if (eTrigger != Direction.None && GetComponentInParent<Tile>().Neighbors[(int)eTrigger] != null )
             {
-                IngameUI ui = GameObject.Find("IngameUI").GetComponent<IngameUI>();
-                if (GetComponentInParent<Tile>().Neighbors[(int)eTrigger].State == TileState.Discovered)
+                if ( ki.ActionPoints > 0)
                 {
-                    InteractionImplementer.Add(new Interaction(Move), "Move", null, true, (int)eTrigger);
-                    ui.UpdateActionPanelUIQ(InteractionImplementer);
-                }
+                    IngameUI ui = GameObject.Find("IngameUI").GetComponent<IngameUI>();
+                    if (GetComponentInParent<Tile>().Neighbors[(int)eTrigger].State == TileState.Discovered)
+                    {
+                        InteractionImplementer.Add(new Interaction(Move), "Move", null, true, (int)eTrigger);
+                        ui.UpdateActionPanelUIQ(InteractionImplementer);
+                    }
 
-                if (GetComponentInParent<Tile>().Neighbors[(int)eTrigger].State == TileState.Greyed)
-                {
-                    InteractionImplementer.Add(new Interaction(Explore), "Explore", null, true, (int)eTrigger);
-                    ui.UpdateActionPanelUIQ(InteractionImplementer);
+                    if (GetComponentInParent<Tile>().Neighbors[(int)eTrigger].State == TileState.Greyed)
+                    {
+                        InteractionImplementer.Add(new Interaction(Explore), "Explore", null, true, (int)eTrigger);
+                        ui.UpdateActionPanelUIQ(InteractionImplementer);
+                    }
                 }
-            }
+                else
+                {
+                    GameManager.Instance.Ui.ZeroActionTextAnimation();
+                }
+            } 
         }
    
     }

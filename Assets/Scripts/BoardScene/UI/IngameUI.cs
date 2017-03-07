@@ -20,6 +20,7 @@ public class IngameUI : MonoBehaviour
     // StatsPanel
     public GameObject goStats;
     public Text SelectedKeeperActionText;
+    public Text DecreasedActionText;
 
     // Turn Panel
     [Header("Turn Panel")]
@@ -380,16 +381,38 @@ public class IngameUI : MonoBehaviour
         SelectedKeeperActionText.text = currentKeeper.ActionPoints.ToString();
     }
 
-    public void DecreaseActionTextAnimation()
+    public void ZeroActionTextAnimation()
     {
-        SelectedKeeperActionText.GetComponent<Outline>().effectColor = Color.red;
-        StartCoroutine("TextAnimationNormalState");
+        SelectedKeeperActionText.GetComponent<Text>().color = Color.red;
+        SelectedKeeperActionText.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
+        StartCoroutine(TextAnimationNormalState());
     }
     private IEnumerator TextAnimationNormalState()
     {
         yield return new WaitForSeconds(1);
-        SelectedKeeperActionText.GetComponent<Outline>().effectColor = Color.black;
+        SelectedKeeperActionText.GetComponent<Text>().color = Color.white;
+        SelectedKeeperActionText.transform.localScale = Vector3.one;
         yield return null;
+    }
+
+    public void DecreaseActionTextAnimation(int amount)
+    {
+        DecreasedActionText.GetComponent<Text>().text = "- " + amount.ToString();
+        DecreasedActionText.gameObject.SetActive(true);
+        StartCoroutine(DecreaseTextNormalState());
+    }
+    private IEnumerator DecreaseTextNormalState()
+    {
+        Vector3 origin = DecreasedActionText.transform.position;
+        for (float f = 3.0f; f >= 0; f -= 0.1f)
+        {
+            Vector3 decal = new Vector3(0.0f, f, 0.0f);
+            DecreasedActionText.transform.position += decal;
+            yield return null;
+        }
+        DecreasedActionText.transform.position = origin;
+        DecreasedActionText.gameObject.SetActive(false);
+
     }
     #endregion
 
