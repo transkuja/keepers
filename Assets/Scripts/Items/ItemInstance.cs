@@ -61,7 +61,7 @@ public class ItemInstance : MonoBehaviour, IPickable {
         }
 
         interactionImplementer = new InteractionImplementer();
-        interactionImplementer.Add(new Interaction(Pick), "Pick", null);
+        interactionImplementer.Add(new Interaction(Pick), "Pick", GameManager.Instance.Ui.spritePick);
     }
     #endregion
 

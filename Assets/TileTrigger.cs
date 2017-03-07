@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class TileTrigger : MonoBehaviour {
-
+    
     KeeperInstance ki;
 
     public void OnTriggerEnter(Collider other)
@@ -49,13 +49,13 @@ public class TileTrigger : MonoBehaviour {
                     IngameUI ui = GameObject.Find("IngameUI").GetComponent<IngameUI>();
                     if (GetComponentInParent<Tile>().Neighbors[(int)eTrigger].State == TileState.Discovered)
                     {
-                        InteractionImplementer.Add(new Interaction(Move), "Move", null, true, (int)eTrigger);
+                        InteractionImplementer.Add(new Interaction(Move), "Move", GameManager.Instance.Ui.spriteMove, true, (int)eTrigger);
                         ui.UpdateActionPanelUIQ(InteractionImplementer);
                     }
 
                     if (GetComponentInParent<Tile>().Neighbors[(int)eTrigger].State == TileState.Greyed)
                     {
-                        InteractionImplementer.Add(new Interaction(Explore), "Explore", null, true, (int)eTrigger);
+                        InteractionImplementer.Add(new Interaction(Explore), "Explore", GameManager.Instance.Ui.spriteExplore, true, (int)eTrigger);
                         ui.UpdateActionPanelUIQ(InteractionImplementer);
                     }
                 }
@@ -125,7 +125,6 @@ public class TileTrigger : MonoBehaviour {
                 prisoner.CurrentMentalHealth -= 5;
             }
         }
-        Debug.Log("test");
         GameManager.Instance.SelectedKeeperNeedUpdate = true;
         GameManager.Instance.ShortcutPanel_NeedUpdate = true;
     }

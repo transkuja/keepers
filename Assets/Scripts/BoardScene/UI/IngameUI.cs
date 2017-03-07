@@ -32,8 +32,15 @@ public class IngameUI : MonoBehaviour
     [Header("Action Panel")]
     public GameObject goActionPanelQ;
     public GameObject baseActionImage;
+    // Actions
+    public Sprite spriteMove;
+    public Sprite spriteExplore;
+    public Sprite spritePick;
+    public Sprite spriteTrade;
+    public Sprite spriteEscort;
+    public Sprite spriteUnescort;
 
- 
+
     // ShortcutPanel
     [Header("ShortcutPanel Panel")]
     public GameObject baseKeeperShortcutPanel;
@@ -58,6 +65,7 @@ public class IngameUI : MonoBehaviour
         {
             if (GameManager.Instance.SelectedKeeperNeedUpdate)
             {
+                HideInventoryPanels();
                 UpdateSelectedKeeperPanel();
             }
             if (GameManager.Instance.ShortcutPanel_NeedUpdate)
@@ -148,10 +156,10 @@ public class IngameUI : MonoBehaviour
                 int iParam = ic.listActionContainers[n].iParam;
                 btn.onClick.AddListener(() => {
                     ic.listActionContainers[n].action(iParam);
-                    GameObject.Find("IngameUI").GetComponent<IngameUI>().ClearActionPanel();
+                    GameManager.Instance.Ui.ClearActionPanel();
                 });
 
-                btn.GetComponentInChildren<Text>().text = ic.listActionContainers[i].strName;
+                btn.transform.GetChild(0).GetComponentInChildren<Image>().sprite = ic.listActionContainers[i].sprite;
             }
         }   
     }

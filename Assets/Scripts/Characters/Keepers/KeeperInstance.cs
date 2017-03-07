@@ -198,7 +198,7 @@ public class KeeperInstance : MonoBehaviour, ITradable {
         equipment = new Item[3];
         isEscortAvailable = true;
         InteractionImplementer = new InteractionImplementer();
-        InteractionImplementer.Add(new Interaction(Trade), "Trade", null);
+        InteractionImplementer.Add(new Interaction(Trade), "Trade", GameManager.Instance.Ui.spriteTrade);
         currentHp = keeper.MaxHp;
         currentHunger = keeper.MaxHunger;
         currentMentalHealth = keeper.MaxMentalHealth;

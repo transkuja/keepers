@@ -138,8 +138,8 @@ public class PrisonerInstance : MonoBehaviour, IEscortable {
     public void Init()
     {
         interactionImplementer = new InteractionImplementer();
-        interactionImplementer.Add(new Interaction(Escort), "Escort", null);
-        interactionImplementer.Add(new Interaction(UnEscort), "Unescort", null, false);
+        interactionImplementer.Add(new Interaction(Escort), "Escort", GameManager.Instance.Ui.spriteEscort);
+        interactionImplementer.Add(new Interaction(UnEscort), "Unescort", GameManager.Instance.Ui.spriteUnescort, false);
         currentHp = prisoner.MaxHp;
         currentHunger = prisoner.MaxHunger;
         currentMentalHealth = prisoner.MaxMentalHealth;
