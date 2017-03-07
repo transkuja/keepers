@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class BattleHandler {
 
+    public static bool isPrisonerOnTile = false;
+
     /*
      * Battle entry point, called to start the battle.
      */
@@ -65,6 +67,12 @@ public class BattleHandler {
         {
             ki.CurrentMentalHealth += 10;
             ki.CurrentHunger += 5;
+
+            if (isPrisonerOnTile)
+            {
+                GameManager.Instance.PrisonerInstance.CurrentMentalHealth += 10;
+                GameManager.Instance.PrisonerInstance.CurrentHunger += 5;
+            }
         }
 
         TileManager.Instance.RemoveDefeatedMonsters(tile);
@@ -82,6 +90,13 @@ public class BattleHandler {
             ki.CurrentHunger += 5;
 
             ki.CurrentHp -= 10;
+
+            if (isPrisonerOnTile)
+            {
+                GameManager.Instance.PrisonerInstance.CurrentMentalHealth -= 10;
+                GameManager.Instance.PrisonerInstance.CurrentHunger += 5;
+                GameManager.Instance.PrisonerInstance.CurrentHp -= 10;
+            }
         }
 
         foreach (KeeperInstance ki in GameManager.Instance.ListOfSelectedKeepers)

@@ -28,20 +28,29 @@ public class SelectBattleCharactersPanelHandler : MonoBehaviour {
     private void Awake()
     {
         int j = 0;
-        // TODO load keepers on tile in UI
+
         foreach (KeeperInstance ki in TileManager.Instance.KeepersOnTile[activeTile])
         {
             GameObject kiImage = Instantiate(imagePrefab, transform.GetChild((int)SelectBattleCharactersScreenChildren.CharactersOnTile).GetChild(j));
+            kiImage.AddComponent<UIKeeperInstance>();
             kiImage.GetComponent<UIKeeperInstance>().keeperInstance = ki;
+            kiImage.AddComponent<DragHandler>();
+            kiImage.AddComponent<CanvasGroup>();
+
             kiImage.transform.localScale = Vector3.one;
             kiImage.transform.localPosition = Vector3.zero;
             kiImage.GetComponent<Image>().sprite = ki.Keeper.AssociatedSprite;
+            
             j++;
         }
 
         if (TileManager.Instance.PrisonerTile != null && TileManager.Instance.PrisonerTile == activeTile)
         {
             isPrisonerOnTile = true;
+            GameObject kiImage = Instantiate(imagePrefab, transform.GetChild((int)SelectBattleCharactersScreenChildren.ThirdCharacter));
+            kiImage.transform.localScale = Vector3.one;
+            kiImage.transform.localPosition = Vector3.zero;
+            kiImage.GetComponent<Image>().sprite = GameManager.Instance.PrisonerInstance.Prisoner.AssociatedSprite;
         }
         // TODO load monsters on tile in UI (sprites only)
     }
@@ -58,11 +67,17 @@ public class SelectBattleCharactersPanelHandler : MonoBehaviour {
 
         if (isPrisonerOnTile)
         {
+            BattleHandler.isPrisonerOnTile = true;
         }
         else
         {
             if (transform.GetChild((int)SelectBattleCharactersScreenChildren.ThirdCharacter).GetChild(0) != null)
                 selected.Add(transform.GetChild((int)SelectBattleCharactersScreenChildren.ThirdCharacter).GetComponentInChildren<KeeperInstance>());
+        }
+
+        if (selected.Count == 0)
+        {
+            return;
         }
 
         BattleHandler.LaunchBattle(activeTile, selected);
