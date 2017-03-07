@@ -311,6 +311,42 @@ public class IngameUI : MonoBehaviour
 
         GameManager.Instance.SelectedKeeperNeedUpdate = false;
     }
+
+    public void CycleThroughKeepersButtonHandler(int direction)
+    {
+        if (GameManager.Instance.AllKeepersList != null)
+        {
+            if (GameManager.Instance.ListOfSelectedKeepers != null && GameManager.Instance.ListOfSelectedKeepers.Count > 0)
+            {
+                // Get first selected
+                KeeperInstance currentKeeperSelected = GameManager.Instance.ListOfSelectedKeepers[0];
+
+                // Get his tile
+                //Tile currentKeeperTile = TileManager.Instance.GetTileFromKeeper[currentKeeperSelected];
+
+                // Get next on tile
+                //List<KeeperInstance> keepersOnTile = TileManager.Instance.KeepersOnTile[currentKeeperTile];
+                int currentKeeperSelectedIndex = GameManager.Instance.AllKeepersList.FindIndex(x => x == currentKeeperSelected);
+
+                // Next keeper on the same tile is now active
+                GameManager.Instance.ClearListKeeperSelected();
+                KeeperInstance nextKeeper = null;
+                if ((currentKeeperSelectedIndex + direction) % GameManager.Instance.AllKeepersList.Count < 0 )
+                {
+                    nextKeeper = GameManager.Instance.AllKeepersList[GameManager.Instance.AllKeepersList.Count -1];
+                } else
+                {
+                    nextKeeper = GameManager.Instance.AllKeepersList[(currentKeeperSelectedIndex + direction) % GameManager.Instance.AllKeepersList.Count];
+                }
+                Debug.Log(nextKeeper);
+                GameManager.Instance.ListOfSelectedKeepers.Add(nextKeeper);
+                nextKeeper.IsSelected = true;
+
+                Camera.main.GetComponent<CameraManager>().UpdateCameraPosition(nextKeeper);
+            }
+        }
+     
+    }
     #endregion
 
     #region Keepers_Inventory
