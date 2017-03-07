@@ -76,6 +76,7 @@ public class ControlsManager : MonoBehaviour {
                             GameManager.Instance.ListOfSelectedKeepers.Add(c);
                             GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
                             GameManager.Instance.Ui.HideInventoryPanels();
+                            GameManager.Instance.Ui.UpdateActionText();
                             c.IsSelected = true;
                         }
                         Camera.main.GetComponent<CameraManager>().UpdateCameraPosition(c);

@@ -113,7 +113,6 @@ public class TileManager : MonoBehaviour {
             goCurrentCharacter.transform.position = spawnPoints[i+1 % spawnPoints.Length].position;
             agent.enabled = true;
         }
-
         Camera.main.GetComponent<CameraManager>().UpdateCameraPosition(keeper);
     }
 

@@ -165,7 +165,10 @@ public class KeeperInstance : MonoBehaviour, ITradable {
 
         set
         {
+
+            if (value < actionPoints) GameManager.Instance.Ui.DecreaseActionTextAnimation();
             actionPoints = value;
+            GameManager.Instance.Ui.UpdateActionText();
             if (actionPoints > keeper.MaxActionPoints)
                 actionPoints = keeper.MaxActionPoints;
             if (actionPoints < 0)

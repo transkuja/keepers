@@ -13,11 +13,13 @@ public class IngameUI : MonoBehaviour
     // Inventory
     public GameObject goInventory;
     public GameObject goEquipement;
-    public GameObject goStats;
     public GameObject keeper_inventory_prefab;
     public GameObject panel_keepers_inventory;
     public GameObject slotPrefab;
     public GameObject itemUI;
+    // StatsPanel
+    public GameObject goStats;
+    public Text SelectedKeeperActionText;
 
     // Turn Panel
     [Header("Turn Panel")]
@@ -35,6 +37,7 @@ public class IngameUI : MonoBehaviour
     [Header("ShortcutPanel Panel")]
     public GameObject baseKeeperShortcutPanel;
     public GameObject goShortcutKeepersPanel;
+
 
     // Quentin
     //public List<GameObject> listGoActionPanelButton;
@@ -165,7 +168,6 @@ public class IngameUI : MonoBehaviour
     #endregion
 
     #region Turn
-    // TODO: @Rémi bouton à corriger (on ne doit pas pouvoir cliquer 2x de suite)
     public void EndTurn()
     {
         if (!isTurnEnding)
@@ -235,6 +237,8 @@ public class IngameUI : MonoBehaviour
             nextKeeper.IsSelected = true;
 
             Camera.main.GetComponent<CameraManager>().UpdateCameraPosition(nextKeeper);
+            GameManager.Instance.SelectedKeeperNeedUpdate = true;
+            GameManager.Instance.Ui.UpdateActionText();
         }
     }
 
@@ -328,7 +332,6 @@ public class IngameUI : MonoBehaviour
                 }
             }
         }
-
         GameManager.Instance.SelectedKeeperNeedUpdate = false;
     }
 
@@ -336,8 +339,13 @@ public class IngameUI : MonoBehaviour
     {
         if (GameManager.Instance.AllKeepersList != null)
         {
-            if (GameManager.Instance.ListOfSelectedKeepers != null && GameManager.Instance.ListOfSelectedKeepers.Count > 0)
+            if (GameManager.Instance.ListOfSelectedKeepers != null)
             {
+                if (GameManager.Instance.ListOfSelectedKeepers.Count <= 0)
+                {
+                    // tmp
+                    GameManager.Instance.ListOfSelectedKeepers.Add(GameManager.Instance.AllKeepersList[0]);
+                }
                 // Get first selected
                 KeeperInstance currentKeeperSelected = GameManager.Instance.ListOfSelectedKeepers[0];
                 int currentKeeperSelectedIndex = GameManager.Instance.AllKeepersList.FindIndex(x => x == currentKeeperSelected);
@@ -345,10 +353,11 @@ public class IngameUI : MonoBehaviour
                 // Next keeper
                 GameManager.Instance.ClearListKeeperSelected();
                 KeeperInstance nextKeeper = null;
-                if ((currentKeeperSelectedIndex + direction) % GameManager.Instance.AllKeepersList.Count < 0 )
+                if ((currentKeeperSelectedIndex + direction) % GameManager.Instance.AllKeepersList.Count < 0)
                 {
-                    nextKeeper = GameManager.Instance.AllKeepersList[GameManager.Instance.AllKeepersList.Count -1];
-                } else
+                    nextKeeper = GameManager.Instance.AllKeepersList[GameManager.Instance.AllKeepersList.Count - 1];
+                }
+                else
                 {
                     nextKeeper = GameManager.Instance.AllKeepersList[(currentKeeperSelectedIndex + direction) % GameManager.Instance.AllKeepersList.Count];
                 }
@@ -356,9 +365,31 @@ public class IngameUI : MonoBehaviour
                 nextKeeper.IsSelected = true;
 
                 Camera.main.GetComponent<CameraManager>().UpdateCameraPosition(nextKeeper);
+
             }
+                
+
         }
-     
+        GameManager.Instance.SelectedKeeperNeedUpdate = true;
+        GameManager.Instance.Ui.UpdateActionText();
+    }
+
+    public void UpdateActionText()
+    {
+        KeeperInstance currentKeeper = GameManager.Instance.ListOfSelectedKeepers[0];
+        SelectedKeeperActionText.text = currentKeeper.ActionPoints.ToString();
+    }
+
+    public void DecreaseActionTextAnimation()
+    {
+        SelectedKeeperActionText.GetComponent<Outline>().effectColor = Color.red;
+        StartCoroutine("TextAnimationNormalState");
+    }
+    private IEnumerator TextAnimationNormalState()
+    {
+        yield return new WaitForSeconds(1);
+        SelectedKeeperActionText.GetComponent<Outline>().effectColor = Color.black;
+        yield return null;
     }
     #endregion
 

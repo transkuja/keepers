@@ -81,7 +81,7 @@ public class TileTrigger : MonoBehaviour {
 
         // Move to explored tile
         TileManager.Instance.MoveKeeper(ki, TileManager.Instance.GetTileFromKeeper[ki], (Direction)_i);
-
+        Debug.Log("test");
         // Tell the tile it has been discovered (and watch it panic)
         Tile exploredTile = TileManager.Instance.GetTileFromKeeper[ki];
         exploredTile.State = TileState.Discovered;
@@ -98,7 +98,6 @@ public class TileTrigger : MonoBehaviour {
         ki.CurrentHunger -= 5;
         //TODO: Apply this only when the discovered tile is unfriendly
         ki.CurrentMentalHealth -= 5;
-
         // If the player is exploring with the prisoner following, apply costs to him too
         if (prisoner != null)
         {
@@ -120,7 +119,7 @@ public class TileTrigger : MonoBehaviour {
                 prisoner.CurrentMentalHealth -= 5;
             }
         }
-
+        Debug.Log("test");
         GameManager.Instance.SelectedKeeperNeedUpdate = true;
         GameManager.Instance.ShortcutPanel_NeedUpdate = true;
     }
