@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 
 public class KeeperInstance : MonoBehaviour, ITradable {
@@ -27,9 +24,6 @@ public class KeeperInstance : MonoBehaviour, ITradable {
     private int currentMp;
 
     [SerializeField]
-    private short actionPoints = 3;
-
-    [SerializeField]
     private GameObject goSelectionAura;
 
     // Used only in menu. Handles selection in main menu.
@@ -42,13 +36,25 @@ public class KeeperInstance : MonoBehaviour, ITradable {
     private Item[] inventory;
     private Item[] equipment;
 
-    // Update variables
-    NavMeshAgent agent;
 
-    Vector3 v3AgentDirectionTemp;
+    // Actions
+    [Header("Actions")]
+    [SerializeField]
+    private short actionPoints = 3;
 
     private InteractionImplementer interactionImplementer;
+    //  Escort
     public bool isEscortAvailable = true;
+    // Moral
+    public bool isAbleToImproveMoral = true;
+    public int minMoralBuff = -10;
+    public int maxMoralBuff = 20;
+
+    // Mouvement
+    [Header("Mouvement")]
+    // Update variables
+    NavMeshAgent agent;
+    Vector3 v3AgentDirectionTemp;
 
     // Rotations
     float fLerpRotation = 0.666f;
@@ -199,6 +205,7 @@ public class KeeperInstance : MonoBehaviour, ITradable {
         isEscortAvailable = true;
         InteractionImplementer = new InteractionImplementer();
         InteractionImplementer.Add(new Interaction(Trade), "Trade", GameManager.Instance.Ui.spriteTrade);
+        if (isAbleToImproveMoral) InteractionImplementer.Add(new Interaction(MoralBuff), "Moral", GameManager.Instance.Ui.spriteMoral);
         currentHp = keeper.MaxHp;
         currentHunger = keeper.MaxHunger;
         currentMentalHealth = keeper.MaxMentalHealth;
@@ -387,5 +394,12 @@ public class KeeperInstance : MonoBehaviour, ITradable {
     public void Trade(int _i = 0)
     {
         GameManager.Instance.Ui.ShowInventoryPanels();
+    }
+    public void MoralBuff(int _i = 0)
+    {
+        short amountMoralBuff = (short)Random.Range(minMoralBuff, maxMoralBuff);
+        GameManager.Instance.GoTarget.GetComponent<KeeperInstance>().CurrentMentalHealth += amountMoralBuff;
+        GameManager.Instance.ShortcutPanel_NeedUpdate = true;
+        GameManager.Instance.Ui.MoralBuffActionTextAnimation(amountMoralBuff);
     }
 }

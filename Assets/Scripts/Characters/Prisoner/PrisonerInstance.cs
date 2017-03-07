@@ -18,7 +18,7 @@ public class PrisonerInstance : MonoBehaviour, IEscortable {
     private int currentHp;
     [SerializeField]
     private int currentMp;
-
+    
     private bool isStarving = false;
     private bool isMentalHealthLow = false;
     private bool isAlive = true;

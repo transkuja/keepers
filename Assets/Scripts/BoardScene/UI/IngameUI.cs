@@ -32,6 +32,8 @@ public class IngameUI : MonoBehaviour
     [Header("Action Panel")]
     public GameObject goActionPanelQ;
     public GameObject baseActionImage;
+
+    public GameObject goMoralPanel;
     // Actions
     public Sprite spriteMove;
     public Sprite spriteExplore;
@@ -39,6 +41,7 @@ public class IngameUI : MonoBehaviour
     public Sprite spriteTrade;
     public Sprite spriteEscort;
     public Sprite spriteUnescort;
+    public Sprite spriteMoral;
 
 
     // ShortcutPanel
@@ -52,6 +55,7 @@ public class IngameUI : MonoBehaviour
 
     [HideInInspector]
     public bool isTurnEnding = false;
+
 
     public void Start()
     {
@@ -173,9 +177,40 @@ public class IngameUI : MonoBehaviour
             }
         }
     }
+
+    public void MoralBuffActionTextAnimation(int amount)
+    {
+        goMoralPanel.gameObject.SetActive(true);
+        // TODO : Ajouter la taille pion ? 
+        goMoralPanel.transform.position = Camera.main.WorldToScreenPoint(GameManager.Instance.GoTarget.transform.position);
+        if (amount < 0)
+        {
+            goMoralPanel.GetComponent<Image>().sprite = spriteMoral;
+            goMoralPanel.GetComponentInChildren<Text>().color = Color.red;
+            goMoralPanel.GetComponentInChildren<Text>().text = "";
+        } else
+        {
+            goMoralPanel.GetComponent<Image>().sprite = spriteMoral;
+            goMoralPanel.GetComponentInChildren<Text>().color = Color.green;
+            goMoralPanel.GetComponentInChildren<Text>().text = "+ ";
+        }
+        goMoralPanel.GetComponentInChildren<Text>().text += amount.ToString();
+
+        StartCoroutine(MoralPanelNormalState());
+    }
+    private IEnumerator MoralPanelNormalState()
+    {
+        for (float f = 2.0f; f >= 0; f -= 0.1f)
+        {
+            Vector3 decal = new Vector3(0.0f, f, 0.0f);
+            goMoralPanel.transform.position += decal;
+            yield return null;
+        }
+        goMoralPanel.gameObject.SetActive(false);
+    }
     #endregion
 
-    #region Turn
+        #region Turn
     public void EndTurn()
     {
         if (!isTurnEnding)
