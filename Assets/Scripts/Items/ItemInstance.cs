@@ -20,6 +20,9 @@ public class ItemInstance : MonoBehaviour, IPickable {
     [HideInInspector]
     public int quantite;
 
+    [HideInInspector]
+    public int value;
+
     [SerializeField]
     public Sprite spriteToCopy;
 
@@ -54,6 +57,7 @@ public class ItemInstance : MonoBehaviour, IPickable {
                 break;
             case TypeItem.Consummable:
                 ((Consummable)item).quantite = quantite;
+                ((Consummable)item).value = value;
                 break;
             default:
                 break;

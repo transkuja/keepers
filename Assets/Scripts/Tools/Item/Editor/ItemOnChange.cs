@@ -23,6 +23,8 @@ public class ItemOnChange : Editor {
         {
             EditorGUILayout.LabelField("Quantite", EditorStyles.boldLabel);
             (this.target as ItemInstance).quantite = EditorGUILayout.IntSlider((this.target as ItemInstance).quantite, 1, 99);
+            EditorGUILayout.LabelField("Value", EditorStyles.boldLabel);
+            (this.target as ItemInstance).value = EditorGUILayout.IntSlider((this.target as ItemInstance).value, 1, 99);
 
         }
 
