@@ -35,45 +35,44 @@ public class Slot : MonoBehaviour, IDropHandler {
             Transform aux = eventData.pointerDrag.GetComponent<DragHandler>().startParent;
 
             //Ou on est ?
-            GameObject inventaireDequi = aux.parent.parent.gameObject;
-            GameObject inventaireversqui = transform.parent.parent.gameObject;
+            //GameObject inventaireDequi = aux.parent.parent.gameObject;
+            //GameObject inventaireversqui = transform.parent.parent.gameObject;
+            InventoryOwner inventaireDequi = aux.parent.GetComponent<InventoryOwner>();
+            InventoryOwner inventaireversqui = transform.parent.GetComponent<InventoryOwner>();
 
-            KeeperInstance dequi = null;
-            KeeperInstance versqui = null;
-            // Recuperation du bon inventaire
-            if (inventaireDequi == GameManager.Instance.Ui.goInventory.transform.parent.gameObject)
-            {
-                dequi = GameManager.Instance.ListOfSelectedKeepers[0];
-            }
-            else
-            {
-                for (int i = 0; i < GameManager.Instance.AllKeepersList.Count; i++)
-                {
-                    if (i == inventaireDequi.transform.GetSiblingIndex())
-                    {
-                        dequi = GameManager.Instance.AllKeepersList[i];
-                    }
-                }
-            }
-            if (inventaireversqui == GameManager.Instance.Ui.goInventory.transform.parent.gameObject)
-            {
-                versqui = GameManager.Instance.ListOfSelectedKeepers[0];
-            } else
-            {
-                for (int i = 0; i< GameManager.Instance.AllKeepersList.Count; i++)
-                {
-                    if( i == inventaireversqui.transform.GetSiblingIndex())
-                    {
-                        versqui = GameManager.Instance.AllKeepersList[i];
-                    }
-                }
-            }
+            Item[] inventoryKeeperDequi = inventaireDequi.Owner.GetComponent<Inventory>().inventory;
+            Item[] inventoryKeeperVersqui = inventaireversqui.Owner.GetComponent<Inventory>().inventory;
 
-            if (dequi == null || versqui == null)
-                Debug.Log("gros bug");
+            //if (inventaireDequi == GameManager.Instance.Ui.goInventory.transform.parent.gameObject)
+            //{
+            //    dequi = GameManager.Instance.ListOfSelectedKeepers[0];
+            //}
+            //else
+            //{
+            //    for (int i = 0; i < GameManager.Instance.AllKeepersList.Count; i++)
+            //    {
+            //        if (i == inventaireDequi.transform.GetSiblingIndex())
+            //        {
+            //            dequi = GameManager.Instance.AllKeepersList[i];
+            //        }
+            //    }
+            //}
+            //if (inventaireversqui == GameManager.Instance.Ui.goInventory.transform.parent.gameObject)
+            //{
+            //    versqui = GameManager.Instance.ListOfSelectedKeepers[0];
+            //} else
+            //{
+            //    for (int i = 0; i< GameManager.Instance.AllKeepersList.Count; i++)
+            //    {
+            //        if( i == inventaireversqui.transform.GetSiblingIndex())
+            //        {
+            //            versqui = GameManager.Instance.AllKeepersList[i];
+            //        }
+            //    }
+            //}
 
             //Si les inventaires sont differents
-            if (dequi != versqui)
+            if (inventaireDequi != inventaireversqui)
             {
                 if (hasAlreadyAnItem)
                 {
@@ -89,13 +88,13 @@ public class Slot : MonoBehaviour, IDropHandler {
                         }
                         else
                         {
-                            ItemManager.RemoveItem(dequi, eventData.pointerDrag.GetComponent<ItemInstance>().item);
+                            ItemManager.RemoveItem(inventoryKeeperDequi, eventData.pointerDrag.GetComponent<ItemInstance>().item);
                         }
                     }
                     else
                     {
                         // Swap
-                        ItemManager.SwapItemBeetweenInventories(dequi, aux.GetSiblingIndex(), versqui, transform.GetSiblingIndex());
+                        ItemManager.SwapItemBeetweenInventories(inventoryKeeperDequi, aux.GetSiblingIndex(), inventoryKeeperVersqui, transform.GetSiblingIndex());
 
                     }
                 }
@@ -104,11 +103,11 @@ public class Slot : MonoBehaviour, IDropHandler {
                     //Move the item to the slot
                     //eventData.pointerDrag.transform.SetParent(transform);
 
-                    ItemManager.RemoveItem(dequi, eventData.pointerDrag.GetComponent<ItemInstance>().item);
-                    ItemManager.AddItem(versqui, eventData.pointerDrag.GetComponent<ItemInstance>().item, false);
+                    ItemManager.RemoveItem(inventoryKeeperDequi, eventData.pointerDrag.GetComponent<ItemInstance>().item);
+                    ItemManager.AddItem(inventoryKeeperVersqui, eventData.pointerDrag.GetComponent<ItemInstance>().item, false);
                    
                     ItemManager.MoveItemToSlot(
-                         versqui,
+                         inventoryKeeperVersqui,
                          eventData.pointerDrag.GetComponent<ItemInstance>().item,
                          transform.GetSiblingIndex()
                      );
@@ -133,21 +132,21 @@ public class Slot : MonoBehaviour, IDropHandler {
                         }
                         else
                         {
-                            ItemManager.RemoveItem(dequi, eventData.pointerDrag.GetComponent<ItemInstance>().item);
+                            ItemManager.RemoveItem(inventoryKeeperDequi, eventData.pointerDrag.GetComponent<ItemInstance>().item);
 
                         }
                     }
                     else
                     {
                         // swap dequi = versqui
-                        ItemManager.SwapItemInSameInventory(dequi, aux.GetSiblingIndex(), transform.GetSiblingIndex());
+                        ItemManager.SwapItemInSameInventory(inventoryKeeperDequi, aux.GetSiblingIndex(), transform.GetSiblingIndex());
                     }
                 }
                 else
                 {
                     //Move the item to the slot
                     ItemManager.MoveItemToSlot(
-                          versqui,
+                          inventoryKeeperVersqui,
                           eventData.pointerDrag.GetComponent<ItemInstance>().item,
                           transform.GetSiblingIndex()
                     );
