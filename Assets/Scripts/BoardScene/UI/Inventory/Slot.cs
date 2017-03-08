@@ -96,9 +96,7 @@ public class Slot : MonoBehaviour, IDropHandler
 
                         if ((itemOn.GetType() == itemDragged.GetType()) && itemOn.GetType() == typeof(Consummable) && itemOn.sprite.name == itemDragged.sprite.name)
                         {
-                            Consummable consummableDragged = (Consummable)itemDragged;
-                            Consummable consummableOn = (Consummable)itemDragged;
-                            int quantityLeft = ItemManager.MergeStackables2(consummableOn, consummableDragged);
+                            int quantityLeft = ItemManager.MergeStackables2(((Consummable)currentItem.GetComponent<ItemInstance>().item), ((Consummable)eventData.pointerDrag.GetComponent<ItemInstance>().item));
                             if (quantityLeft > 0)
                             {
                                 ((Consummable)eventData.pointerDrag.GetComponent<ItemInstance>().item).quantite = quantityLeft;
