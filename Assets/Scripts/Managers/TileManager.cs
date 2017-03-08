@@ -134,6 +134,14 @@ public class TileManager : MonoBehaviour {
     {
         foreach (MonsterInstance mi in monstersOnTile[tile])
         {
+            if(mi.deathParticles != null)
+            {
+                ParticleSystem ps = Instantiate(mi.deathParticles, mi.transform.parent);
+                ps.transform.position = mi.transform.position;
+                ps.Play();
+                Destroy(ps.gameObject, ps.main.duration);
+            }
+            
             Destroy(mi.gameObject);
         }
         monstersOnTile.Remove(tile);

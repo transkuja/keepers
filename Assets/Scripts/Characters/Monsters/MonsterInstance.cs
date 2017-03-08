@@ -6,7 +6,7 @@ public class MonsterInstance : MonoBehaviour {
     [Header("Monster Info")]
     [SerializeField]
     private Monster monster = null;
-
+    public ParticleSystem deathParticles = null;
     [SerializeField]
     private int currentHp;
 

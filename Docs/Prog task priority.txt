@@ -1,7 +1,6 @@
 1: priorité la plus haute
 
-1: Endgame: victoire/défaite avec possibilité de relancer une partie et affichage du score
-1: Défaite: implementer les conditions de défaite
+1: Endgame: victoire/défaite ajouter la possibilité de relancer une partie et l'affichage du score
 1: Implémenter les 2 modes de caméra
 1: Implémenter toutes les composantes de l'UI avec mise à jour quand nécessaire des infos affichées (points d'actions notamment)
 1: Mode caméra de loin: Afficher les icones d'action et les linker aux actions
