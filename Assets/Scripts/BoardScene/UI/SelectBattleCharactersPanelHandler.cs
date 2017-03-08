@@ -47,7 +47,7 @@ public class SelectBattleCharactersPanelHandler : MonoBehaviour {
         if (TileManager.Instance.PrisonerTile != null && TileManager.Instance.PrisonerTile == activeTile)
         {
             isPrisonerOnTile = true;
-            GameObject kiImage = Instantiate(imagePrefab, transform.GetChild((int)SelectBattleCharactersScreenChildren.ThirdCharacter));
+            GameObject kiImage = Instantiate(imagePrefab, transform.GetChild((int)SelectBattleCharactersScreenChildren.CharactersSelected).GetChild(2));
             kiImage.transform.localScale = Vector3.one;
             kiImage.transform.localPosition = Vector3.zero;
             kiImage.GetComponent<Image>().sprite = GameManager.Instance.PrisonerInstance.Prisoner.AssociatedSprite;
@@ -59,11 +59,11 @@ public class SelectBattleCharactersPanelHandler : MonoBehaviour {
     {
         List<KeeperInstance> selected = new List<KeeperInstance>();
 
-        if (transform.GetChild((int)SelectBattleCharactersScreenChildren.FirstCharacter).GetChild(0) != null)
-            selected.Add(transform.GetChild((int)SelectBattleCharactersScreenChildren.FirstCharacter).GetComponentInChildren<KeeperInstance>());
+        if (transform.GetChild((int)SelectBattleCharactersScreenChildren.CharactersSelected).GetChild(0).childCount > 0)
+            selected.Add(transform.GetChild((int)SelectBattleCharactersScreenChildren.CharactersSelected).GetComponentInChildren<UIKeeperInstance>().keeperInstance);
 
-        if (transform.GetChild((int)SelectBattleCharactersScreenChildren.SecondCharacter).GetChild(0) != null)
-            selected.Add(transform.GetChild((int)SelectBattleCharactersScreenChildren.SecondCharacter).GetComponentInChildren<KeeperInstance>());
+        if (transform.GetChild((int)SelectBattleCharactersScreenChildren.CharactersSelected).GetChild(1).childCount > 0)
+            selected.Add(transform.GetChild((int)SelectBattleCharactersScreenChildren.CharactersSelected).GetChild(1).GetComponentInChildren<UIKeeperInstance>().keeperInstance);
 
         if (isPrisonerOnTile)
         {
@@ -71,12 +71,13 @@ public class SelectBattleCharactersPanelHandler : MonoBehaviour {
         }
         else
         {
-            if (transform.GetChild((int)SelectBattleCharactersScreenChildren.ThirdCharacter).GetChild(0) != null)
-                selected.Add(transform.GetChild((int)SelectBattleCharactersScreenChildren.ThirdCharacter).GetComponentInChildren<KeeperInstance>());
+            if (transform.GetChild((int)SelectBattleCharactersScreenChildren.CharactersSelected).GetChild(2).childCount >0)
+                selected.Add(transform.GetChild((int)SelectBattleCharactersScreenChildren.CharactersSelected).GetChild(2).GetComponentInChildren<UIKeeperInstance>().keeperInstance);
         }
 
         if (selected.Count == 0)
         {
+            Debug.Log("At least one keeper need to be selected");
             return;
         }
 
@@ -90,9 +91,7 @@ public class SelectBattleCharactersPanelHandler : MonoBehaviour {
 public enum SelectBattleCharactersScreenChildren
 {
     Header,
-    FirstCharacter,
-    SecondCharacter,
-    ThirdCharacter,
+    CharactersSelected,
     Go,
     CharactersOnTile
 }

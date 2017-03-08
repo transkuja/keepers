@@ -32,132 +32,118 @@ public class Slot : MonoBehaviour, IDropHandler {
         if (eventData.pointerDrag.GetComponent<DragHandler>() != null)
         {
             // Get the original parent
-            Transform aux = eventData.pointerDrag.GetComponent<DragHandler>().startParent;
+            Transform previous = eventData.pointerDrag.GetComponent<DragHandler>().startParent;
 
-            //Ou on est ?
-            //GameObject inventaireDequi = aux.parent.parent.gameObject;
-            //GameObject inventaireversqui = transform.parent.parent.gameObject;
-            InventoryOwner inventaireDequi = aux.parent.GetComponent<InventoryOwner>();
-            InventoryOwner inventaireversqui = transform.parent.GetComponent<InventoryOwner>();
-
-            Item[] inventoryKeeperDequi = inventaireDequi.Owner.GetComponent<Inventory>().inventory;
-            Item[] inventoryKeeperVersqui = inventaireversqui.Owner.GetComponent<Inventory>().inventory;
-
-            //if (inventaireDequi == GameManager.Instance.Ui.goInventory.transform.parent.gameObject)
-            //{
-            //    dequi = GameManager.Instance.ListOfSelectedKeepers[0];
-            //}
-            //else
-            //{
-            //    for (int i = 0; i < GameManager.Instance.AllKeepersList.Count; i++)
-            //    {
-            //        if (i == inventaireDequi.transform.GetSiblingIndex())
-            //        {
-            //            dequi = GameManager.Instance.AllKeepersList[i];
-            //        }
-            //    }
-            //}
-            //if (inventaireversqui == GameManager.Instance.Ui.goInventory.transform.parent.gameObject)
-            //{
-            //    versqui = GameManager.Instance.ListOfSelectedKeepers[0];
-            //} else
-            //{
-            //    for (int i = 0; i< GameManager.Instance.AllKeepersList.Count; i++)
-            //    {
-            //        if( i == inventaireversqui.transform.GetSiblingIndex())
-            //        {
-            //            versqui = GameManager.Instance.AllKeepersList[i];
-            //        }
-            //    }
-            //}
-
-            //Si les inventaires sont differents
-            if (inventaireDequi != inventaireversqui)
+            if (previous.parent.GetComponent<InventoryOwner>() != null && transform.parent.GetComponent<InventoryOwner>() != null)
             {
-                if (hasAlreadyAnItem)
-                {
-                    Item itemDragged = eventData.pointerDrag.GetComponent<ItemInstance>().item;
-                    Item itemOn = currentItem.GetComponent<ItemInstance>().item;
 
-                    if ((itemOn.GetType() == itemDragged.GetType()) && itemOn.GetType() == typeof(Consummable) && itemOn.sprite.name == itemDragged.sprite.name)
+                //Ou on est ?
+                InventoryOwner inventaireDequi = previous.parent.GetComponent<InventoryOwner>();
+                InventoryOwner inventaireversqui = transform.parent.GetComponent<InventoryOwner>();
+
+                Item[] inventoryKeeperDequi = inventaireDequi.Owner.GetComponent<Inventory>().inventory;
+                Item[] inventoryKeeperVersqui = inventaireversqui.Owner.GetComponent<Inventory>().inventory;
+
+                //Si les inventaires sont differents
+                if (inventaireDequi != inventaireversqui)
+                {
+                    if (hasAlreadyAnItem)
                     {
-                        int quantityLeft = ItemManager.MergeStackables2(((Consummable)currentItem.GetComponent<ItemInstance>().item), ((Consummable)eventData.pointerDrag.GetComponent<ItemInstance>().item));
-                        if (quantityLeft > 0)
+                        Item itemDragged = eventData.pointerDrag.GetComponent<ItemInstance>().item;
+                        Item itemOn = currentItem.GetComponent<ItemInstance>().item;
+
+                        if ((itemOn.GetType() == itemDragged.GetType()) && itemOn.GetType() == typeof(Consummable) && itemOn.sprite.name == itemDragged.sprite.name)
                         {
-                            ((Consummable)eventData.pointerDrag.GetComponent<ItemInstance>().item).quantite = quantityLeft;
+                            int quantityLeft = ItemManager.MergeStackables2(((Consummable)currentItem.GetComponent<ItemInstance>().item), ((Consummable)eventData.pointerDrag.GetComponent<ItemInstance>().item));
+                            if (quantityLeft > 0)
+                            {
+                                ((Consummable)eventData.pointerDrag.GetComponent<ItemInstance>().item).quantite = quantityLeft;
+                            }
+                            else
+                            {
+                                ItemManager.RemoveItem(inventoryKeeperDequi, eventData.pointerDrag.GetComponent<ItemInstance>().item);
+                            }
                         }
                         else
                         {
-                            ItemManager.RemoveItem(inventoryKeeperDequi, eventData.pointerDrag.GetComponent<ItemInstance>().item);
+                            // Swap
+                            ItemManager.SwapItemBeetweenInventories(inventoryKeeperDequi, previous.GetSiblingIndex(), inventoryKeeperVersqui, transform.GetSiblingIndex());
+
                         }
                     }
                     else
                     {
-                        // Swap
-                        ItemManager.SwapItemBeetweenInventories(inventoryKeeperDequi, aux.GetSiblingIndex(), inventoryKeeperVersqui, transform.GetSiblingIndex());
+                        //Move the item to the slot
+                        //eventData.pointerDrag.transform.SetParent(transform);
+
+                        ItemManager.RemoveItem(inventoryKeeperDequi, eventData.pointerDrag.GetComponent<ItemInstance>().item);
+                        ItemManager.AddItem(inventoryKeeperVersqui, eventData.pointerDrag.GetComponent<ItemInstance>().item, false);
+
+                        ItemManager.MoveItemToSlot(
+                             inventoryKeeperVersqui,
+                             eventData.pointerDrag.GetComponent<ItemInstance>().item,
+                             transform.GetSiblingIndex()
+                         );
+                    }
+                }
+                // Si l'inventaire est le même
+                else
+                {
+                    if (hasAlreadyAnItem)
+                    {
+                        Item itemDragged = eventData.pointerDrag.GetComponent<ItemInstance>().item;
+                        Item itemOn = currentItem.GetComponent<ItemInstance>().item;
+
+                        if ((itemOn.GetType() == itemDragged.GetType()) && itemOn.GetType() == typeof(Consummable) && itemOn.sprite.name == itemDragged.sprite.name)
+                        {
+                            Consummable consummableDragged = (Consummable)itemDragged;
+                            Consummable consummableOn = (Consummable)itemDragged;
+                            int quantityLeft = ItemManager.MergeStackables2(consummableOn, consummableDragged);
+                            if (quantityLeft > 0)
+                            {
+                                ((Consummable)eventData.pointerDrag.GetComponent<ItemInstance>().item).quantite = quantityLeft;
+                            }
+                            else
+                            {
+                                ItemManager.RemoveItem(inventoryKeeperDequi, eventData.pointerDrag.GetComponent<ItemInstance>().item);
+
+                            }
+                        }
+                        else
+                        {
+                            // swap dequi = versqui
+                            ItemManager.SwapItemInSameInventory(inventoryKeeperDequi, previous.GetSiblingIndex(), transform.GetSiblingIndex());
+                        }
+                    }
+                    else
+                    {
+                        //Move the item to the slot
+                        ItemManager.MoveItemToSlot(
+                              inventoryKeeperVersqui,
+                              eventData.pointerDrag.GetComponent<ItemInstance>().item,
+                              transform.GetSiblingIndex()
+                        );
 
                     }
                 }
-                else
-                {
-                    //Move the item to the slot
-                    //eventData.pointerDrag.transform.SetParent(transform);
 
-                    ItemManager.RemoveItem(inventoryKeeperDequi, eventData.pointerDrag.GetComponent<ItemInstance>().item);
-                    ItemManager.AddItem(inventoryKeeperVersqui, eventData.pointerDrag.GetComponent<ItemInstance>().item, false);
-                   
-                    ItemManager.MoveItemToSlot(
-                         inventoryKeeperVersqui,
-                         eventData.pointerDrag.GetComponent<ItemInstance>().item,
-                         transform.GetSiblingIndex()
-                     );
-                }
+                Destroy(eventData.pointerDrag.gameObject);
+                GameManager.Instance.Ui.UpdateKeeperInventoryPanel();
+                GameManager.Instance.SelectedKeeperNeedUpdate = true;
             }
-            // Si l'inventaire est le même
+            // Drag Characters in battle scene
             else
             {
-                if (hasAlreadyAnItem)
+                // Si ce n'est pas un objet qui est drag
+                if (eventData.pointerDrag.GetComponent<ItemInstance>() == null)
                 {
-                    Item itemDragged = eventData.pointerDrag.GetComponent<ItemInstance>().item;
-                    Item itemOn = currentItem.GetComponent<ItemInstance>().item;
-
-                    if ((itemOn.GetType() == itemDragged.GetType()) && itemOn.GetType() == typeof(Consummable) && itemOn.sprite.name == itemDragged.sprite.name)
+                    if (hasAlreadyAnItem)
                     {
-                        Consummable consummableDragged = (Consummable)itemDragged;
-                        Consummable consummableOn = (Consummable)itemDragged;
-                        int quantityLeft = ItemManager.MergeStackables2(consummableOn, consummableDragged);
-                        if (quantityLeft > 0)
-                        {
-                            ((Consummable)eventData.pointerDrag.GetComponent<ItemInstance>().item).quantite = quantityLeft;
-                        }
-                        else
-                        {
-                            ItemManager.RemoveItem(inventoryKeeperDequi, eventData.pointerDrag.GetComponent<ItemInstance>().item);
-
-                        }
+                        currentItem.transform.SetParent(previous);
                     }
-                    else
-                    {
-                        // swap dequi = versqui
-                        ItemManager.SwapItemInSameInventory(inventoryKeeperDequi, aux.GetSiblingIndex(), transform.GetSiblingIndex());
-                    }
-                }
-                else
-                {
-                    //Move the item to the slot
-                    ItemManager.MoveItemToSlot(
-                          inventoryKeeperVersqui,
-                          eventData.pointerDrag.GetComponent<ItemInstance>().item,
-                          transform.GetSiblingIndex()
-                    );
-
+                    eventData.pointerDrag.transform.SetParent(transform);
                 }
             }
-
-            Destroy(eventData.pointerDrag.gameObject);
-            GameManager.Instance.Ui.UpdateKeeperInventoryPanel();
-            GameManager.Instance.SelectedKeeperNeedUpdate = true;
-
         }
         else if (eventData.pointerDrag.GetComponent<DragHandlerInventoryPanel>() != null)
         {
