@@ -144,6 +144,7 @@ public class PrisonerInstance : MonoBehaviour, IEscortable {
         currentHunger = prisoner.MaxHunger;
         currentMentalHealth = prisoner.MaxMentalHealth;
         currentMp = prisoner.MaxMp;
+        isAlive = true;
     }
 
     #region Accessors

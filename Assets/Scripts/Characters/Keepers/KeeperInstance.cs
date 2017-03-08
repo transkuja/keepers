@@ -209,6 +209,7 @@ public class KeeperInstance : MonoBehaviour, ITradable {
         currentMentalHealth = keeper.MaxMentalHealth;
         actionPoints = keeper.MaxActionPoints;
         currentMp = keeper.MaxMp;
+        isAlive = true;
     }
 
     private void OnTriggerEnter(Collider other)

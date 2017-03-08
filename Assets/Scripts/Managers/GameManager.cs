@@ -265,8 +265,7 @@ public class GameManager : MonoBehaviour
 
     public void CheckGameState()
     {
-        bool prisonerDied = !prisonerInstance.IsAlive;
-        if(prisonerDied)
+        if(!prisonerInstance.IsAlive)
         {
             Debug.Log("GameOver - Prisoner Died");
             Lose();
