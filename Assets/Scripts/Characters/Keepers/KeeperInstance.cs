@@ -217,8 +217,9 @@ public class KeeperInstance : MonoBehaviour, ITradable {
         {
             agent.Stop();
             agent.ResetPath();
-            // TODO: Open selection window
-            GameManager.Instance.OpenSelectBattleCharactersScreen(TileManager.Instance.GetTileFromKeeper[this]);
+
+            BattleHandler.StartBattleProcess(TileManager.Instance.GetTileFromKeeper[this]);
+            
             agent.Resume();
         }
     }

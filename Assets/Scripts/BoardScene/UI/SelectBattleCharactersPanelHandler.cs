@@ -52,6 +52,11 @@ public class SelectBattleCharactersPanelHandler : MonoBehaviour {
             kiImage.transform.localPosition = Vector3.zero;
             kiImage.GetComponent<Image>().sprite = GameManager.Instance.PrisonerInstance.Prisoner.AssociatedSprite;
         }
+        else
+        {
+            isPrisonerOnTile = false;
+        }
+
         // TODO load monsters on tile in UI (sprites only)
     }
 
@@ -65,19 +70,17 @@ public class SelectBattleCharactersPanelHandler : MonoBehaviour {
         if (transform.GetChild((int)SelectBattleCharactersScreenChildren.CharactersSelected).GetChild(1).childCount > 0)
             selected.Add(transform.GetChild((int)SelectBattleCharactersScreenChildren.CharactersSelected).GetChild(1).GetComponentInChildren<UIKeeperInstance>().keeperInstance);
 
-        if (isPrisonerOnTile)
-        {
-            BattleHandler.isPrisonerOnTile = true;
-        }
-        else
+        if (!isPrisonerOnTile)
         {
             if (transform.GetChild((int)SelectBattleCharactersScreenChildren.CharactersSelected).GetChild(2).childCount >0)
                 selected.Add(transform.GetChild((int)SelectBattleCharactersScreenChildren.CharactersSelected).GetChild(2).GetComponentInChildren<UIKeeperInstance>().keeperInstance);
         }
 
+        BattleHandler.isPrisonerOnTile = isPrisonerOnTile;
+
         if (selected.Count == 0)
         {
-            Debug.Log("At least one keeper need to be selected");
+            Debug.Log("At least one keeper must be selected");
             return;
         }
 

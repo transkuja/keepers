@@ -4,11 +4,39 @@ using UnityEngine;
 
 public class BattleHandler {
 
+    // Is the prisoner on the tile where the battle is processed
     public static bool isPrisonerOnTile = false;
 
-    /*
-     * Battle entry point, called to start the battle.
-     */
+    /// <summary>
+    /// Autoselect keepers if there are not enough for a selection
+    /// </summary>
+    /// <param name="tile"></param>
+    public static void StartBattleProcess(Tile tile)
+    {
+        // Auto selection
+        if (TileManager.Instance.KeepersOnTile[tile].Count <= 1)
+        {
+            List<KeeperInstance> keepersForBattle = TileManager.Instance.KeepersOnTile[tile];
+            if (TileManager.Instance.PrisonerTile == tile)
+            {
+                isPrisonerOnTile = true;
+            }
+
+            LaunchBattle(tile, keepersForBattle);
+        }
+        // Manual selection
+        else
+        {
+            GameManager.Instance.OpenSelectBattleCharactersScreen(tile);
+        }
+    }
+
+
+    /// <summary>
+    /// Battle entry point, called to start the battle.
+    /// </summary>
+    /// <param name="tile">Tile where the battle happens</param>
+    /// <param name="selectedKeepersForBattle">Keepers selected for the battle</param>
     public static void LaunchBattle(Tile tile, List<KeeperInstance> selectedKeepersForBattle)
     {
         if (ResolveBattle(selectedKeepersForBattle, tile))
@@ -19,21 +47,6 @@ public class BattleHandler {
         {
             HandleBattleDefeat(selectedKeepersForBattle);
         }
-    }
-
-    private static List<KeeperInstance> SelectKeepersForBattle(Tile tile)
-    {
-        List<KeeperInstance> keepers = TileManager.Instance.KeepersOnTile[tile];
-
-        // TODO: @ Anthony, implement selection from list
-        List<KeeperInstance> keepersUsedForBattle = new List<KeeperInstance>();
-
-        for (int i = 0; i < 3 && i < keepers.Count; i++)
-        {
-            keepersUsedForBattle.Add(keepers[i]);
-        }
-
-        return keepersUsedForBattle;
     }
 
     /*
