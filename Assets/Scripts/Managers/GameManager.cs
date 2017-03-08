@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -212,7 +213,31 @@ public class GameManager : MonoBehaviour
             return gameScreens.transform.GetChild(0).GetChild((int)IngameScreensEnum.SelectBattleCharactersScreen);
         }
     }
-    
+
+    public Transform WinScreen
+    {
+        get
+        {
+            if (gameScreens == null)
+            {
+                gameScreens = GameObject.Find("IngameScreens").GetComponent<IngameScreens>();
+            }
+            return gameScreens.transform.GetChild(0).GetChild((int)IngameScreensEnum.WinScreen);
+        }
+    }
+
+    public Transform LoseScreen
+    {
+        get
+        {
+            if (gameScreens == null)
+            {
+                gameScreens = GameObject.Find("IngameScreens").GetComponent<IngameScreens>();
+            }
+            return gameScreens.transform.GetChild(0).GetChild((int)IngameScreensEnum.LoseScreen);
+        }
+    }
+
     /// <summary>
     /// Open the selection screen for battle. Takes the tile on which the battle is processed in parameter.
     /// </summary>
@@ -268,11 +293,19 @@ public class GameManager : MonoBehaviour
 
     public void Win()
     {
-
+        WinScreen.gameObject.SetActive(true);
+        Time.timeScale = 0.0f;
     }
 
     public void Lose()
     {
+        LoseScreen.gameObject.SetActive(true);
+        Time.timeScale = 0.0f;
+    }
 
+    public void BackToMenu()
+    {
+        Time.timeScale = 1.0f;
+        SceneManager.LoadScene(0);
     }
 }

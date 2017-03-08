@@ -6,11 +6,14 @@ using UnityEngine;
 /// Used to identify game screens in scene.
 /// </summary>
 public class IngameScreens : MonoBehaviour {
+    private static IngameScreens instance = null;
 
 }
 
 public enum IngameScreensEnum
 {
     BattleResultScreens,
-    SelectBattleCharactersScreen
+    SelectBattleCharactersScreen,
+    WinScreen,
+    LoseScreen
 }
