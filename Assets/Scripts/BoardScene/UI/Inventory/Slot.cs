@@ -36,7 +36,6 @@ public class Slot : MonoBehaviour, IDropHandler {
 
             if (previous.parent.GetComponent<InventoryOwner>() != null && transform.parent.GetComponent<InventoryOwner>() != null)
             {
-
                 //Ou on est ?
                 InventoryOwner inventaireDequi = previous.parent.GetComponent<InventoryOwner>();
                 InventoryOwner inventaireversqui = transform.parent.GetComponent<InventoryOwner>();
@@ -135,7 +134,7 @@ public class Slot : MonoBehaviour, IDropHandler {
             else
             {
                 // Si ce n'est pas un objet qui est drag
-                if (eventData.pointerDrag.GetComponent<ItemInstance>() == null)
+                if (eventData.pointerDrag.GetComponent<ItemInstance>() == null && transform.parent.GetComponent<InventoryOwner>() == null)
                 {
                     if (hasAlreadyAnItem)
                     {
