@@ -7,66 +7,67 @@ using UnityEngine;
 /// </summary>
 public class CameraManager : MonoBehaviour {
 
-    enum eCameraState
+    enum eZoomState
     {
-        close,
-        far,
-        fromCloseToFar,
-        fromFarToClose
+        idle = 0,
+        forward = 1,
+        backward = -1
     }
 
     struct Transformation
     {
         public Quaternion rotation;
-        public Vector3 posititon;
+        public Vector3 position;
     }
 
     // *********************************
     // Camera parameters
     [Header("Camera Controls")]
-    [SerializeField]
-    float dragSpeed = 2;
-    Vector3 dragOrigin;
 
-    float minFov = 15f;
-    float maxFov = 90f;
-    float sensitivity = 10f;
+    // Camera Zoom
+    eZoomState zoomState = eZoomState.idle;
+    [SerializeField] float fZoomSpeed = 1;
+    [SerializeField] float fLerpNotch = 0.1f;
+    Transformation tFar, tClose;
+    float fZoomLerp = 1;
+    float fZoomLerpOrigin = 1;
+    float fLerpTarget = 1;
 
-    eCameraState camState = eCameraState.close;
-    [SerializeField]
-    float fTransitionSpeed = 1;
-    [SerializeField]
-    float fPosYClose = 1;
-    [SerializeField]
-    float fPosYFar = 3;
-    float fTransitionLerp = 0;
-    Quaternion quatOrientationClose;
-    Quaternion quatOrientationFar;
-    Transformation origin, target;
+    // Camera Drag
+    [SerializeField] float fDragFactor = 0.1f;
+    bool bIsDraging = false;
+    Vector3 v3DragOrigin;
     // *********************************
 
     Tile activeTile;
     Vector3 positionFromATileClose;
-    Vector3 positionFar;
     bool isUpdateNeeded = false;
     Vector3 oldPosition;
     float lerpParameter = 0.0f;
 
     public void Start()
     {
-        fTransitionLerp = 0;
+        fZoomLerp = 0;
 
         positionFromATileClose = transform.position;
 
+        GameObject goCameraCloseRef = GameObject.Find("CameraCloseRef");
+        tClose.rotation = goCameraCloseRef.transform.rotation;
+        tClose.position = goCameraCloseRef.transform.position;
+        Destroy(goCameraCloseRef);
+
         GameObject goCameraFarRef = GameObject.Find("CameraFarRef");
-        quatOrientationFar = goCameraFarRef.transform.rotation;
+        tFar.rotation = goCameraFarRef.transform.rotation;
+        tFar.position = goCameraFarRef.transform.position;
         Destroy(goCameraFarRef);
 
-        Vector3 v3NewPos = transform.position;
-        v3NewPos.y = fPosYClose;
-        transform.position = v3NewPos;
-        quatOrientationClose = transform.rotation;
-        camState = eCameraState.close;
+        transform.position = tClose.position;
+        transform.rotation = tClose.rotation;
+
+        zoomState = eZoomState.idle;
+        fZoomLerp = 1;
+        fLerpTarget = 1;
+        fZoomLerpOrigin = 1;
     }
 
     public void UpdateCameraPosition(KeeperInstance selectedKeeper)
@@ -88,7 +89,18 @@ public class CameraManager : MonoBehaviour {
         if (isUpdateNeeded)
         {
             lerpParameter += Time.deltaTime;
-            transform.localPosition = Vector3.Lerp(oldPosition, positionFromATileClose + activeTile.transform.position, Mathf.Min(lerpParameter, 1.0f));
+
+            Vector3 v3NewPos = Vector3.Lerp(oldPosition, positionFromATileClose + activeTile.transform.position, Mathf.Min(lerpParameter, 1.0f));
+
+            v3NewPos.y = transform.position.y;
+            transform.localPosition = v3NewPos;
+
+            v3NewPos.y = tClose.position.y;
+            tClose.position = v3NewPos;
+
+            v3NewPos.y = tFar.position.y;
+            tFar.position = v3NewPos;
+
             if (lerpParameter >= 1.0f)
             {
                 isUpdateNeeded = false;
@@ -97,122 +109,116 @@ public class CameraManager : MonoBehaviour {
             }
         }
 
-        CameraControls();
+        Controls();
 
-        if(camState == eCameraState.fromCloseToFar || camState == eCameraState.fromFarToClose)
+        if(zoomState != eZoomState.idle)
         {
-            UpdateCamModeTransition();
+            UpdateCamZoom();
         }
     }
 
-    private void CameraControls()
+    private void Controls()
     {
+        ControlZoom();
 
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            ToogleCamMode();
-        }
+        ControlDrag();
+    }
 
-        if (Input.GetMouseButtonDown(2))
+    private void ControlZoom()
+    {
+        float fScrollValue = Input.GetAxis("Mouse ScrollWheel");
+        if (fScrollValue != 0)
         {
-            dragOrigin = Input.mousePosition;
-            return;
-        }
-
-        if (!Input.GetMouseButton(2))
-        {
-            if (Input.GetAxis("Mouse ScrollWheel") != 0f) // forward
+            if ((fScrollValue > 0 && fZoomLerp < 1) || (fScrollValue < 0 && fZoomLerp > 0))
             {
-                float fov = Camera.main.fieldOfView;
-                fov -= Input.GetAxis("Mouse ScrollWheel") * sensitivity;
-                fov = Mathf.Clamp(fov, minFov, maxFov);
-                Camera.main.fieldOfView = fov;
-            }                                                                                                                                                                                            
-            return;
-        }
+                switch (zoomState)
+                {
+                    case eZoomState.idle:
+                        fZoomLerpOrigin = fZoomLerp;
+                        fLerpTarget = fZoomLerp;
+                        break;
 
-        Vector3 pos = Camera.main.ScreenToViewportPoint(Input.mousePosition - dragOrigin);
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            Vector3 distance = Camera.main.transform.forward * 3.0f;
-            Vector3 point = Camera.main.transform.position + distance;
-            Vector3 perp = new Vector3(pos.y, -pos.x, 0);
-            Vector3 rotateAroundAxis = perp.x * Camera.main.transform.right + perp.y * Vector3.up;
-            float rotateDegrees = Mathf.Rad2Deg * Mathf.Atan(pos.magnitude / distance.magnitude);
-            // TODO: Clamp
-            Camera.main.transform.RotateAround(point, rotateAroundAxis, rotateDegrees);
-        }
-        else
-        {
-            //Vector3 move = new Vector3(-pos.x, -pos.y, 0);
-            //Camera.main.transform.Translate(move.normalized * dragSpeed, Space.Self);
-            Vector3 move = new Vector3(-pos.x, 0, -pos.y);
-            Camera.main.transform.Translate(move.normalized * dragSpeed * Time.unscaledDeltaTime, Space.World);
-        }
+                    case eZoomState.forward:
+                        if (fScrollValue < 0)
+                        {
+                            fZoomLerpOrigin = fZoomLerp;
+                            fLerpTarget = fZoomLerp;
+                        }
+                        break;
+                    case eZoomState.backward:
+                        if (fScrollValue > 0)
+                        {
+                            fZoomLerpOrigin = fZoomLerp;
+                            fLerpTarget = fZoomLerp;
+                        }
+                        break;
+                    default:
+                        break;
+                }
 
-        dragOrigin = Input.mousePosition;
-    }
+                fLerpTarget += fLerpNotch * (fScrollValue * 10);
 
-    private void ToogleCamMode()
-    {
-        if (camState == eCameraState.close || camState == eCameraState.far)
-        {
-            fTransitionLerp = 0.0f;
-        }
-        else if (camState == eCameraState.fromFarToClose || camState == eCameraState.fromCloseToFar)
-        {
-            fTransitionLerp = 1.0f - fTransitionLerp;
-        }
+                if (fLerpTarget > 1)
+                {
+                    fLerpTarget = 1;
+                }
+                else if (fLerpTarget < 0)
+                {
+                    fLerpTarget = 0;
+                }
 
-        if (camState == eCameraState.close || camState == eCameraState.fromFarToClose)
-        {
-            origin.rotation = quatOrientationClose;
-            origin.posititon = transform.position;
-            origin.posititon.y = fPosYClose;
+                if (fScrollValue > 0)
+                {
+                    zoomState = eZoomState.forward;
+                }
+                else
+                {
+                    zoomState = eZoomState.backward;
+                }
 
-            target.rotation = quatOrientationFar;
-            target.posititon = transform.position;
-            target.posititon.y = fPosYFar;
 
-            camState = eCameraState.fromCloseToFar;
-        }
-        else if (camState == eCameraState.far || camState == eCameraState.fromCloseToFar)
-        {
-            origin.rotation = quatOrientationFar;
-            origin.posititon = transform.position;
-            origin.posititon.y = fPosYFar;
-
-            target.rotation = quatOrientationClose;
-            target.posititon = transform.position;
-            target.posititon.y = fPosYClose;
-
-            camState = eCameraState.fromFarToClose;
-        }
-    }
-
-    private void UpdateCamModeTransition()
-    {
-        fTransitionLerp += fTransitionSpeed * Time.unscaledDeltaTime;
-
-        if (fTransitionLerp < 1.0f)
-        {
-            transform.position = Vector3.Lerp(origin.posititon, target.posititon, fTransitionLerp);
-            transform.rotation = Quaternion.Lerp(origin.rotation, target.rotation, fTransitionLerp);
-        }
-        else
-        {
-            transform.position = target.posititon;
-            transform.rotation = target.rotation;
-
-            switch (camState)
-            {
-                case eCameraState.fromCloseToFar:
-                    camState = eCameraState.far;
-                    break;
-                case eCameraState.fromFarToClose:
-                    camState = eCameraState.close;
-                    break;
             }
         }
+    }
+
+    private void ControlDrag()
+    {
+        if (Input.GetMouseButtonDown(2) && !bIsDraging)
+        {
+            v3DragOrigin = Input.mousePosition;
+
+            bIsDraging = true;
+        }
+        else if (Input.GetMouseButton(2) && bIsDraging)
+        {
+
+            Vector3 v3DragDiff = v3DragOrigin - Input.mousePosition;
+
+            Vector3 v3IncrementPos = new Vector3(v3DragDiff.x * fDragFactor, 0, v3DragDiff.y * fDragFactor);
+
+            transform.position += v3IncrementPos;
+            tClose.position += v3IncrementPos;
+            tFar.position += v3IncrementPos;
+
+            v3DragOrigin = Input.mousePosition;
+        }
+        else if (Input.GetMouseButtonUp(2) && bIsDraging)
+        {
+            bIsDraging = false;
+        }
+    }
+
+    private void UpdateCamZoom()
+    {
+        fZoomLerp = fZoomLerp + (fLerpTarget - fZoomLerpOrigin) * fZoomSpeed * Time.unscaledDeltaTime;
+
+        if((zoomState == eZoomState.forward && fZoomLerp > fLerpTarget) || (zoomState == eZoomState.backward && fZoomLerp < fLerpTarget))
+        {
+                fZoomLerp = fLerpTarget;
+                zoomState = eZoomState.idle;
+        }
+
+        transform.position = Vector3.Lerp(tFar.position, tClose.position, fZoomLerp);
+        transform.rotation = Quaternion.Lerp(tFar.rotation, tClose.rotation, fZoomLerp);
     }
 }
