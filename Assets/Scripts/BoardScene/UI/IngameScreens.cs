@@ -11,5 +11,6 @@ public class IngameScreens : MonoBehaviour {
 
 public enum IngameScreensEnum
 {
-    BattleResultScreens
+    BattleResultScreens,
+    SelectBattleCharactersScreen
 }

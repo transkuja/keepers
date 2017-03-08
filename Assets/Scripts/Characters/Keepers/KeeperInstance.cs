@@ -211,6 +211,20 @@ public class KeeperInstance : MonoBehaviour, ITradable {
         currentMp = keeper.MaxMp;
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.GetComponent<MonsterInstance>())
+        {
+            agent.Stop();
+            agent.ResetPath();
+
+            BattleHandler.StartBattleProcess(TileManager.Instance.GetTileFromKeeper[this]);
+            
+            agent.Resume();
+        }
+    }
+
+
     private void Update()
     {
         GameObject goDestinationTemp = gameObject;

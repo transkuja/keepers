@@ -198,6 +198,33 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Returns the select battle characters screen
+    /// </summary>
+    public Transform SelectBattleCharactersScreen
+    {
+        get
+        {
+            if (gameScreens == null)
+            {
+                gameScreens = GameObject.Find("IngameScreens").GetComponent<IngameScreens>();
+            }
+            return gameScreens.transform.GetChild(0).GetChild((int)IngameScreensEnum.SelectBattleCharactersScreen);
+        }
+    }
+    
+    /// <summary>
+    /// Open the selection screen for battle. Takes the tile on which the battle is processed in parameter.
+    /// </summary>
+    /// <param name="tile">The tile the battle happens on</param>
+    public void OpenSelectBattleCharactersScreen(Tile tile)
+    {
+        Transform screen = SelectBattleCharactersScreen;
+        screen.GetComponent<SelectBattleCharactersPanelHandler>().ActiveTile = tile;
+        screen.gameObject.SetActive(true);
+    }
+
+
     public bool ShortcutPanel_NeedUpdate
     {
         get

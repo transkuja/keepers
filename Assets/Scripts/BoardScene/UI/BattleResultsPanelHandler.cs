@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PanelHandler : MonoBehaviour {
+public class BattleResultsPanelHandler : MonoBehaviour {
 
-    public void ClosePanel()
+    public void CloseBattleResultsPanel()
     {
         transform.GetChild((int)BattleResultScreenChildren.Loot).gameObject.SetActive(true);
         transform.GetChild((int)BattleResultScreenChildren.Lost).gameObject.SetActive(true);
