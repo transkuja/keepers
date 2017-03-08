@@ -8,6 +8,9 @@ public class CharactersInitializer : MonoBehaviour {
     [SerializeField]
     private GameObject beginPositions;
 
+    [SerializeField]
+    private PrisonerInstance beginPositionPrisonnier;
+
     void Awake()
     {
     
@@ -17,5 +20,7 @@ public class CharactersInitializer : MonoBehaviour {
             GameManager.Instance.AllKeepersList[i].transform.SetParent(null);
             GameManager.Instance.AllKeepersList[i].transform.GetComponent<NavMeshAgent>().enabled = true;
         }
+
+        GameManager.Instance.PrisonerInstance = beginPositionPrisonnier;
     }
 }
