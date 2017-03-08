@@ -1,6 +1,10 @@
 fileFormatVersion: 2
 guid: 74d4150487bf0d54494927e5e3adee87
+<<<<<<< HEAD
 timeCreated: 1488959067
+=======
+timeCreated: 1488972374
+>>>>>>> 5347319... Add Inventory
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
