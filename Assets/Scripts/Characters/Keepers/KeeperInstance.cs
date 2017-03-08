@@ -135,7 +135,7 @@ public class KeeperInstance : MonoBehaviour, ITradable {
     void Die()
     {
         Debug.Log("Blaeuurgh... *dead*");
-        GameManager.Instance.CheckGameOver();
+        GameManager.Instance.CheckGameState();
     }
 
     public short CurrentMentalHealth

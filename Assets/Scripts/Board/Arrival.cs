@@ -17,15 +17,17 @@ public class Arrival : MonoBehaviour {
 
     public void EndGame(int i = -1)
     {
-        if(TileManager.Instance.PrisonerTile == tileArrival)
+        GameManager.Instance.CheckGameState();
+
+        if (TileManager.Instance.PrisonerTile == tileArrival)
         {
             Debug.Log("You win");
+            GameManager.Instance.Win();
         }
         else
         {
             Debug.Log("Nope");
         }
-
     }
 
     public InteractionImplementer InterationImplementer

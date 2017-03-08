@@ -238,12 +238,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void CheckGameOver()
+    public void CheckGameState()
     {
         bool prisonerDied = !prisonerInstance.IsAlive;
         if(prisonerDied)
         {
             Debug.Log("GameOver - Prisoner Died");
+            Lose();
         }
         else
         {
@@ -259,8 +260,19 @@ public class GameManager : MonoBehaviour
             if (nbDead == allKeepersList.Count)
             {
                 Debug.Log("GameOver - All Keepers died");
+                Lose();
             }
         }
         
+    }
+
+    public void Win()
+    {
+
+    }
+
+    public void Lose()
+    {
+
     }
 }

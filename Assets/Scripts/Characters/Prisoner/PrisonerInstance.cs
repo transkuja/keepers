@@ -127,7 +127,7 @@ public class PrisonerInstance : MonoBehaviour, IEscortable {
     public void Die()
     {
         Debug.Log("Ashley is dead");
-        GameManager.Instance.CheckGameOver();
+        GameManager.Instance.CheckGameState();
     }
 
     public PrisonerInstance(PrisonerInstance from)
