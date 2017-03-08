@@ -33,7 +33,6 @@ public class KeeperInstance : MonoBehaviour, ITradable {
 
     private bool isAlive = true;
     // Inventory
-    private Item[] inventory;
     private Item[] equipment;
 
 
@@ -200,7 +199,6 @@ public class KeeperInstance : MonoBehaviour, ITradable {
     {
         agent = GetComponent<NavMeshAgent>();
         fRotateSpeed = 5.0f;
-        inventory = new Item[4];
         equipment = new Item[3];
         isEscortAvailable = true;
         InteractionImplementer = new InteractionImplementer();
@@ -321,19 +319,6 @@ public class KeeperInstance : MonoBehaviour, ITradable {
         set
         {
             goSelectionAura = value;
-        }
-    }
-
-    public Item[] Inventory
-    {
-        get
-        {
-            return inventory;
-        }
-
-        set
-        {
-            inventory = value;
         }
     }
 

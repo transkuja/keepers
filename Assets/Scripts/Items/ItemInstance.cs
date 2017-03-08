@@ -35,7 +35,7 @@ public class ItemInstance : MonoBehaviour, IPickable {
 
     public void Pick(int _i = 0)
     {
-        ItemManager.AddItem(GameManager.Instance.ListOfSelectedKeepers[0], item);
+        ItemManager.AddItem(GameManager.Instance.ListOfSelectedKeepers[0].GetComponent<Inventory>().inventory, item);
         GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
         GameManager.Instance.Ui.UpdateKeeperInventoryPanel();
         Destroy(gameObject);

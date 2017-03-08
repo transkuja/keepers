@@ -9,15 +9,12 @@ public enum TypeEquipement { Arme, Def, Other };
 
 public static class ItemManager {
 
-
     static Dictionary<TypeItem, System.Type> dicTypeEquipement = new Dictionary<TypeItem, System.Type>{
         { TypeItem.Equipement ,  typeof(Equipement)},
         { TypeItem.Consummable ,  typeof(Consummable)}
     };
 
-
     private const int maxItemsInSameSlot = 99;
-
 
     //public bool UseItem(Item item)
     //{
@@ -74,18 +71,15 @@ public static class ItemManager {
     //    return false;
     //}
 
-    public static void EquipItem(KeeperInstance ki, Equipement equipement)
+    public static void EquipItem(Item[] inventory, Item[] equipements, Equipement equipement)
     {
-        if (!CheckIfItemIsInInventory(ki ,(Item)equipement))
+        if (!CheckIfItemIsInInventory(equipements, (Item)equipement))
         {
             Debug.Log("Can't find Item to equip in Inventory");
             return;
         }
 
-        int index = GetInventoryItemIndex(ki, equipement);
-
-        Item[] inventory = ki.Inventory;
-        Item[] equipements = ki.Equipment;
+        int index = GetInventoryItemIndex(equipements, equipement);
 
         // swap
         if (equipements[(int)equipement.type] != null)
@@ -103,13 +97,13 @@ public static class ItemManager {
         //StatsChanged.Invoke();
     }
 
-    public static void AddItemOnTheGround(KeeperInstance ki, Item item)
+    public static void AddItemOnTheGround(GameObject owner, Item item)
     {
         GameObject drop = GameObject.Instantiate(GameManager.Instance.prefabItemToDrop) as GameObject;
 
 
-        drop.transform.SetParent(TileManager.Instance.GetTileFromKeeper[ki].transform);
-        drop.transform.position = ki.gameObject.transform.localPosition;
+        drop.transform.SetParent(TileManager.Instance.GetTileFromKeeper[owner.GetComponent<KeeperInstance>()].transform);
+        drop.transform.position = owner.transform.localPosition;
         if (item.GetType() == typeof(Equipement))
         {
 
@@ -127,21 +121,16 @@ public static class ItemManager {
 
     }
 
-    public static bool UnequipItem(KeeperInstance ki, TypeEquipement equipSlot)
+    public static bool UnequipItem(Item[] items, TypeEquipement equipSlot)
     {
-        int index = FindFreeInventorySlot(ki);
+        int index = FindFreeInventorySlot(items);
         if (index == -1)
         {
             return false;
         }
 
-
-        Item[] equipements = ki.Equipment;
-        ki.Inventory[index] = equipements[(int)equipSlot];
-        equipements[(int)equipSlot] = null;
-        //PlayerUIController.InventoryNeedUpdate = true;
-        //PlayerUIController.CharacterNeedUpdate = true;
-        //StatsChanged.Invoke();
+        items[index] = items[(int)equipSlot];
+        items[(int)equipSlot] = null;
 
         return true;
     }
@@ -168,48 +157,42 @@ public static class ItemManager {
         return 0;
     }
 
-    public static void MoveItemToSlot(KeeperInstance ki, Item ic, int slot)
+    public static void MoveItemToSlot(Item[] items, Item ic, int slot)
     {
-        Item[] equipements = ki.Equipment;
-        Item[] inventory = ki.Inventory;
-
-        if (slot >= ki.Keeper.MaxInventorySlots || slot < 0 || ic == null || !CheckIfItemIsInInventory(ki, ic))
+        if (slot >= items.Length || slot < 0 || ic == null || !CheckIfItemIsInInventory(items, ic))
         {
             return;
         }
 
-        int startIndex = GetInventoryItemIndex(ki, ic);
+        int startIndex = GetInventoryItemIndex(items, ic);
         if (startIndex != slot)
         {
-            if (inventory[slot] != null)
+            if (items[slot] != null)
             {
-                Item temp = ki.Inventory[startIndex];
-                inventory[startIndex] = inventory[slot];
-                inventory[slot] = temp;
+                Item temp = items[startIndex];
+                items[startIndex] = items[slot];
+                items[slot] = temp;
             }
             else
             {
-                inventory[slot] = inventory[startIndex];
-                inventory[startIndex] = null;
+                items[slot] = items[startIndex];
+                items[startIndex] = null;
             }
         }
-
-        /*if (InventoryChanged != null)
-            InventoryChanged.Invoke();*/
     }
 
-    public static void SwapItemBeetweenInventories (KeeperInstance kiFrom, int indexItemFrom, KeeperInstance kiTo, int indexItemTo)
+    public static void SwapItemBeetweenInventories (Item[] itemsFrom, int indexItemFrom, Item[] itemsTo, int indexItemTo)
     {
-        Item temp = kiFrom.Inventory[indexItemFrom];
-        kiFrom.Inventory[indexItemFrom] = kiTo.Inventory[indexItemTo];
-        kiTo.Inventory[indexItemTo] = temp;
+        Item temp = itemsFrom[indexItemFrom];
+        itemsFrom[indexItemFrom] = itemsTo[indexItemTo];
+        itemsTo[indexItemTo] = temp;
     }
 
-    public static void SwapItemInSameInventory(KeeperInstance ki, int indexItemFrom, int indexItemTo)
+    public static void SwapItemInSameInventory(Item[] items, int indexItemFrom, int indexItemTo)
     {
-        Item temp = ki.Inventory[indexItemFrom];
-        ki.Inventory[indexItemFrom] = ki.Inventory[indexItemTo];
-        ki.Inventory[indexItemTo] = temp;
+        Item temp = items[indexItemFrom];
+        items[indexItemFrom] = items[indexItemTo];
+        items[indexItemTo] = temp;
     }
 
     public static void TransferItemBetweenPanelsAtSlot(Item[] dest, Item[] src, int slotDest, int slotSrc)
@@ -228,20 +211,18 @@ public static class ItemManager {
         //PlayerUIController.UpdateEveryPanel();
     }
 
-    public static bool AddItem(KeeperInstance ki, Item item, bool stack = true)
+    public static bool AddItem(Item[] items, Item item, bool stack = true)
     {
-        Item[] inventory = ki.Inventory;
-
         bool add = true;
         if (stack)
         {
-            if (item.GetType() == typeof(Consummable) && CheckIfItemTypeIsInInventory(ki, item) )
+            if (item.GetType() == typeof(Consummable) && CheckIfItemTypeIsInInventory(items, item) )
             {
-                for (int i = 0; i < inventory.Length; i++)
+                for (int i = 0; i < items.Length; i++)
                 {
-                    if (inventory[i] != null && inventory[i].sprite.name == item.sprite.name)
+                    if (items[i] != null && items[i].sprite.name == item.sprite.name)
                     {
-                        add = MergeStackables((Consummable)inventory[i], (Consummable)item);
+                        add = MergeStackables((Consummable)items[i], (Consummable)item);
                         if (!add)
                             break;
                     }
@@ -251,10 +232,10 @@ public static class ItemManager {
         }
         if (add)
         {
-            int freeIndex = FindFreeInventorySlot(ki);
+            int freeIndex = FindFreeInventorySlot(items);
             if (freeIndex != -1)
             {
-                inventory[freeIndex] = item;
+                items[freeIndex] = item;
             }
             else
             {
@@ -266,13 +247,12 @@ public static class ItemManager {
         return true;
     }
 
-    public static int FindFreeInventorySlot(KeeperInstance ki)
+    public static int FindFreeInventorySlot(Item[] items)
     {
-        Item[] inventory = ki.Inventory;
         int freeIndex = -1;
-        for (int i = 0; i < inventory.Length; i++)
+        for (int i = 0; i < items.Length; i++)
         {
-            if (inventory[i] == null)
+            if (items[i] == null)
             {
                 freeIndex = i;
                 break;
@@ -282,11 +262,9 @@ public static class ItemManager {
         return freeIndex;
     }
 
-    public static bool CheckIfItemTypeIsInInventory(KeeperInstance ki, Item i) //Check if an item with the same ID already exists in the inventory
+    public static bool CheckIfItemTypeIsInInventory(Item[] items, Item i) //Check if an item with the same ID already exists in the inventory
     {
-
-        Item[] inventory = ki.Inventory;
-        return Array.Exists<Item>(inventory, x =>
+        return Array.Exists<Item>(items, x =>
         {
             if (x != null)
                 return x.GetType() == i.GetType();
@@ -294,10 +272,9 @@ public static class ItemManager {
         });
     }
 
-    public static bool CheckIfItemIsInInventory(KeeperInstance ki, Item i) //Check if the item itself is in the inventory
+    public static bool CheckIfItemIsInInventory(Item[] items, Item i) //Check if the item itself is in the inventory
     {
-        Item[] inventory = ki.Inventory;
-        return Array.Exists<Item>(inventory, x =>
+        return Array.Exists<Item>(items, x =>
         {
             if (x != null)
                 return x == i;
@@ -306,10 +283,9 @@ public static class ItemManager {
     }
 
 
-    public static int GetInventoryItemIndex(KeeperInstance ki, Item i)
+    public static int GetInventoryItemIndex(Item[] items, Item i)
     {
-        Item[] inventory = ki.Inventory;
-        return Array.FindIndex<Item>(inventory, x =>{
+        return Array.FindIndex<Item>(items, x =>{
             if (x != null)
                 return x == i;
             return false;
@@ -322,16 +298,15 @@ public static class ItemManager {
     //    return Array.FindIndex<ItemContainer>(inventory, x => x.item.nom == ic.item.nom);
     //}
 
-    public static void RemoveItem(KeeperInstance ki, Item ic)
+    public static void RemoveItem(Item[] items, Item ic)
     {
-        Item[] inventory = ki.Inventory;
-        int index = GetInventoryItemIndex(ki, ic);
+        int index = GetInventoryItemIndex(items, ic);
         if (index == -1)
         {
             Debug.Log("Item does not exist in inventory");
             return;
         }
-        inventory[index] = null;
+        items[index] = null;
     }
 
     public static Item getInstanciateItem(TypeItem type)

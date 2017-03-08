@@ -337,47 +337,52 @@ public class IngameUI : MonoBehaviour
         if (goInventory == null) { return; }
 
         KeeperInstance currentSelectedKeeper = GameManager.Instance.ListOfSelectedKeepers[0];
-
         Sprite associatedSprite = currentSelectedKeeper.Keeper.AssociatedSprite;
 
-        foreach (ItemInstance holder in goInventory.transform.GetComponentsInChildren<ItemInstance>())
+        foreach (Slot holder in goInventory.transform.GetComponentsInChildren<Slot>())
         {
             DestroyImmediate(holder.gameObject);
         }
         if (associatedSprite != null)
         {
-            goInventory.name = "Panel_Inventory" + currentSelectedKeeper.Keeper.CharacterName;
             goStats.GetComponentInChildren<Image>().sprite = associatedSprite;
+        }
+        goInventory.name = "Panel_Inventory" + currentSelectedKeeper.Keeper.CharacterName;
+        goInventory.GetComponent<InventoryOwner>().Owner = currentSelectedKeeper.gameObject;
 
-            if (currentSelectedKeeper.Inventory != null)
+        if (currentSelectedKeeper.GetComponent<Inventory>().inventory != null && currentSelectedKeeper.GetComponent<Inventory>().inventory.Length > 0)
+        {
+            Item[] inventory = currentSelectedKeeper.GetComponent<Inventory>().inventory;
+            for (int i =0; i< currentSelectedKeeper.gameObject.GetComponent<Inventory>().nbSlot; i++)
             {
-                Item[] inventory = currentSelectedKeeper.Inventory;
+                GameObject currentSlot = Instantiate(slotPrefab);
 
-                for (int i = 0; i < inventory.Length; i++)
+                if (inventory[i] != null)
                 {
-                    if(inventory[i] != null)
+                   
+                    GameObject go = Instantiate(itemUI);
+                    go.transform.SetParent(currentSlot.transform);
+                    go.GetComponent<ItemInstance>().item = inventory[i];
+                    go.name = inventory[i].ToString();
+
+
+                    go.GetComponent<Image>().sprite = inventory[i].sprite;
+                    go.transform.localScale = Vector3.one;
+
+                    go.transform.position = currentSlot.transform.position;
+                    go.transform.SetAsFirstSibling();
+
+                    if (go.GetComponent<ItemInstance>().item.GetType() == typeof(Consummable))
                     {
-                        GameObject currentSlot = goInventory.transform.GetChild(i).gameObject;
-                        GameObject go = Instantiate(itemUI);
-                        go.transform.SetParent(currentSlot.transform);
-                        go.GetComponent<ItemInstance>().item = inventory[i];
-                        go.name = inventory[i].ToString();
-
-
-                        go.GetComponent<Image>().sprite = inventory[i].sprite;
-                        go.transform.localScale = Vector3.one;
-
-                        go.transform.position = currentSlot.transform.position;
-                        go.transform.SetAsFirstSibling();
-
-                        if (go.GetComponent<ItemInstance>().item.GetType() == typeof(Consummable))
-                        {
-                            go.transform.GetComponentInChildren<Text>().text = ((Consummable)inventory[i]).quantite.ToString();
-                        }
+                        go.transform.GetComponentInChildren<Text>().text = ((Consummable)inventory[i]).quantite.ToString();
                     }
                 }
+                currentSlot.transform.SetParent(goInventory.transform);
+                currentSlot.transform.localScale = Vector3.one;
             }
+            
         }
+        goInventory.GetComponent<GridLayoutGroup>().constraintCount = currentSelectedKeeper.gameObject.GetComponent<Inventory>().nbSlot;
         GameManager.Instance.SelectedKeeperNeedUpdate = false;
     }
 
@@ -471,10 +476,10 @@ public class IngameUI : MonoBehaviour
             goInventoryKeeper.transform.localPosition = Vector3.zero;
             goInventoryKeeper.transform.GetChild(1).GetComponent<Image>().sprite = ki.Keeper.AssociatedSprite;
             goInventoryKeeper.name = "Inventory_" + ki.Keeper.CharacterName;
+            goInventoryKeeper.transform.GetChild(0).GetComponent<InventoryOwner>().Owner = ki.gameObject;
             goInventoryKeeper.SetActive(false);
-
-            int maxSlots = ki.Keeper.MaxInventorySlots;
-            for (int i = 0; i < maxSlots; i++)
+            int nbSlots = ki.gameObject.GetComponent<Inventory>().nbSlot;
+            for (int i = 0; i < nbSlots; i++)
             {
                 //Create Slots
                 GameObject currentgoSlotPanel = Instantiate(slotPrefab, Vector3.zero, Quaternion.identity) as GameObject;
@@ -513,9 +518,9 @@ public class IngameUI : MonoBehaviour
             {
                 DestroyImmediate(holder.gameObject);
             }
-            if (ki.Inventory != null)
+            if (ki.GetComponent<Inventory>().inventory != null)
             {
-                Item[] inventory = ki.Inventory;
+                Item[] inventory = ki.GetComponent<Inventory>().inventory;
 
                 for (int i = 0; i < inventory.Length; i++)
                 {

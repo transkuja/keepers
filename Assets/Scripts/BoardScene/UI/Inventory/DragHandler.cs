@@ -49,29 +49,12 @@ public class DragHandler : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
         if (eventData.pointerEnter == null)
         {
 
-            //Ou on est ?
-            GameObject inventaireDequi = startParent.parent.parent.gameObject;
-
-            KeeperInstance dequi = null;
-            // Recuperation du bon inventaire
-            if (inventaireDequi == GameManager.Instance.Ui.goInventory.transform.parent.gameObject)
-            {
-                dequi = GameManager.Instance.ListOfSelectedKeepers[0];
-            }
-            else
-            {
-                for (int i = 0; i < GameManager.Instance.AllKeepersList.Count; i++)
-                {
-                    if (i == inventaireDequi.transform.GetSiblingIndex())
-                    {
-                        dequi = GameManager.Instance.AllKeepersList[i];
-                    }
-                }
-            }
+            InventoryOwner inventaireDequi = startParent.parent.GetComponent<InventoryOwner>();
+            Item[] inventoryKeeperDequi = inventaireDequi.Owner.GetComponent<Inventory>().inventory;
 
 
-            ItemManager.RemoveItem(dequi, eventData.pointerDrag.gameObject.GetComponent<ItemInstance>().item);
-            ItemManager.AddItemOnTheGround(dequi, eventData.pointerDrag.gameObject.GetComponent<ItemInstance>().item);
+            ItemManager.RemoveItem(inventoryKeeperDequi, eventData.pointerDrag.gameObject.GetComponent<ItemInstance>().item);
+            ItemManager.AddItemOnTheGround(inventaireDequi.Owner, eventData.pointerDrag.gameObject.GetComponent<ItemInstance>().item);
 
             Destroy(eventData.pointerDrag.gameObject);
         }
