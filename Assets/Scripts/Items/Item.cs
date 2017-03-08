@@ -4,8 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class Item
+public abstract class Item
 {
-
     public Sprite sprite;
 }
