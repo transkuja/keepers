@@ -7,4 +7,8 @@ using UnityEngine;
 public abstract class Item
 {
     public Sprite sprite;
+
+    // 0 : common, 9 : rare
+    [Range(0, 10)]
+    public int rarity;
 }

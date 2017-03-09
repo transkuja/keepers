@@ -53,6 +53,8 @@ public class IngameScreens : MonoBehaviour {
         if (IngameScreens.Instance == null) { return; }
         if (goInventoryLoot == null) { return; }
 
+        if (goInventoryLoot.transform.childCount > 0)
+        {
             foreach (ItemInstance holder in goInventoryLoot.transform.GetChild(0).transform.GetComponentsInChildren<ItemInstance>())
             {
                 DestroyImmediate(holder.gameObject);
@@ -85,7 +87,9 @@ public class IngameScreens : MonoBehaviour {
                 }
 
             }
+
         }
+    }
 }
 
 public enum IngameScreensEnum
