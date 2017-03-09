@@ -298,11 +298,12 @@ public class IngameUI : MonoBehaviour
         {
             if (i == 0)
             {
-                //Prisoner prisonner = GameManager.Instance.Prisonner ;
-                //// Update HP
-                //goShortcutKeepersPanel.transform.GetChild(i).GetChild(0).GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)prisonner.CurrentHp / (float)prisonner.MaxHp;
-                //// Update Hunger
-                //goShortcutKeepersPanel.transform.GetChild(i).GetChild(1).GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)prisonner.ActualHunger / (float)prisonner.MaxHunger;
+                int f = 1;
+                PrisonerInstance prisonner = GameManager.Instance.PrisonerInstance;
+                // Update HP
+                goShortcutKeepersPanel.transform.GetChild(i).GetChild(f++).GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)prisonner.CurrentHp / (float)100;
+                // Update Hunger
+                goShortcutKeepersPanel.transform.GetChild(i).GetChild(f).GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)prisonner.CurrentHunger / (float)100;
             }
             else
             {

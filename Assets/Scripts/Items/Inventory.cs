@@ -7,7 +7,7 @@ public class Inventory : MonoBehaviour {
     public Item[] inventory;
 
     [SerializeField]
-    public int nbSlot = 4;
+    public int nbSlot = 6;
 
     public void Awake()
     {

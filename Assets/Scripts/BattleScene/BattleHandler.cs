@@ -125,13 +125,12 @@ public class BattleHandler {
         GameManager.Instance.BattleResultScreen.gameObject.SetActive(true);
 
         Transform header = GameManager.Instance.BattleResultScreen.GetChild((int)BattleResultScreenChildren.Header);
-        Transform loot = GameManager.Instance.BattleResultScreen.GetChild((int)BattleResultScreenChildren.Loot);
+
 
         header.GetComponent<Text>().text = "Victory!";
         GameManager.Instance.BattleResultScreen.GetChild((int)BattleResultScreenChildren.Lost).gameObject.SetActive(false);
 
-        loot.GetComponent<Text>().text = "Legendary Meat!\nPaper Sword!";
-
+        IngameScreens.Instance.CreateLootInterface();
     }
 
     private static void PrintDefeatScreen(int moraleLost, int hungerIncreased, int hpLost)
