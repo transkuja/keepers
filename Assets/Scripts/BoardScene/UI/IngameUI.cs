@@ -492,7 +492,6 @@ public class IngameUI : MonoBehaviour
         }
     }
 
-
     internal void ShowInventoryPanels()
     {
         panel_keepers_inventory.transform.GetChild(GameManager.Instance.GoTarget.transform.GetSiblingIndex()).gameObject.SetActive(true);
