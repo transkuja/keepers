@@ -88,8 +88,13 @@ public class BattleHandler {
             }
         }
 
-        TileManager.Instance.RemoveDefeatedMonsters(tile);
         PrintVictoryScreen();
+        Item[] loot = ComputeTotalLoot(tile);
+        TileManager.Instance.RemoveDefeatedMonsters(tile);
+
+        // TODO: @Remi Open loot window
+        IngameScreens.Instance.goInventoryLoot.GetComponentInParent<Inventory>().inventory = loot;
+        IngameScreens.Instance.UpdateLootInterface();
     }
 
     /*
@@ -125,13 +130,11 @@ public class BattleHandler {
         GameManager.Instance.BattleResultScreen.gameObject.SetActive(true);
 
         Transform header = GameManager.Instance.BattleResultScreen.GetChild((int)BattleResultScreenChildren.Header);
-        Transform loot = GameManager.Instance.BattleResultScreen.GetChild((int)BattleResultScreenChildren.Loot);
 
         header.GetComponent<Text>().text = "Victory!";
         GameManager.Instance.BattleResultScreen.GetChild((int)BattleResultScreenChildren.Lost).gameObject.SetActive(false);
 
-        loot.GetComponent<Text>().text = "Legendary Meat!\nPaper Sword!";
-
+        IngameScreens.Instance.CreateLootInterface();
     }
 
     private static void PrintDefeatScreen(int moraleLost, int hungerIncreased, int hpLost)
@@ -153,4 +156,14 @@ public class BattleHandler {
         Time.timeScale = 0.0f;
     }
 
+    private static Item[] ComputeTotalLoot(Tile tile)
+    {
+        List<Item> lootList = new List<Item>();
+        foreach (MonsterInstance mi in TileManager.Instance.MonstersOnTile[tile])
+        {
+            lootList.AddRange(mi.GetComponent<Loot>().ComputeLoot());
+        }
+
+        return lootList.ToArray();
+    }
 }

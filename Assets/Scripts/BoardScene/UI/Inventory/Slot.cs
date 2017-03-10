@@ -128,6 +128,7 @@ public class Slot : MonoBehaviour, IDropHandler
                 Destroy(eventData.pointerDrag.gameObject);
                 GameManager.Instance.Ui.UpdateKeeperInventoryPanel();
                 GameManager.Instance.SelectedKeeperNeedUpdate = true;
+                IngameScreens.Instance.UpdateLootInterface();
             }
             // Drag Characters in battle scene
             else
