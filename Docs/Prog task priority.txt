@@ -1,24 +1,17 @@
 1: priorité la plus haute
 
-1: Endgame: victoire/défaite ajouter la possibilité de relancer une partie et l'affichage du score
-1: Implémenter les 2 modes de caméra
-1: Implémenter toutes les composantes de l'UI avec mise à jour quand nécessaire des infos affichées (points d'actions notamment)
 1: Mode caméra de loin: Afficher les icones d'action et les linker aux actions
 
 2: Level Design: Faire du LD sur la scène existante (ajouter les assets qu'on a pour que ça ressemble plus à quelque chose)
+2: Action: Récolter (!= de Ramasser)
 
-3: Inventaire
-3: Combat: Implémenter la selection de personnages au lancement du combat parmi ceux présents sur le Tile
 3: Combat: Faire une résolution auto qui se base sur les stats des personnages selectionnés
 
-4: Combat: Gérer les loot
+4: Items: Améliorer la gestion des items (ugly code sur les possibleDrops des MonsterInstance)
 4: Règles de gestion: Implémenter les cas limites de faim élevée et moral bas (valeurs arbitraires que l'on pourra moduler plus tard)
 4: Exploration: Faire pop aléatoirement des mobs lorsque l'on découvre un Tile
 
 5: Bug: Ignorer les raycast sur le personnage selectionné quand on veut se déplacer
 5: PNJ: Ajouter un PNJ avec un comportement basique ("parler" et éventuellement "échanger")
-5: Règles de gestion: Ajouter des couts d'action aux actions déjà implémentées
 
-6: Combat: Ajouter des particules lorqu'on bat un monstre
-
-
+6: Endgame: Affichage du score sur l'écran de victoire
