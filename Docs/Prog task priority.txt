@@ -5,9 +5,10 @@
 2: Level Design: Faire du LD sur la scène existante (ajouter les assets qu'on a pour que ça ressemble plus à quelque chose)
 2: Action: Récolter (!= de Ramasser)
 
-3: Combat: Faire une résolution auto qui se base sur les stats des personnages selectionnés
+3: Combat: Faire une résolution auto qui se base sur les stats des personnages selectionnés (branche feature/auto-resolve-battle)
+			=> ajouter un feedback visuel (texte)
 
-4: Items: Améliorer la gestion des items (ugly code sur les possibleDrops des MonsterInstance)
+4: Items: Améliorer la gestion des items (ugly code sur les possibleDrops des MonsterInstance, gérer dans le Awake, wtf?)
 4: Règles de gestion: Implémenter les cas limites de faim élevée et moral bas (valeurs arbitraires que l'on pourra moduler plus tard)
 4: Exploration: Faire pop aléatoirement des mobs lorsque l'on découvre un Tile
 
