@@ -53,6 +53,9 @@ public class MonsterInstance : MonoBehaviour {
         item1.quantite = 1;
         item1.rarity = 1;
         possibleDrops.Add(item1);
+
+        currentHp = monster.MaxHp;
+        currentMp = monster.MaxMp;
     }
 
     public int CurrentHp
