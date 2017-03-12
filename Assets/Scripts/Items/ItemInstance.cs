@@ -8,6 +8,8 @@ public class ItemInstance : MonoBehaviour, IPickable
     private InteractionImplementer interactionImplementer;
     [SerializeField]
     private Item item = null;
+
+    [SerializeField]
     int quantity = 1;
 
     [SerializeField]
