@@ -100,8 +100,10 @@ public class BattleHandler {
                     if (isPrisonerOnTile)
                     {
                         float determineTarget = Random.Range(0, 100);
-                        if (determineTarget < (100 / keepers.Count + 2) * 2)
+                        if (determineTarget < ((100.0f / (keepers.Count + 2)) * 2))
+                        {
                             isPrisonerTargeted = true;
+                        }
                     }
 
                     if (isPrisonerTargeted)
@@ -203,6 +205,7 @@ public class BattleHandler {
         }
 
         targetMonster.CurrentHp -= damage;
+        Debug.Log(attacker.name + " deals " + damage + " damage to " + targetMonster.name);
     }
 
     private static int MonsterDamageCalculation(MonsterInstance attacker, KeeperInstance targetKeeper, AttackType attackType, bool prisonerTargeted = false)
@@ -210,23 +213,29 @@ public class BattleHandler {
         int damage = 0;
         if (attackType == AttackType.Physical)
         {
-            if (prisonerTargeted)
+            if (!prisonerTargeted)
                 damage = Mathf.RoundToInt(attacker.Monster.GetEffectiveStrength() / targetKeeper.Keeper.GetEffectiveDefense());
             else
                 damage = Mathf.RoundToInt(attacker.Monster.GetEffectiveStrength() / GameManager.Instance.PrisonerInstance.Prisoner.GetEffectiveDefense());
         }
         else
         {
-            if (prisonerTargeted)
+            if (!prisonerTargeted)
                 damage = Mathf.RoundToInt(attacker.Monster.GetEffectiveIntelligence() / targetKeeper.Keeper.GetEffectiveSpirit());
             else
                 damage = Mathf.RoundToInt(attacker.Monster.GetEffectiveIntelligence() / GameManager.Instance.PrisonerInstance.Prisoner.GetEffectiveSpirit());
         }
 
         if (prisonerTargeted)
+        {
             GameManager.Instance.PrisonerInstance.CurrentHp -= damage;
+            Debug.Log(attacker.name + " deals " + damage + " damage to prisoner");
+        }
         else
+        {
             targetKeeper.CurrentHp -= damage;
+            Debug.Log(attacker.name + " deals " + damage + " damage to " + targetKeeper.name);
+        }
 
         return damage;
     }
@@ -283,14 +292,8 @@ public class BattleHandler {
     private static void PostBattleCommonProcess(List<KeeperInstance> keepers, Tile tile)
     {
         Item[] loot = ComputeTotalLoot(tile);
-        Debug.Log(loot);
-        for (int i = 0; i < loot.Length; i++)
-            Debug.Log(loot[i].sprite);
         TileManager.Instance.RemoveDefeatedMonsters(tile);
 
-        Debug.Log(loot);
-        for (int i = 0; i < loot.Length; i++)
-            Debug.Log(loot[i].sprite);
         if (loot != null && loot.Length > 0)
         {
             IngameScreens.Instance.goInventoryLoot.GetComponentInParent<Inventory>().inventory = loot;
