@@ -65,7 +65,7 @@ public class IngameScreens : MonoBehaviour {
 
                 for (int i = 0; i < inventory.Length; i++)
                 {
-                    if (inventory[i] != null)
+                    if (inventory[i] != null && inventory[i].Item != null)
                     {
                         GameObject currentSlot = goInventoryLoot.transform.GetChild(i).gameObject;
                         GameObject go = Instantiate(itemUI);

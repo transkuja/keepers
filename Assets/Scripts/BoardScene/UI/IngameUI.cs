@@ -358,14 +358,13 @@ public class IngameUI : MonoBehaviour
             {
                 GameObject currentSlot = Instantiate(slotPrefab);
 
-                if (inventory[i] != null)
+                if (inventory[i] != null && inventory[i].Item != null)
                 {
                    
                     GameObject go = Instantiate(itemUI);
                     go.transform.SetParent(currentSlot.transform);
                     go.GetComponent<ItemInstance>().Item = inventory[i].Item;
                     go.name = inventory[i].ToString();
-
 
                     go.GetComponent<Image>().sprite = inventory[i].Item.InventorySprite;
                     go.transform.localScale = Vector3.one;
@@ -524,7 +523,7 @@ public class IngameUI : MonoBehaviour
 
                 for (int i = 0; i < inventory.Length; i++)
                 {
-                    if (inventory[i] != null)
+                    if (inventory[i] != null && inventory[i].Item != null)
                     {
 
                         GameObject currentSlot = panel_keepers_inventory.transform.GetChild(ki.gameObject.transform.GetSiblingIndex()).transform.GetChild(0).transform.GetChild(i).gameObject;

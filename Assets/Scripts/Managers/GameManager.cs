@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     public GameObject prefabItemToDrop;
 
     // TODO: move to ItemManager
-    private List<Item> database = new List<Item>();
+    private List<Item> database;
     public Dictionary<string, Sprite> dictSprites = new Dictionary<string, Sprite>();
 
     private List<KeeperInstance> allKeepersList = new List<KeeperInstance>();

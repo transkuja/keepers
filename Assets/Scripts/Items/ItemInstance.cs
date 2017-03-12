@@ -6,6 +6,7 @@ using UnityEngine;
 public class ItemInstance : MonoBehaviour, IPickable
 {
     private InteractionImplementer interactionImplementer;
+    [SerializeField]
     private Item item = null;
     int quantity = 1;
 
@@ -22,8 +23,12 @@ public class ItemInstance : MonoBehaviour, IPickable
             foreach (Item it in GameManager.Instance.Database)
             {
                 if (it.Id == idItem)
+                {
                     item = it;
+                    break;
+                }
             }
+
         }
         interactionImplementer = new InteractionImplementer();
         interactionImplementer.Add(new Interaction(Pick), "Pick", GameManager.Instance.Ui.spritePick);

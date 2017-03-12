@@ -1,15 +1,24 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class Item
-{ 
+{
+    [SerializeField]
     string type;
+    [SerializeField]
     string id;
+    [SerializeField]
     string itemName;
+    [SerializeField]
     string description;
+    [SerializeField]
     GameObject ingameVisual;
+    [SerializeField]
     Sprite inventorySprite;
+    [SerializeField]
     bool isStackable;
+    [SerializeField]
     int rarity;
 
     public string Id
@@ -114,6 +123,23 @@ public class Item
         {
             rarity = value;
         }
+    }
+
+    public Item()
+    {
+
+    }
+
+    public Item(Item from)
+    {
+        type = from.Type;
+        id = from.Id;
+        itemName = from.ItemName;
+        description = from.Description;
+        ingameVisual = from.IngameVisual;
+        inventorySprite = from.InventorySprite;
+        isStackable = from.IsStackable;
+        rarity = from.rarity;
     }
 
 }
