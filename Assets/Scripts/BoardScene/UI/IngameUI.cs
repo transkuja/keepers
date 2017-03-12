@@ -353,7 +353,7 @@ public class IngameUI : MonoBehaviour
 
         if (currentSelectedKeeper.GetComponent<Inventory>().inventory != null && currentSelectedKeeper.GetComponent<Inventory>().inventory.Length > 0)
         {
-            Item[] inventory = currentSelectedKeeper.GetComponent<Inventory>().inventory;
+            ItemInstance[] inventory = currentSelectedKeeper.GetComponent<Inventory>().inventory;
             for (int i =0; i< currentSelectedKeeper.gameObject.GetComponent<Inventory>().nbSlot; i++)
             {
                 GameObject currentSlot = Instantiate(slotPrefab);
@@ -363,19 +363,19 @@ public class IngameUI : MonoBehaviour
                    
                     GameObject go = Instantiate(itemUI);
                     go.transform.SetParent(currentSlot.transform);
-                    go.GetComponent<ItemInstance>().item = inventory[i];
+                    go.GetComponent<ItemInstance>().Item = inventory[i].Item;
                     go.name = inventory[i].ToString();
 
 
-                    go.GetComponent<Image>().sprite = inventory[i].sprite;
+                    go.GetComponent<Image>().sprite = inventory[i].Item.InventorySprite;
                     go.transform.localScale = Vector3.one;
 
                     go.transform.position = currentSlot.transform.position;
                     go.transform.SetAsFirstSibling();
 
-                    if (go.GetComponent<ItemInstance>().item.GetType() == typeof(Consummable))
+                    if (go.GetComponent<ItemInstance>().Item.GetType() == typeof(Ressource))
                     {
-                        go.transform.GetComponentInChildren<Text>().text = ((Consummable)inventory[i]).quantite.ToString();
+                        go.transform.GetComponentInChildren<Text>().text = inventory[i].Quantity.ToString();
                     }
                 }
                 currentSlot.transform.SetParent(goInventory.transform);
@@ -520,7 +520,7 @@ public class IngameUI : MonoBehaviour
             }
             if (ki.GetComponent<Inventory>().inventory != null)
             {
-                Item[] inventory = ki.GetComponent<Inventory>().inventory;
+                ItemInstance[] inventory = ki.GetComponent<Inventory>().inventory;
 
                 for (int i = 0; i < inventory.Length; i++)
                 {
@@ -530,19 +530,19 @@ public class IngameUI : MonoBehaviour
                         GameObject currentSlot = panel_keepers_inventory.transform.GetChild(ki.gameObject.transform.GetSiblingIndex()).transform.GetChild(0).transform.GetChild(i).gameObject;
                         GameObject go = Instantiate(itemUI);
                         go.transform.SetParent(currentSlot.transform);
-                        go.GetComponent<ItemInstance>().item = inventory[i];
+                        go.GetComponent<ItemInstance>().Item = inventory[i].Item;
                         go.name = inventory[i].ToString();
 
 
-                        go.GetComponent<Image>().sprite = inventory[i].sprite;
+                        go.GetComponent<Image>().sprite = inventory[i].Item.InventorySprite;
                         go.transform.localScale = Vector3.one;
 
                         go.transform.position = currentSlot.transform.position;
                         go.transform.SetAsFirstSibling();
 
-                        if (go.GetComponent<ItemInstance>().item.GetType() == typeof(Consummable))
+                        if (go.GetComponent<ItemInstance>().Item.GetType() == typeof(Ressource))
                         {
-                            go.transform.GetComponentInChildren<Text>().text = ((Consummable)inventory[i]).quantite.ToString();
+                            go.transform.GetComponentInChildren<Text>().text = inventory[i].Quantity.ToString();
                         }
                     }
                 }

@@ -20,13 +20,13 @@ public class DoubleClickHandler : MonoBehaviour, IPointerClickHandler
 
         if (tap == 2)
         {
-            if (ii.item.GetType() == typeof(Consummable))
+            if (ii.Item.GetType() == typeof(Ressource))
             {
-                Consummable consommable = ((Consummable)(ii.item));
-                consommable.Use(0);
-                if (consommable.quantite <= 0)
+                Ressource ressource = ((Ressource)(ii.Item));
+                ressource.UseItem();
+                if (ii.Quantity <= 0)
                 {
-                    ItemManager.RemoveItem(eventData.pointerPress.transform.parent.parent.GetComponent<InventoryOwner>().Owner.GetComponent<Inventory>().inventory, consommable);
+                    ItemManager.RemoveItem(eventData.pointerPress.transform.parent.parent.GetComponent<InventoryOwner>().Owner.GetComponent<Inventory>().inventory, ii);
                 }
                 GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
             }

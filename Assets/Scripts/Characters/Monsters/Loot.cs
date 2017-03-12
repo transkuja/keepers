@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class Loot : MonoBehaviour {
 
-	public List<Item> ComputeLoot()
+	public List<ItemInstance> ComputeLoot()
     {
-        List<Item> tmpList = new List<Item>();
-        foreach (Item it in transform.GetComponent<MonsterInstance>().PossibleDrops)
+        List<ItemInstance> tmpList = new List<ItemInstance>();
+        foreach (ItemInstance it in transform.GetComponent<MonsterInstance>().Monster.PossibleDrops)
         {
-            if (Random.Range(0, 10) > it.rarity)
+            if (Random.Range(0, 10) > it.Item.Rarity)
             {
                 tmpList.Add(it);
             }

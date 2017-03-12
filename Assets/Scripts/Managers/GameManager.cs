@@ -1,7 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using Boomlagoon.JSON;
+using System.IO;
 
 public class GameManager : MonoBehaviour
 {
@@ -15,7 +16,9 @@ public class GameManager : MonoBehaviour
 
     public GameObject prefabItemToDrop;
 
-
+    // TODO: move to ItemManager
+    private List<Item> database = new List<Item>();
+    public Dictionary<string, Sprite> dictSprites = new Dictionary<string, Sprite>();
 
     private List<KeeperInstance> allKeepersList = new List<KeeperInstance>();
     private PrisonerInstance prisonerInstance;
@@ -33,6 +36,8 @@ public class GameManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
+
+            InitDatabase();
         }
         else if (instance != this)
         {
@@ -50,6 +55,29 @@ public class GameManager : MonoBehaviour
 
         DontDestroyOnLoad(gameObject);
     }
+
+    // TODO: test
+    public void InitDatabase()
+    {
+        DatabaseLoader databaseLoader = new DatabaseLoader();
+        string path = Application.dataPath + "/../Data";
+
+        string fileContents = File.ReadAllText(path + "/items.json");
+        JSONObject json = JSONObject.Parse(fileContents);
+
+        Sprite[] sprites = Resources.LoadAll<Sprite>("Items");
+        foreach (Sprite sprite in sprites)
+        {
+            dictSprites.Add(sprite.name, sprite);
+        }
+
+        if (databaseLoader.Import(json))
+        {
+            Database = databaseLoader.getItemsList();
+        }
+
+    }
+
 
     public void ClearListKeeperSelected()
     {
@@ -260,6 +288,19 @@ public class GameManager : MonoBehaviour
         set
         {
             shortcutPanel_NeedUpdate = value;
+        }
+    }
+
+    public List<Item> Database
+    {
+        get
+        {
+            return database;
+        }
+
+        set
+        {
+            database = value;
         }
     }
 

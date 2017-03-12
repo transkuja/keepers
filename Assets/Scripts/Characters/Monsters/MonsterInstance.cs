@@ -27,33 +27,9 @@ public class MonsterInstance : MonoBehaviour {
     }
 
     public Sprite spriteToCopy;
-
-    [SerializeField]
-    private List<Item> possibleDrops;
-
-    public List<Item> PossibleDrops
-    {
-        get
-        {
-            return possibleDrops;
-        }
-
-        set
-        {
-            possibleDrops = value;
-        }
-    }
     
     public void Awake()
     {
-        possibleDrops = new List<Item>();
-        Consummable item1 = new Consummable();
-        item1.value = 1;
-        item1.sprite = spriteToCopy;
-        item1.quantite = 1;
-        item1.rarity = 1;
-        possibleDrops.Add(item1);
-
         currentHp = monster.MaxHp;
         currentMp = monster.MaxMp;
     }

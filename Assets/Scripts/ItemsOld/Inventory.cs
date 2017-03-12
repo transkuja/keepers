@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour {
 
-    public Item[] inventory;
+    public ItemInstance[] inventory;
 
     [SerializeField]
     public int nbSlot = 6;
 
     public void Awake()
     {
-        inventory = new Item[nbSlot];
+        inventory = new ItemInstance[nbSlot];
     }
 }
