@@ -98,11 +98,10 @@ public static class ItemManager {
         {
             return;
         }
-
         int startIndex = GetInventoryItemIndex(items, ic);
         if (startIndex != slot)
         {
-            if (items[slot] != null)
+            if (items[slot] != null && items[slot].Item != null)
             {
                 ItemInstance temp = items[startIndex];
                 items[startIndex] = items[slot];
@@ -110,8 +109,8 @@ public static class ItemManager {
             }
             else
             {
-                items[slot] = items[startIndex];
-                items[startIndex] = null;
+                items[slot].Item = items[startIndex].Item;
+                items[startIndex].Item = null;
             }
         }
     }
@@ -201,7 +200,7 @@ public static class ItemManager {
     {
         return Array.Exists<ItemInstance>(items, x =>
         {
-            if (x != null)
+            if (x.Item != null)
                 return x.Item.GetType() == i.Item.GetType();
             return false;
         });
@@ -211,8 +210,14 @@ public static class ItemManager {
     {
         return Array.Exists<ItemInstance>(items, x =>
         {
-            if (x != null)
+            if (x.Item != null)
+            {
+                Debug.Log(x.Item);
+                Debug.Log(i.Item);
+                Debug.Log(x.Item == i.Item);
                 return x.Item == i.Item;
+            }
+
             return false;
         });
     }
@@ -221,7 +226,7 @@ public static class ItemManager {
     public static int GetInventoryItemIndex(ItemInstance[] items, ItemInstance i)
     {
         return Array.FindIndex<ItemInstance>(items, x =>{
-            if (x != null)
+            if (x.Item != null)
                 return x.Item == i.Item;
             return false;
         });
