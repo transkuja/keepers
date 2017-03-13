@@ -7,6 +7,10 @@ using UnityEngine.EventSystems;
 
 public class ControlsManager : MonoBehaviour {
 
+    public GameObject goPreviousLeftclicked;
+    float fTimerDoubleClick;
+    [SerializeField] private float fDoubleClickCoolDown = 0.3f;
+
     //public List<Character> listCharacters;
 
     /*public Character currentCharacter = null;
@@ -34,12 +38,15 @@ public class ControlsManager : MonoBehaviour {
     // Use this for initialization
     void Start () {
         //currentCharacter = listCharacters[iIdCurrentCharacter];
+        goPreviousLeftclicked = null;
+        fTimerDoubleClick = 0;
     }
 	
 	// Update is called once per frame
 	void Update () {
         SelectionControls();
         ChangeSelectedKeeper();
+        UpdateDoubleCick();
         //CameraControls();
     }
 
@@ -79,7 +86,18 @@ public class ControlsManager : MonoBehaviour {
                             GameManager.Instance.Ui.UpdateActionText();
                             c.IsSelected = true;
                         }
-                        Camera.main.GetComponent<CameraManager>().UpdateCameraPosition(c);
+
+                        if (fTimerDoubleClick > 0 && goPreviousLeftclicked == hitInfo.transform.gameObject)
+                        {
+                            Camera.main.GetComponent<CameraManager>().UpdateCameraPosition(c);
+                            goPreviousLeftclicked = null;
+                            fTimerDoubleClick = 0;
+                        }
+                        else
+                        {
+                            fTimerDoubleClick = fDoubleClickCoolDown;
+                            goPreviousLeftclicked = hitInfo.transform.gameObject;
+                        }
                     }
                     else
                     {
@@ -180,6 +198,18 @@ public class ControlsManager : MonoBehaviour {
 
                 Camera.main.GetComponent<CameraManager>().UpdateCameraPosition(nextKeeper);
             }
+        }
+    }
+
+    private void UpdateDoubleCick()
+    {
+        if(fTimerDoubleClick > 0)
+        {
+            fTimerDoubleClick -= Time.unscaledDeltaTime;
+        }
+        else
+        {
+            goPreviousLeftclicked = null;
         }
     }
 
