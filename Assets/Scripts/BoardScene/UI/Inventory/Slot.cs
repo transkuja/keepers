@@ -114,7 +114,7 @@ public class Slot : MonoBehaviour, IDropHandler
             else
             {
                 // Si ce n'est pas un objet qui est drag
-                if (eventData.pointerDrag.GetComponent<ItemInstance>().ItemContainer == null && transform.parent.GetComponent<InventoryOwner>() == null)
+                if (eventData.pointerDrag.GetComponent<ItemInstance>() == null && transform.parent.GetComponent<InventoryOwner>() == null)
                 {
                     if (hasAlreadyAnItem)
                     {
