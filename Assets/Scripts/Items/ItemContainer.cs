@@ -55,32 +55,32 @@ public class ItemContainer {
         Quantity = ic.Quantity;
     }
 
-    public bool Add(Item _item, int iNb)
-    {
-        if (Item == null)
-        {
-            Item = ItemManager.getInstanciateItem(_item.Type);
-            Item = _item;
-            Quantity = iNb;
-        }
-        else
-        {
-            Quantity += iNb;
-        }
-        return true;
-    }
+    //public bool Add(Item _item, int iNb)
+    //{
+    //    if (Item == null)
+    //    {
+    //        Item = ItemManager.getInstanciateItem(_item.Type);
+    //        //Item = _item;
+    //        Quantity = iNb;
+    //    }
+    //    else
+    //    {
+    //        Quantity += iNb;
+    //    }
+    //    return true;
+    //}
 
-    public bool Remove(int _iQty)
-    {
-        if (Quantity == _iQty)
-        {
-            Item = null;
-        }
+    //public bool Remove(int _iQty)
+    //{
+    //    if (Quantity == _iQty)
+    //    {
+    //        Item = null;
+    //    }
 
-        Quantity -= _iQty;
+    //    Quantity -= _iQty;
 
-        return true;
-    }
+    //    return true;
+    //}
 
     public void UseItem()
     {

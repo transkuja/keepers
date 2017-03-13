@@ -6,6 +6,7 @@ using UnityEngine;
 public class ItemInstance : MonoBehaviour, IPickable
 {
     private InteractionImplementer interactionImplementer;
+
     [SerializeField]
     private ItemContainer itemContainer = null;
 
@@ -32,17 +33,7 @@ public class ItemInstance : MonoBehaviour, IPickable
     public void Init(string _IdItem, int _iNb)
     {
         idItem = _IdItem;
-
-        foreach (Item it in GameManager.Instance.Database)
-        {
-
-            if (it.Id == idItem)
-            {
-                itemContainer = new ItemContainer(it, _iNb);
-                break;
-            }
-        }
-
+        itemContainer = new ItemContainer(GameManager.Instance.Database.getItemById(_IdItem), quantity);
     }
 
     public ItemContainer ItemContainer

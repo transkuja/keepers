@@ -1,28 +1,68 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
 using Boomlagoon.JSON;
 
-public class DatabaseLoader
+public class Database
 {
+    public Dictionary<string, Sprite> dictSprites = new Dictionary<string, Sprite>();
+
+
     private class ItemElement
     {
         public string type;
         public Item item;
     }
-
-    [SerializeField]
+    
     private List<Item> itemsList;
 
-    public List<Item> getItemsList()
+    public List<Item> ItemsList
     {
-        return itemsList;
+        get
+        {
+            return itemsList;
+        }
+
+        set
+        {
+            itemsList = value;
+        }
+    }
+
+    public Item getItemById(string _id_Item)
+    {
+        foreach (Item it in itemsList)
+        {
+
+            if (it.Id == _id_Item)
+            {
+                return it;
+            }
+        }
+        return null;
+    }
+
+    public void Init()
+    {
+        string path = Application.dataPath + "/../Data";
+
+        string fileContents = File.ReadAllText(path + "/items.json");
+        JSONObject json = JSONObject.Parse(fileContents);
+
+        Sprite[] sprites = Resources.LoadAll<Sprite>("Items");
+        foreach (Sprite sprite in sprites)
+        {
+            dictSprites.Add(sprite.name, sprite);
+        }
+
+        Import(json);
     }
 
     public bool Import(JSONObject source)
     {
         // Recuperation du tableau de items
-        itemsList = new List<Item>();
+        ItemsList = new List<Item>();
 
         JSONArray array = source["items"].Array;
 
@@ -68,7 +108,7 @@ public class DatabaseLoader
                         if (currentItem.Key == "id") { item.Id = currentItem.Value.Str; }
                         if (currentItem.Key == "itemName") { item.ItemName = currentItem.Value.Str; }
                         if (currentItem.Key == "description") { item.Description = currentItem.Value.Str; }
-                        if (currentItem.Key == "inventorySprite") { item.InventorySprite = GameManager.Instance.dictSprites[currentItem.Value.Str]; }
+                        if (currentItem.Key == "inventorySprite") { item.InventorySprite = dictSprites[currentItem.Value.Str]; }
                         if (currentItem.Key == "ingameVisual") { } // TODO //item.IngameVisual = itemEntry.Value.Str; }
 
                         if (item.Type == "Equipment")
@@ -106,7 +146,7 @@ public class DatabaseLoader
                 invItem.item = item;
 
             }
-            itemsList.Add(invItem.item);
+            ItemsList.Add(invItem.item);
         }
         return true;
     }

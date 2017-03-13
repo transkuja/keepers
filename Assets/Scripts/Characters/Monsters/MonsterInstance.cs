@@ -25,8 +25,6 @@ public class MonsterInstance : MonoBehaviour {
             monster = value;
         }
     }
-
-    public Sprite spriteToCopy;
     
     public void Awake()
     {

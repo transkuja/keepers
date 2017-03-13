@@ -70,8 +70,10 @@ public class IngameScreens : MonoBehaviour {
                         GameObject currentSlot = goInventoryLoot.transform.GetChild(i).gameObject;
                         GameObject go = Instantiate(itemUI);
                         go.transform.SetParent(currentSlot.transform);
+
+
                         go.GetComponent<ItemInstance>().ItemContainer = inventory[i];
-                        go.name = inventory[i].ToString();
+                        go.name = inventory[i].Item.ItemName;
 
                         go.GetComponent<Image>().sprite = inventory[i].Item.InventorySprite;
                         go.transform.localScale = Vector3.one;
@@ -79,7 +81,7 @@ public class IngameScreens : MonoBehaviour {
                         go.transform.position = currentSlot.transform.position;
                         go.transform.SetAsFirstSibling();
 
-                        if (go.GetComponent<ItemContainer>().Item.GetType() == typeof(Ressource))
+                        if (go.GetComponent<ItemInstance>().ItemContainer.Item.GetType() == typeof(Ressource))
                         {
                             go.transform.GetComponentInChildren<Text>().text = inventory[i].Quantity.ToString();
                         }

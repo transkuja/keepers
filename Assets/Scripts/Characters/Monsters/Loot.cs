@@ -7,11 +7,13 @@ public class Loot : MonoBehaviour {
 	public List<ItemContainer> ComputeLoot()
     {
         List<ItemContainer> tmpList = new List<ItemContainer>();
-        foreach (ItemContainer it in transform.GetComponent<MonsterInstance>().Monster.PossibleDrops)
+        Item it = null;
+        foreach (string _IdItem in transform.GetComponent<MonsterInstance>().Monster.PossibleDrops)
         {
-            if (Random.Range(0, 10) > it.Item.Rarity)
+            it = GameManager.Instance.Database.getItemById(_IdItem);
+            if (Random.Range(0, 10) > it.Rarity)
             {
-                tmpList.Add(it);
+                tmpList.Add(new ItemContainer(it, 1));
             }
         }
 
