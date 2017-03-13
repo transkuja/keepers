@@ -53,7 +53,7 @@ public class DragHandler : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
             ItemContainer[] inventoryKeeperDequi = inventaireDequi.Owner.GetComponent<Inventory>().inventory;
 
 
-            ItemManager.RemoveItem(inventoryKeeperDequi, eventData.pointerDrag.gameObject.GetComponent<ItemInstance>().ItemContainer);
+            InventoryManager.RemoveItem(inventoryKeeperDequi, eventData.pointerDrag.gameObject.GetComponent<ItemInstance>().ItemContainer);
             ItemManager.AddItemOnTheGround(inventaireDequi.Owner, eventData.pointerDrag.gameObject.GetComponent<ItemInstance>().ItemContainer);
 
             Destroy(eventData.pointerDrag.gameObject);

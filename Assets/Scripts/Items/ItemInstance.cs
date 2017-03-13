@@ -73,9 +73,13 @@ public class ItemInstance : MonoBehaviour, IPickable
 
     public void Pick(int _i = 0)
     {
-        ItemManager.AddItem(GameManager.Instance.ListOfSelectedKeepers[0].GetComponent<Inventory>().inventory, this.itemContainer);
+        bool isNoLeftOver = InventoryManager.AddItemToInventory(GameManager.Instance.ListOfSelectedKeepers[0].GetComponent<Inventory>().inventory, this.itemContainer);
+        if (isNoLeftOver)
+        {
+            Destroy(gameObject);
+        }
+       
         GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
         GameManager.Instance.Ui.UpdateKeeperInventoryPanel();
-        Destroy(gameObject);
     }
 }

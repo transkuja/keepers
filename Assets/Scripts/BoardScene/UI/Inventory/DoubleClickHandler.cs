@@ -22,7 +22,7 @@ public class DoubleClickHandler : MonoBehaviour, IPointerClickHandler
             ii.ItemContainer.UseItem();
             if (ii.ItemContainer.Quantity <= 0)
             {
-                ItemManager.RemoveItem(eventData.pointerPress.transform.parent.parent.GetComponent<InventoryOwner>().Owner.GetComponent<Inventory>().inventory, ii.ItemContainer);
+                InventoryManager.RemoveItem(eventData.pointerPress.transform.parent.parent.GetComponent<InventoryOwner>().Owner.GetComponent<Inventory>().inventory, ii.ItemContainer);
             }
             GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
         }
