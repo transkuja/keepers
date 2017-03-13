@@ -21,7 +21,7 @@ public static class ItemManager {
 
         if (itemContainer != null && itemContainer.Item != null)
         {
-            drop.GetComponent<ItemInstance>().Init(itemContainer.Item.Id, itemContainer.Quantity);
+            drop.GetComponent<ItemInstance>().ItemContainer = itemContainer;
         }
 
     }
