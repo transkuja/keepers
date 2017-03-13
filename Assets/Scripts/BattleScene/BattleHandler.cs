@@ -6,6 +6,7 @@ public class BattleHandler {
     private enum AttackType { Physical, Magical }
     // Is the prisoner on the tile where the battle is processed
     public static bool isPrisonerOnTile = false;
+    private static Text battleLogger;
 
     /// <summary>
     /// Autoselect keepers if there are not enough for a selection
@@ -39,7 +40,9 @@ public class BattleHandler {
     /// <param name="selectedKeepersForBattle">Keepers selected for the battle</param>
     public static void LaunchBattle(Tile tile, List<KeeperInstance> selectedKeepersForBattle)
     {
-        if (ResolveBattle(selectedKeepersForBattle, tile))
+        battleLogger = GameManager.Instance.BattleResultScreen.GetChild((int)BattleResultScreenChildren.Logger).GetComponentInChildren<Text>();
+        bool isVictorious = ResolveBattle(selectedKeepersForBattle, tile);
+        if (isVictorious)
         {
             HandleBattleVictory(selectedKeepersForBattle, tile);
         }
@@ -48,6 +51,7 @@ public class BattleHandler {
             HandleBattleDefeat(selectedKeepersForBattle);
         }
 
+        PrintResultsScreen(isVictorious);
         PostBattleCommonProcess(selectedKeepersForBattle, tile);
     }
 
@@ -136,11 +140,13 @@ public class BattleHandler {
         if (monsters.Count == 0)
         {
             Debug.Log("Battle won! Yippi!");
+            battleLogger.text += "\tBattle won! Yippi!\n";
             return true;
         }
         else
         {
             Debug.Log("Battle lost");
+            battleLogger.text += "\tBattle lost :'(\n";
             return false;
         }
     }
@@ -206,6 +212,7 @@ public class BattleHandler {
 
         targetMonster.CurrentHp -= damage;
         Debug.Log(attacker.name + " deals " + damage + " damage to " + targetMonster.name);
+        battleLogger.text += "\t" + attacker.name + " deals " + damage + " damage to " + targetMonster.name + "\n";
     }
 
     private static int MonsterDamageCalculation(MonsterInstance attacker, KeeperInstance targetKeeper, AttackType attackType, bool prisonerTargeted = false)
@@ -230,11 +237,13 @@ public class BattleHandler {
         {
             GameManager.Instance.PrisonerInstance.CurrentHp -= damage;
             Debug.Log(attacker.name + " deals " + damage + " damage to prisoner");
+            battleLogger.text += "\t" + attacker.name + " deals " + damage + " damage to prisoner\n";
         }
         else
         {
             targetKeeper.CurrentHp -= damage;
             Debug.Log(attacker.name + " deals " + damage + " damage to " + targetKeeper.name);
+            battleLogger.text += "\t" + attacker.name + " deals " + damage + " damage to " + targetKeeper.name + "\n";
         }
 
         return damage;
@@ -256,8 +265,6 @@ public class BattleHandler {
                 GameManager.Instance.PrisonerInstance.CurrentHunger += 5;
             }
         }
-
-        PrintVictoryScreen();
     }
 
     /*
@@ -271,12 +278,14 @@ public class BattleHandler {
             ki.CurrentHunger += 5;
 
             ki.CurrentHp -= 10;
+            battleLogger.text += "\t" + ki.Keeper.CharacterName + " lost 10 mental health, 5 hunger, 10HP due to defeat.\n";
 
             if (isPrisonerOnTile)
             {
                 GameManager.Instance.PrisonerInstance.CurrentMentalHealth -= 10;
                 GameManager.Instance.PrisonerInstance.CurrentHunger += 5;
                 GameManager.Instance.PrisonerInstance.CurrentHp -= 10;
+                battleLogger.text += "\tPrisoner lost 10 mental health, 5 hunger, 10HP due to defeat.\n";
             }
         }
 
@@ -284,9 +293,6 @@ public class BattleHandler {
         {
             ki.transform.position = ki.transform.position - ki.transform.forward * 0.5f;
         }
-
-        PrintDefeatScreen(10, 5, 10);
-
     }
 
     private static void PostBattleCommonProcess(List<KeeperInstance> keepers, Tile tile)
@@ -301,31 +307,14 @@ public class BattleHandler {
         }
     }
 
-    private static void PrintVictoryScreen()
+    private static void PrintResultsScreen(bool isVictorious)
     {
         GameManager.Instance.BattleResultScreen.gameObject.SetActive(true);
-
         Transform header = GameManager.Instance.BattleResultScreen.GetChild((int)BattleResultScreenChildren.Header);
 
-        header.GetComponent<Text>().text = "Victory!";
-        GameManager.Instance.BattleResultScreen.GetChild((int)BattleResultScreenChildren.Lost).gameObject.SetActive(false);
+        header.GetComponentInChildren<Text>().text = isVictorious ? "Victory!" : "Defeat";
 
         IngameScreens.Instance.CreateLootInterface();
-    }
-
-    private static void PrintDefeatScreen(int moraleLost, int hungerIncreased, int hpLost)
-    {
-        GameManager.Instance.BattleResultScreen.gameObject.SetActive(true);
-
-        Transform header = GameManager.Instance.BattleResultScreen.GetChild((int)BattleResultScreenChildren.Header);
-        Transform lost = GameManager.Instance.BattleResultScreen.GetChild((int)BattleResultScreenChildren.Lost);
-
-        header.GetComponent<Text>().text = "Defeat";
-        GameManager.Instance.BattleResultScreen.GetChild((int)BattleResultScreenChildren.Loot).gameObject.SetActive(false);
-
-        lost.GetComponent<Text>().text = hpLost + " HP lost\n"
-                                        + moraleLost + " morale lost\n"
-                                        + "Hunger increased by " + hungerIncreased;
 
         // Freeze time until close button is pressed
         GameManager.Instance.ClearListKeeperSelected();
