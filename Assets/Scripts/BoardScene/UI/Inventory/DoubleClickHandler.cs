@@ -6,7 +6,6 @@ using UnityEngine.EventSystems;
 
 public class DoubleClickHandler : MonoBehaviour, IPointerClickHandler
 {
-
     private ItemInstance ii;
 
     public void Start()
@@ -20,16 +19,12 @@ public class DoubleClickHandler : MonoBehaviour, IPointerClickHandler
 
         if (tap == 2)
         {
-            if (ii.item.GetType() == typeof(Consummable))
+            ii.ItemContainer.UseItem();
+            if (ii.ItemContainer.Quantity <= 0)
             {
-                Consummable consommable = ((Consummable)(ii.item));
-                consommable.Use(0);
-                if (consommable.quantite <= 0)
-                {
-                    ItemManager.RemoveItem(eventData.pointerPress.transform.parent.parent.GetComponent<InventoryOwner>().Owner.GetComponent<Inventory>().inventory, consommable);
-                }
-                GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
+                InventoryManager.RemoveItem(eventData.pointerPress.transform.parent.parent.GetComponent<InventoryOwner>().Owner.GetComponent<Inventory>().inventory, ii.ItemContainer);
             }
+            GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
         }
     }
 }

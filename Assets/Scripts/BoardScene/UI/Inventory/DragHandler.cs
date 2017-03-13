@@ -50,11 +50,11 @@ public class DragHandler : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
         {
 
             InventoryOwner inventaireDequi = startParent.parent.GetComponent<InventoryOwner>();
-            Item[] inventoryKeeperDequi = inventaireDequi.Owner.GetComponent<Inventory>().inventory;
+            ItemContainer[] inventoryKeeperDequi = inventaireDequi.Owner.GetComponent<Inventory>().inventory;
 
 
-            ItemManager.RemoveItem(inventoryKeeperDequi, eventData.pointerDrag.gameObject.GetComponent<ItemInstance>().item);
-            ItemManager.AddItemOnTheGround(inventaireDequi.Owner, eventData.pointerDrag.gameObject.GetComponent<ItemInstance>().item);
+            InventoryManager.RemoveItem(inventoryKeeperDequi, eventData.pointerDrag.gameObject.GetComponent<ItemInstance>().ItemContainer);
+            ItemManager.AddItemOnTheGround(inventaireDequi.Owner, eventData.pointerDrag.gameObject.GetComponent<ItemInstance>().ItemContainer);
 
             Destroy(eventData.pointerDrag.gameObject);
         }

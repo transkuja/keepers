@@ -1,7 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using Boomlagoon.JSON;
+using System.IO;
 
 public class GameManager : MonoBehaviour
 {
@@ -15,7 +16,8 @@ public class GameManager : MonoBehaviour
 
     public GameObject prefabItemToDrop;
 
-
+    // TODO: move to ItemManager
+    private Database database = new Database();
 
     private List<KeeperInstance> allKeepersList = new List<KeeperInstance>();
     private PrisonerInstance prisonerInstance;
@@ -33,6 +35,7 @@ public class GameManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
+            database.Init();
         }
         else if (instance != this)
         {
@@ -50,6 +53,7 @@ public class GameManager : MonoBehaviour
 
         DontDestroyOnLoad(gameObject);
     }
+
 
     public void ClearListKeeperSelected()
     {
@@ -260,6 +264,19 @@ public class GameManager : MonoBehaviour
         set
         {
             shortcutPanel_NeedUpdate = value;
+        }
+    }
+
+    public Database Database
+    {
+        get
+        {
+            return database;
+        }
+
+        set
+        {
+            database = value;
         }
     }
 

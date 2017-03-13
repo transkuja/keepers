@@ -1,75 +1,54 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class ItemInstance : MonoBehaviour, IPickable {
 
-    [SerializeField]
-    public TypeItem typeItem;
-
-    // Hide if not equipement
-    [HideInInspector]
-    public TypeEquipement equipType;
-
-    [HideInInspector]
-    public BonusStats bonusStats;
-
-    // Hide if not consummable
-    [HideInInspector]
-    public int quantite;
-
-    [HideInInspector]
-    public int value;
-
-    [SerializeField]
-    public Sprite spriteToCopy;
-
-    [SerializeField]
-    public Item item;
-
+public class ItemInstance : MonoBehaviour, IPickable
+{
     private InteractionImplementer interactionImplementer;
 
-    // Use this for initialization
-    void Awake() {
-        Init();
-    }
+    [SerializeField]
+    private ItemContainer itemContainer = null;
 
-    public void Pick(int _i = 0)
-    {
-        ItemManager.AddItem(GameManager.Instance.ListOfSelectedKeepers[0].GetComponent<Inventory>().inventory, item);
-        GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
-        GameManager.Instance.Ui.UpdateKeeperInventoryPanel();
-        Destroy(gameObject);
-    }
+    [SerializeField]
+    int quantity = 1;
 
-    #region Constructors
-    public void Init()
+    [SerializeField]
+    private bool isInScene = false;
+
+    [SerializeField]
+    private string idItem;
+
+    void Awake()
     {
-        item = ItemManager.getInstanciateItem(typeItem);
-        item.sprite = spriteToCopy;
-        switch (typeItem)
+        if (isInScene)
         {
-            case TypeItem.Equipement:
-                ((Equipement)item).type = equipType;
-                ((Equipement)item).stats = bonusStats;
-                break;
-            case TypeItem.Consummable:
-                ((Consummable)item).quantite = quantite;
-                ((Consummable)item).value = value;
-                break;
-            default:
-                break;
-
+            Init(idItem, quantity);
         }
-
         interactionImplementer = new InteractionImplementer();
         interactionImplementer.Add(new Interaction(Pick), "Pick", GameManager.Instance.Ui.spritePick);
     }
-    #endregion
 
-    #region Accessors
+
+    public void Init(string _IdItem, int _iNb)
+    {
+        idItem = _IdItem;
+        itemContainer = new ItemContainer(GameManager.Instance.Database.getItemById(_IdItem), quantity);
+    }
+
+    public ItemContainer ItemContainer
+    {
+        get
+        {
+            return itemContainer;
+        }
+
+        set
+        {
+            itemContainer = value;
+        }
+    }
+
     public InteractionImplementer InteractionImplementer
     {
         get
@@ -82,5 +61,16 @@ public class ItemInstance : MonoBehaviour, IPickable {
             interactionImplementer = value;
         }
     }
-    #endregion
+
+    public void Pick(int _i = 0)
+    {
+        bool isNoLeftOver = InventoryManager.AddItemToInventory(GameManager.Instance.ListOfSelectedKeepers[0].GetComponent<Inventory>().inventory, this.itemContainer);
+        if (isNoLeftOver)
+        {
+            Destroy(gameObject);
+        }
+       
+        GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
+        GameManager.Instance.Ui.UpdateKeeperInventoryPanel();
+    }
 }

@@ -1,0 +1,53 @@
+{
+	"items": [
+		{
+			"type": "Equipment",
+			"item" : {
+				"id": "equip01",
+				"itemName": "Plastic Spoon",
+				"description": "You can't kill anything with this they said.",
+				"inventorySprite": "Items_0",
+				"ingameVisual": "",
+				"slot": "Weapon",
+				"stat": "Strength",
+				"bonusStat": 1
+			}
+		},
+		{
+			"type": "Ressource",
+			"item" : { 
+				"id": "resource01",
+				"itemName": "Wheat",
+				"description": "Increase mental health",
+				"inventorySprite": "Items_0",
+				"ingameVisual": "",
+				"use": "DecreaseHunger",
+				"value": 5
+			}
+		},
+		{
+			"type": "Ressource",
+			"item" : { 
+				"id": "resource02",
+				"itemName": "Vegetaballs",
+				"description": "Increase mental health",
+				"inventorySprite": "Items_1",
+				"ingameVisual": "",
+				"use": "DecreaseHunger",
+				"value": 5
+			}
+		},
+		{
+			"type": "Ressource",
+			"item" : { 
+				"id": "resource03",
+				"itemName": "Vegetaballs",
+				"description": "Increase mental health",
+				"inventorySprite": "Items_2",
+				"ingameVisual": "",
+				"use": "DecreaseHunger",
+				"value": 5
+			}
+		}
+	]
+}

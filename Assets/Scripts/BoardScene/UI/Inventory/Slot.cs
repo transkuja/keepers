@@ -41,33 +41,29 @@ public class Slot : MonoBehaviour, IDropHandler
                 InventoryOwner inventaireDequi = previous.parent.GetComponent<InventoryOwner>();
                 InventoryOwner inventaireversqui = transform.parent.GetComponent<InventoryOwner>();
 
-                Item[] inventoryKeeperDequi = inventaireDequi.Owner.GetComponent<Inventory>().inventory;
-                Item[] inventoryKeeperVersqui = inventaireversqui.Owner.GetComponent<Inventory>().inventory;
+                ItemContainer[] inventoryKeeperDequi = inventaireDequi.Owner.GetComponent<Inventory>().inventory;
+                ItemContainer[] inventoryKeeperVersqui = inventaireversqui.Owner.GetComponent<Inventory>().inventory;
 
                 //Si les inventaires sont differents
                 if (inventaireDequi != inventaireversqui)
                 {
                     if (hasAlreadyAnItem)
                     {
-                        Item itemDragged = eventData.pointerDrag.GetComponent<ItemInstance>().item;
-                        Item itemOn = currentItem.GetComponent<ItemInstance>().item;
+                        ItemContainer itemDragged = eventData.pointerDrag.GetComponent<ItemInstance>().ItemContainer;
+                        ItemContainer itemOn = currentItem.GetComponent<ItemInstance>().ItemContainer;
 
-                        if ((itemOn.GetType() == itemDragged.GetType()) && itemOn.GetType() == typeof(Consummable) && itemOn.sprite.name == itemDragged.sprite.name)
+                        if (itemOn.Item.Id == itemDragged.Item.Id)
                         {
-                            int quantityLeft = ItemManager.MergeStackables2(((Consummable)currentItem.GetComponent<ItemInstance>().item), ((Consummable)eventData.pointerDrag.GetComponent<ItemInstance>().item));
-                            if (quantityLeft > 0)
+                            int quantityLeft = InventoryManager.MergeStackables(currentItem.GetComponent<ItemInstance>().ItemContainer, eventData.pointerDrag.GetComponent<ItemInstance>().ItemContainer);
+                            if (quantityLeft <= 0)
                             {
-                                ((Consummable)eventData.pointerDrag.GetComponent<ItemInstance>().item).quantite = quantityLeft;
-                            }
-                            else
-                            {
-                                ItemManager.RemoveItem(inventoryKeeperDequi, eventData.pointerDrag.GetComponent<ItemInstance>().item);
+                                InventoryManager.RemoveItem(inventoryKeeperDequi, eventData.pointerDrag.GetComponent<ItemInstance>().ItemContainer);
                             }
                         }
                         else
                         {
                             // Swap
-                            ItemManager.SwapItemBeetweenInventories(inventoryKeeperDequi, previous.GetSiblingIndex(), inventoryKeeperVersqui, transform.GetSiblingIndex());
+                            InventoryManager.SwapItemBeetweenInventories(inventoryKeeperDequi, previous.GetSiblingIndex(), inventoryKeeperVersqui, transform.GetSiblingIndex());
 
                         }
                     }
@@ -75,15 +71,7 @@ public class Slot : MonoBehaviour, IDropHandler
                     {
                         //Move the item to the slot
                         //eventData.pointerDrag.transform.SetParent(transform);
-
-                        ItemManager.RemoveItem(inventoryKeeperDequi, eventData.pointerDrag.GetComponent<ItemInstance>().item);
-                        ItemManager.AddItem(inventoryKeeperVersqui, eventData.pointerDrag.GetComponent<ItemInstance>().item, false);
-
-                        ItemManager.MoveItemToSlot(
-                             inventoryKeeperVersqui,
-                             eventData.pointerDrag.GetComponent<ItemInstance>().item,
-                             transform.GetSiblingIndex()
-                         );
+                        InventoryManager.SwapItemBeetweenInventories(inventoryKeeperDequi, previous.GetSiblingIndex(), inventoryKeeperVersqui, transform.GetSiblingIndex());
                     }
                 }
                 // Si l'inventaire est le même
@@ -91,36 +79,28 @@ public class Slot : MonoBehaviour, IDropHandler
                 {
                     if (hasAlreadyAnItem)
                     {
-                        Item itemDragged = eventData.pointerDrag.GetComponent<ItemInstance>().item;
-                        Item itemOn = currentItem.GetComponent<ItemInstance>().item;
+              
+                        ItemContainer itemDragged = eventData.pointerDrag.GetComponent<ItemInstance>().ItemContainer;
+                        ItemContainer itemOn = currentItem.GetComponent<ItemInstance>().ItemContainer;
 
-                        if ((itemOn.GetType() == itemDragged.GetType()) && itemOn.GetType() == typeof(Consummable) && itemOn.sprite.name == itemDragged.sprite.name)
+                        if (itemOn.Item.Id == itemDragged.Item.Id)
                         {
-                            int quantityLeft = ItemManager.MergeStackables2(((Consummable)currentItem.GetComponent<ItemInstance>().item), ((Consummable)eventData.pointerDrag.GetComponent<ItemInstance>().item));
-                            if (quantityLeft > 0)
-                            {
-                                ((Consummable)eventData.pointerDrag.GetComponent<ItemInstance>().item).quantite = quantityLeft;
-                            }
-                            else
-                            {
-                                ItemManager.RemoveItem(inventoryKeeperDequi, eventData.pointerDrag.GetComponent<ItemInstance>().item);
 
+                            int quantityLeft = InventoryManager.MergeStackables(currentItem.GetComponent<ItemInstance>().ItemContainer, eventData.pointerDrag.GetComponent<ItemInstance>().ItemContainer);
+                            if (quantityLeft <= 0)
+                            {
+                                InventoryManager.RemoveItem(inventoryKeeperDequi, eventData.pointerDrag.GetComponent<ItemInstance>().ItemContainer);
                             }
                         }
                         else
                         {
                             // swap dequi = versqui
-                            ItemManager.SwapItemInSameInventory(inventoryKeeperDequi, previous.GetSiblingIndex(), transform.GetSiblingIndex());
+                            InventoryManager.SwapItemInSameInventory(inventoryKeeperDequi, previous.GetSiblingIndex(), transform.GetSiblingIndex());
                         }
                     }
                     else
                     {
-                        //Move the item to the slot
-                        ItemManager.MoveItemToSlot(
-                              inventoryKeeperVersqui,
-                              eventData.pointerDrag.GetComponent<ItemInstance>().item,
-                              transform.GetSiblingIndex()
-                        );
+                        InventoryManager.SwapItemInSameInventory(inventoryKeeperDequi, previous.GetSiblingIndex(), transform.GetSiblingIndex());
 
                     }
                 }
@@ -134,7 +114,7 @@ public class Slot : MonoBehaviour, IDropHandler
             else
             {
                 // Si ce n'est pas un objet qui est drag
-                if (eventData.pointerDrag.GetComponent<ItemInstance>() == null && transform.parent.GetComponent<InventoryOwner>() == null)
+                if (eventData.pointerDrag.GetComponent<ItemInstance>().ItemContainer == null && transform.parent.GetComponent<InventoryOwner>() == null)
                 {
                     if (hasAlreadyAnItem)
                     {

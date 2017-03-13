@@ -353,29 +353,28 @@ public class IngameUI : MonoBehaviour
 
         if (currentSelectedKeeper.GetComponent<Inventory>().inventory != null && currentSelectedKeeper.GetComponent<Inventory>().inventory.Length > 0)
         {
-            Item[] inventory = currentSelectedKeeper.GetComponent<Inventory>().inventory;
+            ItemContainer[] inventory = currentSelectedKeeper.GetComponent<Inventory>().inventory;
             for (int i =0; i< currentSelectedKeeper.gameObject.GetComponent<Inventory>().nbSlot; i++)
             {
                 GameObject currentSlot = Instantiate(slotPrefab);
 
-                if (inventory[i] != null)
+                if (inventory[i] != null && inventory[i].Item != null)
                 {
                    
                     GameObject go = Instantiate(itemUI);
                     go.transform.SetParent(currentSlot.transform);
-                    go.GetComponent<ItemInstance>().item = inventory[i];
-                    go.name = inventory[i].ToString();
+                    go.GetComponent<ItemInstance>().ItemContainer = inventory[i];
+                    go.name = inventory[i].Item.ItemName;
 
-
-                    go.GetComponent<Image>().sprite = inventory[i].sprite;
+                    go.GetComponent<Image>().sprite = inventory[i].Item.InventorySprite;
                     go.transform.localScale = Vector3.one;
 
                     go.transform.position = currentSlot.transform.position;
                     go.transform.SetAsFirstSibling();
 
-                    if (go.GetComponent<ItemInstance>().item.GetType() == typeof(Consummable))
+                    if (go.GetComponent<ItemInstance>().ItemContainer.Item.GetType() == typeof(Ressource))
                     {
-                        go.transform.GetComponentInChildren<Text>().text = ((Consummable)inventory[i]).quantite.ToString();
+                        go.transform.GetComponentInChildren<Text>().text = inventory[i].Quantity.ToString();
                     }
                 }
                 currentSlot.transform.SetParent(goInventory.transform);
@@ -520,29 +519,29 @@ public class IngameUI : MonoBehaviour
             }
             if (ki.GetComponent<Inventory>().inventory != null)
             {
-                Item[] inventory = ki.GetComponent<Inventory>().inventory;
+                ItemContainer[] inventory = ki.GetComponent<Inventory>().inventory;
 
                 for (int i = 0; i < inventory.Length; i++)
                 {
-                    if (inventory[i] != null)
+                    if (inventory[i] != null && inventory[i].Item != null)
                     {
 
                         GameObject currentSlot = panel_keepers_inventory.transform.GetChild(ki.gameObject.transform.GetSiblingIndex()).transform.GetChild(0).transform.GetChild(i).gameObject;
                         GameObject go = Instantiate(itemUI);
                         go.transform.SetParent(currentSlot.transform);
-                        go.GetComponent<ItemInstance>().item = inventory[i];
+                        go.GetComponent<ItemInstance>().ItemContainer = inventory[i];
                         go.name = inventory[i].ToString();
 
 
-                        go.GetComponent<Image>().sprite = inventory[i].sprite;
+                        go.GetComponent<Image>().sprite = inventory[i].Item.InventorySprite;
                         go.transform.localScale = Vector3.one;
 
                         go.transform.position = currentSlot.transform.position;
                         go.transform.SetAsFirstSibling();
 
-                        if (go.GetComponent<ItemInstance>().item.GetType() == typeof(Consummable))
+                        if (go.GetComponent<ItemInstance>().ItemContainer.Item.GetType() == typeof(Ressource))
                         {
-                            go.transform.GetComponentInChildren<Text>().text = ((Consummable)inventory[i]).quantite.ToString();
+                            go.transform.GetComponentInChildren<Text>().text = inventory[i].Quantity.ToString();
                         }
                     }
                 }

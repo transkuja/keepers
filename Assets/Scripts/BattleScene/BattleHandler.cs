@@ -89,7 +89,7 @@ public class BattleHandler {
         }
 
         PrintVictoryScreen();
-        Item[] loot = ComputeTotalLoot(tile);
+        ItemContainer[] loot = ComputeTotalLoot(tile);
         TileManager.Instance.RemoveDefeatedMonsters(tile);
 
         // TODO: @Remi Open loot window
@@ -156,9 +156,9 @@ public class BattleHandler {
         Time.timeScale = 0.0f;
     }
 
-    private static Item[] ComputeTotalLoot(Tile tile)
+    private static ItemContainer[] ComputeTotalLoot(Tile tile)
     {
-        List<Item> lootList = new List<Item>();
+        List<ItemContainer> lootList = new List<ItemContainer>();
         foreach (MonsterInstance mi in TileManager.Instance.MonstersOnTile[tile])
         {
             lootList.AddRange(mi.GetComponent<Loot>().ComputeLoot());

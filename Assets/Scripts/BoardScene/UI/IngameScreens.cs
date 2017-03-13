@@ -61,27 +61,29 @@ public class IngameScreens : MonoBehaviour {
             }
             if (goInventoryLoot.GetComponentInParent<Inventory>().inventory != null)
             {
-                Item[] inventory = goInventoryLoot.GetComponentInParent<Inventory>().inventory;
+                ItemContainer[] inventory = goInventoryLoot.GetComponentInParent<Inventory>().inventory;
 
                 for (int i = 0; i < inventory.Length; i++)
                 {
-                    if (inventory[i] != null)
+                    if (inventory[i] != null && inventory[i].Item != null)
                     {
                         GameObject currentSlot = goInventoryLoot.transform.GetChild(i).gameObject;
                         GameObject go = Instantiate(itemUI);
                         go.transform.SetParent(currentSlot.transform);
-                        go.GetComponent<ItemInstance>().item = inventory[i];
-                        go.name = inventory[i].ToString();
 
-                        go.GetComponent<Image>().sprite = inventory[i].sprite;
+
+                        go.GetComponent<ItemInstance>().ItemContainer = inventory[i];
+                        go.name = inventory[i].Item.ItemName;
+
+                        go.GetComponent<Image>().sprite = inventory[i].Item.InventorySprite;
                         go.transform.localScale = Vector3.one;
 
                         go.transform.position = currentSlot.transform.position;
                         go.transform.SetAsFirstSibling();
 
-                        if (go.GetComponent<ItemInstance>().item.GetType() == typeof(Consummable))
+                        if (go.GetComponent<ItemInstance>().ItemContainer.Item.GetType() == typeof(Ressource))
                         {
-                            go.transform.GetComponentInChildren<Text>().text = ((Consummable)inventory[i]).quantite.ToString();
+                            go.transform.GetComponentInChildren<Text>().text = inventory[i].Quantity.ToString();
                         }
                     }
                 }
