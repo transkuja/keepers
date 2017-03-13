@@ -7,7 +7,7 @@ public class ItemInstance : MonoBehaviour, IPickable
 {
     private InteractionImplementer interactionImplementer;
     [SerializeField]
-    private Item item = null;
+    private ItemContainer itemContainer = null;
 
     [SerializeField]
     int quantity = 1;
@@ -22,45 +22,41 @@ public class ItemInstance : MonoBehaviour, IPickable
     {
         if (isInScene)
         {
-            foreach (Item it in GameManager.Instance.Database)
-            {
-                if (it.Id == idItem)
-                {
-                    item = it;
-                    break;
-                }
-            }
-
+            Debug.Log(quantity);
+            Init(idItem, quantity);
         }
         interactionImplementer = new InteractionImplementer();
         interactionImplementer.Add(new Interaction(Pick), "Pick", GameManager.Instance.Ui.spritePick);
     }
 
-    public Item Item
+
+    void Init(string _IdItem, int _iNb)
     {
-        get
+        idItem = _IdItem;
+
+        foreach (Item it in GameManager.Instance.Database)
         {
-            return item;
+
+            if (it.Id == idItem)
+            {
+                itemContainer = new ItemContainer(it, _iNb);
+                Debug.Log(itemContainer.Item.GetType());
+                break;
+            }
         }
 
-        set
-        {
-            item = value;
-        }
     }
 
-    public int Quantity
+    public ItemContainer ItemContainer
     {
         get
         {
-            return quantity;
+            return itemContainer;
         }
 
         set
         {
-            if (item.GetType() == typeof(Equipment))
-                value = 1;
-            quantity = value;
+            itemContainer = value;
         }
     }
 
@@ -79,7 +75,7 @@ public class ItemInstance : MonoBehaviour, IPickable
 
     public void Pick(int _i = 0)
     {
-        ItemManager.AddItem(GameManager.Instance.ListOfSelectedKeepers[0].GetComponent<Inventory>().inventory, this);
+        ItemManager.AddItem(GameManager.Instance.ListOfSelectedKeepers[0].GetComponent<Inventory>().inventory, this.itemContainer);
         GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
         GameManager.Instance.Ui.UpdateKeeperInventoryPanel();
         Destroy(gameObject);

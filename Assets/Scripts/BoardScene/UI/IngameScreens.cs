@@ -61,7 +61,7 @@ public class IngameScreens : MonoBehaviour {
             }
             if (goInventoryLoot.GetComponentInParent<Inventory>().inventory != null)
             {
-                ItemInstance[] inventory = goInventoryLoot.GetComponentInParent<Inventory>().inventory;
+                ItemContainer[] inventory = goInventoryLoot.GetComponentInParent<Inventory>().inventory;
 
                 for (int i = 0; i < inventory.Length; i++)
                 {
@@ -70,7 +70,7 @@ public class IngameScreens : MonoBehaviour {
                         GameObject currentSlot = goInventoryLoot.transform.GetChild(i).gameObject;
                         GameObject go = Instantiate(itemUI);
                         go.transform.SetParent(currentSlot.transform);
-                        go.GetComponent<ItemInstance>().Item = inventory[i].Item;
+                        go.GetComponent<ItemInstance>().ItemContainer = inventory[i];
                         go.name = inventory[i].ToString();
 
                         go.GetComponent<Image>().sprite = inventory[i].Item.InventorySprite;
@@ -79,7 +79,7 @@ public class IngameScreens : MonoBehaviour {
                         go.transform.position = currentSlot.transform.position;
                         go.transform.SetAsFirstSibling();
 
-                        if (go.GetComponent<ItemInstance>().Item.GetType() == typeof(Ressource))
+                        if (go.GetComponent<ItemContainer>().Item.GetType() == typeof(Ressource))
                         {
                             go.transform.GetComponentInChildren<Text>().text = inventory[i].Quantity.ToString();
                         }

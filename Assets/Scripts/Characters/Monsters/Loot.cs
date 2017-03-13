@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Loot : MonoBehaviour {
 
-	public List<ItemInstance> ComputeLoot()
+	public List<ItemContainer> ComputeLoot()
     {
-        List<ItemInstance> tmpList = new List<ItemInstance>();
-        foreach (ItemInstance it in transform.GetComponent<MonsterInstance>().Monster.PossibleDrops)
+        List<ItemContainer> tmpList = new List<ItemContainer>();
+        foreach (ItemContainer it in transform.GetComponent<MonsterInstance>().Monster.PossibleDrops)
         {
             if (Random.Range(0, 10) > it.Item.Rarity)
             {

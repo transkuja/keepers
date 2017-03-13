@@ -6,9 +6,9 @@ using UnityEngine;
 public class Monster : Character
 {
     [SerializeField]
-    private List<ItemInstance> possibleDrops;
+    private List<ItemContainer> possibleDrops;
 
-    public List<ItemInstance> PossibleDrops
+    public List<ItemContainer> PossibleDrops
     {
         get
         {
