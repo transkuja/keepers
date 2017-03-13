@@ -19,8 +19,7 @@ public class InventoryManager {
                         int quantityLeft = MergeStackables(_inventory[i], _ic);
                         if (quantityLeft > 0)
                         {
-                            return false;
-                        //    return AddItem(_inventory, _ic);
+                            return AddItem(_inventory, _ic);
                         }
                     }
 
@@ -37,7 +36,7 @@ public class InventoryManager {
         return true;
     }
 
-    private static bool AddItem(ItemContainer[] _inventory, ItemContainer _ic)
+    public static bool AddItem(ItemContainer[] _inventory, ItemContainer _ic)
     {
         int freeIndex = FindFreeSlot(_inventory);
         if (freeIndex == -1)
@@ -90,26 +89,6 @@ public class InventoryManager {
         return 0;
     }
 
-    // TODO: Remove this function
-    public static void MoveItemToSlot(ItemContainer[] items, ItemContainer ic, int slot)
-    {
-        int startIndex = GetInventoryItemIndex(items, ic);
-        if (startIndex != slot)
-        {
-            if (items[slot] != null && items[slot].Item != null)
-            {
-                ItemContainer temp = items[startIndex];
-                items[startIndex] = items[slot];
-                items[slot] = temp;
-            }
-            else
-            {
-                items[slot] = items[startIndex];
-                items[startIndex] = null;
-            }
-        }
-    }
-
     public static int FindFreeSlot(ItemContainer[] items)
     {
         int freeIndex = -1;
@@ -138,19 +117,6 @@ public class InventoryManager {
         });
     }
 
-    public static bool CheckIfItemIsInInventory(ItemContainer[] items, ItemContainer i) //Check if the item itself is in the inventory
-    {
-        return Array.Exists<ItemContainer>(items, x =>
-        {
-            if (x != null)
-            {
-                return x.Item == i.Item;
-            }
-            return false;
-        });
-    }
-
-    // TODO : Remove this function
     public static int GetInventoryItemIndex(ItemContainer[] items, ItemContainer i)
     {
         return Array.FindIndex<ItemContainer>(items, x => {
