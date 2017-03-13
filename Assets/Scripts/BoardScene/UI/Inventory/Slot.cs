@@ -52,16 +52,17 @@ public class Slot : MonoBehaviour, IDropHandler
                         ItemContainer itemDragged = eventData.pointerDrag.GetComponent<ItemInstance>().ItemContainer;
                         ItemContainer itemOn = currentItem.GetComponent<ItemInstance>().ItemContainer;
 
-                        Debug.Log(itemOn.Item.GetType());
                         if ((itemOn.Item.GetType() == itemDragged.GetType()) && itemOn.Item.GetType() == typeof(Ressource) && itemOn.Item.Id == itemDragged.Item.Id)
                         {
                             int quantityLeft = ItemManager.MergeStackables2((currentItem.GetComponent<ItemInstance>().ItemContainer), (eventData.pointerDrag.GetComponent<ItemInstance>().ItemContainer));
                             if (quantityLeft > 0)
                             {
+                                Debug.Log("test");
                                 eventData.pointerDrag.GetComponent<ItemInstance>().ItemContainer.Quantity = quantityLeft;
                             }
                             else
                             {
+                                Debug.Log("test");
                                 ItemManager.RemoveItem(inventoryKeeperDequi, eventData.pointerDrag.GetComponent<ItemInstance>().ItemContainer);
                             }
                         }
@@ -96,10 +97,9 @@ public class Slot : MonoBehaviour, IDropHandler
                         ItemContainer itemDragged = eventData.pointerDrag.GetComponent<ItemInstance>().ItemContainer;
                         ItemContainer itemOn = currentItem.GetComponent<ItemInstance>().ItemContainer;
 
-                        Debug.Log(itemOn.Item.GetType());
-                        if ((itemOn.Item.GetType() == itemDragged.GetType()) && itemOn.Item.GetType() == typeof(Ressource) && itemOn.Item.Id == itemDragged.Item.Id)
+                        if ((itemOn.Item.GetType() == itemDragged.Item.GetType()) && itemOn.Item.GetType() == typeof(Ressource) && itemOn.Item.Id == itemDragged.Item.Id)
                         {
-                            int quantityLeft = ItemManager.MergeStackables2(currentItem.GetComponent<ItemInstance>().ItemContainer, eventData.pointerDrag.GetComponent<ItemContainer>());
+                            int quantityLeft = ItemManager.MergeStackables2(currentItem.GetComponent<ItemInstance>().ItemContainer, eventData.pointerDrag.GetComponent<ItemInstance>().ItemContainer);
                             if (quantityLeft > 0)
                             {
                                 eventData.pointerDrag.GetComponent<ItemInstance>().ItemContainer.Quantity = quantityLeft;

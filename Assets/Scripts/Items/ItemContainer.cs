@@ -43,13 +43,15 @@ public class ItemContainer {
 
     public ItemContainer(Item _item, int _nb)
     {
-        Item = new Item(_item);
+        Item = ItemManager.getInstanciateItem(_item.Type);
+        Item = _item;
         Quantity = _nb;
     }
 
     public ItemContainer(ItemContainer ic)
     {
-        Item = new Item(ic.Item);
+        Item = ItemManager.getInstanciateItem(ic.item.Type);
+        Item = ic.item;
         Quantity = ic.Quantity;
     }
 
@@ -57,7 +59,8 @@ public class ItemContainer {
     {
         if (Item == null)
         {
-            Item = new Item(_item);
+            Item = ItemManager.getInstanciateItem(_item.Type);
+            Item = _item;
             Quantity = iNb;
         }
         else
@@ -77,5 +80,11 @@ public class ItemContainer {
         Quantity -= _iQty;
 
         return true;
+    }
+
+    public void UseItem()
+    {
+        quantity -= 1;
+        item.UseItem();
     }
 }

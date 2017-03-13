@@ -6,6 +6,11 @@ using System.Reflection;
 
 public static class ItemManager {
 
+    static Dictionary<string, System.Type> dicTypeEquipement = new Dictionary<string, System.Type>{
+        { "Equipement" ,  typeof(Equipment)},
+        { "Ressource" ,  typeof(Ressource)}
+    };
+
     private const int maxItemsInSameSlot = 99;
 
     public static void EquipItem(ItemContainer[] inventory, ItemContainer[] equipements, ItemContainer equipment)
@@ -30,11 +35,9 @@ public static class ItemManager {
             equipements[(int)((Equipment)equipment.Item).Constraint] = equipment;
             inventory[index] = null;
         }
-        //PlayerUIController.UpdateEveryPanel();
-        //StatsChanged.Invoke();
     }
 
-    public static void AddItemOnTheGround(GameObject owner, ItemContainer itemInstance)
+    public static void AddItemOnTheGround(GameObject owner, ItemContainer itemContainer)
     {
         GameObject drop = GameObject.Instantiate(GameManager.Instance.prefabItemToDrop) as GameObject;
 
@@ -42,10 +45,9 @@ public static class ItemManager {
         drop.transform.SetParent(TileManager.Instance.GetTileFromKeeper[owner.GetComponent<KeeperInstance>()].transform);
         drop.transform.position = owner.transform.localPosition;
 
-        if (drop.GetComponent<ItemContainer>() != null && drop.GetComponent<ItemContainer>().Item != null)
+        if (itemContainer != null && itemContainer.Item != null)
         {
-            drop.GetComponent<ItemContainer>().Item = itemInstance.Item;
-            drop.GetComponent<ItemContainer>().Quantity = itemInstance.Quantity;
+            drop.GetComponent<ItemInstance>().Init(itemContainer.Item.Id, itemContainer.Quantity); 
         }
 
     }
@@ -80,6 +82,7 @@ public static class ItemManager {
 
     public static int MergeStackables2(ItemContainer dest, ItemContainer src)
     {
+
         if (!dest.Item.IsStackable || !src.Item.IsStackable)
             return -1;
 
@@ -87,8 +90,14 @@ public static class ItemManager {
         int usedAmount = newAmount - dest.Quantity;
         dest.Quantity = newAmount;
         src.Quantity -= usedAmount;
+
         if (src.Quantity > 0)
+        {
+            Debug.Log("test");
             return src.Quantity;
+        }
+      
+
         return 0;
     }
 
@@ -129,34 +138,19 @@ public static class ItemManager {
         items[indexItemTo] = temp;
     }
 
-    public static void TransferItemBetweenPanelsAtSlot(ItemContainer[] dest, ItemContainer[] src, int slotDest, int slotSrc)
-    {
-        if (dest[slotDest] != null)
-        {
-            ItemContainer temp = dest[slotDest];
-            dest[slotDest] = src[slotSrc];
-            src[slotSrc] = temp;
-        }
-        else
-        {
-            dest[slotDest] = src[slotSrc];
-            src[slotSrc] = null;
-        }
-        //PlayerUIController.UpdateEveryPanel();
-    }
-
-    public static bool AddItem(ItemContainer[] items, ItemContainer item, bool stack = true)
+    public static bool AddItem(ItemContainer[] inventory, ItemContainer itemContainer, bool stack = true)
     {
         bool add = true;
         if (stack)
         {
-            if (item.GetType() == typeof(Ressource) && CheckIfItemTypeIsInInventory(items, item) )
+
+            if (itemContainer.Item.GetType() == typeof(Ressource) && CheckIfItemTypeIsInInventory(inventory, itemContainer) )
             {
-                for (int i = 0; i < items.Length; i++)
+                for (int i = 0; i < inventory.Length; i++)
                 {
-                    if (items[i] != null && items[i].Item.Id == item.Item.Id)
+                    if (inventory[i] != null && inventory[i].Item.Id == itemContainer.Item.Id)
                     {
-                        add = MergeStackables(items[i], item);
+                        add = MergeStackables(inventory[i], itemContainer);
                         if (!add)
                             break;
                     }
@@ -166,10 +160,10 @@ public static class ItemManager {
         }
         if (add)
         {
-            int freeIndex = FindFreeInventorySlot(items);
+            int freeIndex = FindFreeInventorySlot(inventory);
             if (freeIndex != -1)
             {
-                items[freeIndex] = item;
+                inventory[freeIndex] = itemContainer;
             }
             else
             {
@@ -201,7 +195,10 @@ public static class ItemManager {
         return Array.Exists<ItemContainer>(items, x =>
         {
             if (x != null)
+            {
                 return x.Item.GetType() == i.Item.GetType();
+            }
+
             return false;
         });
     }
@@ -210,11 +207,11 @@ public static class ItemManager {
     {
         return Array.Exists<ItemContainer>(items, x =>
         {
-            if (x!= null) {
+            if (x!= null) 
+            {
                 return x.Item == i.Item;
             }
-
-            return false;
+             return false;
         });
     }
 
@@ -223,7 +220,9 @@ public static class ItemManager {
     {
         return Array.FindIndex<ItemContainer>(items, x =>{
             if (x != null)
-                return x.Item == i.Item;
+            {
+                return x == i;
+            }
             return false;
         });
     }
@@ -244,4 +243,14 @@ public static class ItemManager {
         }
         items[index] = null;
     }
+
+
+    public static Item getInstanciateItem(string type)
+    {
+        System.Type value = dicTypeEquipement[type];
+        // Les paramètres sont les paramètres du construction correspondant a la value ( qui est une classe ici sans paramètre) 
+        ConstructorInfo cI = value.GetConstructor(new System.Type[0]);
+        return (Item)cI.Invoke(new System.Type[0]);
+    }
 }
+

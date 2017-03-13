@@ -141,6 +141,10 @@ public class Item
         isStackable = from.IsStackable;
         rarity = from.rarity;
     }
+    public virtual void UseItem()
+    {
+        Debug.Log("Use item of item type undefined");
+    }
 
 }
 
@@ -263,7 +267,7 @@ public class Ressource : Item
         return true;
     }
 
-    public void UseItem()
+    public override void UseItem()
     {
         resourceUse.Invoke(Value);
     }

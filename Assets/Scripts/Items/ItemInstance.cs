@@ -22,7 +22,6 @@ public class ItemInstance : MonoBehaviour, IPickable
     {
         if (isInScene)
         {
-            Debug.Log(quantity);
             Init(idItem, quantity);
         }
         interactionImplementer = new InteractionImplementer();
@@ -30,7 +29,7 @@ public class ItemInstance : MonoBehaviour, IPickable
     }
 
 
-    void Init(string _IdItem, int _iNb)
+    public void Init(string _IdItem, int _iNb)
     {
         idItem = _IdItem;
 
@@ -40,7 +39,6 @@ public class ItemInstance : MonoBehaviour, IPickable
             if (it.Id == idItem)
             {
                 itemContainer = new ItemContainer(it, _iNb);
-                Debug.Log(itemContainer.Item.GetType());
                 break;
             }
         }
