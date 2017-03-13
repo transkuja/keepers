@@ -1,13 +1,17 @@
 1: priorité la plus haute
 
-1: Mode caméra de loin: Afficher les icones d'action et les linker aux actions
+1: Mode caméra de loin: Afficher les icones d'action et les linker aux actions 
+	==> Seb ou Quentin
 
-2: Level Design: Faire du LD sur la scène existante (ajouter les assets qu'on a pour que ça ressemble plus à quelque chose)
+2: Level Design: Faire du LD sur la scène existante (ajouter les assets qu'on a pour que ça ressemble plus à quelque chose) 
+	==> Seb ou Quentin
 2: Action: Récolter (!= de Ramasser)
 2: Inventaire: Fix l'inventaire (ItemContainer?) 
+	==> Rémi
 
 3: Combat: Faire une résolution auto qui se base sur les stats des personnages selectionnés (branche feature/auto-resolve-battle)
-			=> ajouter un feedback visuel (texte)
+			=> ajouter un feedback visuel (texte) 
+			==> Anthony
 
 4: Règles de gestion: Implémenter les cas limites de faim élevée et moral bas (valeurs arbitraires que l'on pourra moduler plus tard)
 4: Exploration: Faire pop aléatoirement des mobs lorsque l'on découvre un Tile
@@ -16,3 +20,5 @@
 
 6: Bug: Ignorer les raycast sur le personnage selectionné quand on veut se déplacer
 6: Endgame: Affichage du score sur l'écran de victoire
+
+
