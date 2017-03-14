@@ -538,8 +538,32 @@ public class IngameUI : MonoBehaviour
         }
     }
 
+    public GameObject CreatePNJInventoryPanels(PNJInstance pi)
+    {
+        GameObject goPNJInventory = Instantiate(keeper_inventory_prefab, panel_keepers_inventory.transform);
+        goPNJInventory.transform.localPosition = Vector3.zero;
+        goPNJInventory.transform.GetChild(1).GetComponent<Image>().sprite = pi.Pnj.AssociatedSprite;
+        goPNJInventory.name = "Inventory_" + pi.Pnj.CharacterName;
+        goPNJInventory.transform.GetChild(0).GetComponent<InventoryOwner>().Owner = pi.gameObject;
+        goPNJInventory.SetActive(false);
+        int nbSlots = pi.gameObject.GetComponent<Inventory>().nbSlot;
+        for (int i = 0; i < nbSlots; i++)
+        {
+            //Create Slots
+            GameObject currentgoSlotPanel = Instantiate(slotPrefab, Vector3.zero, Quaternion.identity) as GameObject;
+            currentgoSlotPanel.transform.SetParent(goPNJInventory.transform.GetChild(0).transform);
+
+            currentgoSlotPanel.transform.localPosition = Vector3.zero;
+            currentgoSlotPanel.transform.localScale = Vector3.one;
+            currentgoSlotPanel.name = "Slot" + i;
+        }
+
+        return goPNJInventory;
+    }
+
     internal void ShowInventoryPanels()
     {
+        // TODO : @Remi récuperer le bon inventaire
         panel_keepers_inventory.transform.GetChild(GameManager.Instance.GoTarget.transform.GetSiblingIndex()).gameObject.SetActive(true);
     }
 

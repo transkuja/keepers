@@ -133,6 +133,13 @@ public class ControlsManager : MonoBehaviour {
                         {
                             ui.UpdateActionPanelUIQ(hitInfo.collider.gameObject.GetComponent<ItemInstance>().InteractionImplementer);
                         }
+                        // Handle click on a PNJInstance
+                        else if (hitInfo.collider.gameObject.GetComponent<PNJInstance>() != null
+                            && tileHit == TileManager.Instance.GetTileFromKeeper[GameManager.Instance.ListOfSelectedKeepers[0]])
+                        {
+                            GameManager.Instance.GoTarget = hitInfo.collider.gameObject;
+                            ui.UpdateActionPanelUIQ(hitInfo.collider.gameObject.GetComponent<PNJInstance>().InteractionImplementer);
+                        }
                         // Handle click on a PrisonerInstance
                         else if (hitInfo.collider.gameObject.GetComponent<PrisonerInstance>() != null
                             && TileManager.Instance.PrisonerTile == TileManager.Instance.GetTileFromKeeper[GameManager.Instance.ListOfSelectedKeepers[0]])
