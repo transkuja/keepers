@@ -311,7 +311,7 @@ public class BattleHandler {
 
     private static void PostBattleCommonProcess(List<KeeperInstance> keepers, Tile tile)
     {
-        Item[] loot = ComputeTotalLoot(tile);
+        ItemContainer[] loot = ComputeTotalLoot(tile);
         TileManager.Instance.RemoveDefeatedMonsters(tile);
 
         if (loot != null && loot.Length > 0)
