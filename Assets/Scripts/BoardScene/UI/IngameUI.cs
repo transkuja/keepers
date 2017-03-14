@@ -171,7 +171,6 @@ public class IngameUI : MonoBehaviour
         }   
     }
 
-
     public void ClearActionPanel()
     {
         if (goActionPanelQ.GetComponentsInChildren<Image>().Length > 0)
@@ -203,6 +202,7 @@ public class IngameUI : MonoBehaviour
 
         StartCoroutine(MoralPanelNormalState());
     }
+
     private IEnumerator MoralPanelNormalState()
     {
         for (float f = 3.0f; f >= 0; f -= 0.1f)
@@ -224,9 +224,20 @@ public class IngameUI : MonoBehaviour
         }
     }
     
-    
     private void AnimateButtonOnClick()
     {
+        for (int i = 0; i < GameManager.Instance.AllKeepersList.Count; i++)
+        {
+            if (GameManager.Instance.AllKeepersList[i].ActionPoints > 0)
+            {
+                GoToCharacter(i);
+                SelectedKeeperActionText.GetComponent<Text>().color = Color.green;
+                SelectedKeeperActionText.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
+                StartCoroutine(TextAnimationNormalState());
+                return;
+            }
+        }
+
         // Activation de l'animation au moment du click
         Animator anim_button = TurnButton.GetComponent<Animator>();
   
@@ -286,6 +297,7 @@ public class IngameUI : MonoBehaviour
             nextKeeper.IsSelected = true;
 
             Camera.main.GetComponent<CameraManager>().UpdateCameraPosition(nextKeeper);
+            GameManager.Instance.Ui.ShowSelectedKeeperPanel();
             GameManager.Instance.Ui.ClearActionPanel();
             GameManager.Instance.Ui.HideInventoryPanels();
             GameManager.Instance.SelectedKeeperNeedUpdate = true;
@@ -333,8 +345,6 @@ public class IngameUI : MonoBehaviour
 
         GameManager.Instance.ShortcutPanel_NeedUpdate = false;
     }
-
-
     #endregion
 
     #region SelectedKeeper
@@ -412,6 +422,7 @@ public class IngameUI : MonoBehaviour
         goInventory.GetComponent<GridLayoutGroup>().constraintCount = currentSelectedKeeper.gameObject.GetComponent<Inventory>().nbSlot;
         GameManager.Instance.SelectedKeeperNeedUpdate = false;
     }
+
     public void CycleThroughKeepersButtonHandler(int direction)
     {
         if (GameManager.Instance.AllKeepersList != null)
@@ -453,6 +464,7 @@ public class IngameUI : MonoBehaviour
         GameManager.Instance.SelectedKeeperNeedUpdate = true;
         GameManager.Instance.Ui.UpdateActionText();
     }
+
     public void UpdateActionText()
     {
         if (GameManager.Instance.ListOfSelectedKeepers.Count == 0) { return; }
@@ -460,12 +472,14 @@ public class IngameUI : MonoBehaviour
         KeeperInstance currentKeeper = GameManager.Instance.ListOfSelectedKeepers[0];
         SelectedKeeperActionText.text = currentKeeper.ActionPoints.ToString();
     }
+
     public void ZeroActionTextAnimation()
     {
         SelectedKeeperActionText.GetComponent<Text>().color = Color.red;
         SelectedKeeperActionText.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
         StartCoroutine(TextAnimationNormalState());
     }
+
     private IEnumerator TextAnimationNormalState()
     {
         yield return new WaitForSeconds(1);
@@ -480,6 +494,7 @@ public class IngameUI : MonoBehaviour
         DecreasedActionText.gameObject.SetActive(true);
         StartCoroutine(DecreaseTextNormalState());
     }
+
     private IEnumerator DecreaseTextNormalState()
     {
         Vector3 origin = DecreasedActionText.transform.position;
