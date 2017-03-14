@@ -8,7 +8,7 @@ public class PNJInstance : MonoBehaviour {
     [SerializeField]
     private PNJ pnj = null;
 
-    private GameObject pnjInventoryPanel;
+    public GameObject pnjInventoryPanel;
 
     // Actions
     [Header("Actions")]

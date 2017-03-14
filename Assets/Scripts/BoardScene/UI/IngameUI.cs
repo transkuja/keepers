@@ -573,7 +573,49 @@ public class IngameUI : MonoBehaviour
         {
             panel_keepers_inventory.transform.GetChild(i).gameObject.SetActive(false);
         }
-  
+    }
+
+    public void UpdateInventoryPanel(GameObject pi)
+    {
+        if (pi.GetComponent<PNJInstance>() == null) return;
+
+
+        if (pi.GetComponent<Inventory>().inventory != null)
+        {
+            ItemContainer[] inventory = pi.GetComponent<Inventory>().inventory;
+            for (int i = 0; i < inventory.Length; i++)
+            {
+                GameObject currentSlot = (pi.GetComponent<PNJInstance>() as PNJInstance).pnjInventoryPanel.transform.GetChild(0).GetChild(i).gameObject;
+                if (currentSlot.GetComponentInChildren<ItemInstance>() != null)
+                {
+                    Destroy(currentSlot.GetComponentInChildren<ItemInstance>().gameObject);
+                }
+                
+            }
+
+            for (int i = 0; i < inventory.Length; i++)
+            {
+                if (inventory[i] != null && inventory[i].Item != null)
+                {
+                    GameObject currentSlot = (pi.GetComponent<PNJInstance>() as PNJInstance).pnjInventoryPanel.transform.GetChild(0).GetChild(i).gameObject;
+                    GameObject go = Instantiate(itemUI);
+                    go.transform.SetParent(currentSlot.transform);
+                    go.GetComponent<ItemInstance>().ItemContainer = inventory[i];
+                    go.name = inventory[i].ToString();
+
+                    go.GetComponent<Image>().sprite = inventory[i].Item.InventorySprite;
+                    go.transform.localScale = Vector3.one;
+
+                    go.transform.position = currentSlot.transform.position;
+                    go.transform.SetAsFirstSibling();
+
+                    if (go.GetComponent<ItemInstance>().ItemContainer.Item.GetType() == typeof(Ressource))
+                    {
+                        go.transform.GetComponentInChildren<Text>().text = inventory[i].Quantity.ToString();
+                    }
+                }
+            }
+        }
     }
 
     internal void UpdateKeeperInventoryPanel()
@@ -595,13 +637,11 @@ public class IngameUI : MonoBehaviour
                 {
                     if (inventory[i] != null && inventory[i].Item != null)
                     {
-
                         GameObject currentSlot = panel_keepers_inventory.transform.GetChild(ki.gameObject.transform.GetSiblingIndex()).transform.GetChild(0).transform.GetChild(i).gameObject;
                         GameObject go = Instantiate(itemUI);
                         go.transform.SetParent(currentSlot.transform);
                         go.GetComponent<ItemInstance>().ItemContainer = inventory[i];
                         go.name = inventory[i].ToString();
-
 
                         go.GetComponent<Image>().sprite = inventory[i].Item.InventorySprite;
                         go.transform.localScale = Vector3.one;
@@ -615,11 +655,8 @@ public class IngameUI : MonoBehaviour
                         }
                     }
                 }
-
             }
         }
-        
-        
     }
     #endregion
 }
