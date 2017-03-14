@@ -52,6 +52,9 @@ public class IngameUI : MonoBehaviour
     public GameObject baseKeeperShortcutPanel;
     public GameObject goShortcutKeepersPanel;
 
+    [Header("Confirmation Panel")]
+    public GameObject goConfirmationPanel;
+
 
     // Quentin
     //public List<GameObject> listGoActionPanelButton;

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TileTrigger : MonoBehaviour {
     
@@ -71,13 +72,80 @@ public class TileTrigger : MonoBehaviour {
 
     void Move(int _i)
     {
+        Tile t = TileManager.Instance.GetTileFromKeeper[ki];
+
+        // Confirmation Panel
+        // TODO : refaire en mieux ? 
+        if (ki.Keeper.GoListCharacterFollowing.Count == 0)
+        {
+            bool isAshleyNotAlone = false;
+            foreach (KeeperInstance kip in GameManager.Instance.AllKeepersList)
+            {
+                if (kip != ki && TileManager.Instance.PrisonerTile == TileManager.Instance.GetTileFromKeeper[kip])
+                {
+                    isAshleyNotAlone = true;
+                    break;
+                } 
+            }
+            if (isAshleyNotAlone)
+            {
+                MoveWithoutConfirmation(_i);
+            } else
+            {
+                GameManager.Instance.Ui.goConfirmationPanel.SetActive(true);
+                int n = _i;
+                GameManager.Instance.Ui.goConfirmationPanel.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(() => MoveWithoutConfirmation(n));
+            }
+        }
+        else
+        {
+            MoveWithoutConfirmation(_i);
+        }
+    }
+
+    void Explore(int _i)
+    {
+        Tile t = TileManager.Instance.GetTileFromKeeper[ki];
+
+        // Confirmation Panel
+        // TODO : refaire en mieux ? 
+        if (ki.Keeper.GoListCharacterFollowing.Count == 0)
+        {
+            bool isAshleyNotAlone = false;
+            foreach (KeeperInstance kip in GameManager.Instance.AllKeepersList)
+            {
+                if (kip != ki && TileManager.Instance.PrisonerTile == TileManager.Instance.GetTileFromKeeper[kip])
+                {
+                    isAshleyNotAlone = true;
+                    break;
+                }
+            }
+            if (isAshleyNotAlone)
+            {
+                ExploreWithoutConfirmation(_i);
+            }
+            else
+            {
+                GameManager.Instance.Ui.goConfirmationPanel.SetActive(true);
+                int n = _i;
+                GameManager.Instance.Ui.goConfirmationPanel.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(() => ExploreWithoutConfirmation(n));
+            }
+        }
+        else
+        {
+            ExploreWithoutConfirmation(_i);
+        }
+    }
+
+    private void MoveWithoutConfirmation(int _i)
+    {
         TileManager.Instance.MoveKeeper(ki, TileManager.Instance.GetTileFromKeeper[ki], (Direction)_i);
 
         GameManager.Instance.SelectedKeeperNeedUpdate = true;
         GameManager.Instance.ShortcutPanel_NeedUpdate = true;
     }
 
-    void Explore(int _i)
+    private void ExploreWithoutConfirmation(int _i)
     {
         //Check if the prisoner is following
         PrisonerInstance prisoner = null;
