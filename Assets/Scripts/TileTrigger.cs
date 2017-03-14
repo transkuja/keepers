@@ -94,7 +94,9 @@ public class TileTrigger : MonoBehaviour {
             {
                 GameManager.Instance.Ui.goConfirmationPanel.SetActive(true);
                 int n = _i;
+                GameManager.Instance.Ui.goConfirmationPanel.transform.GetChild(1).GetComponent<Button>().onClick.RemoveAllListeners();
                 GameManager.Instance.Ui.goConfirmationPanel.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(() => MoveWithoutConfirmation(n));
+                GameManager.Instance.Ui.goConfirmationPanel.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(() => GameManager.Instance.Ui.goConfirmationPanel.SetActive(false));
             }
         }
         else
@@ -128,7 +130,9 @@ public class TileTrigger : MonoBehaviour {
             {
                 GameManager.Instance.Ui.goConfirmationPanel.SetActive(true);
                 int n = _i;
+                GameManager.Instance.Ui.goConfirmationPanel.transform.GetChild(1).GetComponent<Button>().onClick.RemoveAllListeners();
                 GameManager.Instance.Ui.goConfirmationPanel.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(() => ExploreWithoutConfirmation(n));
+                GameManager.Instance.Ui.goConfirmationPanel.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(() => GameManager.Instance.Ui.goConfirmationPanel.SetActive(false));
             }
         }
         else
