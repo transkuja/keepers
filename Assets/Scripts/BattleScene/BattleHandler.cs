@@ -217,6 +217,8 @@ public class BattleHandler {
             damage = Mathf.RoundToInt(Mathf.Pow(attacker.Keeper.GetEffectiveIntelligence(), 2) / targetMonster.Monster.GetEffectiveSpirit());
         }
 
+        damage = Mathf.RoundToInt(damage * Random.Range(0.75f, 1.25f));
+
         targetMonster.CurrentHp -= damage;
         battleLogger.text += "\tKeeper " + attacker.Keeper.CharacterName + " deals " + damage + " damage to Monster " + targetMonster.Monster.CharacterName + ".\n";
         battleLogger.text += "\tMonster " + targetMonster.Monster.CharacterName + " has " + targetMonster.CurrentHp + " left.\n";
@@ -239,6 +241,8 @@ public class BattleHandler {
             else
                 damage = Mathf.RoundToInt(attacker.Monster.GetEffectiveIntelligence() / GameManager.Instance.PrisonerInstance.Prisoner.GetEffectiveSpirit());
         }
+
+        damage = Mathf.RoundToInt(damage * Random.Range(0.75f, 1.25f));
 
         if (prisonerTargeted)
         {
