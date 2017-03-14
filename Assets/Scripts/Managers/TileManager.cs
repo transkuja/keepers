@@ -132,19 +132,32 @@ public class TileManager : MonoBehaviour {
     /// <param name="tile">The tile concerned</param>
     public void RemoveDefeatedMonsters(Tile tile)
     {
+        int[] removeIndex = new int[monstersOnTile[tile].Count];
+        short nbrOfElementsToRemove = 0;
+
         foreach (MonsterInstance mi in monstersOnTile[tile])
         {
-            if(mi.deathParticles != null)
+            if (mi.CurrentHp == 0)
             {
-                ParticleSystem ps = Instantiate(mi.deathParticles, mi.transform.parent);
-                ps.transform.position = mi.transform.position;
-                ps.Play();
-                Destroy(ps.gameObject, ps.main.duration);
+                if (mi.deathParticles != null)
+                {
+                    ParticleSystem ps = Instantiate(mi.deathParticles, mi.transform.parent);
+                    ps.transform.position = mi.transform.position;
+                    ps.Play();
+                    Destroy(ps.gameObject, ps.main.duration);
+                }
+
+                Destroy(mi.gameObject);
+                removeIndex[nbrOfElementsToRemove] = monstersOnTile[tile].IndexOf(mi);
+                nbrOfElementsToRemove++;
             }
-            
-            Destroy(mi.gameObject);
         }
-        monstersOnTile.Remove(tile);
+
+        for (int i = 0; i < nbrOfElementsToRemove; i++)
+            monstersOnTile[tile].RemoveAt(removeIndex[i]);
+
+        if (monstersOnTile[tile].Count == 0)
+            monstersOnTile.Remove(tile);
     }
 
 
