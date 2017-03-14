@@ -103,8 +103,10 @@ public class ControlsManager : MonoBehaviour {
                     }
                     else
                     {
-                        GameManager.Instance.Ui.HideSelectedKeeperPanel();
                         GameManager.Instance.ClearListKeeperSelected();
+
+                        GameManager.Instance.Ui.HideInventoryPanels();
+                        GameManager.Instance.Ui.HideSelectedKeeperPanel();
                     }
                 }
             }

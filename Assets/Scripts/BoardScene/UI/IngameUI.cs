@@ -276,6 +276,7 @@ public class IngameUI : MonoBehaviour
         {
             // Go to prisonier
             Camera.main.GetComponent<CameraManager>().UpdateCameraPosition();
+            GameManager.Instance.Ui.HideInventoryPanels();
         } else
         {
             // Next keeper
@@ -285,6 +286,8 @@ public class IngameUI : MonoBehaviour
             nextKeeper.IsSelected = true;
 
             Camera.main.GetComponent<CameraManager>().UpdateCameraPosition(nextKeeper);
+            GameManager.Instance.Ui.ClearActionPanel();
+            GameManager.Instance.Ui.HideInventoryPanels();
             GameManager.Instance.SelectedKeeperNeedUpdate = true;
             GameManager.Instance.Ui.UpdateActionText();
             HideInventoryPanels();
@@ -444,11 +447,12 @@ public class IngameUI : MonoBehaviour
                 
 
         }
+        GameManager.Instance.Ui.ClearActionPanel();
+        HideInventoryPanels();
+
         GameManager.Instance.SelectedKeeperNeedUpdate = true;
         GameManager.Instance.Ui.UpdateActionText();
-        HideInventoryPanels();
     }
-
     public void UpdateActionText()
     {
         if (GameManager.Instance.ListOfSelectedKeepers.Count == 0) { return; }
@@ -456,7 +460,6 @@ public class IngameUI : MonoBehaviour
         KeeperInstance currentKeeper = GameManager.Instance.ListOfSelectedKeepers[0];
         SelectedKeeperActionText.text = currentKeeper.ActionPoints.ToString();
     }
-
     public void ZeroActionTextAnimation()
     {
         SelectedKeeperActionText.GetComponent<Text>().color = Color.red;
