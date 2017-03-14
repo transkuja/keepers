@@ -336,6 +336,7 @@ public class IngameUI : MonoBehaviour
     {
         if (GameManager.Instance == null) { return; }
         if (goInventory == null) { return; }
+        if (GameManager.Instance.ListOfSelectedKeepers.Count == 0) { GameManager.Instance.SelectedKeeperNeedUpdate = false; return; }
 
         KeeperInstance currentSelectedKeeper = GameManager.Instance.ListOfSelectedKeepers[0];
         Sprite associatedSprite = currentSelectedKeeper.Keeper.AssociatedSprite;
@@ -346,8 +347,16 @@ public class IngameUI : MonoBehaviour
         }
         if (associatedSprite != null)
         {
-            goStats.GetComponentInChildren<Image>().sprite = associatedSprite;
+            goStats.GetComponent<Image>().sprite = associatedSprite;
         }
+        // Hunger
+        goStats.transform.GetChild(2).GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)currentSelectedKeeper.CurrentHunger / (float)currentSelectedKeeper.Keeper.MaxHunger;
+        // HP
+        goStats.transform.GetChild(3).GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)currentSelectedKeeper.CurrentHp / (float)currentSelectedKeeper.Keeper.MaxHp;
+        // Mental Health
+        goStats.transform.GetChild(4).GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)currentSelectedKeeper.CurrentMentalHealth / (float)currentSelectedKeeper.Keeper.MaxMentalHealth;
+
+        // Inventory
         goInventory.name = "Panel_Inventory" + currentSelectedKeeper.Keeper.CharacterName;
         goInventory.GetComponent<InventoryOwner>().Owner = currentSelectedKeeper.gameObject;
 
@@ -428,6 +437,8 @@ public class IngameUI : MonoBehaviour
 
     public void UpdateActionText()
     {
+        if (GameManager.Instance.ListOfSelectedKeepers.Count == 0) { return; }
+
         KeeperInstance currentKeeper = GameManager.Instance.ListOfSelectedKeepers[0];
         SelectedKeeperActionText.text = currentKeeper.ActionPoints.ToString();
     }
