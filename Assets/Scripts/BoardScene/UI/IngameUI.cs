@@ -11,6 +11,7 @@ public class IngameUI : MonoBehaviour
     [Header("Character Panel")]
     //public GameObject goSelectedKeeperPanel;
     // Inventory
+    public GameObject goSelectedKeeperPanel;
     public GameObject goInventory;
     public GameObject goEquipement;
     public GameObject keeper_inventory_prefab;
@@ -79,6 +80,7 @@ public class IngameUI : MonoBehaviour
             }
         }
     }
+
 
     // TODO : optimise
     /*
@@ -169,6 +171,7 @@ public class IngameUI : MonoBehaviour
         }   
     }
 
+
     public void ClearActionPanel()
     {
         if (goActionPanelQ.GetComponentsInChildren<Image>().Length > 0)
@@ -212,7 +215,7 @@ public class IngameUI : MonoBehaviour
     }
     #endregion
 
-        #region Turn
+    #region Turn
     public void EndTurn()
     {
         if (!isTurnEnding)
@@ -332,6 +335,18 @@ public class IngameUI : MonoBehaviour
     #endregion
 
     #region SelectedKeeper
+
+
+    public void ShowSelectedKeeperPanel()
+    {
+        goSelectedKeeperPanel.SetActive(true);
+    }
+
+    public void HideSelectedKeeperPanel()
+    {
+        goSelectedKeeperPanel.SetActive(false);
+    }
+
     public void UpdateSelectedKeeperPanel()
     {
         if (GameManager.Instance == null) { return; }
@@ -394,7 +409,6 @@ public class IngameUI : MonoBehaviour
         goInventory.GetComponent<GridLayoutGroup>().constraintCount = currentSelectedKeeper.gameObject.GetComponent<Inventory>().nbSlot;
         GameManager.Instance.SelectedKeeperNeedUpdate = false;
     }
-
     public void CycleThroughKeepersButtonHandler(int direction)
     {
         if (GameManager.Instance.AllKeepersList != null)
