@@ -81,5 +81,6 @@ public class PNJInstance : MonoBehaviour {
     public void Trade(int _i = 0)
     {
         pnjInventoryPanel.SetActive(true);
+        GameManager.Instance.Ui.UpdateInventoryPanel(gameObject);
     }
 }

@@ -397,6 +397,7 @@ public class KeeperInstance : MonoBehaviour, ITradable {
     public void Trade(int _i = 0)
     {
         keeperInventoryPanel.SetActive(true);
+        GameManager.Instance.Ui.UpdateInventoryPanel(gameObject);
     }
     public void MoralBuff(int _i = 0)
     {
