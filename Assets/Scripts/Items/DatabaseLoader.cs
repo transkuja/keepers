@@ -109,7 +109,9 @@ public class Database
                         if (currentItem.Key == "itemName") { item.ItemName = currentItem.Value.Str; }
                         if (currentItem.Key == "description") { item.Description = currentItem.Value.Str; }
                         if (currentItem.Key == "inventorySprite") { item.InventorySprite = dictSprites[currentItem.Value.Str]; }
-                        if (currentItem.Key == "ingameVisual") { } // TODO //item.IngameVisual = itemEntry.Value.Str; }
+                        if (currentItem.Key == "ingameVisual") {
+                            item.IngameVisual = Resources.Load(currentItem.Value.Str) as GameObject;
+                        } // TODO //item.IngameVisual = itemEntry.Value.Str; }
 
                         if (item.Type == "Equipment")
                         {
