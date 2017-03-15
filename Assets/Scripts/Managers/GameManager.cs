@@ -30,6 +30,24 @@ public class GameManager : MonoBehaviour
     private IngameUI ui;
     private IngameScreens gameScreens;
 
+    // quentin Camera
+    [SerializeField] CameraManager cameraManager;
+
+    #region Accessors
+    public CameraManager CameraManager
+    {
+        get
+        {
+            return cameraManager;
+        }
+
+        set
+        {
+            cameraManager = value;
+        }
+    }
+    #endregion
+
     void Awake()
     {
         if (instance == null)
