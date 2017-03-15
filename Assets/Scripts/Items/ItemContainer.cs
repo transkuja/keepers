@@ -4,8 +4,9 @@ using UnityEngine;
 
 [System.Serializable]
 public class ItemContainer {
-
+    [SerializeField]
     private Item item;
+    [SerializeField]
     private int quantity;
 
     public int Quantity
