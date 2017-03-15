@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -177,6 +178,25 @@ public class ControlsManager : MonoBehaviour {
 
                                 }
                             }
+                            else
+                            {
+                                //TODO: Change this to show the button BEFORE moving
+                                if (Array.Exists(TileManager.Instance.GetTileFromKeeper[GameManager.Instance.ListOfSelectedKeepers[0]].Neighbors, x => x == tileHit))
+                                {
+                                    int neighbourIndex = Array.FindIndex(TileManager.Instance.GetTileFromKeeper[GameManager.Instance.ListOfSelectedKeepers[0]].Neighbors, x => x == tileHit);
+                                    Tile currentTile = TileManager.Instance.GetTileFromKeeper[GameManager.Instance.ListOfSelectedKeepers[0]];
+                                    Vector3 movePosition = currentTile.transform.GetChild(0).GetChild(1).GetChild(neighbourIndex).position;
+                                    // Move the keeper
+                                    for (int i = 0; i < GameManager.Instance.ListOfSelectedKeepers.Count; i++)
+                                    {
+
+                                        GameManager.Instance.ListOfSelectedKeepers[i].TriggerRotation(movePosition);
+
+                                    }
+                                }
+
+                            }
+
                         }
                     } 
                 }
