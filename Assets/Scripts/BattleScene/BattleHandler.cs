@@ -1,12 +1,17 @@
 ﻿using UnityEngine.UI;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using Random = UnityEngine.Random;
 
 public class BattleHandler {
     private enum AttackType { Physical, Magical }
     // Is the prisoner on the tile where the battle is processed
     public static bool isPrisonerOnTile = false;
     private static Text battleLogger;
+
+    // Debug parameters
+    private static bool isDebugModeActive = false;
 
     /// <summary>
     /// Autoselect keepers if there are not enough for a selection
@@ -88,7 +93,7 @@ public class BattleHandler {
                     if (target.CurrentHp <= 0)
                     {
                         target.CurrentHp = 0;
-                        battleLogger.text += "\tMonster " + target.Monster.CharacterName + " died.\n";
+                        BattleLog(target.Monster.CharacterName + " died.\n");
                         monsters.Remove(target);
                     }
 
@@ -123,19 +128,19 @@ public class BattleHandler {
                         if (target.CurrentHp <= 0)
                         {
                             target.CurrentHp = 0;
-                            battleLogger.text += "\tKeeper " + target.Keeper.CharacterName + " died.\n";
+                            BattleLog(target.Keeper.CharacterName + " died.\n");
                             keepers.Remove(target);
                         }
                     }
 
                     if (totalDamageTaken >= 50)
                     {
-                        battleLogger.text += "\tOver 50hp lost. Battle ends.\n";
+                        BattleLog("Over 50hp lost. Battle ends.\n");
                         break;
                     }
                     else if (GameManager.Instance.PrisonerInstance.CurrentHp <= 0)
                     {
-                        battleLogger.text += "\tPrisoner died. Battle ends.\n";
+                        BattleLog("Prisoner died. Battle ends.\n");
                         break;
                     }
                 }
@@ -147,13 +152,13 @@ public class BattleHandler {
         // Battle result
         if (monsters.Count == 0)
         {
-            battleLogger.text += "\tAll monsters defeated.\n";
-            battleLogger.text += "\tBattle won! Yippi!\n";
+            BattleLog("All monsters defeated.\n");
+            BattleLog("Battle won! Yippi!\n");
             return true;
         }
         else
         {
-            battleLogger.text += "\tBattle lost :'(\n";
+            BattleLog("Battle lost :'(\n");
             return false;
         }
     }
@@ -220,8 +225,8 @@ public class BattleHandler {
         damage = Mathf.RoundToInt(damage * Random.Range(0.75f, 1.25f));
 
         targetMonster.CurrentHp -= damage;
-        battleLogger.text += "\tKeeper " + attacker.Keeper.CharacterName + " deals " + damage + " damage to Monster " + targetMonster.Monster.CharacterName + ".\n";
-        battleLogger.text += "\tMonster " + targetMonster.Monster.CharacterName + " has " + targetMonster.CurrentHp + " left.\n";
+        BattleLog(attacker.Keeper.CharacterName + " deals " + damage + " damage to " + targetMonster.Monster.CharacterName + ".\n");
+        BattleLog(targetMonster.Monster.CharacterName + " has " + targetMonster.CurrentHp + " left.\n");
     }
 
     private static int MonsterDamageCalculation(MonsterInstance attacker, KeeperInstance targetKeeper, AttackType attackType, bool prisonerTargeted = false)
@@ -247,14 +252,14 @@ public class BattleHandler {
         if (prisonerTargeted)
         {
             GameManager.Instance.PrisonerInstance.CurrentHp -= damage;
-            battleLogger.text += "\tMonster " + attacker.Monster.CharacterName + " deals " + damage + " damage to prisoner.\n";
-            battleLogger.text += "\tPrisoner has " + GameManager.Instance.PrisonerInstance.CurrentHp + " left.\n";
+            BattleLog(attacker.Monster.CharacterName + " deals " + damage + " damage to prisoner.\n");
+            BattleLog("Prisoner has " + GameManager.Instance.PrisonerInstance.CurrentHp + " left.\n");
         }
         else
         {
             targetKeeper.CurrentHp -= damage;
-            battleLogger.text += "\tMonster " + attacker.Monster.CharacterName + " deals " + damage + " damage to Keeper " + targetKeeper.Keeper.CharacterName + ".\n";
-            battleLogger.text += "\tKeeper " + targetKeeper.Keeper.CharacterName + " has " + targetKeeper.CurrentHp + " left.\n";
+            BattleLog(attacker.Monster.CharacterName + " deals " + damage + " damage to " + targetKeeper.Keeper.CharacterName + ".\n");
+            BattleLog(targetKeeper.Keeper.CharacterName + " has " + targetKeeper.CurrentHp + " left.\n");
 
         }
 
@@ -270,13 +275,13 @@ public class BattleHandler {
         {
             ki.CurrentMentalHealth += 10;
             ki.CurrentHunger += 5;
-            battleLogger.text += "\t" + ki.Keeper.CharacterName + " won 10 mental health and lost 5 hunger due to victory.\n";
+            BattleLog(ki.Keeper.CharacterName + " won 10 mental health and lost 5 hunger due to victory.\n");
 
             if (isPrisonerOnTile)
             {
                 GameManager.Instance.PrisonerInstance.CurrentMentalHealth += 10;
                 GameManager.Instance.PrisonerInstance.CurrentHunger += 5;
-                battleLogger.text += "\tPrisoner won 10 mental health and lost 5 hunger due to victory.\n";
+                BattleLog("Prisoner won 10 mental health and lost 5 hunger due to victory.\n");
             }
         }
     }
@@ -292,14 +297,14 @@ public class BattleHandler {
             ki.CurrentHunger += 5;
 
             ki.CurrentHp -= 10;
-            battleLogger.text += "\t" + ki.Keeper.CharacterName + " lost 10 mental health, 5 hunger, 10HP due to defeat.\n";
+            BattleLog(ki.Keeper.CharacterName + " lost 10 mental health, 5 hunger, 10HP due to defeat.\n");
 
             if (isPrisonerOnTile)
             {
                 GameManager.Instance.PrisonerInstance.CurrentMentalHealth -= 10;
                 GameManager.Instance.PrisonerInstance.CurrentHunger += 5;
                 GameManager.Instance.PrisonerInstance.CurrentHp -= 10;
-                battleLogger.text += "\tPrisoner lost 10 mental health, 5 hunger, 10HP due to defeat.\n";
+                BattleLog("Prisoner lost 10 mental health, 5 hunger, 10HP due to defeat.\n");
             }
         }
 
@@ -345,5 +350,18 @@ public class BattleHandler {
         }
 
         return lootList.ToArray();
+    }
+
+    private static void BattleLog(string log)
+    {
+        string tmp = battleLogger.text;
+
+        if (tmp.Length > 1500 && !isDebugModeActive)
+        {
+            int indexOfFirstEndline = tmp.IndexOf("\n") + 1;
+            tmp = tmp.Substring(indexOfFirstEndline);
+        }
+        tmp += log;
+        battleLogger.text = tmp;
     }
 }
