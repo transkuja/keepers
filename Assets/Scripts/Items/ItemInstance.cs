@@ -11,8 +11,6 @@ public class ItemInstance : MonoBehaviour, IPickable
     [SerializeField]
     private ItemContainer itemContainer = null;
 
-    public GameObject panelinfo;
-
     [SerializeField]
     int quantity = 1;
 
