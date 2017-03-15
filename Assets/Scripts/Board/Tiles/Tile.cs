@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Events;
 
 
 
@@ -36,7 +37,9 @@ public class Tile : MonoBehaviour{
     [SerializeField]
     private TileState state;
     private static bool showLinks;
-
+    public delegate void TileEvent();
+    public TileEvent StateChanged;
+    
     /* Neighbors:
         Indexes -> Direction
         0 -> North
@@ -82,6 +85,8 @@ public class Tile : MonoBehaviour{
             for (int i = 0; i < transform.childCount; i++)
                 transform.GetChild(i).gameObject.SetActive(true);
         }
+        if(StateChanged != null)
+            StateChanged();
     }
 
     //Accessors
