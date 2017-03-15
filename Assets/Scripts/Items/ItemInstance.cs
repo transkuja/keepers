@@ -1,7 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 
 public class ItemInstance : MonoBehaviour, IPickable
 {
@@ -9,6 +10,8 @@ public class ItemInstance : MonoBehaviour, IPickable
 
     [SerializeField]
     private ItemContainer itemContainer = null;
+
+    public GameObject panelinfo;
 
     [SerializeField]
     int quantity = 1;
@@ -86,5 +89,15 @@ public class ItemInstance : MonoBehaviour, IPickable
        
         GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
         GameManager.Instance.Ui.UpdateInventoryPanel(GameManager.Instance.ListOfSelectedKeepers[0].gameObject);
+    }
+
+    public void OnMouseEnter()
+    {
+        GameManager.Instance.Ui.UiIconFeedBack.TriggerFeedback(itemContainer.Item.InventorySprite);
+    }
+
+    public void OnMouseExit()
+    {
+        GameManager.Instance.Ui.UiIconFeedBack.DisableFeedback();
     }
 }

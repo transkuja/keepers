@@ -58,10 +58,26 @@ public class IngameUI : MonoBehaviour
 
 
     // Quentin
-    //public List<GameObject> listGoActionPanelButton;
+    [Header("Foreign UI Components")]
+    [SerializeField] private UIIconFeedback uiIconFeedBack;
 
     [HideInInspector]
     public bool isTurnEnding = false;
+
+    #region Accessors
+    public UIIconFeedback UiIconFeedBack
+    {
+        get
+        {
+            return uiIconFeedBack;
+        }
+
+        set
+        {
+            uiIconFeedBack = value;
+        }
+    }
+    #endregion
 
     public void Start()
     {

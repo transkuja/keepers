@@ -45,6 +45,16 @@ public class CameraManager : MonoBehaviour {
     Vector3 oldPosition;
     float lerpParameter = 0.0f;
 
+    #region Accessors
+    public float FZoomLerp
+    {
+        get
+        {
+            return fZoomLerp;
+        }
+    }
+    #endregion
+
     public void Start()
     {
         fZoomLerp = 0;
