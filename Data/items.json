@@ -48,6 +48,18 @@
 				"use": "DecreaseHunger",
 				"value": 5
 			}
+		},
+		{
+			"type": "Ressource",
+			"item" : { 
+				"id": "resource04",
+				"itemName": "Berries",
+				"description": "Restore health",
+				"inventorySprite": "Items_2",
+				"ingameVisual": "Models/Items/Berry",
+				"use": "DecreaseHunger",
+				"value": 5
+			}
 		}
 	]
 }
