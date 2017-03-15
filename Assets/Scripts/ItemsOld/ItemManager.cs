@@ -13,18 +13,21 @@ public static class ItemManager {
 
     public static void AddItemOnTheGround(GameObject owner, ItemContainer itemContainer)
     {
-        GameObject drop = GameObject.Instantiate(GameManager.Instance.prefabItemToDrop) as GameObject;
-
-
-        drop.transform.SetParent(TileManager.Instance.GetTileFromKeeper[owner.GetComponent<KeeperInstance>()].transform);
-        drop.transform.position = owner.transform.localPosition;
-
         if (itemContainer != null && itemContainer.Item != null)
         {
+            // Deja fait par dragHandler ?
+            //bool canRemove = InventoryManager.RemoveItem(GameManager.Instance.ListOfSelectedKeepers[0].GetComponent<Inventory>().inventory, itemContainer);
+
+            GameObject drop = GameObject.Instantiate(GameManager.Instance.prefabItemToDrop) as GameObject;
+
+            drop.transform.SetParent(TileManager.Instance.GetTileFromKeeper[owner.GetComponent<KeeperInstance>()].transform);
+            drop.transform.position = owner.transform.localPosition;
+
             drop.GetComponent<ItemInstance>().ItemContainer = itemContainer;
         }
 
-        GameManager.Instance.Ui.UpdateInventoryPanel(GameManager.Instance.ListOfSelectedKeepers[0].gameObject);
+        //GameManager.Instance.Ui.UpdateInventoryPanel(GameManager.Instance.ListOfSelectedKeepers[0].gameObject);
+        //GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
 
     }
     public static Item getInstanciateItem(string type)

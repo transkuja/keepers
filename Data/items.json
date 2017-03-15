@@ -6,7 +6,7 @@
 				"id": "equip01",
 				"itemName": "Plastic Spoon",
 				"description": "You can't kill anything with this they said.",
-				"inventorySprite": "Items_0",
+				"inventorySprite": "Items_1",
 				"ingameVisual": "",
 				"slot": "Weapon",
 				"stat": "Strength",

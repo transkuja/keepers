@@ -122,7 +122,7 @@ public class InventoryManager {
         return Array.FindIndex<ItemContainer>(items, x => {
             if (x != null)
             {
-                return x.Item == i.Item;
+                return x == i;
             }
             return false;
         });
