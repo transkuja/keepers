@@ -141,7 +141,7 @@ public class Item
         isStackable = from.IsStackable;
         rarity = from.rarity;
     }
-    public virtual void UseItem()
+    public virtual void UseItem(ItemContainer ic)
     {
         Debug.Log("Use item of item type undefined");
     }
@@ -202,6 +202,20 @@ public class Equipment : Item
         IsStackable = false;
         // TODO: retrieve it in json file
         Rarity = 5;
+    }
+
+    public override void UseItem(ItemContainer ic)
+    {
+        bool isEquiped = EquipementManager.CheckIfItemTypeIsInEquipement(GameManager.Instance.ListOfSelectedKeepers[0].Equipment, ic);
+        if (isEquiped)
+        {
+            EquipementManager.UnequipItem(GameManager.Instance.ListOfSelectedKeepers[0].GetComponent<Inventory>().inventory, GameManager.Instance.ListOfSelectedKeepers[0].Equipment, ((Equipment)ic.Item).constraint);
+        } else
+        {
+            EquipementManager.EquipItem(GameManager.Instance.ListOfSelectedKeepers[0].GetComponent<Inventory>().inventory, GameManager.Instance.ListOfSelectedKeepers[0].Equipment, ic);
+        }
+
+        GameManager.Instance.Ui.UpdateShortcutPanel();
     }
 }
 
@@ -267,7 +281,7 @@ public class Ressource : Item
         return true;
     }
 
-    public override void UseItem()
+    public override void UseItem(ItemContainer ic)
     {
         resourceUse.Invoke(Value);
     }

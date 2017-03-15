@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
 public class EquipementManager {
@@ -22,17 +21,31 @@ public class EquipementManager {
     }
 
 
-    public static bool UnequipItem(ItemContainer[] equipements, ItemContainer[] items, EquipmentSlot equipSlot)
+    public static bool UnequipItem(ItemContainer[] inventory, ItemContainer[] equipements, EquipmentSlot equipSlot)
     {
-        int index = InventoryManager.FindFreeSlot(items);
+        int index = InventoryManager.FindFreeSlot(inventory);
         if (index == -1)
         {
             return false;
         }
 
-        items[index] = items[(int)equipSlot];
+        inventory[index] = equipements[(int)equipSlot];
         equipements[(int)equipSlot] = null;
 
         return true;
+    }
+
+
+    public static bool CheckIfItemTypeIsInEquipement(ItemContainer[] equipements, ItemContainer i) //Check if an item with the same constrainte is equiped
+    {
+        return Array.Exists<ItemContainer>(equipements, x =>
+        {
+            if (x != null)
+            {
+                return ((Equipment) x.Item).Constraint == ((Equipment)i.Item).Constraint;
+            }
+
+            return false;
+        });
     }
 }

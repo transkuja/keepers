@@ -84,7 +84,7 @@ public class ItemContainer {
 
     public void UseItem()
     {
-        quantity -= 1;
-        item.UseItem();
+        Quantity -= 1;
+        item.UseItem(this);
     }
 }

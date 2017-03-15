@@ -7,7 +7,7 @@ using System.Reflection;
 public static class ItemManager {
 
     static Dictionary<string, System.Type> dicTypeEquipement = new Dictionary<string, System.Type>{
-        { "Equipement" ,  typeof(Equipment)},
+        { "Equipment" ,  typeof(Equipment)},
         { "Ressource" ,  typeof(Ressource)}
     };
 

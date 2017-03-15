@@ -35,7 +35,7 @@ public class KeeperInstance : MonoBehaviour, ITradable {
 
     private bool isAlive = true;
     // Inventory
-    private Item[] equipment;
+    private ItemContainer[] equipment;
 
 
     // Actions
@@ -201,7 +201,7 @@ public class KeeperInstance : MonoBehaviour, ITradable {
     {
         agent = GetComponent<NavMeshAgent>();
         fRotateSpeed = 5.0f;
-        equipment = new Item[3];
+        equipment = new ItemContainer[3];
         isEscortAvailable = true;
         InteractionImplementer = new InteractionImplementer();
         InteractionImplementer.Add(new Interaction(Trade), "Trade", GameManager.Instance.Ui.spriteTrade);
@@ -327,7 +327,7 @@ public class KeeperInstance : MonoBehaviour, ITradable {
         }
     }
 
-    public Item[] Equipment
+    public ItemContainer[] Equipment
     {
         get
         {
