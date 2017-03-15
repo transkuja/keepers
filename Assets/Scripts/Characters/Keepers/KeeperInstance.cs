@@ -8,6 +8,8 @@ public class KeeperInstance : MonoBehaviour, ITradable {
     private Keeper keeper = null;
     private bool isSelected = false;
 
+    public GameObject keeperInventoryPanel;
+
     private bool isStarving = false;
     private bool isMentalHealthLow = false;
 
@@ -210,6 +212,7 @@ public class KeeperInstance : MonoBehaviour, ITradable {
         actionPoints = keeper.MaxActionPoints;
         currentMp = keeper.MaxMp;
         isAlive = true;
+
     }
 
     private void OnTriggerEnter(Collider other)
@@ -393,7 +396,7 @@ public class KeeperInstance : MonoBehaviour, ITradable {
 
     public void Trade(int _i = 0)
     {
-        GameManager.Instance.Ui.ShowInventoryPanels();
+        keeperInventoryPanel.SetActive(true);
     }
     public void MoralBuff(int _i = 0)
     {

@@ -147,6 +147,8 @@ public class TileTrigger : MonoBehaviour {
 
         GameManager.Instance.SelectedKeeperNeedUpdate = true;
         GameManager.Instance.ShortcutPanel_NeedUpdate = true;
+        GameManager.Instance.Ui.HideInventoryPanels();
+
     }
 
     private void ExploreWithoutConfirmation(int _i)
@@ -199,5 +201,6 @@ public class TileTrigger : MonoBehaviour {
         }
         GameManager.Instance.SelectedKeeperNeedUpdate = true;
         GameManager.Instance.ShortcutPanel_NeedUpdate = true;
+        GameManager.Instance.Ui.HideInventoryPanels();
     }
 }

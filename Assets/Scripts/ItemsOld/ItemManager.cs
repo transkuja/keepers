@@ -24,6 +24,8 @@ public static class ItemManager {
             drop.GetComponent<ItemInstance>().ItemContainer = itemContainer;
         }
 
+        GameManager.Instance.Ui.UpdateInventoryPanel(GameManager.Instance.ListOfSelectedKeepers[0].gameObject);
+
     }
     public static Item getInstanciateItem(string type)
     {

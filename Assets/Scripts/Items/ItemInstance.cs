@@ -71,6 +71,6 @@ public class ItemInstance : MonoBehaviour, IPickable
         }
        
         GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
-        GameManager.Instance.Ui.UpdateKeeperInventoryPanel();
+        GameManager.Instance.Ui.UpdateInventoryPanel(GameManager.Instance.ListOfSelectedKeepers[0].gameObject);
     }
 }
