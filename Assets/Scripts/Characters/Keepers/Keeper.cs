@@ -7,9 +7,10 @@ public class Keeper : Character
     [SerializeField]
     private Sprite associatedSprite;
 
-    [Header("Status")]
+    [SerializeField]
+    private Sprite deadSprite;
 
-    
+    [Header("Status")]    
     [SerializeField]
     [Range(50, 120)]
     private short maxHunger = 100;
@@ -80,6 +81,19 @@ public class Keeper : Character
         set
         {
             maxInventorySlots = value;
+        }
+    }
+
+    public Sprite DeadSprite
+    {
+        get
+        {
+            return deadSprite;
+        }
+
+        set
+        {
+            deadSprite = value;
         }
     }
 

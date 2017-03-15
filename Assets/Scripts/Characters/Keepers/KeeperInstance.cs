@@ -137,6 +137,10 @@ public class KeeperInstance : MonoBehaviour, ITradable {
     void Die()
     {
         Debug.Log("Blaeuurgh... *dead*");
+        gameObject.SetActive(false);
+        
+        // TODO: Drop loot on the ground
+
         GameManager.Instance.CheckGameState();
     }
 
