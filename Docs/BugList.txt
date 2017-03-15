@@ -2,3 +2,5 @@ Lorsqu'on laisse le prisonnier seul, un message apparaît, mais ce message appara
 (il ne devrait s'afficher qu'un fois lorsqu'on quitte LA tile sur laquelle se trouve le prisonnier)
 
 Le joueur est obligé d'utiliser tous ses points d'action pour passer un tour
+
+On peut trade avec un joueur sur un tile distant.
