@@ -1,16 +1,19 @@
 1: priorité la plus haute
 
 1: Mode caméra de loin: Afficher les icones d'action et les linker aux actions 
-	==> Seb ou Quentin
+	==> Seb
 
 2: Action: Récolter (!= de Ramasser)
 2: Inventaire: Fix l'inventaire (ItemContainer?) 
 	==> Rémi
+2: Gérer la mort des personnages (desactivation des gameobjects, loot au sol, etc.)
 
 3: Map: Meilleur feedback visuel pour les tiles dans le brouillard
+3: Combat: Corriger les logs du resolver pour plus que ça crash une fois sur trois
 
 4: Règles de gestion: Implémenter les cas limites de faim élevée et moral bas (valeurs arbitraires que l'on pourra moduler plus tard)
 4: Exploration: Faire pop aléatoirement des mobs lorsque l'on découvre un Tile
+4: Loot: devrait être par terre
 
 5: PNJ: Ajouter un PNJ avec un comportement basique ("parler" et éventuellement "échanger")
 
