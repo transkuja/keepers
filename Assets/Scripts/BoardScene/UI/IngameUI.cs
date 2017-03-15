@@ -184,7 +184,7 @@ public class IngameUI : MonoBehaviour
                     GameManager.Instance.Ui.ClearActionPanel();
                 });
 
-                btn.transform.GetChild(0).GetComponentInChildren<Image>().sprite = ic.listActionContainers[i].sprite;
+                btn.transform.GetComponentInChildren<Image>().sprite = ic.listActionContainers[i].sprite;
             }
         }   
     }
