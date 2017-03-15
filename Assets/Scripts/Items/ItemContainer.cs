@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class ItemContainer {
 
     private Item item;
@@ -37,22 +38,22 @@ public class ItemContainer {
 
     public ItemContainer()
     {
-        Item = null;
-        Quantity = 0;
+        item = null;
+        quantity = 0;
     }
 
     public ItemContainer(Item _item, int _nb)
     {
-        Item = ItemManager.getInstanciateItem(_item.Type);
-        Item = _item;
-        Quantity = _nb;
+        item = ItemManager.getInstanciateItem(_item.Type);
+        item = _item;
+        quantity = _nb;
     }
 
     public ItemContainer(ItemContainer ic)
     {
-        Item = ItemManager.getInstanciateItem(ic.item.Type);
-        Item = ic.item;
-        Quantity = ic.Quantity;
+        item = ItemManager.getInstanciateItem(ic.item.Type);
+        item = ic.item;
+        quantity = ic.Quantity;
     }
 
     //public bool Add(Item _item, int iNb)
