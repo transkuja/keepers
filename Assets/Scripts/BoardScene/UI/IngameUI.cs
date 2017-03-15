@@ -18,6 +18,7 @@ public class IngameUI : MonoBehaviour
     public GameObject Panel_Inventories;
     public GameObject slotPrefab;
     public GameObject itemUI;
+    public GameObject statsPanelTooltip;
     // StatsPanel
     public GameObject goStats;
     public Text SelectedKeeperActionText;
