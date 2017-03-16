@@ -11,7 +11,7 @@ public class ItemInstance : MonoBehaviour, IPickable
     [SerializeField]
     private ItemContainer itemContainer = null;
 
-    public GlowObjectCmd audessus;
+    public GlowObjectCmd GlowCmd;
 
     [SerializeField]
     int quantity = 1;
@@ -46,11 +46,14 @@ public class ItemInstance : MonoBehaviour, IPickable
             go.transform.localPosition = go.transform.GetChild(0).localPosition = Vector3.zero;//transform.parent.localPosition; //Vector3.one;
             go.transform.localRotation = Quaternion.identity;//transform.parent.localRotation; //Quaternion.identity;
             go.transform.localScale = Vector3.one;
+            GlowCmd.ConnectedSprite = itemContainer.Item.InventorySprite;
         }
         else
         {
             Debug.Log("Pas de Visuel Ingame pour l'item :\"" + itemContainer.Item.ItemName +"\"");
         }
+
+
     }
 
     public ItemContainer ItemContainer
@@ -84,25 +87,17 @@ public class ItemInstance : MonoBehaviour, IPickable
         bool isNoLeftOver = InventoryManager.AddItemToInventory(GameManager.Instance.ListOfSelectedKeepers[0].GetComponent<Inventory>().inventory, this.itemContainer);
         if (isNoLeftOver)
         {
-            Destroy(gameObject);
+
+            Destroy(this);
+            GlowController.UnregisterObject(GlowCmd);
+            if(this.transform.childCount > 0)
+            {
+                DestroyImmediate(this.transform.GetChild(0).gameObject);
+            }
+
         }
        
         GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
         GameManager.Instance.Ui.UpdateInventoryPanel(GameManager.Instance.ListOfSelectedKeepers[0].gameObject);
-    }
-
-    public void OnMouseEnter()
-    {
-        GameManager.Instance.Ui.UiIconFeedBack.TriggerFeedback(itemContainer.Item.InventorySprite);
-    }
-
-    public void OnMouseExit()
-    {
-        GameManager.Instance.Ui.UiIconFeedBack.DisableFeedback();
-    }
-
-    void OnDestroy()
-    {
-        GlowController.UnregisterObject(audessus);
     }
 }
