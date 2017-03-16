@@ -54,11 +54,19 @@ public class GlowController : MonoBehaviour
 		}
 	}
 
-	/// <summary>
-	/// Adds all the commands, in order, we want our command buffer to execute.
-	/// Similar to calling sequential rendering methods insde of OnRenderImage().
-	/// </summary>
-	private void RebuildCommandBuffer()
+    public static void UnregisterObject(GlowObjectCmd glowObj)
+    {
+        if (_instance != null)
+        {
+            _instance._glowableObjects.Remove(glowObj);
+        }
+    }
+
+    /// <summary>
+    /// Adds all the commands, in order, we want our command buffer to execute.
+    /// Similar to calling sequential rendering methods insde of OnRenderImage().
+    /// </summary>
+    private void RebuildCommandBuffer()
 	{
 		_commandBuffer.Clear();
 

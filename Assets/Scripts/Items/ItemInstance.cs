@@ -11,6 +11,8 @@ public class ItemInstance : MonoBehaviour, IPickable
     [SerializeField]
     private ItemContainer itemContainer = null;
 
+    public GlowObjectCmd audessus;
+
     [SerializeField]
     int quantity = 1;
 
@@ -97,5 +99,10 @@ public class ItemInstance : MonoBehaviour, IPickable
     public void OnMouseExit()
     {
         GameManager.Instance.Ui.UiIconFeedBack.DisableFeedback();
+    }
+
+    void OnDestroy()
+    {
+        GlowController.UnregisterObject(audessus);
     }
 }
