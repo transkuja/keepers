@@ -110,7 +110,7 @@ public class InventoryManager {
         {
             if (x != null)
             {
-                return x.Item.GetType() == i.Item.GetType();
+                return x.Item.Id == i.Item.Id;
             }
 
             return false;
