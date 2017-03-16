@@ -6,7 +6,7 @@
 				"id": "equip01",
 				"itemName": "Plastic Spoon",
 				"description": "You can't kill anything with this they said.",
-				"inventorySprite": "Items_1",
+				"inventorySprite": "Items_2",
 				"ingameVisual": "",
 				"slot": "Weapon",
 				"stat": "Strength",
@@ -17,10 +17,10 @@
 			"type": "Ressource",
 			"item" : { 
 				"id": "resource01",
-				"itemName": "Wheat",
-				"description": "Increase mental health",
+				"itemName": "Berries",
+				"description": "Restore health",
 				"inventorySprite": "Items_0",
-				"ingameVisual": "",
+				"ingameVisual": "Models/Items/Berry",
 				"use": "DecreaseHunger",
 				"value": 5
 			}
@@ -29,7 +29,7 @@
 			"type": "Ressource",
 			"item" : { 
 				"id": "resource02",
-				"itemName": "Vegetaballs",
+				"itemName": "Mushroom",
 				"description": "Increase mental health",
 				"inventorySprite": "Items_1",
 				"ingameVisual": "",
@@ -41,22 +41,10 @@
 			"type": "Ressource",
 			"item" : { 
 				"id": "resource03",
-				"itemName": "Vegetaballs",
+				"itemName": "Wheat",
 				"description": "Increase mental health",
 				"inventorySprite": "Items_2",
 				"ingameVisual": "",
-				"use": "DecreaseHunger",
-				"value": 5
-			}
-		},
-		{
-			"type": "Ressource",
-			"item" : { 
-				"id": "resource04",
-				"itemName": "Berries",
-				"description": "Restore health",
-				"inventorySprite": "Items_1",
-				"ingameVisual": "Models/Items/Berry",
 				"use": "DecreaseHunger",
 				"value": 5
 			}
