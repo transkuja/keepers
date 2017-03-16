@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ItemInstance : MonoBehaviour, IPickable
+public class ItemInstance : MonoBehaviour, IHavestable
 {
     private InteractionImplementer interactionImplementer;
 
@@ -29,7 +29,7 @@ public class ItemInstance : MonoBehaviour, IPickable
             Init(idItem, quantity);
         }
         interactionImplementer = new InteractionImplementer();
-        interactionImplementer.Add(new Interaction(Pick), "Pick", GameManager.Instance.Ui.spritePick);
+        interactionImplementer.Add(new Interaction(Harvest), "Harvest", GameManager.Instance.Ui.spriteHarvest);
     }
 
 
@@ -81,7 +81,7 @@ public class ItemInstance : MonoBehaviour, IPickable
         }
     }
 
-    public void Pick(int _i = 0)
+    public void Harvest(int _i = 0)
     {
         bool isNoLeftOver = InventoryManager.AddItemToInventory(GameManager.Instance.ListOfSelectedKeepers[0].GetComponent<Inventory>().inventory, this.itemContainer);
         if (isNoLeftOver)
@@ -95,7 +95,7 @@ public class ItemInstance : MonoBehaviour, IPickable
             }
 
         }
-
+        GameManager.Instance.ListOfSelectedKeepers[0].ActionPoints -= 1;
         GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
         GameManager.Instance.Ui.UpdateInventoryPanel(GameManager.Instance.ListOfSelectedKeepers[0].gameObject);
 

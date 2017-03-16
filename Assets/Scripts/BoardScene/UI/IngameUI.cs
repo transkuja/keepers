@@ -41,6 +41,7 @@ public class IngameUI : MonoBehaviour
     // Actions
     public Sprite spriteMove;
     public Sprite spriteExplore;
+    public Sprite spriteHarvest;
     public Sprite spritePick;
     public Sprite spriteTrade;
     public Sprite spriteEscort;

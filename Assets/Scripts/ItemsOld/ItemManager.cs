@@ -23,7 +23,7 @@ public static class ItemManager {
             drop.transform.SetParent(TileManager.Instance.GetTileFromKeeper[owner.GetComponent<KeeperInstance>()].transform);
             drop.transform.position = owner.transform.localPosition;
 
-            drop.GetComponent<ItemInstance>().ItemContainer = itemContainer;
+            //drop.GetComponent<ItemInstance>().ItemContainer = itemContainer;
         }
 
         //GameManager.Instance.Ui.UpdateInventoryPanel(GameManager.Instance.ListOfSelectedKeepers[0].gameObject);
