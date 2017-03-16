@@ -46,7 +46,6 @@ public class ItemInstance : MonoBehaviour, IPickable
             go.transform.localPosition = go.transform.GetChild(0).localPosition = Vector3.zero;//transform.parent.localPosition; //Vector3.one;
             go.transform.localRotation = Quaternion.identity;//transform.parent.localRotation; //Quaternion.identity;
             go.transform.localScale = Vector3.one;
-            GlowCmd.ConnectedSprite = itemContainer.Item.InventorySprite;
         }
         else
         {
@@ -90,14 +89,25 @@ public class ItemInstance : MonoBehaviour, IPickable
 
             Destroy(this);
             GlowController.UnregisterObject(GlowCmd);
-            if(this.transform.childCount > 0)
+            if (this.transform.childCount > 0)
             {
                 DestroyImmediate(this.transform.GetChild(0).gameObject);
             }
 
         }
-       
+
         GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
         GameManager.Instance.Ui.UpdateInventoryPanel(GameManager.Instance.ListOfSelectedKeepers[0].gameObject);
+
     }
+    public void OnMouseOver()
+    {
+        GameManager.Instance.Ui.UiIconFeedBack.TriggerFeedback(itemContainer.Item.InventorySprite);
+    }
+    public void OnMouseExit()
+    {
+        GameManager.Instance.Ui.UiIconFeedBack.DisableFeedback();
+    }
+       
+
 }

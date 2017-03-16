@@ -55,7 +55,7 @@
 				"id": "resource04",
 				"itemName": "Berries",
 				"description": "Restore health",
-				"inventorySprite": "Items_2",
+				"inventorySprite": "Items_1",
 				"ingameVisual": "Models/Items/Berry",
 				"use": "DecreaseHunger",
 				"value": 5

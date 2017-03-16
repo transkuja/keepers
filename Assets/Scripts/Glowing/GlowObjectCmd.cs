@@ -6,8 +6,6 @@ public class GlowObjectCmd : MonoBehaviour
 	public Color GlowColor;
 	public float LerpFactor = 10;
 
-    public Sprite ConnectedSprite;
-
 	public Renderer[] Renderers
 	{
 		get;
@@ -30,16 +28,12 @@ public class GlowObjectCmd : MonoBehaviour
 
 	private void OnMouseEnter()
 	{
-        if (ConnectedSprite != null)
-            GameManager.Instance.Ui.UiIconFeedBack.TriggerFeedback(ConnectedSprite);
         _targetColor = GlowColor;
 		enabled = true;
 	}
 
 	private void OnMouseExit()
 	{
-        if (ConnectedSprite != null)
-            GameManager.Instance.Ui.UiIconFeedBack.DisableFeedback();
         _targetColor = Color.black;
 		enabled = true;
 	}
