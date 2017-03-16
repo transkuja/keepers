@@ -12,7 +12,7 @@ public class LootInstance : MonoBehaviour, IPickable {
     {
         interactionImplementer = new InteractionImplementer();
         Interaction bit = new Interaction(Pick);
-        Debug.Log(bit);
+        Debug.Log(gameObject);
         //interactionImplementer.Add(new Interaction(Pick), "Pick", GameManager.Instance.Ui.spritePick);
     }
 
