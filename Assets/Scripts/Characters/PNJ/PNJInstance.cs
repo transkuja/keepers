@@ -38,7 +38,7 @@ public class PNJInstance : MonoBehaviour {
         InteractionImplementer = new InteractionImplementer();
         InteractionImplementer.Add(new Interaction(Trade), "Trade", GameManager.Instance.Ui.spriteTrade);
 
-        pnjInventoryPanel = GameManager.Instance.Ui.CreatePNJInventoryPanels(this);
+        pnjInventoryPanel = GameManager.Instance.Ui.CreateInventoryPanel(this.gameObject);
     }
 
     public PNJInstance(PNJInstance from)

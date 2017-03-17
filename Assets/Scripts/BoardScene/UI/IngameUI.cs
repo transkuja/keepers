@@ -614,6 +614,7 @@ public class IngameUI : MonoBehaviour
         {
             GameObject goInventoryKeeper = Instantiate(keeper_inventory_prefab, Panel_Inventories.transform);
             goInventoryKeeper.transform.localPosition = Vector3.zero;
+            goInventoryKeeper.transform.localScale = Vector3.one;
             goInventoryKeeper.transform.GetChild(1).GetComponent<Image>().sprite = ki.Keeper.AssociatedSprite;
             goInventoryKeeper.name = "Inventory_" + ki.Keeper.CharacterName;
             goInventoryKeeper.transform.GetChild(0).GetComponent<InventoryOwner>().Owner = ki.gameObject;
@@ -634,27 +635,59 @@ public class IngameUI : MonoBehaviour
         }
     }
 
-    public GameObject CreatePNJInventoryPanels(PNJInstance pi)
+    public GameObject CreateInventoryPanel(GameObject pi)
     {
-        GameObject goPNJInventory = Instantiate(keeper_inventory_prefab, Panel_Inventories.transform);
-        goPNJInventory.transform.localPosition = Vector3.zero;
-        goPNJInventory.transform.GetChild(1).GetComponent<Image>().sprite = pi.Pnj.AssociatedSprite;
-        goPNJInventory.name = "Inventory_" + pi.Pnj.CharacterName;
-        goPNJInventory.transform.GetChild(0).GetComponent<InventoryOwner>().Owner = pi.gameObject;
-        goPNJInventory.SetActive(false);
+        if (pi.GetComponent<PNJInstance>() == null && pi.GetComponent<KeeperInstance>() == null && pi.GetComponent<LootInstance>() == null) return null;
+        GameObject owner = null;
+        Sprite associatedSprite = null;
+        string name = "";
+
+        if (pi.GetComponent<PNJInstance>() != null)
+        {
+            PNJInstance pnjInstance = pi.GetComponent<PNJInstance>();
+            associatedSprite = pnjInstance.Pnj.AssociatedSprite;
+            name = pnjInstance.Pnj.CharacterName;
+            owner = pnjInstance.gameObject;
+        }
+        else if (pi.GetComponent<KeeperInstance>() != null)
+        {
+            KeeperInstance keeperInstance = pi.GetComponent<KeeperInstance>();
+            associatedSprite = keeperInstance.Keeper.AssociatedSprite;
+            name = keeperInstance.Keeper.CharacterName;
+            owner = keeperInstance.gameObject;
+        }
+        else if (pi.GetComponent<LootInstance>() != null)
+        {
+            LootInstance lootInstance = pi.GetComponent<LootInstance>();
+            associatedSprite = GameManager.Instance.Ui.spriteLoot;
+            owner = lootInstance.gameObject;
+            name = "Loot";
+        }
+        else
+        {
+            return null;
+        }
+
+        GameObject goInventory = Instantiate(keeper_inventory_prefab, Panel_Inventories.transform);
+        goInventory.transform.localPosition = Vector3.zero;
+        goInventory.transform.localScale = Vector3.one;
+        goInventory.transform.GetChild(1).GetComponent<Image>().sprite = associatedSprite;
+        goInventory.name = "Inventory_" + name;
+        goInventory.transform.GetChild(0).GetComponent<InventoryOwner>().Owner = pi.gameObject;
+        goInventory.SetActive(false);
         int nbSlots = pi.gameObject.GetComponent<Inventory>().nbSlot;
         for (int i = 0; i < nbSlots; i++)
         {
             //Create Slots
             GameObject currentgoSlotPanel = Instantiate(slotPrefab, Vector3.zero, Quaternion.identity) as GameObject;
-            currentgoSlotPanel.transform.SetParent(goPNJInventory.transform.GetChild(0).transform);
+            currentgoSlotPanel.transform.SetParent(goInventory.transform.GetChild(0).transform);
 
             currentgoSlotPanel.transform.localPosition = Vector3.zero;
             currentgoSlotPanel.transform.localScale = Vector3.one;
             currentgoSlotPanel.name = "Slot" + i;
         }
 
-        return goPNJInventory;
+        return goInventory;
     }
 
     public void HideInventoryPanels()
