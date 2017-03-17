@@ -431,7 +431,7 @@ public class IngameUI : MonoBehaviour
         // Destroy Existing
         foreach (Slot holder in goInventory.transform.GetComponentsInChildren<Slot>())
         {
-            DestroyImmediate(holder.gameObject);
+            Destroy(holder.gameObject);
         }
 
         // Create Selected Keeper's one
@@ -440,13 +440,13 @@ public class IngameUI : MonoBehaviour
         if (currentSelectedKeeper.GetComponent<Inventory>().inventory != null && currentSelectedKeeper.GetComponent<Inventory>().inventory.Length > 0)
         {
             ItemContainer[] inventory = currentSelectedKeeper.GetComponent<Inventory>().inventory;
-            for (int i =0; i< currentSelectedKeeper.gameObject.GetComponent<Inventory>().nbSlot; i++)
+            int nbSlot = currentSelectedKeeper.gameObject.GetComponent<Inventory>().nbSlot;
+            for (int i =0; i< nbSlot; i++)
             {
                 GameObject currentSlot = Instantiate(slotPrefab);
-
-                if (inventory[i] != null && inventory[i].Item != null)
+     
+                if (inventory[i] != null && inventory[i].Item != null && inventory[i].Item.Id!= null)
                 {
-                   
                     GameObject go = Instantiate(itemUI);
                     go.transform.SetParent(currentSlot.transform);
                     go.GetComponent<ItemInstance>().ItemContainer = inventory[i];
@@ -687,7 +687,8 @@ public class IngameUI : MonoBehaviour
         if (owner.GetComponent<Inventory>().inventory != null)
         {
             ItemContainer[] inventory = pi.GetComponent<Inventory>().inventory;
-            for (int i = 0; i < inventory.Length; i++)
+            int nbSlot = pi.GetComponent<Inventory>().nbSlot;
+            for (int i = 0; i < nbSlot; i++)
             {
                 GameObject currentSlot = inventoryPanel.transform.GetChild(0).GetChild(i).gameObject;
                 if (currentSlot.GetComponentInChildren<ItemInstance>() != null)
@@ -697,7 +698,7 @@ public class IngameUI : MonoBehaviour
                 
             }
 
-            for (int i = 0; i < inventory.Length; i++)
+            for (int i = 0; i < nbSlot; i++)
             {
                 if (inventory[i] != null && inventory[i].Item != null)
                 {
