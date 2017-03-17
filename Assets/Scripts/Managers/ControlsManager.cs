@@ -138,7 +138,7 @@ public class ControlsManager : MonoBehaviour {
                             ui.UpdateActionPanelUIQ(hitInfo.collider.gameObject.GetComponent<ItemInstance>().InteractionImplementer);
                         }
                         // Handle click on a ItemInstance
-                        if (hitInfo.collider.gameObject.GetComponent<LootInstance>() != null
+                        else if (hitInfo.collider.gameObject.GetComponent<LootInstance>() != null
                             && tileHit == TileManager.Instance.GetTileFromKeeper[GameManager.Instance.ListOfSelectedKeepers[0]])
                         {
                             ui.UpdateActionPanelUIQ(hitInfo.collider.gameObject.GetComponent<LootInstance>().InteractionImplementer);
