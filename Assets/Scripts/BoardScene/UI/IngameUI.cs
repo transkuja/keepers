@@ -47,6 +47,8 @@ public class IngameUI : MonoBehaviour
     public Sprite spriteEscort;
     public Sprite spriteUnescort;
 
+    public Sprite spriteLoot;
+
     public Sprite spriteMoral;
     public Sprite spriteMoralBuff;
     public Sprite spriteMoralDebuff;

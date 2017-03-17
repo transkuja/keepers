@@ -6,14 +6,15 @@ public class LootInstance : MonoBehaviour, IPickable {
 
     private InteractionImplementer interactionImplementer;
 
-    public Sprite Loot;
+    public int nbSlot = 6;
+
+    public ItemContainer[] loot;
 
     void Awake()
     {
         interactionImplementer = new InteractionImplementer();
-        Interaction bit = new Interaction(Pick);
-        Debug.Log(gameObject);
-        //interactionImplementer.Add(new Interaction(Pick), "Pick", GameManager.Instance.Ui.spritePick);
+        interactionImplementer.Add(new Interaction(Pick), "Pick", GameManager.Instance.Ui.spritePick);
+        loot = new ItemContainer[nbSlot];
     }
 
 
@@ -36,7 +37,7 @@ public class LootInstance : MonoBehaviour, IPickable {
     }
     public void OnMouseOver()
     {
-        GameManager.Instance.Ui.UiIconFeedBack.TriggerFeedback(Loot);
+        GameManager.Instance.Ui.UiIconFeedBack.TriggerFeedback(GameManager.Instance.Ui.spriteLoot);
     }
     public void OnMouseExit()
     {
