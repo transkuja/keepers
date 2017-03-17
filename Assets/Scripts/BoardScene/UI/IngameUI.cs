@@ -247,17 +247,17 @@ public class IngameUI : MonoBehaviour
     
     private void AnimateButtonOnClick()
     {
-        for (int i = 0; i < GameManager.Instance.AllKeepersList.Count; i++)
-        {
-            if (GameManager.Instance.AllKeepersList[i].ActionPoints > 0)
-            {
-                GoToCharacter(i);
-                SelectedKeeperActionText.GetComponent<Text>().color = Color.green;
-                SelectedKeeperActionText.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
-                StartCoroutine(TextAnimationNormalState());
-                return;
-            }
-        }
+        //for (int i = 0; i < GameManager.Instance.AllKeepersList.Count; i++)
+        //{
+        //    if (GameManager.Instance.AllKeepersList[i].ActionPoints > 0)
+        //    {
+        //        GoToCharacter(i);
+        //        SelectedKeeperActionText.GetComponent<Text>().color = Color.green;
+        //        SelectedKeeperActionText.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
+        //        StartCoroutine(TextAnimationNormalState());
+        //        return;
+        //    }
+        //}
 
         // Activation de l'animation au moment du click
         Animator anim_button = TurnButton.GetComponent<Animator>();
