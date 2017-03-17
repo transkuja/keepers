@@ -23,4 +23,23 @@
 6: Endgame: Affichage du score sur l'écran de victoire
 
 
+Audio : Chercher des sons et les integrer au eu grace à l'audio manager deja en place
+Feedback sur le boutton de fin de tour quand il n'y a plus d'action
+Cout d'action lorsqu'on parle à un autre personnages
+Ne permettre que certaine action comme le deplacement quand si on a le nombre d'action requis
+Level design
+Monstre : les rendre un peu vivant, genre ils se déplacent et saute sur le pnj quand il sont trop prêt
+Faire une icone pour au moins trois equipement de chaque type ( weapon , armor et soul ), les integrer
+Faire un rendu visual du loot > prefab associé
+Faire un rendu visual pour le blé et les champignons > prefab associé
+combat : retirer le loot du rendu et faire que les montres drop un loot
+inventaires : corriger le bug sur les tableaux d'item / loot
+appliqué les stats des équipements
+affiché les bonus de stats sur le panel_stat_tooltip
+faire la distinction entre petites icons et icons dans le panel shortcut et dans les inventaires
+icone pour un pnj
+tester le .exe du jeu
+refaire la boîte (@Rémi) et la linker au jeu
+actions_ panel -> le mettre sur un canvas world space pour le rendre plus sympa ( post proto)
+icon de moral buff debuff.
 
