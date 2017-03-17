@@ -12,8 +12,6 @@ public class PNJ{
     [SerializeField]
     public int nbSlot;
 
-    private int maxInventorySlots = 6;
-
 
     public Sprite AssociatedSprite
     {

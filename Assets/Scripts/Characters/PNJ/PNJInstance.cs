@@ -10,29 +10,10 @@ public class PNJInstance : MonoBehaviour {
 
     public GameObject pnjInventoryPanel;
 
-    // Actions
-    [Header("Actions")]
-
     private InteractionImplementer interactionImplementer;
-
-    // Mouvement
-    [Header("Mouvement")]
-    // Update variables
-    UnityEngine.AI.NavMeshAgent agent;
-    Vector3 v3AgentDirectionTemp;
-
-    // Rotations
-    float fLerpRotation = 0.666f;
-    Quaternion quatTargetRotation;
-    Quaternion quatPreviousRotation;
-    bool bIsRotating = false;
-    [SerializeField]
-    float fRotateSpeed = 1.0f;
 
     private void Start()
     {
-        agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
-        fRotateSpeed = 5.0f;
 
         InteractionImplementer = new InteractionImplementer();
         InteractionImplementer.Add(new Interaction(Trade), "Trade", GameManager.Instance.Ui.spriteTrade);
@@ -45,11 +26,8 @@ public class PNJInstance : MonoBehaviour {
         pnj = from.pnj;
     }
 
-    /* ------------------------------------------------------------------------------------ */
-    /* ------------------------------------- Accessors ------------------------------------ */
-    /* ------------------------------------------------------------------------------------ */
 
-
+    #region Accessors
 
     public PNJ Pnj
     {
@@ -76,6 +54,7 @@ public class PNJInstance : MonoBehaviour {
             interactionImplementer = value;
         }
     }
+    #endregion
 
     public void Trade(int _i = 0)
     {

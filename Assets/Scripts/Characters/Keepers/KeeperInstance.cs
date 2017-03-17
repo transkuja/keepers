@@ -406,6 +406,7 @@ public class KeeperInstance : MonoBehaviour, ITradable {
     }
     public void MoralBuff(int _i = 0)
     {
+        GameManager.Instance.ListOfSelectedKeepers[0].ActionPoints -= 1;
         short amountMoralBuff = (short)Random.Range(minMoralBuff, maxMoralBuff);
         GameManager.Instance.GoTarget.GetComponent<KeeperInstance>().CurrentMentalHealth += amountMoralBuff;
         GameManager.Instance.ShortcutPanel_NeedUpdate = true;
