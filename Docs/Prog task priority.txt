@@ -33,7 +33,6 @@ Faire une icone pour au moins trois equipement de chaque type ( weapon , armor e
 Faire un rendu visual du loot > prefab associé
 Faire un rendu visual pour le blé et les champignons > prefab associé
 combat : retirer le loot du rendu et faire que les montres drop un loot
-inventaires : corriger le bug sur les tableaux d'item / loot
 appliqué les stats des équipements
 affiché les bonus de stats sur le panel_stat_tooltip
 faire la distinction entre petites icons et icons dans le panel shortcut et dans les inventaires
@@ -42,4 +41,6 @@ tester le .exe du jeu
 refaire la boîte (@Rémi) et la linker au jeu
 actions_ panel -> le mettre sur un canvas world space pour le rendre plus sympa ( post proto)
 icon de moral buff debuff.
+
+Destroy Loot si il ne reste rien 
 
