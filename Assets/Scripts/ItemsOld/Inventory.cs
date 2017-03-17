@@ -6,9 +6,6 @@ public class Inventory : MonoBehaviour {
 
     private List<ItemContainer> list_inventaire;
 
-    [SerializeField]    
-    public int nbSlot = 6;
-
     public List<ItemContainer> List_inventaire
     {
         get

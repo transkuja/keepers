@@ -440,7 +440,7 @@ public class IngameUI : MonoBehaviour
         goInventory.name = "Panel_Inventory" + currentSelectedKeeper.Keeper.CharacterName;
         goInventory.GetComponent<InventoryOwner>().Owner = currentSelectedKeeper.gameObject;
 
-        int nbSlot = currentSelectedKeeper.gameObject.GetComponent<Inventory>().nbSlot;
+        int nbSlot = currentSelectedKeeper.Keeper.nbSlot;
 
         for (int i =0; i< nbSlot; i++)
         {
@@ -621,8 +621,7 @@ public class IngameUI : MonoBehaviour
         GameObject owner = null;
         Sprite associatedSprite = null;
         string name = "";
-
-
+        int nbSlots = 0;
         GameObject goInventory = Instantiate(keeper_inventory_prefab, Panel_Inventories.transform);
         if (pi.GetComponent<PNJInstance>() != null)
         {
@@ -630,6 +629,7 @@ public class IngameUI : MonoBehaviour
             associatedSprite = pnjInstance.Pnj.AssociatedSprite;
             name = pnjInstance.Pnj.CharacterName;
             owner = pnjInstance.gameObject;
+            nbSlots = pnjInstance.Pnj.nbSlot;
         }
         else if (pi.GetComponent<KeeperInstance>() != null)
         {
@@ -637,6 +637,7 @@ public class IngameUI : MonoBehaviour
             associatedSprite = keeperInstance.Keeper.AssociatedSprite;
             name = keeperInstance.Keeper.CharacterName;
             owner = keeperInstance.gameObject;
+            nbSlots = keeperInstance.Keeper.nbSlot;
         }
         else if (pi.GetComponent<LootInstance>() != null)
         {
@@ -646,6 +647,7 @@ public class IngameUI : MonoBehaviour
             associatedSprite = GameManager.Instance.Ui.spriteLoot;
             goInventory.transform.GetChild(1).gameObject.SetActive(false);
             owner = lootInstance.gameObject;
+            nbSlots = lootInstance.nbSlot;
             name = "Loot";
         }
         else
@@ -661,7 +663,6 @@ public class IngameUI : MonoBehaviour
         goInventory.transform.GetChild(0).GetComponent<InventoryOwner>().Owner = pi.gameObject;
         goInventory.SetActive(false);
 
-        int nbSlots = pi.gameObject.GetComponent<Inventory>().nbSlot;
         for (int i = 0; i < nbSlots; i++)
         {
             //Create Slots
@@ -692,6 +693,7 @@ public class IngameUI : MonoBehaviour
         Sprite associatedSprite = null;
         string name = "";
         GameObject inventoryPanel = null;
+        int nbSlot = 0;
         if (pi.GetComponent<PNJInstance>() != null)
         {
             PNJInstance pnjInstance = pi.GetComponent<PNJInstance>();
@@ -699,6 +701,7 @@ public class IngameUI : MonoBehaviour
             name = pnjInstance.Pnj.CharacterName;
             inventoryPanel = pnjInstance.pnjInventoryPanel;
             owner = pnjInstance.gameObject;
+            nbSlot = pnjInstance.Pnj.nbSlot;
         }
         else if (pi.GetComponent<KeeperInstance>() != null)
         {
@@ -707,6 +710,7 @@ public class IngameUI : MonoBehaviour
             name = keeperInstance.Keeper.CharacterName;
             inventoryPanel = keeperInstance.keeperInventoryPanel;
             owner = keeperInstance.gameObject;
+            nbSlot = keeperInstance.Keeper.nbSlot;
         }
         else if (pi.GetComponent<LootInstance>() != null)
         {
@@ -714,6 +718,7 @@ public class IngameUI : MonoBehaviour
             associatedSprite = GameManager.Instance.Ui.spriteLoot;
             owner = lootInstance.gameObject;
             inventoryPanel = lootInstance.lootPanel;
+            nbSlot = lootInstance.nbSlot;
             name = "Loot";
         }
         else
@@ -724,7 +729,6 @@ public class IngameUI : MonoBehaviour
         if (owner.GetComponent<Inventory>().List_inventaire != null)
         {
             List<ItemContainer> inventory = pi.GetComponent<Inventory>().List_inventaire;
-            int nbSlot = pi.GetComponent<Inventory>().nbSlot;
             for (int i = 0; i < nbSlot; i++)
             {
                 GameObject currentSlot = inventoryPanel.transform.GetChild(0).GetChild(i).gameObject;

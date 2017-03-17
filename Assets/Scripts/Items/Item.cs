@@ -209,7 +209,7 @@ public class Equipment : Item
         bool isEquiped = EquipementManager.CheckIfItemTypeIsInEquipement(GameManager.Instance.ListOfSelectedKeepers[0].Equipment, ic);
         if (isEquiped)
         {
-            int nbSlot = GameManager.Instance.ListOfSelectedKeepers[0].GetComponent<Inventory>().nbSlot;
+            int nbSlot = GameManager.Instance.ListOfSelectedKeepers[0].Keeper.nbSlot;
             EquipementManager.UnequipItem(GameManager.Instance.ListOfSelectedKeepers[0].GetComponent<Inventory>().List_inventaire, nbSlot, GameManager.Instance.ListOfSelectedKeepers[0].Equipment, ((Equipment)ic.Item).constraint);
         } else
         {

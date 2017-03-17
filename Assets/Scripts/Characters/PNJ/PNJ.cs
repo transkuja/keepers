@@ -9,6 +9,9 @@ public class PNJ{
     [SerializeField]
     private string characterName = "CharacterBob";
 
+    [SerializeField]
+    public int nbSlot;
+
     private int maxInventorySlots = 6;
 
 

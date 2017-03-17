@@ -29,7 +29,6 @@ public class PNJInstance : MonoBehaviour {
     [SerializeField]
     float fRotateSpeed = 1.0f;
 
-
     private void Start()
     {
         agent = GetComponent<UnityEngine.AI.NavMeshAgent>();

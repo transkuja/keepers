@@ -316,14 +316,7 @@ public class BattleHandler {
 
     private static void PostBattleCommonProcess(List<KeeperInstance> keepers, Tile tile)
     {
-        List<ItemContainer> loot = ComputeTotalLoot(tile);
         TileManager.Instance.RemoveDefeatedMonsters(tile);
-
-        if (loot != null && loot.Count > 0)
-        {
-            IngameScreens.Instance.goInventoryLoot.GetComponentInParent<Inventory>().List_inventaire = loot;
-            IngameScreens.Instance.UpdateLootInterface();
-        }
     }
 
     private static void PrintResultsScreen(bool isVictorious)
@@ -333,23 +326,11 @@ public class BattleHandler {
 
         header.GetComponentInChildren<Text>().text = isVictorious ? "Victory!" : "Defeat";
 
-        IngameScreens.Instance.CreateLootInterface();
+        //IngameScreens.Instance.CreateLootInterface();
 
         // Freeze time until close button is pressed
         GameManager.Instance.ClearListKeeperSelected();
         Time.timeScale = 0.0f;
-    }
-
-    private static List<ItemContainer> ComputeTotalLoot(Tile tile)
-    {
-        List<ItemContainer> lootList = new List<ItemContainer>();
-        foreach (MonsterInstance mi in TileManager.Instance.MonstersOnTile[tile])
-        {
-            if (mi.CurrentHp == 0)
-                lootList.AddRange(mi.GetComponent<Loot>().ComputeLoot());
-        }
-
-        return lootList;
     }
 
     private static void BattleLog(string log)

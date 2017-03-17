@@ -18,7 +18,11 @@ public class Keeper : Character
     [SerializeField]
     private short maxMentalHealth = 100;
 
-    
+
+    [SerializeField]
+    public int nbSlot = 4;
+
+
 
     [SerializeField]
     private short maxActionPoints = 3;

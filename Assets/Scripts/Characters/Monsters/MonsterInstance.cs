@@ -86,4 +86,19 @@ public class MonsterInstance : MonoBehaviour {
     {
         GetComponent<BoxCollider>().enabled = true;
     }
+    public List<ItemContainer> ComputeLoot()
+    {
+        List<ItemContainer> tmpList = new List<ItemContainer>();
+        Item it = null;
+        foreach (string _IdItem in Monster.PossibleDrops)
+        {
+            it = GameManager.Instance.Database.getItemById(_IdItem);
+            //if (Random.Range(0, 10) > it.Rarity)
+            //{
+                tmpList.Add(new ItemContainer(it, 1));
+            //}
+        }
+
+        return tmpList;
+    }
 }

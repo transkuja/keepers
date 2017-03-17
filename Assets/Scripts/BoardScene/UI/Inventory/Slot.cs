@@ -113,7 +113,7 @@ public class Slot : MonoBehaviour, IDropHandler
                 GameManager.Instance.Ui.UpdateInventoryPanel(inventaireDequi.Owner);
                 GameManager.Instance.Ui.UpdateInventoryPanel(inventaireversqui.Owner);
                 GameManager.Instance.SelectedKeeperNeedUpdate = true;
-                IngameScreens.Instance.UpdateLootInterface();
+                //IngameScreens.Instance.UpdateLootInterface();
             }
             // Drag Characters in battle scene
             else

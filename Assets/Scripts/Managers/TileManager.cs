@@ -135,10 +135,13 @@ public class TileManager : MonoBehaviour {
         int[] removeIndex = new int[monstersOnTile[tile].Count];
         short nbrOfElementsToRemove = 0;
 
+        List<ItemContainer> lootList = new List<ItemContainer>();
+        Transform lastMonsterPosition = null;
         foreach (MonsterInstance mi in monstersOnTile[tile])
         {
             if (mi.CurrentHp == 0)
             {
+                lastMonsterPosition = mi.transform;
                 if (mi.deathParticles != null)
                 {
                     ParticleSystem ps = Instantiate(mi.deathParticles, mi.transform.parent);
@@ -147,10 +150,24 @@ public class TileManager : MonoBehaviour {
                     Destroy(ps.gameObject, ps.main.duration);
                 }
 
+                lootList.AddRange(mi.ComputeLoot());
+
+
                 Destroy(mi.gameObject);
                 removeIndex[nbrOfElementsToRemove] = monstersOnTile[tile].IndexOf(mi);
                 nbrOfElementsToRemove++;
+
+
+
             }
+
+
+        }
+
+
+        if (lootList.Count > 0)
+        {
+            ItemManager.AddItemOnTheGround(tile, lastMonsterPosition, lootList);
         }
 
         for (int i = 0; i < nbrOfElementsToRemove; i++)
