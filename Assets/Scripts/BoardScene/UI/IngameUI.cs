@@ -445,7 +445,7 @@ public class IngameUI : MonoBehaviour
             {
                 GameObject currentSlot = Instantiate(slotPrefab);
      
-                if (inventory[i] != null && inventory[i].Item != null && inventory[i].Item.Id!= null)
+                if (inventory[i] != null && inventory[i].Item != null && inventory[i].Item.Id != null)
                 {
                     GameObject go = Instantiate(itemUI);
                     go.transform.SetParent(currentSlot.transform);
@@ -700,7 +700,7 @@ public class IngameUI : MonoBehaviour
 
             for (int i = 0; i < nbSlot; i++)
             {
-                if (inventory[i] != null && inventory[i].Item != null)
+                if (inventory[i] != null && inventory[i].Item != null && inventory[i].Item.Id != null)
                 {
                     GameObject currentSlot = inventoryPanel.transform.GetChild(0).GetChild(i).gameObject;
                     GameObject go = Instantiate(itemUI);
