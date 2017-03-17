@@ -41,8 +41,8 @@ public class Slot : MonoBehaviour, IDropHandler
                 InventoryOwner inventaireDequi = previous.parent.GetComponent<InventoryOwner>();
                 InventoryOwner inventaireversqui = transform.parent.GetComponent<InventoryOwner>();
 
-                ItemContainer[] inventoryKeeperDequi = inventaireDequi.Owner.GetComponent<Inventory>().inventory;
-                ItemContainer[] inventoryKeeperVersqui = inventaireversqui.Owner.GetComponent<Inventory>().inventory;
+                List<ItemContainer> inventoryKeeperDequi = inventaireDequi.Owner.GetComponent<Inventory>().List_inventaire;
+                List<ItemContainer> inventoryKeeperVersqui = inventaireversqui.Owner.GetComponent<Inventory>().List_inventaire;
 
                 //Si les inventaires sont differents
                 if (inventaireDequi != inventaireversqui)
@@ -118,9 +118,10 @@ public class Slot : MonoBehaviour, IDropHandler
             // Drag Characters in battle scene
             else
             {
-                // Si ce n'est pas un objet qui est drag
+                // Si ce n'est pas un objet qui est drag ( selection de perso pour le combat)
                 if (eventData.pointerDrag.GetComponent<ItemInstance>() == null && transform.parent.GetComponent<InventoryOwner>() == null)
                 {
+                    // Swap image perso
                     if (hasAlreadyAnItem)
                     {
                         currentItem.transform.SetParent(previous);

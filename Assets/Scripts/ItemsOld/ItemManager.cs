@@ -11,9 +11,9 @@ public static class ItemManager {
         { "Ressource" ,  typeof(Ressource)}
     };
 
-    public static void AddItemOnTheGround(GameObject owner, ItemContainer[] loot)
+    public static void AddItemOnTheGround(GameObject owner, List<ItemContainer> loot)
     {
-        if (loot != null && loot.Length > 0)
+        if (loot != null && loot.Count > 0)
         {
             // Deja fait par dragHandler ?
             //bool canRemove = InventoryManager.RemoveItem(GameManager.Instance.ListOfSelectedKeepers[0].GetComponent<Inventory>().inventory, itemContainer);
@@ -23,7 +23,7 @@ public static class ItemManager {
             drop.transform.SetParent(TileManager.Instance.GetTileFromKeeper[owner.GetComponent<KeeperInstance>()].transform);
             drop.transform.position = owner.transform.localPosition;
 
-            drop.GetComponent<Inventory>().inventory = loot;
+            drop.GetComponent<Inventory>().List_inventaire = loot;
         }
 
         //GameManager.Instance.Ui.UpdateInventoryPanel(GameManager.Instance.ListOfSelectedKeepers[0].gameObject);

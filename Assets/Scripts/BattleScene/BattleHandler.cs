@@ -316,12 +316,12 @@ public class BattleHandler {
 
     private static void PostBattleCommonProcess(List<KeeperInstance> keepers, Tile tile)
     {
-        ItemContainer[] loot = ComputeTotalLoot(tile);
+        List<ItemContainer> loot = ComputeTotalLoot(tile);
         TileManager.Instance.RemoveDefeatedMonsters(tile);
 
-        if (loot != null && loot.Length > 0)
+        if (loot != null && loot.Count > 0)
         {
-            IngameScreens.Instance.goInventoryLoot.GetComponentInParent<Inventory>().inventory = loot;
+            IngameScreens.Instance.goInventoryLoot.GetComponentInParent<Inventory>().List_inventaire = loot;
             IngameScreens.Instance.UpdateLootInterface();
         }
     }
@@ -340,7 +340,7 @@ public class BattleHandler {
         Time.timeScale = 0.0f;
     }
 
-    private static ItemContainer[] ComputeTotalLoot(Tile tile)
+    private static List<ItemContainer> ComputeTotalLoot(Tile tile)
     {
         List<ItemContainer> lootList = new List<ItemContainer>();
         foreach (MonsterInstance mi in TileManager.Instance.MonstersOnTile[tile])
@@ -349,7 +349,7 @@ public class BattleHandler {
                 lootList.AddRange(mi.GetComponent<Loot>().ComputeLoot());
         }
 
-        return lootList.ToArray();
+        return lootList;
     }
 
     private static void BattleLog(string log)

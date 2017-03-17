@@ -8,6 +8,8 @@ public class LootInstance : MonoBehaviour, IPickable {
 
     public GameObject lootPanel;
 
+    private List<string> Items;
+
     void Awake()
     {
         interactionImplementer = new InteractionImplementer();

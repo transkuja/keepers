@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
+using System.Collections.Generic;
 
 public class KeeperInstance : MonoBehaviour, ITradable {
 
@@ -35,7 +36,7 @@ public class KeeperInstance : MonoBehaviour, ITradable {
 
     private bool isAlive = true;
     // Inventory
-    private ItemContainer[] equipment;
+    private List<ItemContainer> equipment;
 
 
     // Actions
@@ -205,7 +206,6 @@ public class KeeperInstance : MonoBehaviour, ITradable {
     {
         agent = GetComponent<NavMeshAgent>();
         fRotateSpeed = 5.0f;
-        equipment = new ItemContainer[3];
         isEscortAvailable = true;
         InteractionImplementer = new InteractionImplementer();
         InteractionImplementer.Add(new Interaction(Trade), "Trade", GameManager.Instance.Ui.spriteTrade);
@@ -217,6 +217,7 @@ public class KeeperInstance : MonoBehaviour, ITradable {
         currentMp = keeper.MaxMp;
         isAlive = true;
 
+        equipment = new List<ItemContainer>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -331,7 +332,7 @@ public class KeeperInstance : MonoBehaviour, ITradable {
         }
     }
 
-    public ItemContainer[] Equipment
+    public List<ItemContainer> Equipment
     {
         get
         {

@@ -83,7 +83,8 @@ public class ItemInstance : MonoBehaviour, IHavestable
 
     public void Harvest(int _i = 0)
     {
-        bool isNoLeftOver = InventoryManager.AddItemToInventory(GameManager.Instance.ListOfSelectedKeepers[0].GetComponent<Inventory>().inventory, this.itemContainer);
+        int nbSlot = GameManager.Instance.ListOfSelectedKeepers[0].GetComponent<Inventory>().nbSlot;
+        bool isNoLeftOver = InventoryManager.AddItemToInventory(GameManager.Instance.ListOfSelectedKeepers[0].GetComponent<Inventory>().List_inventaire, nbSlot, itemContainer);
         if (isNoLeftOver)
         {
 

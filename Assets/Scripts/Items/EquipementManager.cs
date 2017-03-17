@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class EquipementManager {
-    public static void EquipItem(ItemContainer[] inventory, ItemContainer[] equipements, ItemContainer equipment)
+    public static void EquipItem(List<ItemContainer> inventory, List<ItemContainer> equipements, ItemContainer equipment)
     {
         int index = InventoryManager.GetInventoryItemIndex(inventory, equipment);
 
@@ -21,9 +22,9 @@ public class EquipementManager {
     }
 
 
-    public static bool UnequipItem(ItemContainer[] inventory, ItemContainer[] equipements, EquipmentSlot equipSlot)
+    public static bool UnequipItem(List<ItemContainer> inventory, int nbSlot, List<ItemContainer> equipements, EquipmentSlot equipSlot)
     {
-        int index = InventoryManager.FindFreeSlot(inventory);
+        int index = InventoryManager.FindFreeSlot(inventory, nbSlot);
         if (index == -1)
         {
             return false;
@@ -36,9 +37,9 @@ public class EquipementManager {
     }
 
 
-    public static bool CheckIfItemTypeIsInEquipement(ItemContainer[] equipements, ItemContainer i) //Check if an item with the same constrainte is equiped
+    public static bool CheckIfItemTypeIsInEquipement(List<ItemContainer> equipements, ItemContainer i) //Check if an item with the same constrainte is equiped
     {
-        return Array.Exists<ItemContainer>(equipements, x =>
+        return equipements.Exists(x =>
         {
             if (x != null)
             {

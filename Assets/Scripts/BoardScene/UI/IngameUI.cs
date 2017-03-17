@@ -439,49 +439,48 @@ public class IngameUI : MonoBehaviour
         // Create Selected Keeper's one
         goInventory.name = "Panel_Inventory" + currentSelectedKeeper.Keeper.CharacterName;
         goInventory.GetComponent<InventoryOwner>().Owner = currentSelectedKeeper.gameObject;
-        if (currentSelectedKeeper.GetComponent<Inventory>().inventory != null && currentSelectedKeeper.GetComponent<Inventory>().inventory.Length > 0)
+
+        int nbSlot = currentSelectedKeeper.gameObject.GetComponent<Inventory>().nbSlot;
+
+        for (int i =0; i< nbSlot; i++)
         {
-            ItemContainer[] inventory = currentSelectedKeeper.GetComponent<Inventory>().inventory;
-            int nbSlot = currentSelectedKeeper.gameObject.GetComponent<Inventory>().nbSlot;
-            for (int i =0; i< nbSlot; i++)
+            GameObject currentSlot = Instantiate(slotPrefab);
+
+            List<ItemContainer> inventory = currentSelectedKeeper.GetComponent<Inventory>().List_inventaire;
+            if (inventory.Count > 0 && i < inventory.Count && inventory[i] != null && inventory[i].Item != null && inventory[i].Item.Id != null)
             {
-                GameObject currentSlot = Instantiate(slotPrefab);
-     
-                if (inventory[i] != null && inventory[i].Item != null && inventory[i].Item.Id != null)
+                GameObject go = Instantiate(itemUI);
+                go.transform.SetParent(currentSlot.transform);
+                go.GetComponent<ItemInstance>().ItemContainer = inventory[i];
+                go.name = inventory[i].Item.ItemName;
+
+                go.GetComponent<Image>().sprite = inventory[i].Item.InventorySprite;
+                go.transform.localScale = Vector3.one;
+
+                go.transform.position = currentSlot.transform.position;
+                go.transform.SetAsFirstSibling();
+
+                if (go.GetComponent<ItemInstance>().ItemContainer.Item.GetType() == typeof(Ressource))
                 {
-                    GameObject go = Instantiate(itemUI);
-                    go.transform.SetParent(currentSlot.transform);
-                    go.GetComponent<ItemInstance>().ItemContainer = inventory[i];
-                    go.name = inventory[i].Item.ItemName;
-
-                    go.GetComponent<Image>().sprite = inventory[i].Item.InventorySprite;
-                    go.transform.localScale = Vector3.one;
-
-                    go.transform.position = currentSlot.transform.position;
-                    go.transform.SetAsFirstSibling();
-
-                    if (go.GetComponent<ItemInstance>().ItemContainer.Item.GetType() == typeof(Ressource))
-                    {
-                        go.transform.GetComponentInChildren<Text>().text = inventory[i].Quantity.ToString();
-                    }
-                    else
-                    {
-                        go.transform.GetComponentInChildren<Text>().text = "";
-                    }
+                    go.transform.GetComponentInChildren<Text>().text = inventory[i].Quantity.ToString();
                 }
-                currentSlot.transform.SetParent(goInventory.transform);
-                currentSlot.transform.localScale = Vector3.one;
+                else
+                {
+                    go.transform.GetComponentInChildren<Text>().text = "";
+                }
             }
-            
+            currentSlot.transform.SetParent(goInventory.transform);
+            currentSlot.transform.localScale = Vector3.one;
         }
-        goInventory.GetComponent<GridLayoutGroup>().constraintCount = currentSelectedKeeper.gameObject.GetComponent<Inventory>().nbSlot;
+
+        goInventory.GetComponent<GridLayoutGroup>().constraintCount = nbSlot;
 
         /*
         Equipement
         */
         // Destroy Existing
-        ItemContainer[] equipement = currentSelectedKeeper.Equipment;
-        for (int i = 0; i < equipement.Length; i++)
+        List<ItemContainer> equipement = currentSelectedKeeper.Equipment;
+        for (int i = 0; i < equipement.Count; i++)
         {
             GameObject currentSlot = goEquipement.transform.GetChild(i).gameObject;
             if (currentSlot.GetComponentInChildren<ItemInstance>() != null)
@@ -612,26 +611,7 @@ public class IngameUI : MonoBehaviour
     {
         foreach (KeeperInstance ki in GameManager.Instance.AllKeepersList)
         {
-            GameObject goInventoryKeeper = Instantiate(keeper_inventory_prefab, Panel_Inventories.transform);
-            goInventoryKeeper.transform.localPosition = Vector3.zero;
-            goInventoryKeeper.transform.localScale = Vector3.one;
-            goInventoryKeeper.transform.GetChild(1).GetComponent<Image>().sprite = ki.Keeper.AssociatedSprite;
-            goInventoryKeeper.name = "Inventory_" + ki.Keeper.CharacterName;
-            goInventoryKeeper.transform.GetChild(0).GetComponent<InventoryOwner>().Owner = ki.gameObject;
-            goInventoryKeeper.SetActive(false);
-            int nbSlots = ki.gameObject.GetComponent<Inventory>().nbSlot;
-            for (int i = 0; i < nbSlots; i++)
-            {
-                //Create Slots
-                GameObject currentgoSlotPanel = Instantiate(slotPrefab, Vector3.zero, Quaternion.identity) as GameObject;
-                currentgoSlotPanel.transform.SetParent(goInventoryKeeper.transform.GetChild(0).transform);
-
-                currentgoSlotPanel.transform.localPosition = Vector3.zero;
-                currentgoSlotPanel.transform.localScale = Vector3.one;
-                currentgoSlotPanel.name = "Slot" + i;
-            }
-
-            ki.keeperInventoryPanel = goInventoryKeeper;
+            ki.keeperInventoryPanel = CreateInventoryPanel(ki.gameObject);
         }
     }
 
@@ -642,6 +622,8 @@ public class IngameUI : MonoBehaviour
         Sprite associatedSprite = null;
         string name = "";
 
+
+        GameObject goInventory = Instantiate(keeper_inventory_prefab, Panel_Inventories.transform);
         if (pi.GetComponent<PNJInstance>() != null)
         {
             PNJInstance pnjInstance = pi.GetComponent<PNJInstance>();
@@ -659,7 +641,10 @@ public class IngameUI : MonoBehaviour
         else if (pi.GetComponent<LootInstance>() != null)
         {
             LootInstance lootInstance = pi.GetComponent<LootInstance>();
+
+            // TMP
             associatedSprite = GameManager.Instance.Ui.spriteLoot;
+            goInventory.transform.GetChild(1).gameObject.SetActive(false);
             owner = lootInstance.gameObject;
             name = "Loot";
         }
@@ -668,13 +653,14 @@ public class IngameUI : MonoBehaviour
             return null;
         }
 
-        GameObject goInventory = Instantiate(keeper_inventory_prefab, Panel_Inventories.transform);
+
         goInventory.transform.localPosition = Vector3.zero;
         goInventory.transform.localScale = Vector3.one;
         goInventory.transform.GetChild(1).GetComponent<Image>().sprite = associatedSprite;
         goInventory.name = "Inventory_" + name;
         goInventory.transform.GetChild(0).GetComponent<InventoryOwner>().Owner = pi.gameObject;
         goInventory.SetActive(false);
+
         int nbSlots = pi.gameObject.GetComponent<Inventory>().nbSlot;
         for (int i = 0; i < nbSlots; i++)
         {
@@ -735,9 +721,9 @@ public class IngameUI : MonoBehaviour
             return;
         }
 
-        if (owner.GetComponent<Inventory>().inventory != null)
+        if (owner.GetComponent<Inventory>().List_inventaire != null)
         {
-            ItemContainer[] inventory = pi.GetComponent<Inventory>().inventory;
+            List<ItemContainer> inventory = pi.GetComponent<Inventory>().List_inventaire;
             int nbSlot = pi.GetComponent<Inventory>().nbSlot;
             for (int i = 0; i < nbSlot; i++)
             {
@@ -749,7 +735,7 @@ public class IngameUI : MonoBehaviour
                 
             }
 
-            for (int i = 0; i < nbSlot && i< inventory.Length; i++)
+            for (int i = 0; i < nbSlot && i< inventory.Count; i++)
             {
                 if (inventory[i] != null && inventory[i].Item != null && inventory[i].Item.Id != null)
                 {

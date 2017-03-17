@@ -6,49 +6,58 @@ using UnityEngine;
 public class InventoryManager {
     private const int maxItemsInSameSlot = 99;
 
-    public static bool AddItemToInventory(ItemContainer[] _inventory, ItemContainer _ic)
+    public static bool AddItemToInventory(List<ItemContainer> _inventory, int nbSlot,  ItemContainer _ic)
     {
         if (_ic.Item.IsStackable)
         {
             if (CheckIfItemTypeIsInInventory(_inventory, _ic))
             {
-                for (int i = 0; i < _inventory.Length; i++)
+                for (int i = 0; i < _inventory.Count; i++)
                 {
                     if (_inventory[i] != null && _inventory[i].Item.Id == _ic.Item.Id)
                     {
                         int quantityLeft = MergeStackables(_inventory[i], _ic);
                         if (quantityLeft > 0)
                         {
-                            return AddItem(_inventory, _ic);
+                            return AddItem(_inventory, nbSlot, _ic);
                         }
                     }
 
                 }
             } else
             {
-                return AddItem(_inventory, _ic);
+                return AddItem(_inventory, nbSlot, _ic);
             }
         }
         else
         {
-            return AddItem(_inventory, _ic);
+            return AddItem(_inventory, nbSlot, _ic);
         }
         return true;
     }
 
-    public static bool AddItem(ItemContainer[] _inventory, ItemContainer _ic)
+    public static bool AddItem(List<ItemContainer> _inventory, int nbSlot,  ItemContainer _ic)
     {
-        int freeIndex = FindFreeSlot(_inventory);
+        int freeIndex = FindFreeSlot(_inventory, nbSlot);
         if (freeIndex == -1)
         {
             return false;
 
         }
-        _inventory[freeIndex] = _ic;
+
+        if (freeIndex == _inventory.Count)
+        {
+            _inventory.Add(_ic);
+        }
+        else
+        {
+            _inventory[freeIndex] = _ic;
+        }
+
         return true;
     }
 
-    public static bool RemoveItem(ItemContainer[] _inventory, ItemContainer _ic)
+    public static bool RemoveItem(List<ItemContainer> _inventory, ItemContainer _ic)
     {
         int index = GetInventoryItemIndex(_inventory, _ic);
         if (index == -1)
@@ -59,18 +68,35 @@ public class InventoryManager {
         return true;
     }
 
-    public static void SwapItemBeetweenInventories(ItemContainer[] itemsFrom, int indexItemFrom, ItemContainer[] itemsTo, int indexItemTo)
+    public static void SwapItemBeetweenInventories(List<ItemContainer> itemsFrom, int indexItemFrom, List<ItemContainer> itemsTo, int indexItemTo)
     {
-        ItemContainer temp = itemsFrom[indexItemFrom];
-        itemsFrom[indexItemFrom] = itemsTo[indexItemTo];
-        itemsTo[indexItemTo] = temp;
+        if (indexItemTo < itemsTo.Count)
+        {
+            ItemContainer temp = itemsFrom[indexItemFrom];
+            itemsFrom[indexItemFrom] = itemsTo[indexItemTo];
+            itemsTo[indexItemTo] = temp;
+        }
+        else
+        {
+            itemsTo.Add(itemsFrom[indexItemFrom]);
+            itemsFrom[indexItemFrom] = null;
+        }
     }
 
-    public static void SwapItemInSameInventory(ItemContainer[] items, int indexItemFrom, int indexItemTo)
+    public static void SwapItemInSameInventory(List<ItemContainer> items, int indexItemFrom, int indexItemTo)
     {
-        ItemContainer temp = items[indexItemFrom];
-        items[indexItemFrom] = items[indexItemTo];
-        items[indexItemTo] = temp;
+        if (indexItemTo < items.Count )
+        {
+            ItemContainer temp = items[indexItemFrom];
+            items[indexItemFrom] = items[indexItemTo];
+            items[indexItemTo] = temp;
+        }
+        else
+        {
+            items.Add(items[indexItemFrom]);
+            items[indexItemFrom] = null;
+        }
+   
     }
 
     public static int MergeStackables(ItemContainer dest, ItemContainer src)
@@ -89,24 +115,40 @@ public class InventoryManager {
         return 0;
     }
 
-    public static int FindFreeSlot(ItemContainer[] items)
+    public static int FindFreeSlot(List<ItemContainer> items, int nbSlot)
     {
         int freeIndex = -1;
-        for (int i = 0; i < items.Length; i++)
+        for (int i = 0; i < nbSlot; i++)
         {
-            if (items[i] == null)
+            if (i < items.Count)
             {
-                freeIndex = i;
-                break;
+                if (items[i] == null)
+                {
+                    freeIndex = i;
+                    break;
+                }
             }
-        }
 
+            freeIndex = i;
+            break;
+        }
         return freeIndex;
     }
 
-    public static bool CheckIfItemTypeIsInInventory(ItemContainer[] items, ItemContainer i) //Check if an item with the same ID already exists in the inventory
+    public static bool CheckIfItemTypeIsInInventory(List<ItemContainer> items, ItemContainer i) //Check if an item with the same ID already exists in the inventory
     {
-        return Array.Exists<ItemContainer>(items, x =>
+        //return Array.Exists<ItemContainer>(items, x =>
+        //{
+        //    if (x != null)
+        //    {
+        //        return x.Item.Id == i.Item.Id;
+        //    }
+
+        //    return false;
+        //});
+
+
+        return items.Exists(x =>
         {
             if (x != null)
             {
@@ -117,13 +159,24 @@ public class InventoryManager {
         });
     }
 
-    public static int GetInventoryItemIndex(ItemContainer[] items, ItemContainer i)
+    public static int GetInventoryItemIndex(List<ItemContainer> items, ItemContainer i)
     {
-        return Array.FindIndex<ItemContainer>(items, x => {
+        //    return Array.FindIndex<ItemContainer>(items, x => {
+        //        if (x != null)
+        //        {
+        //            return x == i;
+        //        }
+        //        return false;
+        //    });
+        //}
+
+        return items.FindIndex(x =>
+        {
             if (x != null)
             {
                 return x == i;
             }
+
             return false;
         });
     }

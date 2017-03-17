@@ -4,13 +4,26 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour {
 
-    public ItemContainer[] inventory;
+    private List<ItemContainer> list_inventaire;
 
-    [SerializeField]
+    [SerializeField]    
     public int nbSlot = 6;
+
+    public List<ItemContainer> List_inventaire
+    {
+        get
+        {
+            return list_inventaire;
+        }
+
+        set
+        {
+            list_inventaire = value;
+        }
+    }
 
     public void Awake()
     {
-        inventory = new ItemContainer[nbSlot];
+        list_inventaire = new List<ItemContainer>();
     }
 }

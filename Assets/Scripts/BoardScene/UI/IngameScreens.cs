@@ -59,11 +59,11 @@ public class IngameScreens : MonoBehaviour {
             {
                 DestroyImmediate(holder.gameObject);
             }
-            if (goInventoryLoot.GetComponentInParent<Inventory>().inventory != null)
+            if (goInventoryLoot.GetComponentInParent<Inventory>().List_inventaire != null)
             {
-                ItemContainer[] inventory = goInventoryLoot.GetComponentInParent<Inventory>().inventory;
+                List<ItemContainer> inventory = goInventoryLoot.GetComponentInParent<Inventory>().List_inventaire;
 
-                for (int i = 0; i < inventory.Length; i++)
+                for (int i = 0; i < inventory.Count; i++)
                 {
                     if (inventory[i] != null && inventory[i].Item != null)
                     {
