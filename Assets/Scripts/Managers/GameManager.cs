@@ -33,6 +33,8 @@ public class GameManager : MonoBehaviour
     // quentin Camera
     [SerializeField] CameraManager cameraManager;
 
+    private int nbTurn;
+
     #region Accessors
     public CameraManager CameraManager
     {
@@ -54,6 +56,7 @@ public class GameManager : MonoBehaviour
         {
             instance = this;
             database.Init();
+            nbTurn = 1;
         }
         else if (instance != this)
         {
@@ -295,6 +298,19 @@ public class GameManager : MonoBehaviour
         set
         {
             database = value;
+        }
+    }
+
+    public int NbTurn
+    {
+        get
+        {
+            return nbTurn;
+        }
+
+        set
+        {
+            nbTurn = value;
         }
     }
 
