@@ -749,7 +749,7 @@ public class IngameUI : MonoBehaviour
                 
             }
 
-            for (int i = 0; i < nbSlot; i++)
+            for (int i = 0; i < nbSlot && i< inventory.Length; i++)
             {
                 if (inventory[i] != null && inventory[i].Item != null && inventory[i].Item.Id != null)
                 {
