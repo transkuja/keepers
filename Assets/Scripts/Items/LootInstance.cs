@@ -8,13 +8,23 @@ public class LootInstance : MonoBehaviour, IPickable {
 
     public int nbSlot = 6;
 
+    public bool isInScene = false;
+
     public ItemContainer[] loot;
 
     void Awake()
     {
         interactionImplementer = new InteractionImplementer();
         interactionImplementer.Add(new Interaction(Pick), "Pick", GameManager.Instance.Ui.spritePick);
-        loot = new ItemContainer[nbSlot];
+        if (isInScene)
+        {
+            Init(nbSlot);
+        }
+    }
+
+    public void Init(int n)
+    {
+        loot = new ItemContainer[n];
     }
 
 
