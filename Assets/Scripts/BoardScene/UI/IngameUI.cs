@@ -700,21 +700,37 @@ public class IngameUI : MonoBehaviour
 
     public void UpdateInventoryPanel(GameObject pi)
     {
-        if (pi.GetComponent<PNJInstance>() == null && pi.GetComponent<KeeperInstance>() == null) return;
+
+        if (pi.GetComponent<PNJInstance>() == null && pi.GetComponent<KeeperInstance>() == null && pi.GetComponent<LootInstance>() == null) return;
         GameObject owner = null;
+        Sprite associatedSprite = null;
+        string name = "";
         GameObject inventoryPanel = null;
         if (pi.GetComponent<PNJInstance>() != null)
         {
             PNJInstance pnjInstance = pi.GetComponent<PNJInstance>();
-            inventoryPanel = (pi.GetComponent<PNJInstance>() as PNJInstance).pnjInventoryPanel;
+            associatedSprite = pnjInstance.Pnj.AssociatedSprite;
+            name = pnjInstance.Pnj.CharacterName;
+            inventoryPanel = pnjInstance.pnjInventoryPanel;
             owner = pnjInstance.gameObject;
         }
         else if (pi.GetComponent<KeeperInstance>() != null)
         {
             KeeperInstance keeperInstance = pi.GetComponent<KeeperInstance>();
-            inventoryPanel = (pi.GetComponent<KeeperInstance>() as KeeperInstance).keeperInventoryPanel;
+            associatedSprite = keeperInstance.Keeper.AssociatedSprite;
+            name = keeperInstance.Keeper.CharacterName;
+            inventoryPanel = keeperInstance.keeperInventoryPanel;
             owner = keeperInstance.gameObject;
-        } else
+        }
+        else if (pi.GetComponent<LootInstance>() != null)
+        {
+            LootInstance lootInstance = pi.GetComponent<LootInstance>();
+            associatedSprite = GameManager.Instance.Ui.spriteLoot;
+            owner = lootInstance.gameObject;
+            inventoryPanel = lootInstance.lootPanel;
+            name = "Loot";
+        }
+        else
         {
             return;
         }
