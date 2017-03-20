@@ -12,7 +12,9 @@ Clamper la caméra => Seb
 
 Réparer la mort après un combat => done
 
-Rendre la fenetre de finde combat moins verbeuse
+Rendre la fenetre de fin de combat moins verbeuse
+
+"Animation" de mort de personnage
 
 Intégrer les modèles grisés (question mark) => Seb (en cours)
 
