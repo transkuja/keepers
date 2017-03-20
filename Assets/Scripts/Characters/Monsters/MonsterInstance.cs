@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class MonsterInstance : MonoBehaviour {
     [Header("Monster Info")]
@@ -12,6 +13,11 @@ public class MonsterInstance : MonoBehaviour {
 
     [SerializeField]
     private int currentMp;
+
+    private NavMeshAgent agent;
+    private float moveTimer = 0.0f;
+    private float direction = 1.0f;
+
 
     public Monster Monster
     {
@@ -30,6 +36,7 @@ public class MonsterInstance : MonoBehaviour {
     {
         currentHp = monster.MaxHp;
         currentMp = monster.MaxMp;
+        agent = GetComponent<NavMeshAgent>();
     }
 
     public int CurrentHp
@@ -79,13 +86,14 @@ public class MonsterInstance : MonoBehaviour {
     }
 
     void Update () {
-		
-	}
+        NavMeshMovement();
+    }
 
     private void ReactivateTrigger()
     {
         GetComponent<BoxCollider>().enabled = true;
     }
+
     public List<ItemContainer> ComputeLoot()
     {
         List<ItemContainer> tmpList = new List<ItemContainer>();
@@ -100,5 +108,22 @@ public class MonsterInstance : MonoBehaviour {
         }
 
         return tmpList;
+    }
+
+    public void NavMeshMovement()
+    {
+        moveTimer += Time.deltaTime;
+
+        if (moveTimer >= 2.0f)
+        {
+            moveTimer = 0.0f;
+            // Fix this @ Anthony
+            agent.Stop();
+            transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y + 180, transform.localEulerAngles.z);
+            agent.Resume();
+            //
+            agent.SetDestination(transform.position + transform.forward * direction);
+            direction *= -1;
+        }
     }
 }
