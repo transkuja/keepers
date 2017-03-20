@@ -280,11 +280,19 @@ public class Ressource : Item
 
     private bool UpMentalHealth(int _value)
     {
+        GameManager.Instance.Ui.BuffActionTextAnimation(5, _value);
+        GameManager.Instance.ListOfSelectedKeepers[0].CurrentMentalHealth += (short)_value;
+        GameManager.Instance.SelectedKeeperNeedUpdate = true;
+        GameManager.Instance.Ui.UpdateShortcutPanel();
         return true;
     }
 
     private bool DecreaseHunger(int _value)
     {
+        GameManager.Instance.Ui.BuffActionTextAnimation(3, _value);
+        GameManager.Instance.ListOfSelectedKeepers[0].CurrentHunger -= (short)_value;
+        GameManager.Instance.SelectedKeeperNeedUpdate = true;
+        GameManager.Instance.Ui.UpdateShortcutPanel();
         return true;
     }
 

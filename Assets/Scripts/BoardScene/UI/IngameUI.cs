@@ -38,6 +38,7 @@ public class IngameUI : MonoBehaviour
     public GameObject baseActionImage;
 
     public GameObject goMoralPanel;
+    public GameObject goBuffOnStatPanel;
     // Actions
     public Sprite spriteMove;
     public Sprite spriteExplore;
@@ -205,6 +206,7 @@ public class IngameUI : MonoBehaviour
         }
     }
 
+    // TODO : rendre cette fonction générique avec target et panel where 
     public void MoralBuffActionTextAnimation(int amount)
     {
         goMoralPanel.gameObject.SetActive(true);
@@ -235,6 +237,39 @@ public class IngameUI : MonoBehaviour
             yield return null;
         }
         goMoralPanel.gameObject.SetActive(false);
+    }
+
+
+    public void BuffActionTextAnimation(int stat, int amount)
+    {
+        goBuffOnStatPanel.gameObject.SetActive(true);
+        goBuffOnStatPanel.transform.position = goStats.transform.GetChild(stat).position;
+        if (amount < 0)
+        {
+            goBuffOnStatPanel.GetComponent<Image>().sprite = spriteMoralDebuff;
+            goBuffOnStatPanel.GetComponentInChildren<Text>().color = Color.red;
+            goBuffOnStatPanel.GetComponentInChildren<Text>().text = "";
+        }
+        else
+        {
+            goBuffOnStatPanel.GetComponent<Image>().sprite = spriteMoralBuff;
+            goBuffOnStatPanel.GetComponentInChildren<Text>().color = Color.green;
+            goBuffOnStatPanel.GetComponentInChildren<Text>().text = "+ ";
+        }
+        goBuffOnStatPanel.GetComponentInChildren<Text>().text += amount.ToString();
+
+        StartCoroutine(BuffPanelNormalState());
+    }
+
+    private IEnumerator BuffPanelNormalState()
+    {
+        for (float f = 3.0f; f >= 0; f -= 0.1f)
+        {
+            Vector3 decal = new Vector3(0.0f, f, 0.0f);
+            goBuffOnStatPanel.transform.position += decal;
+            yield return null;
+        }
+        goBuffOnStatPanel.gameObject.SetActive(false);
     }
     #endregion
 
@@ -426,7 +461,7 @@ public class IngameUI : MonoBehaviour
         // HP
         goStats.transform.GetChild(3).GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)currentSelectedKeeper.CurrentHp / (float)currentSelectedKeeper.Keeper.MaxHp;
         // Mental Health
-
+        goStats.transform.GetChild(4).GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)currentSelectedKeeper.CurrentMentalHealth / (float)currentSelectedKeeper.Keeper.MaxMentalHealth;
         /*
         Inventory
         */

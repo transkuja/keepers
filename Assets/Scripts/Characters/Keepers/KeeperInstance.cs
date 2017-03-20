@@ -211,7 +211,7 @@ public class KeeperInstance : MonoBehaviour, ITradable {
         InteractionImplementer.Add(new Interaction(Trade), "Trade", GameManager.Instance.Ui.spriteTrade);
         if (isAbleToImproveMoral) InteractionImplementer.Add(new Interaction(MoralBuff), "Moral", GameManager.Instance.Ui.spriteMoral);
         currentHp = keeper.MaxHp;
-        currentHunger = keeper.MaxHunger;
+        currentHunger = 0;
         currentMentalHealth = keeper.MaxMentalHealth;
         actionPoints = keeper.MaxActionPoints;
         currentMp = keeper.MaxMp;
