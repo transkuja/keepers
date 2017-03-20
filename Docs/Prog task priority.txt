@@ -1,5 +1,26 @@
 1: priorité la plus haute
 
+////////// Proto priority \\\\\\\\\
+
+Ajouter des sons
+
+Faire du level design sur un plus grand niveau
+
+Réparer le menu
+
+Fix le build?
+
+Clamper la caméra
+
+Réparer la mort après un combat (+ correction fenetre)
+
+///////////////////////////////////////////////
+
+
+
+
+
+
 1: Mode caméra de loin: Afficher les icones d'action et les linker aux actions 
 	==> Quentin
 
