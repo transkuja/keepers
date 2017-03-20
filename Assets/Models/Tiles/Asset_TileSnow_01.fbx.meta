@@ -1,0 +1,170 @@
+fileFormatVersion: 2
+guid: bc34e22105fa969499020826568f50b1
+timeCreated: 1490020566
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: Group_TreeSnow_01
+    100004: Group_TreeSnow_02
+    100006: Group_TreeSnow_03
+    100008: Group_TreeSnow_04
+    100010: Group_TreeSnow_05
+    100012: Group_TreeSnow_06
+    100014: PolySurface_Igloo_01
+    100016: PolySurface_Leaf
+    100018: PolySurface_Leaf 1
+    100020: PolySurface_Leaf 2
+    100022: PolySurface_Leaf 3
+    100024: PolySurface_Leaf 4
+    100026: PolySurface_Leaf 5
+    100028: PolySurface_RockSnow_01
+    100030: PolySurface_RockSnow_02
+    100032: PolySurface_TileSnow_01
+    100034: PolySurface_Trunk
+    100036: PolySurface_Trunk 1
+    100038: PolySurface_Trunk 2
+    100040: PolySurface_Trunk 3
+    100042: PolySurface_Trunk 4
+    100044: PolySurface_Trunk 5
+    400000: //RootNode
+    400002: Group_TreeSnow_01
+    400004: Group_TreeSnow_02
+    400006: Group_TreeSnow_03
+    400008: Group_TreeSnow_04
+    400010: Group_TreeSnow_05
+    400012: Group_TreeSnow_06
+    400014: PolySurface_Igloo_01
+    400016: PolySurface_Leaf
+    400018: PolySurface_Leaf 1
+    400020: PolySurface_Leaf 2
+    400022: PolySurface_Leaf 3
+    400024: PolySurface_Leaf 4
+    400026: PolySurface_Leaf 5
+    400028: PolySurface_RockSnow_01
+    400030: PolySurface_RockSnow_02
+    400032: PolySurface_TileSnow_01
+    400034: PolySurface_Trunk
+    400036: PolySurface_Trunk 1
+    400038: PolySurface_Trunk 2
+    400040: PolySurface_Trunk 3
+    400042: PolySurface_Trunk 4
+    400044: PolySurface_Trunk 5
+    2300000: PolySurface_Igloo_01
+    2300002: PolySurface_Leaf
+    2300004: PolySurface_Leaf 1
+    2300006: PolySurface_Leaf 2
+    2300008: PolySurface_Leaf 3
+    2300010: PolySurface_Leaf 4
+    2300012: PolySurface_Leaf 5
+    2300014: PolySurface_RockSnow_01
+    2300016: PolySurface_RockSnow_02
+    2300018: PolySurface_TileSnow_01
+    2300020: PolySurface_Trunk
+    2300022: PolySurface_Trunk 1
+    2300024: PolySurface_Trunk 2
+    2300026: PolySurface_Trunk 3
+    2300028: PolySurface_Trunk 4
+    2300030: PolySurface_Trunk 5
+    3300000: PolySurface_Igloo_01
+    3300002: PolySurface_Leaf
+    3300004: PolySurface_Leaf 1
+    3300006: PolySurface_Leaf 2
+    3300008: PolySurface_Leaf 3
+    3300010: PolySurface_Leaf 4
+    3300012: PolySurface_Leaf 5
+    3300014: PolySurface_RockSnow_01
+    3300016: PolySurface_RockSnow_02
+    3300018: PolySurface_TileSnow_01
+    3300020: PolySurface_Trunk
+    3300022: PolySurface_Trunk 1
+    3300024: PolySurface_Trunk 2
+    3300026: PolySurface_Trunk 3
+    3300028: PolySurface_Trunk 4
+    3300030: PolySurface_Trunk 5
+    4300000: PolySurface_Trunk
+    4300002: PolySurface_Leaf
+    4300004: PolySurface_Trunk
+    4300006: PolySurface_Leaf
+    4300008: PolySurface_Trunk
+    4300010: PolySurface_Leaf
+    4300012: PolySurface_Trunk
+    4300014: PolySurface_Leaf
+    4300016: PolySurface_Trunk
+    4300018: PolySurface_Leaf
+    4300020: PolySurface_Trunk
+    4300022: PolySurface_Leaf
+    4300024: PolySurface_RockSnow_01
+    4300026: PolySurface_Igloo_01
+    4300028: PolySurface_TileSnow_01
+    4300030: PolySurface_RockSnow_02
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
