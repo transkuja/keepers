@@ -127,10 +127,12 @@ public class InventoryManager {
                     freeIndex = i;
                     break;
                 }
+            } else
+            {
+                freeIndex = i;
+                break;
             }
 
-            freeIndex = i;
-            break;
         }
         return freeIndex;
     }
