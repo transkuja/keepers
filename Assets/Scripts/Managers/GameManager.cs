@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
 
 
     private IngameUI ui;
+    private MenuUI menuUi;
     private IngameScreens gameScreens;
 
     // quentin Camera
@@ -40,9 +41,13 @@ public class GameManager : MonoBehaviour
     {
         get
         {
+            if (cameraManager == null)
+            {
+                if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Menu")) return null;
+                cameraManager = GameObject.Find("Main Camera").GetComponent<CameraManager>();
+            }
             return cameraManager;
         }
-
         set
         {
             cameraManager = value;
@@ -185,12 +190,26 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public MenuUI MenuUi
+    {
+        get
+        {
+            if (menuUi == null)
+            {
+                if (SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Menu")) return null;
+                menuUi = GameObject.Find("MenuUI").GetComponent<MenuUI>();
+            }
+            return menuUi;
+        }
+    }
+
     public IngameUI Ui
     {
         get
         {
             if(ui == null)
             {
+                if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Menu")) return null;
                 ui = GameObject.Find("IngameUI").GetComponent<IngameUI>();
             }
             return ui;
@@ -203,6 +222,7 @@ public class GameManager : MonoBehaviour
         {
             if (gameScreens == null)
             {
+                if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Menu")) return null;
                 gameScreens = GameObject.Find("IngameScreens").GetComponent<IngameScreens>();
             }
             return gameScreens;

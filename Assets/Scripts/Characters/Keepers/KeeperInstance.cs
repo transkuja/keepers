@@ -208,8 +208,17 @@ public class KeeperInstance : MonoBehaviour, ITradable {
         fRotateSpeed = 5.0f;
         isEscortAvailable = true;
         InteractionImplementer = new InteractionImplementer();
-        InteractionImplementer.Add(new Interaction(Trade), "Trade", GameManager.Instance.Ui.spriteTrade);
-        if (isAbleToImproveMoral) InteractionImplementer.Add(new Interaction(MoralBuff), "Moral", GameManager.Instance.Ui.spriteMoral);
+        if(GameManager.Instance.Ui == null)
+        {
+            InteractionImplementer.Add(new Interaction(Trade), "Trade", GameManager.Instance.MenuUi.spriteTrade);
+            if (isAbleToImproveMoral) InteractionImplementer.Add(new Interaction(MoralBuff), "Moral", GameManager.Instance.MenuUi.spriteMoral);
+        }
+        else
+        {
+            InteractionImplementer.Add(new Interaction(Trade), "Trade", GameManager.Instance.Ui.spriteTrade);
+            if (isAbleToImproveMoral) InteractionImplementer.Add(new Interaction(MoralBuff), "Moral", GameManager.Instance.Ui.spriteMoral);
+        }
+
         currentHp = keeper.MaxHp;
         currentHunger = 0;
         currentMentalHealth = keeper.MaxMentalHealth;

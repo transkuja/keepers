@@ -6,6 +6,8 @@ public class MenuUI : MonoBehaviour
 {
     public GameObject CharacterPanel;
     public GameObject baseCharacterImage;
+    public Sprite spriteTrade;
+    public Sprite spriteMoral;
 
     public void ChangeLanguage(string language)
     {
@@ -43,7 +45,17 @@ public class MenuUI : MonoBehaviour
                     CharacterImage.name = currentSelectedCharacter.Keeper.CharacterName + ".Panel";
                     CharacterImage.transform.GetChild(0).GetComponent<Image>().sprite = associatedSprite;
                     CharacterImage.transform.localScale = Vector3.one;
+
+                    //Strengh
+                    CharacterImage.transform.GetChild(0).GetChild(0).GetChild(0).GetComponentInChildren<Text>().text = currentSelectedCharacter.Keeper.BaseStrength.ToString();
+                    //Defense
+                    CharacterImage.transform.GetChild(0).GetChild(0).GetChild(1).GetComponentInChildren<Text>().text = currentSelectedCharacter.Keeper.BaseDefense.ToString();
+                    //Spririt
+                    CharacterImage.transform.GetChild(0).GetChild(0).GetChild(2).GetComponentInChildren<Text>().text = currentSelectedCharacter.Keeper.BaseSpirit.ToString();
+                    //Intelligence
+                    CharacterImage.transform.GetChild(0).GetChild(0).GetChild(3).GetComponentInChildren<Text>().text = currentSelectedCharacter.Keeper.BaseIntelligence.ToString();
                 }
+
             }
 
         }
