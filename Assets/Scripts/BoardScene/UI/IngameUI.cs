@@ -245,16 +245,15 @@ public class IngameUI : MonoBehaviour
     public void BuffActionTextAnimation(GameObject goStatBuff, int amount)
     {
         goStatBuff.gameObject.SetActive(true);
-        goStatBuff.transform.localPosition = Vector3.zero;
         if (amount < 0)
         {
-            goStatBuff.GetComponent<Image>().sprite = spriteMoralDebuff;
+            //goStatBuff.GetComponent<Image>().sprite = spriteMoralDebuff;
             goStatBuff.GetComponentInChildren<Text>().color = Color.red;
             goStatBuff.GetComponentInChildren<Text>().text = "";
         }
         else
         {
-            goStatBuff.GetComponent<Image>().sprite = spriteMoralBuff;
+            //goStatBuff.GetComponent<Image>().sprite = spriteMoralBuff;
             goStatBuff.GetComponentInChildren<Text>().color = Color.green;
             goStatBuff.GetComponentInChildren<Text>().text = "+ ";
         }
@@ -267,8 +266,6 @@ public class IngameUI : MonoBehaviour
     {
         for (float f = 3.0f; f >= 0; f -= 0.1f)
         {
-            Vector3 decal = new Vector3(0.0f, f, 0.0f);
-            goStatBuff.transform.position += decal;
             yield return null;
         }
         goStatBuff.gameObject.SetActive(false);
