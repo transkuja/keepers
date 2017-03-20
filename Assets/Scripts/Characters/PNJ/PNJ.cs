@@ -13,6 +13,22 @@ public class PNJ{
     public int nbSlot;
 
 
+    [SerializeField]
+    private List<string> possibleItems;
+
+    public List<string> PossibleItems
+    {
+        get
+        {
+            return possibleItems;
+        }
+
+        set
+        {
+            possibleItems = value;
+        }
+    }
+
     public Sprite AssociatedSprite
     {
         get

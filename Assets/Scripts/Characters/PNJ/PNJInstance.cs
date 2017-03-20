@@ -18,6 +18,7 @@ public class PNJInstance : MonoBehaviour {
         InteractionImplementer = new InteractionImplementer();
         InteractionImplementer.Add(new Interaction(Trade), "Trade", GameManager.Instance.Ui.spriteTrade);
 
+        GetComponent<Inventory>().List_inventaire = ComputeItems();
         pnjInventoryPanel = GameManager.Instance.Ui.CreateInventoryPanel(this.gameObject);
     }
 
@@ -60,5 +61,21 @@ public class PNJInstance : MonoBehaviour {
     {
         pnjInventoryPanel.SetActive(true);
         GameManager.Instance.Ui.UpdateInventoryPanel(gameObject);
+    }
+
+    public List<ItemContainer> ComputeItems()
+    {
+        List<ItemContainer> tmpList = new List<ItemContainer>();
+        Item it = null;
+        foreach (string _IdItem in pnj.PossibleItems)
+        {
+            it = GameManager.Instance.Database.getItemById(_IdItem);
+            if (Random.Range(0, 10) > it.Rarity)
+            {
+                tmpList.Add(new ItemContainer(it, 1));
+            }
+        }
+
+        return tmpList;
     }
 }
