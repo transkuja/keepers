@@ -153,7 +153,7 @@ public class TileManager : MonoBehaviour {
                 lootList.AddRange(mi.ComputeLoot());
 
 
-                Destroy(mi.gameObject);
+                Destroy(mi.gameObject, 0.1f);
                 removeIndex[nbrOfElementsToRemove] = monstersOnTile[tile].IndexOf(mi);
                 nbrOfElementsToRemove++;
             }

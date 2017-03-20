@@ -329,8 +329,6 @@ public class BattleHandler {
 
         header.GetComponentInChildren<Text>().text = isVictorious ? "Victory!" : "Defeat";
 
-        //IngameScreens.Instance.CreateLootInterface();
-
         // Freeze time until close button is pressed
         GameManager.Instance.ClearListKeeperSelected();
         Time.timeScale = 0.0f;
