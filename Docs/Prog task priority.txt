@@ -2,17 +2,21 @@
 
 ////////// Proto priority \\\\\\\\\
 
-Ajouter des sons
+Ajouter des sons => Rémi
 
-Faire du level design sur un plus grand niveau
+Faire du level design sur un plus grand niveau => Anthony/Seb/Quentin
 
-Réparer le menu
+Réparer le menu => Rémi
 
-Fix le build?
+Clamper la caméra => Seb
 
-Clamper la caméra
+Réparer la mort après un combat => done
 
-Réparer la mort après un combat (+ correction fenetre)
+Rendre la fenetre de finde combat moins verbeuse
+
+Intégrer les modèles grisés (question mark) => Seb (en cours)
+
+Tester le build
 
 ///////////////////////////////////////////////
 
