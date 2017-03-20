@@ -211,9 +211,15 @@ public class Equipment : Item
         {
             int nbSlot = GameManager.Instance.ListOfSelectedKeepers[0].Keeper.nbSlot;
             EquipementManager.UnequipItem(GameManager.Instance.ListOfSelectedKeepers[0].GetComponent<Inventory>().List_inventaire, nbSlot, GameManager.Instance.ListOfSelectedKeepers[0].Equipment, ((Equipment)ic.Item).constraint);
+
+            // Unapply Bonus Stats
+            EquipementManager.UnapplyStats(GameManager.Instance.ListOfSelectedKeepers[0], ((Equipment)ic.Item));
         } else
         {
             EquipementManager.EquipItem(GameManager.Instance.ListOfSelectedKeepers[0].GetComponent<Inventory>().List_inventaire, GameManager.Instance.ListOfSelectedKeepers[0].Equipment, ic);
+
+            // Apply Bonus stats
+            EquipementManager.ApplyStats(GameManager.Instance.ListOfSelectedKeepers[0], ((Equipment)ic.Item));
         }
 
         GameManager.Instance.Ui.UpdateShortcutPanel();
