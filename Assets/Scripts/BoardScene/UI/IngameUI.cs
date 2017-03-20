@@ -245,6 +245,7 @@ public class IngameUI : MonoBehaviour
     public void BuffActionTextAnimation(GameObject goStatBuff, int amount)
     {
         goStatBuff.gameObject.SetActive(true);
+        goStatBuff.transform.localPosition = Vector3.zero;
         if (amount < 0)
         {
             goStatBuff.GetComponent<Image>().sprite = spriteMoralDebuff;
