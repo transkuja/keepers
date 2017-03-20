@@ -16,8 +16,7 @@ public class MonsterInstance : MonoBehaviour {
 
     private NavMeshAgent agent;
     private float moveTimer = 0.0f;
-    private float direction = 1.0f;
-
+    private bool isAnimInitialized = false;
 
     public Monster Monster
     {
@@ -114,16 +113,16 @@ public class MonsterInstance : MonoBehaviour {
     {
         moveTimer += Time.deltaTime;
 
-        if (moveTimer >= 2.0f)
+        if (moveTimer >= 3.0f)
         {
             moveTimer = 0.0f;
-            // Fix this @ Anthony
-            agent.Stop();
-            transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y + 180, transform.localEulerAngles.z);
-            agent.Resume();
-            //
-            agent.SetDestination(transform.position + transform.forward * direction);
-            direction *= -1;
+
+            agent.enabled = false;
+            transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, isAnimInitialized ? transform.localEulerAngles.y + 180 : transform.localEulerAngles.y, transform.localEulerAngles.z);
+            agent.enabled = true;
+            agent.SetDestination(transform.position + transform.forward * 1.2f);
+
+            isAnimInitialized = true;
         }
     }
 }
