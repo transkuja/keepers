@@ -71,7 +71,7 @@ public class BattleHandler {
         // General melee!
         int totalDamageTaken = 0;
 
-        while (monsters.Count > 0 && totalDamageTaken < 50)
+        while (monsters.Count > 0 && totalDamageTaken < 50 && keepers.Count > 0)
         {
             int totalTurns = keepers.Count + monsters.Count;
             int turnCounter = 0;
@@ -92,7 +92,6 @@ public class BattleHandler {
                     // Remove monster from list if dead
                     if (target.CurrentHp <= 0)
                     {
-                        target.CurrentHp = 0;
                         BattleLog(target.Monster.CharacterName + " died.\n");
                         monsters.Remove(target);
                     }
@@ -124,13 +123,12 @@ public class BattleHandler {
                     {
                         KeeperInstance target = GetTargetForAttack(keepers);
                         totalDamageTaken += MonsterDamageCalculation(attacker, target, attackType);
-
                         if (target.CurrentHp <= 0)
                         {
-                            target.CurrentHp = 0;
                             BattleLog(target.Keeper.CharacterName + " died.\n");
                             keepers.Remove(target);
                         }
+
                     }
 
                     if (totalDamageTaken >= 50)
@@ -141,6 +139,11 @@ public class BattleHandler {
                     else if (GameManager.Instance.PrisonerInstance.CurrentHp <= 0)
                     {
                         BattleLog("Prisoner died. Battle ends.\n");
+                        break;
+                    }
+                    else if (keepers.Count == 0)
+                    {
+                        BattleLog("All keepers died. Battle ends.\n");
                         break;
                     }
                 }

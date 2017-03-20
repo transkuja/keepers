@@ -138,9 +138,18 @@ public class KeeperInstance : MonoBehaviour, ITradable {
     void Die()
     {
         Debug.Log("Blaeuurgh... *dead*");
+        Tile currentTile = TileManager.Instance.GetTileFromKeeper[this];
+
+        // Drop items
+        ItemManager.AddItemOnTheGround(currentTile, transform, GetComponent<Inventory>().List_inventaire);
+
+        // Remove reference from tiles
+        TileManager.Instance.RemoveKilledKeeper(this);
+
+        // Death operations
+        GameManager.Instance.ShortcutPanel_NeedUpdate = true;
+        GlowController.UnregisterObject(GetComponent<GlowObjectCmd>());
         gameObject.SetActive(false);
-        
-        // TODO: Drop loot on the ground
 
         GameManager.Instance.CheckGameState();
     }
@@ -233,12 +242,8 @@ public class KeeperInstance : MonoBehaviour, ITradable {
     {
         if (other.gameObject.GetComponent<MonsterInstance>())
         {
-            agent.Stop();
             agent.ResetPath();
-
             BattleHandler.StartBattleProcess(TileManager.Instance.GetTileFromKeeper[this]);
-            
-            agent.Resume();
         }
     }
 

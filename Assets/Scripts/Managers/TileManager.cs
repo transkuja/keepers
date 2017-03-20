@@ -156,12 +156,7 @@ public class TileManager : MonoBehaviour {
                 Destroy(mi.gameObject);
                 removeIndex[nbrOfElementsToRemove] = monstersOnTile[tile].IndexOf(mi);
                 nbrOfElementsToRemove++;
-
-
-
             }
-
-
         }
 
 
@@ -177,7 +172,16 @@ public class TileManager : MonoBehaviour {
             monstersOnTile.Remove(tile);
     }
 
-
+    /// <summary>
+    /// Remove a killed keeper from play
+    /// </summary>
+    /// <param name="keeper">The keeper to remove</param>
+    public void RemoveKilledKeeper(KeeperInstance keeper)
+    {
+        RemoveKeeperFromTile(getTileFromKeeper[keeper], keeper);
+        getTileFromKeeper.Remove(keeper);
+    }
+    
     /// <summary>
     /// Add a monster on a tile
     /// </summary>
