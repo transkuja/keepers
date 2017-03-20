@@ -38,7 +38,9 @@ public class IngameUI : MonoBehaviour
     public GameObject baseActionImage;
 
     public GameObject goMoralPanel;
-    public GameObject goBuffOnStatPanel;
+    public GameObject goMentalHeathBuffOnStatPanel;
+    public GameObject goHPBuffOnStatPanel;
+    public GameObject goHungerBuffOnStatPanel;
     // Actions
     public Sprite spriteMove;
     public Sprite spriteExplore;
@@ -240,36 +242,35 @@ public class IngameUI : MonoBehaviour
     }
 
 
-    public void BuffActionTextAnimation(int stat, int amount)
+    public void BuffActionTextAnimation(GameObject goStatBuff, int amount)
     {
-        goBuffOnStatPanel.gameObject.SetActive(true);
-        goBuffOnStatPanel.transform.position = goStats.transform.GetChild(stat).position;
+        goStatBuff.gameObject.SetActive(true);
         if (amount < 0)
         {
-            goBuffOnStatPanel.GetComponent<Image>().sprite = spriteMoralDebuff;
-            goBuffOnStatPanel.GetComponentInChildren<Text>().color = Color.red;
-            goBuffOnStatPanel.GetComponentInChildren<Text>().text = "";
+            goStatBuff.GetComponent<Image>().sprite = spriteMoralDebuff;
+            goStatBuff.GetComponentInChildren<Text>().color = Color.red;
+            goStatBuff.GetComponentInChildren<Text>().text = "";
         }
         else
         {
-            goBuffOnStatPanel.GetComponent<Image>().sprite = spriteMoralBuff;
-            goBuffOnStatPanel.GetComponentInChildren<Text>().color = Color.green;
-            goBuffOnStatPanel.GetComponentInChildren<Text>().text = "+ ";
+            goStatBuff.GetComponent<Image>().sprite = spriteMoralBuff;
+            goStatBuff.GetComponentInChildren<Text>().color = Color.green;
+            goStatBuff.GetComponentInChildren<Text>().text = "+ ";
         }
-        goBuffOnStatPanel.GetComponentInChildren<Text>().text += amount.ToString();
+        goStatBuff.GetComponentInChildren<Text>().text += amount.ToString();
 
-        StartCoroutine(BuffPanelNormalState());
+        StartCoroutine(BuffPanelNormalState(goStatBuff));
     }
 
-    private IEnumerator BuffPanelNormalState()
+    private IEnumerator BuffPanelNormalState(GameObject goStatBuff)
     {
         for (float f = 3.0f; f >= 0; f -= 0.1f)
         {
             Vector3 decal = new Vector3(0.0f, f, 0.0f);
-            goBuffOnStatPanel.transform.position += decal;
+            goStatBuff.transform.position += decal;
             yield return null;
         }
-        goBuffOnStatPanel.gameObject.SetActive(false);
+        goStatBuff.gameObject.SetActive(false);
     }
     #endregion
 
