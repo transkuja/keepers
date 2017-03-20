@@ -19,7 +19,13 @@ public class CharactersInitializer : MonoBehaviour {
             GameManager.Instance.AllKeepersList[i].transform.position = beginPositions.transform.GetChild(i).position;
             GameManager.Instance.AllKeepersList[i].transform.SetParent(null);
             GameManager.Instance.AllKeepersList[i].transform.GetComponent<NavMeshAgent>().enabled = true;
+
+            if (!GameManager.Instance.isDebugGameManager)
+            {
+                GlowController.RegisterObject(GameManager.Instance.AllKeepersList[i].GetComponent<GlowObjectCmd>());
+            }
         }
+
 
         GameManager.Instance.PrisonerInstance = beginPositionPrisonnier;
     }
