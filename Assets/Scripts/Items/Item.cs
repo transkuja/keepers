@@ -201,7 +201,7 @@ public class Equipment : Item
     {
         IsStackable = false;
         // TODO: retrieve it in json file
-        Rarity = 5;
+        Rarity = 1;
     }
 
     public override void UseItem(ItemContainer ic)

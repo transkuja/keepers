@@ -36,7 +36,7 @@ public class KeeperInstance : MonoBehaviour, ITradable {
 
     private bool isAlive = true;
     // Inventory
-    private List<ItemContainer> equipment;
+    private ItemContainer[] equipment;
 
 
     // Actions
@@ -217,7 +217,7 @@ public class KeeperInstance : MonoBehaviour, ITradable {
         currentMp = keeper.MaxMp;
         isAlive = true;
 
-        equipment = new List<ItemContainer>();
+        equipment = new ItemContainer[3];
     }
 
     private void OnTriggerEnter(Collider other)
@@ -332,7 +332,7 @@ public class KeeperInstance : MonoBehaviour, ITradable {
         }
     }
 
-    public List<ItemContainer> Equipment
+    public ItemContainer[] Equipment
     {
         get
         {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class EquipementManager {
-    public static void EquipItem(List<ItemContainer> inventory, List<ItemContainer> equipements, ItemContainer equipment)
+    public static void EquipItem(List<ItemContainer> inventory, ItemContainer[]  equipements, ItemContainer equipment)
     {
         int index = InventoryManager.GetInventoryItemIndex(inventory, equipment);
 
@@ -22,7 +22,7 @@ public class EquipementManager {
     }
 
 
-    public static bool UnequipItem(List<ItemContainer> inventory, int nbSlot, List<ItemContainer> equipements, EquipmentSlot equipSlot)
+    public static bool UnequipItem(List<ItemContainer> inventory, int nbSlot, ItemContainer[] equipements, EquipmentSlot equipSlot)
     {
         int index = InventoryManager.FindFreeSlot(inventory, nbSlot);
         if (index == -1)
@@ -30,16 +30,24 @@ public class EquipementManager {
             return false;
         }
 
-        inventory[index] = equipements[(int)equipSlot];
-        equipements[(int)equipSlot] = null;
+        if (index == inventory.Count)
+        {
+            inventory.Add(equipements[(int)equipSlot]);
+            equipements[(int)equipSlot] = null;
+        }
+        else
+        {
+            inventory[index] = equipements[(int)equipSlot];
+            equipements[(int)equipSlot] = null;
+        }
 
         return true;
     }
 
 
-    public static bool CheckIfItemTypeIsInEquipement(List<ItemContainer> equipements, ItemContainer i) //Check if an item with the same constrainte is equiped
+    public static bool CheckIfItemTypeIsInEquipement(ItemContainer[] equipements, ItemContainer i) //Check if an item with the same constrainte is equiped
     {
-        return equipements.Exists(x =>
+        return Array.Exists(equipements , x =>
         {
             if (x != null)
             {

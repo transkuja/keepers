@@ -479,8 +479,8 @@ public class IngameUI : MonoBehaviour
         Equipement
         */
         // Destroy Existing
-        List<ItemContainer> equipement = currentSelectedKeeper.Equipment;
-        for (int i = 0; i < equipement.Count; i++)
+        ItemContainer[] equipement = currentSelectedKeeper.Equipment;
+        for (int i = 0; i < equipement.Length; i++)
         {
             GameObject currentSlot = goEquipement.transform.GetChild(i).gameObject;
             if (currentSlot.GetComponentInChildren<ItemInstance>() != null)
@@ -488,6 +488,7 @@ public class IngameUI : MonoBehaviour
                 Destroy(currentSlot.GetComponentInChildren<ItemInstance>().gameObject);
             }
 
+            goEquipement.transform.GetComponent<InventoryOwner>().Owner = currentSelectedKeeper.gameObject;
             if (equipement[i] != null && equipement[i].Item != null)
             {
                 GameObject go = Instantiate(itemUI);
