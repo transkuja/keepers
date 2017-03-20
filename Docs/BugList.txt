@@ -7,5 +7,7 @@ On peut trade avec un joueur sur un tile distant.
 
 Les pions bougent lorsqu'ils sont collés.
 
-Bug d'inventaire: Lorsqu'on ramasse une baie avec quelque chose dans l'inventaire: elle disparaît.
-		  Lorsqu'on ramasse une baie sans rien dans l'inventaire, elle est ramassée, mais tous les autres objets ramassés ensuite disparaissent.
+BattleHandler -> quand un personnage est mort ?
+		  
+		
+		
