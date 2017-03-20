@@ -72,6 +72,25 @@ public class Slot : MonoBehaviour, IDropHandler
                         //Move the item to the slot
                         //eventData.pointerDrag.transform.SetParent(transform);
                         InventoryManager.SwapItemBeetweenInventories(inventoryKeeperDequi, previous.GetSiblingIndex(), inventoryKeeperVersqui, transform.GetSiblingIndex());
+
+                        // Destroy inventory if it is empty for loot
+                        if(inventaireDequi.Owner.GetComponent<LootInstance>() != null)
+                        {
+                            bool isEmpty = true;
+                            for (int i = 0; i < inventaireDequi.Owner.GetComponent<Inventory>().List_inventaire.Count; i++)
+                            {
+                                if(inventaireDequi.Owner.GetComponent<Inventory>().List_inventaire[i] != null)
+                                {
+                                    isEmpty = false;
+                                    break;
+                                }
+                            }
+                            if (isEmpty)
+                            {
+                                Destroy(inventaireDequi.Owner.gameObject);
+                                Destroy(inventaireDequi.GetComponentInParent<DragHandlerInventoryPanel>().gameObject);
+                            }
+                        }
                     }
                 }
                 // Si l'inventaire est le même
@@ -90,6 +109,7 @@ public class Slot : MonoBehaviour, IDropHandler
                             if (quantityLeft <= 0)
                             {
                                 InventoryManager.RemoveItem(inventoryKeeperDequi, eventData.pointerDrag.GetComponent<ItemInstance>().ItemContainer);
+
                             }
                         }
                         else
