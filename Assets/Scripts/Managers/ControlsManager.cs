@@ -188,6 +188,9 @@ public class ControlsManager : MonoBehaviour {
                         }
                         else
                         {
+                            if (Time.timeScale == 0.0f)
+                                return;
+                            
                             ui.ClearActionPanel();
                             if (tileHit == TileManager.Instance.GetTileFromKeeper[GameManager.Instance.ListOfSelectedKeepers[0]])
                             {
