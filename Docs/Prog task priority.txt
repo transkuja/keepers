@@ -2,6 +2,7 @@
 
 ////////// Proto priority \\\\\\\\\
 
+---------
 Ajouter des sons => Rémi
 
 Ajouter un bouton pour lancer le jeu après selection des persos
@@ -9,21 +10,24 @@ Ajouter un bouton pour lancer le jeu après selection des persos
 Faire du level design sur un plus grand niveau => Anthony/Seb/Quentin
 
 Réparer le menu => Rémi
-
+	=> KeeperInstance détruit lorsqu'on revient au menu apparemment, impossible de relancer le jeu
+	
 Clamper la caméra => Seb
-
-Réparer la mort après un combat => done
-
-Rendre la fenetre de fin de combat moins verbeuse
+	=> T'attends quoi?
 
 "Animation" de mort de personnage
 
-Intégrer les modèles grisés (question mark) => Seb (en cours)
-
-Menu échap pour quitter ou relancer le jeu
-
 Tester le build
 
+----------
+
+Réparer la mort après un combat => done
+
+Rendre la fenetre de fin de combat moins verbeuse => done
+
+Intégrer les modèles grisés (question mark) => Seb => done 
+
+Menu échap pour quitter ou relancer le jeu => done
 ///////////////////////////////////////////////
 
 
