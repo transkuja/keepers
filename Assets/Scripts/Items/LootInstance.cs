@@ -56,4 +56,9 @@ public class LootInstance : MonoBehaviour, IPickable {
         GameManager.Instance.Ui.UiIconFeedBack.DisableFeedback();
     }
 
+    public void OnDestroy()
+    {
+        GlowController.UnregisterObject(GetComponent<GlowObjectCmd>());
+    }
+
 }
