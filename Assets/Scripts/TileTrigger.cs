@@ -12,7 +12,7 @@ public class TileTrigger : MonoBehaviour {
         if (other.gameObject.layer == LayerMask.NameToLayer("KeeperInstance"))
         {
 
-            ki = other.gameObject.GetComponent<KeeperInstance>();
+            ki = other.gameObject.GetComponentInParent<KeeperInstance>();
             InteractionImplementer InteractionImplementer = new InteractionImplementer();
             Direction eTrigger = Direction.None;
 
