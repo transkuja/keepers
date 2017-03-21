@@ -25,6 +25,7 @@ public class TileManager : MonoBehaviour {
     Dictionary<Tile, List<KeeperInstance>> keepersOnTile = new Dictionary<Tile, List<KeeperInstance>>();
     Dictionary<KeeperInstance, Tile> getTileFromKeeper = new Dictionary<KeeperInstance, Tile>();
     Tile prisonerTile;
+    GameObject tiles;
 
     void Awake()
     {
@@ -299,14 +300,10 @@ public class TileManager : MonoBehaviour {
 
     private void InitializeMonsters()
     {
-        GameObject tiles = FindObjectOfType<HelperRoot>().gameObject;
+        instance.tiles = FindObjectOfType<HelperRoot>().gameObject;
         foreach (MonsterInstance mi in tiles.GetComponentsInChildren<MonsterInstance>())
         {
-            Debug.Log(mi.Monster.CharacterName);
-            Debug.Log(mi.GetComponentInParent<Tile>());
             instance.AddMonsterOnTile(mi.GetComponentInParent<Tile>(), mi);
-            Debug.Log(instance.monstersOnTile[mi.GetComponentInParent<Tile>()]);
-            Debug.Log(monstersOnTile[mi.GetComponentInParent<Tile>()]);
         }
     }
 
