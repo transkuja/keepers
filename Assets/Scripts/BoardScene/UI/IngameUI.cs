@@ -205,7 +205,7 @@ public class IngameUI : MonoBehaviour
 
     public void ClearActionPanel()
     {
-        if (goActionPanelQ.GetComponentsInChildren<Image>().Length > 0)
+        if (goActionPanelQ != null && goActionPanelQ.GetComponentsInChildren<Image>().Length > 0)
         {
             foreach (Image ActionPanel in goActionPanelQ.GetComponentsInChildren<Image>())
             {
