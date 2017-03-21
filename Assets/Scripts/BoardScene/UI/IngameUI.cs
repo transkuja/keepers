@@ -569,7 +569,7 @@ public class IngameUI : MonoBehaviour
                 GameManager.Instance.ClearListKeeperSelected();
                 KeeperInstance nextKeeper = null;
                 int nbIterations = 1;
-                while (nextKeeper == null && nbIterations < GameManager.Instance.AllKeepersList.Count)
+                while (nextKeeper == null && nbIterations <= GameManager.Instance.AllKeepersList.Count)
                 {
                     if ((currentKeeperSelectedIndex + direction* nbIterations) % GameManager.Instance.AllKeepersList.Count < 0)
                     {
@@ -586,6 +586,7 @@ public class IngameUI : MonoBehaviour
                     }
                     nbIterations++;
                 }
+
                 GameManager.Instance.ListOfSelectedKeepers.Add(nextKeeper);
                 nextKeeper.IsSelected = true;
 

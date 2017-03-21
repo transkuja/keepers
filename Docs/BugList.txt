@@ -4,5 +4,3 @@ Lorsqu'on laisse le prisonnier seul, un message apparaît, mais ce message appara
 On peut trade avec un joueur sur un tile distant.
 
 Les pions bougent lorsqu'ils sont collés.
-
-Selectionner moins de 3 joueurs dans le menu casse tout
