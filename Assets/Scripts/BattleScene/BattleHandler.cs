@@ -70,6 +70,11 @@ public class BattleHandler {
 
         // General melee!
         int totalDamageTaken = 0;
+        int[] damageTaken = new int[keepers.Count + 1];
+        string[] keeperNames = new string[keepers.Count];
+
+        for (int i = 0; i < keepers.Count; i++)
+            keeperNames[i] = keepers[i].Keeper.CharacterName;
 
         while (monsters.Count > 0 && totalDamageTaken < 50 && keepers.Count > 0)
         {
@@ -92,7 +97,7 @@ public class BattleHandler {
                     // Remove monster from list if dead
                     if (target.CurrentHp <= 0)
                     {
-                        BattleLog(target.Monster.CharacterName + " died.\n");
+                        BattleLog(target.Monster.CharacterName + " died.");
                         monsters.Remove(target);
                     }
 
@@ -117,33 +122,44 @@ public class BattleHandler {
 
                     if (isPrisonerTargeted)
                     {
-                        totalDamageTaken += MonsterDamageCalculation(attacker, null, attackType, true);
+                        damageTaken[damageTaken.Length - 1] += MonsterDamageCalculation(attacker, null, attackType, true);
                     }
                     else
                     {
                         KeeperInstance target = GetTargetForAttack(keepers);
-                        totalDamageTaken += MonsterDamageCalculation(attacker, target, attackType);
+                        int keeperIndexForDmgCalculation = 0;
+                        for (int i = 0; i < keeperNames.Length; i++)
+                        {
+                            if (target.Keeper.CharacterName == keeperNames[i])
+                                keeperIndexForDmgCalculation = i;
+                        }
+                        damageTaken[keeperIndexForDmgCalculation] += MonsterDamageCalculation(attacker, target, attackType);
+
                         if (target.CurrentHp <= 0)
                         {
-                            BattleLog(target.Keeper.CharacterName + " died.\n");
+                            BattleLog(target.Keeper.CharacterName + " died.");
                             keepers.Remove(target);
                         }
 
                     }
 
+                    totalDamageTaken = damageTaken[0];
+                    for (int i = 1; i < damageTaken.Length; i++)
+                        totalDamageTaken += damageTaken[i];
+
                     if (totalDamageTaken >= 50)
                     {
-                        BattleLog("Over 50hp lost. Battle ends.\n");
+                        BattleLog("Over 50hp lost. Battle ends.");
                         break;
                     }
                     else if (GameManager.Instance.PrisonerInstance.CurrentHp <= 0)
                     {
-                        BattleLog("Prisoner died. Battle ends.\n");
+                        BattleLog("Prisoner died. Battle ends.");
                         break;
                     }
                     else if (keepers.Count == 0)
                     {
-                        BattleLog("All keepers died. Battle ends.\n");
+                        BattleLog("All keepers died. Battle ends.");
                         break;
                     }
                 }
@@ -152,16 +168,21 @@ public class BattleHandler {
             }
         }
 
+        for (int i = 0; i < damageTaken.Length - 1; i++)
+            BattleLog(keeperNames[i] + " lost " + damageTaken[i] + " health.");
+        if (isPrisonerOnTile)
+            BattleLog("Prisoner lost " + damageTaken[damageTaken.Length - 1] + " health.");
+
         // Battle result
         if (monsters.Count == 0)
         {
-            BattleLog("All monsters defeated.\n");
-            BattleLog("Battle won! Yippi!\n");
+            BattleLog("All monsters defeated.");
+            BattleLog("Battle won! Yippi!");
             return true;
         }
         else
         {
-            BattleLog("Battle lost :'(\n");
+            BattleLog("Battle lost :'(");
             return false;
         }
     }
@@ -228,8 +249,8 @@ public class BattleHandler {
         damage = Mathf.RoundToInt(damage * Random.Range(0.75f, 1.25f));
 
         targetMonster.CurrentHp -= damage;
-        BattleLog(attacker.Keeper.CharacterName + " deals " + damage + " damage to " + targetMonster.Monster.CharacterName + ".\n");
-        BattleLog(targetMonster.Monster.CharacterName + " has " + targetMonster.CurrentHp + " left.\n");
+        Debug.Log(attacker.Keeper.CharacterName + " deals " + damage + " damage to " + targetMonster.Monster.CharacterName + ".\n");
+        Debug.Log(targetMonster.Monster.CharacterName + " has " + targetMonster.CurrentHp + " left.\n");
     }
 
     private static int MonsterDamageCalculation(MonsterInstance attacker, KeeperInstance targetKeeper, AttackType attackType, bool prisonerTargeted = false)
@@ -255,15 +276,14 @@ public class BattleHandler {
         if (prisonerTargeted)
         {
             GameManager.Instance.PrisonerInstance.CurrentHp -= damage;
-            BattleLog(attacker.Monster.CharacterName + " deals " + damage + " damage to prisoner.\n");
-            BattleLog("Prisoner has " + GameManager.Instance.PrisonerInstance.CurrentHp + " left.\n");
+            Debug.Log(attacker.Monster.CharacterName + " deals " + damage + " damage to prisoner.\n");
+            Debug.Log("Prisoner has " + GameManager.Instance.PrisonerInstance.CurrentHp + " left.\n");
         }
         else
         {
             targetKeeper.CurrentHp -= damage;
-            BattleLog(attacker.Monster.CharacterName + " deals " + damage + " damage to " + targetKeeper.Keeper.CharacterName + ".\n");
-            BattleLog(targetKeeper.Keeper.CharacterName + " has " + targetKeeper.CurrentHp + " left.\n");
-
+            Debug.Log(attacker.Monster.CharacterName + " deals " + damage + " damage to " + targetKeeper.Keeper.CharacterName + ".\n");
+            Debug.Log(targetKeeper.Keeper.CharacterName + " has " + targetKeeper.CurrentHp + " left.\n");
         }
 
         return damage;
@@ -278,14 +298,14 @@ public class BattleHandler {
         {
             ki.CurrentMentalHealth += 10;
             ki.CurrentHunger += 5;
-            BattleLog(ki.Keeper.CharacterName + " won 10 mental health and lost 5 hunger due to victory.\n");
+            //BattleLog(ki.Keeper.CharacterName + " won 10 mental health and lost 5 hunger due to victory.");
+        }
 
-            if (isPrisonerOnTile)
-            {
-                GameManager.Instance.PrisonerInstance.CurrentMentalHealth += 10;
-                GameManager.Instance.PrisonerInstance.CurrentHunger += 5;
-                BattleLog("Prisoner won 10 mental health and lost 5 hunger due to victory.\n");
-            }
+        if (isPrisonerOnTile)
+        {
+            GameManager.Instance.PrisonerInstance.CurrentMentalHealth += 10;
+            GameManager.Instance.PrisonerInstance.CurrentHunger += 5;
+            //BattleLog("Prisoner won 10 mental health and lost 5 hunger due to victory.");
         }
     }
 
@@ -300,14 +320,14 @@ public class BattleHandler {
             ki.CurrentHunger += 5;
 
             ki.CurrentHp -= 10;
-            BattleLog(ki.Keeper.CharacterName + " lost 10 mental health, 5 hunger, 10HP due to defeat.\n");
+          //  BattleLog(ki.Keeper.CharacterName + " lost 10 mental health, 5 hunger, 10HP due to defeat.");
 
             if (isPrisonerOnTile)
             {
                 GameManager.Instance.PrisonerInstance.CurrentMentalHealth -= 10;
                 GameManager.Instance.PrisonerInstance.CurrentHunger += 5;
                 GameManager.Instance.PrisonerInstance.CurrentHp -= 10;
-                BattleLog("Prisoner lost 10 mental health, 5 hunger, 10HP due to defeat.\n");
+               // BattleLog("Prisoner lost 10 mental health, 5 hunger, 10HP due to defeat.");
             }
         }
 
@@ -343,7 +363,7 @@ public class BattleHandler {
             int indexOfFirstEndline = tmp.IndexOf("\n") + 1;
             tmp = tmp.Substring(indexOfFirstEndline);
         }
-        tmp += log;
+        tmp += log + '\n';
         battleLogger.text = tmp;
     }
 }
