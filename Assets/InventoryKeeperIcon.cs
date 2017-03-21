@@ -8,11 +8,11 @@ public class InventoryKeeperIcon : MonoBehaviour {
     RectTransform panel;
 
 	void Start () {
-        transform.position = panel.position + Vector3.up * (panel.rect.height / 5);
+        transform.position = panel.position + Vector3.up * (panel.rect.height / 2.5f);
 	}
 
     void Update()
     {
-        transform.position = panel.position + Vector3.up * (panel.rect.height / 5);
+        transform.position = panel.position + Vector3.up * (panel.rect.height / 2.5f);
     }
 }

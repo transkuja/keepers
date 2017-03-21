@@ -9,12 +9,12 @@ public class InventoryCloseButton : MonoBehaviour {
 
     void Start()
     {
-        transform.position = panel.position + Vector3.up * (panel.rect.height / 5) + Vector3.right * (panel.rect.width / 5);
+        transform.position = panel.position + Vector3.up * (panel.rect.height / 2.5f) + Vector3.right * (panel.rect.width / 3f);
     }
 
 
     void Update()
     {
-        transform.position = panel.position + Vector3.up * (panel.rect.height / 5) + Vector3.right * (panel.rect.width / 5);
+        transform.position = panel.position + Vector3.up * (panel.rect.height / 2.5f) + Vector3.right * (panel.rect.width / 3f);
     }
 }
