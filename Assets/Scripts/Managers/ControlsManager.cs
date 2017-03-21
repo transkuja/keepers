@@ -135,12 +135,14 @@ public class ControlsManager : MonoBehaviour {
                         if (hitInfo.collider.gameObject.GetComponent<ItemInstance>() != null
                             && tileHit == TileManager.Instance.GetTileFromKeeper[GameManager.Instance.ListOfSelectedKeepers[0]])
                         {
+                            GameManager.Instance.GoTarget = hitInfo.collider.gameObject;
                             ui.UpdateActionPanelUIQ(hitInfo.collider.gameObject.GetComponent<ItemInstance>().InteractionImplementer);
                         }
                         // Handle click on a ItemInstance
                         else if (hitInfo.collider.gameObject.GetComponent<LootInstance>() != null
                             && tileHit == TileManager.Instance.GetTileFromKeeper[GameManager.Instance.ListOfSelectedKeepers[0]])
                         {
+                            GameManager.Instance.GoTarget = hitInfo.collider.gameObject;
                             ui.UpdateActionPanelUIQ(hitInfo.collider.gameObject.GetComponent<LootInstance>().InteractionImplementer);
                         }
                         // Handle click on a PNJInstance
@@ -169,6 +171,7 @@ public class ControlsManager : MonoBehaviour {
                         else if(hitInfo.collider.gameObject.GetComponent<Arrival>() != null
                             && tileHit == TileManager.Instance.GetTileFromKeeper[GameManager.Instance.ListOfSelectedKeepers[0]])
                         {
+                            GameManager.Instance.GoTarget = hitInfo.collider.gameObject;
                             ui.UpdateActionPanelUIQ(hitInfo.collider.gameObject.GetComponent<Arrival>().InterationImplementer);
                         }
                         else

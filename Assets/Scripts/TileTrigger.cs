@@ -47,6 +47,7 @@ public class TileTrigger : MonoBehaviour {
             {
                 if ( ki.ActionPoints > 0)
                 {
+                    GameManager.Instance.GoTarget = GameManager.Instance.ListOfSelectedKeepers[0].gameObject;
                     IngameUI ui = GameObject.Find("IngameUI").GetComponent<IngameUI>();
                     if (GetComponentInParent<Tile>().Neighbors[(int)eTrigger].State == TileState.Discovered)
                     {

@@ -37,6 +37,8 @@ public class IngameUI : MonoBehaviour
     public GameObject goActionPanelQ;
     public GameObject baseActionImage;
 
+    public Canvas worldSpaceCanvas;
+
     public GameObject goMoralPanel;
     public GameObject goMentalHeathBuffOnStatPanel;
     public GameObject goHPBuffOnStatPanel;
@@ -169,7 +171,7 @@ public class IngameUI : MonoBehaviour
         //Clear
         ClearActionPanel();
 
-        goActionPanelQ.GetComponent<RectTransform>().position = (Input.mousePosition) + new Vector3(30.0f, 0.0f);
+        goActionPanelQ.GetComponent<RectTransform>().localPosition = Vector3.zero;
 
         // Actions
         for (int i = 0; i < ic.listActionContainers.Count; i++)
@@ -181,7 +183,8 @@ public class IngameUI : MonoBehaviour
                 GameObject goAction = Instantiate(baseActionImage, goActionPanelQ.transform);
                 goAction.name = ic.listActionContainers[i].strName;
 
-                goAction.GetComponent<RectTransform>().position = (Input.mousePosition);
+                goAction.GetComponent<RectTransform>().localPosition = Vector3.zero;
+                goAction.GetComponent<RectTransform>().localRotation = Quaternion.identity;
 
                 Button btn = goAction.GetComponent<Button>();
 
@@ -193,8 +196,11 @@ public class IngameUI : MonoBehaviour
                 });
 
                 btn.transform.GetComponentInChildren<Image>().sprite = ic.listActionContainers[i].sprite;
+                btn.transform.GetComponentInChildren<Image>().transform.localScale = Vector3.one;
             }
-        }   
+        }
+        worldSpaceCanvas.transform.SetParent(GameManager.Instance.GoTarget.transform);
+        worldSpaceCanvas.GetComponent<BillboardForWorldSpaceUI>().RecalculateActionCanvas();
     }
 
     public void ClearActionPanel()
