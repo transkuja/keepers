@@ -8,3 +8,5 @@ On peut trade avec un joueur sur un tile distant.
 Les pions bougent lorsqu'ils sont collés.
 
 BattleHandler -> quand un personnage est mort ?
+
+Selectionner moins de 3 joueurs dans le menu casse tout
