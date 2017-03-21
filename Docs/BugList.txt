@@ -1,4 +1,1 @@
-Les pions bougent lorsqu'ils sont collés.
-
 L'action de finir le jeu s'affiche trop haut (et il manque le sprite)
-

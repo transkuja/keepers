@@ -301,6 +301,8 @@ public class KeeperInstance : MonoBehaviour, ITradable {
         {
             isSelected = value;
             GoSelectionAura.SetActive(value);
+            if (agent != null)
+                agent.avoidancePriority = value == true ? 80 : 50;
         }
     }
 
