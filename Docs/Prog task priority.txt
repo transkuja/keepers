@@ -4,6 +4,8 @@
 
 Ajouter des sons => Rémi
 
+Ajouter un bouton pour lancer le jeu après selection des persos
+
 Faire du level design sur un plus grand niveau => Anthony/Seb/Quentin
 
 Réparer le menu => Rémi
@@ -17,6 +19,8 @@ Rendre la fenetre de fin de combat moins verbeuse
 "Animation" de mort de personnage
 
 Intégrer les modèles grisés (question mark) => Seb (en cours)
+
+Menu échap pour quitter ou relancer le jeu
 
 Tester le build
 
