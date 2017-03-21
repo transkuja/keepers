@@ -209,13 +209,16 @@ public class PrisonerInstance : MonoBehaviour, IEscortable {
         }
 
         GameManager.Instance.ListOfSelectedKeepers[0].Keeper.GoListCharacterFollowing.Add(GameManager.Instance.GoTarget);
-        this.GetComponent<NavMeshAgent>().stoppingDistance = 0.75f;
+        GetComponent<NavMeshAgent>().stoppingDistance = 0.75f;
+        GetComponent<NavMeshAgent>().avoidancePriority = 80;
         GameManager.Instance.ListOfSelectedKeepers[0].isEscortAvailable = false;
+
     }
 
     public void UnEscort(int _i = 0)
     {
         GameManager.Instance.ListOfSelectedKeepers[0].Keeper.GoListCharacterFollowing.Remove(this.gameObject);
         GameManager.Instance.ListOfSelectedKeepers[0].isEscortAvailable = true;
+        GetComponent<NavMeshAgent>().avoidancePriority = 50;
     }
 }
