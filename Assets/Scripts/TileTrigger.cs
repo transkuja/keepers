@@ -73,11 +73,12 @@ public class TileTrigger : MonoBehaviour {
 
     void Move(int _i)
     {
-        Tile t = TileManager.Instance.GetTileFromKeeper[ki];
+        Tile currentTile = TileManager.Instance.GetTileFromKeeper[ki];
 
         // Confirmation Panel
         // TODO : refaire en mieux ? 
-        if (ki.Keeper.GoListCharacterFollowing.Count == 0)
+        if (ki.Keeper.GoListCharacterFollowing.Count == 0
+            && currentTile == TileManager.Instance.PrisonerTile)
         {
             bool isAshleyNotAlone = false;
             foreach (KeeperInstance kip in GameManager.Instance.AllKeepersList)
@@ -91,7 +92,8 @@ public class TileTrigger : MonoBehaviour {
             if (isAshleyNotAlone)
             {
                 MoveWithoutConfirmation(_i);
-            } else
+            }
+            else
             {
                 GameManager.Instance.Ui.goConfirmationPanel.SetActive(true);
                 int n = _i;
@@ -108,11 +110,12 @@ public class TileTrigger : MonoBehaviour {
 
     void Explore(int _i)
     {
-        Tile t = TileManager.Instance.GetTileFromKeeper[ki];
+        Tile currentTile = TileManager.Instance.GetTileFromKeeper[ki];
 
         // Confirmation Panel
         // TODO : refaire en mieux ? 
-        if (ki.Keeper.GoListCharacterFollowing.Count == 0)
+        if (ki.Keeper.GoListCharacterFollowing.Count == 0
+            && currentTile == TileManager.Instance.PrisonerTile)
         {
             bool isAshleyNotAlone = false;
             foreach (KeeperInstance kip in GameManager.Instance.AllKeepersList)
