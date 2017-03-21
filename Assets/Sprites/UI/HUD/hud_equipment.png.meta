@@ -1,14 +1,12 @@
 fileFormatVersion: 2
-guid: de59d2e8a07078846afd469ca4ec6d20
-timeCreated: 1488538365
+guid: 5a73f57a900dd3f458bf2b8c9334c84f
+timeCreated: 1490086102
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: KeeperSelectedInventory_0
-    21300002: KeeperSelectedInventory_1
-    21300004: KeeperSelectedInventory_2
-    21300006: KeeperSelectedInventory_3
-    21300008: KeeperSelectedInventory_4
+    21300000: hud_equipment_0
+    21300002: hud_equipment_1
+    21300004: hud_equipment_2
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -75,65 +73,39 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: KeeperSelectedInventory_0
+      name: hud_equipment_0
       rect:
         serializedVersion: 2
-        x: 10
-        y: 411
-        width: 271
-        height: 211
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: KeeperSelectedInventory_1
-      rect:
-        serializedVersion: 2
-        x: 10
-        y: 202
-        width: 198
-        height: 190
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: KeeperSelectedInventory_2
-      rect:
-        serializedVersion: 2
-        x: 30
-        y: 5
-        width: 143
-        height: 137
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: KeeperSelectedInventory_3
-      rect:
-        serializedVersion: 2
-        x: 208
+        x: 0
         y: 0
-        width: 146
-        height: 149
+        width: 98
+        height: 98
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: KeeperSelectedInventory_4
+      name: hud_equipment_1
       rect:
         serializedVersion: 2
-        x: 393
-        y: 11
-        width: 139
-        height: 139
+        x: 102
+        y: 0
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: hud_equipment_2
+      rect:
+        serializedVersion: 2
+        x: 203
+        y: 0
+        width: 98
+        height: 98
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
