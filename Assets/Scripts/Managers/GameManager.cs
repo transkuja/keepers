@@ -376,6 +376,9 @@ public class GameManager : MonoBehaviour
     public void BackToMenu()
     {
         Time.timeScale = 1.0f;
+        allKeepersList.Clear();
+        listOfSelectedKeepers.Clear();
+        nbTurn = 1;
         SceneManager.LoadScene(0);
     }
 }

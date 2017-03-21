@@ -26,29 +26,21 @@ public class TileManager : MonoBehaviour {
     Dictionary<KeeperInstance, Tile> getTileFromKeeper = new Dictionary<KeeperInstance, Tile>();
     Tile prisonerTile;
 
-    // For testing, to delete
-    public Tile monsterTileTest;
-    public MonsterInstance monsterInstanceTest;
-
-
     void Awake()
     {
+
         if (instance == null)
         {
             instance = this;
-            prisonerTile = GameObject.FindGameObjectWithTag("BeginTile").GetComponentInParent<Tile>();
-            foreach (KeeperInstance ki in GameManager.Instance.AllKeepersList)
-            {
-                AddKeeperOnTile(prisonerTile, ki);
-            }
-            AddMonsterOnTile(monsterTileTest, monsterInstanceTest);
+            InitializeState();
         }
         else if (instance != this)
         {
+            instance.ResetTileManager();
             Destroy(gameObject);
-
         }
         DontDestroyOnLoad(gameObject);
+
     }
 
     public Tile PrisonerTile
@@ -283,6 +275,39 @@ public class TileManager : MonoBehaviour {
         spawnPositions[0] = tmp[1];
         spawnPositions[1] = tmp[2];
         return spawnPositions;
+    }
+
+    public void ResetTileManager()
+    {
+        instance.monstersOnTile.Clear();
+        instance.keepersOnTile.Clear();
+        instance.getTileFromKeeper.Clear();
+
+        // Re-initialize
+        instance.InitializeState();
+    }
+
+    private void InitializeState()
+    {
+        instance.prisonerTile = GameObject.FindGameObjectWithTag("BeginTile").GetComponentInParent<Tile>();
+        foreach (KeeperInstance ki in GameManager.Instance.AllKeepersList)
+        {
+            instance.AddKeeperOnTile(instance.prisonerTile, ki);
+        }
+        instance.InitializeMonsters();
+    }
+
+    private void InitializeMonsters()
+    {
+        GameObject tiles = FindObjectOfType<HelperRoot>().gameObject;
+        foreach (MonsterInstance mi in tiles.GetComponentsInChildren<MonsterInstance>())
+        {
+            Debug.Log(mi.Monster.CharacterName);
+            Debug.Log(mi.GetComponentInParent<Tile>());
+            instance.AddMonsterOnTile(mi.GetComponentInParent<Tile>(), mi);
+            Debug.Log(instance.monstersOnTile[mi.GetComponentInParent<Tile>()]);
+            Debug.Log(monstersOnTile[mi.GetComponentInParent<Tile>()]);
+        }
     }
 
     /* ------------------------------------------------------------------------------------ */
