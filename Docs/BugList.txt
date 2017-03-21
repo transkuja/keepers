@@ -1,12 +1,8 @@
 Lorsqu'on laisse le prisonnier seul, un message apparaît, mais ce message apparaît à chaque fois qu'on change de tile.
 (il ne devrait s'afficher qu'un fois lorsqu'on quitte LA tile sur laquelle se trouve le prisonnier)
 
-Le joueur est obligé d'utiliser tous ses points d'action pour passer un tour
-
 On peut trade avec un joueur sur un tile distant.
 
 Les pions bougent lorsqu'ils sont collés.
-
-BattleHandler -> quand un personnage est mort ?
 
 Selectionner moins de 3 joueurs dans le menu casse tout
