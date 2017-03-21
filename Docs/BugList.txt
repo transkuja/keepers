@@ -10,3 +10,5 @@ Les pions bougent lorsqu'ils sont collés.
 BattleHandler -> quand un personnage est mort ?
 		  
 La touche tab est cassé
+
+Il est possible de parler aux autres keepers sans point d'action
