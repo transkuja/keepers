@@ -38,6 +38,17 @@ public class CameraManager : MonoBehaviour {
     bool bIsDraging = false;
     Vector3 v3DragOrigin;
     // *********************************
+    enum CameraBound
+    {
+        North,
+        East,
+        South,
+        West
+    }
+
+
+    [SerializeField]
+    Transform cameraBounds;
 
     Tile activeTile;
     Vector3 positionFromATileClose;
@@ -117,6 +128,11 @@ public class CameraManager : MonoBehaviour {
                 oldPosition = Vector3.zero;
                 lerpParameter = 0.0f;
             }
+
+            Vector3 pos = transform.position;
+            pos.x = Mathf.Clamp(pos.x, cameraBounds.GetChild((int)CameraBound.West).position.x, cameraBounds.GetChild((int)CameraBound.East).position.x);
+            pos.z = Mathf.Clamp(pos.z, cameraBounds.GetChild((int)CameraBound.South).position.z, cameraBounds.GetChild((int)CameraBound.North).position.z);
+            transform.position = pos;
         }
 
         Controls();
