@@ -9,10 +9,10 @@ public class TileTrigger : MonoBehaviour {
 
     public void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("KeeperInstance"))
+        if (other.GetComponentInParent<KeeperInstance>() != null)
         {
 
-            ki = other.gameObject.GetComponentInParent<KeeperInstance>();
+            ki = other.GetComponentInParent<KeeperInstance>();
             InteractionImplementer InteractionImplementer = new InteractionImplementer();
             Direction eTrigger = Direction.None;
 

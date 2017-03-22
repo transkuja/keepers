@@ -62,9 +62,9 @@ public class ControlsManager : MonoBehaviour {
                 if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo) == true)
                 {
                     GameManager.Instance.Ui.ClearActionPanel();
-                    if (hitInfo.transform.gameObject.GetComponent<KeeperInstance>() != null)
+                    if (hitInfo.transform.gameObject.GetComponentInParent<KeeperInstance>() != null)
                     {
-                        KeeperInstance c = hitInfo.transform.gameObject.GetComponent<KeeperInstance>();
+                        KeeperInstance c = hitInfo.transform.gameObject.GetComponentInParent<KeeperInstance>();
                         if (Input.GetKey(KeyCode.LeftShift))
                         {
                             if (GameManager.Instance.ListOfSelectedKeepers.Contains(c))
@@ -159,22 +159,22 @@ public class ControlsManager : MonoBehaviour {
                             }
                         }
                         // Handle click on a PrisonerInstance
-                        else if (hitInfo.collider.gameObject.GetComponent<PrisonerInstance>() != null)
+                        else if (hitInfo.collider.gameObject.GetComponentInParent<PrisonerInstance>() != null)
                         {
                             if (TileManager.Instance.PrisonerTile == TileManager.Instance.GetTileFromKeeper[GameManager.Instance.ListOfSelectedKeepers[0]])
                             {
                                 GameManager.Instance.GoTarget = hitInfo.collider.gameObject;
-                                ui.UpdateActionPanelUIQ(hitInfo.collider.gameObject.GetComponent<PrisonerInstance>().InteractionImplementer);
+                                ui.UpdateActionPanelUIQ(hitInfo.collider.gameObject.GetComponentInParent<PrisonerInstance>().InteractionImplementer);
                             }
                         }
-                        else if (hitInfo.collider.gameObject.GetComponent<KeeperInstance>() != null)
+                        else if (hitInfo.collider.gameObject.GetComponentInParent<KeeperInstance>() != null)
                         {
-                            tileHit = TileManager.Instance.GetTileFromKeeper[hitInfo.collider.gameObject.GetComponent<KeeperInstance>()];
-                            if (hitInfo.collider.gameObject.GetComponent<KeeperInstance>() != GameManager.Instance.ListOfSelectedKeepers[0]
+                            tileHit = TileManager.Instance.GetTileFromKeeper[hitInfo.collider.gameObject.GetComponentInParent<KeeperInstance>()];
+                            if (hitInfo.collider.gameObject.GetComponentInParent<KeeperInstance>() != GameManager.Instance.ListOfSelectedKeepers[0]
                                 && tileHit == TileManager.Instance.GetTileFromKeeper[GameManager.Instance.ListOfSelectedKeepers[0]])
                             {
                                 GameManager.Instance.GoTarget = hitInfo.collider.gameObject;
-                                ui.UpdateActionPanelUIQ(hitInfo.collider.gameObject.GetComponent<KeeperInstance>().InteractionImplementer);
+                                ui.UpdateActionPanelUIQ(hitInfo.collider.gameObject.GetComponentInParent<KeeperInstance>().InteractionImplementer);
                             }
                      
                         }

@@ -25,9 +25,9 @@ public class BillboardForWorldSpaceUI : MonoBehaviour {
                 transform.localPosition = V1 + (Vector3.up * (1 - GameManager.Instance.CameraManager.FZoomLerp));
 
             }
-            else if (GameManager.Instance.GoTarget.GetComponent<MeshCollider>() != null)
+            else if (GameManager.Instance.GoTarget.GetComponentInChildren<MeshCollider>() != null)
             {
-                Vector3 size = GameManager.Instance.GoTarget.GetComponent<MeshCollider>().bounds.size;
+                Vector3 size = GameManager.Instance.GoTarget.GetComponentInChildren<MeshCollider>().bounds.size;
                 Vector3 V1 = new Vector3(0, Mathf.Max(size.y, size.z), 0);
                 transform.localPosition = V1 + (Vector3.up * (1 - GameManager.Instance.CameraManager.FZoomLerp));
             }

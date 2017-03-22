@@ -7,7 +7,7 @@ public class AggroBehaviour : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<KeeperInstance>() != null
+        if (other.GetComponentInParent<KeeperInstance>() != null
             || other.GetComponent<PrisonerInstance>() != null)
         {
             GetComponentInParent<NavMeshAgent>().ResetPath();

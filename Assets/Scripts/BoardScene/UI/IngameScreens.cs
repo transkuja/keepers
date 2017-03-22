@@ -53,13 +53,6 @@ public class IngameScreens : MonoBehaviour {
         }
     }
 
-    public void BackToMenu()
-    {
-        Time.timeScale = 1.0f;
-        GameManager.Instance.ResetInstance();
-        SceneManager.LoadScene(0);
-    }
-
     public void QuitGame()
     {
         Application.Quit();
@@ -74,3 +67,14 @@ public enum IngameScreensEnum
     LoseScreen,
     EscapeMenu
 }
+
+    }
+
+    public void BackToMenu()
+    {
+        Time.timeScale = 1.0f;
+        GameManager.Instance.ResetInstance();
+        SceneManager.LoadScene(0);
+    }
+
+    public void QuitGame()

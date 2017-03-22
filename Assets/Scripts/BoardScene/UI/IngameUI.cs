@@ -203,6 +203,7 @@ public class IngameUI : MonoBehaviour
                 btn.transform.GetComponentInChildren<Image>().transform.localScale = Vector3.one;
             }
         }
+
         worldSpaceCanvas.transform.SetParent(GameManager.Instance.GoTarget.transform);
         worldSpaceCanvas.GetComponent<BillboardForWorldSpaceUI>().RecalculateActionCanvas();
     }

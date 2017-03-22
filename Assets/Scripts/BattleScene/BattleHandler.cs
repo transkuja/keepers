@@ -65,6 +65,7 @@ public class BattleHandler {
      */
     private static bool ResolveBattle(List<KeeperInstance> keepers, Tile tile)
     {
+        Debug.Log("plop");
         List<MonsterInstance> monsters = new List<MonsterInstance>();
         monsters.AddRange(TileManager.Instance.MonstersOnTile[tile]);
 
