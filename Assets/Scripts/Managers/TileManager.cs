@@ -41,7 +41,11 @@ public class TileManager : MonoBehaviour {
             Destroy(gameObject);
         }
         DontDestroyOnLoad(gameObject);
-
+        Debug.Log(instance.tiles);
+        foreach (Tile t in monstersOnTile.Keys)
+            Debug.Log(monstersOnTile[t].Count);
+        
+        
     }
 
     public Tile PrisonerTile
@@ -301,7 +305,7 @@ public class TileManager : MonoBehaviour {
     private void InitializeMonsters()
     {
         instance.tiles = FindObjectOfType<HelperRoot>().gameObject;
-        foreach (MonsterInstance mi in tiles.GetComponentsInChildren<MonsterInstance>())
+        foreach (MonsterInstance mi in instance.tiles.GetComponentsInChildren<MonsterInstance>())
         {
             instance.AddMonsterOnTile(mi.GetComponentInParent<Tile>(), mi);
         }

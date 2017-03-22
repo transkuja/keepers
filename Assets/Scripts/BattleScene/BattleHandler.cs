@@ -177,12 +177,10 @@ public class BattleHandler {
         if (monsters.Count == 0)
         {
             BattleLog("All monsters defeated.");
-            BattleLog("Battle won! Yippi!");
             return true;
         }
         else
         {
-            BattleLog("Battle lost :'(");
             return false;
         }
     }
