@@ -388,7 +388,7 @@ public class KeeperInstance : MonoBehaviour, ITradable {
 
         bIsRotating = true;
 
-        agent.enabled = false;
+        agent.Stop();
 
         v3AgentDirectionTemp = v3Direction;
 
@@ -401,7 +401,7 @@ public class KeeperInstance : MonoBehaviour, ITradable {
         {
             transform.rotation = quatTargetRotation;
             bIsRotating = false;
-            agent.enabled = true;
+            agent.Resume();
             fLerpRotation = 0.0f;
 
             agent.destination = v3AgentDirectionTemp;
