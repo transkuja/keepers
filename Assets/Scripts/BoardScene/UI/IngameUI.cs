@@ -36,8 +36,8 @@ public class IngameUI : MonoBehaviour
     [Header("Action Panel")]
     public GameObject goActionPanelQ;
     public GameObject baseActionImage;
-
-    public Canvas worldSpaceCanvas;
+    public GameObject worldSpaceUIprefab;
+    private Canvas worldSpaceCanvas;
 
     public GameObject goMoralPanel;
     public GameObject goMentalHeathBuffOnStatPanel;
@@ -93,6 +93,10 @@ public class IngameUI : MonoBehaviour
     {
         CreateShortcutPanel();
         CreateKeepersInventoryPanels();
+        // TODO : rustine pour que ça marche quand on relance le jeu
+        GameObject worldSpaceUI = Instantiate(worldSpaceUIprefab);
+        worldSpaceCanvas = worldSpaceUI.transform.GetChild(0).GetComponent<Canvas>();
+        goActionPanelQ = worldSpaceUI.transform.GetChild(0).GetChild(0).gameObject;
     }
 
     public void Update()
