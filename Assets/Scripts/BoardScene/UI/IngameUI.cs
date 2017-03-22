@@ -57,6 +57,7 @@ public class IngameUI : MonoBehaviour
     public Sprite spriteMoral;
     public Sprite spriteMoralBuff;
     public Sprite spriteMoralDebuff;
+    public Sprite spriteEndAction;
 
     // ShortcutPanel
     [Header("ShortcutPanel Panel")]
