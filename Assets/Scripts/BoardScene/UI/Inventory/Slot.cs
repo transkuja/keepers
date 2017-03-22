@@ -87,6 +87,10 @@ public class Slot : MonoBehaviour, IDropHandler
                             }
                             if (isEmpty)
                             {
+                                if (inventaireDequi.Owner.gameObject.GetComponentInChildren<Canvas>() != null)
+                                {
+                                    inventaireDequi.Owner.gameObject.GetComponentInChildren<Canvas>().transform.SetParent(null);
+                                }
                                 Destroy(inventaireDequi.Owner.gameObject);
                                 Destroy(inventaireDequi.GetComponentInParent<DragHandlerInventoryPanel>().gameObject);
                             }
