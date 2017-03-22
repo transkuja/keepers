@@ -50,4 +50,10 @@ public class GlowObjectCmd : MonoBehaviour
 			enabled = false;
 		}
 	}
+
+    private void OnDestroy()
+    {
+        GlowController.UnregisterObject(this);
+
+    }
 }

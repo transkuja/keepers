@@ -20,10 +20,7 @@ public class CharactersInitializer : MonoBehaviour {
             GameManager.Instance.AllKeepersList[i].transform.SetParent(null);
             GameManager.Instance.AllKeepersList[i].transform.GetComponent<NavMeshAgent>().enabled = true;
 
-            if (!GameManager.Instance.isDebugGameManager)
-            {
-                GlowController.RegisterObject(GameManager.Instance.AllKeepersList[i].GetComponent<GlowObjectCmd>());
-            }
+            GlowController.RegisterObject(GameManager.Instance.AllKeepersList[i].GetComponent<GlowObjectCmd>());
         }
 
 

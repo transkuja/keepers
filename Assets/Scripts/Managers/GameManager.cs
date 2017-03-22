@@ -373,12 +373,10 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0.0f;
     }
 
-    public void BackToMenu()
+    public void ResetInstance()
     {
-        Time.timeScale = 1.0f;
         allKeepersList.Clear();
         listOfSelectedKeepers.Clear();
         nbTurn = 1;
-        SceneManager.LoadScene(0);
     }
 }

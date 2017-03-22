@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 
 /// <summary>
@@ -47,8 +48,16 @@ public class IngameScreens : MonoBehaviour {
         else
         {
             transform.GetChild(0).GetChild((int)IngameScreensEnum.EscapeMenu).gameObject.SetActive(false);
+            transform.GetChild(0).GetChild((int)IngameScreensEnum.BattleResultScreens).gameObject.SetActive(false);
             Time.timeScale = 1.0f;
         }
+    }
+
+    public void BackToMenu()
+    {
+        Time.timeScale = 1.0f;
+        GameManager.Instance.ResetInstance();
+        SceneManager.LoadScene(0);
     }
 
     public void QuitGame()
