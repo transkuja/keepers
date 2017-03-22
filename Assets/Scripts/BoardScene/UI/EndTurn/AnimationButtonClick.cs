@@ -58,7 +58,7 @@ public class AnimationButtonClick : MonoBehaviour, IPointerEnterHandler {
 
     // Update is called once per frame
     public void HandleAnimation() {
-        GameManager.Instance.Ui.TurnPanel.transform.GetChild(0).GetComponentInChildren<Text>().text = "Jour " + ++GameManager.Instance.NbTurn;
+        GameManager.Instance.Ui.TurnPanel.transform.GetChild(2).GetComponentInChildren<Text>().text = "Day " + ++GameManager.Instance.NbTurn;
 
         GameManager.Instance.Ui.isTurnEnding = false;
         EventManager.EndTurnEvent();
