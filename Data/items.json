@@ -33,7 +33,7 @@
 				"description": "Increase mental health",
 				"inventorySprite": "Items_1",
 				"ingameVisual": "",
-				"use": "DecreaseHunger",
+				"use": "UpMentalHealth",
 				"value": 5
 			}
 		},
@@ -42,7 +42,7 @@
 			"item" : { 
 				"id": "resource03",
 				"itemName": "Wheat",
-				"description": "Increase mental health",
+				"description": "Restore health",
 				"inventorySprite": "Items_2",
 				"ingameVisual": "",
 				"use": "DecreaseHunger",
