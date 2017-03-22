@@ -1,3 +1,5 @@
 L'action de finir le jeu s'affiche trop haut (et il manque le sprite)
 
 Impossible de restart le jeu (keeperInstance détruits)
+
+On perd les références vers BackToMenu sur les boutons après un premier restart

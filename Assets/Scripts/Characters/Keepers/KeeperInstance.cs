@@ -242,7 +242,7 @@ public class KeeperInstance : MonoBehaviour, ITradable {
     {
         if (other.gameObject.GetComponent<MonsterInstance>())
         {
-            agent.ResetPath();
+            agent.SetDestination(transform.position);
             BattleHandler.StartBattleProcess(TileManager.Instance.GetTileFromKeeper[this]);
         }
     }

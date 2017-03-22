@@ -40,12 +40,8 @@ public class TileManager : MonoBehaviour {
             instance.ResetTileManager();
             Destroy(gameObject);
         }
-        DontDestroyOnLoad(gameObject);
-        Debug.Log(instance.tiles);
-        foreach (Tile t in monstersOnTile.Keys)
-            Debug.Log(monstersOnTile[t].Count);
-        
-        
+        DontDestroyOnLoad(instance.gameObject);
+    
     }
 
     public Tile PrisonerTile
