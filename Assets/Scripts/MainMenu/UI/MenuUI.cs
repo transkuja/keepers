@@ -8,6 +8,12 @@ public class MenuUI : MonoBehaviour
     public GameObject baseCharacterImage;
     public Sprite spriteTrade;
     public Sprite spriteMoral;
+    public Image startButtonImg;
+
+    void Start()
+    {
+        startButtonImg.enabled = false;
+    }
 
     public void ChangeLanguage(string language)
     {
@@ -20,6 +26,8 @@ public class MenuUI : MonoBehaviour
         {
             UpdateUI();
         }
+        UpdateStartButton();
+
     }
 
     void UpdateUI()
@@ -31,8 +39,8 @@ public class MenuUI : MonoBehaviour
         }
 
         // On selection 
-        int nbCaracters = GameManager.Instance.AllKeepersList.Count;
-        for (int i = 0; i < nbCaracters; i++)
+        int nbCharacters = GameManager.Instance.AllKeepersList.Count;
+        for (int i = 0; i < nbCharacters; i++)
         {
             KeeperInstance currentSelectedCharacter = GameManager.Instance.AllKeepersList[i];
 
@@ -62,4 +70,18 @@ public class MenuUI : MonoBehaviour
 
         GameManager.Instance.CharacterPanelMenuNeedUpdate = false;
     }
+
+    public void UpdateStartButton()
+    {
+        if (GameManager.Instance.AllKeepersList.Count == 0)
+        {
+            startButtonImg.enabled = false;
+        }
+        else
+        {
+            startButtonImg.enabled = true;
+        }
+
+    }
+
 }

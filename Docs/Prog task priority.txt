@@ -5,13 +5,8 @@
 ---------
 Ajouter des sons => Rémi
 
-Ajouter un bouton pour lancer le jeu après selection des persos
-
 Faire du level design sur un plus grand niveau => Anthony/Seb/Quentin
 
-Réparer le menu => Rémi
-	=> KeeperInstance détruit lorsqu'on revient au menu apparemment, impossible de relancer le jeu
-	
 Clamper la caméra => Seb
 	=> T'attends quoi?
 
@@ -28,6 +23,11 @@ Rendre la fenetre de fin de combat moins verbeuse => done
 Intégrer les modèles grisés (question mark) => Seb => done 
 
 Menu échap pour quitter ou relancer le jeu => done
+
+Réparer le menu => Anthony ==> done
+
+Ajouter un bouton pour lancer le jeu après selection des persos => done
+
 ///////////////////////////////////////////////
 
 

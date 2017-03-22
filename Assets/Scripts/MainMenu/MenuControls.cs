@@ -64,14 +64,20 @@ public class MenuControls : MonoBehaviour {
                     GameManager.Instance.AllKeepersList.Add(keeperInstances[i]);
                 }
             }
-            GameManager.Instance.InitializeInGameKeepers();
-            if (AudioManager.Instance != null)
-            {
-                AudioManager.Instance.Fade(AudioManager.Instance.themeMusic);
-            }
-            SceneManager.LoadScene(1);
 
+            StartGame();
         }
+
+    }
+
+    public void StartGame()
+    {
+        GameManager.Instance.InitializeInGameKeepers();
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.Fade(AudioManager.Instance.themeMusic);
+        }
+        SceneManager.LoadScene(1);
 
     }
 }
