@@ -31,51 +31,30 @@ Ajouter un bouton pour lancer le jeu après selection des persos => done
 ///////////////////////////////////////////////
 
 
-
-
-
-
-1: Mode caméra de loin: Afficher les icones d'action et les linker aux actions 
-	==> Quentin
-
-2: Action: Récolter (!= de Ramasser)
-2: Inventaire: Fix l'inventaire (ItemContainer?) 
+1: Level Design
+1: Audio : Chercher des sons et les integrer au jeu grace à l'audio manager deja en place
 	==> Rémi
-2: Gérer la mort des personnages (desactivation des gameobjects, loot au sol, etc.)
+1: Gérer la mort des personnages => anim
 	==> Anthony
 
-3: Map: Meilleur feedback visuel pour les tiles dans le brouillard
-	==> Seb
-3: Combat: Corriger les logs du resolver pour plus que ça crash une fois sur trois
+2: Règles de gestion: Implémenter les cas limites de faim élevée et moral bas (valeurs arbitraires que l'on pourra moduler plus tard)
+2: Exploration: Faire pop aléatoirement des mobs lorsque l'on découvre un Tile
 
-4: Règles de gestion: Implémenter les cas limites de faim élevée et moral bas (valeurs arbitraires que l'on pourra moduler plus tard)
-4: Exploration: Faire pop aléatoirement des mobs lorsque l'on découvre un Tile
-4: Loot: devrait être par terre
+3: PNJ: Ajouter un PNJ avec un comportement basique ==> rajouter parler
 
-5: PNJ: Ajouter un PNJ avec un comportement basique ("parler" et éventuellement "échanger")
-
-6: Bug: Ignorer les raycast sur le personnage selectionné quand on veut se déplacer
-6: Endgame: Affichage du score sur l'écran de victoire
+4: Bug: Ignorer les raycast sur le personnage selectionné quand on veut se déplacer
+4: Endgame: Affichage du score sur l'écran de victoire
 
 
-Audio : Chercher des sons et les integrer au eu grace à l'audio manager deja en place
-Feedback sur le boutton de fin de tour quand il n'y a plus d'action
-Cout d'action lorsqu'on parle à un autre personnages
-Ne permettre que certaine action comme le deplacement quand si on a le nombre d'action requis
-Level design
-Monstre : les rendre un peu vivant, genre ils se déplacent et saute sur le pnj quand il sont trop prêt
+Feedback sur le bouton de fin de tour quand il n'y a plus d'action
+Ne permettre que certaine action comme le deplacement si on a le nombre d'action requis
 Faire une icone pour au moins trois equipement de chaque type ( weapon , armor et soul ), les integrer
-Faire un rendu visual du loot > prefab associé
 Faire un rendu visual pour le blé et les champignons > prefab associé
-combat : retirer le loot du rendu et faire que les montres drop un loot
 appliqué les stats des équipements
 affiché les bonus de stats sur le panel_stat_tooltip
 faire la distinction entre petites icons et icons dans le panel shortcut et dans les inventaires
 icone pour un pnj
-tester le .exe du jeu
 refaire la boîte (@Rémi) et la linker au jeu
 actions_ panel -> le mettre sur un canvas world space pour le rendre plus sympa ( post proto)
 icon de moral buff debuff.
-
-Destroy Loot si il ne reste rien 
 
