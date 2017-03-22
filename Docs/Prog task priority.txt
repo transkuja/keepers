@@ -12,6 +12,8 @@ Clamper la caméra => Seb
 
 "Animation" de mort de personnage
 
+Intégrer les assets d'UI, l'écran de victoire, etc.
+
 Tester le build
 
 ----------

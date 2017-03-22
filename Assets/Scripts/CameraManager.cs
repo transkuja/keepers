@@ -217,8 +217,8 @@ public class CameraManager : MonoBehaviour {
             bIsDraging = false;
         }
         Vector3 pos = transform.position;
-        pos.x = Mathf.Clamp(pos.x, cameraBounds.GetChild((int)CameraBound.West).position.x, cameraBounds.GetChild((int)CameraBound.East).position.x);
-        pos.z = Mathf.Clamp(pos.z, cameraBounds.GetChild((int)CameraBound.South).position.z, cameraBounds.GetChild((int)CameraBound.North).position.z);
+        //pos.x = Mathf.Clamp(pos.x, cameraBounds.GetChild((int)CameraBound.West).position.x, cameraBounds.GetChild((int)CameraBound.East).position.x);
+       // pos.z = Mathf.Clamp(pos.z, cameraBounds.GetChild((int)CameraBound.South).position.z, cameraBounds.GetChild((int)CameraBound.North).position.z);
         transform.position = pos;
     }
 
