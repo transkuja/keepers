@@ -83,23 +83,29 @@ public class ItemInstance : MonoBehaviour, IHavestable
 
     public void Harvest(int _i = 0)
     {
-        int nbSlot = GameManager.Instance.ListOfSelectedKeepers[0].Keeper.nbSlot;
-        bool isNoLeftOver = InventoryManager.AddItemToInventory(GameManager.Instance.ListOfSelectedKeepers[0].GetComponent<Inventory>().List_inventaire, nbSlot, itemContainer);
-        if (isNoLeftOver)
+        if (GameManager.Instance.ListOfSelectedKeepers[0].ActionPoints > 0)
         {
-
-            Destroy(this);
-            GlowController.UnregisterObject(GlowCmd);
-            if (this.transform.childCount > 0)
+            int nbSlot = GameManager.Instance.ListOfSelectedKeepers[0].Keeper.nbSlot;
+            bool isNoLeftOver = InventoryManager.AddItemToInventory(GameManager.Instance.ListOfSelectedKeepers[0].GetComponent<Inventory>().List_inventaire, nbSlot, itemContainer);
+            if (isNoLeftOver)
             {
-                DestroyImmediate(this.transform.GetChild(0).gameObject);
+
+                Destroy(this);
+                GlowController.UnregisterObject(GlowCmd);
+                if (this.transform.childCount > 0)
+                {
+                    DestroyImmediate(this.transform.GetChild(0).gameObject);
+                }
+
             }
-
+            GameManager.Instance.ListOfSelectedKeepers[0].ActionPoints -= 1;
+            GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
+            GameManager.Instance.Ui.UpdateInventoryPanel(GameManager.Instance.ListOfSelectedKeepers[0].gameObject);
         }
-        GameManager.Instance.ListOfSelectedKeepers[0].ActionPoints -= 1;
-        GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
-        GameManager.Instance.Ui.UpdateInventoryPanel(GameManager.Instance.ListOfSelectedKeepers[0].gameObject);
-
+        else
+        {
+            GameManager.Instance.Ui.ZeroActionTextAnimation();
+        }
     }
     public void OnMouseOver()
     {
