@@ -30,18 +30,19 @@ public class AnimationButtonClick : MonoBehaviour, IPointerEnterHandler {
 
     public void ChangeLight()
     {
+        directionalLight.gameObject.transform.SetParent(transform);
         StartCoroutine(GodsWork());
+   
     }
 
     private IEnumerator GodsWork()
     {
+
         directionalLight.intensity = Mathf.Clamp(directionalLight.intensity, 0, 1);
         for (float f = temps/2; f >= 0; f -= Time.deltaTime)
         {
             //valeur = 0
             directionalLight.intensity -= Time.deltaTime *2;
-
-
             yield return null;
         }
 
@@ -51,6 +52,8 @@ public class AnimationButtonClick : MonoBehaviour, IPointerEnterHandler {
             directionalLight.intensity += Time.deltaTime*2;
             yield return null;
         }
+        directionalLight.transform.SetParent(null);
+                    yield return null;
     }
 
     // Update is called once per frame
