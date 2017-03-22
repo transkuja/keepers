@@ -5,8 +5,7 @@ using UnityEngine.UI;
 
 public class UIIconFeedback : MonoBehaviour {
 
-    [SerializeField] float closeThreshold;
-    [SerializeField] float farThreshold;
+    [SerializeField] [Range(0,1)] float Threshold;
 
     [SerializeField] GameObject goPanelIcon;
 
@@ -32,7 +31,7 @@ public class UIIconFeedback : MonoBehaviour {
 
         if (bIsFarEnough)
         {
-            if(fValue > closeThreshold)
+            if(fValue > Threshold)
             {
                 bIsFarEnough = false;
                 return false;
@@ -41,7 +40,7 @@ public class UIIconFeedback : MonoBehaviour {
         }
         else
         {
-            if(fValue < farThreshold)
+            if(fValue < Threshold)
             {
                 bIsFarEnough = true;
                 return true;
