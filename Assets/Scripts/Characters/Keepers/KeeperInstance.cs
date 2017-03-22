@@ -238,17 +238,6 @@ public class KeeperInstance : MonoBehaviour, ITradable {
         equipment = new ItemContainer[3];
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.GetComponent<MonsterInstance>())
-        {
-            agent.SetDestination(transform.position);
-            other.gameObject.GetComponent<NavMeshAgent>().destination = other.transform.position;
-            BattleHandler.StartBattleProcess(TileManager.Instance.GetTileFromKeeper[this]);
-        }
-    }
-
-
     private void Update()
     {
         GameObject goDestinationTemp = gameObject;
