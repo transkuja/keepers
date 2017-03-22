@@ -47,19 +47,27 @@ public class TileTrigger : MonoBehaviour {
             {
                 if ( ki.ActionPoints > 0)
                 {
-                    GameManager.Instance.GoTarget = GameManager.Instance.ListOfSelectedKeepers[0].gameObject;
-                    IngameUI ui = GameObject.Find("IngameUI").GetComponent<IngameUI>();
-                    if (GetComponentInParent<Tile>().Neighbors[(int)eTrigger].State == TileState.Discovered)
+                    if (GameManager.Instance.ListOfSelectedKeepers.Count > 0)
                     {
-                        InteractionImplementer.Add(new Interaction(Move), "Move", GameManager.Instance.Ui.spriteMove, true, (int)eTrigger);
-                        ui.UpdateActionPanelUIQ(InteractionImplementer);
-                    }
+                        GameManager.Instance.GoTarget = GameManager.Instance.ListOfSelectedKeepers[0].gameObject;
+                        IngameUI ui = GameObject.Find("IngameUI").GetComponent<IngameUI>();
+                        if (GetComponentInParent<Tile>().Neighbors[(int)eTrigger].State == TileState.Discovered)
+                        {
+                            InteractionImplementer.Add(new Interaction(Move), "Move", GameManager.Instance.Ui.spriteMove, true, (int)eTrigger);
+                            ui.UpdateActionPanelUIQ(InteractionImplementer);
+                        }
 
-                    if (GetComponentInParent<Tile>().Neighbors[(int)eTrigger].State == TileState.Greyed)
+                        if (GetComponentInParent<Tile>().Neighbors[(int)eTrigger].State == TileState.Greyed)
+                        {
+                            InteractionImplementer.Add(new Interaction(Explore), "Explore", GameManager.Instance.Ui.spriteExplore, true, (int)eTrigger);
+                            ui.UpdateActionPanelUIQ(InteractionImplementer);
+                        }
+                    } else
                     {
-                        InteractionImplementer.Add(new Interaction(Explore), "Explore", GameManager.Instance.Ui.spriteExplore, true, (int)eTrigger);
-                        ui.UpdateActionPanelUIQ(InteractionImplementer);
+                        // TODO : reflechir
+                        Debug.Log("Cas non géré (last selected keeper");
                     }
+           
                 }
                 else
                 {
