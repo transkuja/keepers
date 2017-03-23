@@ -798,7 +798,7 @@ public class IngameUI : MonoBehaviour
             List<ItemContainer> inventory = pi.GetComponent<Inventory>().List_inventaire;
             for (int i = 0; i < nbSlot; i++)
             {
-                GameObject currentSlot = inventoryPanel.transform.GetChild(0).GetChild(i).gameObject;
+                GameObject currentSlot = inventoryPanel.transform.GetChild(1).GetChild(i).gameObject;
                 if (currentSlot.GetComponentInChildren<ItemInstance>() != null)
                 {
                     Destroy(currentSlot.GetComponentInChildren<ItemInstance>().gameObject);
@@ -810,7 +810,7 @@ public class IngameUI : MonoBehaviour
             {
                 if (inventory[i] != null && inventory[i].Item != null && inventory[i].Item.Id != null)
                 {
-                    GameObject currentSlot = inventoryPanel.transform.GetChild(0).GetChild(i).gameObject;
+                    GameObject currentSlot = inventoryPanel.transform.GetChild(1).GetChild(i).gameObject;
                     GameObject go = Instantiate(itemUI);
                     go.transform.SetParent(currentSlot.transform);
                     go.GetComponent<ItemInstance>().ItemContainer = inventory[i];
