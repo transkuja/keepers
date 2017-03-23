@@ -725,16 +725,16 @@ public class IngameUI : MonoBehaviour
 
         goInventory.transform.localPosition = Vector3.zero;
         goInventory.transform.localScale = Vector3.one;
-        goInventory.transform.GetChild(1).GetComponent<Image>().sprite = associatedSprite;
+        goInventory.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = associatedSprite;
         goInventory.name = "Inventory_" + name;
-        goInventory.transform.GetChild(0).GetComponent<InventoryOwner>().Owner = pi.gameObject;
+        goInventory.transform.GetChild(1).GetComponent<InventoryOwner>().Owner = pi.gameObject;
         goInventory.SetActive(false);
 
         for (int i = 0; i < nbSlots; i++)
         {
             //Create Slots
             GameObject currentgoSlotPanel = Instantiate(slotPrefab, Vector3.zero, Quaternion.identity) as GameObject;
-            currentgoSlotPanel.transform.SetParent(goInventory.transform.GetChild(0).transform);
+            currentgoSlotPanel.transform.SetParent(goInventory.transform.GetChild(1).transform);
 
             currentgoSlotPanel.transform.localPosition = Vector3.zero;
             currentgoSlotPanel.transform.localScale = Vector3.one;
