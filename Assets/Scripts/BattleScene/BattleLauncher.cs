@@ -13,7 +13,10 @@ public class BattleLauncher : MonoBehaviour {
 
             GetComponentInParent<NavMeshAgent>().SetDestination(transform.position);
             foreach (MonsterInstance mi in TileManager.Instance.MonstersOnTile[tile])
+            {
                 mi.GetComponent<NavMeshAgent>().SetDestination(mi.transform.position);
+                mi.ResetAiBehaviour();
+            }
             BattleHandler.StartBattleProcess(tile);
         }
     }
