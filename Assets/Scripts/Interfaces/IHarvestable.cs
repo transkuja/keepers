@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IHavestable{
 
-    void Harvest(int i = 0);
+    void Harvest(int i = 0);    
 }

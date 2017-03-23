@@ -29,7 +29,7 @@ public class ItemInstance : MonoBehaviour, IHavestable
             Init(idItem, quantity);
         }
         interactionImplementer = new InteractionImplementer();
-        interactionImplementer.Add(new Interaction(Harvest), "Harvest", GameManager.Instance.Ui.spriteHarvest);
+        interactionImplementer.Add(new Interaction(Harvest), 1, "Harvest", GameManager.Instance.Ui.spriteHarvest);
     }
 
 
@@ -98,7 +98,9 @@ public class ItemInstance : MonoBehaviour, IHavestable
                 }
 
             }
-            GameManager.Instance.ListOfSelectedKeepers[0].ActionPoints -= 1;
+
+            int costAction = interactionImplementer.Get("Harvest").costAction;
+            GameManager.Instance.ListOfSelectedKeepers[0].ActionPoints -= (short)costAction;
             GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
             GameManager.Instance.Ui.UpdateInventoryPanel(GameManager.Instance.ListOfSelectedKeepers[0].gameObject);
         }

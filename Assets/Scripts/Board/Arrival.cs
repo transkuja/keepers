@@ -12,7 +12,7 @@ public class Arrival : MonoBehaviour {
     // Use this for initialization
     void Start () {
         interationImplementer = new InteractionImplementer();
-        interationImplementer.Add(new Interaction(EndGame), "End Game", GameManager.Instance.Ui.spriteEndAction);  
+        interationImplementer.Add(new Interaction(EndGame), 0, "End Game", GameManager.Instance.Ui.spriteEndAction);  
 	}
 
     public void EndGame(int i = -1)

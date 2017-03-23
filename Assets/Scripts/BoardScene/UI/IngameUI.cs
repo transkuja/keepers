@@ -712,7 +712,7 @@ public class IngameUI : MonoBehaviour
 
             // TMP
             associatedSprite = GameManager.Instance.Ui.spriteLoot;
-            goInventory.transform.GetChild(1).gameObject.SetActive(false);
+            goInventory.transform.GetChild(0).gameObject.SetActive(false);
             owner = lootInstance.gameObject;
             nbSlots = lootInstance.nbSlot;
             name = "Loot";

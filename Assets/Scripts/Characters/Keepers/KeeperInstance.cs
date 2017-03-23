@@ -224,13 +224,13 @@ public class KeeperInstance : MonoBehaviour, ITradable {
         InteractionImplementer = new InteractionImplementer();
         if(GameManager.Instance.Ui == null)
         {
-            InteractionImplementer.Add(new Interaction(Trade), "Trade", GameManager.Instance.MenuUi.spriteTrade);
-            if (isAbleToImproveMoral) InteractionImplementer.Add(new Interaction(MoralBuff), "Moral", GameManager.Instance.MenuUi.spriteMoral);
+            InteractionImplementer.Add(new Interaction(Trade), 0, "Trade", GameManager.Instance.MenuUi.spriteTrade);
+            if (isAbleToImproveMoral) InteractionImplementer.Add(new Interaction(MoralBuff), 1, "Moral", GameManager.Instance.MenuUi.spriteMoral);
         }
         else
         {
-            InteractionImplementer.Add(new Interaction(Trade), "Trade", GameManager.Instance.Ui.spriteTrade);
-            if (isAbleToImproveMoral) InteractionImplementer.Add(new Interaction(MoralBuff), "Moral", GameManager.Instance.Ui.spriteMoral);
+            InteractionImplementer.Add(new Interaction(Trade), 0, "Trade", GameManager.Instance.Ui.spriteTrade);
+            if (isAbleToImproveMoral) InteractionImplementer.Add(new Interaction(MoralBuff), 1, "Moral", GameManager.Instance.Ui.spriteMoral);
         }
 
         currentHp = keeper.MaxHp;
@@ -419,7 +419,8 @@ public class KeeperInstance : MonoBehaviour, ITradable {
     {
         if (GameManager.Instance.ListOfSelectedKeepers[0].ActionPoints > 0)
         {
-            GameManager.Instance.ListOfSelectedKeepers[0].ActionPoints -= 1;
+            int costAction = interactionImplementer.Get("Moral").costAction;
+            GameManager.Instance.ListOfSelectedKeepers[0].ActionPoints -= (short)costAction;
             short amountMoralBuff = (short)Random.Range(minMoralBuff, maxMoralBuff);
             GameManager.Instance.GoTarget.GetComponentInParent<KeeperInstance>().CurrentMentalHealth += amountMoralBuff;
             GameManager.Instance.ShortcutPanel_NeedUpdate = true;

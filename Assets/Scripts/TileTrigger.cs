@@ -62,13 +62,13 @@ public class TileTrigger : MonoBehaviour {
                         IngameUI ui = GameObject.Find("IngameUI").GetComponent<IngameUI>();
                         if (GetComponentInParent<Tile>().Neighbors[(int)eTrigger].State == TileState.Discovered)
                         {
-                            InteractionImplementer.Add(new Interaction(Move), "Move", GameManager.Instance.Ui.spriteMove, true, (int)eTrigger);
+                            InteractionImplementer.Add(new Interaction(Move), 2, "Move", GameManager.Instance.Ui.spriteMove, true, (int)eTrigger);
                             ui.UpdateActionPanelUIQ(InteractionImplementer);
                         }
 
                         if (GetComponentInParent<Tile>().Neighbors[(int)eTrigger].State == TileState.Greyed)
                         {
-                            InteractionImplementer.Add(new Interaction(Explore), "Explore", GameManager.Instance.Ui.spriteExplore, true, (int)eTrigger);
+                            InteractionImplementer.Add(new Interaction(Explore), 3, "Explore", GameManager.Instance.Ui.spriteExplore, true, (int)eTrigger);
                             ui.UpdateActionPanelUIQ(InteractionImplementer);
                         }
                     } else

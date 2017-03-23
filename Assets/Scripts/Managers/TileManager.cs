@@ -158,6 +158,7 @@ public class TileManager : MonoBehaviour {
             ItemManager.AddItemOnTheGround(tile, lastMonsterPosition, lootList);
         }
 
+        // J'ai une erreur ici Rémi 23/03 (jeudi avant la prod)
         for (int i = 0; i < nbrOfElementsToRemove; i++)
             monstersOnTile[tile].RemoveAt(removeIndex[i]);
 

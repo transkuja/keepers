@@ -17,7 +17,7 @@ public class LootInstance : MonoBehaviour, IPickable {
     void Awake()
     {
         interactionImplementer = new InteractionImplementer();
-        interactionImplementer.Add(new Interaction(Pick), "Pick", GameManager.Instance.Ui.spritePick);
+        interactionImplementer.Add(new Interaction(Pick), 0, "Pick", GameManager.Instance.Ui.spritePick);
         if (isInScene)
         {
             Init();
