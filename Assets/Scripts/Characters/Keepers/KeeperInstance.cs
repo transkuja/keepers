@@ -195,6 +195,7 @@ public class KeeperInstance : MonoBehaviour, ITradable {
             if (value < actionPoints) GameManager.Instance.Ui.DecreaseActionTextAnimation(actionPoints - value);
             actionPoints = value;
             GameManager.Instance.Ui.UpdateActionText();
+            GameManager.Instance.ShortcutPanel_NeedUpdate = true;
             if (actionPoints > keeper.MaxActionPoints)
                 actionPoints = keeper.MaxActionPoints;
             if (actionPoints < 0)
@@ -420,7 +421,6 @@ public class KeeperInstance : MonoBehaviour, ITradable {
         int costAction = interactionImplementer.Get("Moral").costAction;
         if (GameManager.Instance.ListOfSelectedKeepers[0].ActionPoints >= costAction)
         {
-
             GameManager.Instance.ListOfSelectedKeepers[0].ActionPoints -= (short)costAction;
             short amountMoralBuff = (short)Random.Range(minMoralBuff, maxMoralBuff);
             GameManager.Instance.GoTarget.GetComponentInParent<KeeperInstance>().CurrentMentalHealth += amountMoralBuff;

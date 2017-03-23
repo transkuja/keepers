@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class TileTrigger : MonoBehaviour {
     
     KeeperInstance ki;
+    int actionCostExplore = 3;
+    int actionCostMove = 2;
 
     public void OnTriggerEnter(Collider other)
     {
@@ -63,12 +65,12 @@ public class TileTrigger : MonoBehaviour {
 
                         if (GetComponentInParent<Tile>().Neighbors[(int)eTrigger].State == TileState.Discovered)
                         {
-                            InteractionImplementer.Add(new Interaction(Move), 2, "Move", GameManager.Instance.Ui.spriteMove, true, (int)eTrigger);
+                            InteractionImplementer.Add(new Interaction(Move), actionCostMove, "Move", GameManager.Instance.Ui.spriteMove, true, (int)eTrigger);
                             ui.UpdateActionPanelUIQ(InteractionImplementer);
                         }
                         if (GetComponentInParent<Tile>().Neighbors[(int)eTrigger].State == TileState.Greyed)
                         {
-                            InteractionImplementer.Add(new Interaction(Explore), 3, "Explore", GameManager.Instance.Ui.spriteExplore, true, (int)eTrigger);
+                            InteractionImplementer.Add(new Interaction(Explore), actionCostExplore, "Explore", GameManager.Instance.Ui.spriteExplore, true, (int)eTrigger);
                             ui.UpdateActionPanelUIQ(InteractionImplementer);
                         }
 
@@ -92,81 +94,95 @@ public class TileTrigger : MonoBehaviour {
 
     void Move(int _i)
     {
-        Tile currentTile = TileManager.Instance.GetTileFromKeeper[ki];
-
-        // Confirmation Panel
-        // TODO : refaire en mieux ? 
-        if (ki.Keeper.GoListCharacterFollowing.Count == 0
-            && currentTile == TileManager.Instance.PrisonerTile)
+        if (GameManager.Instance.ListOfSelectedKeepers[0].ActionPoints >= actionCostMove)
         {
-            bool isAshleyNotAlone = false;
-            foreach (KeeperInstance kip in GameManager.Instance.AllKeepersList)
+            Tile currentTile = TileManager.Instance.GetTileFromKeeper[ki];
+
+            // Confirmation Panel
+            // TODO : refaire en mieux ? 
+            if (ki.Keeper.GoListCharacterFollowing.Count == 0
+                && currentTile == TileManager.Instance.PrisonerTile)
             {
-                if (kip.IsAlive)
+                bool isAshleyNotAlone = false;
+                foreach (KeeperInstance kip in GameManager.Instance.AllKeepersList)
                 {
-                    if (kip != ki && TileManager.Instance.PrisonerTile == TileManager.Instance.GetTileFromKeeper[kip])
+                    if (kip.IsAlive)
                     {
-                        isAshleyNotAlone = true;
-                        break;
+                        if (kip != ki && TileManager.Instance.PrisonerTile == TileManager.Instance.GetTileFromKeeper[kip])
+                        {
+                            isAshleyNotAlone = true;
+                            break;
+                        }
                     }
                 }
-            }
-            if (isAshleyNotAlone)
-            {
-                MoveWithoutConfirmation(_i);
+                if (isAshleyNotAlone)
+                {
+                    MoveWithoutConfirmation(_i);
+                }
+                else
+                {
+                    GameManager.Instance.Ui.goConfirmationPanel.SetActive(true);
+                    int n = _i;
+                    GameManager.Instance.Ui.goConfirmationPanel.transform.GetChild(1).GetComponent<Button>().onClick.RemoveAllListeners();
+                    GameManager.Instance.Ui.goConfirmationPanel.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(() => MoveWithoutConfirmation(n));
+                    GameManager.Instance.Ui.goConfirmationPanel.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(() => GameManager.Instance.Ui.goConfirmationPanel.SetActive(false));
+                }
             }
             else
             {
-                GameManager.Instance.Ui.goConfirmationPanel.SetActive(true);
-                int n = _i;
-                GameManager.Instance.Ui.goConfirmationPanel.transform.GetChild(1).GetComponent<Button>().onClick.RemoveAllListeners();
-                GameManager.Instance.Ui.goConfirmationPanel.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(() => MoveWithoutConfirmation(n));
-                GameManager.Instance.Ui.goConfirmationPanel.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(() => GameManager.Instance.Ui.goConfirmationPanel.SetActive(false));
+                MoveWithoutConfirmation(_i);
             }
         }
         else
         {
-            MoveWithoutConfirmation(_i);
+            GameManager.Instance.Ui.ZeroActionTextAnimation();
         }
     }
 
     void Explore(int _i)
     {
-        Tile currentTile = TileManager.Instance.GetTileFromKeeper[ki];
-
-        // Confirmation Panel
-        // TODO : refaire en mieux ? 
-        if (ki.Keeper.GoListCharacterFollowing.Count == 0
-            && currentTile == TileManager.Instance.PrisonerTile)
+        if (GameManager.Instance.ListOfSelectedKeepers[0].ActionPoints >= actionCostExplore)
         {
-            bool isAshleyNotAlone = false;
-            foreach (KeeperInstance kip in GameManager.Instance.AllKeepersList)
+            Tile currentTile = TileManager.Instance.GetTileFromKeeper[ki];
+
+            // Confirmation Panel
+            // TODO : refaire en mieux ? 
+            if (ki.Keeper.GoListCharacterFollowing.Count == 0
+                && currentTile == TileManager.Instance.PrisonerTile)
             {
-                if (kip.IsAlive)
+                bool isAshleyNotAlone = false;
+                foreach (KeeperInstance kip in GameManager.Instance.AllKeepersList)
                 {
-                    if (kip != ki && TileManager.Instance.PrisonerTile == TileManager.Instance.GetTileFromKeeper[kip])
+                    if (kip.IsAlive)
                     {
-                        isAshleyNotAlone = true;
-                        break;
+                        if (kip != ki && TileManager.Instance.PrisonerTile == TileManager.Instance.GetTileFromKeeper[kip])
+                        {
+                            isAshleyNotAlone = true;
+                            break;
+                        }
                     }
                 }
-            }
-            if (isAshleyNotAlone)
-            {
-                ExploreWithoutConfirmation(_i);
+                if (isAshleyNotAlone)
+                {
+                    ExploreWithoutConfirmation(_i);
+                }
+                else
+                {
+                    GameManager.Instance.Ui.goConfirmationPanel.SetActive(true);
+                    int n = _i;
+                    GameManager.Instance.Ui.goConfirmationPanel.transform.GetChild(1).GetComponent<Button>().onClick.RemoveAllListeners();
+                    GameManager.Instance.Ui.goConfirmationPanel.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(() => ExploreWithoutConfirmation(n));
+                    GameManager.Instance.Ui.goConfirmationPanel.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(() => GameManager.Instance.Ui.goConfirmationPanel.SetActive(false));
+                }
             }
             else
             {
-                GameManager.Instance.Ui.goConfirmationPanel.SetActive(true);
-                int n = _i;
-                GameManager.Instance.Ui.goConfirmationPanel.transform.GetChild(1).GetComponent<Button>().onClick.RemoveAllListeners();
-                GameManager.Instance.Ui.goConfirmationPanel.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(() => ExploreWithoutConfirmation(n));
-                GameManager.Instance.Ui.goConfirmationPanel.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(() => GameManager.Instance.Ui.goConfirmationPanel.SetActive(false));
+                ExploreWithoutConfirmation(_i);
             }
         }
         else
         {
-            ExploreWithoutConfirmation(_i);
+            GameManager.Instance.Ui.ZeroActionTextAnimation();
         }
     }
 
@@ -174,7 +190,7 @@ public class TileTrigger : MonoBehaviour {
     {
 
         //int costAction = interactionImplementer.Get("Move").costAction;
-        TileManager.Instance.MoveKeeper(ki, TileManager.Instance.GetTileFromKeeper[ki], (Direction)_i, 3);
+        TileManager.Instance.MoveKeeper(ki, TileManager.Instance.GetTileFromKeeper[ki], (Direction)_i, actionCostMove);
 
         GameManager.Instance.SelectedKeeperNeedUpdate = true;
         GameManager.Instance.ShortcutPanel_NeedUpdate = true;
@@ -193,7 +209,7 @@ public class TileTrigger : MonoBehaviour {
 
         // Move to explored tile
         //int costAction = interactionImplementer.Get("Explore").costAction;
-        TileManager.Instance.MoveKeeper(ki, TileManager.Instance.GetTileFromKeeper[ki], (Direction)_i, 2);
+        TileManager.Instance.MoveKeeper(ki, TileManager.Instance.GetTileFromKeeper[ki], (Direction)_i, actionCostExplore);
         // Tell the tile it has been discovered (and watch it panic)
         Tile exploredTile = TileManager.Instance.GetTileFromKeeper[ki];
         exploredTile.State = TileState.Discovered;
