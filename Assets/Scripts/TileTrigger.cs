@@ -49,7 +49,16 @@ public class TileTrigger : MonoBehaviour {
                 {
                     if (GameManager.Instance.ListOfSelectedKeepers.Count > 0)
                     {
-                        GameManager.Instance.GoTarget = GameManager.Instance.ListOfSelectedKeepers[0].gameObject;
+                        // On veut le mesh collider actif du perso
+                        foreach (MeshCollider mc in GameManager.Instance.ListOfSelectedKeepers[0].gameObject.GetComponentsInChildren<MeshCollider>())
+                        {
+                            if (mc.enabled)
+                            {
+                                GameManager.Instance.GoTarget = mc.gameObject;
+                                break;
+                            }
+                        }
+
                         IngameUI ui = GameObject.Find("IngameUI").GetComponent<IngameUI>();
                         if (GetComponentInParent<Tile>().Neighbors[(int)eTrigger].State == TileState.Discovered)
                         {
