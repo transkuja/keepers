@@ -30,7 +30,8 @@ public class Slot : MonoBehaviour, IDropHandler
 
     public void OnDrop(PointerEventData eventData)
     {
-        if (eventData.pointerDrag.GetComponent<DragHandler>() != null)
+        if (eventData.pointerDrag.GetComponent<DragHandler>() != null 
+            && (!hasAlreadyAnItem || (currentItem != null && currentItem.GetComponent<DragHandler>() != null)))
         {
             // Get the original parent
             Transform previous = eventData.pointerDrag.GetComponent<DragHandler>().startParent;

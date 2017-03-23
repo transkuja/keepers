@@ -12,6 +12,7 @@ public class ControlsManager : MonoBehaviour {
     float fTimerDoubleClick;
     [SerializeField] private float fDoubleClickCoolDown = 0.3f;
 
+    public LayerMask layerMask;
     //public List<Character> listCharacters;
 
     /*public Character currentCharacter = null;
@@ -122,10 +123,10 @@ public class ControlsManager : MonoBehaviour {
                 if (GameManager.Instance.ListOfSelectedKeepers.Count > 0)
                 {
                     RaycastHit hitInfo;
-                    LayerMask layermask = 1 << LayerMask.NameToLayer("TilePortal");
-                    layermask = ~layermask;
+                   // LayerMask layermask = 1 << LayerMask.NameToLayer("TilePortal");
+                   // layermask = ~layermask;
 
-                    if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo, Mathf.Infinity, layermask) == true)
+                    if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo, Mathf.Infinity, ~layerMask) == true)
                     {
 
                         IngameUI ui = GameManager.Instance.Ui;
