@@ -59,10 +59,16 @@ public class IngameUI : MonoBehaviour
     public Sprite spriteMoralDebuff;
     public Sprite spriteEndAction;
 
+
     // ShortcutPanel
     [Header("ShortcutPanel Panel")]
     public GameObject baseKeeperShortcutPanel;
     public GameObject goShortcutKeepersPanel;
+
+    // for death
+    public Sprite SupportImage;
+    public GameObject imagePrefab;
+
 
     [Header("Confirmation Panel")]
     public GameObject goConfirmationPanel;
@@ -406,16 +412,30 @@ public class IngameUI : MonoBehaviour
                     // Handle character death
                     if (!currentCharacter.IsAlive)
                     {
+
                         // Do this process once only
-                        if (goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.HpGauge).GetChild(0).gameObject.GetComponent<Image>().fillAmount > 0)
+                        if (goShortcutKeepersPanel.transform.GetChild(i).childCount > 2)
                         {
                             // Update HP
-                            goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.HpGauge).GetChild(0).gameObject.GetComponent<Image>().fillAmount = 0;
+                            Destroy(goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.HpGauge).gameObject);
+                            Destroy(goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.MentalHealthGauge).gameObject);
+                            Destroy(goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.HungerGauge).gameObject);
                             // Update Action Points
-                            goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.ActionPoints).gameObject.GetComponentInChildren<Text>().text = "0";
+                            Destroy(goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.ActionPoints).gameObject);
 
                             // Change image from alive to dead
-                            goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.Image).GetComponent<Image>().sprite = currentCharacter.Keeper.DeadSprite;
+                            goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.Image).GetComponent<Image>().sprite = SupportImage;
+                            goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.Image).GetComponent<RectTransform>().sizeDelta = new Vector2(100, 100);
+
+
+
+                            GameObject go = Instantiate(imagePrefab, goShortcutKeepersPanel.transform.GetChild(i).transform);
+                            go.GetComponent<Image>().sprite = currentCharacter.Keeper.DeadSprite;
+                            go.GetComponent<RectTransform>().sizeDelta = new Vector2(100, 100);
+                            go.transform.localPosition = Vector3.zero;
+                            go.transform.localScale = Vector3.one;
+
+
                         }
                     }
                     // Standard UI update for alive characters
