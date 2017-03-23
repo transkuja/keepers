@@ -96,9 +96,6 @@ public class BattleHandler {
                 {
                     BattleLog(target.Monster.CharacterName + " died.");
                     monsters.Remove(target);
-                    Debug.Log(monsters.Count);
-                    foreach (MonsterInstance mi in monsters)
-                        Debug.Log(mi.Monster.CharacterName);
                 }
 
                 if (monsters.Count == 0)

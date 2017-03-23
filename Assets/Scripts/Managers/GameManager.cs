@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
-using Boomlagoon.JSON;
-using System.IO;
 
 public class GameManager : MonoBehaviour
 {

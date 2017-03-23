@@ -148,9 +148,14 @@ public class KeeperInstance : MonoBehaviour, ITradable {
 
         // Death operations
         GameManager.Instance.ShortcutPanel_NeedUpdate = true;
+
         GlowController.UnregisterObject(GetComponent<GlowObjectCmd>());
         gameObject.SetActive(false);
 
+        // Try to fix glow bug
+        Destroy(GetComponent<GlowObjectCmd>());
+
+        GameManager.Instance.Ui.HideSelectedKeeperPanel();
         GameManager.Instance.CheckGameState();
     }
 

@@ -200,6 +200,7 @@ public class IngameUI : MonoBehaviour
                 Button btn = goAction.GetComponent<Button>();
 
                 int n = i;
+
                 int iParam = ic.listActionContainers[n].iParam;
                 btn.onClick.AddListener(() => {
                     ic.listActionContainers[n].action(iParam);
@@ -217,7 +218,7 @@ public class IngameUI : MonoBehaviour
 
     public void ClearActionPanel()
     {
-        if (goActionPanelQ != null && goActionPanelQ.GetComponentsInChildren<Image>().Length > 0)
+        if (goActionPanelQ != null && goActionPanelQ.transform.childCount > 0)
         {
             foreach (Image ActionPanel in goActionPanelQ.GetComponentsInChildren<Image>())
             {
@@ -434,8 +435,6 @@ public class IngameUI : MonoBehaviour
                             go.GetComponent<RectTransform>().sizeDelta = new Vector2(100, 100);
                             go.transform.localPosition = Vector3.zero;
                             go.transform.localScale = Vector3.one;
-
-
                         }
                     }
                     // Standard UI update for alive characters

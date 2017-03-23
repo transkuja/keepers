@@ -91,11 +91,14 @@ public class TileTrigger : MonoBehaviour {
             bool isAshleyNotAlone = false;
             foreach (KeeperInstance kip in GameManager.Instance.AllKeepersList)
             {
-                if (kip != ki && TileManager.Instance.PrisonerTile == TileManager.Instance.GetTileFromKeeper[kip])
+                if (kip.IsAlive)
                 {
-                    isAshleyNotAlone = true;
-                    break;
-                } 
+                    if (kip != ki && TileManager.Instance.PrisonerTile == TileManager.Instance.GetTileFromKeeper[kip])
+                    {
+                        isAshleyNotAlone = true;
+                        break;
+                    }
+                }
             }
             if (isAshleyNotAlone)
             {
@@ -128,10 +131,13 @@ public class TileTrigger : MonoBehaviour {
             bool isAshleyNotAlone = false;
             foreach (KeeperInstance kip in GameManager.Instance.AllKeepersList)
             {
-                if (kip != ki && TileManager.Instance.PrisonerTile == TileManager.Instance.GetTileFromKeeper[kip])
+                if (kip.IsAlive)
                 {
-                    isAshleyNotAlone = true;
-                    break;
+                    if (kip != ki && TileManager.Instance.PrisonerTile == TileManager.Instance.GetTileFromKeeper[kip])
+                    {
+                        isAshleyNotAlone = true;
+                        break;
+                    }
                 }
             }
             if (isAshleyNotAlone)
