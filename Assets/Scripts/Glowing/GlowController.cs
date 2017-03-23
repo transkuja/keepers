@@ -68,6 +68,8 @@ public class GlowController : MonoBehaviour
     /// </summary>
     private void RebuildCommandBuffer()
 	{
+        if (_commandBuffer == null) return;
+
 		_commandBuffer.Clear();
 
 		_commandBuffer.GetTemporaryRT(_prePassRenderTexID, Screen.width, Screen.height, 0, FilterMode.Bilinear, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Default, QualitySettings.antiAliasing);
