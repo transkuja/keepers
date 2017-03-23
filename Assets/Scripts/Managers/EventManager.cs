@@ -10,9 +10,9 @@ public class EventManager : MonoBehaviour {
     {
         DecreaseMentalHealth();
         IncreaseHunger();
-        GameManager.Instance.ShortcutPanel_NeedUpdate = true;
 
         ResetActionPointsForNextTurn();
+        GameManager.Instance.ShortcutPanel_NeedUpdate = true;
         GameManager.Instance.SelectedKeeperNeedUpdate = true;
     }
 
@@ -20,7 +20,8 @@ public class EventManager : MonoBehaviour {
     {
         foreach (KeeperInstance ki in GameManager.Instance.AllKeepersList)
         {
-            ki.CurrentMentalHealth -= 10;
+            if (ki.IsAlive)
+                ki.CurrentMentalHealth -= 10;
         }
     }
 
@@ -28,7 +29,8 @@ public class EventManager : MonoBehaviour {
     {
         foreach (KeeperInstance ki in GameManager.Instance.AllKeepersList)
         {
-            ki.CurrentHunger += 10;
+            if (ki.IsAlive)
+                ki.CurrentHunger += 10;
         }
     }
 
