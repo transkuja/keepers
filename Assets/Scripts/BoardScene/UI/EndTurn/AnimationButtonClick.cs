@@ -70,14 +70,19 @@ public class AnimationButtonClick : MonoBehaviour, IPointerEnterHandler {
     {
         for (int i = 0; i < GameManager.Instance.AllKeepersList.Count; i++)
         {
-            if (GameManager.Instance.AllKeepersList[i].ActionPoints > 0)
+            if (GameManager.Instance.AllKeepersList[i].IsAlive)
             {
-                GameManager.Instance.Ui.goShortcutKeepersPanel.SetActive(true);
-                // Actions
-                GameManager.Instance.Ui.goShortcutKeepersPanel.transform.GetChild(i + 1).GetChild(4).GetComponent<Text>().color = Color.green;
-                GameManager.Instance.Ui.goShortcutKeepersPanel.transform.GetChild(i + 1).GetChild(4).transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
-                StartCoroutine(TextAnimationNormalState(i));
-                return;
+                if (GameManager.Instance.AllKeepersList[i].ActionPoints > 0)
+                {
+                    GameManager.Instance.Ui.goShortcutKeepersPanel.SetActive(true);
+                    // Actions
+
+                    // If keeper is dead this will be destroy
+                    GameManager.Instance.Ui.goShortcutKeepersPanel.transform.GetChild(i + 1).GetChild(4).GetComponent<Text>().color = Color.green;
+                    GameManager.Instance.Ui.goShortcutKeepersPanel.transform.GetChild(i + 1).GetChild(4).transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
+                    StartCoroutine(TextAnimationNormalState(i));
+                    return;
+                }
             }
         }
     }
