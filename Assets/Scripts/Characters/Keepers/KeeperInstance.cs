@@ -417,9 +417,10 @@ public class KeeperInstance : MonoBehaviour, ITradable {
     }
     public void MoralBuff(int _i = 0)
     {
-        if (GameManager.Instance.ListOfSelectedKeepers[0].ActionPoints > 0)
+        int costAction = interactionImplementer.Get("Moral").costAction;
+        if (GameManager.Instance.ListOfSelectedKeepers[0].ActionPoints >= costAction)
         {
-            int costAction = interactionImplementer.Get("Moral").costAction;
+
             GameManager.Instance.ListOfSelectedKeepers[0].ActionPoints -= (short)costAction;
             short amountMoralBuff = (short)Random.Range(minMoralBuff, maxMoralBuff);
             GameManager.Instance.GoTarget.GetComponentInParent<KeeperInstance>().CurrentMentalHealth += amountMoralBuff;

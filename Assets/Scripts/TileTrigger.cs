@@ -60,17 +60,19 @@ public class TileTrigger : MonoBehaviour {
                         }
 
                         IngameUI ui = GameObject.Find("IngameUI").GetComponent<IngameUI>();
+
                         if (GetComponentInParent<Tile>().Neighbors[(int)eTrigger].State == TileState.Discovered)
                         {
                             InteractionImplementer.Add(new Interaction(Move), 2, "Move", GameManager.Instance.Ui.spriteMove, true, (int)eTrigger);
                             ui.UpdateActionPanelUIQ(InteractionImplementer);
                         }
-
                         if (GetComponentInParent<Tile>().Neighbors[(int)eTrigger].State == TileState.Greyed)
                         {
                             InteractionImplementer.Add(new Interaction(Explore), 3, "Explore", GameManager.Instance.Ui.spriteExplore, true, (int)eTrigger);
                             ui.UpdateActionPanelUIQ(InteractionImplementer);
                         }
+
+                   
                     } else
                     {
                         // TODO : reflechir
@@ -170,7 +172,9 @@ public class TileTrigger : MonoBehaviour {
 
     private void MoveWithoutConfirmation(int _i)
     {
-        TileManager.Instance.MoveKeeper(ki, TileManager.Instance.GetTileFromKeeper[ki], (Direction)_i);
+
+        //int costAction = interactionImplementer.Get("Move").costAction;
+        TileManager.Instance.MoveKeeper(ki, TileManager.Instance.GetTileFromKeeper[ki], (Direction)_i, 3);
 
         GameManager.Instance.SelectedKeeperNeedUpdate = true;
         GameManager.Instance.ShortcutPanel_NeedUpdate = true;
@@ -188,7 +192,8 @@ public class TileTrigger : MonoBehaviour {
         }
 
         // Move to explored tile
-        TileManager.Instance.MoveKeeper(ki, TileManager.Instance.GetTileFromKeeper[ki], (Direction)_i);
+        //int costAction = interactionImplementer.Get("Explore").costAction;
+        TileManager.Instance.MoveKeeper(ki, TileManager.Instance.GetTileFromKeeper[ki], (Direction)_i, 2);
         // Tell the tile it has been discovered (and watch it panic)
         Tile exploredTile = TileManager.Instance.GetTileFromKeeper[ki];
         exploredTile.State = TileState.Discovered;

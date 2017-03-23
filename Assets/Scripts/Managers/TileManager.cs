@@ -63,7 +63,7 @@ public class TileManager : MonoBehaviour {
     /// <param name="keeper">The keeper to move</param>
     /// <param name="from">The origin tile</param>
     /// <param name="direction">The direction of the movement from the origin tile</param>
-    public void MoveKeeper(KeeperInstance keeper, Tile from, Direction direction)
+    public void MoveKeeper(KeeperInstance keeper, Tile from, Direction direction, int costAction)
     {
         Tile destination = from.Neighbors[(int)direction];
         if (destination == null)
@@ -81,7 +81,7 @@ public class TileManager : MonoBehaviour {
         keeper.transform.position = spawnPoints[0].position;
         agent.enabled = true;
 
-        keeper.ActionPoints = 0;
+        keeper.ActionPoints -= (short)costAction;
         GameObject goCurrentCharacter;
 
         for (int i = 0; i < keeper.Keeper.GoListCharacterFollowing.Count; i++)

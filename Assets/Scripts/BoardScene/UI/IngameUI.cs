@@ -59,6 +59,8 @@ public class IngameUI : MonoBehaviour
     public Sprite spriteMoralDebuff;
     public Sprite spriteEndAction;
 
+    public GameObject actionPointPrefab;
+
 
     // ShortcutPanel
     [Header("ShortcutPanel Panel")]
@@ -200,6 +202,19 @@ public class IngameUI : MonoBehaviour
                 Button btn = goAction.GetComponent<Button>();
 
                 int n = i;
+
+                int nbActionRestantKeeper = ic.listActionContainers[i].costAction - GameManager.Instance.ListOfSelectedKeepers[0].ActionPoints;
+                for ( int nbActionPoint=0; nbActionPoint < ic.listActionContainers[i].costAction; nbActionPoint++)
+                {
+                    GameObject actionPoints = Instantiate(actionPointPrefab, goAction.transform);
+                    actionPoints.transform.localScale = Vector3.one;
+                    actionPoints.transform.localPosition = Vector3.zero;
+                    actionPoints.transform.localRotation = Quaternion.identity;
+
+                    if (nbActionPoint < nbActionRestantKeeper)
+                    actionPoints.transform.GetChild(0).GetComponent<Image>().color = Color.red;
+
+                }
 
                 int iParam = ic.listActionContainers[n].iParam;
                 btn.onClick.AddListener(() => {

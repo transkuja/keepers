@@ -83,7 +83,8 @@ public class ItemInstance : MonoBehaviour, IHavestable
 
     public void Harvest(int _i = 0)
     {
-        if (GameManager.Instance.ListOfSelectedKeepers[0].ActionPoints > 0)
+        int costAction = interactionImplementer.Get("Harvest").costAction;
+        if (GameManager.Instance.ListOfSelectedKeepers[0].ActionPoints >= costAction)
         {
             int nbSlot = GameManager.Instance.ListOfSelectedKeepers[0].Keeper.nbSlot;
             bool isNoLeftOver = InventoryManager.AddItemToInventory(GameManager.Instance.ListOfSelectedKeepers[0].GetComponent<Inventory>().List_inventaire, nbSlot, itemContainer);
@@ -99,7 +100,6 @@ public class ItemInstance : MonoBehaviour, IHavestable
 
             }
 
-            int costAction = interactionImplementer.Get("Harvest").costAction;
             GameManager.Instance.ListOfSelectedKeepers[0].ActionPoints -= (short)costAction;
             GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
             GameManager.Instance.Ui.UpdateInventoryPanel(GameManager.Instance.ListOfSelectedKeepers[0].gameObject);
