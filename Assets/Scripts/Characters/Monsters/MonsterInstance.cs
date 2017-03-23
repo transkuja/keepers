@@ -18,6 +18,11 @@ public class MonsterInstance : MonoBehaviour {
     private float moveTimer = 0.0f;
     private bool isAnimInitialized = false;
 
+    // Battle variables
+    bool hasRecentlyBattled = false;
+    Vector3 originPosition;
+    Quaternion originRotation;
+
     public Monster Monster
     {
         get
@@ -36,6 +41,9 @@ public class MonsterInstance : MonoBehaviour {
         currentHp = monster.MaxHp;
         currentMp = monster.MaxMp;
         agent = GetComponent<NavMeshAgent>();
+        originPosition = transform.position;
+        originRotation = transform.rotation;
+
     }
 
     public int CurrentHp
@@ -78,19 +86,24 @@ public class MonsterInstance : MonoBehaviour {
 
     }
 
-    private void OnTriggerExit(Collider other)
-    {
-        GetComponent<BoxCollider>().enabled = false;
-        Invoke("ReactivateTrigger", 1.0f);
-    }
-
     void Update () {
         NavMeshMovement();
     }
 
+    public void RestAfterBattle()
+    {
+        foreach (BoxCollider bc in GetComponentsInChildren<BoxCollider>())
+            bc.enabled = false;
+
+        hasRecentlyBattled = true;
+        Invoke("ReactivateTrigger", 3.0f);
+    }
+
     private void ReactivateTrigger()
     {
-        GetComponent<BoxCollider>().enabled = true;
+        foreach (BoxCollider bc in GetComponentsInChildren<BoxCollider>())
+            bc.enabled = true;
+        hasRecentlyBattled = false;
     }
 
     public List<ItemContainer> ComputeLoot()
@@ -111,18 +124,34 @@ public class MonsterInstance : MonoBehaviour {
 
     public void NavMeshMovement()
     {
-        moveTimer += Time.deltaTime;
-
-        if (moveTimer >= 3.0f)
+        if (!hasRecentlyBattled)
         {
-            moveTimer = 0.0f;
+            moveTimer += Time.deltaTime;
 
-            agent.enabled = false;
-            transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, isAnimInitialized ? transform.localEulerAngles.y + 180 : transform.localEulerAngles.y, transform.localEulerAngles.z);
-            agent.enabled = true;
-            agent.SetDestination(transform.position + transform.forward * 1.2f);
+            if (moveTimer >= 3.0f)
+            {
+                moveTimer = 0.0f;
 
-            isAnimInitialized = true;
+                agent.enabled = false;
+                transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, isAnimInitialized ? transform.localEulerAngles.y + 180 : transform.localEulerAngles.y, transform.localEulerAngles.z);
+                agent.enabled = true;
+                agent.SetDestination(transform.position + transform.forward * 1.2f);
+
+                isAnimInitialized = true;
+            }
+        }
+        else
+        {
+            agent.SetDestination(originPosition);
+
+            if (agent.remainingDistance < 0.0000001f)
+            {
+                agent.Stop();
+                transform.rotation = originRotation;
+                agent.Resume();
+                isAnimInitialized = false;
+                moveTimer = 0.0f;
+            }
         }
     }
 }

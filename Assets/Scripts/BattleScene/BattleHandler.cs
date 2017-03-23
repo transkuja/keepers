@@ -55,7 +55,7 @@ public class BattleHandler {
         }
         else
         {
-            HandleBattleDefeat(selectedKeepersForBattle);
+            HandleBattleDefeat(selectedKeepersForBattle, TileManager.Instance.MonstersOnTile[tile]);
         }
 
         PrintResultsScreen(isVictorious);
@@ -304,7 +304,7 @@ public class BattleHandler {
     /*
      * Process everything that needs to be processed after a defeat
      */
-    private static void HandleBattleDefeat(List<KeeperInstance> keepers)
+    private static void HandleBattleDefeat(List<KeeperInstance> keepers, List<MonsterInstance> monsters)
     {
         foreach (KeeperInstance ki in keepers)
         {
@@ -326,6 +326,11 @@ public class BattleHandler {
         foreach (KeeperInstance ki in GameManager.Instance.ListOfSelectedKeepers)
         {
             ki.transform.position = ki.transform.position - ki.transform.forward * 0.5f;
+        }
+
+        foreach (MonsterInstance mi in monsters)
+        {
+            mi.RestAfterBattle();
         }
     }
 
