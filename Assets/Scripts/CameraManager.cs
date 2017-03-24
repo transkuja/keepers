@@ -129,10 +129,10 @@ public class CameraManager : MonoBehaviour {
                 lerpParameter = 0.0f;
             }
 
-            Vector3 pos = transform.position;
-            pos.x = Mathf.Clamp(pos.x, cameraBounds.GetChild((int)CameraBound.West).position.x, cameraBounds.GetChild((int)CameraBound.East).position.x);
-            pos.z = Mathf.Clamp(pos.z, cameraBounds.GetChild((int)CameraBound.South).position.z, cameraBounds.GetChild((int)CameraBound.North).position.z);
-            transform.position = pos;
+            //Vector3 pos = transform.position;
+            //pos.x = Mathf.Clamp(pos.x, cameraBounds.GetChild((int)CameraBound.West).position.x, cameraBounds.GetChild((int)CameraBound.East).position.x);
+            //pos.z = Mathf.Clamp(pos.z, cameraBounds.GetChild((int)CameraBound.South).position.z, cameraBounds.GetChild((int)CameraBound.North).position.z);
+            //transform.position = pos;
         }
 
         Controls();
@@ -207,6 +207,21 @@ public class CameraManager : MonoBehaviour {
         }
     }
 
+    void OnDrawGizmos()
+    {
+        float north = cameraBounds.GetChild((int)CameraBound.North).position.z;
+        float south = cameraBounds.GetChild((int)CameraBound.South).position.z;
+        float east = cameraBounds.GetChild((int)CameraBound.East).position.x;
+        float west = cameraBounds.GetChild((int)CameraBound.West).position.x;
+
+        Gizmos.color = Color.magenta;
+
+        Gizmos.DrawLine(new Vector3(west, 0, north), new Vector3(east, 0, north));
+        Gizmos.DrawLine(new Vector3(east, 0, north), new Vector3(east, 0, south));
+        Gizmos.DrawLine(new Vector3(east, 0, south), new Vector3(west, 0, south));
+        Gizmos.DrawLine(new Vector3(west, 0, south), new Vector3(west, 0, north));
+    }
+
     private void ControlDrag()
     {
         if (Input.GetMouseButtonDown(2) && !bIsDraging)
@@ -221,6 +236,11 @@ public class CameraManager : MonoBehaviour {
             Vector3 v3DragDiff = v3DragOrigin - Input.mousePosition;
 
             Vector3 v3IncrementPos = new Vector3(v3DragDiff.x * fDragFactor, 0, v3DragDiff.y * fDragFactor);
+            if(!((tClose.position + v3IncrementPos).z > cameraBounds.GetChild((int)CameraBound.South).position.z &&
+               (tClose.position + v3IncrementPos).z < cameraBounds.GetChild((int)CameraBound.North).position.z))
+            {
+                v3IncrementPos.z = 0.0f;
+            }
 
             transform.position += v3IncrementPos;
             tClose.position += v3IncrementPos;
@@ -233,9 +253,17 @@ public class CameraManager : MonoBehaviour {
             bIsDraging = false;
         }
         Vector3 pos = transform.position;
-        //pos.x = Mathf.Clamp(pos.x, cameraBounds.GetChild((int)CameraBound.West).position.x, cameraBounds.GetChild((int)CameraBound.East).position.x);
-       // pos.z = Mathf.Clamp(pos.z, cameraBounds.GetChild((int)CameraBound.South).position.z, cameraBounds.GetChild((int)CameraBound.North).position.z);
+        pos.x = Mathf.Clamp(pos.x, cameraBounds.GetChild((int)CameraBound.West).position.x, cameraBounds.GetChild((int)CameraBound.East).position.x);
+        //pos.z = Mathf.Clamp(pos.z, cameraBounds.GetChild((int)CameraBound.South).position.z, cameraBounds.GetChild((int)CameraBound.North).position.z);
         transform.position = pos;
+
+        pos = tClose.position;
+        pos.x = Mathf.Clamp(pos.x, cameraBounds.GetChild((int)CameraBound.West).position.x, cameraBounds.GetChild((int)CameraBound.East).position.x);
+        tClose.position = pos;
+
+        pos = tFar.position;
+        pos.x = Mathf.Clamp(pos.x, cameraBounds.GetChild((int)CameraBound.West).position.x, cameraBounds.GetChild((int)CameraBound.East).position.x);
+        tFar.position = pos;
     }
 
     private void UpdateCamZoom()
@@ -250,5 +278,6 @@ public class CameraManager : MonoBehaviour {
 
         transform.position = Vector3.Lerp(tFar.position, tClose.position, fZoomLerp);
         transform.rotation = Quaternion.Lerp(tFar.rotation, tClose.rotation, fZoomLerp);
+        
     }
 }
