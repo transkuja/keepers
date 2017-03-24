@@ -3,3 +3,5 @@ L'action de finir le jeu s'affiche trop haut (et il manque le sprite)
 Lors du restart, les positions des monstres peuvent être mal initialisées dans le TileManager (le bug est très random)
 
 Bugs multiples lors des combats (au delà d'un monstre dans le combat, au delà du premier combat, bug sur l'écran de selection, etc.)
+
+Lorsqu'un combat avec un seul keeper (testé contre plusieurs monstres en même temps) est perdu, Si on retente le combat en rajoutant un keeper, l'écran de choix des personnages s'affiche mais une erreur d'argument invalide sur "index" intervient. La fenêtre reste ouverte est est impossible à fermer, même si le résultat du combat s'affiche en arrière plan.
