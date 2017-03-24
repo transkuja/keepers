@@ -207,8 +207,8 @@ public class PrisonerInstance : MonoBehaviour, IEscortable {
             GameManager.Instance.AllKeepersList[i].Keeper.GoListCharacterFollowing.Clear();
             GameManager.Instance.AllKeepersList[i].isEscortAvailable = true;
         }
-
-        GameManager.Instance.ListOfSelectedKeepers[0].Keeper.GoListCharacterFollowing.Add(GameManager.Instance.GoTarget);
+        // Ne va fonctionner que pour le prisonnier
+        GameManager.Instance.ListOfSelectedKeepers[0].Keeper.GoListCharacterFollowing.Add(GameManager.Instance.GoTarget.GetComponentInParent<PrisonerInstance>().gameObject);
         GetComponent<NavMeshAgent>().stoppingDistance = 0.75f;
         GetComponent<NavMeshAgent>().avoidancePriority = 80;
         GameManager.Instance.ListOfSelectedKeepers[0].isEscortAvailable = false;
