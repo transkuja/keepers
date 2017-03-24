@@ -25,8 +25,6 @@ public class MonsterInstance : MonoBehaviour {
 
     // Blocking path variables
     [SerializeField]
-    bool isBlockingAPath = false;
-    [SerializeField]
     Direction[] pathsBlocked;
     BoxCollider[] pathBlockedColliders;
     Tile monsterTile;
@@ -54,7 +52,7 @@ public class MonsterInstance : MonoBehaviour {
         monsterTile = GetComponentInParent<Tile>();
 
         // Check if the monster is blocking paths and deactivate concerned colliders
-        if (isBlockingAPath)
+        if (pathsBlocked != null)
         {
             pathBlockedColliders = new BoxCollider[2 * pathsBlocked.Length];
 
@@ -106,7 +104,8 @@ public class MonsterInstance : MonoBehaviour {
 
     private void OnDestroy()
     {
-        if (isBlockingAPath)
+        // Reactivate paths blocked by the monster
+        if (pathsBlocked != null)
         {
             for (int i = 0; i < pathBlockedColliders.Length; i++)
             {
