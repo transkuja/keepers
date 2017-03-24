@@ -13,6 +13,7 @@ public class TriggerPanneau : MonoBehaviour {
     {
         goPanneau = Instantiate(prefabPanelPanneau, GameManager.Instance.Ui.basePanneauPanel.transform);
         goPanneau.transform.localPosition = Vector3.zero;
+        goPanneau.transform.localScale = Vector3.one;
     }
 
     void OnTriggerEnter(Collider other)

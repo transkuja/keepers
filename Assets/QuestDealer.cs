@@ -11,5 +11,6 @@ public class QuestDealer : MonoBehaviour {
     {
         goQuest = Instantiate(prefabContentQuest, GameManager.Instance.Ui.baseQuestPanel.transform);
         goQuest.transform.localPosition = Vector3.zero;
+        goQuest.transform.localScale = Vector3.one;
     }
 }
