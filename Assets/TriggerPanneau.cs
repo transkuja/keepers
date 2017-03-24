@@ -20,9 +20,9 @@ public class TriggerPanneau : MonoBehaviour {
     {
         if (other.GetComponentInParent<KeeperInstance>() != null)
         {
-
+            KeeperInstance ki = other.GetComponentInParent<KeeperInstance>();
             // On veut le mesh collider actif du perso
-            foreach (MeshCollider mc in GameManager.Instance.ListOfSelectedKeepers[0].gameObject.GetComponentsInChildren<MeshCollider>())
+            foreach (MeshCollider mc in ki.gameObject.GetComponentsInChildren<MeshCollider>())
             {
                 if (mc.enabled)
                 {
