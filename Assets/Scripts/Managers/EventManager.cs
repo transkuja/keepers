@@ -32,6 +32,10 @@ public class EventManager : MonoBehaviour {
             if (ki.IsAlive)
                 ki.CurrentHunger += 10;
         }
+        if (GameManager.Instance.PrisonerInstance.IsAlive)
+        {
+            GameManager.Instance.PrisonerInstance.CurrentHunger += 10;
+        }
     }
 
     private static void ResetActionPointsForNextTurn()
