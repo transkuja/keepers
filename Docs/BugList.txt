@@ -1,8 +1,5 @@
 L'action de finir le jeu s'affiche trop haut (et il manque le sprite)
 
 Lors du restart, les positions des monstres peuvent être mal initialisées dans le TileManager (le bug est très random)
-
-Bugs multiples lors des combats 
-	==> tester plusieurs combats a la suite avec plusieurs mobs a chaque fois 
 	
 Bug quand on fonce vers un trigger (panneau ou bord de tile) et qu'on selectionne un autre perso (IngameUI ligne 213)

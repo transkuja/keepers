@@ -191,11 +191,11 @@ public class TileTrigger : MonoBehaviour {
 
         //int costAction = interactionImplementer.Get("Move").costAction;
         TileManager.Instance.MoveKeeper(ki, TileManager.Instance.GetTileFromKeeper[ki], (Direction)_i, actionCostMove);
-
         GameManager.Instance.SelectedKeeperNeedUpdate = true;
         GameManager.Instance.ShortcutPanel_NeedUpdate = true;
         GameManager.Instance.Ui.HideInventoryPanels();
 
+        ki.IsTargetableByMonster = false;
     }
 
     private void ExploreWithoutConfirmation(int _i)
@@ -256,5 +256,7 @@ public class TileTrigger : MonoBehaviour {
         GameManager.Instance.SelectedKeeperNeedUpdate = true;
         GameManager.Instance.ShortcutPanel_NeedUpdate = true;
         GameManager.Instance.Ui.HideInventoryPanels();
+
+        ki.IsTargetableByMonster = false;
     }
 }

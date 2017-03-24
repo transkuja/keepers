@@ -66,6 +66,8 @@ public class KeeperInstance : MonoBehaviour, ITradable {
     [SerializeField]
     float fRotateSpeed = 1.0f;
 
+    // Aggro
+    bool isTargetableByMonster = true;
 
     public short CurrentHunger
     {
@@ -371,6 +373,27 @@ public class KeeperInstance : MonoBehaviour, ITradable {
         }
     }
 
+    public bool IsTargetableByMonster
+    {
+        get
+        {
+            return isTargetableByMonster;
+        }
+
+        set
+        {
+            isTargetableByMonster = value;
+            foreach (GameObject follower in keeper.GoListCharacterFollowing)
+            {
+                Debug.Log(follower.GetComponent<PrisonerInstance>().IsTargetableByMonster);
+                if (follower.GetComponent<PrisonerInstance>() != null)
+                    follower.GetComponent<PrisonerInstance>().IsTargetableByMonster = value;
+                Debug.Log(follower.GetComponent<PrisonerInstance>().IsTargetableByMonster);
+
+            }
+        }
+    }
+
     public void TriggerRotation(Vector3 v3Direction)
     {
         agent.angularSpeed = 0.0f;
@@ -417,6 +440,7 @@ public class KeeperInstance : MonoBehaviour, ITradable {
         keeperInventoryPanel.SetActive(true);
         GameManager.Instance.Ui.UpdateInventoryPanel(gameObject);
     }
+
     public void MoralBuff(int _i = 0)
     {
         if (GameManager.Instance.ListOfSelectedKeepers.Count > 0)

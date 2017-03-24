@@ -27,6 +27,9 @@ public class PrisonerInstance : MonoBehaviour, IEscortable {
 
     private GameObject keeperFollowed = null;
 
+    // Aggro
+    bool isTargetableByMonster = true;
+
     public int CurrentHp
     {
         get { return currentHp; }
@@ -196,6 +199,19 @@ public class PrisonerInstance : MonoBehaviour, IEscortable {
         set
         {
             isAlive = value;
+        }
+    }
+
+    public bool IsTargetableByMonster
+    {
+        get
+        {
+            return isTargetableByMonster;
+        }
+
+        set
+        {
+            isTargetableByMonster = value;
         }
     }
     #endregion
