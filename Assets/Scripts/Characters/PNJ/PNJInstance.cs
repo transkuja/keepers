@@ -20,6 +20,11 @@ public class PNJInstance : MonoBehaviour {
 
         GetComponent<Inventory>().List_inventaire = ComputeItems();
         pnjInventoryPanel = GameManager.Instance.Ui.CreateInventoryPanel(this.gameObject);
+
+        if (GetComponent<QuestDealer>() != null)
+        {
+            InteractionImplementer.Add(new Interaction(Quest), 1, "Quest", GameManager.Instance.Ui.spriteQuest);
+        }
     }
 
     public PNJInstance(PNJInstance from)
@@ -61,6 +66,23 @@ public class PNJInstance : MonoBehaviour {
     {
         pnjInventoryPanel.SetActive(true);
         GameManager.Instance.Ui.UpdateInventoryPanel(gameObject);
+    }
+
+    public void Quest(int _i = 0)
+    {
+        if (GameManager.Instance.ListOfSelectedKeepers.Count > 0)
+        {
+            int costAction = interactionImplementer.Get("Quest").costAction;
+            if (GameManager.Instance.ListOfSelectedKeepers[0].ActionPoints >= costAction)
+            {
+                GameManager.Instance.ListOfSelectedKeepers[0].ActionPoints -= (short)costAction;
+                GetComponent<QuestDealer>().goQuest.SetActive(true);
+            }
+            else
+            {
+                GameManager.Instance.Ui.ZeroActionTextAnimation();
+            }
+        }
     }
 
     public List<ItemContainer> ComputeItems()

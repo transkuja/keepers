@@ -249,7 +249,8 @@ public class KeeperInstance : MonoBehaviour, ITradable {
         GameObject goDestinationTemp = gameObject;
         for (int i = 0; i < keeper.GoListCharacterFollowing.Count; i++)
         {
-            keeper.GoListCharacterFollowing[i].GetComponent<NavMeshAgent>().destination = goDestinationTemp.transform.position;
+            // TODO : Bug ici 24/03 (there is no nav mesh agent attached to ploy surface body) escort ashley
+            keeper.GoListCharacterFollowing[i].GetComponentInParent<NavMeshAgent>().destination = goDestinationTemp.transform.position;
             goDestinationTemp = keeper.GoListCharacterFollowing[i];
         }
 
@@ -418,19 +419,22 @@ public class KeeperInstance : MonoBehaviour, ITradable {
     }
     public void MoralBuff(int _i = 0)
     {
-        int costAction = interactionImplementer.Get("Moral").costAction;
-        if (GameManager.Instance.ListOfSelectedKeepers[0].ActionPoints >= costAction)
+        if (GameManager.Instance.ListOfSelectedKeepers.Count > 0)
         {
-            GameManager.Instance.ListOfSelectedKeepers[0].ActionPoints -= (short)costAction;
-            short amountMoralBuff = (short)Random.Range(minMoralBuff, maxMoralBuff);
-            GameManager.Instance.GoTarget.GetComponentInParent<KeeperInstance>().CurrentMentalHealth += amountMoralBuff;
-            GameManager.Instance.ShortcutPanel_NeedUpdate = true;
-            GameManager.Instance.SelectedKeeperNeedUpdate = true;
-            GameManager.Instance.Ui.MoralBuffActionTextAnimation(amountMoralBuff);
-        }
-        else
-        {
-            GameManager.Instance.Ui.ZeroActionTextAnimation();
+            int costAction = interactionImplementer.Get("Moral").costAction;
+            if (GameManager.Instance.ListOfSelectedKeepers[0].ActionPoints >= costAction)
+            {
+                GameManager.Instance.ListOfSelectedKeepers[0].ActionPoints -= (short)costAction;
+                short amountMoralBuff = (short)Random.Range(minMoralBuff, maxMoralBuff);
+                GameManager.Instance.GoTarget.GetComponentInParent<KeeperInstance>().CurrentMentalHealth += amountMoralBuff;
+                GameManager.Instance.ShortcutPanel_NeedUpdate = true;
+                GameManager.Instance.SelectedKeeperNeedUpdate = true;
+                GameManager.Instance.Ui.MoralBuffActionTextAnimation(amountMoralBuff);
+            }
+            else
+            {
+                GameManager.Instance.Ui.ZeroActionTextAnimation();
+            }
         }
     }
 }

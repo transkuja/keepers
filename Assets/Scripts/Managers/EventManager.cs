@@ -14,6 +14,7 @@ public class EventManager : MonoBehaviour {
         ResetActionPointsForNextTurn();
         GameManager.Instance.ShortcutPanel_NeedUpdate = true;
         GameManager.Instance.SelectedKeeperNeedUpdate = true;
+        GameManager.Instance.Ui.ClearActionPanel();
     }
 
     private static void DecreaseMentalHealth()

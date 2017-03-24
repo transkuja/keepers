@@ -53,7 +53,7 @@ public class IngameUI : MonoBehaviour
     public Sprite spriteUnescort;
 
     public Sprite spriteLoot;
-
+    public Sprite spriteQuest;
     public Sprite spriteMoral;
     public Sprite spriteMoralBuff;
     public Sprite spriteMoralDebuff;
@@ -74,8 +74,8 @@ public class IngameUI : MonoBehaviour
     [Header("Panneau Panel")]
     public GameObject basePanneauPanel;
 
-
-
+    [Header("Quest Panel")]
+    public GameObject baseQuestPanel;
 
     [Header("Confirmation Panel")]
     public GameObject goConfirmationPanel;
@@ -196,6 +196,8 @@ public class IngameUI : MonoBehaviour
         {
             bool bIsForbiden = ic.listActionContainers[i].strName == "Escort" && !GameManager.Instance.ListOfSelectedKeepers[0].isEscortAvailable;
             bIsForbiden = bIsForbiden || ic.listActionContainers[i].strName == "Unescort" && GameManager.Instance.ListOfSelectedKeepers[0].isEscortAvailable;
+            bIsForbiden = bIsForbiden || ic.listActionContainers[i].strName == "Quest" && !GameManager.Instance.ListOfSelectedKeepers[0].isAbleToImproveMoral;
+            bIsForbiden = bIsForbiden || ic.listActionContainers[i].strName == "Moral" && !GameManager.Instance.ListOfSelectedKeepers[0].isAbleToImproveMoral;
             if (!bIsForbiden)
             {
                 GameObject goAction = Instantiate(baseActionImage, goActionPanelQ.transform);
