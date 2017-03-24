@@ -59,4 +59,5 @@ icone pour un pnj
 refaire la boîte (@Rémi) et la linker au jeu
 actions_ panel -> le mettre sur un canvas world space pour le rendre plus sympa ( post proto)
 icon de moral buff debuff.
-
+Points d'actions nécessaire affichés au dessus du bouton de l'action: Mettre les points en couleur sombre de base et les remplir (en partant du point de gauche vers le point de droite) avec une couleur plus claire, en fonction des PA du keeper selectionné.
+	(par exemple: Explorer coûte 3 points d'actions, le keeper sélectionné n'en a que 2: deux points rouges (ou oranges) sont affichés, suivis d'un point sombre pour indiquer qu'il manque un point d'action. Si le keeper a 3 PA, les trois points peuvent être remplis de vert).
