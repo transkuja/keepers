@@ -1,0 +1,4 @@
+bloquer/débloquer un chemin
+action spécifique coffre qui coute des points d'action 
+bug sur l'écran de selection après plusieurs combats
+bug lorsque l'on tue tous les mobs et qu'il y en a plusieurs (surement bug quand on tue plusieurs mobs tout court)
