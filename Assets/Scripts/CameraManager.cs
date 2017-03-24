@@ -35,6 +35,8 @@ public class CameraManager : MonoBehaviour {
 
     // Camera Drag
     [SerializeField] float fDragFactor = 0.1f;
+    [SerializeField]
+    float fKeySpeed = 5.0f;
     bool bIsDraging = false;
     Vector3 v3DragOrigin;
     // *********************************
@@ -148,6 +150,8 @@ public class CameraManager : MonoBehaviour {
         ControlZoom();
 
         ControlDrag();
+
+        ControlKeys();
     }
 
     private void ControlZoom()
@@ -220,6 +224,38 @@ public class CameraManager : MonoBehaviour {
         Gizmos.DrawLine(new Vector3(east, 0, north), new Vector3(east, 0, south));
         Gizmos.DrawLine(new Vector3(east, 0, south), new Vector3(west, 0, south));
         Gizmos.DrawLine(new Vector3(west, 0, south), new Vector3(west, 0, north));
+    }
+
+    private void ControlKeys()
+    {
+        if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
+        {
+            Vector3 v3IncrementPos = new Vector3( Input.GetAxisRaw("Horizontal")* fKeySpeed * Time.deltaTime, 0, Input.GetAxisRaw("Vertical") * fKeySpeed * Time.deltaTime);
+            if (!((tClose.position + v3IncrementPos).z > cameraBounds.GetChild((int)CameraBound.South).position.z &&
+               (tClose.position + v3IncrementPos).z < cameraBounds.GetChild((int)CameraBound.North).position.z))
+            {
+                v3IncrementPos.z = 0.0f;
+            }
+
+            transform.position += v3IncrementPos;
+            tClose.position += v3IncrementPos;
+            tFar.position += v3IncrementPos;
+
+            v3DragOrigin = Input.mousePosition;
+        }
+       
+        Vector3 pos = transform.position;
+        pos.x = Mathf.Clamp(pos.x, cameraBounds.GetChild((int)CameraBound.West).position.x, cameraBounds.GetChild((int)CameraBound.East).position.x);
+        //pos.z = Mathf.Clamp(pos.z, cameraBounds.GetChild((int)CameraBound.South).position.z, cameraBounds.GetChild((int)CameraBound.North).position.z);
+        transform.position = pos;
+
+        pos = tClose.position;
+        pos.x = Mathf.Clamp(pos.x, cameraBounds.GetChild((int)CameraBound.West).position.x, cameraBounds.GetChild((int)CameraBound.East).position.x);
+        tClose.position = pos;
+
+        pos = tFar.position;
+        pos.x = Mathf.Clamp(pos.x, cameraBounds.GetChild((int)CameraBound.West).position.x, cameraBounds.GetChild((int)CameraBound.East).position.x);
+        tFar.position = pos;
     }
 
     private void ControlDrag()
