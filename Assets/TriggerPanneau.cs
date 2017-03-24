@@ -18,31 +18,48 @@ public class TriggerPanneau : MonoBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
-        if( other.gameObject.layer == LayerMask.NameToLayer("KeeperInstance"))
+        if (other.GetComponentInParent<KeeperInstance>() != null)
         {
-            KeeperInstance ki = other.gameObject.GetComponentInParent<KeeperInstance>();
 
+            // On veut le mesh collider actif du perso
+            foreach (MeshCollider mc in GameManager.Instance.ListOfSelectedKeepers[0].gameObject.GetComponentsInChildren<MeshCollider>())
+            {
+                if (mc.enabled)
+                {
+                    GameManager.Instance.GoTarget = mc.gameObject;
+                    break;
+                }
+            }
+            InteractionImplementer InteractionImplementer = new InteractionImplementer();
+            InteractionImplementer.Add(new Interaction(Look), 0, "Look", GameManager.Instance.Ui.spriteExplore, true);
+            GameManager.Instance.Ui.UpdateActionPanelUIQ(InteractionImplementer);
+        }
+    }
+
+    void Look(int _i)
+    {
+        if (GameManager.Instance.ListOfSelectedKeepers.Count > 0)
+        {
+            KeeperInstance ki = GameManager.Instance.ListOfSelectedKeepers[0];
             if (goPanneau == null) return;
             goPanneau.SetActive(true);
             // Si le personnage peut parler
-            if ( ki.isAbleToImproveMoral)
+            if (ki.isAbleToImproveMoral)
             {
-                Debug.Log("test");
                 goPanneau.GetComponentInChildren<Text>().text = textPanneau;
             }
             else
             {
-                goPanneau.GetComponentInChildren<Text>().text = "Ouaf Aou Ahouahou Wouf Wuf wuf Wouaf Wouaf Wuah Whaf Whouaf" ;
+                goPanneau.GetComponentInChildren<Text>().text = "Ouaf Aou Ahouahou Wouf Wuf wuf Wouaf Wouaf Wuah Whaf Whouaf";
             }
-
         }
     }
 
+
     void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("KeeperInstance"))
+        if (other.GetComponentInParent<KeeperInstance>() != null)
         {
-
             if (goPanneau == null) return;
             goPanneau.SetActive(false);
         }

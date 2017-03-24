@@ -94,7 +94,7 @@ public class TileTrigger : MonoBehaviour {
 
     void Move(int _i)
     {
-        if (GameManager.Instance.ListOfSelectedKeepers[0].ActionPoints >= actionCostMove)
+        if (GameManager.Instance.ListOfSelectedKeepers.Count > 0 && GameManager.Instance.ListOfSelectedKeepers[0].ActionPoints >= actionCostMove)
         {
             Tile currentTile = TileManager.Instance.GetTileFromKeeper[ki];
 
@@ -141,7 +141,7 @@ public class TileTrigger : MonoBehaviour {
 
     void Explore(int _i)
     {
-        if (GameManager.Instance.ListOfSelectedKeepers[0].ActionPoints >= actionCostExplore)
+        if (GameManager.Instance.ListOfSelectedKeepers.Count > 0 && GameManager.Instance.ListOfSelectedKeepers[0].ActionPoints >= actionCostExplore)
         {
             Tile currentTile = TileManager.Instance.GetTileFromKeeper[ki];
 
