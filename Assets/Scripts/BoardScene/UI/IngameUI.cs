@@ -255,12 +255,12 @@ public class IngameUI : MonoBehaviour
         goMoralPanel.transform.position = Camera.main.WorldToScreenPoint(GameManager.Instance.GoTarget.transform.position);
         if (amount < 0)
         {
-            goMoralPanel.GetComponent<Image>().sprite = spriteMoralDebuff;
+            goMoralPanel.transform.GetChild(0).GetComponent<Image>().sprite = spriteMoralDebuff;
             goMoralPanel.GetComponentInChildren<Text>().color = Color.red;
             goMoralPanel.GetComponentInChildren<Text>().text = "";
         } else
         {
-            goMoralPanel.GetComponent<Image>().sprite = spriteMoralBuff;
+            goMoralPanel.transform.GetChild(0).GetComponent<Image>().sprite = spriteMoralBuff;
             goMoralPanel.GetComponentInChildren<Text>().color = Color.green;
             goMoralPanel.GetComponentInChildren<Text>().text = "+ ";
         }
