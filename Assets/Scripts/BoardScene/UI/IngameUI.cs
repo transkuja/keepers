@@ -71,6 +71,11 @@ public class IngameUI : MonoBehaviour
     public Sprite SupportImage;
     public GameObject imagePrefab;
 
+    [Header("Panneau Panel")]
+    public GameObject basePanneauPanel;
+
+
+
 
     [Header("Confirmation Panel")]
     public GameObject goConfirmationPanel;
@@ -441,13 +446,13 @@ public class IngameUI : MonoBehaviour
 
                             // Change image from alive to dead
                             goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.Image).GetComponent<Image>().sprite = SupportImage;
-                            goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.Image).GetComponent<RectTransform>().sizeDelta = new Vector2(100, 100);
+                            goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.Image).GetComponent<RectTransform>().sizeDelta = new Vector2(150, 150);
 
 
 
                             GameObject go = Instantiate(imagePrefab, goShortcutKeepersPanel.transform.GetChild(i).transform);
                             go.GetComponent<Image>().sprite = currentCharacter.Keeper.DeadSprite;
-                            go.GetComponent<RectTransform>().sizeDelta = new Vector2(100, 100);
+                            go.GetComponent<RectTransform>().sizeDelta = new Vector2(125, 125);
                             go.transform.localPosition = Vector3.zero;
                             go.transform.localScale = Vector3.one;
                         }
