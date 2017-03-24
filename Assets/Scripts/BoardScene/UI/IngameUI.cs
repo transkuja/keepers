@@ -185,6 +185,7 @@ public class IngameUI : MonoBehaviour
     {
         if (GameManager.Instance == null) { return; }
         if (goActionPanelQ == null) { return; }
+        if (GameManager.Instance.ListOfSelectedKeepers.Count == 0) { return; }
 
         //Clear
         ClearActionPanel();
