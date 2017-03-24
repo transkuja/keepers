@@ -26,6 +26,7 @@ public class ItemInstance : MonoBehaviour, IHavestable
     {
         if (isInScene)
         {
+
             Init(idItem, quantity);
         }
         interactionImplementer = new InteractionImplementer();
@@ -37,22 +38,25 @@ public class ItemInstance : MonoBehaviour, IHavestable
     {
         idItem = _IdItem;
         itemContainer = new ItemContainer(GameManager.Instance.Database.getItemById(_IdItem), quantity);
-        //Vector3 v3Pos = transform.localPosition;
-        //Quaternion quat = transform.localRotation;
+
         if (itemContainer.Item.IngameVisual != null)
         {
-            //Destroy(transform.GetChild(0).gameObject);
             GameObject go = Instantiate(itemContainer.Item.IngameVisual, transform);
-            go.transform.localPosition = go.transform.GetChild(0).localPosition = Vector3.zero;//transform.parent.localPosition; //Vector3.one;
-            go.transform.localRotation = Quaternion.identity;//transform.parent.localRotation; //Quaternion.identity;
+            if (go.transform.childCount > 0)
+            {
+                go.transform.localPosition = go.transform.GetChild(0).localPosition = Vector3.zero;
+            } else
+            {
+                go.transform.localPosition = Vector3.zero;
+            }
+  
+            go.transform.localRotation = Quaternion.identity;
             go.transform.localScale = Vector3.one;
         }
         else
         {
             Debug.Log("Pas de Visuel Ingame pour l'item :\"" + itemContainer.Item.ItemName +"\"");
         }
-
-
     }
 
     public ItemContainer ItemContainer

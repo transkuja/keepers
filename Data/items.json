@@ -44,7 +44,7 @@
 				"itemName": "Wheat",
 				"description": "Restore health",
 				"inventorySprite": "Items_2",
-				"ingameVisual": "",
+				"ingameVisual": "Models/Items/Wheat",
 				"use": "DecreaseHunger",
 				"value": 5
 			}
