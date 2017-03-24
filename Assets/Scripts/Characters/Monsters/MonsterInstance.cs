@@ -23,6 +23,14 @@ public class MonsterInstance : MonoBehaviour {
     Vector3 originPosition;
     Quaternion originRotation;
 
+    // Blocking path variables
+    [SerializeField]
+    bool isBlockingAPath = false;
+    [SerializeField]
+    Direction[] pathsBlocked;
+    BoxCollider[] pathBlockedColliders;
+    Tile monsterTile;
+
     public Monster Monster
     {
         get
@@ -43,6 +51,21 @@ public class MonsterInstance : MonoBehaviour {
         agent = GetComponent<NavMeshAgent>();
         originPosition = transform.position;
         originRotation = transform.rotation;
+        monsterTile = GetComponentInParent<Tile>();
+
+        // Check if the monster is blocking paths and deactivate concerned colliders
+        if (isBlockingAPath)
+        {
+            pathBlockedColliders = new BoxCollider[2 * pathsBlocked.Length];
+
+            for (int i = 0; i < pathsBlocked.Length; i++)
+            {
+                pathBlockedColliders[2*i] = monsterTile.GetTileTriggerFromDirection(pathsBlocked[i]);
+                pathBlockedColliders[2 * i].enabled = false;
+                pathBlockedColliders[2*i + 1] = monsterTile.Neighbors[(int)pathsBlocked[i]].GetTileTriggerFromDirection(Utils.GetOppositeDirection(pathsBlocked[i]));
+                pathBlockedColliders[2*i + 1].enabled = false;
+            }
+        }
 
     }
 
@@ -81,9 +104,15 @@ public class MonsterInstance : MonoBehaviour {
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnDestroy()
     {
-
+        if (isBlockingAPath)
+        {
+            for (int i = 0; i < pathBlockedColliders.Length; i++)
+            {
+                pathBlockedColliders[i].enabled = true;
+            }
+        }
     }
 
     void Update () {

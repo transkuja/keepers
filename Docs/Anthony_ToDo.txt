@@ -1,2 +1,1 @@
-﻿bloquer/débloquer un chemin
-action spécifique coffre qui coute des points d'action 
+﻿action spécifique coffre qui coute des points d'action 

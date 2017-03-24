@@ -222,6 +222,16 @@ public class Tile : MonoBehaviour{
         }
     }
 
+    public Transform GetTilePrefab()
+    {
+        return transform.GetChild(0);
+    }
+
+    public BoxCollider GetTileTriggerFromDirection(Direction direction)
+    {
+        return GetTilePrefab().GetChild((int)TilePrefabChildren.PortalTriggers).GetChild((int)direction).GetComponent<BoxCollider>();
+    }
+
     // Debug functions
     void OnDrawGizmos()
     {

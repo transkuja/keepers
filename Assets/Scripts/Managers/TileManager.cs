@@ -270,28 +270,8 @@ public class TileManager : MonoBehaviour {
         Transform[] tmp = new Transform[3];
         Transform allSpawnPoints = destinationTile.transform.GetChild(0).GetChild((int)TilePrefabChildren.SpawnPoints);
 
-        switch (moveDirection)
-        {
-            case Direction.North:
-                tmp = allSpawnPoints.GetChild((int)Direction.South).GetComponentsInChildren<Transform>();
-                break;
-            case Direction.North_East:
-                tmp = allSpawnPoints.GetChild((int)Direction.South_West).GetComponentsInChildren<Transform>();
-                break;
-            case Direction.North_West:
-                tmp = allSpawnPoints.GetChild((int)Direction.South_East).GetComponentsInChildren<Transform>();
-                break;
-            case Direction.South:
-                tmp = allSpawnPoints.GetChild((int)Direction.North).GetComponentsInChildren<Transform>();
-                break;
-            case Direction.South_East:
-                tmp = allSpawnPoints.GetChild((int)Direction.North_West).GetComponentsInChildren<Transform>();
-                break;
-            case Direction.South_West:
-                tmp = allSpawnPoints.GetChild((int)Direction.North_East).GetComponentsInChildren<Transform>();
-                break;
-        }
-
+        tmp = allSpawnPoints.GetChild((int)Utils.GetOppositeDirection(moveDirection)).GetComponentsInChildren<Transform>();
+      
         spawnPositions[0] = tmp[1];
         spawnPositions[1] = tmp[2];
         return spawnPositions;
