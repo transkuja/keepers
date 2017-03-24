@@ -32,7 +32,7 @@
 				"itemName": "Mushroom",
 				"description": "Increase mental health",
 				"inventorySprite": "Items_1",
-				"ingameVisual": "",
+				"ingameVisual": "Models/Items/Mushroom",
 				"use": "UpMentalHealth",
 				"value": 5
 			}
