@@ -25,7 +25,7 @@ public class SelectBattleCharactersPanelHandler : MonoBehaviour {
         }
     }
 
-    private void Awake()
+    private void OnEnable()
     {
         int j = 0;
 
@@ -72,7 +72,7 @@ public class SelectBattleCharactersPanelHandler : MonoBehaviour {
 
         if (!isPrisonerOnTile)
         {
-            if (transform.GetChild((int)SelectBattleCharactersScreenChildren.CharactersSelected).GetChild(2).childCount >0)
+            if (transform.GetChild((int)SelectBattleCharactersScreenChildren.CharactersSelected).GetChild(2).childCount > 0)
                 selected.Add(transform.GetChild((int)SelectBattleCharactersScreenChildren.CharactersSelected).GetChild(2).GetComponentInChildren<UIKeeperInstance>().keeperInstance);
         }
 
@@ -87,6 +87,18 @@ public class SelectBattleCharactersPanelHandler : MonoBehaviour {
         BattleHandler.LaunchBattle(activeTile, selected);
         activeTile = null;
         gameObject.SetActive(false);
+
+        for (int i = 0; i < transform.GetChild((int)SelectBattleCharactersScreenChildren.CharactersSelected).childCount; i++)
+        {
+            if (transform.GetChild((int)SelectBattleCharactersScreenChildren.CharactersSelected).GetChild(i).childCount > 0)
+                Destroy(transform.GetChild((int)SelectBattleCharactersScreenChildren.CharactersSelected).GetChild(i).GetChild(0).gameObject);
+        }
+
+        for (int i = 0; i < transform.GetChild((int)SelectBattleCharactersScreenChildren.CharactersOnTile).childCount; i++)
+        {
+            if (transform.GetChild((int)SelectBattleCharactersScreenChildren.CharactersOnTile).GetChild(i).childCount > 0)
+                Destroy(transform.GetChild((int)SelectBattleCharactersScreenChildren.CharactersOnTile).GetChild(i).GetChild(0).gameObject);
+        }
     }
 
 }

@@ -210,6 +210,7 @@ public class IngameUI : MonoBehaviour
 
                 int n = i;
 
+                // TODO @Remi, cette merde bug quand on change de perso selectionné et qu'on rentre dans le trigger du panneau >:(
                 int nbActionRestantKeeper = ic.listActionContainers[i].costAction - GameManager.Instance.ListOfSelectedKeepers[0].ActionPoints;
                 for ( int nbActionPoint=0; nbActionPoint < ic.listActionContainers[i].costAction; nbActionPoint++)
                 {

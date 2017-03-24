@@ -125,7 +125,7 @@ public class TileManager : MonoBehaviour {
     /// <param name="tile">The tile concerned</param>
     public void RemoveDefeatedMonsters(Tile tile)
     {
-        int[] removeIndex = new int[monstersOnTile[tile].Count];
+        MonsterInstance[] removeIndex = new MonsterInstance[monstersOnTile[tile].Count];
         short nbrOfElementsToRemove = 0;
 
         List<ItemContainer> lootList = new List<ItemContainer>();
@@ -145,9 +145,7 @@ public class TileManager : MonoBehaviour {
 
                 lootList.AddRange(mi.ComputeLoot());
 
-
-                Destroy(mi.gameObject, 0.1f);
-                removeIndex[nbrOfElementsToRemove] = monstersOnTile[tile].IndexOf(mi);
+                removeIndex[nbrOfElementsToRemove] = mi;
                 nbrOfElementsToRemove++;
             }
         }
@@ -158,9 +156,29 @@ public class TileManager : MonoBehaviour {
             ItemManager.AddItemOnTheGround(tile, lastMonsterPosition, lootList);
         }
 
-        // J'ai une erreur ici Rémi 23/03 (jeudi avant la prod)
+        int elementsRemoved = 0;
+        for (int j = 0; j < monstersOnTile[tile].Count; j++)
+        {
+            for (int i = 0; i < removeIndex.Length; i++)
+            {
+                if (elementsRemoved == nbrOfElementsToRemove)
+                    break;
+
+                if (monstersOnTile[tile][j] == removeIndex[i])
+                {
+                    monstersOnTile[tile].RemoveAt(j);
+                    elementsRemoved++;
+                    break;
+                }
+            }
+            if (elementsRemoved == nbrOfElementsToRemove)
+                break;
+        }
+
         for (int i = 0; i < nbrOfElementsToRemove; i++)
-            monstersOnTile[tile].RemoveAt(removeIndex[i]);
+        {
+            Destroy(removeIndex[i].gameObject, 0.1f);
+        }
 
         if (monstersOnTile[tile].Count == 0)
             monstersOnTile.Remove(tile);
