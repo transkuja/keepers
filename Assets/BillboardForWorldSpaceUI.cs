@@ -17,20 +17,23 @@ public class BillboardForWorldSpaceUI : MonoBehaviour {
         {
             transform.rotation = m_Camera.transform.rotation;
 
-
-            if (GameManager.Instance.GoTarget.GetComponent<BoxCollider>() != null)
+            if(GameManager.Instance.GoTarget != null)
             {
-                Vector3 size = GameManager.Instance.GoTarget.GetComponent<BoxCollider>().bounds.size;
-                Vector3 V1 = new Vector3(0, Mathf.Max(size.y, size.z), 0);
-                transform.localPosition = V1 + (Vector3.up * (1 - GameManager.Instance.CameraManager.FZoomLerp));
+                if (GameManager.Instance.GoTarget.GetComponent<BoxCollider>() != null)
+                {
+                    Vector3 size = GameManager.Instance.GoTarget.GetComponent<BoxCollider>().bounds.size;
+                    Vector3 V1 = new Vector3(0, Mathf.Max(size.y, size.z), 0);
+                    transform.localPosition = V1 + (Vector3.up * (1 - GameManager.Instance.CameraManager.FZoomLerp));
 
+                }
+                else if (GameManager.Instance.GoTarget.GetComponentInChildren<MeshCollider>() != null)
+                {
+                    Vector3 size = GameManager.Instance.GoTarget.GetComponentInChildren<MeshCollider>().bounds.size;
+                    Vector3 V1 = new Vector3(0, Mathf.Max(size.y, size.z), 0);
+                    transform.localPosition = V1 + (Vector3.up * (1 - GameManager.Instance.CameraManager.FZoomLerp));
+                }
             }
-            else if (GameManager.Instance.GoTarget.GetComponentInChildren<MeshCollider>() != null)
-            {
-                Vector3 size = GameManager.Instance.GoTarget.GetComponentInChildren<MeshCollider>().bounds.size;
-                Vector3 V1 = new Vector3(0, Mathf.Max(size.y, size.z), 0);
-                transform.localPosition = V1 + (Vector3.up * (1 - GameManager.Instance.CameraManager.FZoomLerp));
-            }
+    
             transform.localScale = new Vector3(0.2f, 0.2f, 0.2f)  + new Vector3(0.5f,0.5f,0.5f)  * (1 - GameManager.Instance.CameraManager.FZoomLerp);
         }
     }
