@@ -1,5 +1,3 @@
 L'action de finir le jeu s'affiche trop haut
 
 Lors du restart, les positions des monstres peuvent être mal initialisées dans le TileManager (le bug est très random)
-	
-Bug quand on fonce vers un trigger (panneau ou bord de tile) et qu'on selectionne un autre perso (IngameUI ligne 213)
