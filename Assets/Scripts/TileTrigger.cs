@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TileTrigger : MonoBehaviour {
-    
+public class TileTrigger : MonoBehaviour
+{
+
     KeeperInstance ki;
     int actionCostExplore = 3;
     int actionCostMove = 2;
@@ -45,9 +46,9 @@ public class TileTrigger : MonoBehaviour {
                     break;
             }
 
-            if (eTrigger != Direction.None && GetComponentInParent<Tile>().Neighbors[(int)eTrigger] != null )
+            if (eTrigger != Direction.None && GetComponentInParent<Tile>().Neighbors[(int)eTrigger] != null)
             {
-                if ( ki.ActionPoints > 0)
+                if (ki.ActionPoints > 0)
                 {
                     if (GameManager.Instance.ListOfSelectedKeepers.Count > 0)
                     {
@@ -74,13 +75,14 @@ public class TileTrigger : MonoBehaviour {
                             ui.UpdateActionPanelUIQ(InteractionImplementer);
                         }
 
-                   
-                    } else
+
+                    }
+                    else
                     {
                         // TODO : reflechir
                         Debug.Log("Cas non géré (last selected keeper");
                     }
-           
+
                 }
                 else
                 {
@@ -188,6 +190,12 @@ public class TileTrigger : MonoBehaviour {
 
     private void MoveWithoutConfirmation(int _i)
     {
+        //Check if the prisoner is following
+        PrisonerInstance prisoner = null;
+        if (ki.Keeper.GoListCharacterFollowing.Count > 0 && ki.Keeper.GoListCharacterFollowing[0].GetComponent<PrisonerInstance>())
+        {
+            prisoner = ki.Keeper.GoListCharacterFollowing[0].GetComponent<PrisonerInstance>();
+        }
 
         //int costAction = interactionImplementer.Get("Move").costAction;
         TileManager.Instance.MoveKeeper(ki, TileManager.Instance.GetTileFromKeeper[ki], (Direction)_i, actionCostMove);
@@ -196,6 +204,12 @@ public class TileTrigger : MonoBehaviour {
         GameManager.Instance.Ui.HideInventoryPanels();
 
         ki.IsTargetableByMonster = false;
+        // TODO Trigger then translate instead of tp
+        ki.GetComponentInChildren<Animator>().SetTrigger("moveBetweenTiles");
+        if (prisoner != null)
+        {
+            prisoner.GetComponentInChildren<Animator>().SetTrigger("moveBetweenTiles");
+        }
     }
 
     private void ExploreWithoutConfirmation(int _i)
@@ -258,5 +272,12 @@ public class TileTrigger : MonoBehaviour {
         GameManager.Instance.Ui.HideInventoryPanels();
 
         ki.IsTargetableByMonster = false;
+
+        // TODO Trigger then translate instead of tp
+        ki.GetComponentInChildren<Animator>().SetTrigger("moveBetweenTiles");
+        if (prisoner != null)
+        {
+            prisoner.GetComponentInChildren<Animator>().SetTrigger("moveBetweenTiles");
+        }
     }
 }
