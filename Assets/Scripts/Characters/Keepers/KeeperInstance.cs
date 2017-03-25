@@ -74,6 +74,10 @@ public class KeeperInstance : MonoBehaviour, ITradable {
     // Movement between tile
     // Prevents action poping when arriving on a tile
     Direction arrivingTrigger = Direction.None;
+    bool isMovingBetweenTiles = false;
+    float lerpMoveParam = 0.0f;
+    Vector3 lerpStartPosition;
+    Vector3 lerpEndPosition;
 
     public short CurrentHunger
     {
@@ -261,14 +265,27 @@ public class KeeperInstance : MonoBehaviour, ITradable {
         GameObject goDestinationTemp = gameObject;
         for (int i = 0; i < keeper.GoListCharacterFollowing.Count; i++)
         {
-            // TODO : Bug ici 24/03 (there is no nav mesh agent attached to ploy surface body) escort ashley
-            keeper.GoListCharacterFollowing[i].GetComponentInParent<NavMeshAgent>().destination = goDestinationTemp.transform.position;
-            goDestinationTemp = keeper.GoListCharacterFollowing[i];
+            if (keeper.GoListCharacterFollowing[i].GetComponent<PrisonerInstance>() != null
+                && !keeper.GoListCharacterFollowing[i].GetComponent<PrisonerInstance>().IsMovingBetweenTiles)
+            {
+                keeper.GoListCharacterFollowing[i].GetComponentInParent<NavMeshAgent>().destination = goDestinationTemp.transform.position;
+                goDestinationTemp = keeper.GoListCharacterFollowing[i];
+            }
         }
 
         if (bIsRotating)
         {
             Rotate();
+        }
+
+        if (IsMovingBetweenTiles)
+        {
+            lerpMoveParam += Time.deltaTime;
+            if (lerpMoveParam >= 1.0f)
+            {
+                IsMovingBetweenTiles = false;
+            }
+            transform.position = Vector3.Lerp(lerpStartPosition, lerpEndPosition, Mathf.Clamp(lerpMoveParam,0,1));
         }
     }
 
@@ -414,6 +431,20 @@ public class KeeperInstance : MonoBehaviour, ITradable {
         }
     }
 
+    public bool IsMovingBetweenTiles
+    {
+        get
+        {
+            return isMovingBetweenTiles;
+        }
+
+        set
+        {
+            isMovingBetweenTiles = value;
+            agent.enabled = !value;
+        }
+    }
+
     public void TriggerRotation(Vector3 v3Direction)
     {
         agent.angularSpeed = 0.0f;
@@ -499,5 +530,16 @@ public class KeeperInstance : MonoBehaviour, ITradable {
         foreach (Collider c in GetComponentsInChildren<Collider>())
             c.enabled = true;
         enabled = true;
+    }
+
+    public void StartBetweenTilesAnimation(Vector3 newPosition)
+    {
+        lerpMoveParam = 0.0f;
+        lerpStartPosition = transform.position;
+        lerpEndPosition = newPosition;
+        anim.SetTrigger("moveBetweenTiles");
+
+        IsMovingBetweenTiles = true;
+
     }
 }

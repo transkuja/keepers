@@ -225,12 +225,6 @@ public class TileTrigger : MonoBehaviour {
         if (GameManager.Instance.ListOfSelectedKeepers.Count > 0)
         {
             KeeperInstance toMove = GameManager.Instance.ListOfSelectedKeepers[0];
-            //Check if the prisoner is following
-            PrisonerInstance prisoner = null;
-            if (toMove.Keeper.GoListCharacterFollowing.Count > 0 && toMove.Keeper.GoListCharacterFollowing[0].GetComponent<PrisonerInstance>())
-            {
-                prisoner = toMove.Keeper.GoListCharacterFollowing[0].GetComponent<PrisonerInstance>();
-            }
 
             //int costAction = interactionImplementer.Get("Move").costAction;
             TileManager.Instance.MoveKeeper(toMove, TileManager.Instance.GetTileFromKeeper[toMove], (Direction)_i, actionCostMove);
@@ -239,12 +233,6 @@ public class TileTrigger : MonoBehaviour {
             GameManager.Instance.Ui.HideInventoryPanels();
 
             toMove.IsTargetableByMonster = false;
-            // TODO Trigger then translate instead of tp
-            toMove.GetComponentInChildren<Animator>().SetTrigger("moveBetweenTiles");
-            if (prisoner != null)
-            {
-                prisoner.GetComponentInChildren<Animator>().SetTrigger("moveBetweenTiles");
-            }
         }
         else
         {
@@ -315,14 +303,6 @@ public class TileTrigger : MonoBehaviour {
             GameManager.Instance.Ui.HideInventoryPanels();
 
             toMove.IsTargetableByMonster = false;
-
-            // TODO Trigger then translate instead of tp
-            toMove.GetComponentInChildren<Animator>().SetTrigger("moveBetweenTiles");
-            if (prisoner != null)
-            {
-                prisoner.GetComponentInChildren<Animator>().SetTrigger("moveBetweenTiles");
-            }
-
         }
         else
         {

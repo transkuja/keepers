@@ -73,13 +73,8 @@ public class TileManager : MonoBehaviour {
         AddKeeperOnTile(destination, keeper);
         Transform[] spawnPoints = GetSpawnPositions(destination, direction);
 
-
         // Physical movement
-        NavMeshAgent agent = keeper.GetComponent<NavMeshAgent>();
-
-        agent.enabled = false;
-        keeper.transform.position = spawnPoints[0].position;
-        agent.enabled = true;
+        keeper.StartBetweenTilesAnimation(spawnPoints[0].position);
 
         keeper.ActionPoints -= (short)costAction;
         GameObject goCurrentCharacter;
@@ -91,19 +86,17 @@ public class TileManager : MonoBehaviour {
             if (goCurrentCharacter.GetComponent<PrisonerInstance>() != null)
             {
                 prisonerTile = destination;
+                goCurrentCharacter.GetComponent<PrisonerInstance>().StartBetweenTilesAnimation(spawnPoints[i + 1 % spawnPoints.Length].position);
+
             }
             else
             {
                 RemoveKeeperFromTile(from, goCurrentCharacter.GetComponent<KeeperInstance>());
                 AddKeeperOnTile(destination, goCurrentCharacter.GetComponent<KeeperInstance>());
                 goCurrentCharacter.GetComponent<KeeperInstance>().ActionPoints = 0;
+                goCurrentCharacter.GetComponent<KeeperInstance>().StartBetweenTilesAnimation(spawnPoints[i + 1 % spawnPoints.Length].position);
             }
 
-            agent = goCurrentCharacter.GetComponent<NavMeshAgent>();
-
-            agent.enabled = false;
-            goCurrentCharacter.transform.position = spawnPoints[i+1 % spawnPoints.Length].position;
-            agent.enabled = true;
         }
     }
 

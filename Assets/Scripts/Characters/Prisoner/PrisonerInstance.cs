@@ -30,6 +30,12 @@ public class PrisonerInstance : MonoBehaviour, IEscortable {
     // Aggro
     bool isTargetableByMonster = true;
 
+    // Movement between tile
+    bool isMovingBetweenTiles = false;
+    float lerpMoveParam = 0.0f;
+    Vector3 lerpStartPosition;
+    Vector3 lerpEndPosition;
+
     public int CurrentHp
     {
         get { return currentHp; }
@@ -150,6 +156,30 @@ public class PrisonerInstance : MonoBehaviour, IEscortable {
         isAlive = true;
     }
 
+    public void StartBetweenTilesAnimation(Vector3 newPosition)
+    {
+        lerpMoveParam = 0.0f;
+        lerpStartPosition = transform.position;
+        lerpEndPosition = newPosition;
+        Animator anim = GetComponentInChildren<Animator>();
+        anim.SetTrigger("moveBetweenTiles");
+
+        IsMovingBetweenTiles = true;        
+    }
+
+    private void Update()
+    {
+        if (IsMovingBetweenTiles)
+        {
+            lerpMoveParam += Time.deltaTime;
+            if (lerpMoveParam >= 1.0f)
+            {
+                IsMovingBetweenTiles = false;
+            }
+            transform.position = Vector3.Lerp(lerpStartPosition, lerpEndPosition, Mathf.Clamp(lerpMoveParam, 0, 1));
+        }
+    }
+
     #region Accessors
     public Prisoner Prisoner
     {
@@ -212,6 +242,20 @@ public class PrisonerInstance : MonoBehaviour, IEscortable {
         set
         {
             isTargetableByMonster = value;
+        }
+    }
+
+    public bool IsMovingBetweenTiles
+    {
+        get
+        {
+            return isMovingBetweenTiles;
+        }
+
+        set
+        {
+            isMovingBetweenTiles = value;
+            GetComponent<NavMeshAgent>().enabled = !value;
         }
     }
     #endregion
