@@ -210,13 +210,23 @@ public class ControlsManager : MonoBehaviour {
                                 {
                                     int neighbourIndex = Array.FindIndex(TileManager.Instance.GetTileFromKeeper[GameManager.Instance.ListOfSelectedKeepers[0]].Neighbors, x => x == tileHit);
                                     Tile currentTile = TileManager.Instance.GetTileFromKeeper[GameManager.Instance.ListOfSelectedKeepers[0]];
-                                    Vector3 movePosition = currentTile.transform.GetChild(0).GetChild(1).GetChild(neighbourIndex).position;
-                                    // Move the keeper
-                                    for (int i = 0; i < GameManager.Instance.ListOfSelectedKeepers.Count; i++)
+                                    
+                                    TileTrigger tt = currentTile.transform.GetChild(0).GetChild(1).GetChild(neighbourIndex).GetComponent<TileTrigger>();
+
+                                    if(tt.ki.Contains(GameManager.Instance.ListOfSelectedKeepers[0]))
                                     {
+                                        tt.HandleTrigger(GameManager.Instance.ListOfSelectedKeepers[0]);
+                                    }
+                                    else
+                                    {
+                                        Vector3 movePosition = tt.transform.position;
+                                        // Move the keeper
+                                        for (int i = 0; i < GameManager.Instance.ListOfSelectedKeepers.Count; i++)
+                                        {
 
-                                        GameManager.Instance.ListOfSelectedKeepers[i].TriggerRotation(movePosition);
+                                            GameManager.Instance.ListOfSelectedKeepers[i].TriggerRotation(movePosition);
 
+                                        }
                                     }
                                 }
 
