@@ -55,8 +55,8 @@ public class TileTrigger : MonoBehaviour {
 
         if (eTrigger != Direction.None && GetComponentInParent<Tile>().Neighbors[(int)eTrigger] != null)
         {
-            if (k.ActionPoints > 0)
-            {
+           // if (k.ActionPoints > 0)
+          //  {
                 if (GameManager.Instance.ListOfSelectedKeepers.Count > 0)
                 {
                     // On veut le mesh collider actif du perso
@@ -89,11 +89,11 @@ public class TileTrigger : MonoBehaviour {
                     Debug.Log("Cas non géré (last selected keeper");
                 }
 
-            }
-            else
-            {
-                GameManager.Instance.Ui.ZeroActionTextAnimation();
-            }
+            //}
+          //  else
+           // {
+           //     GameManager.Instance.Ui.ZeroActionTextAnimation();
+           // }
         }
     }
 
