@@ -5,14 +5,15 @@
 ---------
 Ajouter des sons => Rémi
 
-Faire du level design sur un plus grand niveau => Anthony/Seb/Quentin
+Faire du level design sur un plus grand niveau => Anthony
 
 Clamper la caméra => Seb
 	=> T'attends quoi?
 
-"Animation" de mort de personnage
 
-Intégrer les assets d'UI, l'écran de victoire, etc.
+Intégrer les assets d'UI, l'écran de victoire, etc. => done?
+
+Intégrer l'anim de déplacement entre les tiles
 
 Tester le build
 
@@ -29,6 +30,8 @@ Menu échap pour quitter ou relancer le jeu => done
 Réparer le menu => Anthony ==> done
 
 Ajouter un bouton pour lancer le jeu après selection des persos => done
+
+"Animation" de mort de personnage => done 
 
 ///////////////////////////////////////////////
 

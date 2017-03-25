@@ -1,4 +1,4 @@
-L'action de finir le jeu s'affiche trop haut (et il manque le sprite)
+L'action de finir le jeu s'affiche trop haut
 
 Lors du restart, les positions des monstres peuvent être mal initialisées dans le TileManager (le bug est très random)
 	
