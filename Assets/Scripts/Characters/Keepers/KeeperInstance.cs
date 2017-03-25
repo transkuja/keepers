@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 using System.Collections.Generic;
+using System.Collections;
 
 public class KeeperInstance : MonoBehaviour, ITradable {
 
@@ -56,6 +57,7 @@ public class KeeperInstance : MonoBehaviour, ITradable {
     [Header("Mouvement")]
     // Update variables
     NavMeshAgent agent;
+    Animator anim;
     Vector3 v3AgentDirectionTemp;
 
     // Rotations
@@ -152,13 +154,16 @@ public class KeeperInstance : MonoBehaviour, ITradable {
         GameManager.Instance.ShortcutPanel_NeedUpdate = true;
 
         GlowController.UnregisterObject(GetComponent<GlowObjectCmd>());
-        gameObject.SetActive(false);
+        anim.SetTrigger("triggerDeath");
 
         // Try to fix glow bug
         Destroy(GetComponent<GlowObjectCmd>());
 
         GameManager.Instance.Ui.HideSelectedKeeperPanel();
         GameManager.Instance.CheckGameState();
+
+        // Deactivate pawn
+        DeactivatePawn();
     }
 
     public short CurrentMentalHealth
@@ -222,6 +227,7 @@ public class KeeperInstance : MonoBehaviour, ITradable {
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        anim = GetComponentInChildren<Animator>();
         fRotateSpeed = 5.0f;
         isEscortAvailable = true;
         InteractionImplementer = new InteractionImplementer();
@@ -460,5 +466,24 @@ public class KeeperInstance : MonoBehaviour, ITradable {
                 GameManager.Instance.Ui.ZeroActionTextAnimation();
             }
         }
+    }
+
+    private void DeactivatePawn()
+    {
+        foreach (Collider c in GetComponentsInChildren<Collider>())
+            c.enabled = false;
+        enabled = false;
+
+        // Deactivate gameobject after a few seconds
+        StartCoroutine(DeactivateGameObject());
+    }
+
+    IEnumerator DeactivateGameObject()
+    {
+        yield return new WaitForSeconds(5.0f);
+        gameObject.SetActive(false);
+        foreach (Collider c in GetComponentsInChildren<Collider>())
+            c.enabled = true;
+        enabled = true;
     }
 }
