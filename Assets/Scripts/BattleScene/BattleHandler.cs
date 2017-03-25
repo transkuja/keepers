@@ -123,6 +123,10 @@ public class BattleHandler {
                 }
                 else
                 {
+                    if (keepers.Count == 0)
+                    {
+                        break;
+                    }
                     KeeperInstance target = GetTargetForAttack(keepers);
                     int keeperIndexForDmgCalculation = 0;
                     for (int i = 0; i < keeperNames.Length; i++)
@@ -289,14 +293,14 @@ public class BattleHandler {
         foreach (KeeperInstance ki in keepers)
         {
             ki.CurrentMentalHealth += 10;
-            ki.CurrentHunger += 5;
+            ki.CurrentHunger -= 5;
             //BattleLog(ki.Keeper.CharacterName + " won 10 mental health and lost 5 hunger due to victory.");
         }
 
         if (isPrisonerOnTile)
         {
             GameManager.Instance.PrisonerInstance.CurrentMentalHealth += 10;
-            GameManager.Instance.PrisonerInstance.CurrentHunger += 5;
+            GameManager.Instance.PrisonerInstance.CurrentHunger -= 5;
             //BattleLog("Prisoner won 10 mental health and lost 5 hunger due to victory.");
         }
     }
@@ -309,7 +313,7 @@ public class BattleHandler {
         foreach (KeeperInstance ki in keepers)
         {
             ki.CurrentMentalHealth -= 10;
-            ki.CurrentHunger += 5;
+            ki.CurrentHunger -= 5;
 
             ki.CurrentHp -= 10;
           //  BattleLog(ki.Keeper.CharacterName + " lost 10 mental health, 5 hunger, 10HP due to defeat.");
@@ -317,7 +321,7 @@ public class BattleHandler {
             if (isPrisonerOnTile)
             {
                 GameManager.Instance.PrisonerInstance.CurrentMentalHealth -= 10;
-                GameManager.Instance.PrisonerInstance.CurrentHunger += 5;
+                GameManager.Instance.PrisonerInstance.CurrentHunger -= 5;
                 GameManager.Instance.PrisonerInstance.CurrentHp -= 10;
                // BattleLog("Prisoner lost 10 mental health, 5 hunger, 10HP due to defeat.");
             }

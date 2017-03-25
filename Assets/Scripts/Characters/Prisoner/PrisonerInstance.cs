@@ -49,7 +49,7 @@ public class PrisonerInstance : MonoBehaviour, IEscortable {
                 currentHp = prisoner.MaxHp;
                 isAlive = true;
             }
-            else if (currentHp < 0)
+            else if (currentHp <= 0)
             {
                 currentHp = 0;
 

@@ -200,7 +200,8 @@ public class ControlsManager : MonoBehaviour {
                                 // Move the keeper
                                 for (int i = 0; i < GameManager.Instance.ListOfSelectedKeepers.Count; i++)
                                 {
-                                    GameManager.Instance.ListOfSelectedKeepers[i].TriggerRotation(hitInfo.point);
+                                    if (GameManager.Instance.ListOfSelectedKeepers[i].IsAlive && !GameManager.Instance.ListOfSelectedKeepers[i].IsMovingBetweenTiles)
+                                        GameManager.Instance.ListOfSelectedKeepers[i].TriggerRotation(hitInfo.point);
                                 }
                             }
                             else

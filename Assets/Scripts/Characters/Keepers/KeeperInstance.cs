@@ -116,7 +116,7 @@ public class KeeperInstance : MonoBehaviour, ITradable {
                 currentHp = keeper.MaxHp;
                 isAlive = true;
             }
-            else if (currentHp < 0)
+            else if (currentHp <= 0)
             {
                 currentHp = 0;
                 
@@ -450,6 +450,11 @@ public class KeeperInstance : MonoBehaviour, ITradable {
 
     public void TriggerRotation(Vector3 v3Direction)
     {
+        if (agent.enabled == false)
+        {
+            Debug.Log("Agent is not active!");
+            return;
+        }
         agent.angularSpeed = 0.0f;
 
         quatPreviousRotation = transform.rotation;
