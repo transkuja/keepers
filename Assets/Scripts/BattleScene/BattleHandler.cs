@@ -312,13 +312,15 @@ public class BattleHandler {
     {
         foreach (KeeperInstance ki in keepers)
         {
-            ki.CurrentMentalHealth -= 10;
-            ki.CurrentHunger -= 5;
+            if (ki.IsAlive)
+            {
+                ki.CurrentMentalHealth -= 10;
+                ki.CurrentHunger -= 5;
 
-            ki.CurrentHp -= 10;
-          //  BattleLog(ki.Keeper.CharacterName + " lost 10 mental health, 5 hunger, 10HP due to defeat.");
-
-            if (isPrisonerOnTile)
+                ki.CurrentHp -= 10;
+                //  BattleLog(ki.Keeper.CharacterName + " lost 10 mental health, 5 hunger, 10HP due to defeat.");
+            }
+            if (isPrisonerOnTile && GameManager.Instance.PrisonerInstance.IsAlive)
             {
                 GameManager.Instance.PrisonerInstance.CurrentMentalHealth -= 10;
                 GameManager.Instance.PrisonerInstance.CurrentHunger -= 5;
@@ -329,7 +331,10 @@ public class BattleHandler {
 
         foreach (KeeperInstance ki in GameManager.Instance.ListOfSelectedKeepers)
         {
-            ki.transform.position = ki.transform.position - ki.transform.forward * 0.5f;
+            if (ki.IsAlive)
+            {
+                ki.transform.position = ki.transform.position - ki.transform.forward * 0.5f;
+            }
         }
 
         foreach (MonsterInstance mi in monsters)

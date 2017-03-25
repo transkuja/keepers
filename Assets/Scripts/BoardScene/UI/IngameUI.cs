@@ -457,26 +457,27 @@ public class IngameUI : MonoBehaviour
                     {
 
                         // Do this process once only
-                        if (goShortcutKeepersPanel.transform.GetChild(i).childCount > 2)
+                        if (goShortcutKeepersPanel.transform.GetChild(i).childCount > 4)
                         {
                             // Update HP
-                            Destroy(goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.HpGauge).gameObject);
-                            Destroy(goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.MentalHealthGauge).gameObject);
-                            Destroy(goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.HungerGauge).gameObject);
+                            goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.HpGauge).GetChild(0).GetComponent<Image>().color = Color.grey;
+                            goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.MentalHealthGauge).GetChild(0).GetComponent<Image>().color = Color.grey;
+                            goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.HungerGauge).GetChild(0).GetComponent<Image>().color = Color.grey;
                             // Update Action Points
                             Destroy(goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.ActionPoints).gameObject);
 
                             // Change image from alive to dead
                             goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.Image).GetComponent<Image>().sprite = SupportImage;
-                            goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.Image).GetComponent<RectTransform>().sizeDelta = new Vector2(150, 150);
 
-
-
-                            GameObject go = Instantiate(imagePrefab, goShortcutKeepersPanel.transform.GetChild(i).transform);
+                            GameObject go = Instantiate(imagePrefab);
                             go.GetComponent<Image>().sprite = currentCharacter.Keeper.DeadSprite;
-                            go.GetComponent<RectTransform>().sizeDelta = new Vector2(125, 125);
-                            go.transform.localPosition = Vector3.zero;
-                            go.transform.localScale = Vector3.one;
+                            go.transform.SetParent(goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.Image).transform);
+                            go.transform.localScale = Vector3.one * 0.75f;
+
+                            // TODO fix this ugly shit again @Anthony @Rémi
+                            go.GetComponent<RectTransform>().localPosition = new Vector3(37.5f, -37.5f, 0.0f);
+
+
                         }
                     }
                     // Standard UI update for alive characters
