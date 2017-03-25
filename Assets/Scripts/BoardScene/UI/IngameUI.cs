@@ -213,15 +213,33 @@ public class IngameUI : MonoBehaviour
 
                 // TODO @Remi, cette merde bug quand on change de perso selectionné et qu'on rentre dans le trigger du panneau >:(
                 int nbActionRestantKeeper = GameManager.Instance.ListOfSelectedKeepers[0].ActionPoints;
-                for ( int nbActionPoint = 0 ; nbActionPoint < ic.listActionContainers[i].costAction; nbActionPoint++)
+
+                if (ic.listActionContainers[i].costAction > nbActionRestantKeeper)
+                {
+                    goAction.GetComponent<Image>().color = Color.grey;
+                }
+
+                //for (int nbActionPoint = 0; nbActionPoint < ic.listActionContainers[i].costAction; nbActionPoint++)
+                //{
+                //    GameObject actionPoints = Instantiate(actionPointPrefab, goAction.transform);
+                //    actionPoints.transform.localScale = Vector3.one;
+                //    actionPoints.transform.localPosition = Vector3.zero;
+                //    actionPoints.transform.localRotation = Quaternion.identity;
+
+                //    if (nbActionPoint >= nbActionRestantKeeper)
+                //        actionPoints.transform.GetChild(0).GetComponent<Image>().color = Color.red;
+                //}
+
+                if (ic.listActionContainers[i].costAction > 0)
                 {
                     GameObject actionPoints = Instantiate(actionPointPrefab, goAction.transform);
                     actionPoints.transform.localScale = Vector3.one;
                     actionPoints.transform.localPosition = Vector3.zero;
                     actionPoints.transform.localRotation = Quaternion.identity;
 
-                    if (nbActionPoint >= nbActionRestantKeeper)
-                        actionPoints.transform.GetChild(0).GetComponent<Image>().color = Color.red;
+                    actionPoints.transform.GetComponentInChildren<Text>().text =  ic.listActionContainers[i].costAction + "/" + nbActionRestantKeeper;
+                    if (ic.listActionContainers[i].costAction > nbActionRestantKeeper)
+                        actionPoints.transform.GetComponentInChildren<Text>().color = Color.red;
 
                 }
 
