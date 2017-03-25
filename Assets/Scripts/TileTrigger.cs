@@ -12,7 +12,7 @@ public class TileTrigger : MonoBehaviour {
 
     public void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponentInParent<KeeperInstance>() != null)
+        if (other.GetComponentInParent<KeeperInstance>() != null && other.isTrigger)
         {
             HandleTrigger(other.GetComponentInParent<KeeperInstance>());
         }
@@ -54,8 +54,6 @@ public class TileTrigger : MonoBehaviour {
 
         if (eTrigger != Direction.None && GetComponentInParent<Tile>().Neighbors[(int)eTrigger] != null)
         {
-            // if (k.ActionPoints > 0)
-            //  {
             if (k.ArrivingTrigger == eTrigger)
             {
                 k.ArrivingTrigger = Direction.None;
@@ -76,17 +74,15 @@ public class TileTrigger : MonoBehaviour {
                         }
                     }
 
-                    IngameUI ui = GameObject.Find("IngameUI").GetComponent<IngameUI>();
-
                     if (GetComponentInParent<Tile>().Neighbors[(int)eTrigger].State == TileState.Discovered)
                     {
                         InteractionImplementer.Add(new Interaction(Move), actionCostMove, "Move", GameManager.Instance.Ui.spriteMove, true, (int)eTrigger);
-                        ui.UpdateActionPanelUIQ(InteractionImplementer);
+                        GameManager.Instance.Ui.UpdateActionPanelUIQ(InteractionImplementer);
                     }
                     if (GetComponentInParent<Tile>().Neighbors[(int)eTrigger].State == TileState.Greyed)
                     {
                         InteractionImplementer.Add(new Interaction(Explore), actionCostExplore, "Explore", GameManager.Instance.Ui.spriteExplore, true, (int)eTrigger);
-                        ui.UpdateActionPanelUIQ(InteractionImplementer);
+                        GameManager.Instance.Ui.UpdateActionPanelUIQ(InteractionImplementer);
                     }
 
                 }
@@ -96,11 +92,6 @@ public class TileTrigger : MonoBehaviour {
                     Debug.Log("Cas non géré (last selected keeper");
                 }
             }
-            //}
-          //  else
-           // {
-           //     GameManager.Instance.Ui.ZeroActionTextAnimation();
-           // }
         }
     }
 

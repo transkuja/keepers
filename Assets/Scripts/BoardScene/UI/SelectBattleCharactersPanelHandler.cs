@@ -101,6 +101,24 @@ public class SelectBattleCharactersPanelHandler : MonoBehaviour {
         }
     }
 
+    public int FindFreeSlotInSelection()
+    {
+        for (int i = 0; i < transform.GetChild((int)SelectBattleCharactersScreenChildren.CharactersSelected).childCount; i++)
+            if (transform.GetChild((int)SelectBattleCharactersScreenChildren.CharactersSelected).GetChild(i).childCount == 0)
+                return i;
+        
+        return -1;
+    }
+
+    public int FindFreeSlotInCharactersOnTile()
+    {
+        for (int i = 0; i < transform.GetChild((int)SelectBattleCharactersScreenChildren.CharactersOnTile).childCount; i++)
+            if (transform.GetChild((int)SelectBattleCharactersScreenChildren.CharactersOnTile).GetChild(i).childCount == 0)
+                return i;
+
+        return -1;
+    }
+
 }
 
 public enum SelectBattleCharactersScreenChildren
