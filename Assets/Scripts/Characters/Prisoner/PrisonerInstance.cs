@@ -35,6 +35,8 @@ public class PrisonerInstance : MonoBehaviour, IEscortable {
     float lerpMoveParam = 0.0f;
     Vector3 lerpStartPosition;
     Vector3 lerpEndPosition;
+    Quaternion lerpStartRotation;
+    Quaternion lerpEndRotation;
 
     public int CurrentHp
     {
@@ -161,6 +163,10 @@ public class PrisonerInstance : MonoBehaviour, IEscortable {
         lerpMoveParam = 0.0f;
         lerpStartPosition = transform.position;
         lerpEndPosition = newPosition;
+        Vector3 direction = newPosition - transform.position;
+        lerpStartRotation = Quaternion.LookRotation(transform.forward);
+        lerpEndRotation = Quaternion.LookRotation(direction);
+
         Animator anim = GetComponentInChildren<Animator>();
         anim.SetTrigger("moveBetweenTiles");
 
@@ -177,6 +183,7 @@ public class PrisonerInstance : MonoBehaviour, IEscortable {
                 IsMovingBetweenTiles = false;
             }
             transform.position = Vector3.Lerp(lerpStartPosition, lerpEndPosition, Mathf.Clamp(lerpMoveParam, 0, 1));
+            transform.rotation = Quaternion.Lerp(lerpStartRotation, lerpEndRotation, Mathf.Clamp(lerpMoveParam, 0, 1));
         }
     }
 
