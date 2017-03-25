@@ -107,7 +107,6 @@ public class TileTrigger : MonoBehaviour {
                 ki.Remove(leaving);
             }
         }
-        Debug.Log("Exit");
     }
 
     void Move(int _i)

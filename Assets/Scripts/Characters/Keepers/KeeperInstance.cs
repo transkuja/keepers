@@ -391,11 +391,8 @@ public class KeeperInstance : MonoBehaviour, ITradable {
             isTargetableByMonster = value;
             foreach (GameObject follower in keeper.GoListCharacterFollowing)
             {
-                Debug.Log(follower.GetComponent<PrisonerInstance>().IsTargetableByMonster);
                 if (follower.GetComponent<PrisonerInstance>() != null)
                     follower.GetComponent<PrisonerInstance>().IsTargetableByMonster = value;
-                Debug.Log(follower.GetComponent<PrisonerInstance>().IsTargetableByMonster);
-
             }
         }
     }

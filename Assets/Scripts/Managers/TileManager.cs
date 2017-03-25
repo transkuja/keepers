@@ -289,7 +289,13 @@ public class TileManager : MonoBehaviour {
 
     private void InitializeState()
     {
-        instance.prisonerTile = GameObject.FindGameObjectWithTag("BeginTile").GetComponentInParent<Tile>();
+        GameObject beginTile = GameObject.FindGameObjectWithTag("BeginTile");
+        if (beginTile == null)
+        {
+            Debug.Log("No tag BeginTile on the first tile has been set.");
+            return;
+        }
+        instance.prisonerTile = beginTile.GetComponentInParent<Tile>();
         foreach (KeeperInstance ki in GameManager.Instance.AllKeepersList)
         {
             instance.AddKeeperOnTile(instance.prisonerTile, ki);
@@ -299,7 +305,13 @@ public class TileManager : MonoBehaviour {
 
     private void InitializeMonsters()
     {
-        instance.tiles = FindObjectOfType<HelperRoot>().gameObject;
+        HelperRoot helperRoot = FindObjectOfType<HelperRoot>();
+        if (helperRoot == null)
+        {
+            Debug.Log("No helper root found in scene, can't retrieve tiles.");
+            return;
+        }
+        instance.tiles = helperRoot.gameObject;
         foreach (MonsterInstance mi in instance.tiles.GetComponentsInChildren<MonsterInstance>())
         {
             instance.AddMonsterOnTile(mi.GetComponentInParent<Tile>(), mi);
