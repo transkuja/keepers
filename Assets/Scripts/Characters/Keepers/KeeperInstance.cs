@@ -71,6 +71,10 @@ public class KeeperInstance : MonoBehaviour, ITradable {
     // Aggro
     bool isTargetableByMonster = true;
 
+    // Movement between tile
+    // Prevents action poping when arriving on a tile
+    Direction arrivingTrigger = Direction.None;
+
     public short CurrentHunger
     {
         get { return currentHunger; }
@@ -394,6 +398,19 @@ public class KeeperInstance : MonoBehaviour, ITradable {
                 if (follower.GetComponent<PrisonerInstance>() != null)
                     follower.GetComponent<PrisonerInstance>().IsTargetableByMonster = value;
             }
+        }
+    }
+
+    public Direction ArrivingTrigger
+    {
+        get
+        {
+            return arrivingTrigger;
+        }
+
+        set
+        {
+            arrivingTrigger = value;
         }
     }
 

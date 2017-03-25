@@ -15,7 +15,6 @@ public class TileTrigger : MonoBehaviour {
         if (other.GetComponentInParent<KeeperInstance>() != null)
         {
             HandleTrigger(other.GetComponentInParent<KeeperInstance>());
-            
         }
    
     }
@@ -55,8 +54,16 @@ public class TileTrigger : MonoBehaviour {
 
         if (eTrigger != Direction.None && GetComponentInParent<Tile>().Neighbors[(int)eTrigger] != null)
         {
-           // if (k.ActionPoints > 0)
-          //  {
+            // if (k.ActionPoints > 0)
+            //  {
+            if (k.ArrivingTrigger == eTrigger)
+            {
+                k.ArrivingTrigger = Direction.None;
+            }
+            else
+            {
+                k.ArrivingTrigger = Utils.GetOppositeDirection(eTrigger);
+
                 if (GameManager.Instance.ListOfSelectedKeepers.Count > 0)
                 {
                     // On veut le mesh collider actif du perso
@@ -88,7 +95,7 @@ public class TileTrigger : MonoBehaviour {
                     // TODO : reflechir
                     Debug.Log("Cas non géré (last selected keeper");
                 }
-
+            }
             //}
           //  else
            // {
