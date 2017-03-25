@@ -11,13 +11,14 @@ public class BillboardForWorldSpaceUI : MonoBehaviour {
         m_Camera = Camera.main;
     }
 
+    // TODO change this shit: ça doit être fait par l'accesseur du camera lerp
     public void RecalculateActionCanvas()
     {
         if (transform.GetChild(0).childCount > 0)
         {
             transform.rotation = m_Camera.transform.rotation;
-
-            if(GameManager.Instance.GoTarget != null)
+            transform.localPosition = Vector3.zero;
+            if (GameManager.Instance.GoTarget != null)
             {
                 if (GameManager.Instance.GoTarget.GetComponent<BoxCollider>() != null)
                 {
@@ -29,8 +30,16 @@ public class BillboardForWorldSpaceUI : MonoBehaviour {
                 else if (GameManager.Instance.GoTarget.GetComponentInChildren<MeshCollider>() != null)
                 {
                     Vector3 size = GameManager.Instance.GoTarget.GetComponentInChildren<MeshCollider>().bounds.size;
-                    Vector3 V1 = new Vector3(0, Mathf.Max(size.y, size.z), 0);
-                    transform.localPosition = V1 + (Vector3.up * (1 - GameManager.Instance.CameraManager.FZoomLerp));
+                    Vector3 V1 = new Vector3(0, size.y, 0);
+                    transform.localPosition = V1 + (Vector3.up * (1.1f - GameManager.Instance.CameraManager.FZoomLerp));
+                    ///////////////////////////// ! \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+                    // TODO WARNING BIG CHIASSOUILLE fix for protoprout fix quickly after ask Rémi
+                    if (GameManager.Instance.GoTarget.GetComponentInParent<KeeperInstance>() != null &&
+                        GameManager.Instance.GoTarget.GetComponentInParent<KeeperInstance>().Keeper.CharacterName == "Grekhan")
+                    {
+                        transform.localPosition -= Vector3.up * 0.2f;
+                    }
+                    ///////////////////////////// ! \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
                 }
             }
     

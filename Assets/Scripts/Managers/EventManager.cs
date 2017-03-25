@@ -31,11 +31,11 @@ public class EventManager : MonoBehaviour {
         foreach (KeeperInstance ki in GameManager.Instance.AllKeepersList)
         {
             if (ki.IsAlive)
-                ki.CurrentHunger += 10;
+                ki.CurrentHunger -= 10;
         }
         if (GameManager.Instance.PrisonerInstance.IsAlive)
         {
-            GameManager.Instance.PrisonerInstance.CurrentHunger += 10;
+            GameManager.Instance.PrisonerInstance.CurrentHunger -= 10;
         }
     }
 
@@ -47,11 +47,13 @@ public class EventManager : MonoBehaviour {
         }
     }
 
+    // TODO
     public static void ApplyEndTurnHungerPenalty()
     {
 
     }
 
+    // TODO
     public static void ApplyEndTurnMentalHealthPenalty()
     {
 

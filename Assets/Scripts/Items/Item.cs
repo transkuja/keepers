@@ -290,7 +290,7 @@ public class Ressource : Item
     private bool DecreaseHunger(int _value)
     {
         GameManager.Instance.Ui.BuffActionTextAnimation(GameManager.Instance.Ui.goHungerBuffOnStatPanel, _value);
-        GameManager.Instance.ListOfSelectedKeepers[0].CurrentHunger -= (short)_value;
+        GameManager.Instance.ListOfSelectedKeepers[0].CurrentHunger += (short)_value;
         GameManager.Instance.SelectedKeeperNeedUpdate = true;
         GameManager.Instance.Ui.UpdateShortcutPanel();
         return true;

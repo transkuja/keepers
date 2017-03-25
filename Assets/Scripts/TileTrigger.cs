@@ -273,7 +273,7 @@ public class TileTrigger : MonoBehaviour {
             }
 
             // Apply exploration costs
-            toMove.CurrentHunger += 5;
+            toMove.CurrentHunger -= 5;
             GameManager.Instance.Ui.BuffActionTextAnimation(GameManager.Instance.Ui.goHungerBuffOnStatPanel, -5);
             GameManager.Instance.ShortcutPanel_NeedUpdate = true;
             GameManager.Instance.SelectedKeeperNeedUpdate = true;
@@ -285,7 +285,7 @@ public class TileTrigger : MonoBehaviour {
             // If the player is exploring with the prisoner following, apply costs to him too
             if (prisoner != null)
             {
-                prisoner.CurrentHunger += 5;
+                prisoner.CurrentHunger -= 5;
                 //TODO: Apply this only when the discovered tile is unfriendly
                 prisoner.CurrentMentalHealth -= 5;
             }

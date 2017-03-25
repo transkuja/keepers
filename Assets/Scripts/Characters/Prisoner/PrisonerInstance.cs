@@ -13,7 +13,7 @@ public class PrisonerInstance : MonoBehaviour, IEscortable {
     [SerializeField]
     private short currentMentalHealth;
     [SerializeField]
-    private short currentHunger = 0;
+    private short currentHunger;
     [SerializeField]
     private int currentHp;
     [SerializeField]
@@ -80,14 +80,14 @@ public class PrisonerInstance : MonoBehaviour, IEscortable {
         set
         {
             currentHunger = value;
-            if (currentHunger > prisoner.MaxHunger)
-            {
-                currentHunger = prisoner.MaxHunger;
-                isStarving = true;
-            }
-            else if (currentHunger < 0)
+            if (currentHunger < 0)
             {
                 currentHunger = 0;
+                isStarving = true;
+            }
+            else if (currentHunger > prisoner.MaxHunger)
+            {
+                currentHunger = prisoner.MaxHunger;
                 isStarving = false;
             }
             else
@@ -144,7 +144,7 @@ public class PrisonerInstance : MonoBehaviour, IEscortable {
         interactionImplementer.Add(new Interaction(Escort), 0, "Escort", GameManager.Instance.Ui.spriteEscort);
         interactionImplementer.Add(new Interaction(UnEscort), 0, "Unescort", GameManager.Instance.Ui.spriteUnescort, false);
         currentHp = prisoner.MaxHp;
-        currentHunger = 0;
+        currentHunger = prisoner.MaxHunger;
         currentMentalHealth = prisoner.MaxMentalHealth;
         currentMp = prisoner.MaxMp;
         isAlive = true;

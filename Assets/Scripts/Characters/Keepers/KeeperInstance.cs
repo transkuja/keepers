@@ -16,7 +16,7 @@ public class KeeperInstance : MonoBehaviour, ITradable {
     private bool isMentalHealthLow = false;
 
     [SerializeField]
-    private short currentHunger = 0;
+    private short currentHunger;
 
     [SerializeField]
     private short currentMentalHealth;
@@ -77,14 +77,14 @@ public class KeeperInstance : MonoBehaviour, ITradable {
         set
         {
             currentHunger = value;
-            if (currentHunger > keeper.MaxHunger)
-            {
-                currentHunger = keeper.MaxHunger;
-                isStarving = true;
-            }
-            else if (currentHunger < 0)
+            if (currentHunger < 0)
             {
                 currentHunger = 0;
+                isStarving = true;
+            }
+            else if (currentHunger > keeper.MaxHunger)
+            {
+                currentHunger = keeper.MaxHunger;
                 isStarving = false;
             }
             else
@@ -243,7 +243,7 @@ public class KeeperInstance : MonoBehaviour, ITradable {
         }
 
         currentHp = keeper.MaxHp;
-        currentHunger = 0;
+        currentHunger = keeper.MaxHunger;
         currentMentalHealth = keeper.MaxMentalHealth;
         actionPoints = keeper.MaxActionPoints;
         currentMp = keeper.MaxMp;
