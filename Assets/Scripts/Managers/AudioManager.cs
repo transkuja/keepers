@@ -5,15 +5,18 @@ public class AudioManager : MonoBehaviour {
 
     private static AudioManager s_instance = null;
 
-    [SerializeField]
-    public AudioSource sourceMusic;
-    [SerializeField]
-    public AudioSource sourceFX;
-    [SerializeField]
-    public AudioClip themeMusic;
-    [SerializeField]
-    public AudioClip ingameMusic;
 
+    public AudioSource sourceMusic;
+
+    public AudioSource sourceFX;
+
+    public AudioClip menuMusic;
+
+    public AudioClip Scene1Clip;
+
+    public AudioClip Scene2Clip;
+
+    public AudioClip walkSound;
     // Temp
     [SerializeField]
     public AudioClip battleSound;
@@ -21,7 +24,7 @@ public class AudioManager : MonoBehaviour {
     private AudioClip musicToPlay;
 
     [SerializeField]
-    private float volumeMusic = 1.0f;
+    private float volumeMusic = 0.5f;
     [SerializeField]
     private float volumeFXs = 1.0f;
 
@@ -67,9 +70,13 @@ public class AudioManager : MonoBehaviour {
         {
             s_instance = this;
             DontDestroyOnLoad(gameObject);
+            transform.GetChild(0).GetComponent<AudioSource>().clip = menuMusic;
         }
         else if (s_instance != this)
+        {
             Destroy(gameObject);
+        }
+            
 
         
     }

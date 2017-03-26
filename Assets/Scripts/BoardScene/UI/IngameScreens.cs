@@ -61,7 +61,7 @@ public class IngameScreens : MonoBehaviour {
     public void BackToMenu()
     {
         Time.timeScale = 1.0f;
-        AudioManager.Instance.Fade(AudioManager.Instance.themeMusic);
+        AudioManager.Instance.Fade(AudioManager.Instance.menuMusic);
         GameManager.Instance.ResetInstance();
         SceneManager.LoadScene(0);
     }

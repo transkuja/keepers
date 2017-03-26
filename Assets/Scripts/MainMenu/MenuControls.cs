@@ -102,7 +102,20 @@ public class MenuControls : MonoBehaviour {
         GameManager.Instance.InitializeInGameKeepers();
         if (AudioManager.Instance != null)
         {
-            AudioManager.Instance.Fade(AudioManager.Instance.ingameMusic);
+            AudioClip toPlay;
+            switch(levelSelected)
+            {
+                case 1:
+                    toPlay = AudioManager.Instance.Scene1Clip;
+                    break;
+                case 2:
+                    toPlay = AudioManager.Instance.Scene2Clip;
+                    break;
+                default:
+                    toPlay = toPlay = AudioManager.Instance.menuMusic;
+                    break;
+            }
+            AudioManager.Instance.Fade(toPlay);
         }
         SceneManager.LoadScene(levelSelected);
 

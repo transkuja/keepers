@@ -9,7 +9,7 @@ public class WalkSound : MonoBehaviour {
 
 	void Start () {
         source = GetComponent<AudioSource>();
-
+        source.clip = AudioManager.Instance.walkSound;
 	}
 
     public void PlaySound()
