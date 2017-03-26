@@ -1,11 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 // Temp
 using UnityEngine.SceneManagement;
 
 public class MenuControls : MonoBehaviour {
+    public int levelSelected = -1;
+    public Image cardLevelSelectedImg;
+
+    // TODO handle this better
+    [SerializeField]
+    Sprite[] levelImg;
 
     // Update is called once per frame
     void Update () {
@@ -34,8 +41,22 @@ public class MenuControls : MonoBehaviour {
                                 k.IsSelectedInMenu = true;
                                 GameManager.Instance.AllKeepersList.Add(k);
                             }
-                            GameManager.Instance.CharacterPanelMenuNeedUpdate = true;  
-                        }                          
+                            GameManager.Instance.CharacterPanelMenuNeedUpdate = true;
+                        }
+                    }
+                    else if (hit.transform.GetComponent<CardLevel>() != null)
+                    {
+                        if (levelSelected == hit.transform.GetComponent<CardLevel>().levelIndex)
+                        {
+                            levelSelected = -1;
+                            cardLevelSelectedImg.enabled = false;
+                        }
+                        else
+                        {
+                            levelSelected = hit.transform.GetComponent<CardLevel>().levelIndex;
+                            cardLevelSelectedImg.sprite = levelImg[levelSelected-1];
+                            cardLevelSelectedImg.enabled = true;
+                        }
                     }
                 }
             }
@@ -64,6 +85,10 @@ public class MenuControls : MonoBehaviour {
                 }
             }
 
+            // Prevents doing shit with load scene
+            if (levelSelected == -1)
+                levelSelected = 1;
+
             StartGame();
         }
 
@@ -76,7 +101,7 @@ public class MenuControls : MonoBehaviour {
         {
             AudioManager.Instance.Fade(AudioManager.Instance.themeMusic);
         }
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(levelSelected);
 
     }
 }

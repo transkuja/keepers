@@ -73,7 +73,7 @@ public class MenuUI : MonoBehaviour
 
     public void UpdateStartButton()
     {
-        if (GameManager.Instance.AllKeepersList.Count == 0)
+        if (GameManager.Instance.AllKeepersList.Count == 0 || GetComponent<MenuControls>().levelSelected == -1)
         {
             startButtonImg.enabled = false;
         }
