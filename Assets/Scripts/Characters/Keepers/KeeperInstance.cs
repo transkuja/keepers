@@ -262,6 +262,7 @@ public class KeeperInstance : MonoBehaviour, ITradable {
         isAlive = true;
 
         equipment = new ItemContainer[3];
+        arrivingTrigger = Direction.None;
     }
 
     private void Update()
