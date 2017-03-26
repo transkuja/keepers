@@ -29,6 +29,10 @@ public class BattleHandler {
             {
                 isPrisonerOnTile = true;
             }
+            else
+            {
+                isPrisonerOnTile = false;
+            }
 
             LaunchBattle(tile, keepersForBattle);
         }
