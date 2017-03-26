@@ -92,6 +92,9 @@ public class MenuControls : MonoBehaviour {
             StartGame();
         }
 
+        if (Input.GetKeyDown(KeyCode.Escape))
+            Application.Quit();
+
     }
 
     public void StartGame()
