@@ -17,6 +17,14 @@ public class AudioManager : MonoBehaviour {
     public AudioClip Scene2Clip;
 
     public AudioClip walkSound;
+
+    public AudioClip selectSound;
+
+    public AudioClip deselectSound;
+
+    public AudioClip paperSelectSound;
+
+    public AudioClip buttonClick;
     // Temp
     [SerializeField]
     public AudioClip battleSound;
@@ -128,8 +136,13 @@ public class AudioManager : MonoBehaviour {
         
 	}
 
-    public void playBattleSound()
+    public void PlayOneShot(AudioClip clip)
     {
-        sourceFX.PlayOneShot(battleSound, volumeFXs);
+        sourceFX.PlayOneShot(clip, volumeFXs);
+    }
+
+    public void PlayOneShot(AudioClip clip, float volumeMultiplier)
+    {
+        sourceFX.PlayOneShot(clip, volumeFXs * volumeMultiplier);
     }
 }

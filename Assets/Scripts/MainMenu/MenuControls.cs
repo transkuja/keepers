@@ -33,11 +33,13 @@ public class MenuControls : MonoBehaviour {
                         {
                             if (GameManager.Instance.AllKeepersList.Contains(k))
                             {
+                                AudioManager.Instance.PlayOneShot(AudioManager.Instance.deselectSound, 0.25f);
                                 k.IsSelectedInMenu = false;
                                 GameManager.Instance.AllKeepersList.Remove(k);
                             }
                             else
                             {
+                                AudioManager.Instance.PlayOneShot(AudioManager.Instance.selectSound, 0.25f);
                                 k.IsSelectedInMenu = true;
                                 GameManager.Instance.AllKeepersList.Add(k);
                             }
@@ -46,6 +48,7 @@ public class MenuControls : MonoBehaviour {
                     }
                     else if (hit.transform.GetComponent<CardLevel>() != null)
                     {
+                        AudioManager.Instance.PlayOneShot(AudioManager.Instance.paperSelectSound, 0.5f);
                         if (levelSelected == hit.transform.GetComponent<CardLevel>().levelIndex)
                         {
                             levelSelected = -1;

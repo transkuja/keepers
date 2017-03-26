@@ -19,7 +19,7 @@ public class BattleHandler {
     /// <param name="tile"></param>
     public static void StartBattleProcess(Tile tile)
     {
-        AudioManager.Instance.playBattleSound();
+        AudioManager.Instance.PlayOneShot(AudioManager.Instance.battleSound, 0.5f);
         Time.timeScale = 0.0f;
         // Auto selection
         if (TileManager.Instance.KeepersOnTile[tile].Count <= 1)
