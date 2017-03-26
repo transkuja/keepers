@@ -102,7 +102,7 @@ public class MenuControls : MonoBehaviour {
         GameManager.Instance.InitializeInGameKeepers();
         if (AudioManager.Instance != null)
         {
-            AudioManager.Instance.Fade(AudioManager.Instance.themeMusic);
+            AudioManager.Instance.Fade(AudioManager.Instance.ingameMusic);
         }
         SceneManager.LoadScene(levelSelected);
 
