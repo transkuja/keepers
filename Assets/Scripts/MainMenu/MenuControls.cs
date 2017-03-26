@@ -34,10 +34,8 @@ public class MenuControls : MonoBehaviour {
                                 k.IsSelectedInMenu = true;
                                 GameManager.Instance.AllKeepersList.Add(k);
                             }
-                            GameManager.Instance.CharacterPanelMenuNeedUpdate = true;
-                            
-                        }
-                                                 
+                            GameManager.Instance.CharacterPanelMenuNeedUpdate = true;  
+                        }                          
                     }
                 }
             }
@@ -47,8 +45,9 @@ public class MenuControls : MonoBehaviour {
             {
                 foreach (KeeperInstance ki in GameManager.Instance.AllKeepersList)
                 {
-                    ki.IsSelectedInMenu = false;
+                    ki.IsSelectedInMenu = false;       
                 }
+                GameManager.Instance.AllKeepersList.Clear();
                 GameManager.Instance.CharacterPanelMenuNeedUpdate = true;
             }
         }

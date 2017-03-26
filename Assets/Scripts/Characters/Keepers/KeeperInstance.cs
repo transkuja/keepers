@@ -33,7 +33,6 @@ public class KeeperInstance : MonoBehaviour, ITradable {
     // Used only in menu. Handles selection in main menu.
     [SerializeField]
     private bool isSelectedInMenu = false;
-    public MeshRenderer meshToHighlight;
 
     private bool isAlive = true;
     // Inventory
@@ -295,22 +294,6 @@ public class KeeperInstance : MonoBehaviour, ITradable {
         }
     }
 
-    private void ToggleHighlightOnMesh(bool isSelected)
-    {
-        if (meshToHighlight != null)
-        {
-            if (isSelected)
-            {
-                meshToHighlight.material.shader = Shader.Find("Outlined/Silhouetted Diffuse");
-                meshToHighlight.material.SetColor("_OutlineColor", Color.blue);
-            }
-            else
-            {
-                meshToHighlight.material.shader = Shader.Find("Diffuse");
-            }
-        }
-    }
-
     public KeeperInstance(KeeperInstance from)
     {
         keeper = from.keeper;
@@ -346,11 +329,9 @@ public class KeeperInstance : MonoBehaviour, ITradable {
         {
             return isSelectedInMenu;
         }
-
         set
         {
             isSelectedInMenu = value;
-            ToggleHighlightOnMesh(isSelectedInMenu);
         }
     }
 
