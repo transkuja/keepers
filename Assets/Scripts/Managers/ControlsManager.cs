@@ -49,6 +49,7 @@ public class ControlsManager : MonoBehaviour {
         SelectionControls();
         ChangeSelectedKeeper();
         UpdateDoubleCick();
+        ShortcutMenuControls();
         //CameraControls();
     }
 
@@ -284,6 +285,18 @@ public class ControlsManager : MonoBehaviour {
         else
         {
             goPreviousLeftclicked = null;
+        }
+    }
+
+    private void ShortcutMenuControls()
+    {
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            GameManager.Instance.Ui.ToggleShortcutPanel();
+        }
+        if (Input.GetKeyDown(KeyCode.KeypadEnter))
+        {
+            GameManager.Instance.Ui.EndTurn();
         }
     }
 

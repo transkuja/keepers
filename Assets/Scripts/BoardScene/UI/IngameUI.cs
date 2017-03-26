@@ -366,7 +366,7 @@ public class IngameUI : MonoBehaviour
     #endregion
 
     #region ShortcutPanel
-    public void ToogleShortcutPanel()
+    public void ToggleShortcutPanel()
     {
         goShortcutKeepersPanel.SetActive(!goShortcutKeepersPanel.activeSelf);
     }
