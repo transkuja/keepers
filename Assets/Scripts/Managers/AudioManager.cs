@@ -14,7 +14,7 @@ public class AudioManager : MonoBehaviour {
 
     // Temp
     [SerializeField]
-    public AudioClip fxSound;
+    public AudioClip battleSound;
 
     private AudioClip musicToPlay;
 
@@ -85,7 +85,7 @@ public class AudioManager : MonoBehaviour {
         if (sourceMusic.clip != _music)
         {
             musicToPlay = _music;
-            timerFade = 3.0f;
+            timerFade = 1.0f;
             isFading = true;
         }
 
@@ -107,13 +107,19 @@ public class AudioManager : MonoBehaviour {
             }
             else
             {
-                sourceMusic.volume = timerFade / 3.0f * volumeMusic;
+                sourceMusic.volume = timerFade * volumeMusic;
             }
         }
+        else
+        {
+            sourceMusic.volume = volumeMusic;
+        }
+
+        
 	}
 
-    public void playFx()
+    public void playBattleSound()
     {
-        sourceMusic.PlayOneShot(fxSound, volumeFXs);
+        sourceMusic.PlayOneShot(battleSound, volumeFXs);
     }
 }
