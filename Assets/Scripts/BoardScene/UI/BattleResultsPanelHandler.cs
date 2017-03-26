@@ -18,5 +18,6 @@ public class BattleResultsPanelHandler : MonoBehaviour {
 public enum BattleResultScreenChildren
 {
     Header,
+    Background,
     Logger
 }
