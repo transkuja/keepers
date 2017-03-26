@@ -8,6 +8,8 @@ public class AudioManager : MonoBehaviour {
     [SerializeField]
     public AudioSource sourceMusic;
     [SerializeField]
+    public AudioSource sourceFX;
+    [SerializeField]
     public AudioClip themeMusic;
     [SerializeField]
     public AudioClip ingameMusic;
@@ -55,6 +57,7 @@ public class AudioManager : MonoBehaviour {
         set
         {
             volumeFXs = value;
+            sourceFX.volume = volumeFXs;
         }
     }
 
@@ -120,6 +123,6 @@ public class AudioManager : MonoBehaviour {
 
     public void playBattleSound()
     {
-        sourceMusic.PlayOneShot(battleSound, volumeFXs);
+        sourceFX.PlayOneShot(battleSound, volumeFXs);
     }
 }
