@@ -75,8 +75,18 @@ public class BattleHandler {
         int[] damageTaken = new int[keepers.Count + 1];
         string[] keeperNames = new string[keepers.Count];
 
+        int[] monstersInitialHp = new int[monsters.Count];
+        int[] damageTakenByMonsters = new int[monsters.Count];
+        string[] monsterNames = new string[monsters.Count];
+
         for (int i = 0; i < keepers.Count; i++)
             keeperNames[i] = keepers[i].Keeper.CharacterName;
+
+        for (int i = 0; i < monsters.Count; i++)
+        {
+            monsterNames[i] = monsters[i].Monster.CharacterName;
+            monstersInitialHp[i] = monsters[i].CurrentHp;
+        }
 
         while (monsters.Count > 0 && totalDamageTaken < 50 && keepers.Count > 0)
         {
@@ -87,10 +97,16 @@ public class BattleHandler {
                 AttackType attackType = currentKeeper.Keeper.GetEffectiveStrength() > currentKeeper.Keeper.GetEffectiveIntelligence() ? AttackType.Physical : AttackType.Magical;
 
                 target = GetTargetForAttack(monsters, attackType);
-
+                int monsterIndexForDmgCalculation = 0;
+                for (int i = 0; i < monsterNames.Length; i++)
+                {
+                    if (target.Monster.CharacterName == monsterNames[i])
+                        monsterIndexForDmgCalculation = i;
+                }
                 // Inflict damage to target
-                KeeperDamageCalculation(currentKeeper, target, attackType);
-
+                damageTakenByMonsters[monsterIndexForDmgCalculation] += KeeperDamageCalculation(currentKeeper, target, attackType);
+                if (damageTakenByMonsters[monsterIndexForDmgCalculation] > monstersInitialHp[monsterIndexForDmgCalculation])
+                    damageTakenByMonsters[monsterIndexForDmgCalculation] = monstersInitialHp[monsterIndexForDmgCalculation];
                 // Remove monster from list if dead
                 if (target.CurrentHp <= 0)
                 {
@@ -170,6 +186,12 @@ public class BattleHandler {
             BattleLog(keeperNames[i] + " lost " + damageTaken[i] + " health.");
         if (isPrisonerOnTile)
             BattleLog("Prisoner lost " + damageTaken[damageTaken.Length - 1] + " health.");
+        for (int i = 0; i < damageTakenByMonsters.Length; i++)
+        {
+            if (damageTakenByMonsters[i] > 0)
+                BattleLog(monsterNames[i] + " lost " + damageTakenByMonsters[i] + " health.");
+            BattleLog(monsterNames[i] + " has " + (monstersInitialHp[i] - damageTakenByMonsters[i]) + " health left.");
+        }
 
         // Battle result
         if (monsters.Count == 0)
@@ -230,7 +252,7 @@ public class BattleHandler {
         return keepers[Random.Range(0, keepers.Count)];
     }
 
-    private static void KeeperDamageCalculation(KeeperInstance attacker, MonsterInstance targetMonster, AttackType attackType)
+    private static int KeeperDamageCalculation(KeeperInstance attacker, MonsterInstance targetMonster, AttackType attackType)
     {
         int damage = 0;
         if (attackType == AttackType.Physical)
@@ -245,8 +267,9 @@ public class BattleHandler {
         damage = Mathf.RoundToInt(damage * Random.Range(0.75f, 1.25f));
 
         targetMonster.CurrentHp -= damage;
-        Debug.Log(attacker.Keeper.CharacterName + " deals " + damage + " damage to " + targetMonster.Monster.CharacterName + ".\n");
-        Debug.Log(targetMonster.Monster.CharacterName + " has " + targetMonster.CurrentHp + " left.\n");
+        //Debug.Log(attacker.Keeper.CharacterName + " deals " + damage + " damage to " + targetMonster.Monster.CharacterName + ".\n");
+        //Debug.Log(targetMonster.Monster.CharacterName + " has " + targetMonster.CurrentHp + " left.\n");
+        return damage;
     }
 
     private static int MonsterDamageCalculation(MonsterInstance attacker, KeeperInstance targetKeeper, AttackType attackType, bool prisonerTargeted = false)
@@ -272,14 +295,14 @@ public class BattleHandler {
         if (prisonerTargeted)
         {
             GameManager.Instance.PrisonerInstance.CurrentHp -= damage;
-            Debug.Log(attacker.Monster.CharacterName + " deals " + damage + " damage to prisoner.\n");
-            Debug.Log("Prisoner has " + GameManager.Instance.PrisonerInstance.CurrentHp + " left.\n");
+            //Debug.Log(attacker.Monster.CharacterName + " deals " + damage + " damage to prisoner.\n");
+            //Debug.Log("Prisoner has " + GameManager.Instance.PrisonerInstance.CurrentHp + " left.\n");
         }
         else
         {
             targetKeeper.CurrentHp -= damage;
-            Debug.Log(attacker.Monster.CharacterName + " deals " + damage + " damage to " + targetKeeper.Keeper.CharacterName + ".\n");
-            Debug.Log(targetKeeper.Keeper.CharacterName + " has " + targetKeeper.CurrentHp + " left.\n");
+            //Debug.Log(attacker.Monster.CharacterName + " deals " + damage + " damage to " + targetKeeper.Keeper.CharacterName + ".\n");
+            //Debug.Log(targetKeeper.Keeper.CharacterName + " has " + targetKeeper.CurrentHp + " left.\n");
         }
 
         return damage;

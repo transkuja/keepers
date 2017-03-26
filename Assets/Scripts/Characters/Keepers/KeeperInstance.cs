@@ -81,6 +81,9 @@ public class KeeperInstance : MonoBehaviour, ITradable {
     Quaternion lerpStartRotation;
     Quaternion lerpEndRotation;
 
+    // TODO handle buffs better
+    public bool isLowMentalHealthBuffApplied = false;
+
     public short CurrentHunger
     {
         get { return currentHunger; }
@@ -90,16 +93,16 @@ public class KeeperInstance : MonoBehaviour, ITradable {
             if (currentHunger < 0)
             {
                 currentHunger = 0;
-                isStarving = true;
+                IsStarving = true;
             }
             else if (currentHunger > keeper.MaxHunger)
             {
                 currentHunger = keeper.MaxHunger;
-                isStarving = false;
+                IsStarving = false;
             }
             else
             {
-                isStarving = false;
+                IsStarving = false;
             }
 
         }
@@ -185,16 +188,16 @@ public class KeeperInstance : MonoBehaviour, ITradable {
             if (currentMentalHealth < 0)
             {
                 currentMentalHealth = 0;
-                isMentalHealthLow = true;
+                IsMentalHealthLow = true;
             }
             else if (currentMentalHealth > keeper.MaxMentalHealth)
             {
                 currentMentalHealth = keeper.MaxMentalHealth;
-                isMentalHealthLow = false;
+                IsMentalHealthLow = false;
             }
             else
             {
-                isMentalHealthLow = false;
+                IsMentalHealthLow = false;
             }
         }
     }
@@ -445,6 +448,32 @@ public class KeeperInstance : MonoBehaviour, ITradable {
         {
             isMovingBetweenTiles = value;
             agent.enabled = !value;
+        }
+    }
+
+    public bool IsStarving
+    {
+        get
+        {
+            return isStarving;
+        }
+
+        set
+        {
+            isStarving = value;
+        }
+    }
+
+    public bool IsMentalHealthLow
+    {
+        get
+        {
+            return isMentalHealthLow;
+        }
+
+        set
+        {
+            isMentalHealthLow = value;
         }
     }
 

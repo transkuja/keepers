@@ -86,7 +86,26 @@ public class ItemContainer {
 
     public void UseItem()
     {
-        Quantity -= 1;
-        item.UseItem(this);
+        // TODO architecturez moi tout ça @Seb
+        if (GameManager.Instance.ListOfSelectedKeepers[0].Keeper.GoListCharacterFollowing.Count == 0 
+            || (item.GetType() == typeof(Ressource) && ((Ressource)item).ResourceUseIndex == ResourceFunctions.UpMentalHealth))
+        {
+            Quantity -= 1;
+            item.UseItem(this);
+        }
+        else
+        {
+            if (Quantity >= 2)
+            {
+                Quantity -= 2;
+                item.UseItem(this);
+            }
+            else
+            {
+                Quantity -= 1;
+                item.UseItem(this, true);
+            }
+        }
+
     }
 }

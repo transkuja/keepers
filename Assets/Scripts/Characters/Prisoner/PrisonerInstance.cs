@@ -91,16 +91,16 @@ public class PrisonerInstance : MonoBehaviour, IEscortable {
             if (currentHunger < 0)
             {
                 currentHunger = 0;
-                isStarving = true;
+                IsStarving = true;
             }
             else if (currentHunger > prisoner.MaxHunger)
             {
                 currentHunger = prisoner.MaxHunger;
-                isStarving = false;
+                IsStarving = false;
             }
             else
             {
-                isStarving = false;
+                IsStarving = false;
             }
 
         }
@@ -115,16 +115,16 @@ public class PrisonerInstance : MonoBehaviour, IEscortable {
             if (currentMentalHealth < 0)
             {
                 currentMentalHealth = 0;
-                isMentalHealthLow = true;
+                IsMentalHealthLow = true;
             }
             else if (currentMentalHealth > prisoner.MaxMentalHealth)
             {
                 currentMentalHealth = prisoner.MaxMentalHealth;
-                isMentalHealthLow = false;
+                IsMentalHealthLow = false;
             }
             else
             {
-                isMentalHealthLow = false;
+                IsMentalHealthLow = false;
             }
         }
     }
@@ -263,6 +263,32 @@ public class PrisonerInstance : MonoBehaviour, IEscortable {
         {
             isMovingBetweenTiles = value;
             GetComponent<NavMeshAgent>().enabled = !value;
+        }
+    }
+
+    public bool IsStarving
+    {
+        get
+        {
+            return isStarving;
+        }
+
+        set
+        {
+            isStarving = value;
+        }
+    }
+
+    public bool IsMentalHealthLow
+    {
+        get
+        {
+            return isMentalHealthLow;
+        }
+
+        set
+        {
+            isMentalHealthLow = value;
         }
     }
     #endregion

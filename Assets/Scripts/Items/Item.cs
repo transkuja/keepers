@@ -141,7 +141,7 @@ public class Item
         isStackable = from.IsStackable;
         rarity = from.rarity;
     }
-    public virtual void UseItem(ItemContainer ic)
+    public virtual void UseItem(ItemContainer ic, bool isQuantityPreviouslyEqualOne = false)
     {
         Debug.Log("Use item of item type undefined");
     }
@@ -204,7 +204,7 @@ public class Equipment : Item
         Rarity = 1;
     }
 
-    public override void UseItem(ItemContainer ic)
+    public override void UseItem(ItemContainer ic, bool isQuantityPreviouslyEqualOne = false)
     {
         bool isEquiped = EquipementManager.CheckIfItemTypeIsInEquipement(GameManager.Instance.ListOfSelectedKeepers[0].Equipment, ic);
         if (isEquiped)
@@ -246,14 +246,18 @@ public class Ressource : Item
 
     public ResourceFunctions ResourceUseIndex
     {
-        private get { return resourceUseIndex; }
+        get { return resourceUseIndex; }
 
         set
         {
             if (value.Equals(ResourceFunctions.UpMentalHealth))
+            {
                 resourceUse = UpMentalHealth;
+            }
             if (value.Equals(ResourceFunctions.DecreaseHunger))
                 resourceUse = DecreaseHunger;
+
+            resourceUseIndex = value;
 
         }
     }
@@ -296,8 +300,20 @@ public class Ressource : Item
         return true;
     }
 
-    public override void UseItem(ItemContainer ic)
+    public override void UseItem(ItemContainer ic, bool isQuantityPreviouslyEqualOne = false)
     {
-        resourceUse.Invoke(Value);
+        // TODO architecturez moi tout ça @Seb
+        if (GameManager.Instance.ListOfSelectedKeepers[0].Keeper.GoListCharacterFollowing.Count > 0
+            && (ic.Item.GetType() == typeof(Ressource) && ((Ressource)ic.Item).ResourceUseIndex != ResourceFunctions.UpMentalHealth))
+        {
+            GameManager.Instance.PrisonerInstance.CurrentHunger += (short)Value;
+        }
+
+        if (!isQuantityPreviouslyEqualOne)
+            resourceUse.Invoke(Value);
+        else
+        {
+            GameManager.Instance.Ui.UpdateShortcutPanel();
+        }
     }
 }

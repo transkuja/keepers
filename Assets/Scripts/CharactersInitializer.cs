@@ -26,4 +26,10 @@ public class CharactersInitializer : MonoBehaviour {
 
         GameManager.Instance.PrisonerInstance = beginPositionPrisonnier;
     }
+
+    private void Start()
+    {
+        // TODO faire une meilleure caméra d'entrée de niveau
+        GameManager.Instance.CameraManager.UpdateCameraPosition();
+    }
 }
