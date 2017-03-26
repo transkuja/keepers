@@ -19,6 +19,7 @@ public class CharactersInitializer : MonoBehaviour {
             GameManager.Instance.AllKeepersList[i].transform.position = beginPositions.transform.GetChild(i).position;
             GameManager.Instance.AllKeepersList[i].transform.SetParent(null);
             GameManager.Instance.AllKeepersList[i].transform.rotation = Quaternion.identity;
+            GameManager.Instance.AllKeepersList[i].transform.localScale = Vector3.one;
             GameManager.Instance.AllKeepersList[i].transform.GetComponent<NavMeshAgent>().enabled = true;
 
             GlowController.RegisterObject(GameManager.Instance.AllKeepersList[i].GetComponent<GlowObjectCmd>());

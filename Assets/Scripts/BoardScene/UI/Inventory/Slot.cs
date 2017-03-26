@@ -73,28 +73,28 @@ public class Slot : MonoBehaviour, IDropHandler
                         //Move the item to the slot
                         //eventData.pointerDrag.transform.SetParent(transform);
                         InventoryManager.SwapItemBeetweenInventories(inventoryKeeperDequi, previous.GetSiblingIndex(), inventoryKeeperVersqui, transform.GetSiblingIndex());
+                    }
 
-                        // Destroy inventory if it is empty for loot
-                        if(inventaireDequi.Owner.GetComponent<LootInstance>() != null)
+                    // Destroy inventory if it is empty for loot
+                    if (inventaireDequi.Owner.GetComponent<LootInstance>() != null)
+                    {
+                        bool isEmpty = true;
+                        for (int i = 0; i < inventaireDequi.Owner.GetComponent<Inventory>().List_inventaire.Count; i++)
                         {
-                            bool isEmpty = true;
-                            for (int i = 0; i < inventaireDequi.Owner.GetComponent<Inventory>().List_inventaire.Count; i++)
+                            if (inventaireDequi.Owner.GetComponent<Inventory>().List_inventaire[i] != null)
                             {
-                                if(inventaireDequi.Owner.GetComponent<Inventory>().List_inventaire[i] != null)
-                                {
-                                    isEmpty = false;
-                                    break;
-                                }
+                                isEmpty = false;
+                                break;
                             }
-                            if (isEmpty)
+                        }
+                        if (isEmpty)
+                        {
+                            if (inventaireDequi.Owner.gameObject.GetComponentInChildren<Canvas>() != null)
                             {
-                                if (inventaireDequi.Owner.gameObject.GetComponentInChildren<Canvas>() != null)
-                                {
-                                    inventaireDequi.Owner.gameObject.GetComponentInChildren<Canvas>().transform.SetParent(null);
-                                }
-                                Destroy(inventaireDequi.Owner.gameObject);
-                                Destroy(inventaireDequi.GetComponentInParent<DragHandlerInventoryPanel>().gameObject);
+                                inventaireDequi.Owner.gameObject.GetComponentInChildren<Canvas>().transform.SetParent(null);
                             }
+                            Destroy(inventaireDequi.Owner.gameObject);
+                            Destroy(inventaireDequi.GetComponentInParent<DragHandlerInventoryPanel>().gameObject);
                         }
                     }
                 }
