@@ -361,6 +361,7 @@ public class GameManager : MonoBehaviour
 
     public void Win()
     {
+        AudioManager.Instance.PlayOneShot(AudioManager.Instance.winningSound);
         WinScreen.gameObject.SetActive(true);
         Time.timeScale = 0.0f;
     }

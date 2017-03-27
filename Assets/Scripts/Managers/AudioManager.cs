@@ -29,6 +29,8 @@ public class AudioManager : MonoBehaviour {
     [SerializeField]
     public AudioClip battleSound;
 
+    public AudioClip winningSound;
+
     private AudioClip musicToPlay;
 
     [SerializeField]
