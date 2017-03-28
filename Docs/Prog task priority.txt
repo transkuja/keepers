@@ -1,15 +1,53 @@
 1: priorité la plus haute
 
+Clean-up phase
+Deadline 31/03
+========================================
+Refonte des personnages
+	-> création fichier json
+	-> chargement du fichier json
+	-> gestion du bool[] pour les différents comportements
+	-> ajout/suppression de components en fonction du contenu du bool[]
+	-> exploser keeper/PNJ/Prisoner Instance => CharacterInstance
+
+Supprimer les scripts du script execution order
+	-> Clean le GameManager
+	-> créer des init dans le TileManager et le CharactersInitializer
+	-> Appeler les init dans le bon ordre dans le GameManager
+
+Refonte des items
+	-> Supprimer/Modifier l'existant
+	-> Revoir la façon de nourrir le prisonnier
+
+
+========================================
+
+RàF pré-proto
+1: Gérer la mort des personnages => anim
+	==> Anthony ==> mal géré sur les mobs
+
+2: Exploration: Faire pop aléatoirement des mobs lorsque l'on découvre un Tile
+
+3: Endgame: Affichage du score sur l'écran de victoire
+
+
+Feedback sur le bouton de fin de tour quand il n'y a plus d'action
+Ne permettre que certaine action comme le deplacement si on a le nombre d'action requis
+Faire une icone pour au moins trois equipement de chaque type ( weapon , armor et soul ), les integrer
+Faire un rendu visual pour le blé et les champignons > prefab associé
+appliqué les stats des équipements
+affiché les bonus de stats sur le panel_stat_tooltip
+faire la distinction entre petites icons et icons dans le panel shortcut et dans les inventaires
+icone pour un pnj
+refaire la boîte (@Rémi) et la linker au jeu
+actions_ panel -> le mettre sur un canvas world space pour le rendre plus sympa ( post proto)
+icon de moral buff debuff.
+Points d'actions nécessaire affichés au dessus du bouton de l'action: Mettre les points en couleur sombre de base et les remplir (en partant du point de gauche vers le point de droite) avec une couleur plus claire, en fonction des PA du keeper selectionné.
+	(par exemple: Explorer coûte 3 points d'actions, le keeper sélectionné n'en a que 2: deux points rouges (ou oranges) sont affichés, suivis d'un point sombre pour indiquer qu'il manque un point d'action. Si le keeper a 3 PA, les trois points peuvent être remplis de vert).
+
+
+
 ////////// Proto priority \\\\\\\\\
-
----------
-Ajouter des sons => Rémi
-
-Faire du level design sur un plus grand niveau => Anthony
-
-Tester le build
-
-----------
 
 Réparer la mort après un combat => done
 
@@ -31,34 +69,10 @@ Intégrer les assets d'UI, l'écran de victoire, etc. => done
 
 Intégrer l'anim de déplacement entre les tiles => done
 
+Ajouter des sons => done
+
+Faire du level design sur un plus grand niveau => done
+
+Tester le build => done
+
 ///////////////////////////////////////////////
-
-
-1: Level Design
-1: Audio : Chercher des sons et les integrer au jeu grace à l'audio manager deja en place
-	==> Rémi
-1: Gérer la mort des personnages => anim
-	==> Anthony
-
-2: Règles de gestion: Implémenter les cas limites de faim élevée et moral bas (valeurs arbitraires que l'on pourra moduler plus tard)
-2: Exploration: Faire pop aléatoirement des mobs lorsque l'on découvre un Tile
-
-3: PNJ: Ajouter un PNJ avec un comportement basique ==> rajouter parler
-
-4: Bug: Ignorer les raycast sur le personnage selectionné quand on veut se déplacer
-4: Endgame: Affichage du score sur l'écran de victoire
-
-
-Feedback sur le bouton de fin de tour quand il n'y a plus d'action
-Ne permettre que certaine action comme le deplacement si on a le nombre d'action requis
-Faire une icone pour au moins trois equipement de chaque type ( weapon , armor et soul ), les integrer
-Faire un rendu visual pour le blé et les champignons > prefab associé
-appliqué les stats des équipements
-affiché les bonus de stats sur le panel_stat_tooltip
-faire la distinction entre petites icons et icons dans le panel shortcut et dans les inventaires
-icone pour un pnj
-refaire la boîte (@Rémi) et la linker au jeu
-actions_ panel -> le mettre sur un canvas world space pour le rendre plus sympa ( post proto)
-icon de moral buff debuff.
-Points d'actions nécessaire affichés au dessus du bouton de l'action: Mettre les points en couleur sombre de base et les remplir (en partant du point de gauche vers le point de droite) avec une couleur plus claire, en fonction des PA du keeper selectionné.
-	(par exemple: Explorer coûte 3 points d'actions, le keeper sélectionné n'en a que 2: deux points rouges (ou oranges) sont affichés, suivis d'un point sombre pour indiquer qu'il manque un point d'action. Si le keeper a 3 PA, les trois points peuvent être remplis de vert).
