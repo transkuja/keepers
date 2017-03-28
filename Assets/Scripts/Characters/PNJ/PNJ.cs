@@ -54,15 +54,4 @@ public class PNJ{
             characterName = value;
         }
     }
-
-    public PNJ()
-    {
-
-    }
-
-    public PNJ(PNJ from)
-    {
-        associatedSprite = from.associatedSprite;
-    }
-
 }

@@ -49,13 +49,4 @@ public class Prisoner : Character {
         private set { }
     }
 
-    public Prisoner()
-    {
-        
-    }
-
-    public Prisoner(Prisoner from)
-    {
-        associatedSprite = from.associatedSprite;
-    }
 }
