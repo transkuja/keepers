@@ -571,9 +571,7 @@ public class TileLDHelper : EditorWindow {
                 Undo.DestroyObjectImmediate(tiles[i]);
             }
         }
-        //HelperObject.name = "Level Tiles";
-        Undo.RecordObject(helperRoot, "helperRoot Script CleanUp");
-        Undo.DestroyObjectImmediate(helperRoot);
+
         EditorUtility.DisplayProgressBar("Clean Up", "Done", 1.0f);
         HelperObject = null;
         helperRoot = null;
