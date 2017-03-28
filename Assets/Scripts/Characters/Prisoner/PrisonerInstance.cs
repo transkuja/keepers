@@ -151,6 +151,7 @@ public class PrisonerInstance : MonoBehaviour, IEscortable {
         interactionImplementer = new InteractionImplementer();
         interactionImplementer.Add(new Interaction(Escort), 0, "Escort", GameManager.Instance.Ui.spriteEscort);
         interactionImplementer.Add(new Interaction(UnEscort), 0, "Unescort", GameManager.Instance.Ui.spriteUnescort, false);
+        interactionImplementer.Add(new Interaction(Feed), 1, "Feed", GameManager.Instance.Ui.spriteHarvest);
         currentHp = prisoner.MaxHp;
         currentHunger = prisoner.MaxHunger;
         currentMentalHealth = prisoner.MaxMentalHealth;
@@ -313,5 +314,10 @@ public class PrisonerInstance : MonoBehaviour, IEscortable {
         GameManager.Instance.ListOfSelectedKeepers[0].Keeper.GoListCharacterFollowing.Remove(this.gameObject);
         GameManager.Instance.ListOfSelectedKeepers[0].isEscortAvailable = true;
         GetComponent<NavMeshAgent>().avoidancePriority = 50;
+    }
+
+    public void Feed(int _i = 0)
+    {
+
     }
 }
