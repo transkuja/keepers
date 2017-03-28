@@ -296,6 +296,9 @@ public class TileLDHelper : EditorWindow {
             case TileType.Snow:
                 models = GetAtPath<GameObject>("Prefabs/Tiles/Snow") as GameObject[];
                 break;
+            case TileType.Beach:
+                models = GetAtPath<GameObject>("Prefabs/Tiles/Beach") as GameObject[];
+                break;
         }
     }
 

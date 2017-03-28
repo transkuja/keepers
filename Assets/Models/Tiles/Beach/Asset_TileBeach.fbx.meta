@@ -1,0 +1,170 @@
+fileFormatVersion: 2
+guid: 9c2ba8784cc2f344f8b05d5d5ca2d057
+timeCreated: 1490711663
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: Group_TilePlain_02
+    100004: PolySurface_Rock_01
+    100006: PolySurface_Rock_02
+    100008: PolySurface_Rock_03
+    100010: PolySurface_Rock_04
+    100012: PolySurface_Rock_05
+    100014: PolySurface_Seaweed_01
+    100016: PolySurface_Seaweed_02
+    100018: PolySurface_Seaweed_03
+    100020: PolySurface_Seaweed_04
+    100022: PolySurface_SeaweedBroken_01
+    100024: PolySurface_Star_01
+    100026: PolySurface_Star_02
+    100028: PolySurface_Star_03
+    100030: PolySurface_TilePlain_01
+    100032: PolySurface_TilePlain_02
+    100034: PolySurface_Tree
+    100036: STP_sea_shell
+    100038: STP_sea_shell1
+    400000: //RootNode
+    400002: Group_TilePlain_02
+    400004: PolySurface_Rock_01
+    400006: PolySurface_Rock_02
+    400008: PolySurface_Rock_03
+    400010: PolySurface_Rock_04
+    400012: PolySurface_Rock_05
+    400014: PolySurface_Seaweed_01
+    400016: PolySurface_Seaweed_02
+    400018: PolySurface_Seaweed_03
+    400020: PolySurface_Seaweed_04
+    400022: PolySurface_SeaweedBroken_01
+    400024: PolySurface_Star_01
+    400026: PolySurface_Star_02
+    400028: PolySurface_Star_03
+    400030: PolySurface_TilePlain_01
+    400032: PolySurface_TilePlain_02
+    400034: PolySurface_Tree
+    400036: STP_sea_shell
+    400038: STP_sea_shell1
+    2300000: PolySurface_Rock_01
+    2300002: PolySurface_Rock_02
+    2300004: PolySurface_Rock_03
+    2300006: PolySurface_Rock_04
+    2300008: PolySurface_Rock_05
+    2300010: PolySurface_Seaweed_01
+    2300012: PolySurface_Seaweed_02
+    2300014: PolySurface_Seaweed_03
+    2300016: PolySurface_Seaweed_04
+    2300018: PolySurface_SeaweedBroken_01
+    2300020: PolySurface_Star_01
+    2300022: PolySurface_Star_02
+    2300024: PolySurface_Star_03
+    2300026: PolySurface_TilePlain_01
+    2300028: PolySurface_TilePlain_02
+    2300030: PolySurface_Tree
+    2300032: STP_sea_shell
+    2300034: STP_sea_shell1
+    3300000: PolySurface_Rock_01
+    3300002: PolySurface_Rock_02
+    3300004: PolySurface_Rock_03
+    3300006: PolySurface_Rock_04
+    3300008: PolySurface_Rock_05
+    3300010: PolySurface_Seaweed_01
+    3300012: PolySurface_Seaweed_02
+    3300014: PolySurface_Seaweed_03
+    3300016: PolySurface_Seaweed_04
+    3300018: PolySurface_SeaweedBroken_01
+    3300020: PolySurface_Star_01
+    3300022: PolySurface_Star_02
+    3300024: PolySurface_Star_03
+    3300026: PolySurface_TilePlain_01
+    3300028: PolySurface_TilePlain_02
+    3300030: PolySurface_Tree
+    3300032: STP_sea_shell
+    3300034: STP_sea_shell1
+    4300000: PolySurface_TilePlain_01
+    4300002: PolySurface_TilePlain_02
+    4300004: PolySurface_Rock_01
+    4300006: PolySurface_Rock_02
+    4300008: PolySurface_Rock_03
+    4300010: PolySurface_Rock_04
+    4300012: PolySurface_Rock_05
+    4300014: PolySurface_Star_01
+    4300016: PolySurface_Star_02
+    4300018: PolySurface_SeaweedBroken_01
+    4300020: PolySurface_Seaweed_01
+    4300022: STP_sea_shell
+    4300024: PolySurface_Seaweed_02
+    4300026: PolySurface_Seaweed_03
+    4300028: PolySurface_Seaweed_04
+    4300030: STP_sea_shell1
+    4300032: PolySurface_Tree
+    4300034: PolySurface_Star_03
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

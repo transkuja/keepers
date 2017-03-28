@@ -10,7 +10,8 @@ public enum TileType
     None,
     Mountain,
     Plain,
-    Snow
+    Snow,
+    Beach
 }
 
 public enum Direction
