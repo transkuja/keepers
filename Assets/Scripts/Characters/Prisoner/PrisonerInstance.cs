@@ -156,7 +156,7 @@ public class PrisonerInstance : MonoBehaviour, IEscortable {
         interactionImplementer = new InteractionImplementer();
         interactionImplementer.Add(new Interaction(Escort), 0, "Escort", GameManager.Instance.SpriteUtils.spriteEscort);
         interactionImplementer.Add(new Interaction(UnEscort), 0, "Unescort", GameManager.Instance.SpriteUtils.spriteUnescort, false);
-        interactionImplementer.Add(new Interaction(InitFeeding), 1, "Feed", GameManager.Instance.Ui.spriteHarvest);
+        interactionImplementer.Add(new Interaction(InitFeeding), 1, "Feed", GameManager.Instance.SpriteUtils.spriteHarvest);
         currentHp = prisoner.MaxHp;
         currentHunger = prisoner.MaxHunger;
         currentMentalHealth = prisoner.MaxMentalHealth;
