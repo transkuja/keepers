@@ -16,14 +16,14 @@ public class PNJInstance : MonoBehaviour {
     {
 
         InteractionImplementer = new InteractionImplementer();
-        InteractionImplementer.Add(new Interaction(Trade), 0, "Trade", GameManager.Instance.Ui.spriteTrade);
+        InteractionImplementer.Add(new Interaction(Trade), 0, "Trade", GameManager.Instance.SpriteUtils.spriteTrade);
 
         GetComponent<Inventory>().Items = ComputeItems();
         pnjInventoryPanel = GameManager.Instance.Ui.CreateInventoryPanel(this.gameObject);
 
         if (GetComponent<QuestDealer>() != null)
         {
-            InteractionImplementer.Add(new Interaction(Quest), 1, "Quest", GameManager.Instance.Ui.spriteQuest);
+            InteractionImplementer.Add(new Interaction(Quest), 1, "Quest", GameManager.Instance.SpriteUtils.spriteQuest);
         }
     }
 

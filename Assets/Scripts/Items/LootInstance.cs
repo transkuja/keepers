@@ -17,7 +17,7 @@ public class LootInstance : MonoBehaviour, IPickable {
     void Awake()
     {
         interactionImplementer = new InteractionImplementer();
-        interactionImplementer.Add(new Interaction(Pick), 0, "Pick", GameManager.Instance.Ui.spritePick);
+        interactionImplementer.Add(new Interaction(Pick), 0, "Pick", GameManager.Instance.SpriteUtils.spritePick);
         if (isInScene)
         {
             Init();
@@ -49,7 +49,7 @@ public class LootInstance : MonoBehaviour, IPickable {
     }
     public void OnMouseOver()
     {
-        GameManager.Instance.Ui.UiIconFeedBack.TriggerFeedback(GameManager.Instance.Ui.spriteLoot);
+        GameManager.Instance.Ui.UiIconFeedBack.TriggerFeedback(GameManager.Instance.SpriteUtils.spriteLoot);
     }
     public void OnMouseExit()
     {

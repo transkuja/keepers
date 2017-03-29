@@ -1,0 +1,5 @@
+Nourir Ashley:
+
+Nouvelle action (clic droit). Ouvre une fenêtre contenant deux slots, ne pouvant recevoir que de la nourriture.
+Le joueur dépose la nourriture, et clique sur confirmer.
+Ashley va manger jusqu'à plus faim, et lacher les aliments restants au sol.

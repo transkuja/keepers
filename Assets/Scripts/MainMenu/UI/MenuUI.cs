@@ -22,15 +22,10 @@ public class MenuUI : MonoBehaviour
 
     public void Update()
     {
-        if (GameManager.Instance.CharacterPanelMenuNeedUpdate)
-        {
-            UpdateUI();
-        }
         UpdateStartButton();
-
     }
 
-    void UpdateUI()
+    public void UpdateUI()
     {
         // Clear
         for (int i = 0; i < CharacterPanel.transform.childCount; i++)
@@ -68,7 +63,7 @@ public class MenuUI : MonoBehaviour
 
         }
 
-        GameManager.Instance.CharacterPanelMenuNeedUpdate = false;
+        GameManager.Instance.MenuUi.UpdateUI();
     }
 
     public void UpdateStartButton()

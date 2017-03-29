@@ -163,7 +163,6 @@ public class KeeperInstance : MonoBehaviour, ITradable {
         TileManager.Instance.RemoveKilledKeeper(this);
 
         // Death operations
-        GameManager.Instance.ShortcutPanel_NeedUpdate = true;
 
         GlowController.UnregisterObject(GetComponent<GlowObjectCmd>());
         anim.SetTrigger("triggerDeath");
@@ -171,6 +170,8 @@ public class KeeperInstance : MonoBehaviour, ITradable {
         // Try to fix glow bug
         Destroy(GetComponent<GlowObjectCmd>());
 
+
+        GameManager.Instance.Ui.UpdateShortcutPanel();
         GameManager.Instance.Ui.HideSelectedKeeperPanel();
         GameManager.Instance.CheckGameState();
 
@@ -214,7 +215,7 @@ public class KeeperInstance : MonoBehaviour, ITradable {
             if (value < actionPoints) GameManager.Instance.Ui.DecreaseActionTextAnimation(actionPoints - value);
             actionPoints = value;
             GameManager.Instance.Ui.UpdateActionText();
-            GameManager.Instance.ShortcutPanel_NeedUpdate = true;   
+            GameManager.Instance.Ui.UpdateSelectedKeeperPanel();   
             if (actionPoints > keeper.MaxActionPoints)
                 actionPoints = keeper.MaxActionPoints;
             if (actionPoints < 0)
@@ -250,8 +251,8 @@ public class KeeperInstance : MonoBehaviour, ITradable {
         }
         else
         {
-            InteractionImplementer.Add(new Interaction(Trade), 0, "Trade", GameManager.Instance.Ui.spriteTrade);
-            if (isAbleToImproveMoral) InteractionImplementer.Add(new Interaction(MoralBuff), 1, "Moral", GameManager.Instance.Ui.spriteMoral);
+            InteractionImplementer.Add(new Interaction(Trade), 0, "Trade", GameManager.Instance.SpriteUtils.spriteTrade);
+            if (isAbleToImproveMoral) InteractionImplementer.Add(new Interaction(MoralBuff), 1, "Moral", GameManager.Instance.SpriteUtils.spriteMoral);
         }
 
         currentHp = keeper.MaxHp;
@@ -521,8 +522,8 @@ public class KeeperInstance : MonoBehaviour, ITradable {
                 GameManager.Instance.ListOfSelectedKeepers[0].ActionPoints -= (short)costAction;
                 short amountMoralBuff = (short)Random.Range(minMoralBuff, maxMoralBuff);
                 GameManager.Instance.GoTarget.GetComponentInParent<KeeperInstance>().CurrentMentalHealth += amountMoralBuff;
-                GameManager.Instance.ShortcutPanel_NeedUpdate = true;
-                GameManager.Instance.SelectedKeeperNeedUpdate = true;
+                GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
+                GameManager.Instance.Ui.UpdateShortcutPanel();
                 GameManager.Instance.Ui.MoralBuffActionTextAnimation(amountMoralBuff);
             }
             else
