@@ -62,7 +62,7 @@ public class GameManager : MonoBehaviour
         {
             instance = this;
             database.Init();
-            prisonerInstance = GameObject.Find("Prisoner").GetComponent<PrisonerInstance>();Debug.Log(prisonerInstance);
+            prisonerInstance = GameObject.Find("Prisoner").GetComponent<PrisonerInstance>();
             nbTurn = 1;
         }
         else if (instance != this)

@@ -20,7 +20,6 @@ public class CharactersInitializer : MonoBehaviour {
         }
 
 
-        Debug.Log(GameManager.Instance.PrisonerInstance);
         GameManager.Instance.PrisonerInstance.transform.position = beginPositionPrisonnier.transform.position;
         GameManager.Instance.PrisonerInstance.transform.SetParent(null);
         GameManager.Instance.PrisonerInstance.transform.rotation = Quaternion.identity;
