@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Obsolete]
 [System.Serializable]
-public class Monster : Character
+public class MonsterOld : Character
 {
     [SerializeField]
     private List<string> possibleDrops;

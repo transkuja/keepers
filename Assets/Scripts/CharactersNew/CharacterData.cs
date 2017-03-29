@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class CharacterData {
-
-    [SerializeField]
-    private string characterName = "CharacterBob";
+public class CharacterData : PawnData {
 
     [SerializeField]
     private bool[] behaviours;
@@ -19,38 +16,7 @@ public class CharacterData {
     private Sprite deadSprite;
 
     [SerializeField]
-    public int inventorySlots = 4;
-
-    [Header("Stats")]
-    // TODO Change all these fields
-    #region Ideas
-    // int specialDicesUse = 3;
-    // int numberOfDice = 4;
-    // int diceMinValue = 1;
-    // int diceMaxValue = 6;
-    // DiceType diceType;
-    // enum DiceType = { Offensive, Defensive, Support } => define DiceTypes + what they are used for
-    #endregion
-    [SerializeField]
-    private int maxHp = 100;
-    [SerializeField]
-    private int maxMp = 50;
-    [SerializeField]
-    private short baseStrength = 5;
-    [SerializeField]
-    private short bonusStrength = 5;
-    [SerializeField]
-    private short baseDefense = 5;
-    [SerializeField]
-    private short bonusDefense = 5;
-    [SerializeField]
-    private short baseIntelligence = 5;
-    [SerializeField]
-    private short bonusIntelligence = 5;
-    [SerializeField]
-    private short baseSpirit = 5;
-    [SerializeField]
-    private short bonusSpirit = 5;
+    private int inventorySlots = 4;
 
     [Header("Status")]
     [SerializeField]
@@ -63,8 +29,96 @@ public class CharacterData {
     [SerializeField]
     private short maxActionPoints = 3;
 
-    [Header("Battle data")]
-    [SerializeField]
-    private List<SkillBattle> battleSkills;
+    #region Accessors
+    public bool[] Behaviours
+    {
+        get
+        {
+            return behaviours;
+        }
 
+        set
+        {
+            behaviours = value;
+        }
+    }
+
+    public Sprite AssociatedSprite
+    {
+        get
+        {
+            return associatedSprite;
+        }
+
+        set
+        {
+            associatedSprite = value;
+        }
+    }
+
+    public Sprite DeadSprite
+    {
+        get
+        {
+            return deadSprite;
+        }
+
+        set
+        {
+            deadSprite = value;
+        }
+    }
+
+    public int InventorySlots
+    {
+        get
+        {
+            return inventorySlots;
+        }
+
+        set
+        {
+            inventorySlots = value;
+        }
+    }
+
+    public short MaxHunger
+    {
+        get
+        {
+            return maxHunger;
+        }
+
+        set
+        {
+            maxHunger = value;
+        }
+    }
+
+    public short MaxMentalHealth
+    {
+        get
+        {
+            return maxMentalHealth;
+        }
+
+        set
+        {
+            maxMentalHealth = value;
+        }
+    }
+
+    public short MaxActionPoints
+    {
+        get
+        {
+            return maxActionPoints;
+        }
+
+        set
+        {
+            maxActionPoints = value;
+        }
+    }
+    #endregion
 }

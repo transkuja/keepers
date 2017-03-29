@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class MonsterManager {
 
-    public static List<Monster> listMonsters = new List<Monster>();
+    public static List<MonsterOld> listMonsters = new List<MonsterOld>();
 
-    public static void AddMonster(Monster m)
+    public static void AddMonster(MonsterOld m)
     {
         listMonsters.Add(m);
     }
@@ -16,7 +16,7 @@ public class MonsterManager {
         listMonsters.RemoveAt(index);
     }
 
-    public static void RemoveMonster(Monster m)
+    public static void RemoveMonster(MonsterOld m)
     {
         listMonsters.Remove(m);
     }
