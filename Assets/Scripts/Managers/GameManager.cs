@@ -26,7 +26,6 @@ public class GameManager : MonoBehaviour
 
 
     private IngameUI ui;
-    private MenuUI menuUi;
     private IngameScreens gameScreens;
 
     // quentin Camera
@@ -207,19 +206,6 @@ public class GameManager : MonoBehaviour
         set
         {
             goTarget = value;
-        }
-    }
-
-    public MenuUI MenuUi
-    {
-        get
-        {
-            if (menuUi == null)
-            {
-                if (SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Menu")) return null;
-                menuUi = GameObject.Find("MenuUI").GetComponent<MenuUI>();
-            }
-            return menuUi;
         }
     }
 
