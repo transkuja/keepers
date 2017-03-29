@@ -23,6 +23,10 @@ public class GameManager : MonoBehaviour
     private PrefabUIUtils prefabUtils;
     [SerializeField]
     private SpriteUIUtils spriteUtils;
+    [SerializeField]
+    private CharactersInitializer characterInitializer;
+    [SerializeField]
+    private TileManager tileManager;
 
 
     private IngameUI ui;
@@ -58,6 +62,7 @@ public class GameManager : MonoBehaviour
         {
             instance = this;
             database.Init();
+            prisonerInstance = GameObject.Find("Prisoner").GetComponent<PrisonerInstance>();Debug.Log(prisonerInstance);
             nbTurn = 1;
         }
         else if (instance != this)
@@ -72,6 +77,32 @@ public class GameManager : MonoBehaviour
             {
                 allKeepersList.Add(ki);
             }
+        }
+
+
+        if (SceneManager.GetActiveScene().buildIndex != 0)
+        {
+            // TODO : @Rémi @Rustine : recuperer les positions de départ du prisonnier et des keepers
+            //tileManager.Init();
+            //Transform[] beginPositionsKeepers = tileManager.beginPositionsKeepers;
+            GameObject[] beginPositionsKeepers = new GameObject[allKeepersList.Count];
+            for (int i = 0; i < allKeepersList.Count; i++)
+            {
+                GameObject beginPositionKeeper = new GameObject();
+                beginPositionKeeper.transform.position = Vector3.zero;
+                beginPositionsKeepers[i] = beginPositionKeeper;
+            }
+            //Transform[] beginPositionPrisonnier = tileManager.beginPositionPrisonnier;
+            GameObject beginPositionPrisonnier = new GameObject();
+            beginPositionPrisonnier.transform.position = Vector3.zero;
+
+            characterInitializer.Init(beginPositionsKeepers, beginPositionPrisonnier);
+
+            foreach(GameObject go in beginPositionsKeepers)
+            {
+                Destroy(go);
+            }
+            Destroy(beginPositionPrisonnier);
         }
 
         DontDestroyOnLoad(gameObject);
@@ -94,6 +125,7 @@ public class GameManager : MonoBehaviour
         {
             ki.gameObject.transform.SetParent(transform);
         }
+        prisonerInstance.gameObject.transform.SetParent(transform);
                 
     }
 
