@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DependsOnFood : MonoBehaviour {
+public class AnimatedPawn : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {

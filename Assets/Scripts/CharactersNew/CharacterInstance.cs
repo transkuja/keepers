@@ -4,13 +4,23 @@ using UnityEngine;
 
 public class CharacterInstance : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    InteractionImplementer interactions;
+
+    public InteractionImplementer Interactions
+    {
+        get
+        {
+            return interactions;
+        }
+
+        set
+        {
+            interactions = value;
+        }
+    }
+
+    void Start()
+    {
+        interactions = new InteractionImplementer();
+    }
 }

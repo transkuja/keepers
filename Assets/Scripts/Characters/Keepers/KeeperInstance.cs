@@ -7,7 +7,7 @@ public class KeeperInstance : MonoBehaviour, ITradable {
 
     [Header("Keeper Info")]
     [SerializeField]
-    private Keeper keeper = null;
+    private KeeperOld keeper = null;
     private bool isSelected = false;
 
     public GameObject keeperInventoryPanel;
@@ -336,7 +336,7 @@ public class KeeperInstance : MonoBehaviour, ITradable {
         }
     }
 
-    public Keeper Keeper
+    public KeeperOld Keeper
     {
         get
         {
