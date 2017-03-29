@@ -157,7 +157,7 @@ public class KeeperInstance : MonoBehaviour, ITradable {
         Tile currentTile = TileManager.Instance.GetTileFromKeeper[this];
 
         // Drop items
-        ItemManager.AddItemOnTheGround(currentTile, transform, GetComponent<Inventory>().List_inventaire);
+        ItemManager.AddItemOnTheGround(currentTile, transform, GetComponent<Inventory>().Items);
 
         // Remove reference from tiles
         TileManager.Instance.RemoveKilledKeeper(this);

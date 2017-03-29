@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class MonsterInstance : MonoBehaviour {
     [Header("Monster Info")]
     [SerializeField]
-    private Monster monster = null;
+    private MonsterOld monster = null;
     public ParticleSystem deathParticles = null;
     [SerializeField]
     private int currentHp;
@@ -29,7 +29,7 @@ public class MonsterInstance : MonoBehaviour {
     BoxCollider[] pathBlockedColliders;
     Tile monsterTile;
 
-    public Monster Monster
+    public MonsterOld Monster
     {
         get
         {

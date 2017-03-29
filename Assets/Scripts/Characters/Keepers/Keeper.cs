@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
- 
+
 [System.Serializable]
 public class Keeper : Character
 {
@@ -10,7 +10,7 @@ public class Keeper : Character
     [SerializeField]
     private Sprite deadSprite;
 
-    [Header("Status")]    
+    [Header("Status")]
     [SerializeField]
     [Range(50, 120)]
     private short maxHunger = 100;
@@ -22,13 +22,8 @@ public class Keeper : Character
     [SerializeField]
     public int nbSlot = 4;
 
-
-
     [SerializeField]
     private short maxActionPoints = 3;
-
-
-    private int maxInventorySlots = 4;
 
 
     public Sprite AssociatedSprite
@@ -51,7 +46,7 @@ public class Keeper : Character
             return maxHunger;
         }
 
-        private set {}
+        private set { }
     }
 
     public short MaxActionPoints
@@ -75,19 +70,6 @@ public class Keeper : Character
         }
     }
 
-    public int MaxInventorySlots
-    {
-        get
-        {
-            return maxInventorySlots;
-        }
-
-        set
-        {
-            maxInventorySlots = value;
-        }
-    }
-
     public Sprite DeadSprite
     {
         get
@@ -100,15 +82,4 @@ public class Keeper : Character
             deadSprite = value;
         }
     }
-
-    public Keeper()
-    {
-        
-    }
-
-    public Keeper(Keeper from)
-    {
-        associatedSprite = from.associatedSprite;
-    }
-
 }

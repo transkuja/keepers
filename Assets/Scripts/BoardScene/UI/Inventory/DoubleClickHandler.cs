@@ -68,7 +68,7 @@ public class DoubleClickHandler : MonoBehaviour, IPointerClickHandler
             ii.ItemContainer.UseItem(owner);
             if (ii.ItemContainer.Quantity <= 0)
             {
-                InventoryManager.RemoveItem(owner.GetComponent<Inventory>().List_inventaire, ii.ItemContainer);
+                InventoryManager.RemoveItem(owner.GetComponent<Inventory>().Items, ii.ItemContainer);
             }
 
             GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
