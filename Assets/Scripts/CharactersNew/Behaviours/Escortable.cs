@@ -8,8 +8,8 @@ public class Escortable : MonoBehaviour {
     void Start()
     {
         instance = GetComponent<CharacterInstance>();
-        instance.Interactions.Add(new Interaction(Escort), 0, "Escort", GameManager.Instance.Ui.spriteEscort);
-        instance.Interactions.Add(new Interaction(UnEscort), 0, "Unescort", GameManager.Instance.Ui.spriteUnescort, false);
+        instance.Interactions.Add(new Interaction(Escort), 0, "Escort", GameManager.Instance.SpriteUtils.spriteEscort);
+        instance.Interactions.Add(new Interaction(UnEscort), 0, "Unescort", GameManager.Instance.SpriteUtils.spriteUnescort, false);
     }
 
     public void Escort(int _i = 0)
