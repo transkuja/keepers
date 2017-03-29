@@ -23,7 +23,7 @@ public static class ItemManager {
             drop.GetComponent<LootInstance>().nbSlot = loot.Length;
             Inventory dropInventory = drop.GetComponent<Inventory>();
             dropInventory.Init(loot.Length);
-            dropInventory.Items = loot;
+            Array.Copy(loot, dropInventory.Items, dropInventory.Items.Length);
             drop.GetComponent<LootInstance>().Init();
         }
     }

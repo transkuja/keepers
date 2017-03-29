@@ -9,6 +9,7 @@ public class PrefabUIUtils : MonoBehaviour {
     //public GameObject goSelectedKeeperPanel;
     // Inventory
     public GameObject PrefabInventaireUI;
+    public GameObject PrefabPrisonerFeedingUI;
     public GameObject PrefabSlotUI;
     public GameObject PrefabItemUI;
 

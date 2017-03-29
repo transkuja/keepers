@@ -134,6 +134,8 @@ public class Slot : MonoBehaviour, IDropHandler
 
                 GameManager.Instance.Ui.UpdateInventoryPanel(inventaireDequi.Owner);
                 GameManager.Instance.Ui.UpdateInventoryPanel(inventaireversqui.Owner);
+                GameManager.Instance.Ui.UpdatePrisonerFeedingPanel(inventaireDequi.Owner);
+                GameManager.Instance.Ui.UpdatePrisonerFeedingPanel(inventaireversqui.Owner);
                 GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
             }
             // Drag Characters in battle scene

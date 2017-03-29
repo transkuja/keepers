@@ -59,7 +59,7 @@ public class DoubleClickHandler : MonoBehaviour, IPointerClickHandler
                     }
                     GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
                     GameManager.Instance.Ui.UpdateInventoryPanel(goOwner);
-
+                    GameManager.Instance.Ui.UpdatePrisonerFeedingPanel(goOwner);
                 }
                 return;
             }
