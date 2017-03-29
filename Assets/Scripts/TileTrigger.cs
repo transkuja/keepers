@@ -76,12 +76,12 @@ public class TileTrigger : MonoBehaviour {
 
                     if (GetComponentInParent<Tile>().Neighbors[(int)eTrigger].State == TileState.Discovered)
                     {
-                        InteractionImplementer.Add(new Interaction(Move), actionCostMove, "Move", GameManager.Instance.Ui.spriteMove, true, (int)eTrigger);
+                        InteractionImplementer.Add(new Interaction(Move), actionCostMove, "Move", GameManager.Instance.SpriteUtils.spriteMove, true, (int)eTrigger);
                         GameManager.Instance.Ui.UpdateActionPanelUIQ(InteractionImplementer);
                     }
                     if (GetComponentInParent<Tile>().Neighbors[(int)eTrigger].State == TileState.Greyed)
                     {
-                        InteractionImplementer.Add(new Interaction(Explore), actionCostExplore, "Explore", GameManager.Instance.Ui.spriteExplore, true, (int)eTrigger);
+                        InteractionImplementer.Add(new Interaction(Explore), actionCostExplore, "Explore", GameManager.Instance.SpriteUtils.spriteExplore, true, (int)eTrigger);
                         GameManager.Instance.Ui.UpdateActionPanelUIQ(InteractionImplementer);
                     }
 
@@ -219,8 +219,8 @@ public class TileTrigger : MonoBehaviour {
 
             //int costAction = interactionImplementer.Get("Move").costAction;
             TileManager.Instance.MoveKeeper(toMove, TileManager.Instance.GetTileFromKeeper[toMove], (Direction)_i, actionCostMove);
-            GameManager.Instance.SelectedKeeperNeedUpdate = true;
-            GameManager.Instance.ShortcutPanel_NeedUpdate = true;
+            GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
+            GameManager.Instance.Ui.UpdateShortcutPanel();
             GameManager.Instance.Ui.HideInventoryPanels();
 
             toMove.IsTargetableByMonster = false;
@@ -261,13 +261,9 @@ public class TileTrigger : MonoBehaviour {
             // Apply exploration costs
             toMove.CurrentHunger -= 5;
             GameManager.Instance.Ui.BuffActionTextAnimation(GameManager.Instance.Ui.goHungerBuffOnStatPanel, -5);
-            GameManager.Instance.ShortcutPanel_NeedUpdate = true;
-            GameManager.Instance.SelectedKeeperNeedUpdate = true;
             //TODO: Apply this only when the discovered tile is unfriendly
             toMove.CurrentMentalHealth -= 5;
             GameManager.Instance.Ui.BuffActionTextAnimation(GameManager.Instance.Ui.goMentalHeathBuffOnStatPanel, -5);
-            GameManager.Instance.ShortcutPanel_NeedUpdate = true;
-            GameManager.Instance.SelectedKeeperNeedUpdate = true;
             // If the player is exploring with the prisoner following, apply costs to him too
             if (prisoner != null)
             {
@@ -289,8 +285,8 @@ public class TileTrigger : MonoBehaviour {
                     prisoner.CurrentMentalHealth -= 5;
                 }
             }
-            GameManager.Instance.SelectedKeeperNeedUpdate = true;
-            GameManager.Instance.ShortcutPanel_NeedUpdate = true;
+            GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
+            GameManager.Instance.Ui.UpdateShortcutPanel();
             GameManager.Instance.Ui.HideInventoryPanels();
 
             toMove.IsTargetableByMonster = false;

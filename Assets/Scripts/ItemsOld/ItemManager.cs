@@ -15,7 +15,7 @@ public static class ItemManager {
     {
         if (loot != null && loot.Length > 0)
         {
-            GameObject drop = GameObject.Instantiate(GameManager.Instance.prefabItemToDrop) as GameObject;
+            GameObject drop = GameObject.Instantiate(GameManager.Instance.PrefabUtils.prefabItemToDrop) as GameObject;
 
             drop.transform.SetParent(tileWhere.transform);
             drop.transform.position = where.position;

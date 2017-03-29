@@ -6,8 +6,7 @@ public class MenuUI : MonoBehaviour
 {
     public GameObject CharacterPanel;
     public GameObject baseCharacterImage;
-    public Sprite spriteTrade;
-    public Sprite spriteMoral;
+
     public Image startButtonImg;
 
     void Start()
@@ -22,15 +21,10 @@ public class MenuUI : MonoBehaviour
 
     public void Update()
     {
-        if (GameManager.Instance.CharacterPanelMenuNeedUpdate)
-        {
-            UpdateUI();
-        }
         UpdateStartButton();
-
     }
 
-    void UpdateUI()
+    public void UpdateUI()
     {
         // Clear
         for (int i = 0; i < CharacterPanel.transform.childCount; i++)
@@ -67,8 +61,6 @@ public class MenuUI : MonoBehaviour
             }
 
         }
-
-        GameManager.Instance.CharacterPanelMenuNeedUpdate = false;
     }
 
     public void UpdateStartButton()

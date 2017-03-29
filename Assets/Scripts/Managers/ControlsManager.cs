@@ -270,7 +270,7 @@ public class ControlsManager : MonoBehaviour {
 
                 Camera.main.GetComponent<CameraManager>().UpdateCameraPosition(nextKeeper);
 
-                GameManager.Instance.SelectedKeeperNeedUpdate = true;
+                GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
                 GameManager.Instance.Ui.HideInventoryPanels();
             }
         }

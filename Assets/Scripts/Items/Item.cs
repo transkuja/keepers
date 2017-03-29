@@ -313,7 +313,7 @@ public class Ressource : Item
     {
         GameManager.Instance.Ui.BuffActionTextAnimation(GameManager.Instance.Ui.goMentalHeathBuffOnStatPanel, _value);
         owner.CurrentMentalHealth += (short)_value;
-        GameManager.Instance.SelectedKeeperNeedUpdate = true;
+        GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
         GameManager.Instance.Ui.UpdateShortcutPanel();
         return true;
     }
@@ -322,7 +322,7 @@ public class Ressource : Item
     {
         GameManager.Instance.Ui.BuffActionTextAnimation(GameManager.Instance.Ui.goHungerBuffOnStatPanel, _value);
         owner.CurrentHunger += (short)_value;
-        GameManager.Instance.SelectedKeeperNeedUpdate = true;
+        GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
         GameManager.Instance.Ui.UpdateShortcutPanel();
         return true;
     }

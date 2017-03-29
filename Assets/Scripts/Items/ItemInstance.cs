@@ -30,7 +30,7 @@ public class ItemInstance : MonoBehaviour, IHavestable
             Init(idItem, quantity);
         }
         interactionImplementer = new InteractionImplementer();
-        interactionImplementer.Add(new Interaction(Harvest), 1, "Harvest", GameManager.Instance.Ui.spriteHarvest);
+        interactionImplementer.Add(new Interaction(Harvest), 1, "Harvest", GameManager.Instance.SpriteUtils.spriteHarvest);
     }
 
 
