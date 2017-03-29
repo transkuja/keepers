@@ -21,6 +21,7 @@ public class IngameUI : MonoBehaviour
     public GameObject slotPrefab;
     public GameObject itemUI;
     public GameObject statsPanelTooltip;
+    public GameObject prisonerFeedingPanel;
     // StatsPanel
     public GameObject goStats;
     public Text SelectedKeeperActionText;
@@ -43,6 +44,7 @@ public class IngameUI : MonoBehaviour
     public GameObject goMentalHeathBuffOnStatPanel;
     public GameObject goHPBuffOnStatPanel;
     public GameObject goHungerBuffOnStatPanel;
+    
     // Actions
     public Sprite spriteMove;
     public Sprite spriteExplore;
@@ -550,12 +552,12 @@ public class IngameUI : MonoBehaviour
 
         int nbSlot = currentSelectedKeeper.Keeper.nbSlot;
 
-        for (int i =0; i< nbSlot; i++)
+        for (int i =0; i < nbSlot; i++)
         {
             GameObject currentSlot = Instantiate(slotPrefab);
 
-            List<ItemContainer> inventory = currentSelectedKeeper.GetComponent<Inventory>().Items;
-            if (inventory.Count > 0 && i < inventory.Count && inventory[i] != null && inventory[i].Item != null && inventory[i].Item.Id != null)
+            ItemContainer[] inventory = currentSelectedKeeper.GetComponent<Inventory>().Items;
+            if (inventory != null && inventory.Length > 0 && i < inventory.Length && inventory[i] != null && inventory[i].Item != null && inventory[i].Item.Id != null)
             {
                 GameObject go = Instantiate(itemUI);
                 go.transform.SetParent(currentSlot.transform);
@@ -836,10 +838,10 @@ public class IngameUI : MonoBehaviour
             return;
         }
 
-        if (owner.GetComponent<Inventory>().Items != null)
+        if (owner.GetComponent<Inventory>() != null && owner.GetComponent<Inventory>().Items != null)
         {
-            List<ItemContainer> inventory = pi.GetComponent<Inventory>().Items;
-            for (int i = 0; i < nbSlot; i++)
+            ItemContainer[] inventory = pi.GetComponent<Inventory>().Items;
+            for (int i = 0; i < inventory.Length; i++)
             {
                 GameObject currentSlot = inventoryPanel.transform.GetChild(1).GetChild(i).gameObject;
                 if (currentSlot.GetComponentInChildren<ItemInstance>() != null)
@@ -849,7 +851,7 @@ public class IngameUI : MonoBehaviour
                 
             }
 
-            for (int i = 0; i < nbSlot && i< inventory.Count; i++)
+            for (int i = 0; i < inventory.Length; i++)
             {
                 if (inventory[i] != null && inventory[i].Item != null && inventory[i].Item.Id != null)
                 {

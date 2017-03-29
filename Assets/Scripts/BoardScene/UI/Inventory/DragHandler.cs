@@ -53,12 +53,12 @@ public class DragHandler : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
             // On ne peut drop que d'un keeper
             if( inventaireDequi.Owner.GetComponent<KeeperInstance>() != null)
             {
-                List<ItemContainer> inventoryKeeperDequi = inventaireDequi.Owner.GetComponent<Inventory>().Items;
+                ItemContainer[] inventoryKeeperDequi = inventaireDequi.Owner.GetComponent<Inventory>().Items;
 
 
                 InventoryManager.RemoveItem(inventoryKeeperDequi, eventData.pointerDrag.gameObject.GetComponent<ItemInstance>().ItemContainer);
-                List<ItemContainer> loot = new List<ItemContainer>();
-                loot.Add(eventData.pointerDrag.gameObject.GetComponent<ItemInstance>().ItemContainer);
+                ItemContainer[] loot = new ItemContainer[1];
+                loot[0] = eventData.pointerDrag.gameObject.GetComponent<ItemInstance>().ItemContainer;
 
 
                 Tile t = TileManager.Instance.GetTileFromKeeper[inventaireDequi.Owner.GetComponent<KeeperInstance>()];

@@ -18,7 +18,12 @@ public class PrisonerInstance : MonoBehaviour, IEscortable {
     private int currentHp;
     [SerializeField]
     private int currentMp;
-    
+
+    [SerializeField]
+    private int feedingSlotsCount = 2;
+
+    public GameObject prisonerFeedingPanel;
+
     private bool isStarving = false;
     private bool isMentalHealthLow = false;
     private bool isAlive = true;
@@ -151,7 +156,7 @@ public class PrisonerInstance : MonoBehaviour, IEscortable {
         interactionImplementer = new InteractionImplementer();
         interactionImplementer.Add(new Interaction(Escort), 0, "Escort", GameManager.Instance.Ui.spriteEscort);
         interactionImplementer.Add(new Interaction(UnEscort), 0, "Unescort", GameManager.Instance.Ui.spriteUnescort, false);
-        interactionImplementer.Add(new Interaction(Feed), 1, "Feed", GameManager.Instance.Ui.spriteHarvest);
+        interactionImplementer.Add(new Interaction(InitFeeding), 1, "Feed", GameManager.Instance.Ui.spriteHarvest);
         currentHp = prisoner.MaxHp;
         currentHunger = prisoner.MaxHunger;
         currentMentalHealth = prisoner.MaxMentalHealth;
@@ -316,8 +321,37 @@ public class PrisonerInstance : MonoBehaviour, IEscortable {
         GetComponent<NavMeshAgent>().avoidancePriority = 50;
     }
 
-    public void Feed(int _i = 0)
+    public void InitFeeding(int _i = 0)
     {
+        Inventory inv = gameObject.AddComponent<Inventory>();
 
+        inv.Init(feedingSlotsCount);
+        
+        prisonerFeedingPanel.SetActive(true);
+    }
+
+    public void ProcessFeeding()
+    {
+        Inventory inv = GetComponent<Inventory>();
+        int i = 0;
+        while(currentHunger < prisoner.MaxHunger || i >= inv.Items.Length)
+        {
+            inv.Items[i].Item.UseItem(inv.Items[i], this);
+            inv.Items[i].Quantity--;
+            if(inv.Items[i] == null || inv.Items[i].Quantity <= 0)
+            {
+                inv.Items[i] = null;
+                i++;
+            }
+            
+        }
+
+        if(inv.Items.Length > 0)
+        {
+            ItemManager.AddItemOnTheGround(TileManager.Instance.PrisonerTile, transform, inv.Items);
+        }
+
+
+        Destroy(inv);
     }
 }

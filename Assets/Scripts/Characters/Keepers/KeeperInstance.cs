@@ -254,6 +254,10 @@ public class KeeperInstance : MonoBehaviour, ITradable {
             if (isAbleToImproveMoral) InteractionImplementer.Add(new Interaction(MoralBuff), 1, "Moral", GameManager.Instance.Ui.spriteMoral);
         }
 
+        if(GetComponent<Inventory>() != null)
+        {
+            GetComponent<Inventory>().Init(Keeper.nbSlot);
+        }
         currentHp = keeper.MaxHp;
         currentHunger = keeper.MaxHunger;
         currentMentalHealth = keeper.MaxMentalHealth;
