@@ -2,25 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Inventory : MonoBehaviour {
-
-    private List<ItemContainer> items;
-
-    public List<ItemContainer> Items
+namespace Behaviour
+{
+    public class Inventory : MonoBehaviour
     {
-        get
+
+        private List<ItemContainer> items;
+
+        public List<ItemContainer> Items
         {
-            return items;
+            get
+            {
+                return items;
+            }
+
+            set
+            {
+                items = value;
+            }
         }
 
-        set
+        public void Awake()
         {
-            items = value;
+            items = new List<ItemContainer>();
         }
-    }
-
-    public void Awake()
-    {
-        items = new List<ItemContainer>();
     }
 }

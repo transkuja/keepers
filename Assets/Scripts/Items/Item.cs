@@ -210,13 +210,13 @@ public class Equipment : Item
         if (isEquiped)
         {
             int nbSlot = GameManager.Instance.ListOfSelectedKeepers[0].Keeper.nbSlot;
-            EquipementManager.UnequipItem(GameManager.Instance.ListOfSelectedKeepers[0].GetComponent<Inventory>().Items, nbSlot, GameManager.Instance.ListOfSelectedKeepers[0].Equipment, ((Equipment)ic.Item).constraint);
+            EquipementManager.UnequipItem(GameManager.Instance.ListOfSelectedKeepers[0].GetComponent<Behaviour.Inventory>().Items, nbSlot, GameManager.Instance.ListOfSelectedKeepers[0].Equipment, ((Equipment)ic.Item).constraint);
 
             // Unapply Bonus Stats
             EquipementManager.UnapplyStats(GameManager.Instance.ListOfSelectedKeepers[0], ((Equipment)ic.Item));
         } else
         {
-            EquipementManager.EquipItem(GameManager.Instance.ListOfSelectedKeepers[0].GetComponent<Inventory>().Items, GameManager.Instance.ListOfSelectedKeepers[0].Equipment, ic);
+            EquipementManager.EquipItem(GameManager.Instance.ListOfSelectedKeepers[0].GetComponent<Behaviour.Inventory>().Items, GameManager.Instance.ListOfSelectedKeepers[0].Equipment, ic);
 
             // Apply Bonus stats
             EquipementManager.ApplyStats(GameManager.Instance.ListOfSelectedKeepers[0], ((Equipment)ic.Item));

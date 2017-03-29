@@ -21,7 +21,7 @@ public static class ItemManager {
             drop.transform.position = where.position;
 
             drop.GetComponent<LootInstance>().nbSlot = loot.Count;
-            drop.GetComponent<Inventory>().Items = loot;
+            drop.GetComponent<Behaviour.Inventory>().Items = loot;
             drop.GetComponent<LootInstance>().Init();
         }
     }

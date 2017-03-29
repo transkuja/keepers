@@ -42,8 +42,8 @@ public class Slot : MonoBehaviour, IDropHandler
                 InventoryOwner inventaireDequi = previous.parent.GetComponent<InventoryOwner>();
                 InventoryOwner inventaireversqui = transform.parent.GetComponent<InventoryOwner>();
 
-                List<ItemContainer> inventoryKeeperDequi = inventaireDequi.Owner.GetComponent<Inventory>().Items;
-                List<ItemContainer> inventoryKeeperVersqui = inventaireversqui.Owner.GetComponent<Inventory>().Items;
+                List<ItemContainer> inventoryKeeperDequi = inventaireDequi.Owner.GetComponent<Behaviour.Inventory>().Items;
+                List<ItemContainer> inventoryKeeperVersqui = inventaireversqui.Owner.GetComponent<Behaviour.Inventory>().Items;
 
                 //Si les inventaires sont differents
                 if (inventaireDequi != inventaireversqui)
@@ -79,9 +79,9 @@ public class Slot : MonoBehaviour, IDropHandler
                     if (inventaireDequi.Owner.GetComponent<LootInstance>() != null)
                     {
                         bool isEmpty = true;
-                        for (int i = 0; i < inventaireDequi.Owner.GetComponent<Inventory>().Items.Count; i++)
+                        for (int i = 0; i < inventaireDequi.Owner.GetComponent<Behaviour.Inventory>().Items.Count; i++)
                         {
-                            if (inventaireDequi.Owner.GetComponent<Inventory>().Items[i] != null)
+                            if (inventaireDequi.Owner.GetComponent<Behaviour.Inventory>().Items[i] != null)
                             {
                                 isEmpty = false;
                                 break;

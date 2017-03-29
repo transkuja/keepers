@@ -448,7 +448,7 @@ public class IngameUI : MonoBehaviour
         {
             GameObject currentSlot = Instantiate(GameManager.Instance.PrefabUtils.PrefabSlotUI);
 
-            List<ItemContainer> inventory = currentSelectedKeeper.GetComponent<Inventory>().Items;
+            List<ItemContainer> inventory = currentSelectedKeeper.GetComponent<Behaviour.Inventory>().Items;
             if (inventory.Count > 0 && i < inventory.Count && inventory[i] != null && inventory[i].Item != null && inventory[i].Item.Id != null)
             {
                 GameObject go = Instantiate(GameManager.Instance.PrefabUtils.PrefabItemUI);
@@ -729,9 +729,9 @@ public class IngameUI : MonoBehaviour
             return;
         }
 
-        if (owner.GetComponent<Inventory>().Items != null)
+        if (owner.GetComponent<Behaviour.Inventory>().Items != null)
         {
-            List<ItemContainer> inventory = pi.GetComponent<Inventory>().Items;
+            List<ItemContainer> inventory = pi.GetComponent<Behaviour.Inventory>().Items;
             for (int i = 0; i < nbSlot; i++)
             {
                 GameObject currentSlot = inventoryPanel.transform.GetChild(1).GetChild(i).gameObject;

@@ -2,7 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Keeper : MonoBehaviour {
+namespace Behaviour
+{
+    public class Keeper : MonoBehaviour
+    {
 
 
+    }
 }

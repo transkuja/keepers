@@ -24,20 +24,20 @@ public class DoubleClickHandler : MonoBehaviour, IPointerClickHandler
             if (owner.GetComponent<KeeperInstance>() == null 
                     || owner.GetComponent<KeeperInstance>() != GameManager.Instance.ListOfSelectedKeepers[0])
             {
-                List<ItemContainer> selectedKeeperInventory = GameManager.Instance.ListOfSelectedKeepers[0].GetComponent<Inventory>().Items;
+                List<ItemContainer> selectedKeeperInventory = GameManager.Instance.ListOfSelectedKeepers[0].GetComponent<Behaviour.Inventory>().Items;
                 int freeSlotIndex = InventoryManager.FindFreeSlot(selectedKeeperInventory, GameManager.Instance.ListOfSelectedKeepers[0].Keeper.nbSlot);
                 if (freeSlotIndex != -1)
                 {
-                    InventoryManager.SwapItemBeetweenInventories(owner.GetComponent<Inventory>().Items, ii.transform.parent.GetSiblingIndex(), selectedKeeperInventory, freeSlotIndex);
+                    InventoryManager.SwapItemBeetweenInventories(owner.GetComponent<Behaviour.Inventory>().Items, ii.transform.parent.GetSiblingIndex(), selectedKeeperInventory, freeSlotIndex);
 
                     Debug.Log("test");
                     // Destroy inventory if it is empty for loot
                     if (owner.GetComponent<LootInstance>() != null)
                     {
                         bool isEmpty = true;
-                        for (int i = 0; i < owner.GetComponent<Inventory>().Items.Count; i++)
+                        for (int i = 0; i < owner.GetComponent<Behaviour.Inventory>().Items.Count; i++)
                         {
-                            if (owner.GetComponent<Inventory>().Items[i] != null)
+                            if (owner.GetComponent<Behaviour.Inventory>().Items[i] != null)
                             {
                                 isEmpty = false;
                                 break;
@@ -68,7 +68,7 @@ public class DoubleClickHandler : MonoBehaviour, IPointerClickHandler
             ii.ItemContainer.UseItem();
             if (ii.ItemContainer.Quantity <= 0)
             {
-                InventoryManager.RemoveItem(owner.GetComponent<Inventory>().Items, ii.ItemContainer);
+                InventoryManager.RemoveItem(owner.GetComponent<Behaviour.Inventory>().Items, ii.ItemContainer);
             }
 
             GameManager.Instance.Ui.UpdateSelectedKeeperPanel();

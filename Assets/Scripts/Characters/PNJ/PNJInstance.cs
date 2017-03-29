@@ -18,10 +18,10 @@ public class PNJInstance : MonoBehaviour {
         InteractionImplementer = new InteractionImplementer();
         InteractionImplementer.Add(new Interaction(Trade), 0, "Trade", GameManager.Instance.SpriteUtils.spriteTrade);
 
-        GetComponent<Inventory>().Items = ComputeItems();
+        GetComponent<Behaviour.Inventory>().Items = ComputeItems();
         pnjInventoryPanel = GameManager.Instance.Ui.CreateInventoryPanel(this.gameObject);
 
-        if (GetComponent<QuestDealer>() != null)
+        if (GetComponent<Behaviour.QuestDealer>() != null)
         {
             InteractionImplementer.Add(new Interaction(Quest), 1, "Quest", GameManager.Instance.SpriteUtils.spriteQuest);
         }
@@ -76,7 +76,7 @@ public class PNJInstance : MonoBehaviour {
             if (GameManager.Instance.ListOfSelectedKeepers[0].ActionPoints >= costAction)
             {
                 GameManager.Instance.ListOfSelectedKeepers[0].ActionPoints -= (short)costAction;
-                GetComponent<QuestDealer>().goQuest.SetActive(true);
+                GetComponent<Behaviour.QuestDealer>().goQuest.SetActive(true);
             }
             else
             {
