@@ -16,10 +16,7 @@ public class IngameUI : MonoBehaviour
     public GameObject goSelectedKeeperPanel;
     public GameObject goInventory;
     public GameObject goEquipement;
-    public GameObject keeper_inventory_prefab;
     public GameObject Panel_Inventories;
-    public GameObject slotPrefab;
-    public GameObject itemUI;
     public GameObject statsPanelTooltip;
     // StatsPanel
     public GameObject goStats;
@@ -35,47 +32,22 @@ public class IngameUI : MonoBehaviour
     // ActionPanel
     [Header("Action Panel")]
     public GameObject goActionPanelQ;
-    public GameObject baseActionImage;
-    public GameObject worldSpaceUIprefab;
     private Canvas worldSpaceCanvas;
 
     public GameObject goMoralPanel;
     public GameObject goMentalHeathBuffOnStatPanel;
     public GameObject goHPBuffOnStatPanel;
     public GameObject goHungerBuffOnStatPanel;
-    // Actions
-    public Sprite spriteMove;
-    public Sprite spriteExplore;
-    public Sprite spriteHarvest;
-    public Sprite spritePick;
-    public Sprite spriteTrade;
-    public Sprite spriteEscort;
-    public Sprite spriteUnescort;
 
-    public Sprite spriteLoot;
-    public Sprite spriteQuest;
-    public Sprite spriteMoral;
-    public Sprite spriteMoralBuff;
-    public Sprite spriteMoralDebuff;
-    public Sprite spriteEndAction;
 
-    public GameObject actionPointPrefab;
-
+    // ContentQuest
+    public GameObject goContentQuestParent;
+    // ContentQuest
+    public GameObject goContentPanneauParent;
 
     // ShortcutPanel
-    [Header("ShortcutPanel Panel")]
-    public GameObject baseKeeperShortcutPanel;
+    [Header("ShortcutPanel")]
     public GameObject goShortcutKeepersPanel;
-
-    // for death
-    public Sprite SupportImage;
-    public GameObject imagePrefab;
-
-    [Header("Panneau Panel")]
-    public GameObject basePanneauPanel;
-
-    [Header("Quest Panel")]
-    public GameObject baseQuestPanel;
 
     [Header("Confirmation Panel")]
     public GameObject goConfirmationPanel;
@@ -108,77 +80,12 @@ public class IngameUI : MonoBehaviour
         CreateShortcutPanel();
         CreateKeepersInventoryPanels();
         // TODO : rustine pour que ça marche quand on relance le jeu
-        GameObject worldSpaceUI = Instantiate(worldSpaceUIprefab);
+        GameObject worldSpaceUI = Instantiate(GameManager.Instance.PrefabUtils.WorldSpaceUIprefab);
         worldSpaceCanvas = worldSpaceUI.transform.GetChild(0).GetComponent<Canvas>();
         goActionPanelQ = worldSpaceUI.transform.GetChild(0).GetChild(0).gameObject;
+        UpdateShortcutPanel();
     }
-
-    public void Update()
-    {
-        if (GameManager.Instance != null )
-        {
-            if (GameManager.Instance.SelectedKeeperNeedUpdate)
-            {
-                UpdateSelectedKeeperPanel();
-            }
-            if (GameManager.Instance.ShortcutPanel_NeedUpdate)
-            {
-                UpdateShortcutPanel();
-            }
-        }
-    }
-
-    // TODO : optimise
-    /*
-    public void UpdateActionPanelUIOptimize(InteractionImplementer ic)
-    {
-        if (GameManager.Instance == null) { return; }
-        if (goActionPanelQ == null) { return; }
-
-        goActionPanelQ.GetComponent<RectTransform>().position = (Input.mousePosition) + new Vector3(30.0f, 0.0f);
-
-        int i;
-
-        for (i = 0; i < ic.listActionContainers.Count; ++i)
-        {
-            int n = i;
-
-            if (i < listGoActionPanelButton.Count && listGoActionPanelButton[i] != null)
-            {
-                listGoActionPanelButton[i].name = ic.listActionContainers[i].strName;
-
-                Button btn = listGoActionPanelButton[i].GetComponent<Button>();
-
-                btn.onClick.RemoveAllListeners();  
-
-                btn.onClick.AddListener(() => { ic.listActionContainers[n].action(); });
-
-                btn.GetComponentInChildren<Text>().text = ic.listActionContainers[i].strName;
-            }
-            else
-            {
-                GameObject goAction = Instantiate(baseActionImage, goActionPanelQ.transform);
-
-                goAction.name = ic.listActionContainers[i].strName;
-
-                Button btn = goAction.GetComponent<Button>();
-
-                btn.onClick.AddListener(() => { ic.listActionContainers[n].action(); });
-
-                btn.GetComponentInChildren<Text>().text = ic.listActionContainers[i].strName;
-
-                listGoActionPanelButton.Add(goAction);
-            }
-        }
-
-        for(int k = listGoActionPanelButton.Count-1; k >= i; k--)
-        {
-            GameObject goTemp = listGoActionPanelButton[k];
-            listGoActionPanelButton.Remove(goTemp);
-            Destroy(goTemp);
-        }
-
-    }*/
+   
 
     #region Action
     public void UpdateActionPanelUIQ(InteractionImplementer ic)
@@ -201,7 +108,7 @@ public class IngameUI : MonoBehaviour
             bIsForbiden = bIsForbiden || ic.listActionContainers[i].strName == "Moral" && !GameManager.Instance.ListOfSelectedKeepers[0].isAbleToImproveMoral;
             if (!bIsForbiden)
             {
-                GameObject goAction = Instantiate(baseActionImage, goActionPanelQ.transform);
+                GameObject goAction = Instantiate(GameManager.Instance.PrefabUtils.PrefabActionUI, goActionPanelQ.transform);
                 goAction.name = ic.listActionContainers[i].strName;
 
                 goAction.GetComponent<RectTransform>().localPosition = Vector3.zero;
@@ -219,20 +126,9 @@ public class IngameUI : MonoBehaviour
                     goAction.GetComponent<Image>().color = Color.grey;
                 }
 
-                //for (int nbActionPoint = 0; nbActionPoint < ic.listActionContainers[i].costAction; nbActionPoint++)
-                //{
-                //    GameObject actionPoints = Instantiate(actionPointPrefab, goAction.transform);
-                //    actionPoints.transform.localScale = Vector3.one;
-                //    actionPoints.transform.localPosition = Vector3.zero;
-                //    actionPoints.transform.localRotation = Quaternion.identity;
-
-                //    if (nbActionPoint >= nbActionRestantKeeper)
-                //        actionPoints.transform.GetChild(0).GetComponent<Image>().color = Color.red;
-                //}
-
                 if (ic.listActionContainers[i].costAction > 0)
                 {
-                    GameObject actionPoints = Instantiate(actionPointPrefab, goAction.transform);
+                    GameObject actionPoints = Instantiate(GameManager.Instance.PrefabUtils.PrefabActionPoint, goAction.transform);
                     actionPoints.transform.localScale = Vector3.one;
                     actionPoints.transform.localPosition = Vector3.zero;
                     actionPoints.transform.localRotation = Quaternion.identity;
@@ -277,12 +173,12 @@ public class IngameUI : MonoBehaviour
         goMoralPanel.transform.position = Camera.main.WorldToScreenPoint(GameManager.Instance.GoTarget.transform.position);
         if (amount < 0)
         {
-            goMoralPanel.transform.GetChild(0).GetComponent<Image>().sprite = spriteMoralDebuff;
+            goMoralPanel.transform.GetChild(0).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteMoralDebuff;
             goMoralPanel.GetComponentInChildren<Text>().color = Color.red;
             goMoralPanel.GetComponentInChildren<Text>().text = "";
         } else
         {
-            goMoralPanel.transform.GetChild(0).GetComponent<Image>().sprite = spriteMoralBuff;
+            goMoralPanel.transform.GetChild(0).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteMoralBuff;
             goMoralPanel.GetComponentInChildren<Text>().color = Color.green;
             goMoralPanel.GetComponentInChildren<Text>().text = "+ ";
         }
@@ -387,7 +283,7 @@ public class IngameUI : MonoBehaviour
 
             if (associatedSprite != null)
             {
-                GameObject goKeeper = Instantiate(baseKeeperShortcutPanel, goShortcutKeepersPanel.transform);
+                GameObject goKeeper = Instantiate(GameManager.Instance.PrefabUtils.PrefabSelectedCharacterUI, goShortcutKeepersPanel.transform);
 
                 goKeeper.name = "Panel_Shortcut_" + currentSelectedCharacter.Keeper.CharacterName;
                 goKeeper.transform.GetChild((int)PanelShortcutChildren.Image).GetComponent<Image>().sprite = associatedSprite;
@@ -395,7 +291,7 @@ public class IngameUI : MonoBehaviour
                 int n = i;
                 goKeeper.GetComponent<Button>().onClick.AddListener(() => GoToCharacter(n));
 
-                UpdateShortcutPanel();
+
             }
         }
     }
@@ -424,7 +320,7 @@ public class IngameUI : MonoBehaviour
             GameManager.Instance.Ui.ShowSelectedKeeperPanel();
             GameManager.Instance.Ui.ClearActionPanel();
             GameManager.Instance.Ui.HideInventoryPanels();
-            GameManager.Instance.SelectedKeeperNeedUpdate = true;
+            GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
             GameManager.Instance.Ui.UpdateActionText();
             HideInventoryPanels();
         }
@@ -467,9 +363,9 @@ public class IngameUI : MonoBehaviour
                             Destroy(goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.ActionPoints).gameObject);
 
                             // Change image from alive to dead
-                            goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.Image).GetComponent<Image>().sprite = SupportImage;
+                            goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.Image).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteSupport;
 
-                            GameObject go = Instantiate(imagePrefab);
+                            GameObject go = Instantiate(GameManager.Instance.PrefabUtils.PrefabImageUI);
                             go.GetComponent<Image>().sprite = currentCharacter.Keeper.DeadSprite;
                             go.transform.SetParent(goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.Image).transform);
                             go.transform.localScale = Vector3.one * 0.75f;
@@ -497,8 +393,6 @@ public class IngameUI : MonoBehaviour
             }
 
         }
-
-        GameManager.Instance.ShortcutPanel_NeedUpdate = false;
     }
     #endregion
 
@@ -517,7 +411,7 @@ public class IngameUI : MonoBehaviour
     {
         if (GameManager.Instance == null) { return; }
         if (goInventory == null) { return; }
-        if (GameManager.Instance.ListOfSelectedKeepers.Count == 0) { GameManager.Instance.SelectedKeeperNeedUpdate = false; return; }
+        if (GameManager.Instance.ListOfSelectedKeepers.Count == 0) {return; }
 
         KeeperInstance currentSelectedKeeper = GameManager.Instance.ListOfSelectedKeepers[0];
 
@@ -552,12 +446,12 @@ public class IngameUI : MonoBehaviour
 
         for (int i =0; i< nbSlot; i++)
         {
-            GameObject currentSlot = Instantiate(slotPrefab);
+            GameObject currentSlot = Instantiate(GameManager.Instance.PrefabUtils.PrefabSlotUI);
 
             List<ItemContainer> inventory = currentSelectedKeeper.GetComponent<Inventory>().List_inventaire;
             if (inventory.Count > 0 && i < inventory.Count && inventory[i] != null && inventory[i].Item != null && inventory[i].Item.Id != null)
             {
-                GameObject go = Instantiate(itemUI);
+                GameObject go = Instantiate(GameManager.Instance.PrefabUtils.PrefabItemUI);
                 go.transform.SetParent(currentSlot.transform);
                 go.GetComponent<ItemInstance>().ItemContainer = inventory[i];
                 go.name = inventory[i].Item.ItemName;
@@ -599,7 +493,7 @@ public class IngameUI : MonoBehaviour
             goEquipement.transform.GetComponent<InventoryOwner>().Owner = currentSelectedKeeper.gameObject;
             if (equipement[i] != null && equipement[i].Item != null)
             {
-                GameObject go = Instantiate(itemUI);
+                GameObject go = Instantiate(GameManager.Instance.PrefabUtils.PrefabItemUI);
                 go.transform.SetParent(currentSlot.transform);
                 go.GetComponent<ItemInstance>().ItemContainer = equipement[i];
                 go.name = equipement[i].ToString();
@@ -614,8 +508,6 @@ public class IngameUI : MonoBehaviour
                 go.transform.GetComponentInChildren<Text>().text = "";
             }
         }
-        
-        GameManager.Instance.SelectedKeeperNeedUpdate = false;
     }
 
     public void CycleThroughKeepersButtonHandler(int direction)
@@ -667,7 +559,7 @@ public class IngameUI : MonoBehaviour
         GameManager.Instance.Ui.ClearActionPanel();
         HideInventoryPanels();
 
-        GameManager.Instance.SelectedKeeperNeedUpdate = true;
+        GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
         GameManager.Instance.Ui.UpdateActionText();
     }
 
@@ -732,7 +624,7 @@ public class IngameUI : MonoBehaviour
         Sprite associatedSprite = null;
         string name = "";
         int nbSlots = 0;
-        GameObject goInventory = Instantiate(keeper_inventory_prefab, Panel_Inventories.transform);
+        GameObject goInventory = Instantiate(GameManager.Instance.PrefabUtils.PrefabInventaireUI, Panel_Inventories.transform);
         if (pi.GetComponent<PNJInstance>() != null)
         {
             PNJInstance pnjInstance = pi.GetComponent<PNJInstance>();
@@ -754,7 +646,7 @@ public class IngameUI : MonoBehaviour
             LootInstance lootInstance = pi.GetComponent<LootInstance>();
 
             // TMP
-            associatedSprite = GameManager.Instance.Ui.spriteLoot;
+            associatedSprite = GameManager.Instance.SpriteUtils.spriteLoot;
             goInventory.transform.GetChild(0).gameObject.SetActive(false);
             owner = lootInstance.gameObject;
             nbSlots = lootInstance.nbSlot;
@@ -768,15 +660,16 @@ public class IngameUI : MonoBehaviour
 
         goInventory.transform.localPosition = Vector3.zero;
         goInventory.transform.localScale = Vector3.one;
-        goInventory.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = associatedSprite;
         goInventory.name = "Inventory_" + name;
+        goInventory.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = associatedSprite;
+
         goInventory.transform.GetChild(1).GetComponent<InventoryOwner>().Owner = pi.gameObject;
         goInventory.SetActive(false);
 
         for (int i = 0; i < nbSlots; i++)
         {
             //Create Slots
-            GameObject currentgoSlotPanel = Instantiate(slotPrefab, Vector3.zero, Quaternion.identity) as GameObject;
+            GameObject currentgoSlotPanel = Instantiate(GameManager.Instance.PrefabUtils.PrefabSlotUI, Vector3.zero, Quaternion.identity) as GameObject;
             currentgoSlotPanel.transform.SetParent(goInventory.transform.GetChild(1).transform);
 
             currentgoSlotPanel.transform.localPosition = Vector3.zero;
@@ -798,7 +691,7 @@ public class IngameUI : MonoBehaviour
     public void UpdateInventoryPanel(GameObject pi)
     {
 
-        if (pi.GetComponent<PNJInstance>() == null && pi.GetComponent<KeeperInstance>() == null && pi.GetComponent<LootInstance>() == null) return;
+        if (pi.GetComponent<Inventory>() == null) return;
         GameObject owner = null;
         Sprite associatedSprite = null;
         string name = "";
@@ -825,7 +718,7 @@ public class IngameUI : MonoBehaviour
         else if (pi.GetComponent<LootInstance>() != null)
         {
             LootInstance lootInstance = pi.GetComponent<LootInstance>();
-            associatedSprite = GameManager.Instance.Ui.spriteLoot;
+            associatedSprite = GameManager.Instance.SpriteUtils.spriteLoot;
             owner = lootInstance.gameObject;
             inventoryPanel = lootInstance.lootPanel;
             nbSlot = lootInstance.nbSlot;
@@ -854,7 +747,7 @@ public class IngameUI : MonoBehaviour
                 if (inventory[i] != null && inventory[i].Item != null && inventory[i].Item.Id != null)
                 {
                     GameObject currentSlot = inventoryPanel.transform.GetChild(1).GetChild(i).gameObject;
-                    GameObject go = Instantiate(itemUI);
+                    GameObject go = Instantiate(GameManager.Instance.PrefabUtils.PrefabItemUI);
                     go.transform.SetParent(currentSlot.transform);
                     go.GetComponent<ItemInstance>().ItemContainer = inventory[i];
                     go.name = inventory[i].ToString();

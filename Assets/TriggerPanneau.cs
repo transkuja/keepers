@@ -11,7 +11,7 @@ public class TriggerPanneau : MonoBehaviour {
 
     void Awake()
     {
-        goPanneau = Instantiate(prefabPanelPanneau, GameManager.Instance.Ui.basePanneauPanel.transform);
+        goPanneau = Instantiate(GameManager.Instance.PrefabUtils.PrefabContentPanneauUI, GameManager.Instance.Ui.goContentPanneauParent.transform);
         goPanneau.transform.localPosition = Vector3.zero;
         goPanneau.transform.localScale = Vector3.one;
     }
@@ -31,7 +31,7 @@ public class TriggerPanneau : MonoBehaviour {
                 }
             }
             InteractionImplementer InteractionImplementer = new InteractionImplementer();
-            InteractionImplementer.Add(new Interaction(Look), 0, "Look", GameManager.Instance.Ui.spriteExplore, true);
+            InteractionImplementer.Add(new Interaction(Look), 0, "Look", GameManager.Instance.SpriteUtils.spriteExplore, true);
             GameManager.Instance.Ui.UpdateActionPanelUIQ(InteractionImplementer);
         }
     }

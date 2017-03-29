@@ -131,14 +131,10 @@ public class Slot : MonoBehaviour, IDropHandler
                 }
 
                 Destroy(eventData.pointerDrag.gameObject);
-                //GameManager.Instance.Ui.UpdateKeeperInventoryPanel();
 
-                // A terme c'est deux la
-                // TODO : @Remi Inventaire
                 GameManager.Instance.Ui.UpdateInventoryPanel(inventaireDequi.Owner);
                 GameManager.Instance.Ui.UpdateInventoryPanel(inventaireversqui.Owner);
-                GameManager.Instance.SelectedKeeperNeedUpdate = true;
-                //IngameScreens.Instance.UpdateLootInterface();
+                GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
             }
             // Drag Characters in battle scene
             else

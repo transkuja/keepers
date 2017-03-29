@@ -9,7 +9,7 @@ public class QuestDealer : MonoBehaviour {
 
     void Awake()
     {
-        goQuest = Instantiate(prefabContentQuest, GameManager.Instance.Ui.baseQuestPanel.transform);
+        goQuest = Instantiate(prefabContentQuest, GameManager.Instance.Ui.goContentQuestParent.transform);
         goQuest.transform.localPosition = Vector3.zero;
         goQuest.transform.localScale = Vector3.one;
     }

@@ -6,23 +6,23 @@ public class GameManager : MonoBehaviour
 {
     private static GameManager instance = null;
 
-    private List<KeeperInstance> listOfSelectedKeepers = new List<KeeperInstance>();
-    private GameObject goTarget;
-
+    #region Debug Variables
     public bool isDebugGameManager;
-
-
-    public GameObject prefabItemToDrop;
-
-    // TODO: move to ItemManager
-    private Database database = new Database();
+    #endregion
 
     private List<KeeperInstance> allKeepersList = new List<KeeperInstance>();
     private PrisonerInstance prisonerInstance;
+    private List<KeeperInstance> listOfSelectedKeepers = new List<KeeperInstance>();
 
-    private bool characterPanelIngameNeedUpdate = false;
-    private bool shortcutPanel_NeedUpdate = true;
-    private bool characterPanelMenuNeedUpdate = false;
+
+    private Database database = new Database();
+
+    private GameObject goTarget;
+
+    [SerializeField]
+    private PrefabUIUtils prefabUtils;
+    [SerializeField]
+    private SpriteUIUtils spriteUtils;
 
 
     private IngameUI ui;
@@ -98,6 +98,53 @@ public class GameManager : MonoBehaviour
                 
     }
 
+    public void CheckGameState()
+    {
+        if (!prisonerInstance.IsAlive)
+        {
+            Debug.Log("GameOver - Prisoner Died");
+            Lose();
+        }
+        else
+        {
+            short nbDead = 0;
+            foreach (KeeperInstance ki in allKeepersList)
+            {
+                if (!ki.IsAlive)
+                {
+                    nbDead++;
+                }
+            }
+
+            if (nbDead == allKeepersList.Count)
+            {
+                Debug.Log("GameOver - All Keepers died");
+                Lose();
+            }
+        }
+
+    }
+
+    public void Win()
+    {
+        AudioManager.Instance.PlayOneShot(AudioManager.Instance.winningSound);
+        WinScreen.gameObject.SetActive(true);
+        Time.timeScale = 0.0f;
+    }
+
+    public void Lose()
+    {
+        LoseScreen.gameObject.SetActive(true);
+        Time.timeScale = 0.0f;
+    }
+
+    public void ResetInstance()
+    {
+        allKeepersList.Clear();
+        listOfSelectedKeepers.Clear();
+        nbTurn = 1;
+    }
+
     /* ------------------------------------------------------------------------------------ */
     /* ------------------------------------- Accessors ------------------------------------ */
     /* ------------------------------------------------------------------------------------ */
@@ -123,31 +170,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public bool SelectedKeeperNeedUpdate
-    {
-        get
-        {
-            return characterPanelIngameNeedUpdate;
-        }
-
-        set
-        {
-            characterPanelIngameNeedUpdate = value;
-        }
-    }
-
-    public bool CharacterPanelMenuNeedUpdate
-    {
-        get
-        {
-            return characterPanelMenuNeedUpdate;
-        }
-
-        set
-        {
-            characterPanelMenuNeedUpdate = value;
-        }
-    }
 
     public List<KeeperInstance> AllKeepersList
     {
@@ -293,19 +315,6 @@ public class GameManager : MonoBehaviour
     }
 
 
-    public bool ShortcutPanel_NeedUpdate
-    {
-        get
-        {
-            return shortcutPanel_NeedUpdate;
-        }
-
-        set
-        {
-            shortcutPanel_NeedUpdate = value;
-        }
-    }
-
     public Database Database
     {
         get
@@ -332,50 +341,31 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void CheckGameState()
+    public PrefabUIUtils PrefabUtils
     {
-        if(!prisonerInstance.IsAlive)
+        get
         {
-            Debug.Log("GameOver - Prisoner Died");
-            Lose();
+            return prefabUtils;
         }
-        else
+
+        set
         {
-            short nbDead = 0;
-            foreach (KeeperInstance ki in allKeepersList)
-            {
-                if (!ki.IsAlive)
-                {
-                    nbDead++;
-                }
-            }
-
-            if (nbDead == allKeepersList.Count)
-            {
-                Debug.Log("GameOver - All Keepers died");
-                Lose();
-            }
+            prefabUtils = value;
         }
-        
     }
 
-    public void Win()
+    public SpriteUIUtils SpriteUtils
     {
-        AudioManager.Instance.PlayOneShot(AudioManager.Instance.winningSound);
-        WinScreen.gameObject.SetActive(true);
-        Time.timeScale = 0.0f;
+        get
+        {
+            return spriteUtils;
+        }
+
+        set
+        {
+            spriteUtils = value;
+        }
     }
 
-    public void Lose()
-    {
-        LoseScreen.gameObject.SetActive(true);
-        Time.timeScale = 0.0f;
-    }
-
-    public void ResetInstance()
-    {
-        allKeepersList.Clear();
-        listOfSelectedKeepers.Clear();
-        nbTurn = 1;
-    }
+ 
 }

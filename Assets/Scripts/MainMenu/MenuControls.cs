@@ -43,7 +43,7 @@ public class MenuControls : MonoBehaviour {
                                 k.IsSelectedInMenu = true;
                                 GameManager.Instance.AllKeepersList.Add(k);
                             }
-                            GameManager.Instance.CharacterPanelMenuNeedUpdate = true;
+                            GameManager.Instance.MenuUi.UpdateUI();
                         }
                     }
                     else if (hit.transform.GetComponent<CardLevel>() != null)
@@ -72,7 +72,7 @@ public class MenuControls : MonoBehaviour {
                     ki.IsSelectedInMenu = false;       
                 }
                 GameManager.Instance.AllKeepersList.Clear();
-                GameManager.Instance.CharacterPanelMenuNeedUpdate = true;
+                GameManager.Instance.MenuUi.UpdateUI();
             }
         }
 
