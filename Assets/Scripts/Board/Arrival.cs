@@ -12,8 +12,12 @@ public class Arrival : MonoBehaviour {
     // Use this for initialization
     void Start () {
         interationImplementer = new InteractionImplementer();
-        interationImplementer.Add(new Interaction(EndGame), 0, "End Game", GameManager.Instance.SpriteUtils.spriteEndAction);  
+        GameManager.Instance.MainQuest.CheckAndComplete();
+        GameManager.Instance.MainQuest.OnQuestComplete += EndGameQuest;
+        interationImplementer.Add(new Interaction(ClickEnd), 0, "End Game", GameManager.Instance.SpriteUtils.spriteEndAction);  
 	}
+
+
 
     public void EndGame(int i = -1)
     {
@@ -22,12 +26,23 @@ public class Arrival : MonoBehaviour {
         if (TileManager.Instance.PrisonerTile == tileArrival)
         {
             Debug.Log("You win");
-            GameManager.Instance.Win();
+           
         }
         else
         {
             Debug.Log("Nope");
         }
+    }
+
+    public void ClickEnd(int i = -1)
+    {
+        GameManager.Instance.CheckGameState();
+    }
+
+    void EndGameQuest()
+    {
+        GameManager.Instance.MainQuest.OnQuestComplete -= EndGameQuest;
+        GameManager.Instance.Win();
     }
 
     public InteractionImplementer InterationImplementer

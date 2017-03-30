@@ -553,4 +553,17 @@ public class TileManager : MonoBehaviour {
             return getTileFromKeeper;
         }
     }
+
+    public GameObject EndTile
+    {
+        get
+        {
+            return endTile;
+        }
+
+        set
+        {
+            endTile = value;
+        }
+    }
 }
