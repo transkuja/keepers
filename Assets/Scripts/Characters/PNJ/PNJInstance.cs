@@ -17,7 +17,7 @@ public class PNJInstance : MonoBehaviour {
 
         InteractionImplementer = new InteractionImplementer();
         InteractionImplementer.Add(new Interaction(Trade), 0, "Trade", GameManager.Instance.SpriteUtils.spriteTrade);
-        Inventory pnjInventory = GetComponent<Inventory>();
+        Behaviour.Inventory pnjInventory = GetComponent<Behaviour.Inventory>();
         if (pnjInventory != null)
         {
             pnjInventory.Init(pnj.nbSlot);

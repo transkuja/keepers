@@ -248,9 +248,9 @@ public class KeeperInstance : MonoBehaviour, ITradable {
         InteractionImplementer.Add(new Interaction(Trade), 0, "Trade", GameManager.Instance.SpriteUtils.spriteTrade);
         if (isAbleToImproveMoral) InteractionImplementer.Add(new Interaction(MoralBuff), 1, "Moral", GameManager.Instance.SpriteUtils.spriteMoral);
 
-        if(GetComponent<Inventory>() != null)
+        if(GetComponent<Behaviour.Inventory>() != null)
         {
-            GetComponent<Inventory>().Init(Keeper.nbSlot);
+            GetComponent<Behaviour.Inventory>().Init(Keeper.nbSlot);
         }
         currentHp = keeper.MaxHp;
         currentHunger = keeper.MaxHunger;

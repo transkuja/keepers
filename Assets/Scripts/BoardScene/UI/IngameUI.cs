@@ -450,8 +450,8 @@ public class IngameUI : MonoBehaviour
         {
             GameObject currentSlot = Instantiate(GameManager.Instance.PrefabUtils.PrefabSlotUI);
 
+            ItemContainer[] inventory = currentSelectedKeeper.GetComponent<Behaviour.Inventory>().Items;
             if (inventory != null && inventory.Length > 0 && i < inventory.Length && inventory[i] != null && inventory[i].Item != null && inventory[i].Item.Id != null)
-            ItemContainer[] inventory = currentSelectedKeeper.GetComponent<Inventory>().Items;
             {
                 GameObject go = Instantiate(GameManager.Instance.PrefabUtils.PrefabItemUI);
                 go.transform.SetParent(currentSlot.transform);
@@ -736,7 +736,7 @@ public class IngameUI : MonoBehaviour
     public void UpdateInventoryPanel(GameObject pi)
     {
 
-        if (pi.GetComponent<Inventory>() == null) return;
+        if (pi.GetComponent<Behaviour.Inventory>() == null) return;
         GameObject owner = null;
         Sprite associatedSprite = null;
         string name = "";
@@ -774,9 +774,9 @@ public class IngameUI : MonoBehaviour
             return;
         }
 
-        if (owner.GetComponent<Inventory>() != null && owner.GetComponent<Inventory>().Items != null)
+        if (owner.GetComponent<Behaviour.Inventory>() != null && owner.GetComponent<Behaviour.Inventory>().Items != null)
         {
-            ItemContainer[] inventory = pi.GetComponent<Inventory>().Items;
+            ItemContainer[] inventory = pi.GetComponent<Behaviour.Inventory>().Items;
             for (int i = 0; i < inventory.Length; i++)
             {
                 GameObject currentSlot = inventoryPanel.transform.GetChild(1).GetChild(i).gameObject;
@@ -818,7 +818,7 @@ public class IngameUI : MonoBehaviour
     public void UpdatePrisonerFeedingPanel(GameObject pi)
     {
 
-        if (pi.GetComponent<Inventory>() == null || pi.GetComponent<PrisonerInstance>() == null) return;
+        if (pi.GetComponent<Behaviour.Inventory>() == null || pi.GetComponent<PrisonerInstance>() == null) return;
         GameObject owner = null;
         Sprite associatedSprite = null;
         string name = "";
@@ -832,9 +832,9 @@ public class IngameUI : MonoBehaviour
         nbSlot = prisoner.FeedingSlotsCount;
         
 
-        if (owner.GetComponent<Inventory>() != null && owner.GetComponent<Inventory>().Items != null)
+        if (owner.GetComponent<Behaviour.Inventory>() != null && owner.GetComponent<Behaviour.Inventory>().Items != null)
         {
-            ItemContainer[] inventory = pi.GetComponent<Inventory>().Items;
+            ItemContainer[] inventory = pi.GetComponent<Behaviour.Inventory>().Items;
             for (int i = 0; i < inventory.Length; i++)
             {
                 GameObject currentSlot = inventoryPanel.transform.GetChild(1).GetChild(i).gameObject;

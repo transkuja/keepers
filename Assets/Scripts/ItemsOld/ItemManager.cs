@@ -21,7 +21,7 @@ public static class ItemManager {
             drop.transform.position = where.position;
 
             drop.GetComponent<LootInstance>().nbSlot = loot.Length;
-            Inventory dropInventory = drop.GetComponent<Inventory>();
+            Behaviour.Inventory dropInventory = drop.GetComponent<Behaviour.Inventory>();
             dropInventory.Init(loot.Length);
             Array.Copy(loot, dropInventory.Items, dropInventory.Items.Length);
             drop.GetComponent<LootInstance>().Init();

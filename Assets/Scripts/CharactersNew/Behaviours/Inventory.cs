@@ -6,32 +6,42 @@ namespace Behaviour
 {
     public class Inventory : MonoBehaviour
     {
-        CharacterInstance instance;
+        PawnInstance instance;
 
-    int nbSlot;
-    private ItemContainer[] items;
+        int nbSlot;
+        private ItemContainer[] items;
         private GameObject inventoryPanel;
-    public ItemContainer[] Items
-    {
-        get
+
+        [SerializeField]
+        List<string> possibleItems;
+
+        void Start()
         {
-            return items;
+            instance = GetComponent<PawnInstance>();
+            instance.Interactions.Add(new Interaction(Trade), 0, "Trade", GameManager.Instance.SpriteUtils.spriteTrade);
         }
 
-        set
+        public ItemContainer[] Items
         {
-            if(value != null)
+            get
             {
-                nbSlot = value.Length;
+                return items;
             }
-            else
+
+            set
             {
-                nbSlot = 0;
-            }
+                if(value != null)
+                {
+                    NbSlot = value.Length;
+                }
+                else
+                {
+                    NbSlot = 0;
+                }
             
-            items = value;
+                items = value;
+            }
         }
-    }
 
         public GameObject InventoryPanel
         {
@@ -46,46 +56,53 @@ namespace Behaviour
             }
         }
 
-    public void Init(int slotCount)
-    {
-        nbSlot = slotCount;
-        items = new ItemContainer[slotCount];
-    }
-
-    public void Add(ItemContainer item)
-    {
-        ItemContainer[] temp = items;
-        items = new ItemContainer[nbSlot];
-        for (int i = 0; i < nbSlot; i++)
+        public int NbSlot
         {
-            items[i] = temp[i];
-        }
-        items[nbSlot] = item;
-        nbSlot++;
-    }
-
-    public void ComputeItems()
-    {
-        items = new ItemContainer[nbSlot];
-        Item it = null;
-        int i = 0;
-        foreach (string _IdItem in possibleItems)
-        {
-            it = GameManager.Instance.Database.getItemById(_IdItem);
-            if (Random.Range(0, 10) > it.Rarity)
+            get
             {
-                items[i++] = new ItemContainer(it, 1);
+                return nbSlot;
             }
-            if (i >= nbSlot)
-                break;
+
+            set
+            {
+                nbSlot = value;
+            }
         }
 
-    }
-        void Start()
+        public void Init(int slotCount)
         {
-            instance = GetComponent<CharacterInstance>();
-            instance.Interactions.Add(new Interaction(Trade), 0, "Trade", GameManager.Instance.MenuUi.spriteTrade);
-            items = new List<ItemContainer>();
+            NbSlot = slotCount;
+            items = new ItemContainer[slotCount];
+        }
+
+        public void Add(ItemContainer item)
+        {
+            ItemContainer[] temp = items;
+            items = new ItemContainer[NbSlot];
+            for (int i = 0; i < NbSlot; i++)
+            {
+                items[i] = temp[i];
+            }
+            items[NbSlot] = item;
+            NbSlot++;
+        }
+
+        public void ComputeItems()
+        {
+            items = new ItemContainer[NbSlot];
+            Item it = null;
+            int i = 0;
+            foreach (string _IdItem in possibleItems)
+            {
+                it = GameManager.Instance.Database.getItemById(_IdItem);
+                if (Random.Range(0, 10) > it.Rarity)
+                {
+                    items[i++] = new ItemContainer(it, 1);
+                }
+                if (i >= NbSlot)
+                    break;
+            }
+
         }
 
         public void Trade(int _i = 0)

@@ -157,7 +157,7 @@ public class PrisonerInstance : MonoBehaviour, IEscortable {
         interactionImplementer.Add(new Interaction(Escort), 0, "Escort", GameManager.Instance.SpriteUtils.spriteEscort);
         interactionImplementer.Add(new Interaction(UnEscort), 0, "Unescort", GameManager.Instance.SpriteUtils.spriteUnescort, false);
         interactionImplementer.Add(new Interaction(InitFeeding), 1, "Feed", GameManager.Instance.SpriteUtils.spriteHarvest);
-        GetComponent<Inventory>().Init(FeedingSlotsCount);
+        GetComponent<Behaviour.Inventory>().Init(FeedingSlotsCount);
         currentHp = prisoner.MaxHp;
         currentHunger = prisoner.MaxHunger;
         currentMentalHealth = prisoner.MaxMentalHealth;
@@ -332,7 +332,7 @@ public class PrisonerInstance : MonoBehaviour, IEscortable {
 
     public void InitFeeding(int _i = 0)
     {
-        Inventory inv = gameObject.AddComponent<Inventory>();
+        Behaviour.Inventory inv = gameObject.AddComponent<Behaviour.Inventory>();
 
         inv.Init(feedingSlotsCount);
         
@@ -341,7 +341,7 @@ public class PrisonerInstance : MonoBehaviour, IEscortable {
 
     public void ProcessFeeding()
     {
-        Inventory inv = GetComponent<Inventory>();
+        Behaviour.Inventory inv = GetComponent<Behaviour.Inventory>();
         int i = 0;
         while(currentHunger < prisoner.MaxHunger && i < inv.Items.Length)
         {

@@ -10,7 +10,7 @@ public class CharactersInitializer : MonoBehaviour {
     {
         for (int i = 0; i < GameManager.Instance.AllKeepersListOld.Count; i++)
         {
-            GameManager.Instance.AllKeepersListOld[i].transform.position = beginPositions.transform.GetChild(i).position;
+            GameManager.Instance.AllKeepersListOld[i].transform.position = beginPositionsKeepers[i].transform.position;
             GameManager.Instance.AllKeepersListOld[i].transform.SetParent(null);
             GameManager.Instance.AllKeepersListOld[i].transform.rotation = Quaternion.identity;
             GameManager.Instance.AllKeepersListOld[i].transform.localScale = Vector3.one;

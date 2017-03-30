@@ -31,7 +31,7 @@ namespace Behaviour
         {
             instance = GetComponent<PawnInstance>();
             if (instance.Data.Behaviours[(int)BehavioursEnum.CanSpeak])
-                instance.Interactions.Add(new Interaction(MoralBuff), 1, "Moral", GameManager.Instance.MenuUi.spriteMoral);
+                instance.Interactions.Add(new Interaction(MoralBuff), 1, "Moral", GameManager.Instance.SpriteUtils.spriteMoral);
 
             agent = GetComponent<NavMeshAgent>();
         }
@@ -48,8 +48,8 @@ namespace Behaviour
                     GameManager.Instance.ListOfSelectedKeepers[0].ActionPoints -= (short)costAction;
                     short amountMoralBuff = (short)Random.Range(minMoralBuff, maxMoralBuff);
                     GameManager.Instance.GoTarget.GetComponentInParent<KeeperInstance>().CurrentMentalHealth += amountMoralBuff;
-                    GameManager.Instance.ShortcutPanel_NeedUpdate = true;
-                    GameManager.Instance.SelectedKeeperNeedUpdate = true;
+                    GameManager.Instance.Ui.UpdateShortcutPanel();
+                    GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
                     GameManager.Instance.Ui.MoralBuffActionTextAnimation(amountMoralBuff);
                 }
                 else

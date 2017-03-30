@@ -25,11 +25,11 @@ public class DoubleClickHandler : MonoBehaviour, IPointerClickHandler
                     || owner != GameManager.Instance.ListOfSelectedKeepers[0])
             {
                 GameObject goOwner = eventData.pointerPress.GetComponentInParent<InventoryOwner>().Owner;
-                ItemContainer[] selectedKeeperInventory = GameManager.Instance.ListOfSelectedKeepers[0].GetComponent<Inventory>().Items;
+                ItemContainer[] selectedKeeperInventory = GameManager.Instance.ListOfSelectedKeepers[0].GetComponent<Behaviour.Inventory>().Items;
                 int freeSlotIndex = InventoryManager.FindFreeSlot(selectedKeeperInventory);
                 if (freeSlotIndex != -1)
                 {
-                    Inventory ownerInventory = goOwner.GetComponent<Inventory>();
+                    Behaviour.Inventory ownerInventory = goOwner.GetComponent<Behaviour.Inventory>();
                     InventoryManager.SwapItemBeetweenInventories(ownerInventory.Items, ii.transform.parent.GetSiblingIndex(), selectedKeeperInventory, freeSlotIndex);
                     // Destroy inventory if it is empty for loot
                     if (goOwner.GetComponent<LootInstance>() != null)

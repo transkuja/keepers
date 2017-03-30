@@ -10,7 +10,6 @@ public class GameManager : MonoBehaviour
     public bool isDebugGameManager;
     #endregion
 
-    private List<KeeperInstance> allKeepersList = new List<KeeperInstance>();
     private PrisonerInstance prisonerInstance;
     private List<KeeperInstance> listOfSelectedKeepers = new List<KeeperInstance>();
 
@@ -78,7 +77,7 @@ public class GameManager : MonoBehaviour
         {
             foreach( KeeperInstance ki in GetComponentsInChildren<KeeperInstance>())
             {
-                allKeepersListOld.Add(ki);
+                AllKeepersListOld.Add(ki);
             }
         }
 
@@ -124,7 +123,7 @@ public class GameManager : MonoBehaviour
 
     public void InitializeInGameKeepers()
     {
-        foreach (KeeperInstance ki in allKeepersListOld)
+        foreach (KeeperInstance ki in AllKeepersListOld)
         {
             ki.gameObject.transform.SetParent(transform);
         }
@@ -142,7 +141,7 @@ public class GameManager : MonoBehaviour
         else
         {
             short nbDead = 0;
-            foreach (KeeperInstance ki in allKeepersList)
+            foreach (KeeperInstance ki in AllKeepersListOld)
             {
                 if (!ki.IsAlive)
                 {
@@ -204,36 +203,29 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
-        set
-        {
-            characterPanelIngameNeedUpdate = value;
-        }
-    }
-
-    public bool CharacterPanelMenuNeedUpdate
+    public SpriteUIUtils SpriteUtils
     {
         get
         {
-            return characterPanelMenuNeedUpdate;
+            return spriteUtils;
         }
 
         set
         {
-            characterPanelMenuNeedUpdate = value;
+            spriteUtils = value;
         }
     }
 
-    public List<KeeperInstance> AllKeepersList
+    public PrefabUIUtils PrefabUtils
     {
         get
         {
-            return allKeepersListOld;
+            return prefabUtils;
         }
 
         set
         {
-            allKeepersListOld = value;
+            prefabUtils = value;
         }
     }
 
@@ -381,19 +373,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public PrefabUIUtils PrefabUtils
-    {
-        get
-        {
-            return prefabUtils;
-        }
-
-        set
-        {
-            prefabUtils = value;
-        }
-    }
-
     public List<PawnInstance> AllKeepersList
     {
         get
@@ -407,49 +386,17 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void CheckGameState()
+    public List<KeeperInstance> AllKeepersListOld
     {
         get
         {
-            return spriteUtils;
+            return allKeepersListOld;
         }
 
         set
         {
-            short nbDead = 0;
-            foreach (KeeperInstance ki in allKeepersListOld)
-            {
-                if (!ki.IsAlive)
-                {
-                    nbDead++;
-                }
-            }
-
-            if (nbDead == allKeepersListOld.Count)
-            {
-                Debug.Log("GameOver - All Keepers died");
-                Lose();
-            }
+            allKeepersListOld = value;
         }
     }
 
-    public void Win()
-    {
-        AudioManager.Instance.PlayOneShot(AudioManager.Instance.winningSound);
-        WinScreen.gameObject.SetActive(true);
-        Time.timeScale = 0.0f;
-    }
-
-    public void Lose()
-    {
-        LoseScreen.gameObject.SetActive(true);
-        Time.timeScale = 0.0f;
-    }
-
-    public void ResetInstance()
-    {
-        allKeepersList.Clear();
-        listOfSelectedKeepers.Clear();
-        nbTurn = 1;
-    }
 }
