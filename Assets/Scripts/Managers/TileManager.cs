@@ -43,11 +43,11 @@ public class TileManager : MonoBehaviour {
         if (instance == null)
         {
             instance = this;
-            InitializeStateOld();
+            InitializeState();
         }
         else if (instance != this)
         {
-            instance.ResetTileManagerOld();
+            instance.ResetTileManager();
             Destroy(gameObject);
         }
         DontDestroyOnLoad(instance.gameObject);
@@ -448,7 +448,8 @@ public class TileManager : MonoBehaviour {
         instance.prisonerTile = beginTile.GetComponentInParent<Tile>();
         foreach (PawnInstance pi in GameManager.Instance.AllKeepersList)
         {
-            instance.AddKeeperOnTile(instance.prisonerTile, pi);
+            instance.AddKeeperOnTile(beginTile.GetComponent<Tile>(), pi);
+            pi.CurrentTile = beginTile.GetComponent<Tile>();
         }
         instance.InitializeMonsters();
     }
