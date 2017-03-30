@@ -15,7 +15,9 @@ namespace Behaviour
         // Actions
         [Header("Actions")]
         [SerializeField]
-        private short actionPoints = 3;
+        private short maxActionPoints = 3;
+        [SerializeField]
+        private short actionPoints;
 
         [SerializeField]
         private GameObject feedbackSelection;
@@ -34,6 +36,7 @@ namespace Behaviour
                 instance.Interactions.Add(new Interaction(MoralBuff), 1, "Moral", GameManager.Instance.SpriteUtils.spriteMoral);
 
             agent = GetComponent<NavMeshAgent>();
+            actionPoints = maxActionPoints;
         }
 
         #region Interactions
@@ -93,6 +96,19 @@ namespace Behaviour
             get
             {
                 return instance;
+            }
+        }
+
+        public short MaxActionPoints
+        {
+            get
+            {
+                return maxActionPoints;
+            }
+
+            set
+            {
+                maxActionPoints = value;
             }
         }
         #endregion

@@ -13,6 +13,9 @@ namespace Behaviour
         int currentHp;
         bool isAlive;
 
+        [SerializeField]
+        private Sprite deadSprite;
+
         void Start()
         {
             instance = GetComponent<PawnInstance>();
@@ -130,6 +133,19 @@ namespace Behaviour
             set
             {
                 isAlive = value;
+            }
+        }
+
+        public Sprite DeadSprite
+        {
+            get
+            {
+                return deadSprite;
+            }
+
+            set
+            {
+                deadSprite = value;
             }
         }
 
