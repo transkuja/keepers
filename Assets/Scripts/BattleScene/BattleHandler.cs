@@ -357,7 +357,7 @@ public class BattleHandler {
             }
         }
 
-        foreach (KeeperInstance ki in GameManager.Instance.ListOfSelectedKeepers)
+        foreach (KeeperInstance ki in GameManager.Instance.ListOfSelectedKeepersOld)
         {
             if (ki.IsAlive)
             {

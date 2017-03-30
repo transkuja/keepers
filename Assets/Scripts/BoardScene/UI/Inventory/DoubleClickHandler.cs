@@ -22,10 +22,10 @@ public class DoubleClickHandler : MonoBehaviour, IPointerClickHandler
             // Only keeper can use items
             KeeperInstance owner = eventData.pointerPress.GetComponentInParent<InventoryOwner>().Owner.GetComponent<KeeperInstance>();
             if (owner == null 
-                    || owner != GameManager.Instance.ListOfSelectedKeepers[0])
+                    || owner != GameManager.Instance.ListOfSelectedKeepersOld[0])
             {
                 GameObject goOwner = eventData.pointerPress.GetComponentInParent<InventoryOwner>().Owner;
-                ItemContainer[] selectedKeeperInventory = GameManager.Instance.ListOfSelectedKeepers[0].GetComponent<Behaviour.Inventory>().Items;
+                ItemContainer[] selectedKeeperInventory = GameManager.Instance.ListOfSelectedKeepersOld[0].GetComponent<Behaviour.Inventory>().Items;
                 int freeSlotIndex = InventoryManager.FindFreeSlot(selectedKeeperInventory);
                 if (freeSlotIndex != -1)
                 {

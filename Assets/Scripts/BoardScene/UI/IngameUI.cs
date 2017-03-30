@@ -87,14 +87,31 @@ public class IngameUI : MonoBehaviour
         goActionPanelQ = worldSpaceUI.transform.GetChild(0).GetChild(0).gameObject;
         UpdateShortcutPanel();
     }
-   
+
+    public void ResetIngameUI()
+    {
+        GameManager.Instance.Ui.ClearActionPanel();
+        GameManager.Instance.Ui.HideInventoryPanels();
+
+        // A caracter is selected
+        //if (GameManager.Instance.ListOfSelectedKeepersOld[0] != null)
+        //{
+        //    if (!GameManager.Instance.ListOfSelectedKeepersOld[0].IsAlive)
+        //    {
+        //        GameManager.Instance.Ui.HideSelectedKeeperPanel();
+        //    } else
+        //    {
+        //        GameManager.Instance.Ui.ShowSelectedKeeperPanel();
+        //    }
+        //}
+    }
 
     #region Action
     public void UpdateActionPanelUIQ(InteractionImplementer ic)
     {
         if (GameManager.Instance == null) { return; }
         if (goActionPanelQ == null) { return; }
-        if (GameManager.Instance.ListOfSelectedKeepers.Count == 0) { return; }
+        if (GameManager.Instance.ListOfSelectedKeepersOld.Count == 0) { return; }
 
         //Clear
         ClearActionPanel();
@@ -104,10 +121,10 @@ public class IngameUI : MonoBehaviour
         // Actions
         for (int i = 0; i < ic.listActionContainers.Count; i++)
         {
-            bool bIsForbiden = ic.listActionContainers[i].strName == "Escort" && !GameManager.Instance.ListOfSelectedKeepers[0].isEscortAvailable;
-            bIsForbiden = bIsForbiden || ic.listActionContainers[i].strName == "Unescort" && GameManager.Instance.ListOfSelectedKeepers[0].isEscortAvailable;
-            bIsForbiden = bIsForbiden || ic.listActionContainers[i].strName == "Quest" && !GameManager.Instance.ListOfSelectedKeepers[0].isAbleToImproveMoral;
-            bIsForbiden = bIsForbiden || ic.listActionContainers[i].strName == "Moral" && !GameManager.Instance.ListOfSelectedKeepers[0].isAbleToImproveMoral;
+            bool bIsForbiden = ic.listActionContainers[i].strName == "Escort" && !GameManager.Instance.ListOfSelectedKeepersOld[0].isEscortAvailable;
+            bIsForbiden = bIsForbiden || ic.listActionContainers[i].strName == "Unescort" && GameManager.Instance.ListOfSelectedKeepersOld[0].isEscortAvailable;
+            bIsForbiden = bIsForbiden || ic.listActionContainers[i].strName == "Quest" && !GameManager.Instance.ListOfSelectedKeepersOld[0].isAbleToImproveMoral;
+            bIsForbiden = bIsForbiden || ic.listActionContainers[i].strName == "Moral" && !GameManager.Instance.ListOfSelectedKeepersOld[0].isAbleToImproveMoral;
             if (!bIsForbiden)
             {
                 GameObject goAction = Instantiate(GameManager.Instance.PrefabUtils.PrefabActionUI, goActionPanelQ.transform);
@@ -121,7 +138,7 @@ public class IngameUI : MonoBehaviour
                 int n = i;
 
                 // TODO @Remi, cette merde bug quand on change de perso selectionné et qu'on rentre dans le trigger du panneau >:(
-                int nbActionRestantKeeper = GameManager.Instance.ListOfSelectedKeepers[0].ActionPoints;
+                int nbActionRestantKeeper = GameManager.Instance.ListOfSelectedKeepersOld[0].ActionPoints;
 
                 if (ic.listActionContainers[i].costAction > nbActionRestantKeeper)
                 {
@@ -315,13 +332,12 @@ public class IngameUI : MonoBehaviour
 
             GameManager.Instance.ClearListKeeperSelected();
             KeeperInstance nextKeeper = GameManager.Instance.AllKeepersListOld[i];
-            GameManager.Instance.ListOfSelectedKeepers.Add(nextKeeper);
+            GameManager.Instance.ListOfSelectedKeepersOld.Add(nextKeeper);
             nextKeeper.IsSelected = true;
 
             Camera.main.GetComponent<CameraManager>().UpdateCameraPosition(nextKeeper);
             GameManager.Instance.Ui.ShowSelectedKeeperPanel();
             GameManager.Instance.Ui.ClearActionPanel();
-            GameManager.Instance.Ui.HideInventoryPanels();
             GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
             GameManager.Instance.Ui.UpdateActionText();
             HideInventoryPanels();
@@ -415,9 +431,9 @@ public class IngameUI : MonoBehaviour
     {
         if (GameManager.Instance == null) { return; }
         if (goInventory == null) { return; }
-        if (GameManager.Instance.ListOfSelectedKeepers.Count == 0) {return; }
+        if (GameManager.Instance.ListOfSelectedKeepersOld.Count == 0) { return; }
 
-        KeeperInstance currentSelectedKeeper = GameManager.Instance.ListOfSelectedKeepers[0];
+        KeeperInstance currentSelectedKeeper = GameManager.Instance.ListOfSelectedKeepersOld[0];
 
         /*
         Stats
@@ -448,7 +464,7 @@ public class IngameUI : MonoBehaviour
 
         int nbSlot = currentSelectedKeeper.Keeper.nbSlot;
 
-        for (int i =0; i < nbSlot; i++)
+        for (int i = 0; i < nbSlot; i++)
         {
             GameObject currentSlot = Instantiate(GameManager.Instance.PrefabUtils.PrefabSlotUI);
 
@@ -518,15 +534,15 @@ public class IngameUI : MonoBehaviour
     {
         if (GameManager.Instance.AllKeepersListOld != null)
         {
-            if (GameManager.Instance.ListOfSelectedKeepers != null)
+            if (GameManager.Instance.ListOfSelectedKeepersOld != null)
             {
-                if (GameManager.Instance.ListOfSelectedKeepers.Count <= 0)
+                if (GameManager.Instance.ListOfSelectedKeepersOld.Count <= 0)
                 {
                     // tmp
-                    GameManager.Instance.ListOfSelectedKeepers.Add(GameManager.Instance.AllKeepersListOld[0]);
+                    GameManager.Instance.ListOfSelectedKeepersOld.Add(GameManager.Instance.AllKeepersListOld[0]);
                 }
                 // Get first selected
-                KeeperInstance currentKeeperSelected = GameManager.Instance.ListOfSelectedKeepers[0];
+                KeeperInstance currentKeeperSelected = GameManager.Instance.ListOfSelectedKeepersOld[0];
                 int currentKeeperSelectedIndex = GameManager.Instance.AllKeepersListOld.FindIndex(x => x == currentKeeperSelected);
 
                 // Next keeper
@@ -551,10 +567,10 @@ public class IngameUI : MonoBehaviour
                     nbIterations++;
                 }
 
-                GameManager.Instance.ListOfSelectedKeepers.Add(nextKeeper);
+                GameManager.Instance.ListOfSelectedKeepersOld.Add(nextKeeper);
                 nextKeeper.IsSelected = true;
 
-                Camera.main.GetComponent<CameraManager>().UpdateCameraPosition(nextKeeper);
+                //Camera.main.GetComponent<CameraManager>().UpdateCameraPosition(nextKeeper);
 
             }
                 
@@ -569,9 +585,9 @@ public class IngameUI : MonoBehaviour
 
     public void UpdateActionText()
     {
-        if (GameManager.Instance.ListOfSelectedKeepers.Count == 0) { return; }
+        if (GameManager.Instance.ListOfSelectedKeepersOld.Count == 0) { return; }
 
-        KeeperInstance currentKeeper = GameManager.Instance.ListOfSelectedKeepers[0];
+        KeeperInstance currentKeeper = GameManager.Instance.ListOfSelectedKeepersOld[0];
         SelectedKeeperActionText.text = currentKeeper.ActionPoints.ToString();
     }
 

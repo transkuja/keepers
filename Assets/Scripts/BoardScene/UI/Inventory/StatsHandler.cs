@@ -9,8 +9,8 @@ public class StatsHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 {
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (GameManager.Instance.ListOfSelectedKeepers.Count < 1) return;
-        KeeperInstance currentSelectedCharacter = GameManager.Instance.ListOfSelectedKeepers[0];
+        if (GameManager.Instance.ListOfSelectedKeepersOld.Count < 1) return;
+        KeeperInstance currentSelectedCharacter = GameManager.Instance.ListOfSelectedKeepersOld[0];
 
 
         // Strengh

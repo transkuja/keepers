@@ -62,10 +62,10 @@ public class TileTrigger : MonoBehaviour {
             {
                 k.ArrivingTrigger = Utils.GetOppositeDirection(eTrigger);
 
-                if (GameManager.Instance.ListOfSelectedKeepers.Count > 0)
+                if (GameManager.Instance.ListOfSelectedKeepersOld.Count > 0)
                 {
                     // On veut le mesh collider actif du perso
-                    foreach (MeshCollider mc in GameManager.Instance.ListOfSelectedKeepers[0].gameObject.GetComponentsInChildren<MeshCollider>())
+                    foreach (MeshCollider mc in GameManager.Instance.ListOfSelectedKeepersOld[0].gameObject.GetComponentsInChildren<MeshCollider>())
                     {
                         if (mc.enabled)
                         {
@@ -110,9 +110,9 @@ public class TileTrigger : MonoBehaviour {
     void Move(int _i)
     {
         
-        if (GameManager.Instance.ListOfSelectedKeepers.Count > 0)
+        if (GameManager.Instance.ListOfSelectedKeepersOld.Count > 0)
         {
-            KeeperInstance toMove = GameManager.Instance.ListOfSelectedKeepers[0];
+            KeeperInstance toMove = GameManager.Instance.ListOfSelectedKeepersOld[0];
             if (toMove.ActionPoints >= actionCostMove)
             {
                 Tile currentTile = TileManager.Instance.GetTileFromKeeperOld[toMove];
@@ -161,10 +161,10 @@ public class TileTrigger : MonoBehaviour {
 
     void Explore(int _i)
     {
-        if (GameManager.Instance.ListOfSelectedKeepers.Count > 0)
+        if (GameManager.Instance.ListOfSelectedKeepersOld.Count > 0)
         {
 
-            KeeperInstance toMove = GameManager.Instance.ListOfSelectedKeepers[0];
+            KeeperInstance toMove = GameManager.Instance.ListOfSelectedKeepersOld[0];
             if (toMove.ActionPoints >= actionCostExplore)
             {
                 Tile currentTile = TileManager.Instance.GetTileFromKeeperOld[toMove];
@@ -213,9 +213,9 @@ public class TileTrigger : MonoBehaviour {
 
     private void MoveWithoutConfirmation(int _i)
     {
-        if (GameManager.Instance.ListOfSelectedKeepers.Count > 0)
+        if (GameManager.Instance.ListOfSelectedKeepersOld.Count > 0)
         {
-            KeeperInstance toMove = GameManager.Instance.ListOfSelectedKeepers[0];
+            KeeperInstance toMove = GameManager.Instance.ListOfSelectedKeepersOld[0];
 
             //int costAction = interactionImplementer.Get("Move").costAction;
             TileManager.Instance.MoveKeeperOld(toMove, TileManager.Instance.GetTileFromKeeperOld[toMove], (Direction)_i, actionCostMove);
@@ -233,9 +233,9 @@ public class TileTrigger : MonoBehaviour {
 
     private void ExploreWithoutConfirmation(int _i)
     {
-        if (GameManager.Instance.ListOfSelectedKeepers.Count > 0)
+        if (GameManager.Instance.ListOfSelectedKeepersOld.Count > 0)
         {
-            KeeperInstance toMove = GameManager.Instance.ListOfSelectedKeepers[0];
+            KeeperInstance toMove = GameManager.Instance.ListOfSelectedKeepersOld[0];
             //Check if the prisoner is following
             PrisonerInstance prisoner = null;
             if (toMove.Keeper.GoListCharacterFollowing.Count > 0 && toMove.Keeper.GoListCharacterFollowing[0].GetComponent<PrisonerInstance>())

@@ -38,9 +38,9 @@ public class TriggerPanneau : MonoBehaviour {
 
     void Look(int _i)
     {
-        if (GameManager.Instance.ListOfSelectedKeepers.Count > 0)
+        if (GameManager.Instance.ListOfSelectedKeepersOld.Count > 0)
         {
-            KeeperInstance ki = GameManager.Instance.ListOfSelectedKeepers[0];
+            KeeperInstance ki = GameManager.Instance.ListOfSelectedKeepersOld[0];
             if (goPanneau == null) return;
             goPanneau.SetActive(true);
             // Si le personnage peut parler

@@ -11,8 +11,8 @@ public class GameManager : MonoBehaviour
     #endregion
 
     private PrisonerInstance prisonerInstance;
-    private List<KeeperInstance> listOfSelectedKeepers = new List<KeeperInstance>();
-
+    private List<KeeperInstance> listOfSelectedKeepersOld = new List<KeeperInstance>();
+    private List<PawnInstance> listOfSelectedKeepers= new List<PawnInstance>();
 
     private Database database = new Database();
 
@@ -113,12 +113,12 @@ public class GameManager : MonoBehaviour
 
     public void ClearListKeeperSelected()
     {
-        for (int i = 0; i < listOfSelectedKeepers.Count; i++)
+        for (int i = 0; i < listOfSelectedKeepersOld.Count; i++)
         {
-            listOfSelectedKeepers[i].IsSelected = false;
+            listOfSelectedKeepersOld[i].IsSelected = false;
 
         }
-        listOfSelectedKeepers.Clear();
+        listOfSelectedKeepersOld.Clear();
     }
 
     public void InitializeInGameKeepers()
@@ -174,7 +174,7 @@ public class GameManager : MonoBehaviour
     public void ResetInstance()
     {
         allKeepersList.Clear();
-        listOfSelectedKeepers.Clear();
+        listOfSelectedKeepersOld.Clear();
         nbTurn = 1;
     }
 
@@ -190,16 +190,16 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public List<KeeperInstance> ListOfSelectedKeepers
+    public List<KeeperInstance> ListOfSelectedKeepersOld
     {
         get
         {
-            return listOfSelectedKeepers;
+            return listOfSelectedKeepersOld;
         }
 
         set
         {
-            listOfSelectedKeepers = value;
+            listOfSelectedKeepersOld = value;
         }
     }
 
@@ -399,4 +399,17 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // Warning que des keepers cf CameraManager
+    public List<PawnInstance> ListOfSelectedKeepers
+    {
+        get
+        {
+            return listOfSelectedKeepers;
+        }
+
+        set
+        {
+            listOfSelectedKeepers = value;
+        }
+    }
 }

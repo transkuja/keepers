@@ -21,7 +21,7 @@ namespace Behaviour
         public void Escort(int _i = 0)
         {
             // Ne va fonctionner que pour le prisonnier
-            GameManager.Instance.ListOfSelectedKeepers[0].Keeper.GoListCharacterFollowing.Add(GameManager.Instance.GoTarget.GetComponentInParent<PrisonerInstance>().gameObject);
+            GameManager.Instance.ListOfSelectedKeepersOld[0].Keeper.GoListCharacterFollowing.Add(GameManager.Instance.GoTarget.GetComponentInParent<PrisonerInstance>().gameObject);
             GetComponent<NavMeshAgent>().stoppingDistance = 0.75f;
             GetComponent<NavMeshAgent>().avoidancePriority = 80;
             isEscortAvailable = false;
@@ -30,7 +30,7 @@ namespace Behaviour
 
         public void UnEscort(int _i = 0)
         {
-            GameManager.Instance.ListOfSelectedKeepers[0].Keeper.GoListCharacterFollowing.Remove(this.gameObject);
+            GameManager.Instance.ListOfSelectedKeepersOld[0].Keeper.GoListCharacterFollowing.Remove(this.gameObject);
             isEscortAvailable = true;
             GetComponent<NavMeshAgent>().avoidancePriority = 50;
         }

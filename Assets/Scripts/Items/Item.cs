@@ -211,20 +211,20 @@ public class Equipment : Item
 
     public override void UseItem(ItemContainer ic, KeeperInstance owner, bool isQuantityPreviouslyEqualOne = false)
     {
-        bool isEquiped = EquipementManager.CheckIfItemTypeIsInEquipement(GameManager.Instance.ListOfSelectedKeepers[0].Equipment, ic);
+        bool isEquiped = EquipementManager.CheckIfItemTypeIsInEquipement(GameManager.Instance.ListOfSelectedKeepersOld[0].Equipment, ic);
         if (isEquiped)
         {
-            int nbSlot = GameManager.Instance.ListOfSelectedKeepers[0].Keeper.nbSlot;
-            EquipementManager.UnequipItem(GameManager.Instance.ListOfSelectedKeepers[0].GetComponent<Behaviour.Inventory>().Items, nbSlot, GameManager.Instance.ListOfSelectedKeepers[0].Equipment, ((Equipment)ic.Item).constraint);
+            int nbSlot = GameManager.Instance.ListOfSelectedKeepersOld[0].Keeper.nbSlot;
+            EquipementManager.UnequipItem(GameManager.Instance.ListOfSelectedKeepersOld[0].GetComponent<Behaviour.Inventory>().Items, nbSlot, GameManager.Instance.ListOfSelectedKeepersOld[0].Equipment, ((Equipment)ic.Item).constraint);
 
             // Unapply Bonus Stats
-            EquipementManager.UnapplyStats(GameManager.Instance.ListOfSelectedKeepers[0], ((Equipment)ic.Item));
+            EquipementManager.UnapplyStats(GameManager.Instance.ListOfSelectedKeepersOld[0], ((Equipment)ic.Item));
         } else
         {
-            EquipementManager.EquipItem(GameManager.Instance.ListOfSelectedKeepers[0].GetComponent<Behaviour.Inventory>().Items, GameManager.Instance.ListOfSelectedKeepers[0].Equipment, ic);
+            EquipementManager.EquipItem(GameManager.Instance.ListOfSelectedKeepersOld[0].GetComponent<Behaviour.Inventory>().Items, GameManager.Instance.ListOfSelectedKeepersOld[0].Equipment, ic);
 
             // Apply Bonus stats
-            EquipementManager.ApplyStats(GameManager.Instance.ListOfSelectedKeepers[0], ((Equipment)ic.Item));
+            EquipementManager.ApplyStats(GameManager.Instance.ListOfSelectedKeepersOld[0], ((Equipment)ic.Item));
         }
 
         GameManager.Instance.Ui.UpdateShortcutPanel();

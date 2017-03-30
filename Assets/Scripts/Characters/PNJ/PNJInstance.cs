@@ -75,12 +75,12 @@ public class PNJInstance : MonoBehaviour {
 
     public void Quest(int _i = 0)
     {
-        if (GameManager.Instance.ListOfSelectedKeepers.Count > 0)
+        if (GameManager.Instance.ListOfSelectedKeepersOld.Count > 0)
         {
             int costAction = interactionImplementer.Get("Quest").costAction;
-            if (GameManager.Instance.ListOfSelectedKeepers[0].ActionPoints >= costAction)
+            if (GameManager.Instance.ListOfSelectedKeepersOld[0].ActionPoints >= costAction)
             {
-                GameManager.Instance.ListOfSelectedKeepers[0].ActionPoints -= (short)costAction;
+                GameManager.Instance.ListOfSelectedKeepersOld[0].ActionPoints -= (short)costAction;
                 GetComponent<Behaviour.QuestDealer>().goQuest.SetActive(true);
             }
             else
