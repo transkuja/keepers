@@ -196,7 +196,7 @@ public class TileManager : MonoBehaviour {
 
         if (lootList.Count > 0)
         {
-            ItemManager.AddItemOnTheGround(tile, lastMonsterPosition, lootList);
+            ItemManager.AddItemOnTheGround(tile, lastMonsterPosition, lootList.ToArray());
         }
 
         int elementsRemoved = 0;

@@ -57,55 +57,10 @@ public class ItemContainer {
         quantity = ic.Quantity;
     }
 
-    //public bool Add(Item _item, int iNb)
-    //{
-    //    if (Item == null)
-    //    {
-    //        Item = ItemManager.getInstanciateItem(_item.Type);
-    //        //Item = _item;
-    //        Quantity = iNb;
-    //    }
-    //    else
-    //    {
-    //        Quantity += iNb;
-    //    }
-    //    return true;
-    //}
-
-    //public bool Remove(int _iQty)
-    //{
-    //    if (Quantity == _iQty)
-    //    {
-    //        Item = null;
-    //    }
-
-    //    Quantity -= _iQty;
-
-    //    return true;
-    //}
-
-    public void UseItem()
+    public void UseItem(KeeperInstance owner)
     {
         // TODO architecturez moi tout ça @Seb
-        if (GameManager.Instance.ListOfSelectedKeepers[0].Keeper.GoListCharacterFollowing.Count == 0 
-            || (item.GetType() == typeof(Ressource) && ((Ressource)item).ResourceUseIndex == ResourceFunctions.UpMentalHealth))
-        {
-            Quantity -= 1;
-            item.UseItem(this);
-        }
-        else
-        {
-            if (Quantity >= 2)
-            {
-                Quantity -= 2;
-                item.UseItem(this);
-            }
-            else
-            {
-                Quantity -= 1;
-                item.UseItem(this, true);
-            }
-        }
-
+        Quantity -= 1;
+        item.UseItem(this, owner);
     }
 }

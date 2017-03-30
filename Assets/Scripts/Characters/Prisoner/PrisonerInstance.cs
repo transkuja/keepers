@@ -18,7 +18,12 @@ public class PrisonerInstance : MonoBehaviour, IEscortable {
     private int currentHp;
     [SerializeField]
     private int currentMp;
-    
+
+    [SerializeField]
+    private int feedingSlotsCount = 2;
+
+    public GameObject prisonerFeedingPanel;
+
     private bool isStarving = false;
     private bool isMentalHealthLow = false;
     private bool isAlive = true;
@@ -151,6 +156,8 @@ public class PrisonerInstance : MonoBehaviour, IEscortable {
         interactionImplementer = new InteractionImplementer();
         interactionImplementer.Add(new Interaction(Escort), 0, "Escort", GameManager.Instance.SpriteUtils.spriteEscort);
         interactionImplementer.Add(new Interaction(UnEscort), 0, "Unescort", GameManager.Instance.SpriteUtils.spriteUnescort, false);
+        interactionImplementer.Add(new Interaction(InitFeeding), 1, "Feed", GameManager.Instance.SpriteUtils.spriteHarvest);
+        GetComponent<Inventory>().Init(FeedingSlotsCount);
         currentHp = prisoner.MaxHp;
         currentHunger = prisoner.MaxHunger;
         currentMentalHealth = prisoner.MaxMentalHealth;
@@ -291,6 +298,14 @@ public class PrisonerInstance : MonoBehaviour, IEscortable {
             isMentalHealthLow = value;
         }
     }
+
+    public int FeedingSlotsCount
+    {
+        get
+        {
+            return feedingSlotsCount;
+        }
+    }
     #endregion
 
     public void Escort(int _i = 0)
@@ -313,5 +328,66 @@ public class PrisonerInstance : MonoBehaviour, IEscortable {
         GameManager.Instance.ListOfSelectedKeepers[0].Keeper.GoListCharacterFollowing.Remove(this.gameObject);
         GameManager.Instance.ListOfSelectedKeepers[0].isEscortAvailable = true;
         GetComponent<NavMeshAgent>().avoidancePriority = 50;
+    }
+
+    public void InitFeeding(int _i = 0)
+    {
+        Inventory inv = gameObject.AddComponent<Inventory>();
+
+        inv.Init(feedingSlotsCount);
+        
+        prisonerFeedingPanel.SetActive(true);
+    }
+
+    public void ProcessFeeding()
+    {
+        Inventory inv = GetComponent<Inventory>();
+        int i = 0;
+        while(currentHunger < prisoner.MaxHunger && i < inv.Items.Length)
+        {
+            
+            if(inv.Items[i] == null || inv.Items[i].Quantity <= 0)
+            {
+                if (inv.Items[i] != null)
+                {
+                    InventoryManager.RemoveItem(inv.Items, inv.Items[i]);
+                }
+                //inv.Items[i] = null;
+
+                i++;
+            }
+            else
+            {
+                inv.Items[i].Item.UseItem(inv.Items[i], this);
+                inv.Items[i].Quantity--;
+            }
+        }
+
+        bool isEmpty = true;
+        for (i = 0; i < inv.Items.Length; i++)
+        {
+            if (inv.Items[i] != null)
+            {
+                isEmpty = false;
+                break;
+            }
+        }
+        if (!isEmpty)
+        {
+  
+            ItemManager.AddItemOnTheGround(TileManager.Instance.PrisonerTile, transform, inv.Items);
+            for (int j = 0; j < inv.Items.Length; j++){
+                InventoryManager.RemoveItem(inv.Items, inv.Items[j]);
+            }
+
+        }
+
+        prisonerFeedingPanel.SetActive(false);
+        /*for(int j = 0; j < inv.Items.Length; j++)
+        {
+            inv.Items[j] = null;
+        }*/
+
+        GameManager.Instance.Ui.UpdatePrisonerFeedingPanel(gameObject);
     }
 }

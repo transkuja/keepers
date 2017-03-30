@@ -11,17 +11,19 @@ public static class ItemManager {
         { "Ressource" ,  typeof(Ressource)}
     };
 
-    public static void AddItemOnTheGround(Tile tileWhere, Transform where, List<ItemContainer> loot)
+    public static void AddItemOnTheGround(Tile tileWhere, Transform where, ItemContainer[] loot)
     {
-        if (loot != null && loot.Count > 0)
+        if (loot != null && loot.Length > 0)
         {
             GameObject drop = GameObject.Instantiate(GameManager.Instance.PrefabUtils.prefabItemToDrop) as GameObject;
 
             drop.transform.SetParent(tileWhere.transform);
             drop.transform.position = where.position;
 
-            drop.GetComponent<LootInstance>().nbSlot = loot.Count;
-            drop.GetComponent<Behaviour.Inventory>().Items = loot;
+            drop.GetComponent<LootInstance>().nbSlot = loot.Length;
+            Inventory dropInventory = drop.GetComponent<Inventory>();
+            dropInventory.Init(loot.Length);
+            Array.Copy(loot, dropInventory.Items, dropInventory.Items.Length);
             drop.GetComponent<LootInstance>().Init();
         }
     }

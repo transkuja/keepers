@@ -18,6 +18,7 @@ public class IngameUI : MonoBehaviour
     public GameObject goEquipement;
     public GameObject Panel_Inventories;
     public GameObject statsPanelTooltip;
+    public GameObject prisonerFeedingPanel;
     // StatsPanel
     public GameObject goStats;
     public Text SelectedKeeperActionText;
@@ -79,6 +80,7 @@ public class IngameUI : MonoBehaviour
     {
         CreateShortcutPanel();
         CreateKeepersInventoryPanels();
+        GameManager.Instance.PrisonerInstance.prisonerFeedingPanel = CreatePrisonerFeedingPanel(GameManager.Instance.PrisonerInstance.gameObject);
         // TODO : rustine pour que ça marche quand on relance le jeu
         GameObject worldSpaceUI = Instantiate(GameManager.Instance.PrefabUtils.WorldSpaceUIprefab);
         worldSpaceCanvas = worldSpaceUI.transform.GetChild(0).GetComponent<Canvas>();
@@ -444,12 +446,12 @@ public class IngameUI : MonoBehaviour
 
         int nbSlot = currentSelectedKeeper.Keeper.nbSlot;
 
-        for (int i =0; i< nbSlot; i++)
+        for (int i =0; i < nbSlot; i++)
         {
             GameObject currentSlot = Instantiate(GameManager.Instance.PrefabUtils.PrefabSlotUI);
 
-            List<ItemContainer> inventory = currentSelectedKeeper.GetComponent<Behaviour.Inventory>().Items;
-            if (inventory.Count > 0 && i < inventory.Count && inventory[i] != null && inventory[i].Item != null && inventory[i].Item.Id != null)
+            if (inventory != null && inventory.Length > 0 && i < inventory.Length && inventory[i] != null && inventory[i].Item != null && inventory[i].Item.Id != null)
+            ItemContainer[] inventory = currentSelectedKeeper.GetComponent<Inventory>().Items;
             {
                 GameObject go = Instantiate(GameManager.Instance.PrefabUtils.PrefabItemUI);
                 go.transform.SetParent(currentSlot.transform);
@@ -651,6 +653,7 @@ public class IngameUI : MonoBehaviour
             owner = lootInstance.gameObject;
             nbSlots = lootInstance.nbSlot;
             name = "Loot";
+            Debug.Log(nbSlots);
         }
         else
         {
@@ -676,6 +679,48 @@ public class IngameUI : MonoBehaviour
             currentgoSlotPanel.transform.localScale = Vector3.one;
             currentgoSlotPanel.name = "Slot" + i;
         }
+
+        return goInventory;
+    }
+
+    public GameObject CreatePrisonerFeedingPanel(GameObject pi)
+    {
+        if (pi.GetComponent<PrisonerInstance>() == null) return null;
+        GameObject owner = null;
+        Sprite associatedSprite = null;
+        string name = "";
+        int nbSlots = 0;
+        PrisonerInstance prisoner = pi.GetComponent<PrisonerInstance>();
+        GameObject goInventory = Instantiate(GameManager.Instance.PrefabUtils.PrefabPrisonerFeedingUI, Panel_Inventories.transform);
+
+        associatedSprite = prisoner.Prisoner.AssociatedSprite;
+        name = prisoner.Prisoner.CharacterName;
+        owner = prisoner.gameObject;
+        nbSlots = prisoner.FeedingSlotsCount;
+
+        goInventory.transform.localPosition = Vector3.zero;
+        goInventory.transform.localScale = Vector3.one;
+        goInventory.name = "Prisoner_" + name + "_Miam_miam";
+        goInventory.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = associatedSprite;
+
+        goInventory.transform.GetChild(1).GetComponent<InventoryOwner>().Owner = pi.gameObject;
+        goInventory.SetActive(false);
+
+        for (int i = 0; i < nbSlots; i++)
+        {
+            //Create Slots
+            GameObject currentgoSlotPanel = Instantiate(GameManager.Instance.PrefabUtils.PrefabSlotUI, Vector3.zero, Quaternion.identity) as GameObject;
+            currentgoSlotPanel.transform.SetParent(goInventory.transform.GetChild(1).transform);
+
+            currentgoSlotPanel.transform.localPosition = Vector3.zero;
+            currentgoSlotPanel.transform.localScale = Vector3.one;
+            currentgoSlotPanel.name = "Slot" + i;
+            currentgoSlotPanel.transform.SetAsFirstSibling();
+        }
+        int nbChildren = goInventory.transform.GetChild(1).childCount;
+        Button confirmButton = goInventory.transform.GetChild(1).GetChild(nbChildren-1).GetComponent<Button>();
+        confirmButton.onClick.RemoveAllListeners();
+        confirmButton.onClick.AddListener(prisoner.ProcessFeeding);
 
         return goInventory;
     }
@@ -729,10 +774,10 @@ public class IngameUI : MonoBehaviour
             return;
         }
 
-        if (owner.GetComponent<Behaviour.Inventory>().Items != null)
+        if (owner.GetComponent<Inventory>() != null && owner.GetComponent<Inventory>().Items != null)
         {
-            List<ItemContainer> inventory = pi.GetComponent<Behaviour.Inventory>().Items;
-            for (int i = 0; i < nbSlot; i++)
+            ItemContainer[] inventory = pi.GetComponent<Inventory>().Items;
+            for (int i = 0; i < inventory.Length; i++)
             {
                 GameObject currentSlot = inventoryPanel.transform.GetChild(1).GetChild(i).gameObject;
                 if (currentSlot.GetComponentInChildren<ItemInstance>() != null)
@@ -742,7 +787,7 @@ public class IngameUI : MonoBehaviour
                 
             }
 
-            for (int i = 0; i < nbSlot && i< inventory.Count; i++)
+            for (int i = 0; i < inventory.Length; i++)
             {
                 if (inventory[i] != null && inventory[i].Item != null && inventory[i].Item.Id != null)
                 {
@@ -762,6 +807,65 @@ public class IngameUI : MonoBehaviour
                     {
                         go.transform.GetComponentInChildren<Text>().text = inventory[i].Quantity.ToString();
                     } else
+                    {
+                        go.transform.GetComponentInChildren<Text>().text = "";
+                    }
+                }
+            }
+        }
+    }
+
+    public void UpdatePrisonerFeedingPanel(GameObject pi)
+    {
+
+        if (pi.GetComponent<Inventory>() == null || pi.GetComponent<PrisonerInstance>() == null) return;
+        GameObject owner = null;
+        Sprite associatedSprite = null;
+        string name = "";
+        GameObject inventoryPanel = null;
+        int nbSlot = 0;
+        PrisonerInstance prisoner = pi.GetComponent<PrisonerInstance>();
+        associatedSprite = prisoner.Prisoner.AssociatedSprite;
+        name = prisoner.Prisoner.CharacterName;
+        inventoryPanel = prisoner.prisonerFeedingPanel;
+        owner = prisoner.gameObject;
+        nbSlot = prisoner.FeedingSlotsCount;
+        
+
+        if (owner.GetComponent<Inventory>() != null && owner.GetComponent<Inventory>().Items != null)
+        {
+            ItemContainer[] inventory = pi.GetComponent<Inventory>().Items;
+            for (int i = 0; i < inventory.Length; i++)
+            {
+                GameObject currentSlot = inventoryPanel.transform.GetChild(1).GetChild(i).gameObject;
+                if (currentSlot.GetComponentInChildren<ItemInstance>() != null)
+                {
+                    Destroy(currentSlot.GetComponentInChildren<ItemInstance>().gameObject);
+                }
+
+            }
+
+            for (int i = 0; i < inventory.Length; i++)
+            {
+                if (inventory[i] != null && inventory[i].Item != null && inventory[i].Item.Id != null)
+                {
+                    GameObject currentSlot = inventoryPanel.transform.GetChild(1).GetChild(i).gameObject;
+                    GameObject go = Instantiate(GameManager.Instance.PrefabUtils.PrefabItemUI);
+                    go.transform.SetParent(currentSlot.transform);
+                    go.GetComponent<ItemInstance>().ItemContainer = inventory[i];
+                    go.name = inventory[i].ToString();
+
+                    go.GetComponent<Image>().sprite = inventory[i].Item.InventorySprite;
+                    go.transform.localScale = Vector3.one;
+
+                    go.transform.position = currentSlot.transform.position;
+                    
+
+                    if (go.GetComponent<ItemInstance>().ItemContainer.Item.GetType() == typeof(Ressource))
+                    {
+                        go.transform.GetComponentInChildren<Text>().text = inventory[i].Quantity.ToString();
+                    }
+                    else
                     {
                         go.transform.GetComponentInChildren<Text>().text = "";
                     }

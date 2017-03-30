@@ -1,0 +1,12 @@
+Des delegates sont présents sur chaque action susceptible d'être associée à une quête.
+Lorsqu'une quête est activée, cette quête va chercher à s'inscrire à ces delegates sur les objets qu'on lui a donné.
+Elle peut aussi exécuter des fonctions qui vont modifier le monde par exemple.
+Quand l'action est effectuée, le delegate associé est invoqué, si des fonctions sont inscrites, elles sont donc appelées.
+Ces fonctions appartiennent aux quêtes et mettent à jour les conditions de victoire de la quête. Si toutes les conditions sont remplies, la quête est réussie.
+On se désinscrit de tous les objets, et on exécute la fonction de fin, qui va modifier le jeu (peu être en appelant d'autres fonctions choisies lors de la création de la quête.
+
+
+Une quête est composées de: 
+Un début : Un regroupement de fonctions (grâce à un delegate par exemple) qui seront appelées lorsque la quête est activée.
+Un milieu potentiel(peut être découpé en plusieurs quêtes sinon): (le déclanchement de nouvelles conditions lorsque les premières sont remplies)
+Une fin: Un regroupement de fonctions qui seront appelées lorsque toutes les conditions définies seront remplies.

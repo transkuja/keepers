@@ -42,8 +42,8 @@ public class Slot : MonoBehaviour, IDropHandler
                 InventoryOwner inventaireDequi = previous.parent.GetComponent<InventoryOwner>();
                 InventoryOwner inventaireversqui = transform.parent.GetComponent<InventoryOwner>();
 
-                List<ItemContainer> inventoryKeeperDequi = inventaireDequi.Owner.GetComponent<Behaviour.Inventory>().Items;
-                List<ItemContainer> inventoryKeeperVersqui = inventaireversqui.Owner.GetComponent<Behaviour.Inventory>().Items;
+                ItemContainer[] inventoryKeeperDequi = inventaireDequi.Owner.GetComponent<Inventory>().Items;
+                ItemContainer[] inventoryKeeperVersqui = inventaireversqui.Owner.GetComponent<Inventory>().Items;
 
                 //Si les inventaires sont differents
                 if (inventaireDequi != inventaireversqui)
@@ -79,7 +79,7 @@ public class Slot : MonoBehaviour, IDropHandler
                     if (inventaireDequi.Owner.GetComponent<LootInstance>() != null)
                     {
                         bool isEmpty = true;
-                        for (int i = 0; i < inventaireDequi.Owner.GetComponent<Behaviour.Inventory>().Items.Count; i++)
+                        for (int i = 0; i < inventaireDequi.Owner.GetComponent<Inventory>().Items.Length; i++)
                         {
                             if (inventaireDequi.Owner.GetComponent<Behaviour.Inventory>().Items[i] != null)
                             {
@@ -98,7 +98,7 @@ public class Slot : MonoBehaviour, IDropHandler
                         }
                     }
                 }
-                // Si l'inventaire est le même
+                // Si l'inventaire est le mï¿½me
                 else
                 {
                     if (hasAlreadyAnItem)
@@ -134,6 +134,8 @@ public class Slot : MonoBehaviour, IDropHandler
 
                 GameManager.Instance.Ui.UpdateInventoryPanel(inventaireDequi.Owner);
                 GameManager.Instance.Ui.UpdateInventoryPanel(inventaireversqui.Owner);
+                GameManager.Instance.Ui.UpdatePrisonerFeedingPanel(inventaireDequi.Owner);
+                GameManager.Instance.Ui.UpdatePrisonerFeedingPanel(inventaireversqui.Owner);
                 GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
             }
             // Drag Characters in battle scene
