@@ -100,5 +100,33 @@ namespace Behaviour
             }
         }
         */
+
+        #region Accessors
+        public bool IsMovingBetweenTiles
+        {
+            get
+            {
+                return isMovingBetweenTiles;
+            }
+
+            set
+            {
+                isMovingBetweenTiles = value;
+            }
+        }
+
+        public Direction ArrivingTrigger
+        {
+            get
+            {
+                return arrivingTrigger;
+            }
+
+            set
+            {
+                arrivingTrigger = value;
+            }
+        }
+        #endregion
     }
 }

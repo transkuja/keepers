@@ -50,7 +50,7 @@ public class SelectBattleCharactersPanelHandler : MonoBehaviour {
             GameObject kiImage = Instantiate(imagePrefab, transform.GetChild((int)SelectBattleCharactersScreenChildren.CharactersSelected).GetChild(2));
             kiImage.transform.localScale = Vector3.one;
             kiImage.transform.localPosition = Vector3.zero;
-            kiImage.GetComponent<Image>().sprite = GameManager.Instance.PrisonerInstance.Prisoner.AssociatedSprite;
+            kiImage.GetComponent<Image>().sprite = GameManager.Instance.PrisonerInstanceOld.Prisoner.AssociatedSprite;
         }
         else
         {

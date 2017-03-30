@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using Behaviour;
 
 public class ControlsManager : MonoBehaviour {
 
@@ -64,27 +62,27 @@ public class ControlsManager : MonoBehaviour {
                 if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo) == true)
                 {
                     GameManager.Instance.Ui.ClearActionPanel();
-                    if (hitInfo.transform.gameObject.GetComponentInParent<KeeperInstance>() != null)
+                    if (hitInfo.transform.gameObject.GetComponentInParent<Keeper>() != null)
                     {
-                        KeeperInstance c = hitInfo.transform.gameObject.GetComponentInParent<KeeperInstance>();
+                        Keeper clickedKeeper = hitInfo.transform.gameObject.GetComponentInParent<Keeper>();
                         if (Input.GetKey(KeyCode.LeftShift))
                         {
-                            if (GameManager.Instance.ListOfSelectedKeepersOld.Contains(c))
+                            if (GameManager.Instance.ListOfSelectedKeepers.Contains(clickedKeeper.getPawnInstance))
                             {
-                                GameManager.Instance.ListOfSelectedKeepersOld.Remove(c);
-                                c.IsSelected = false;
+                                GameManager.Instance.ListOfSelectedKeepers.Remove(clickedKeeper.getPawnInstance);
+                                clickedKeeper.IsSelected = false;
                             }
                             else
                             {
-                                GameManager.Instance.ListOfSelectedKeepersOld.Add(c);
-                                c.IsSelected = true;
+                                GameManager.Instance.AddKeeperToSelectedList(clickedKeeper.getPawnInstance);
+                                clickedKeeper.IsSelected = true;
                             }
                         }
                         else
                         {
       
                             GameManager.Instance.ClearListKeeperSelected();
-                            GameManager.Instance.ListOfSelectedKeepersOld.Add(c);
+                            GameManager.Instance.AddKeeperToSelectedList(clickedKeeper.getPawnInstance);
 
                             GameManager.Instance.Ui.ShowSelectedKeeperPanel();
                             GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
@@ -92,12 +90,12 @@ public class ControlsManager : MonoBehaviour {
                             GameManager.Instance.Ui.HideInventoryPanels();
 
                             GameManager.Instance.Ui.UpdateActionText();
-                            c.IsSelected = true;
+                            clickedKeeper.IsSelected = true;
                         }
 
                         if (fTimerDoubleClick > 0 && goPreviousLeftclicked == hitInfo.transform.gameObject)
                         {
-                            Camera.main.GetComponent<CameraManager>().UpdateCameraPosition(c);
+                            Camera.main.GetComponent<CameraManager>().UpdateCameraPosition(clickedKeeper.getPawnInstance);
                             goPreviousLeftclicked = null;
                             fTimerDoubleClick = 0;
                         }
@@ -121,7 +119,7 @@ public class ControlsManager : MonoBehaviour {
         {
             if (!EventSystem.current.IsPointerOverGameObject())
             {
-                if (GameManager.Instance.ListOfSelectedKeepersOld.Count > 0)
+                if (GameManager.Instance.ListOfSelectedKeepers.Count > 0)
                 {
                     RaycastHit hitInfo;
                    // LayerMask layermask = 1 << LayerMask.NameToLayer("TilePortal");
@@ -132,101 +130,96 @@ public class ControlsManager : MonoBehaviour {
 
                         IngameUI ui = GameManager.Instance.Ui;
                         Tile tileHit = hitInfo.collider.gameObject.GetComponentInParent<Tile>();
+                        Tile keeperSelectedTile = GameManager.Instance.GetFirstSelectedKeeper().CurrentTile;
+                        GameObject clickTarget = hitInfo.collider.gameObject;
 
                         // Handle click on a ItemInstance
-                        if (hitInfo.collider.gameObject.GetComponent<ItemInstance>() != null)
+                        if (clickTarget.GetComponent<ItemInstance>() != null)
                         {
-                            if (tileHit == TileManager.Instance.GetTileFromKeeperOld[GameManager.Instance.ListOfSelectedKeepersOld[0]])
+                            if (tileHit == keeperSelectedTile)
                             {
                                 GameManager.Instance.GoTarget = hitInfo.collider.gameObject;
                                 ui.UpdateActionPanelUIQ(hitInfo.collider.gameObject.GetComponent<ItemInstance>().InteractionImplementer);
                             }
                         }
                         // Handle click on a ItemInstance
-                        else if (hitInfo.collider.gameObject.GetComponent<LootInstance>() != null)
+                        else if (clickTarget.GetComponent<LootInstance>() != null)
                         {
-                            if (tileHit == TileManager.Instance.GetTileFromKeeperOld[GameManager.Instance.ListOfSelectedKeepersOld[0]])
+                            if (tileHit == keeperSelectedTile)
                             {
                                 GameManager.Instance.GoTarget = hitInfo.collider.gameObject;
                                 ui.UpdateActionPanelUIQ(hitInfo.collider.gameObject.GetComponent<LootInstance>().InteractionImplementer);
                             }
                         }
-                        // Handle click on a PNJInstance
-                        else if (hitInfo.collider.gameObject.GetComponent<PNJInstance>() != null)
+                        // Handle click on a pawn
+                        else if (clickTarget.GetComponentInParent<PawnInstance>() != null)
                         {
-                            if (tileHit == TileManager.Instance.GetTileFromKeeperOld[GameManager.Instance.ListOfSelectedKeepersOld[0]])
+                            if (tileHit == keeperSelectedTile)
                             {
-                                GameManager.Instance.GoTarget = hitInfo.collider.gameObject;
-                                ui.UpdateActionPanelUIQ(hitInfo.collider.gameObject.GetComponent<PNJInstance>().InteractionImplementer);
+                                // If click on same keeper, do nothing
+                                if (clickTarget.GetComponentInParent<Keeper>() != null)
+                                {
+                                    if (clickTarget.GetComponentInParent<PawnInstance>() == GameManager.Instance.GetFirstSelectedKeeper())
+                                    {
+                                        return;
+                                    }
+                                }
+
+                                GameManager.Instance.GoTarget = clickTarget;
+                                ui.UpdateActionPanelUIQ(clickTarget.GetComponentInParent<PawnInstance>().Interactions);
                             }
                         }
-                        // Handle click on a PrisonerInstance
-                        else if (hitInfo.collider.gameObject.GetComponentInParent<PrisonerInstance>() != null)
+                        else if (hitInfo.collider.gameObject.GetComponent<Arrival>() != null)
                         {
-                            if (TileManager.Instance.PrisonerTile == TileManager.Instance.GetTileFromKeeperOld[GameManager.Instance.ListOfSelectedKeepersOld[0]])
+                            if (tileHit == keeperSelectedTile)
                             {
-                                GameManager.Instance.GoTarget = hitInfo.collider.gameObject;
-                                ui.UpdateActionPanelUIQ(hitInfo.collider.gameObject.GetComponentInParent<PrisonerInstance>().InteractionImplementer);
-                            }
-                        }
-                        else if (hitInfo.collider.gameObject.GetComponentInParent<KeeperInstance>() != null)
-                        {
-                            tileHit = TileManager.Instance.GetTileFromKeeperOld[hitInfo.collider.gameObject.GetComponentInParent<KeeperInstance>()];
-                            if (hitInfo.collider.gameObject.GetComponentInParent<KeeperInstance>() != GameManager.Instance.ListOfSelectedKeepersOld[0]
-                                && tileHit == TileManager.Instance.GetTileFromKeeperOld[GameManager.Instance.ListOfSelectedKeepersOld[0]])
-                            {
-                                GameManager.Instance.GoTarget = hitInfo.collider.gameObject;
-                                ui.UpdateActionPanelUIQ(hitInfo.collider.gameObject.GetComponentInParent<KeeperInstance>().InteractionImplementer);
-                            }
-                     
-                        }
-                        else if(hitInfo.collider.gameObject.GetComponent<Arrival>() != null)                            
-                        {
-                            if (tileHit == TileManager.Instance.GetTileFromKeeperOld[GameManager.Instance.ListOfSelectedKeepersOld[0]])
-                            {
-                                GameManager.Instance.GoTarget = hitInfo.collider.gameObject;
-                                ui.UpdateActionPanelUIQ(hitInfo.collider.gameObject.GetComponent<Arrival>().InterationImplementer);
+                                GameManager.Instance.GoTarget = clickTarget;
+                                ui.UpdateActionPanelUIQ(clickTarget.GetComponent<Arrival>().InterationImplementer);
                             }
                         }
                         else
-                        {                           
+                        {
                             ui.ClearActionPanel();
                             if (tileHit != null)
                             {
-                                GameManager.Instance.ListOfSelectedKeepersOld[0].IsTargetableByMonster = true;
+                                GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Fighter>().IsTargetableByMonster = true;
                             }
-                               
-                            if (tileHit == TileManager.Instance.GetTileFromKeeperOld[GameManager.Instance.ListOfSelectedKeepersOld[0]])
+
+                            if (tileHit == keeperSelectedTile)
                             {
                                 // Move the keeper
-                                for (int i = 0; i < GameManager.Instance.ListOfSelectedKeepersOld.Count; i++)
+                                for (int i = 0; i < GameManager.Instance.ListOfSelectedKeepers.Count; i++)
                                 {
-                                    if (GameManager.Instance.ListOfSelectedKeepersOld[i].IsAlive && !GameManager.Instance.ListOfSelectedKeepersOld[i].IsMovingBetweenTiles)
-                                        GameManager.Instance.ListOfSelectedKeepersOld[i].TriggerRotation(hitInfo.point);
+                                    if (GameManager.Instance.ListOfSelectedKeepers[i].GetComponent<Mortal>().IsAlive && !GameManager.Instance.ListOfSelectedKeepers[i].GetComponent<AnimatedPawn>().IsMovingBetweenTiles)
+                                    {
+                                        // TODO implement animated pawn component @Anthony
+                                        // GameManager.Instance.ListOfSelectedKeepers[i].GetComponent<AnimatedPawn>().TriggerRotation(hitInfo.point);
+                                    }
                                 }
                             }
                             else
                             {
                                 //TODO: Change this to show the button BEFORE moving
-                                if (Array.Exists(TileManager.Instance.GetTileFromKeeperOld[GameManager.Instance.ListOfSelectedKeepersOld[0]].Neighbors, x => x == tileHit))
+                                if (Array.Exists(GameManager.Instance.GetFirstSelectedKeeper().CurrentTile.Neighbors, x => x == tileHit))
                                 {
-                                    int neighbourIndex = Array.FindIndex(TileManager.Instance.GetTileFromKeeperOld[GameManager.Instance.ListOfSelectedKeepersOld[0]].Neighbors, x => x == tileHit);
-                                    Tile currentTile = TileManager.Instance.GetTileFromKeeperOld[GameManager.Instance.ListOfSelectedKeepersOld[0]];
-                                    
+                                    int neighbourIndex = Array.FindIndex(GameManager.Instance.GetFirstSelectedKeeper().CurrentTile.Neighbors, x => x == tileHit);
+                                    Tile currentTile = GameManager.Instance.GetFirstSelectedKeeper().CurrentTile;
+
                                     TileTrigger tt = currentTile.transform.GetChild(0).GetChild(1).GetChild(neighbourIndex).GetComponent<TileTrigger>();
 
-                                    if(tt.ki.Contains(GameManager.Instance.ListOfSelectedKeepersOld[0]))
+                                    if (tt.piList.Contains(GameManager.Instance.GetFirstSelectedKeeper()))
                                     {
-                                        tt.HandleTrigger(GameManager.Instance.ListOfSelectedKeepersOld[0]);
+                                        tt.HandleTrigger(GameManager.Instance.GetFirstSelectedKeeper());
                                     }
                                     else
                                     {
                                         Vector3 movePosition = tt.transform.position;
                                         // Move the keeper
-                                        for (int i = 0; i < GameManager.Instance.ListOfSelectedKeepersOld.Count; i++)
+                                        for (int i = 0; i < GameManager.Instance.ListOfSelectedKeepers.Count; i++)
                                         {
+                                            // TODO implement animated pawn component @Anthony
 
-                                            GameManager.Instance.ListOfSelectedKeepersOld[i].TriggerRotation(movePosition);
+                                            //  GameManager.Instance.ListOfSelectedKeepers[i].TriggerRotation(movePosition);
 
                                         }
                                     }
@@ -265,7 +258,7 @@ public class ControlsManager : MonoBehaviour {
                 // Next keeper on the same tile is now active
                 GameManager.Instance.ClearListKeeperSelected();
                 PawnInstance nextKeeper = keepersOnTile[(currentKeeperSelectedIndex + 1) % keepersOnTile.Count];
-                GameManager.Instance.ListOfSelectedKeepers.Add(nextKeeper);
+                GameManager.Instance.AddKeeperToSelectedList(nextKeeper);
                 nextKeeper.GetComponent<Behaviour.Keeper>().IsSelected = true;
 
                 //GameManager.Instance.Ui.UpdateSelectedKeeperPanel();

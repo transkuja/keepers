@@ -335,7 +335,7 @@ public class IngameUI : MonoBehaviour
             GameManager.Instance.ListOfSelectedKeepersOld.Add(nextKeeper);
             nextKeeper.IsSelected = true;
 
-            Camera.main.GetComponent<CameraManager>().UpdateCameraPosition(nextKeeper);
+            Camera.main.GetComponent<CameraManager>().UpdateCameraPositionOld(nextKeeper);
             GameManager.Instance.Ui.ShowSelectedKeeperPanel();
             GameManager.Instance.Ui.ClearActionPanel();
             GameManager.Instance.Ui.UpdateSelectedKeeperPanel();

@@ -28,6 +28,19 @@ namespace Behaviour
             }
         }
 
+        public bool IsTargetableByMonster
+        {
+            get
+            {
+                return isTargetableByMonster;
+            }
+
+            set
+            {
+                isTargetableByMonster = value;
+            }
+        }
+
         // TODO add battle associated fields
         [SerializeField]
         private List<SkillBattle> battleSkills;

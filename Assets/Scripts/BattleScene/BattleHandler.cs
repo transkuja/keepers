@@ -175,7 +175,7 @@ public class BattleHandler {
                 BattleLog("Over 50hp lost. Battle ends.");
                 break;
             }
-            else if (GameManager.Instance.PrisonerInstance.CurrentHp <= 0)
+            else if (GameManager.Instance.PrisonerInstanceOld.CurrentHp <= 0)
             {
                 BattleLog("Prisoner died. Battle ends.");
                 break;
@@ -285,21 +285,21 @@ public class BattleHandler {
             if (!prisonerTargeted)
                 damage = Mathf.RoundToInt(attacker.Monster.GetEffectiveStrength() / targetKeeper.Keeper.GetEffectiveDefense());
             else
-                damage = Mathf.RoundToInt(attacker.Monster.GetEffectiveStrength() / GameManager.Instance.PrisonerInstance.Prisoner.GetEffectiveDefense());
+                damage = Mathf.RoundToInt(attacker.Monster.GetEffectiveStrength() / GameManager.Instance.PrisonerInstanceOld.Prisoner.GetEffectiveDefense());
         }
         else
         {
             if (!prisonerTargeted)
                 damage = Mathf.RoundToInt(attacker.Monster.GetEffectiveIntelligence() / targetKeeper.Keeper.GetEffectiveSpirit());
             else
-                damage = Mathf.RoundToInt(attacker.Monster.GetEffectiveIntelligence() / GameManager.Instance.PrisonerInstance.Prisoner.GetEffectiveSpirit());
+                damage = Mathf.RoundToInt(attacker.Monster.GetEffectiveIntelligence() / GameManager.Instance.PrisonerInstanceOld.Prisoner.GetEffectiveSpirit());
         }
 
         damage = Mathf.RoundToInt(damage * Random.Range(0.75f, 1.25f));
 
         if (prisonerTargeted)
         {
-            GameManager.Instance.PrisonerInstance.CurrentHp -= damage;
+            GameManager.Instance.PrisonerInstanceOld.CurrentHp -= damage;
             //Debug.Log(attacker.Monster.CharacterName + " deals " + damage + " damage to prisoner.\n");
             //Debug.Log("Prisoner has " + GameManager.Instance.PrisonerInstance.CurrentHp + " left.\n");
         }
@@ -327,8 +327,8 @@ public class BattleHandler {
 
         if (isPrisonerOnTile)
         {
-            GameManager.Instance.PrisonerInstance.CurrentMentalHealth += 10;
-            GameManager.Instance.PrisonerInstance.CurrentHunger -= 5;
+            GameManager.Instance.PrisonerInstanceOld.CurrentMentalHealth += 10;
+            GameManager.Instance.PrisonerInstanceOld.CurrentHunger -= 5;
             //BattleLog("Prisoner won 10 mental health and lost 5 hunger due to victory.");
         }
     }
@@ -348,11 +348,11 @@ public class BattleHandler {
                 ki.CurrentHp -= 10;
                 //  BattleLog(ki.Keeper.CharacterName + " lost 10 mental health, 5 hunger, 10HP due to defeat.");
             }
-            if (isPrisonerOnTile && GameManager.Instance.PrisonerInstance.IsAlive)
+            if (isPrisonerOnTile && GameManager.Instance.PrisonerInstanceOld.IsAlive)
             {
-                GameManager.Instance.PrisonerInstance.CurrentMentalHealth -= 10;
-                GameManager.Instance.PrisonerInstance.CurrentHunger -= 5;
-                GameManager.Instance.PrisonerInstance.CurrentHp -= 10;
+                GameManager.Instance.PrisonerInstanceOld.CurrentMentalHealth -= 10;
+                GameManager.Instance.PrisonerInstanceOld.CurrentHunger -= 5;
+                GameManager.Instance.PrisonerInstanceOld.CurrentHp -= 10;
                // BattleLog("Prisoner lost 10 mental health, 5 hunger, 10HP due to defeat.");
             }
         }

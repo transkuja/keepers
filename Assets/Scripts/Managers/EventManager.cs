@@ -35,9 +35,9 @@ public class EventManager : MonoBehaviour {
             if (ki.IsAlive)
                 ki.CurrentHunger -= 10;
         }
-        if (GameManager.Instance.PrisonerInstance.IsAlive)
+        if (GameManager.Instance.PrisonerInstanceOld.IsAlive)
         {
-            GameManager.Instance.PrisonerInstance.CurrentHunger -= 10;
+            GameManager.Instance.PrisonerInstanceOld.CurrentHunger -= 10;
         }
     }
 
@@ -58,9 +58,9 @@ public class EventManager : MonoBehaviour {
                 ki.CurrentHp -= 20;
         }
 
-        if (GameManager.Instance.PrisonerInstance.IsAlive && GameManager.Instance.PrisonerInstance.IsStarving)
+        if (GameManager.Instance.PrisonerInstanceOld.IsAlive && GameManager.Instance.PrisonerInstanceOld.IsStarving)
         {
-            GameManager.Instance.PrisonerInstance.CurrentHp -= 20;
+            GameManager.Instance.PrisonerInstanceOld.CurrentHp -= 20;
         }
     }
 

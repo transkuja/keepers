@@ -93,11 +93,19 @@ public class CameraManager : MonoBehaviour {
         fZoomLerpOrigin = 1;
     }
 
-    public void UpdateCameraPosition(KeeperInstance selectedKeeper)
+    [System.Obsolete]
+    public void UpdateCameraPositionOld(KeeperInstance selectedKeeper)
     {
         isUpdateNeeded = true;
         oldPosition = transform.position;
         activeTile = TileManager.Instance.GetTileFromKeeperOld[selectedKeeper];
+    }
+
+    public void UpdateCameraPosition(PawnInstance selectedKeeper)
+    {
+        isUpdateNeeded = true;
+        oldPosition = transform.position;
+        activeTile = selectedKeeper.CurrentTile;
     }
 
     public void UpdateCameraPosition()

@@ -10,7 +10,8 @@ public class GameManager : MonoBehaviour
     public bool isDebugGameManager;
     #endregion
 
-    private PrisonerInstance prisonerInstance;
+    private PrisonerInstance prisonerInstanceOld;
+    private PawnInstance prisonerInstance;
     private List<KeeperInstance> listOfSelectedKeepersOld = new List<KeeperInstance>();
     private List<PawnInstance> listOfSelectedKeepers= new List<PawnInstance>();
 
@@ -127,13 +128,13 @@ public class GameManager : MonoBehaviour
         {
             ki.gameObject.transform.SetParent(transform);
         }
-        prisonerInstance.gameObject.transform.SetParent(transform);
+        prisonerInstanceOld.gameObject.transform.SetParent(transform);
                 
     }
 
     public void CheckGameState()
     {
-        if (!prisonerInstance.IsAlive)
+        if (!prisonerInstanceOld.IsAlive)
         {
             Debug.Log("GameOver - Prisoner Died");
             Lose();
@@ -229,16 +230,17 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public PrisonerInstance PrisonerInstance
+    [System.Obsolete]
+    public PrisonerInstance PrisonerInstanceOld
     {
         get
         {
-            return prisonerInstance;
+            return prisonerInstanceOld;
         }
 
         set
         {
-            prisonerInstance = value;
+            prisonerInstanceOld = value;
         }
     }
 
@@ -399,7 +401,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // Warning que des keepers cf CameraManager
     public List<PawnInstance> ListOfSelectedKeepers
     {
         get
@@ -410,6 +411,36 @@ public class GameManager : MonoBehaviour
         set
         {
             listOfSelectedKeepers = value;
+        }
+    }
+
+    public PawnInstance PrisonerInstance
+    {
+        get
+        {
+            return prisonerInstance;
+        }
+
+        set
+        {
+            prisonerInstance = value;
+        }
+    }
+
+    public PawnInstance GetFirstSelectedKeeper()
+    {
+        return listOfSelectedKeepers[0];
+    }
+
+    public void AddKeeperToSelectedList(PawnInstance pawn)
+    {
+        if (pawn.GetComponent<Behaviour.Keeper>() != null)
+        {
+            ListOfSelectedKeepers.Add(pawn);
+        }
+        else
+        {
+            Debug.Log("Can't add a pawn to selected keepers list without the Keeper component.");
         }
     }
 }

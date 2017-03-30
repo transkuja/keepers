@@ -8,7 +8,7 @@ public class PrisonerInstance : MonoBehaviour, IEscortable {
 
     [Header("Prisoner Info")]
     [SerializeField]
-    private Prisoner prisoner = null;
+    private PrisonerOld prisoner = null;
 
     [SerializeField]
     private short currentMentalHealth;
@@ -195,7 +195,7 @@ public class PrisonerInstance : MonoBehaviour, IEscortable {
     }
 
     #region Accessors
-    public Prisoner Prisoner
+    public PrisonerOld Prisoner
     {
         get
         {

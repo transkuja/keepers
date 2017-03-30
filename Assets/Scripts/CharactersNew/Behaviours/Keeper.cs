@@ -48,8 +48,24 @@ namespace Behaviour
             shorcutUI = CreateShortcutKeeperUI();
 
             // Need Equipement and inventory data
-            selectedPanelUI = CreateSelectedPanel();
             ActionPoints = MaxActionPoints;
+        }
+
+        public bool IsTheLastKeeperOnTheTile()
+        {
+            bool isTheLastOnTile = true;
+            foreach (PawnInstance pi in GameManager.Instance.AllKeepersList)
+            {
+                if (pi.GetComponent<Mortal>().IsAlive)
+                {
+                    if (pi != instance && pi.CurrentTile == instance.CurrentTile)
+                    {
+                        isTheLastOnTile = false;
+                        break;
+                    }
+                }
+            }
+            return isTheLastOnTile;
         }
 
         #region Interactions
@@ -92,18 +108,6 @@ namespace Behaviour
             goShortcutKeeperUi.GetComponent<Button>().onClick.AddListener(() => GoToKeeper());
 
             return goShortcutKeeperUi;
-        }
-
-        public GameObject CreateSelectedPanel()
-        {
-            Sprite associatedSprite = instance.Data.AssociatedSprite;
-            GameObject goSelectedKeeperUI = Instantiate(GameManager.Instance.PrefabUtils.PrefabSelectedCharacterUI, GameManager.Instance.Ui.goSelectedKeeperPanel.transform);
-            GameObject goStatsSelectedKeeperUI = Instantiate(GameManager.Instance.PrefabUtils.PrefabSelectedStatsUIPanel, goSelectedKeeperUI.transform);
-
-            goStatsSelectedKeeperUI.transform.GetChild((int)PanelSelectedKeeperStatChildren.Image).GetComponent<Image>().sprite = associatedSprite;
-            selectedStatPanelUI = goStatsSelectedKeeperUI;
-            selectedActionPointsUI = goStatsSelectedKeeperUI.transform.GetChild((int)PanelSelectedKeeperStatChildren.ActionPoints).gameObject;
-            return selectedPanelUI;
         }
 
         public void ShowSelectdePanelUI(bool isShow)
