@@ -37,17 +37,25 @@ namespace Behaviour
 
         private List<GameObject> goListCharacterFollowing = new List<GameObject>();
 
-        void Start()
+        void Awake()
         {
             instance = GetComponent<PawnInstance>();
+
+            shorcutUI = CreateShortcutKeeperUI();
+            CreateSelectedPanel();
+        }
+
+        void Start()
+        {
+    
             if (instance.Data.Behaviours[(int)BehavioursEnum.CanSpeak])
                 instance.Interactions.Add(new Interaction(MoralBuff), 1, "Moral", GameManager.Instance.SpriteUtils.spriteMoral);
 
             agent = GetComponent<NavMeshAgent>();
 
-            shorcutUI = CreateShortcutKeeperUI();
 
             // Need Equipement and inventory data
+      
             ActionPoints = MaxActionPoints;
         }
 
@@ -100,7 +108,7 @@ namespace Behaviour
         {
 
             Sprite associatedSprite = instance.Data.AssociatedSprite;
-            GameObject goShortcutKeeperUi = Instantiate(GameManager.Instance.PrefabUtils.PrefabSelectedCharacterUI, GameManager.Instance.Ui.goShortcutKeepersPanel.transform);
+            GameObject goShortcutKeeperUi = Instantiate(GameManager.Instance.PrefabUtils.PrefabShorcutCharacter, GameManager.Instance.Ui.goShortcutKeepersPanel.transform);
 
             goShortcutKeeperUi.name = "Panel_Shortcut_" + instance.Data.PawnName;
             goShortcutKeeperUi.transform.GetChild((int)PanelShortcutChildren.Image).GetComponent<Image>().sprite = associatedSprite;
@@ -108,6 +116,20 @@ namespace Behaviour
             goShortcutKeeperUi.GetComponent<Button>().onClick.AddListener(() => GoToKeeper());
 
             return goShortcutKeeperUi;
+        }
+
+        public void CreateSelectedPanel()
+        {
+            selectedPanelUI = Instantiate(GameManager.Instance.PrefabUtils.PrefabSelectedKeeper, GameManager.Instance.Ui.goSelectedKeeperPanel.transform);
+            selectedPanelUI.transform.localScale = Vector3.one;
+            selectedPanelUI.transform.localPosition = Vector3.zero;
+
+            selectedStatPanelUI = Instantiate(GameManager.Instance.PrefabUtils.PrefabSelectedStatsUIPanel, selectedPanelUI.transform);
+            selectedStatPanelUI.transform.localScale = Vector3.one;
+            selectedStatPanelUI.transform.localPosition = new Vector3(30, 70, 0);
+
+            selectedActionPointsUI = selectedStatPanelUI.transform.GetChild((int)PanelSelectedKeeperStatChildren.ActionPoints).gameObject;
+            selectedActionPointsUI.transform.localScale = Vector3.one;
         }
 
         public void ShowSelectdePanelUI(bool isShow)
@@ -122,7 +144,7 @@ namespace Behaviour
 
         public void UpdateActionPoint(int actionPoint)
         {
-            selectedActionPointsUI.transform.GetChild(0).gameObject.GetComponentInChildren<Text>().text = actionPoint.ToString();
+            //selectedActionPointsUI.transform.GetChild(0).gameObject.GetComponentInChildren<Text>().text = actionPoint.ToString();
             //selectedActionPointsUI.GetChild(0).gameObject.GetComponent<Image>().fillAmount = actionPoint / maxActionPoints; ;
         }
         #endregion
@@ -180,6 +202,11 @@ namespace Behaviour
             set
             {
                 isSelected = value;
+                if(isSelected == true)
+                {
+                    //GameManager.Instance.CameraManager.UpdateCameraPosition(instance);
+                }
+                ShowSelectdePanelUI(isSelected);
             }
         }
 

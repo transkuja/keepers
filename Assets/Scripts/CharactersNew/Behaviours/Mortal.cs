@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Behaviour
 {
@@ -16,10 +17,45 @@ namespace Behaviour
         [SerializeField]
         private Sprite deadSprite;
 
-        void Start()
+
+        // UI
+        public GameObject selectedHPUI;
+        public GameObject shortcutHPUI;
+
+        void Awake()
         {
             instance = GetComponent<PawnInstance>();
-            currentHp = maxHp;
+
+
+            CreateShortcutHPPanel();
+            shortcutHPUI.name = "Mortal";
+
+            if (instance.GetComponent<Keeper>() != null)
+            {
+                CreateSelectedHPPanel();
+                selectedHPUI.name = "Mortal";
+            }
+
+        }
+
+        void Start()
+        {
+            if (instance.GetComponent<Escortable>() != null)
+            {
+                //selectedHPUI.transform.SetParent(instance.GetComponent<Escortable>().selectedStatPanelUI.transform);
+            }
+            else if (instance.GetComponent<Keeper>() != null)
+            {
+                selectedHPUI.transform.SetParent(instance.GetComponent<Keeper>().selectedStatPanelUI.transform);
+                selectedHPUI.transform.localScale = Vector3.one;
+                selectedHPUI.transform.localPosition = new Vector3(200, 200, 0);
+
+                shortcutHPUI.transform.SetParent(instance.GetComponent<Keeper>().shorcutUI.transform);
+                shortcutHPUI.transform.localScale = Vector3.one;
+                shortcutHPUI.transform.localPosition = Vector3.zero;
+            }
+
+            CurrentHp = maxHp;
             isAlive = true;
         }
 
@@ -83,6 +119,33 @@ namespace Behaviour
             enabled = true;
         }
 
+        #region UI
+        public void CreateSelectedHPPanel()
+        {
+            selectedHPUI = Instantiate(GameManager.Instance.PrefabUtils.PrefabHPUI);
+        }
+
+        public void CreateShortcutHPPanel()
+        {
+            shortcutHPUI = Instantiate(GameManager.Instance.PrefabUtils.PrefabHPUI);
+        }
+
+        public void UpdateMentalHealthPanel(int hunger)
+        {
+            if (instance.GetComponent<Escortable>() != null)
+            {
+                shortcutHPUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)hunger / (float)maxHp;
+            }
+            else if (instance.GetComponent<Keeper>() != null)
+            {
+                selectedHPUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)hunger / (float)maxHp;
+                shortcutHPUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)hunger / (float)maxHp;
+            }
+
+        }
+        #endregion
+
+
         #region Accessors
         public int MaxHp
         {
@@ -118,8 +181,8 @@ namespace Behaviour
                 else
                 {
                     IsAlive = true;
+                    UpdateMentalHealthPanel(currentHp);
                 }
-
             }
         }
 

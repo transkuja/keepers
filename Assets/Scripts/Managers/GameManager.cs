@@ -125,12 +125,12 @@ public class GameManager : MonoBehaviour
 
     public void ClearListKeeperSelected()
     {
-        for (int i = 0; i < listOfSelectedKeepersOld.Count; i++)
+        for (int i = 0; i < listOfSelectedKeepers.Count; i++)
         {
-            listOfSelectedKeepersOld[i].IsSelected = false;
+            listOfSelectedKeepers[i].GetComponent<Behaviour.Keeper>().IsSelected = false;
 
         }
-        listOfSelectedKeepersOld.Clear();
+        listOfSelectedKeepers.Clear();
     }
 
     public void InitializeInGameKeepers()
@@ -145,28 +145,28 @@ public class GameManager : MonoBehaviour
 
     public void CheckGameState()
     {
-        if (!prisonerInstanceOld.IsAlive)
-        {
-            Debug.Log("GameOver - Prisoner Died");
-            Lose();
-        }
-        else
-        {
-            short nbDead = 0;
-            foreach (KeeperInstance ki in AllKeepersListOld)
-            {
-                if (!ki.IsAlive)
-                {
-                    nbDead++;
-                }
-            }
+        //if (!prisonerInstanceOld.IsAlive)
+        //{
+        //    Debug.Log("GameOver - Prisoner Died");
+        //    Lose();
+        //}
+        //else
+        //{
+        //    short nbDead = 0;
+        //    foreach (KeeperInstance ki in AllKeepersListOld)
+        //    {
+        //        if (!ki.IsAlive)
+        //        {
+        //            nbDead++;
+        //        }
+        //    }
 
-            if (nbDead == allKeepersList.Count)
-            {
-                Debug.Log("GameOver - All Keepers died");
-                Lose();
-            }
-        }
+        //    if (nbDead == allKeepersList.Count)
+        //    {
+        //        Debug.Log("GameOver - All Keepers died");
+        //        Lose();
+        //    }
+        //}
 
     }
 

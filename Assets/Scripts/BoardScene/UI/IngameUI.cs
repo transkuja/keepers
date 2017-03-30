@@ -78,14 +78,14 @@ public class IngameUI : MonoBehaviour
 
     public void Start()
     {
-        CreateShortcutPanel();
-        CreateKeepersInventoryPanels();
+        //CreateShortcutPanel();
+        //CreateKeepersInventoryPanels();
        // GameManager.Instance.PrisonerInstance.prisonerFeedingPanel = CreatePrisonerFeedingPanel(GameManager.Instance.PrisonerInstance.gameObject);
         // TODO : rustine pour que ça marche quand on relance le jeu
         GameObject worldSpaceUI = Instantiate(GameManager.Instance.PrefabUtils.WorldSpaceUIprefab);
         worldSpaceCanvas = worldSpaceUI.transform.GetChild(0).GetComponent<Canvas>();
         goActionPanelQ = worldSpaceUI.transform.GetChild(0).GetChild(0).gameObject;
-        UpdateShortcutPanel();
+        //UpdateShortcutPanel();
     }
 
     public void ResetIngameUI()
@@ -302,7 +302,7 @@ public class IngameUI : MonoBehaviour
 
             if (associatedSprite != null)
             {
-                GameObject goKeeper = Instantiate(GameManager.Instance.PrefabUtils.PrefabSelectedCharacterUI, goShortcutKeepersPanel.transform);
+                GameObject goKeeper = Instantiate(GameManager.Instance.PrefabUtils.PrefabShorcutCharacter, goShortcutKeepersPanel.transform);
 
                 goKeeper.name = "Panel_Shortcut_" + currentSelectedCharacter.Keeper.CharacterName;
                 goKeeper.transform.GetChild((int)PanelShortcutChildren.Image).GetComponent<Image>().sprite = associatedSprite;
