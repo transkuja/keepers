@@ -35,6 +35,7 @@ public class TileManager : MonoBehaviour {
     Tile prisonerTile;
     GameObject tiles;
     GameObject beginTile;
+    GameObject endTile;
 
     void Awake()
     {
@@ -411,9 +412,15 @@ public class TileManager : MonoBehaviour {
     private void InitializeStateOld()
     {
         beginTile = GameObject.FindGameObjectWithTag("BeginTile");
+        endTile = GameObject.FindGameObjectWithTag("EndTile");
         if (beginTile == null)
         {
             Debug.Log("No tag BeginTile on the first tile has been set.");
+            return;
+        }
+        if (endTile == null)
+        {
+            Debug.Log("No tag EndTile on the last tile has been set.");
             return;
         }
         instance.prisonerTile = beginTile.GetComponentInParent<Tile>();
@@ -427,9 +434,15 @@ public class TileManager : MonoBehaviour {
     private void InitializeState()
     {
         beginTile = GameObject.FindGameObjectWithTag("BeginTile");
+        endTile = GameObject.FindGameObjectWithTag("EndTile");
         if (beginTile == null)
         {
             Debug.Log("No tag BeginTile on the first tile has been set.");
+            return;
+        }
+        if (endTile == null)
+        {
+            Debug.Log("No tag EndTile on the last tile has been set.");
             return;
         }
         instance.prisonerTile = beginTile.GetComponentInParent<Tile>();
