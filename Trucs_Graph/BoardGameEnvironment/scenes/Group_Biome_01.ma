@@ -1,6 +1,6 @@
 //Maya ASCII 2016 scene
-//Name: AAsset_ref.ma
-//Last modified: Thu, Mar 30, 2017 05:30:20 PM
+//Name: Group_Biome_01.ma
+//Last modified: Thu, Mar 30, 2017 05:31:17 PM
 //Codeset: 1252
 requires maya "2016";
 currentUnit -l centimeter -a degree -t film;
@@ -6705,4 +6705,4 @@ connectAttr "STP__file1.msg" ":defaultTextureList1.tx" -na;
 connectAttr "STP__file2.msg" ":defaultTextureList1.tx" -na;
 connectAttr "STP__psdFileTex1.msg" ":defaultTextureList1.tx" -na;
 connectAttr "psdFileTex1.msg" ":defaultTextureList1.tx" -na;
-// End of AAsset_ref.ma
+// End of Group_Biome_01.ma
