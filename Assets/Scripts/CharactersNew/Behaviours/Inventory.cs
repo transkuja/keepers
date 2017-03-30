@@ -4,10 +4,12 @@ using UnityEngine;
 
 namespace Behaviour
 {
+    [RequireComponent(typeof(PawnInstance))]
     public class Inventory : MonoBehaviour
     {
         PawnInstance instance;
 
+        [SerializeField]
         int nbSlot;
         private ItemContainer[] items;
         private GameObject inventoryPanel;
@@ -19,6 +21,9 @@ namespace Behaviour
         {
             instance = GetComponent<PawnInstance>();
             instance.Interactions.Add(new Interaction(Trade), 0, "Trade", GameManager.Instance.SpriteUtils.spriteTrade);
+
+            // TODO remove
+            Init(nbSlot);
         }
 
         public ItemContainer[] Items

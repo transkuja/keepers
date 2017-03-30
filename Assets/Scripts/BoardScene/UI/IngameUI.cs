@@ -80,7 +80,7 @@ public class IngameUI : MonoBehaviour
     {
         CreateShortcutPanel();
         CreateKeepersInventoryPanels();
-        GameManager.Instance.PrisonerInstance.prisonerFeedingPanel = CreatePrisonerFeedingPanel(GameManager.Instance.PrisonerInstance.gameObject);
+       // GameManager.Instance.PrisonerInstance.prisonerFeedingPanel = CreatePrisonerFeedingPanel(GameManager.Instance.PrisonerInstance.gameObject);
         // TODO : rustine pour que ça marche quand on relance le jeu
         GameObject worldSpaceUI = Instantiate(GameManager.Instance.PrefabUtils.WorldSpaceUIprefab);
         worldSpaceCanvas = worldSpaceUI.transform.GetChild(0).GetComponent<Canvas>();
@@ -338,11 +338,13 @@ public class IngameUI : MonoBehaviour
         {
             if (i == 0)
             {
+                /*
                 PrisonerInstance prisonner = GameManager.Instance.PrisonerInstance;
                 // Update HP
                 goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.HpGauge).GetChild(0).gameObject.GetComponent<Image>().fillAmount = prisonner.CurrentHp / 100.0f;
                 // Update Hunger
                 goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.HungerGauge).GetChild(0).gameObject.GetComponent<Image>().fillAmount = prisonner.CurrentHunger / 100.0f;
+                */
             }
             else
             {

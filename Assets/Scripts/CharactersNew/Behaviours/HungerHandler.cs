@@ -8,6 +8,7 @@ namespace Behaviour
     {
         PawnInstance instance;
 
+        [SerializeField]
         int maxHunger;
         int currentHunger;
         bool isStarving = false;

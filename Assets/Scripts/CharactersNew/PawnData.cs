@@ -348,3 +348,20 @@ public class PawnData {
 
 
 }
+
+public enum BehavioursEnum
+{
+    AnimatedPawn,
+    Escortable,
+    Fighter,
+    HungerHandler,
+    Inventory,
+    Keeper,
+    MentalHealthHandler,
+    Monster,
+    Mortal,
+    PathBlocker,
+    QuestDealer,
+    CanSpeak,
+    Size
+};

@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class PawnInstance : MonoBehaviour {
 
+    [SerializeField]
     PawnData data;
     InteractionImplementer interactions;
 
     // Need to be initialized in charactersInitializer and changed in moveCharacter
     Tile currentTile;
 
-    void Start()
+    void Awake()
     {
         interactions = new InteractionImplementer();
     }

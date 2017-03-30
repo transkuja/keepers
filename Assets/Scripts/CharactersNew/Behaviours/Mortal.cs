@@ -8,6 +8,7 @@ namespace Behaviour
     {
         PawnInstance instance;
 
+        [SerializeField]
         int maxHp;
         int currentHp;
         bool isAlive;
@@ -16,6 +17,7 @@ namespace Behaviour
         {
             instance = GetComponent<PawnInstance>();
             currentHp = maxHp;
+            isAlive = true;
         }
 
         public void Die()

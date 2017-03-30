@@ -9,6 +9,7 @@ namespace Behaviour
 
         PawnInstance instance;
 
+        [SerializeField]
         int maxMentalHealth;
         int currentMentalHealth;
         bool isDepressed = false;

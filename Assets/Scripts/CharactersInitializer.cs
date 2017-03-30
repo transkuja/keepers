@@ -19,13 +19,13 @@ public class CharactersInitializer : MonoBehaviour {
             //GlowController.RegisterObject(GameManager.Instance.AllKeepersList[i].GetComponent<GlowObjectCmd>());
         }
 
-
+        /*
         GameManager.Instance.PrisonerInstance.transform.position = beginPositionPrisonnier.transform.position;
         GameManager.Instance.PrisonerInstance.transform.SetParent(null);
         GameManager.Instance.PrisonerInstance.transform.rotation = Quaternion.identity;
         GameManager.Instance.PrisonerInstance.transform.localScale = Vector3.one;
         GameManager.Instance.PrisonerInstance.transform.GetComponent<NavMeshAgent>().enabled = true;
-
+        */
         // TODO : faire une meilleure caméra d'entrée de niveau
 
         // Pour que ça marche il me faut l'instanciation du tile Manager

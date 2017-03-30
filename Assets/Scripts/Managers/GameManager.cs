@@ -64,7 +64,7 @@ public class GameManager : MonoBehaviour
         {
             instance = this;
             database.Init();
-            prisonerInstance = GameObject.Find("Prisoner").GetComponent<PrisonerInstance>();
+           // prisonerInstance = GameObject.Find("Prisoner").GetComponent<PrisonerInstance>();
             nbTurn = 1;
         }
         else if (instance != this)
@@ -87,8 +87,8 @@ public class GameManager : MonoBehaviour
             // TODO : @Rémi @Rustine : recuperer les positions de départ du prisonnier et des keepers
             //tileManager.Init();
             //Transform[] beginPositionsKeepers = tileManager.beginPositionsKeepers;
-            GameObject[] beginPositionsKeepers = new GameObject[allKeepersList.Count];
-            for (int i = 0; i < allKeepersList.Count; i++)
+            GameObject[] beginPositionsKeepers = new GameObject[allKeepersListOld.Count];
+            for (int i = 0; i < allKeepersListOld.Count; i++)
             {
                 GameObject beginPositionKeeper = new GameObject();
                 beginPositionKeeper.transform.position = Vector3.zero;
