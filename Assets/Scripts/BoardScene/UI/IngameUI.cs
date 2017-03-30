@@ -272,11 +272,11 @@ public class IngameUI : MonoBehaviour
         if (GameManager.Instance == null) { return; }
         if (goShortcutKeepersPanel == null) { return; }
 
-        int nbCaracters = GameManager.Instance.AllKeepersList.Count;
+        int nbCaracters = GameManager.Instance.AllKeepersListOld.Count;
 
         for (int i = 0; i < nbCaracters; i++)
         {
-            KeeperInstance currentSelectedCharacter = GameManager.Instance.AllKeepersList[i];
+            KeeperInstance currentSelectedCharacter = GameManager.Instance.AllKeepersListOld[i];
 
             Sprite associatedSprite = currentSelectedCharacter.Keeper.AssociatedSprite;
             Sprite deadSprite = currentSelectedCharacter.Keeper.DeadSprite;
@@ -308,11 +308,11 @@ public class IngameUI : MonoBehaviour
         else
         {
             // Do not go to keeper if dead
-            if (!GameManager.Instance.AllKeepersList[i].IsAlive)
+            if (!GameManager.Instance.AllKeepersListOld[i].IsAlive)
                 return;
 
             GameManager.Instance.ClearListKeeperSelected();
-            KeeperInstance nextKeeper = GameManager.Instance.AllKeepersList[i];
+            KeeperInstance nextKeeper = GameManager.Instance.AllKeepersListOld[i];
             GameManager.Instance.ListOfSelectedKeepers.Add(nextKeeper);
             nextKeeper.IsSelected = true;
 
@@ -344,7 +344,7 @@ public class IngameUI : MonoBehaviour
             }
             else
             {
-                KeeperInstance currentCharacter = GameManager.Instance.AllKeepersList[i-1];
+                KeeperInstance currentCharacter = GameManager.Instance.AllKeepersListOld[i-1];
 
                 if (currentCharacter != null)
                 {
@@ -512,32 +512,32 @@ public class IngameUI : MonoBehaviour
 
     public void CycleThroughKeepersButtonHandler(int direction)
     {
-        if (GameManager.Instance.AllKeepersList != null)
+        if (GameManager.Instance.AllKeepersListOld != null)
         {
             if (GameManager.Instance.ListOfSelectedKeepers != null)
             {
                 if (GameManager.Instance.ListOfSelectedKeepers.Count <= 0)
                 {
                     // tmp
-                    GameManager.Instance.ListOfSelectedKeepers.Add(GameManager.Instance.AllKeepersList[0]);
+                    GameManager.Instance.ListOfSelectedKeepers.Add(GameManager.Instance.AllKeepersListOld[0]);
                 }
                 // Get first selected
                 KeeperInstance currentKeeperSelected = GameManager.Instance.ListOfSelectedKeepers[0];
-                int currentKeeperSelectedIndex = GameManager.Instance.AllKeepersList.FindIndex(x => x == currentKeeperSelected);
+                int currentKeeperSelectedIndex = GameManager.Instance.AllKeepersListOld.FindIndex(x => x == currentKeeperSelected);
 
                 // Next keeper
                 GameManager.Instance.ClearListKeeperSelected();
                 KeeperInstance nextKeeper = null;
                 int nbIterations = 1;
-                while (nextKeeper == null && nbIterations <= GameManager.Instance.AllKeepersList.Count)
+                while (nextKeeper == null && nbIterations <= GameManager.Instance.AllKeepersListOld.Count)
                 {
-                    if ((currentKeeperSelectedIndex + direction* nbIterations) % GameManager.Instance.AllKeepersList.Count < 0)
+                    if ((currentKeeperSelectedIndex + direction* nbIterations) % GameManager.Instance.AllKeepersListOld.Count < 0)
                     {
-                        nextKeeper = GameManager.Instance.AllKeepersList[GameManager.Instance.AllKeepersList.Count - 1];
+                        nextKeeper = GameManager.Instance.AllKeepersListOld[GameManager.Instance.AllKeepersListOld.Count - 1];
                     }
                     else
                     {
-                        nextKeeper = GameManager.Instance.AllKeepersList[(currentKeeperSelectedIndex + direction*nbIterations) % GameManager.Instance.AllKeepersList.Count];
+                        nextKeeper = GameManager.Instance.AllKeepersListOld[(currentKeeperSelectedIndex + direction*nbIterations) % GameManager.Instance.AllKeepersListOld.Count];
                     }
 
                     if (!nextKeeper.IsAlive)
@@ -611,7 +611,7 @@ public class IngameUI : MonoBehaviour
     #region Keepers_Inventory
     public void CreateKeepersInventoryPanels()
     {
-        foreach (KeeperInstance ki in GameManager.Instance.AllKeepersList)
+        foreach (KeeperInstance ki in GameManager.Instance.AllKeepersListOld)
         {
             ki.keeperInventoryPanel = CreateInventoryPanel(ki.gameObject);
         }

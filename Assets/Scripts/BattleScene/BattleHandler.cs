@@ -22,9 +22,9 @@ public class BattleHandler {
         AudioManager.Instance.PlayOneShot(AudioManager.Instance.battleSound, 0.5f);
         Time.timeScale = 0.0f;
         // Auto selection
-        if (TileManager.Instance.KeepersOnTile[tile].Count <= 1)
+        if (TileManager.Instance.KeepersOnTileOld[tile].Count <= 1)
         {
-            List<KeeperInstance> keepersForBattle = TileManager.Instance.KeepersOnTile[tile];
+            List<KeeperInstance> keepersForBattle = TileManager.Instance.KeepersOnTileOld[tile];
             if (TileManager.Instance.PrisonerTile == tile)
             {
                 isPrisonerOnTile = true;
@@ -60,7 +60,7 @@ public class BattleHandler {
         }
         else
         {
-            HandleBattleDefeat(selectedKeepersForBattle, TileManager.Instance.MonstersOnTile[tile]);
+            HandleBattleDefeat(selectedKeepersForBattle, TileManager.Instance.MonstersOnTileOld[tile]);
         }
 
         PrintResultsScreen(isVictorious);
@@ -73,7 +73,7 @@ public class BattleHandler {
     private static bool ResolveBattle(List<KeeperInstance> keepers, Tile tile)
     {
         List<MonsterInstance> monsters = new List<MonsterInstance>();
-        monsters.AddRange(TileManager.Instance.MonstersOnTile[tile]);
+        monsters.AddRange(TileManager.Instance.MonstersOnTileOld[tile]);
 
         // General melee!
         int totalDamageTaken = 0;
@@ -373,7 +373,7 @@ public class BattleHandler {
 
     private static void PostBattleCommonProcess(List<KeeperInstance> keepers, Tile tile)
     {
-        TileManager.Instance.RemoveDefeatedMonsters(tile);
+        TileManager.Instance.RemoveDefeatedMonstersOld(tile);
     }
 
     private static void PrintResultsScreen(bool isVictorious)

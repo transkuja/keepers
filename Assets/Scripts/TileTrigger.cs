@@ -115,7 +115,7 @@ public class TileTrigger : MonoBehaviour {
             KeeperInstance toMove = GameManager.Instance.ListOfSelectedKeepers[0];
             if (toMove.ActionPoints >= actionCostMove)
             {
-                Tile currentTile = TileManager.Instance.GetTileFromKeeper[toMove];
+                Tile currentTile = TileManager.Instance.GetTileFromKeeperOld[toMove];
 
                 // Confirmation Panel
                 // TODO : refaire en mieux ? 
@@ -123,11 +123,11 @@ public class TileTrigger : MonoBehaviour {
                     && currentTile == TileManager.Instance.PrisonerTile)
                 {
                     bool isAshleyNotAlone = false;
-                    foreach (KeeperInstance kip in GameManager.Instance.AllKeepersList)
+                    foreach (KeeperInstance kip in GameManager.Instance.AllKeepersListOld)
                     {
                         if (kip.IsAlive)
                         {
-                            if (kip != toMove && TileManager.Instance.PrisonerTile == TileManager.Instance.GetTileFromKeeper[kip])
+                            if (kip != toMove && TileManager.Instance.PrisonerTile == TileManager.Instance.GetTileFromKeeperOld[kip])
                             {
                                 isAshleyNotAlone = true;
                                 break;
@@ -167,7 +167,7 @@ public class TileTrigger : MonoBehaviour {
             KeeperInstance toMove = GameManager.Instance.ListOfSelectedKeepers[0];
             if (toMove.ActionPoints >= actionCostExplore)
             {
-                Tile currentTile = TileManager.Instance.GetTileFromKeeper[toMove];
+                Tile currentTile = TileManager.Instance.GetTileFromKeeperOld[toMove];
 
                 // Confirmation Panel
                 // TODO : refaire en mieux ? 
@@ -175,11 +175,11 @@ public class TileTrigger : MonoBehaviour {
                     && currentTile == TileManager.Instance.PrisonerTile)
                 {
                     bool isAshleyNotAlone = false;
-                    foreach (KeeperInstance kip in GameManager.Instance.AllKeepersList)
+                    foreach (KeeperInstance kip in GameManager.Instance.AllKeepersListOld)
                     {
                         if (kip.IsAlive)
                         {
-                            if (kip != toMove && TileManager.Instance.PrisonerTile == TileManager.Instance.GetTileFromKeeper[kip])
+                            if (kip != toMove && TileManager.Instance.PrisonerTile == TileManager.Instance.GetTileFromKeeperOld[kip])
                             {
                                 isAshleyNotAlone = true;
                                 break;
@@ -218,7 +218,7 @@ public class TileTrigger : MonoBehaviour {
             KeeperInstance toMove = GameManager.Instance.ListOfSelectedKeepers[0];
 
             //int costAction = interactionImplementer.Get("Move").costAction;
-            TileManager.Instance.MoveKeeper(toMove, TileManager.Instance.GetTileFromKeeper[toMove], (Direction)_i, actionCostMove);
+            TileManager.Instance.MoveKeeperOld(toMove, TileManager.Instance.GetTileFromKeeperOld[toMove], (Direction)_i, actionCostMove);
             GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
             GameManager.Instance.Ui.UpdateShortcutPanel();
             GameManager.Instance.Ui.HideInventoryPanels();
@@ -245,9 +245,9 @@ public class TileTrigger : MonoBehaviour {
 
             // Move to explored tile
             //int costAction = interactionImplementer.Get("Explore").costAction;
-            TileManager.Instance.MoveKeeper(toMove, TileManager.Instance.GetTileFromKeeper[toMove], (Direction)_i, actionCostExplore);
+            TileManager.Instance.MoveKeeperOld(toMove, TileManager.Instance.GetTileFromKeeperOld[toMove], (Direction)_i, actionCostExplore);
             // Tell the tile it has been discovered (and watch it panic)
-            Tile exploredTile = TileManager.Instance.GetTileFromKeeper[toMove];
+            Tile exploredTile = TileManager.Instance.GetTileFromKeeperOld[toMove];
             exploredTile.State = TileState.Discovered;
             foreach (Tile t in exploredTile.Neighbors)
             {
@@ -273,9 +273,9 @@ public class TileTrigger : MonoBehaviour {
             }
 
             // Apply bad effects if monsters are discovered
-            if (TileManager.Instance.MonstersOnTile.ContainsKey(exploredTile)
-                && TileManager.Instance.MonstersOnTile[exploredTile] != null
-                && TileManager.Instance.MonstersOnTile[exploredTile].Count > 0)
+            if (TileManager.Instance.MonstersOnTileOld.ContainsKey(exploredTile)
+                && TileManager.Instance.MonstersOnTileOld[exploredTile] != null
+                && TileManager.Instance.MonstersOnTileOld[exploredTile].Count > 0)
             {
                 toMove.CurrentHp -= 5;
                 toMove.CurrentMentalHealth -= 5;

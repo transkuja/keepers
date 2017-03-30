@@ -6,17 +6,20 @@ namespace Behaviour
 {
     public class Monster : MonoBehaviour
     {
+        PawnInstance instance;
 
-        // Use this for initialization
+        public PawnInstance getPawnInstance
+        {
+            get
+            {
+                return instance;
+            }
+        }
+
         void Start()
         {
-
+            instance = GetComponent<PawnInstance>();
         }
 
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
     }
 }

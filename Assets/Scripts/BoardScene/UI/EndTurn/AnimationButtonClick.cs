@@ -68,11 +68,11 @@ public class AnimationButtonClick : MonoBehaviour, IPointerEnterHandler {
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        for (int i = 0; i < GameManager.Instance.AllKeepersList.Count; i++)
+        for (int i = 0; i < GameManager.Instance.AllKeepersListOld.Count; i++)
         {
-            if (GameManager.Instance.AllKeepersList[i].IsAlive)
+            if (GameManager.Instance.AllKeepersListOld[i].IsAlive)
             {
-                if (GameManager.Instance.AllKeepersList[i].ActionPoints > 0)
+                if (GameManager.Instance.AllKeepersListOld[i].ActionPoints > 0)
                 {
                     GameManager.Instance.Ui.goShortcutKeepersPanel.SetActive(true);
                     // Actions

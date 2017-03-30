@@ -11,12 +11,12 @@ public class BattleLauncher : MonoBehaviour {
         {
             Tile tile;
             if (GetComponentInParent<KeeperInstance>() != null)
-                tile = TileManager.Instance.GetTileFromKeeper[GetComponentInParent<KeeperInstance>()];
+                tile = TileManager.Instance.GetTileFromKeeperOld[GetComponentInParent<KeeperInstance>()];
             else
                 tile = TileManager.Instance.PrisonerTile;
 
             GetComponentInParent<NavMeshAgent>().SetDestination(transform.position);
-            foreach (MonsterInstance mi in TileManager.Instance.MonstersOnTile[tile])
+            foreach (MonsterInstance mi in TileManager.Instance.MonstersOnTileOld[tile])
                 mi.GetComponent<NavMeshAgent>().SetDestination(mi.transform.position);
             BattleHandler.StartBattleProcess(tile);
         }

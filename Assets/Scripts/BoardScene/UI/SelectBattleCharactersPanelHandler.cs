@@ -29,7 +29,7 @@ public class SelectBattleCharactersPanelHandler : MonoBehaviour {
     {
         int j = 0;
 
-        foreach (KeeperInstance ki in TileManager.Instance.KeepersOnTile[activeTile])
+        foreach (KeeperInstance ki in TileManager.Instance.KeepersOnTileOld[activeTile])
         {
             GameObject kiImage = Instantiate(imagePrefab, transform.GetChild((int)SelectBattleCharactersScreenChildren.CharactersOnTile).GetChild(j));
             kiImage.AddComponent<UIKeeperInstance>();

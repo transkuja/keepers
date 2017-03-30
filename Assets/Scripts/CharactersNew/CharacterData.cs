@@ -2,11 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum BehavioursEnum
+{
+    AnimatedPawn,
+    Escortable,
+    Fighter,
+    HungerHandler,
+    Inventory,
+    Keeper,
+    MentalHealthHandler,
+    Monster,
+    Mortal,
+    PathBlocker,
+    QuestDealer,
+    CanSpeak,
+    Size
+};
+
 [System.Serializable]
 public class CharacterData : PawnData {
 
     [SerializeField]
-    private bool[] behaviours;
+    private bool[] behaviours = new bool[(int)BehavioursEnum.Size];
 
     [Header("UI")]
     [SerializeField]

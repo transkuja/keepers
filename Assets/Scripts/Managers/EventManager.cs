@@ -21,7 +21,7 @@ public class EventManager : MonoBehaviour {
 
     private static void DecreaseMentalHealth()
     {
-        foreach (KeeperInstance ki in GameManager.Instance.AllKeepersList)
+        foreach (KeeperInstance ki in GameManager.Instance.AllKeepersListOld)
         {
             if (ki.IsAlive)
                 ki.CurrentMentalHealth -= 10;
@@ -30,7 +30,7 @@ public class EventManager : MonoBehaviour {
 
     private static void IncreaseHunger()
     {
-        foreach (KeeperInstance ki in GameManager.Instance.AllKeepersList)
+        foreach (KeeperInstance ki in GameManager.Instance.AllKeepersListOld)
         {
             if (ki.IsAlive)
                 ki.CurrentHunger -= 10;
@@ -43,7 +43,7 @@ public class EventManager : MonoBehaviour {
 
     private static void ResetActionPointsForNextTurn()
     {
-        foreach (KeeperInstance ki in GameManager.Instance.AllKeepersList)
+        foreach (KeeperInstance ki in GameManager.Instance.AllKeepersListOld)
         {
             if (ki.IsAlive)
                 ki.ActionPoints = actionPointsResetValue;
@@ -52,7 +52,7 @@ public class EventManager : MonoBehaviour {
 
     public static void ApplyEndTurnHungerPenalty()
     {
-        foreach (KeeperInstance ki in GameManager.Instance.AllKeepersList)
+        foreach (KeeperInstance ki in GameManager.Instance.AllKeepersListOld)
         {
             if (ki.IsAlive && ki.IsStarving)
                 ki.CurrentHp -= 20;
@@ -66,7 +66,7 @@ public class EventManager : MonoBehaviour {
 
     public static void ApplyEndTurnMentalHealthPenalty()
     {
-        foreach (KeeperInstance ki in GameManager.Instance.AllKeepersList)
+        foreach (KeeperInstance ki in GameManager.Instance.AllKeepersListOld)
         {
             if (ki.IsAlive && ki.IsMentalHealthLow && !ki.isLowMentalHealthBuffApplied)
             {

@@ -136,7 +136,7 @@ public class ControlsManager : MonoBehaviour {
                         // Handle click on a ItemInstance
                         if (hitInfo.collider.gameObject.GetComponent<ItemInstance>() != null)
                         {
-                            if (tileHit == TileManager.Instance.GetTileFromKeeper[GameManager.Instance.ListOfSelectedKeepers[0]])
+                            if (tileHit == TileManager.Instance.GetTileFromKeeperOld[GameManager.Instance.ListOfSelectedKeepers[0]])
                             {
                                 GameManager.Instance.GoTarget = hitInfo.collider.gameObject;
                                 ui.UpdateActionPanelUIQ(hitInfo.collider.gameObject.GetComponent<ItemInstance>().InteractionImplementer);
@@ -145,7 +145,7 @@ public class ControlsManager : MonoBehaviour {
                         // Handle click on a ItemInstance
                         else if (hitInfo.collider.gameObject.GetComponent<LootInstance>() != null)
                         {
-                            if (tileHit == TileManager.Instance.GetTileFromKeeper[GameManager.Instance.ListOfSelectedKeepers[0]])
+                            if (tileHit == TileManager.Instance.GetTileFromKeeperOld[GameManager.Instance.ListOfSelectedKeepers[0]])
                             {
                                 GameManager.Instance.GoTarget = hitInfo.collider.gameObject;
                                 ui.UpdateActionPanelUIQ(hitInfo.collider.gameObject.GetComponent<LootInstance>().InteractionImplementer);
@@ -154,7 +154,7 @@ public class ControlsManager : MonoBehaviour {
                         // Handle click on a PNJInstance
                         else if (hitInfo.collider.gameObject.GetComponent<PNJInstance>() != null)
                         {
-                            if (tileHit == TileManager.Instance.GetTileFromKeeper[GameManager.Instance.ListOfSelectedKeepers[0]])
+                            if (tileHit == TileManager.Instance.GetTileFromKeeperOld[GameManager.Instance.ListOfSelectedKeepers[0]])
                             {
                                 GameManager.Instance.GoTarget = hitInfo.collider.gameObject;
                                 ui.UpdateActionPanelUIQ(hitInfo.collider.gameObject.GetComponent<PNJInstance>().InteractionImplementer);
@@ -163,7 +163,7 @@ public class ControlsManager : MonoBehaviour {
                         // Handle click on a PrisonerInstance
                         else if (hitInfo.collider.gameObject.GetComponentInParent<PrisonerInstance>() != null)
                         {
-                            if (TileManager.Instance.PrisonerTile == TileManager.Instance.GetTileFromKeeper[GameManager.Instance.ListOfSelectedKeepers[0]])
+                            if (TileManager.Instance.PrisonerTile == TileManager.Instance.GetTileFromKeeperOld[GameManager.Instance.ListOfSelectedKeepers[0]])
                             {
                                 GameManager.Instance.GoTarget = hitInfo.collider.gameObject;
                                 ui.UpdateActionPanelUIQ(hitInfo.collider.gameObject.GetComponentInParent<PrisonerInstance>().InteractionImplementer);
@@ -171,9 +171,9 @@ public class ControlsManager : MonoBehaviour {
                         }
                         else if (hitInfo.collider.gameObject.GetComponentInParent<KeeperInstance>() != null)
                         {
-                            tileHit = TileManager.Instance.GetTileFromKeeper[hitInfo.collider.gameObject.GetComponentInParent<KeeperInstance>()];
+                            tileHit = TileManager.Instance.GetTileFromKeeperOld[hitInfo.collider.gameObject.GetComponentInParent<KeeperInstance>()];
                             if (hitInfo.collider.gameObject.GetComponentInParent<KeeperInstance>() != GameManager.Instance.ListOfSelectedKeepers[0]
-                                && tileHit == TileManager.Instance.GetTileFromKeeper[GameManager.Instance.ListOfSelectedKeepers[0]])
+                                && tileHit == TileManager.Instance.GetTileFromKeeperOld[GameManager.Instance.ListOfSelectedKeepers[0]])
                             {
                                 GameManager.Instance.GoTarget = hitInfo.collider.gameObject;
                                 ui.UpdateActionPanelUIQ(hitInfo.collider.gameObject.GetComponentInParent<KeeperInstance>().InteractionImplementer);
@@ -182,7 +182,7 @@ public class ControlsManager : MonoBehaviour {
                         }
                         else if(hitInfo.collider.gameObject.GetComponent<Arrival>() != null)                            
                         {
-                            if (tileHit == TileManager.Instance.GetTileFromKeeper[GameManager.Instance.ListOfSelectedKeepers[0]])
+                            if (tileHit == TileManager.Instance.GetTileFromKeeperOld[GameManager.Instance.ListOfSelectedKeepers[0]])
                             {
                                 GameManager.Instance.GoTarget = hitInfo.collider.gameObject;
                                 ui.UpdateActionPanelUIQ(hitInfo.collider.gameObject.GetComponent<Arrival>().InterationImplementer);
@@ -196,7 +196,7 @@ public class ControlsManager : MonoBehaviour {
                                 GameManager.Instance.ListOfSelectedKeepers[0].IsTargetableByMonster = true;
                             }
                                
-                            if (tileHit == TileManager.Instance.GetTileFromKeeper[GameManager.Instance.ListOfSelectedKeepers[0]])
+                            if (tileHit == TileManager.Instance.GetTileFromKeeperOld[GameManager.Instance.ListOfSelectedKeepers[0]])
                             {
                                 // Move the keeper
                                 for (int i = 0; i < GameManager.Instance.ListOfSelectedKeepers.Count; i++)
@@ -208,10 +208,10 @@ public class ControlsManager : MonoBehaviour {
                             else
                             {
                                 //TODO: Change this to show the button BEFORE moving
-                                if (Array.Exists(TileManager.Instance.GetTileFromKeeper[GameManager.Instance.ListOfSelectedKeepers[0]].Neighbors, x => x == tileHit))
+                                if (Array.Exists(TileManager.Instance.GetTileFromKeeperOld[GameManager.Instance.ListOfSelectedKeepers[0]].Neighbors, x => x == tileHit))
                                 {
-                                    int neighbourIndex = Array.FindIndex(TileManager.Instance.GetTileFromKeeper[GameManager.Instance.ListOfSelectedKeepers[0]].Neighbors, x => x == tileHit);
-                                    Tile currentTile = TileManager.Instance.GetTileFromKeeper[GameManager.Instance.ListOfSelectedKeepers[0]];
+                                    int neighbourIndex = Array.FindIndex(TileManager.Instance.GetTileFromKeeperOld[GameManager.Instance.ListOfSelectedKeepers[0]].Neighbors, x => x == tileHit);
+                                    Tile currentTile = TileManager.Instance.GetTileFromKeeperOld[GameManager.Instance.ListOfSelectedKeepers[0]];
                                     
                                     TileTrigger tt = currentTile.transform.GetChild(0).GetChild(1).GetChild(neighbourIndex).GetComponent<TileTrigger>();
 
@@ -256,10 +256,10 @@ public class ControlsManager : MonoBehaviour {
                 KeeperInstance currentKeeperSelected = GameManager.Instance.ListOfSelectedKeepers[0];
 
                 // Get his tile
-                Tile currentKeeperTile = TileManager.Instance.GetTileFromKeeper[currentKeeperSelected];
+                Tile currentKeeperTile = TileManager.Instance.GetTileFromKeeperOld[currentKeeperSelected];
 
                 // Get next on tile
-                List<KeeperInstance> keepersOnTile = TileManager.Instance.KeepersOnTile[currentKeeperTile];
+                List<KeeperInstance> keepersOnTile = TileManager.Instance.KeepersOnTileOld[currentKeeperTile];
                 int currentKeeperSelectedIndex = keepersOnTile.FindIndex(x => x == currentKeeperSelected);
 
                 // Next keeper on the same tile is now active

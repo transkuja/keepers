@@ -61,7 +61,7 @@ public class DragHandler : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
                 loot.Add(eventData.pointerDrag.gameObject.GetComponent<ItemInstance>().ItemContainer);
 
 
-                Tile t = TileManager.Instance.GetTileFromKeeper[inventaireDequi.Owner.GetComponent<KeeperInstance>()];
+                Tile t = TileManager.Instance.GetTileFromKeeperOld[inventaireDequi.Owner.GetComponent<KeeperInstance>()];
 
                 ItemManager.AddItemOnTheGround(t, inventaireDequi.Owner.transform, loot);
 

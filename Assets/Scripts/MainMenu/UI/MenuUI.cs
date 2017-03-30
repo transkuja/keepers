@@ -33,10 +33,10 @@ public class MenuUI : MonoBehaviour
         }
 
         // On selection 
-        int nbCharacters = GameManager.Instance.AllKeepersList.Count;
+        int nbCharacters = GameManager.Instance.AllKeepersListOld.Count;
         for (int i = 0; i < nbCharacters; i++)
         {
-            KeeperInstance currentSelectedCharacter = GameManager.Instance.AllKeepersList[i];
+            KeeperInstance currentSelectedCharacter = GameManager.Instance.AllKeepersListOld[i];
 
             if (currentSelectedCharacter.IsSelectedInMenu)
             {
@@ -65,7 +65,7 @@ public class MenuUI : MonoBehaviour
 
     public void UpdateStartButton()
     {
-        if (GameManager.Instance.AllKeepersList.Count == 0 || GetComponent<MenuControls>().levelSelected == -1)
+        if (GameManager.Instance.AllKeepersListOld.Count == 0 || GetComponent<MenuControls>().levelSelected == -1)
         {
             startButtonImg.enabled = false;
         }

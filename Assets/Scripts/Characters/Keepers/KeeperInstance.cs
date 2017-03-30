@@ -154,13 +154,13 @@ public class KeeperInstance : MonoBehaviour, ITradable {
     void Die()
     {
         Debug.Log("Blaeuurgh... *dead*");
-        Tile currentTile = TileManager.Instance.GetTileFromKeeper[this];
+        Tile currentTile = TileManager.Instance.GetTileFromKeeperOld[this];
 
         // Drop items
         ItemManager.AddItemOnTheGround(currentTile, transform, GetComponent<Behaviour.Inventory>().Items);
 
         // Remove reference from tiles
-        TileManager.Instance.RemoveKilledKeeper(this);
+        TileManager.Instance.RemoveKilledKeeperOld(this);
 
         // Death operations
 

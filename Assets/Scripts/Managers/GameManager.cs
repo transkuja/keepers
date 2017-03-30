@@ -17,6 +17,9 @@ public class GameManager : MonoBehaviour
 
     private Database database = new Database();
 
+    [System.Obsolete]
+    private List<KeeperInstance> allKeepersListOld = new List<KeeperInstance>();
+    private List<PawnInstance> allKeepersList = new List<PawnInstance>();
     private GameObject goTarget;
 
     [SerializeField]
@@ -75,7 +78,7 @@ public class GameManager : MonoBehaviour
         {
             foreach( KeeperInstance ki in GetComponentsInChildren<KeeperInstance>())
             {
-                allKeepersList.Add(ki);
+                allKeepersListOld.Add(ki);
             }
         }
 
@@ -121,7 +124,7 @@ public class GameManager : MonoBehaviour
 
     public void InitializeInGameKeepers()
     {
-        foreach (KeeperInstance ki in allKeepersList)
+        foreach (KeeperInstance ki in allKeepersListOld)
         {
             ki.gameObject.transform.SetParent(transform);
         }
@@ -202,16 +205,35 @@ public class GameManager : MonoBehaviour
     }
 
 
-    public List<KeeperInstance> AllKeepersList
+        set
+        {
+            characterPanelIngameNeedUpdate = value;
+        }
+    }
+
+    public bool CharacterPanelMenuNeedUpdate
     {
         get
         {
-            return allKeepersList;
+            return characterPanelMenuNeedUpdate;
         }
 
         set
         {
-            allKeepersList = value;
+            characterPanelMenuNeedUpdate = value;
+        }
+    }
+
+    public List<KeeperInstance> AllKeepersList
+    {
+        get
+        {
+            return allKeepersListOld;
+        }
+
+        set
+        {
+            allKeepersListOld = value;
         }
     }
 
@@ -372,7 +394,20 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public SpriteUIUtils SpriteUtils
+    public List<PawnInstance> AllKeepersList
+    {
+        get
+        {
+            return allKeepersList;
+        }
+
+        set
+        {
+            allKeepersList = value;
+        }
+    }
+
+    public void CheckGameState()
     {
         get
         {
@@ -381,9 +416,40 @@ public class GameManager : MonoBehaviour
 
         set
         {
-            spriteUtils = value;
+            short nbDead = 0;
+            foreach (KeeperInstance ki in allKeepersListOld)
+            {
+                if (!ki.IsAlive)
+                {
+                    nbDead++;
+                }
+            }
+
+            if (nbDead == allKeepersListOld.Count)
+            {
+                Debug.Log("GameOver - All Keepers died");
+                Lose();
+            }
         }
     }
 
- 
+    public void Win()
+    {
+        AudioManager.Instance.PlayOneShot(AudioManager.Instance.winningSound);
+        WinScreen.gameObject.SetActive(true);
+        Time.timeScale = 0.0f;
+    }
+
+    public void Lose()
+    {
+        LoseScreen.gameObject.SetActive(true);
+        Time.timeScale = 0.0f;
+    }
+
+    public void ResetInstance()
+    {
+        allKeepersList.Clear();
+        listOfSelectedKeepers.Clear();
+        nbTurn = 1;
+    }
 }

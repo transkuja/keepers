@@ -6,17 +6,54 @@ namespace Behaviour
 {
     public class HungerHandler : MonoBehaviour
     {
+        PawnInstance instance;
 
-        // Use this for initialization
+        int maxHunger;
+        int currentHunger;
+        bool isStarving = false;
+
         void Start()
         {
-
+            instance = GetComponent<PawnInstance>();
+            currentHunger = maxHunger;
         }
 
-        // Update is called once per frame
-        void Update()
+        public int CurrentHunger
         {
+            get { return currentHunger; }
+            set
+            {
+                currentHunger = value;
+                if (currentHunger < 0)
+                {
+                    currentHunger = 0;
+                    isStarving = true;
+                }
+                else if (currentHunger > maxHunger)
+                {
+                    currentHunger = maxHunger;
+                    isStarving = false;
+                }
+                else
+                {
+                    isStarving = false;
+                }
 
+            }
         }
+
+        public int MaxHunger
+        {
+            get
+            {
+                return maxHunger;
+            }
+
+            set
+            {
+                maxHunger = value;
+            }
+        }
+
     }
 }

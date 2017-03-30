@@ -6,17 +6,31 @@ namespace Behaviour
 {
     public class Fighter : MonoBehaviour
     {
+        PawnInstance instance;
+        bool isTargetableByMonster = true;
 
-        // Use this for initialization
         void Start()
         {
-
+            instance = GetComponent<PawnInstance>();
         }
 
-        // Update is called once per frame
-        void Update()
+
+        public List<SkillBattle> BattleSkills
         {
+            get
+            {
+                return battleSkills;
+            }
 
+            set
+            {
+                battleSkills = value;
+            }
         }
+
+        // TODO add battle associated fields
+        [SerializeField]
+        private List<SkillBattle> battleSkills;
+
     }
 }
