@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 namespace Behaviour
 {
@@ -8,16 +9,23 @@ namespace Behaviour
     {
         PawnInstance instance;
 
+        // UI
+        public GameObject shorcutUI;
+        public GameObject selectedPanelUI;
+        public GameObject selectedStatPanelUI;
+        public GameObject selectedActionPointsUI;
+
         // Interactions variables
         public int minMoralBuff = -10;
         public int maxMoralBuff = 20;
 
         // Actions
         [Header("Actions")]
+
+        private int actionPoints;
         [SerializeField]
-        private short maxActionPoints = 3;
-        [SerializeField]
-        private short actionPoints;
+        private int maxActionPoints = 3;
+
 
         [SerializeField]
         private GameObject feedbackSelection;
@@ -36,19 +44,24 @@ namespace Behaviour
                 instance.Interactions.Add(new Interaction(MoralBuff), 1, "Moral", GameManager.Instance.SpriteUtils.spriteMoral);
 
             agent = GetComponent<NavMeshAgent>();
-            actionPoints = maxActionPoints;
+
+            shorcutUI = CreateShortcutKeeperUI();
+
+            // Need Equipement and inventory data
+            selectedPanelUI = CreateSelectedPanel();
+            ActionPoints = MaxActionPoints;
         }
 
         #region Interactions
 
         public void MoralBuff(int _i = 0)
         {
-            if (GameManager.Instance.ListOfSelectedKeepers.Count > 0)
+            if (GameManager.Instance.ListOfSelectedKeepersOld.Count > 0)
             {
                 int costAction = instance.Interactions.Get("Moral").costAction;
-                if (GameManager.Instance.ListOfSelectedKeepers[0].ActionPoints >= costAction)
+                if (GameManager.Instance.ListOfSelectedKeepersOld[0].ActionPoints >= costAction)
                 {
-                    GameManager.Instance.ListOfSelectedKeepers[0].ActionPoints -= (short)costAction;
+                    GameManager.Instance.ListOfSelectedKeepersOld[0].ActionPoints -= (short)costAction;
                     short amountMoralBuff = (short)Random.Range(minMoralBuff, maxMoralBuff);
                     GameManager.Instance.GoTarget.GetComponentInParent<KeeperInstance>().CurrentMentalHealth += amountMoralBuff;
                     GameManager.Instance.Ui.UpdateShortcutPanel();
@@ -63,9 +76,56 @@ namespace Behaviour
         }
         #endregion
 
+        #region UI
+
+        private enum PanelShortcutChildren { Image, HpGauge, HungerGauge, MentalHealthGauge, ActionPoints };
+        private enum PanelSelectedKeeperStatChildren { Image, ButtonCycleLeft, ButtonCycleRight, ActionPoints, StatTrigger };
+        public GameObject CreateShortcutKeeperUI()
+        {
+
+            Sprite associatedSprite = instance.Data.AssociatedSprite;
+            GameObject goShortcutKeeperUi = Instantiate(GameManager.Instance.PrefabUtils.PrefabSelectedCharacterUI, GameManager.Instance.Ui.goShortcutKeepersPanel.transform);
+
+            goShortcutKeeperUi.name = "Panel_Shortcut_" + instance.Data.PawnName;
+            goShortcutKeeperUi.transform.GetChild((int)PanelShortcutChildren.Image).GetComponent<Image>().sprite = associatedSprite;
+            goShortcutKeeperUi.transform.localScale = Vector3.one;
+            goShortcutKeeperUi.GetComponent<Button>().onClick.AddListener(() => GoToKeeper());
+
+            return goShortcutKeeperUi;
+        }
+
+        public GameObject CreateSelectedPanel()
+        {
+            Sprite associatedSprite = instance.Data.AssociatedSprite;
+            GameObject goSelectedKeeperUI = Instantiate(GameManager.Instance.PrefabUtils.PrefabSelectedCharacterUI, GameManager.Instance.Ui.goSelectedKeeperPanel.transform);
+            GameObject goStatsSelectedKeeperUI = Instantiate(GameManager.Instance.PrefabUtils.PrefabSelectedStatsUIPanel, goSelectedKeeperUI.transform);
+
+            goStatsSelectedKeeperUI.transform.GetChild((int)PanelSelectedKeeperStatChildren.Image).GetComponent<Image>().sprite = associatedSprite;
+            selectedStatPanelUI = goStatsSelectedKeeperUI;
+            selectedActionPointsUI = goStatsSelectedKeeperUI.transform.GetChild((int)PanelSelectedKeeperStatChildren.ActionPoints).gameObject;
+            return selectedPanelUI;
+        }
+
+        public void ShowSelectdePanelUI(bool isShow)
+        {
+            selectedPanelUI.SetActive(isShow);
+        }
+
+        public void GoToKeeper()
+        {
+            IsSelected = true;
+        }
+
+        public void UpdateActionPoint(int actionPoint)
+        {
+            selectedActionPointsUI.transform.GetChild(0).gameObject.GetComponentInChildren<Text>().text = actionPoint.ToString();
+            //selectedActionPointsUI.GetChild(0).gameObject.GetComponent<Image>().fillAmount = actionPoint / maxActionPoints; ;
+        }
+        #endregion
+
         #region Accessors
 
-        public short ActionPoints
+        public int ActionPoints
         {
             get
             {
@@ -74,7 +134,13 @@ namespace Behaviour
 
             set
             {
+                if (value < actionPoints) GameManager.Instance.Ui.DecreaseActionTextAnimation(actionPoints - value);
                 actionPoints = value;
+                UpdateActionPoint(actionPoints);
+                if (actionPoints > MaxActionPoints)
+                    actionPoints = MaxActionPoints;
+                if (actionPoints < 0)
+                    actionPoints = 0;
             }
         }
 
@@ -99,7 +165,21 @@ namespace Behaviour
             }
         }
 
-        public short MaxActionPoints
+
+        public bool IsSelected
+        {
+            get
+            {
+                return isSelected;
+            }
+
+            set
+            {
+                isSelected = value;
+            }
+        }
+
+        public int MaxActionPoints
         {
             get
             {
