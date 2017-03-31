@@ -14,7 +14,7 @@ public class EventManager : MonoBehaviour {
 
         ResetActionPointsForNextTurn();
         GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
-        GameManager.Instance.Ui.UpdateShortcutPanel();
+        //GameManager.Instance.Ui.UpdateShortcutPanel();
         GameManager.Instance.Ui.ClearActionPanel();
     }
 

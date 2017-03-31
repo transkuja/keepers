@@ -78,8 +78,8 @@ public class AnimationButtonClick : MonoBehaviour, IPointerEnterHandler {
                     // Actions
 
                     // If keeper is dead this will be destroy
-                    GameManager.Instance.Ui.goShortcutKeepersPanel.transform.GetChild(i + 1).GetChild(4).GetComponent<Text>().color = Color.green;
-                    GameManager.Instance.Ui.goShortcutKeepersPanel.transform.GetChild(i + 1).GetChild(4).transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
+                    GameManager.Instance.Ui.goShortcutKeepersPanel.transform.GetChild(i).GetChild(4).GetComponent<Text>().color = Color.green;
+                    GameManager.Instance.Ui.goShortcutKeepersPanel.transform.GetChild(i).GetChild(4).transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
                     StartCoroutine(TextAnimationNormalState(i));
                     return;
                 }

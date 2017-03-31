@@ -11,7 +11,7 @@ public class BattleResultsPanelHandler : MonoBehaviour {
         Time.timeScale = 1.0f;
 
         GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
-        GameManager.Instance.Ui.UpdateShortcutPanel();
+        //GameManager.Instance.Ui.UpdateShortcutPanel();
     }
 }
 

@@ -64,7 +64,11 @@ public class TileManager : MonoBehaviour {
     {
         Tile destination = from.Neighbors[(int)direction];
         if (destination == null)
+        {
+            Debug.Log("Destination Unknown");
             return;
+        }
+
 
         RemoveKeeperFromTile(from, keeper);
         AddKeeperOnTile(destination, keeper);

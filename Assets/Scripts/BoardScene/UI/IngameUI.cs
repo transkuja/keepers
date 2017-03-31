@@ -220,22 +220,22 @@ public class IngameUI : MonoBehaviour
 
     public void BuffActionTextAnimation(GameObject goStatBuff, int amount)
     {
-        goStatBuff.gameObject.SetActive(true);
-        if (amount < 0)
-        {
-            //goStatBuff.GetComponent<Image>().sprite = spriteMoralDebuff;
-            goStatBuff.GetComponentInChildren<Text>().color = Color.red;
-            goStatBuff.GetComponentInChildren<Text>().text = "";
-        }
-        else
-        {
-            //goStatBuff.GetComponent<Image>().sprite = spriteMoralBuff;
-            goStatBuff.GetComponentInChildren<Text>().color = Color.green;
-            goStatBuff.GetComponentInChildren<Text>().text = "+ ";
-        }
-        goStatBuff.GetComponentInChildren<Text>().text += amount.ToString();
+        //goStatBuff.gameObject.SetActive(true);
+        //if (amount < 0)
+        //{
+        //    //goStatBuff.GetComponent<Image>().sprite = spriteMoralDebuff;
+        //    goStatBuff.GetComponentInChildren<Text>().color = Color.red;
+        //    goStatBuff.GetComponentInChildren<Text>().text = "";
+        //}
+        //else
+        //{
+        //    //goStatBuff.GetComponent<Image>().sprite = spriteMoralBuff;
+        //    goStatBuff.GetComponentInChildren<Text>().color = Color.green;
+        //    goStatBuff.GetComponentInChildren<Text>().text = "+ ";
+        //}
+        //goStatBuff.GetComponentInChildren<Text>().text += amount.ToString();
 
-        StartCoroutine(BuffPanelNormalState(goStatBuff));
+        //StartCoroutine(BuffPanelNormalState(goStatBuff));
     }
 
     private IEnumerator BuffPanelNormalState(GameObject goStatBuff)
@@ -344,76 +344,76 @@ public class IngameUI : MonoBehaviour
     //    }
     //}
 
-    public void UpdateShortcutPanel()
-    {
-        if (GameManager.Instance == null) { return; }
-        if (goShortcutKeepersPanel == null) { return; }
+    //public void UpdateShortcutPanel()
+    //{
+    //    if (GameManager.Instance == null) { return; }
+    //    if (goShortcutKeepersPanel == null) { return; }
 
-        // nb Character + Ashley
-        for (int i = 0; i < goShortcutKeepersPanel.transform.childCount; i++)
-        {
-            if (i == 0)
-            {
-                /*
-                PrisonerInstance prisonner = GameManager.Instance.PrisonerInstance;
-                // Update HP
-                goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.HpGauge).GetChild(0).gameObject.GetComponent<Image>().fillAmount = prisonner.CurrentHp / 100.0f;
-                // Update Hunger
-                goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.HungerGauge).GetChild(0).gameObject.GetComponent<Image>().fillAmount = prisonner.CurrentHunger / 100.0f;
-                */
-            }
-            else
-            {
-                PawnInstance currentCharacter = GameManager.Instance.AllKeepersList[i-1];
+    //    // nb Character + Ashley
+    //    for (int i = 0; i < goShortcutKeepersPanel.transform.childCount; i++)
+    //    {
+    //        if (i == 0)
+    //        {
+    //            /*
+    //            PrisonerInstance prisonner = GameManager.Instance.PrisonerInstance;
+    //            // Update HP
+    //            goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.HpGauge).GetChild(0).gameObject.GetComponent<Image>().fillAmount = prisonner.CurrentHp / 100.0f;
+    //            // Update Hunger
+    //            goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.HungerGauge).GetChild(0).gameObject.GetComponent<Image>().fillAmount = prisonner.CurrentHunger / 100.0f;
+    //            */
+    //        }
+    //        else
+    //        {
+    //            PawnInstance currentCharacter = GameManager.Instance.AllKeepersList[i-1];
 
-                if (currentCharacter != null)
-                {
-                    // Handle character death
-                    if (!currentCharacter.GetComponent<Behaviour.Mortal>().IsAlive)
-                    {
+    //            if (currentCharacter != null)
+    //            {
+    //                // Handle character death
+    //                if (!currentCharacter.GetComponent<Behaviour.Mortal>().IsAlive)
+    //                {
 
-                        // Do this process once only
-                        if (goShortcutKeepersPanel.transform.GetChild(i).childCount > 4)
-                        {
-                            // Update HP
-                            goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.HpGauge).GetChild(0).GetComponent<Image>().color = Color.grey;
-                            goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.MentalHealthGauge).GetChild(0).GetComponent<Image>().color = Color.grey;
-                            goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.HungerGauge).GetChild(0).GetComponent<Image>().color = Color.grey;
-                            // Update Action Points
-                            Destroy(goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.ActionPoints).gameObject);
+    //                    // Do this process once only
+    //                    if (goShortcutKeepersPanel.transform.GetChild(i).childCount > 4)
+    //                    {
+    //                        // Update HP
+    //                        goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.HpGauge).GetChild(0).GetComponent<Image>().color = Color.grey;
+    //                        goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.MentalHealthGauge).GetChild(0).GetComponent<Image>().color = Color.grey;
+    //                        goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.HungerGauge).GetChild(0).GetComponent<Image>().color = Color.grey;
+    //                        // Update Action Points
+    //                        Destroy(goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.ActionPoints).gameObject);
 
-                            // Change image from alive to dead
-                            goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.Image).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteSupport;
+    //                        // Change image from alive to dead
+    //                        goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.Image).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteSupport;
 
-                            GameObject go = Instantiate(GameManager.Instance.PrefabUtils.PrefabImageUI);
-                            go.GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteDeath;
-                            go.transform.SetParent(goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.Image).transform);
-                            go.transform.localScale = Vector3.one * 0.75f;
+    //                        GameObject go = Instantiate(GameManager.Instance.PrefabUtils.PrefabImageUI);
+    //                        go.GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteDeath;
+    //                        go.transform.SetParent(goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.Image).transform);
+    //                        go.transform.localScale = Vector3.one * 0.75f;
 
-                            // TODO fix this ugly shit again @Anthony @Rémi
-                            go.GetComponent<RectTransform>().localPosition = new Vector3(37.5f, -37.5f, 0.0f);
+    //                        // TODO fix this ugly shit again @Anthony @Rémi
+    //                        go.GetComponent<RectTransform>().localPosition = new Vector3(37.5f, -37.5f, 0.0f);
 
 
-                        }
-                    }
-                    // Standard UI update for alive characters
-                    else
-                    {
-                        // Update HP
-                        goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.HpGauge).GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)currentCharacter.GetComponent<Behaviour.Mortal>().CurrentHp / (float)currentCharacter.GetComponent<Behaviour.Mortal>().MaxHp;
-                        // Update Hunger
-                        goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.HungerGauge).GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)currentCharacter.GetComponent<Behaviour.HungerHandler>().CurrentHunger / (float)currentCharacter.GetComponent<Behaviour.HungerHandler>().Data.MaxHunger;
-                        // Update MentalHealth
-                        goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.MentalHealthGauge).GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)currentCharacter.GetComponent<Behaviour.MentalHealthHandler>().CurrentMentalHealth / (float)currentCharacter.GetComponent<Behaviour.MentalHealthHandler>().Data.MaxMentalHealth;
+    //                    }
+    //                }
+    //                // Standard UI update for alive characters
+    //                else
+    //                {
+    //                    // Update HP
+    //                    goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.HpGauge).GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)currentCharacter.GetComponent<Behaviour.Mortal>().CurrentHp / (float)currentCharacter.GetComponent<Behaviour.Mortal>().MaxHp;
+    //                    // Update Hunger
+    //                    goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.HungerGauge).GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)currentCharacter.GetComponent<Behaviour.HungerHandler>().CurrentHunger / (float)currentCharacter.GetComponent<Behaviour.HungerHandler>().Data.MaxHunger;
+    //                    // Update MentalHealth
+    //                    goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.MentalHealthGauge).GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)currentCharacter.GetComponent<Behaviour.MentalHealthHandler>().CurrentMentalHealth / (float)currentCharacter.GetComponent<Behaviour.MentalHealthHandler>().Data.MaxMentalHealth;
 
-                        // Update Action Points
-                        goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.ActionPoints).gameObject.GetComponentInChildren<Text>().text = currentCharacter.GetComponent<Behaviour.Keeper>().ActionPoints.ToString();
-                    }
-                }
-            }
+    //                    // Update Action Points
+    //                    goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.ActionPoints).gameObject.GetComponentInChildren<Text>().text = currentCharacter.GetComponent<Behaviour.Keeper>().ActionPoints.ToString();
+    //                }
+    //            }
+    //        }
 
-        }
-    }
+    //    }
+    //}
     #endregion
 
     #region SelectedKeeper
