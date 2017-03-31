@@ -101,7 +101,7 @@ public class PawnDatabase {
                                     break;
                             }
                         }
-                        newPawnDataContainer.dicComponentData.Add(typeof(Behaviour.Inventory).ToString(), newMentalHealthHandlerData);
+                        newPawnDataContainer.dicComponentData.Add(typeof(Behaviour.MentalHealthHandler).ToString(), newMentalHealthHandlerData);
                         break;
                     case "Monster":
                         newPawnDataContainer.dicComponentData.Add(typeof(Behaviour.Monster).ToString(), null);

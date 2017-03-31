@@ -7,8 +7,6 @@
 			
 			"AnimatedPawn" : {},
 			
-			"Escortable" : {},
-			
 			"Fighter" : {},
 			
 			"HungerHandler" : {
@@ -17,7 +15,7 @@
 			
 			"Inventory" : {
 				"nbSlot" : "4"
-			}
+			},
 			
 			"Keeper" : {},
 			
@@ -25,15 +23,18 @@
 				"maxMentalHealth" : "100"
 			},
 			
-			"Monster" : {},
-			
 			"Mortal" : {
 				"maxHp" : "100"
+			}
+		},
+		{
+			"id": "pnj_01",
+			"name" : "Alberto",
+			"sprite" : "",
+					
+			"Inventory" : {
+				"nbSlot" : "4"
 			},
-			
-			"PathBlocker" : {},
-			
-			"Prisoner" : {},
 			
 			"QuestDealer" : {},
 		}
