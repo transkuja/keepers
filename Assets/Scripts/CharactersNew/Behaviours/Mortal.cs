@@ -42,7 +42,9 @@ namespace Behaviour
         {
             if (instance.GetComponent<Escortable>() != null)
             {
-                //selectedHPUI.transform.SetParent(instance.GetComponent<Escortable>().selectedStatPanelUI.transform);
+                shortcutHPUI.transform.SetParent(instance.GetComponent<Escortable>().shorcutUI.transform);
+                shortcutHPUI.transform.localScale = Vector3.one;
+                shortcutHPUI.transform.localPosition = Vector3.zero;
             }
             else if (instance.GetComponent<Keeper>() != null)
             {
@@ -130,7 +132,7 @@ namespace Behaviour
             shortcutHPUI = Instantiate(GameManager.Instance.PrefabUtils.PrefabHPUI);
         }
 
-        public void UpdateMentalHealthPanel(int hunger)
+        public void UpdateHPPanel(int hunger)
         {
             if (instance.GetComponent<Escortable>() != null)
             {
@@ -181,7 +183,7 @@ namespace Behaviour
                 else
                 {
                     IsAlive = true;
-                    UpdateMentalHealthPanel(currentHp);
+                    UpdateHPPanel(currentHp);
                 }
             }
         }

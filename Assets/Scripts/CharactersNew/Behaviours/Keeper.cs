@@ -3,6 +3,9 @@ using UnityEngine.AI;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
+
+public enum PanelShortcutChildren { Image, HpGauge, HungerGauge, MentalHealthGauge, ActionPoints };
+public enum PanelSelectedKeeperStatChildren { Image, ButtonCycleLeft, ButtonCycleRight, ActionPoints, StatTrigger };
 namespace Behaviour
 {
     public class Keeper : MonoBehaviour
@@ -41,7 +44,7 @@ namespace Behaviour
         {
             instance = GetComponent<PawnInstance>();
 
-            shorcutUI = CreateShortcutKeeperUI();
+            CreateShortcutKeeperUI();
             CreateSelectedPanel();
         }
 
@@ -53,9 +56,10 @@ namespace Behaviour
 
             agent = GetComponent<NavMeshAgent>();
 
-
+            shorcutUI.name = "Shortcut" + instance.Data.PawnName;
+            selectedPanelUI.name = "SelectedKeeper" + instance.Data.PawnName;
             // Need Equipement and inventory data
-      
+
             ActionPoints = MaxActionPoints;
         }
 
@@ -101,25 +105,22 @@ namespace Behaviour
         #endregion
 
         #region UI
-
-        private enum PanelShortcutChildren { Image, HpGauge, HungerGauge, MentalHealthGauge, ActionPoints };
-        private enum PanelSelectedKeeperStatChildren { Image, ButtonCycleLeft, ButtonCycleRight, ActionPoints, StatTrigger };
-        public GameObject CreateShortcutKeeperUI()
+        public void CreateShortcutKeeperUI()
         {
 
             Sprite associatedSprite = instance.Data.AssociatedSprite;
-            GameObject goShortcutKeeperUi = Instantiate(GameManager.Instance.PrefabUtils.PrefabShorcutCharacter, GameManager.Instance.Ui.goShortcutKeepersPanel.transform);
+            shorcutUI = Instantiate(GameManager.Instance.PrefabUtils.PrefabShorcutCharacter, GameManager.Instance.Ui.goShortcutKeepersPanel.transform);
 
-            goShortcutKeeperUi.name = "Panel_Shortcut_" + instance.Data.PawnName;
-            goShortcutKeeperUi.transform.GetChild((int)PanelShortcutChildren.Image).GetComponent<Image>().sprite = associatedSprite;
-            goShortcutKeeperUi.transform.localScale = Vector3.one;
-            goShortcutKeeperUi.GetComponent<Button>().onClick.AddListener(() => GoToKeeper());
+            shorcutUI.name = "Panel_Shortcut_" + instance.Data.PawnName;
+            shorcutUI.transform.GetChild((int)PanelShortcutChildren.Image).GetComponent<Image>().sprite = associatedSprite;
+            shorcutUI.transform.localScale = Vector3.one;
+            shorcutUI.GetComponent<Button>().onClick.AddListener(() => GoToKeeper());
 
-            return goShortcutKeeperUi;
         }
 
         public void CreateSelectedPanel()
         {
+            Sprite associatedSprite = instance.Data.AssociatedSprite;
             selectedPanelUI = Instantiate(GameManager.Instance.PrefabUtils.PrefabSelectedKeeper, GameManager.Instance.Ui.goSelectedKeeperPanel.transform);
             selectedPanelUI.transform.localScale = Vector3.one;
             selectedPanelUI.transform.localPosition = Vector3.zero;
@@ -128,6 +129,8 @@ namespace Behaviour
             selectedStatPanelUI.transform.localScale = Vector3.one;
             selectedStatPanelUI.transform.localPosition = new Vector3(30, 70, 0);
 
+
+            selectedStatPanelUI.transform.GetChild((int)PanelSelectedKeeperStatChildren.Image).GetComponent<Image>().sprite = associatedSprite;
             selectedActionPointsUI = selectedStatPanelUI.transform.GetChild((int)PanelSelectedKeeperStatChildren.ActionPoints).gameObject;
             selectedActionPointsUI.transform.localScale = Vector3.one;
         }
@@ -144,8 +147,8 @@ namespace Behaviour
 
         public void UpdateActionPoint(int actionPoint)
         {
-            //selectedActionPointsUI.transform.GetChild(0).gameObject.GetComponentInChildren<Text>().text = actionPoint.ToString();
-            //selectedActionPointsUI.GetChild(0).gameObject.GetComponent<Image>().fillAmount = actionPoint / maxActionPoints; ;
+            selectedActionPointsUI.transform.GetChild(0).gameObject.GetComponentInChildren<Text>().text = actionPoint.ToString();
+            selectedActionPointsUI.gameObject.GetComponentInChildren<Image>().fillAmount = actionPoint / maxActionPoints; ;
         }
         #endregion
 

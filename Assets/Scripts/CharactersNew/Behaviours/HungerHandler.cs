@@ -40,7 +40,9 @@ namespace Behaviour
 
             if (instance.GetComponent<Escortable>() != null)
             {
-                //selectedHPUI.transform.SetParent(instance.GetComponent<Escortable>().selectedStatPanelUI.transform);
+                shortcutHungerUI.transform.SetParent(instance.GetComponent<Escortable>().shorcutUI.transform);
+                shortcutHungerUI.transform.localScale = Vector3.one;
+                shortcutHungerUI.transform.localPosition = Vector3.zero;
             }
             else if (instance.GetComponent<Keeper>() != null)
             {

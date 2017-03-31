@@ -103,7 +103,6 @@ public class KeeperInstance : MonoBehaviour, ITradable {
             {
                 IsStarving = false;
             }
-
         }
     }
 

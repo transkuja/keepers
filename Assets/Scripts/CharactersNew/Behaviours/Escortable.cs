@@ -17,14 +17,14 @@ namespace Behaviour
         void Awake()
         {
             instance = GetComponent<PawnInstance>();
+
+            CreateShortcutEscortUI();
         }
 
         void Start()
         {
             instance.Interactions.Add(new Interaction(Escort), 0, "Escort", GameManager.Instance.SpriteUtils.spriteEscort);
             instance.Interactions.Add(new Interaction(UnEscort), 0, "Unescort", GameManager.Instance.SpriteUtils.spriteUnescort, false);
-
-            CreateShortcutEscortUI();
         }
 
         public void Escort(int _i = 0)
@@ -45,9 +45,11 @@ namespace Behaviour
 
         public void CreateShortcutEscortUI()
         {
+            Sprite associatedSprite = instance.Data.AssociatedSprite;
             shorcutUI = Instantiate(GameManager.Instance.PrefabUtils.PrefabShorcutCharacter, GameManager.Instance.Ui.goShortcutKeepersPanel.transform);
             shorcutUI.transform.localScale = Vector3.one;
             shorcutUI.transform.localPosition = Vector3.zero;
+            shorcutUI.transform.GetChild((int)PanelShortcutChildren.Image).GetComponent<Image>().sprite = associatedSprite;
 
             // ? ? 
             shorcutUI.GetComponent<Button>().onClick.AddListener(() => GoToEscorted());
