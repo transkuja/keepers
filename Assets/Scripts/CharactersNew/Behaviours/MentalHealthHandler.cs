@@ -11,7 +11,7 @@ namespace Behaviour
         {
             int maxMentalHealth;
 
-            public MentalHealthHandlerData(int _maxMentalHealth)
+            public MentalHealthHandlerData(int _maxMentalHealth = 0)
             {
                 maxMentalHealth = _maxMentalHealth;
             }

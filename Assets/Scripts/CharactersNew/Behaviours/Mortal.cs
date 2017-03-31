@@ -30,6 +30,25 @@ namespace Behaviour
             }
         }
 
+            public MortalData(int _maxHp)
+            {
+                maxHp = _maxHp;
+            }
+
+            public int MaxHp
+            {
+                get
+                {
+                    return maxHp;
+                }
+
+                set
+                {
+                    maxHp = value;
+                }
+            }
+        }
+
         PawnInstance instance;
 
         [SerializeField]
@@ -259,3 +278,24 @@ namespace Behaviour
         #endregion
     }
 }
+
+    {
+        public class MortalData : ComponentData
+            public MortalData(int _maxHp = 0)
+            {
+                maxHp = _maxHp;
+            }
+
+            public int MaxHp
+            {
+                get
+                {
+                    return maxHp;
+                }
+
+                set
+                {
+                    maxHp = value;
+                }
+            }
+        }

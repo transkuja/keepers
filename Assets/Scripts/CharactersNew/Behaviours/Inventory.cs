@@ -7,11 +7,11 @@ namespace Behaviour
     [RequireComponent(typeof(PawnInstance))]
     public class Inventory : MonoBehaviour
     {
-        public class InventoryData
+        public class InventoryData : ComponentData
         {
             int nbSlot;
 
-            public InventoryData(int _nbSlot)
+            public InventoryData(int _nbSlot = 0)
             {
                 nbSlot = _nbSlot;
             }
