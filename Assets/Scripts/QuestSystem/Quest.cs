@@ -34,6 +34,23 @@ namespace QuestSystem
 
         }
 
+        public Quest()
+        { }
+
+        public void Init(QuestIdentifier ident, QuestText info, List<IQuestObjective> obj, QuestReward _reward = null)
+        {
+            identifier = ident;
+            information = info;
+            objectives = obj;
+            reward = _reward;
+        }
+
+        public void ResetQuestObjectives(List<IQuestObjective> obj, QuestReward _reward = null)
+        {
+            objectives = obj;
+            reward = _reward;
+        }
+
         // Objectives
         private List<IQuestObjective> objectives;
 
@@ -78,6 +95,7 @@ namespace QuestSystem
 
         // Rewards
 
+        // Check objectives and completion
         public bool CheckAndComplete()
         {
             for (int i = 0; i < objectives.Count; i++)
