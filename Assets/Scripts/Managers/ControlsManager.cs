@@ -134,6 +134,11 @@ public class ControlsManager : MonoBehaviour {
                                     }
                                 }
 
+                                if (clickTarget.GetComponentInParent<Escortable>() != null)
+                                {
+                                    clickTarget.GetComponentInParent<Escortable>().UpdateEscortableInteractions();
+                                }
+
                                 GameManager.Instance.GoTarget = clickTarget;
                                 ui.UpdateActionPanelUIQ(clickTarget.GetComponentInParent<PawnInstance>().Interactions);
                             }
