@@ -7,8 +7,10 @@ namespace Behaviour
 {
     public class MentalHealthHandler : MonoBehaviour
     {
+        [System.Serializable]
         public class MentalHealthHandlerData : ComponentData
         {
+            [SerializeField]
             int maxMentalHealth;
 
             public MentalHealthHandlerData(int _maxMentalHealth = 0)

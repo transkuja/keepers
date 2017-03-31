@@ -7,8 +7,10 @@ namespace Behaviour
 {
     public class Mortal : MonoBehaviour
     {
+        [System.Serializable]
         public class MortalData : ComponentData
         {
+            [SerializeField]
             int maxHp;
 
             public MortalData(int _maxHp = 0)

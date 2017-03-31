@@ -7,8 +7,10 @@ namespace Behaviour
 {
     public class HungerHandler : MonoBehaviour
     {
+        [System.Serializable]
         public class HungerHandlerData : ComponentData
         {
+            [SerializeField]
             int maxHunger;
 
             public HungerHandlerData(int _maxHunger = 0)
@@ -154,4 +156,4 @@ namespace Behaviour
         }
     }
 }
-
+

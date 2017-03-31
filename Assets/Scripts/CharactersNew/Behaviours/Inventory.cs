@@ -7,8 +7,10 @@ namespace Behaviour
     [RequireComponent(typeof(PawnInstance))]
     public class Inventory : MonoBehaviour
     {
+        [System.Serializable]
         public class InventoryData : ComponentData
         {
+            [SerializeField]
             int nbSlot;
 
             public InventoryData(int _nbSlot = 0)
