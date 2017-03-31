@@ -150,7 +150,7 @@ public class TileTrigger : MonoBehaviour {
 
     void Explore(int _i)
     {
-        if (GameManager.Instance.ListOfSelectedKeepersOld.Count > 0)
+        if (GameManager.Instance.ListOfSelectedKeepers.Count > 0)
         {
 
             PawnInstance toMove = GameManager.Instance.GetFirstSelectedKeeper();

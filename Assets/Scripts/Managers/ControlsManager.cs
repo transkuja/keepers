@@ -57,12 +57,8 @@ public class ControlsManager : MonoBehaviour {
                             GameManager.Instance.ClearListKeeperSelected();
                             GameManager.Instance.AddKeeperToSelectedList(clickedKeeper.getPawnInstance);
 
-                            GameManager.Instance.Ui.ShowSelectedKeeperPanel();
-                            GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
-
                             GameManager.Instance.Ui.HideInventoryPanels();
 
-                            GameManager.Instance.Ui.UpdateActionText();
                             clickedKeeper.IsSelected = true;
                         }
 

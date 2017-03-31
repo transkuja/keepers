@@ -84,12 +84,12 @@ namespace Behaviour
 
         public void MoralBuff(int _i = 0)
         {
-            if (GameManager.Instance.ListOfSelectedKeepersOld.Count > 0)
+            if (GameManager.Instance.ListOfSelectedKeepers.Count > 0)
             {
                 int costAction = instance.Interactions.Get("Moral").costAction;
-                if (GameManager.Instance.ListOfSelectedKeepersOld[0].ActionPoints >= costAction)
+                if (GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Keeper>().ActionPoints >= costAction)
                 {
-                    GameManager.Instance.ListOfSelectedKeepersOld[0].ActionPoints -= (short)costAction;
+                    GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Keeper>().ActionPoints -= (short)costAction;
                     short amountMoralBuff = (short)Random.Range(minMoralBuff, maxMoralBuff);
                     GameManager.Instance.GoTarget.GetComponentInParent<KeeperInstance>().CurrentMentalHealth += amountMoralBuff;
                     GameManager.Instance.Ui.UpdateShortcutPanel();

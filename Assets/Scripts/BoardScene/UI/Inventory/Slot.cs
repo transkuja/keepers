@@ -131,9 +131,9 @@ public class Slot : MonoBehaviour, IDropHandler
                 }
 
                 Destroy(eventData.pointerDrag.gameObject);
+                inventaireDequi.Owner.GetComponent<Behaviour.Inventory>().UpdateInventoryPanel();
+                inventaireversqui.Owner.GetComponent<Behaviour.Inventory>().UpdateInventoryPanel();
 
-                GameManager.Instance.Ui.UpdateInventoryPanel(inventaireDequi.Owner);
-                GameManager.Instance.Ui.UpdateInventoryPanel(inventaireversqui.Owner);
                 GameManager.Instance.Ui.UpdatePrisonerFeedingPanel(inventaireDequi.Owner);
                 GameManager.Instance.Ui.UpdatePrisonerFeedingPanel(inventaireversqui.Owner);
                 GameManager.Instance.Ui.UpdateSelectedKeeperPanel();

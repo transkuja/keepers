@@ -213,7 +213,6 @@ public class KeeperInstance : MonoBehaviour, ITradable {
 
             if (value < actionPoints) GameManager.Instance.Ui.DecreaseActionTextAnimation(actionPoints - value);
             actionPoints = value;
-            GameManager.Instance.Ui.UpdateActionText();
             GameManager.Instance.Ui.UpdateSelectedKeeperPanel();   
             if (actionPoints > keeper.MaxActionPoints)
                 actionPoints = keeper.MaxActionPoints;
@@ -504,29 +503,29 @@ public class KeeperInstance : MonoBehaviour, ITradable {
 
     public void Trade(int _i = 0)
     {
-        keeperInventoryPanel.SetActive(true);
-        GameManager.Instance.Ui.UpdateInventoryPanel(gameObject);
+    //    keeperInventoryPanel.SetActive(true);
+    //    GameManager.Instance.Ui.UpdateInventoryPanel(gameObject);
     }
 
     public void MoralBuff(int _i = 0)
     {
-        if (GameManager.Instance.ListOfSelectedKeepersOld.Count > 0)
-        {
-            int costAction = interactionImplementer.Get("Moral").costAction;
-            if (GameManager.Instance.ListOfSelectedKeepersOld[0].ActionPoints >= costAction)
-            {
-                GameManager.Instance.ListOfSelectedKeepersOld[0].ActionPoints -= (short)costAction;
-                short amountMoralBuff = (short)Random.Range(minMoralBuff, maxMoralBuff);
-                GameManager.Instance.GoTarget.GetComponentInParent<KeeperInstance>().CurrentMentalHealth += amountMoralBuff;
-                GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
-                GameManager.Instance.Ui.UpdateShortcutPanel();
-                GameManager.Instance.Ui.MoralBuffActionTextAnimation(amountMoralBuff);
-            }
-            else
-            {
-                GameManager.Instance.Ui.ZeroActionTextAnimation();
-            }
-        }
+        //if (GameManager.Instance.ListOfSelectedKeepers.Count > 0)
+        //{
+        //    int costAction = interactionImplementer.Get("Moral").costAction;
+        //    if (GameManager.Instance.ListOfSelectedKeepers[0].ActionPoints >= costAction)
+        //    {
+        //        GameManager.Instance.ListOfSelectedKeepers[0].ActionPoints -= (short)costAction;
+        //        short amountMoralBuff = (short)Random.Range(minMoralBuff, maxMoralBuff);
+        //        GameManager.Instance.GoTarget.GetComponentInParent<KeeperInstance>().CurrentMentalHealth += amountMoralBuff;
+        //        GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
+        //        GameManager.Instance.Ui.UpdateShortcutPanel();
+        //        GameManager.Instance.Ui.MoralBuffActionTextAnimation(amountMoralBuff);
+        //    }
+        //    else
+        //    {
+        //        GameManager.Instance.Ui.ZeroActionTextAnimation();
+        //    }
+        //}
     }
 
     private void DeactivatePawn()

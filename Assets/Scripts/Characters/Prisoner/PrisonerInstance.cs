@@ -325,9 +325,9 @@ public class PrisonerInstance : MonoBehaviour, IEscortable {
 
     public void UnEscort(int _i = 0)
     {
-        GameManager.Instance.ListOfSelectedKeepersOld[0].Keeper.GoListCharacterFollowing.Remove(this.gameObject);
-        GameManager.Instance.ListOfSelectedKeepersOld[0].isEscortAvailable = true;
-        GetComponent<NavMeshAgent>().avoidancePriority = 50;
+        //GameManager.Instance.ListOfSelectedKeepersOld[0].Keeper.GoListCharacterFollowing.Remove(this.gameObject);
+        //GameManager.Instance.ListOfSelectedKeepersOld[0].isEscortAvailable = true;
+        //GetComponent<NavMeshAgent>().avoidancePriority = 50;
     }
 
     public void InitFeeding(int _i = 0)

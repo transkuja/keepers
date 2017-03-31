@@ -38,13 +38,13 @@ public class TriggerPanneau : MonoBehaviour {
 
     void Look(int _i)
     {
-        if (GameManager.Instance.ListOfSelectedKeepersOld.Count > 0)
+        if (GameManager.Instance.ListOfSelectedKeepers.Count > 0)
         {
-            KeeperInstance ki = GameManager.Instance.ListOfSelectedKeepersOld[0];
+            PawnInstance ki = GameManager.Instance.ListOfSelectedKeepers[0];
             if (goPanneau == null) return;
             goPanneau.SetActive(true);
             // Si le personnage peut parler
-            if (ki.isAbleToImproveMoral)
+            if (ki.Data.Behaviours[(int)BehavioursEnum.CanSpeak])
             {
                 goPanneau.GetComponentInChildren<Text>().text = textPanneau;
             }

@@ -22,10 +22,10 @@ public class DoubleClickHandler : MonoBehaviour, IPointerClickHandler
             // Only keeper can use items
             KeeperInstance owner = eventData.pointerPress.GetComponentInParent<InventoryOwner>().Owner.GetComponent<KeeperInstance>();
             if (owner == null 
-                    || owner != GameManager.Instance.ListOfSelectedKeepersOld[0])
+                    || owner != GameManager.Instance.GetFirstSelectedKeeper())
             {
                 GameObject goOwner = eventData.pointerPress.GetComponentInParent<InventoryOwner>().Owner;
-                ItemContainer[] selectedKeeperInventory = GameManager.Instance.ListOfSelectedKeepersOld[0].GetComponent<Behaviour.Inventory>().Items;
+                ItemContainer[] selectedKeeperInventory = GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Inventory>().Items;
                 int freeSlotIndex = InventoryManager.FindFreeSlot(selectedKeeperInventory);
                 if (freeSlotIndex != -1)
                 {
@@ -58,7 +58,7 @@ public class DoubleClickHandler : MonoBehaviour, IPointerClickHandler
                         }
                     }
                     GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
-                    GameManager.Instance.Ui.UpdateInventoryPanel(goOwner);
+                    goOwner.GetComponent<Behaviour.Inventory>().UpdateInventoryPanel();
                     GameManager.Instance.Ui.UpdatePrisonerFeedingPanel(goOwner);
                 }
                 return;

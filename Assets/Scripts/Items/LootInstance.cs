@@ -50,7 +50,7 @@ public class LootInstance : MonoBehaviour, IPickable {
     public void Pick(int _i = 0)
     {
         lootPanel.SetActive(true);
-        GameManager.Instance.Ui.UpdateInventoryPanel(gameObject);
+        GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Inventory>().UpdateInventoryPanel();
     }
     public void OnMouseOver()
     {

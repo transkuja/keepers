@@ -114,7 +114,76 @@ namespace Behaviour
                 currentgoSlotPanel.transform.localScale = Vector3.one;
                 currentgoSlotPanel.name = "Slot" + i;
             }
+        }
 
+        public void UpdateInventoryPanel()
+        {
+            GameObject owner = null;
+            Sprite associatedSprite = null;
+            string name = "";
+            GameObject inventoryPanel = null;
+
+            if (instance.GetComponent<PawnInstance>() != null)
+            {
+                PawnInstance pawnInstance = instance.GetComponent<PawnInstance>();
+                associatedSprite = pawnInstance.Data.AssociatedSprite;
+                name = pawnInstance.Data.PawnName;
+                owner = pawnInstance.gameObject;
+            }
+            else if (instance.GetComponent<LootInstance>() != null)
+            {
+                LootInstance lootInstance = instance.GetComponent<LootInstance>();
+
+                associatedSprite = GameManager.Instance.SpriteUtils.spriteLoot;
+                inventoryPanel.transform.GetChild(0).gameObject.SetActive(false);
+                owner = lootInstance.gameObject;
+                name = "Loot";
+            }
+            else
+            {
+                return;
+            }
+
+            if (owner.GetComponent<Behaviour.Inventory>() != null && owner.GetComponent<Behaviour.Inventory>().Items != null)
+            {
+                ItemContainer[] inventory = owner.GetComponent<Behaviour.Inventory>().Items;
+                for (int i = 0; i < inventory.Length; i++)
+                {
+                    GameObject currentSlot = inventoryPanel.transform.GetChild(1).GetChild(i).gameObject;
+                    if (currentSlot.GetComponentInChildren<ItemInstance>() != null)
+                    {
+                        Destroy(currentSlot.GetComponentInChildren<ItemInstance>().gameObject);
+                    }
+
+                }
+
+                for (int i = 0; i < inventory.Length; i++)
+                {
+                    if (inventory[i] != null && inventory[i].Item != null && inventory[i].Item.Id != null)
+                    {
+                        GameObject currentSlot = inventoryPanel.transform.GetChild(1).GetChild(i).gameObject;
+                        GameObject go = Instantiate(GameManager.Instance.PrefabUtils.PrefabItemUI);
+                        go.transform.SetParent(currentSlot.transform);
+                        go.GetComponent<ItemInstance>().ItemContainer = inventory[i];
+                        go.name = inventory[i].ToString();
+
+                        go.GetComponent<Image>().sprite = inventory[i].Item.InventorySprite;
+                        go.transform.localScale = Vector3.one;
+
+                        go.transform.position = currentSlot.transform.position;
+                        go.transform.SetAsFirstSibling();
+
+                        if (go.GetComponent<ItemInstance>().ItemContainer.Item.GetType() == typeof(Ressource))
+                        {
+                            go.transform.GetComponentInChildren<Text>().text = inventory[i].Quantity.ToString();
+                        }
+                        else
+                        {
+                            go.transform.GetComponentInChildren<Text>().text = "";
+                        }
+                    }
+                }
+            }
         }
 
         public void Add(ItemContainer item)

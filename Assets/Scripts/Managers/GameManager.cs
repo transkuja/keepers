@@ -12,9 +12,7 @@ public class GameManager : MonoBehaviour
     public bool isDebugGameManager;
     #endregion
 
-    private PrisonerInstance prisonerInstanceOld;
     private PawnInstance prisonerInstance;
-    private List<KeeperInstance> listOfSelectedKeepersOld = new List<KeeperInstance>();
     private List<PawnInstance> listOfSelectedKeepers= new List<PawnInstance>();
 
     private Database database = new Database();
@@ -186,7 +184,7 @@ public class GameManager : MonoBehaviour
     public void ResetInstance()
     {
         allKeepersList.Clear();
-        listOfSelectedKeepersOld.Clear();
+        listOfSelectedKeepers.Clear();
         nbTurn = 1;
     }
 
@@ -199,19 +197,6 @@ public class GameManager : MonoBehaviour
         get
         {
             return instance;
-        }
-    }
-
-    public List<KeeperInstance> ListOfSelectedKeepersOld
-    {
-        get
-        {
-            return listOfSelectedKeepersOld;
-        }
-
-        set
-        {
-            listOfSelectedKeepersOld = value;
         }
     }
 
@@ -238,20 +223,6 @@ public class GameManager : MonoBehaviour
         set
         {
             prefabUtils = value;
-        }
-    }
-
-    [System.Obsolete]
-    public PrisonerInstance PrisonerInstanceOld
-    {
-        get
-        {
-            return prisonerInstanceOld;
-        }
-
-        set
-        {
-            prisonerInstanceOld = value;
         }
     }
 

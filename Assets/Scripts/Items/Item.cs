@@ -211,23 +211,23 @@ public class Equipment : Item
 
     public override void UseItem(ItemContainer ic, KeeperInstance owner, bool isQuantityPreviouslyEqualOne = false)
     {
-        bool isEquiped = EquipementManager.CheckIfItemTypeIsInEquipement(GameManager.Instance.ListOfSelectedKeepersOld[0].Equipment, ic);
-        if (isEquiped)
-        {
-            int nbSlot = GameManager.Instance.ListOfSelectedKeepersOld[0].Keeper.nbSlot;
-            EquipementManager.UnequipItem(GameManager.Instance.ListOfSelectedKeepersOld[0].GetComponent<Behaviour.Inventory>().Items, nbSlot, GameManager.Instance.ListOfSelectedKeepersOld[0].Equipment, ((Equipment)ic.Item).constraint);
+        //bool isEquiped = EquipementManager.CheckIfItemTypeIsInEquipement(GameManager.Instance.GetFirstSelectedKeeper().Equipment, ic);
+        //if (isEquiped)
+        //{
+        //    int nbSlot = GameManager.Instance.GetFirstSelectedKeeper().Keeper.nbSlot;
+        //    EquipementManager.UnequipItem(GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Inventory>().Items, nbSlot, GameManager.Instance.GetFirstSelectedKeeper().Equipment, ((Equipment)ic.Item).constraint);
 
-            // Unapply Bonus Stats
-            EquipementManager.UnapplyStats(GameManager.Instance.ListOfSelectedKeepersOld[0], ((Equipment)ic.Item));
-        } else
-        {
-            EquipementManager.EquipItem(GameManager.Instance.ListOfSelectedKeepersOld[0].GetComponent<Behaviour.Inventory>().Items, GameManager.Instance.ListOfSelectedKeepersOld[0].Equipment, ic);
+        //    // Unapply Bonus Stats
+        //    EquipementManager.UnapplyStats(GameManager.Instance.GetFirstSelectedKeeper(), ((Equipment)ic.Item));
+        //} else
+        //{
+        //    EquipementManager.EquipItem(GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Inventory>().Items, GameManager.Instance.GetFirstSelectedKeeper().Equipment, ic);
 
-            // Apply Bonus stats
-            EquipementManager.ApplyStats(GameManager.Instance.ListOfSelectedKeepersOld[0], ((Equipment)ic.Item));
-        }
+        //    // Apply Bonus stats
+        //    EquipementManager.ApplyStats(GameManager.Instance.GetFirstSelectedKeeper(), ((Equipment)ic.Item));
+        //}
 
-        GameManager.Instance.Ui.UpdateShortcutPanel();
+        //GameManager.Instance.Ui.UpdateShortcutPanel();
     }
 }
 

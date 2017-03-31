@@ -429,105 +429,105 @@ public class IngameUI : MonoBehaviour
 
     public void UpdateSelectedKeeperPanel()
     {
-        if (GameManager.Instance == null) { return; }
-        if (goInventory == null) { return; }
-        if (GameManager.Instance.ListOfSelectedKeepersOld.Count == 0) { return; }
+        //if (GameManager.Instance == null) { return; }
+        //if (goInventory == null) { return; }
+        //if (GameManager.Instance.ListOfSelectedKeepers.Count == 0) { return; }
 
-        KeeperInstance currentSelectedKeeper = GameManager.Instance.ListOfSelectedKeepersOld[0];
+        //KeeperInstance currentSelectedKeeper = GameManager.Instance.ListOfSelectedKeepersOld[0];
 
-        /*
-        Stats
-        */
-        Sprite associatedSprite = currentSelectedKeeper.Keeper.AssociatedSprite;
-        if (associatedSprite != null)
-        {
-            goStats.transform.GetChild(0).GetComponent<Image>().sprite = associatedSprite;
-        }
-        // Hunger
-        goStats.transform.GetChild(3).GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)currentSelectedKeeper.CurrentHunger / (float)currentSelectedKeeper.Keeper.MaxHunger;
-        // HP
-        goStats.transform.GetChild(4).GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)currentSelectedKeeper.CurrentHp / (float)currentSelectedKeeper.Keeper.MaxHp;
-        // Mental Health
-        goStats.transform.GetChild(5).GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)currentSelectedKeeper.CurrentMentalHealth / (float)currentSelectedKeeper.Keeper.MaxMentalHealth;
-        /*
-        Inventory
-        */
-        // Destroy Existing
-        foreach (Slot holder in goInventory.transform.GetComponentsInChildren<Slot>())
-        {
-            Destroy(holder.gameObject);
-        }
+        ///*
+        //Stats
+        //*/
+        //Sprite associatedSprite = currentSelectedKeeper.Keeper.AssociatedSprite;
+        //if (associatedSprite != null)
+        //{
+        //    goStats.transform.GetChild(0).GetComponent<Image>().sprite = associatedSprite;
+        //}
+        //// Hunger
+        //goStats.transform.GetChild(3).GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)currentSelectedKeeper.CurrentHunger / (float)currentSelectedKeeper.Keeper.MaxHunger;
+        //// HP
+        //goStats.transform.GetChild(4).GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)currentSelectedKeeper.CurrentHp / (float)currentSelectedKeeper.Keeper.MaxHp;
+        //// Mental Health
+        //goStats.transform.GetChild(5).GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)currentSelectedKeeper.CurrentMentalHealth / (float)currentSelectedKeeper.Keeper.MaxMentalHealth;
+        ///*
+        //Inventory
+        //*/
+        //// Destroy Existing
+        //foreach (Slot holder in goInventory.transform.GetComponentsInChildren<Slot>())
+        //{
+        //    Destroy(holder.gameObject);
+        //}
 
-        // Create Selected Keeper's one
-        goInventory.name = "Panel_Inventory" + currentSelectedKeeper.Keeper.CharacterName;
-        goInventory.GetComponent<InventoryOwner>().Owner = currentSelectedKeeper.gameObject;
+        //// Create Selected Keeper's one
+        //goInventory.name = "Panel_Inventory" + currentSelectedKeeper.Keeper.CharacterName;
+        //goInventory.GetComponent<InventoryOwner>().Owner = currentSelectedKeeper.gameObject;
 
-        int nbSlot = currentSelectedKeeper.Keeper.nbSlot;
+        //int nbSlot = currentSelectedKeeper.Keeper.nbSlot;
 
-        for (int i = 0; i < nbSlot; i++)
-        {
-            GameObject currentSlot = Instantiate(GameManager.Instance.PrefabUtils.PrefabSlotUI);
+        //for (int i = 0; i < nbSlot; i++)
+        //{
+        //    GameObject currentSlot = Instantiate(GameManager.Instance.PrefabUtils.PrefabSlotUI);
 
-            ItemContainer[] inventory = currentSelectedKeeper.GetComponent<Behaviour.Inventory>().Items;
-            if (inventory != null && inventory.Length > 0 && i < inventory.Length && inventory[i] != null && inventory[i].Item != null && inventory[i].Item.Id != null)
-            {
-                GameObject go = Instantiate(GameManager.Instance.PrefabUtils.PrefabItemUI);
-                go.transform.SetParent(currentSlot.transform);
-                go.GetComponent<ItemInstance>().ItemContainer = inventory[i];
-                go.name = inventory[i].Item.ItemName;
+        //    ItemContainer[] inventory = currentSelectedKeeper.GetComponent<Behaviour.Inventory>().Items;
+        //    if (inventory != null && inventory.Length > 0 && i < inventory.Length && inventory[i] != null && inventory[i].Item != null && inventory[i].Item.Id != null)
+        //    {
+        //        GameObject go = Instantiate(GameManager.Instance.PrefabUtils.PrefabItemUI);
+        //        go.transform.SetParent(currentSlot.transform);
+        //        go.GetComponent<ItemInstance>().ItemContainer = inventory[i];
+        //        go.name = inventory[i].Item.ItemName;
 
-                go.GetComponent<Image>().sprite = inventory[i].Item.InventorySprite;
-                go.transform.localScale = Vector3.one;
+        //        go.GetComponent<Image>().sprite = inventory[i].Item.InventorySprite;
+        //        go.transform.localScale = Vector3.one;
 
-                go.transform.position = currentSlot.transform.position;
-                go.transform.SetAsFirstSibling();
+        //        go.transform.position = currentSlot.transform.position;
+        //        go.transform.SetAsFirstSibling();
 
-                if (go.GetComponent<ItemInstance>().ItemContainer.Item.GetType() == typeof(Ressource))
-                {
-                    go.transform.GetComponentInChildren<Text>().text = inventory[i].Quantity.ToString();
-                }
-                else
-                {
-                    go.transform.GetComponentInChildren<Text>().text = "";
-                }
-            }
-            currentSlot.transform.SetParent(goInventory.transform);
-            currentSlot.transform.localScale = Vector3.one;
-        }
+        //        if (go.GetComponent<ItemInstance>().ItemContainer.Item.GetType() == typeof(Ressource))
+        //        {
+        //            go.transform.GetComponentInChildren<Text>().text = inventory[i].Quantity.ToString();
+        //        }
+        //        else
+        //        {
+        //            go.transform.GetComponentInChildren<Text>().text = "";
+        //        }
+        //    }
+        //    currentSlot.transform.SetParent(goInventory.transform);
+        //    currentSlot.transform.localScale = Vector3.one;
+        //}
 
-        goInventory.GetComponent<GridLayoutGroup>().constraintCount = nbSlot;
+        //goInventory.GetComponent<GridLayoutGroup>().constraintCount = nbSlot;
 
-        /*
-        Equipement
-        */
-        // Destroy Existing
-        ItemContainer[] equipement = currentSelectedKeeper.Equipment;
-        for (int i = 0; i < equipement.Length; i++)
-        {
-            GameObject currentSlot = goEquipement.transform.GetChild(i).gameObject;
-            if (currentSlot.GetComponentInChildren<ItemInstance>() != null)
-            {
-                Destroy(currentSlot.GetComponentInChildren<ItemInstance>().gameObject);
-            }
+        ///*
+        //Equipement
+        //*/
+        //// Destroy Existing
+        //ItemContainer[] equipement = currentSelectedKeeper.Equipment;
+        //for (int i = 0; i < equipement.Length; i++)
+        //{
+        //    GameObject currentSlot = goEquipement.transform.GetChild(i).gameObject;
+        //    if (currentSlot.GetComponentInChildren<ItemInstance>() != null)
+        //    {
+        //        Destroy(currentSlot.GetComponentInChildren<ItemInstance>().gameObject);
+        //    }
 
-            goEquipement.transform.GetComponent<InventoryOwner>().Owner = currentSelectedKeeper.gameObject;
-            if (equipement[i] != null && equipement[i].Item != null)
-            {
-                GameObject go = Instantiate(GameManager.Instance.PrefabUtils.PrefabItemUI);
-                go.transform.SetParent(currentSlot.transform);
-                go.GetComponent<ItemInstance>().ItemContainer = equipement[i];
-                go.name = equipement[i].ToString();
+        //    goEquipement.transform.GetComponent<InventoryOwner>().Owner = currentSelectedKeeper.gameObject;
+        //    if (equipement[i] != null && equipement[i].Item != null)
+        //    {
+        //        GameObject go = Instantiate(GameManager.Instance.PrefabUtils.PrefabItemUI);
+        //        go.transform.SetParent(currentSlot.transform);
+        //        go.GetComponent<ItemInstance>().ItemContainer = equipement[i];
+        //        go.name = equipement[i].ToString();
 
-                go.GetComponent<Image>().sprite = equipement[i].Item.InventorySprite;
-                go.transform.localScale = Vector3.one;
+        //        go.GetComponent<Image>().sprite = equipement[i].Item.InventorySprite;
+        //        go.transform.localScale = Vector3.one;
 
-                go.transform.position = currentSlot.transform.position;
-                go.transform.SetAsFirstSibling();
+        //        go.transform.position = currentSlot.transform.position;
+        //        go.transform.SetAsFirstSibling();
 
 
-                go.transform.GetComponentInChildren<Text>().text = "";
-            }
-        }
+        //        go.transform.GetComponentInChildren<Text>().text = "";
+        //    }
+        //}
     }
 
     public void CycleThroughKeepersButtonHandler(int direction)
@@ -580,15 +580,6 @@ public class IngameUI : MonoBehaviour
         HideInventoryPanels();
 
         GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
-        GameManager.Instance.Ui.UpdateActionText();
-    }
-
-    public void UpdateActionText()
-    {
-        if (GameManager.Instance.ListOfSelectedKeepersOld.Count == 0) { return; }
-
-        KeeperInstance currentKeeper = GameManager.Instance.ListOfSelectedKeepersOld[0];
-        SelectedKeeperActionText.text = currentKeeper.ActionPoints.ToString();
     }
 
     public void ZeroActionTextAnimation()
@@ -608,9 +599,9 @@ public class IngameUI : MonoBehaviour
 
     public void DecreaseActionTextAnimation(int amount)
     {
-        DecreasedActionText.GetComponent<Text>().text = "- " + amount.ToString();
-        DecreasedActionText.gameObject.SetActive(true);
-        StartCoroutine(DecreaseTextNormalState());
+        //DecreasedActionText.GetComponent<Text>().text = "- " + amount.ToString();
+        //DecreasedActionText.gameObject.SetActive(true);
+        //StartCoroutine(DecreaseTextNormalState());
     }
 
     private IEnumerator DecreaseTextNormalState()
@@ -748,79 +739,6 @@ public class IngameUI : MonoBehaviour
         for (int i = 0; i <Panel_Inventories.transform.childCount; i++)
         {
             Panel_Inventories.transform.GetChild(i).gameObject.SetActive(false);
-        }
-    }
-
-    public void UpdateInventoryPanel(GameObject pi)
-    {
-
-        if (pi.GetComponent<Behaviour.Inventory>() == null) return;
-        GameObject owner = null;
-        Sprite associatedSprite = null;
-        string name = "";
-        GameObject inventoryPanel = null;
-        int nbSlot = 0;
-        if (pi.GetComponent<KeeperInstance>() != null)
-        {
-            KeeperInstance keeperInstance = pi.GetComponent<KeeperInstance>();
-            associatedSprite = keeperInstance.Keeper.AssociatedSprite;
-            name = keeperInstance.Keeper.CharacterName;
-            inventoryPanel = keeperInstance.keeperInventoryPanel;
-            owner = keeperInstance.gameObject;
-            nbSlot = keeperInstance.Keeper.nbSlot;
-        }
-        else if (pi.GetComponent<LootInstance>() != null)
-        {
-            LootInstance lootInstance = pi.GetComponent<LootInstance>();
-            associatedSprite = GameManager.Instance.SpriteUtils.spriteLoot;
-            owner = lootInstance.gameObject;
-            inventoryPanel = lootInstance.lootPanel;
-            nbSlot = lootInstance.nbSlot;
-            name = "Loot";
-        }
-        else
-        {
-            return;
-        }
-
-        if (owner.GetComponent<Behaviour.Inventory>() != null && owner.GetComponent<Behaviour.Inventory>().Items != null)
-        {
-            ItemContainer[] inventory = pi.GetComponent<Behaviour.Inventory>().Items;
-            for (int i = 0; i < inventory.Length; i++)
-            {
-                GameObject currentSlot = inventoryPanel.transform.GetChild(1).GetChild(i).gameObject;
-                if (currentSlot.GetComponentInChildren<ItemInstance>() != null)
-                {
-                    Destroy(currentSlot.GetComponentInChildren<ItemInstance>().gameObject);
-                }
-                
-            }
-
-            for (int i = 0; i < inventory.Length; i++)
-            {
-                if (inventory[i] != null && inventory[i].Item != null && inventory[i].Item.Id != null)
-                {
-                    GameObject currentSlot = inventoryPanel.transform.GetChild(1).GetChild(i).gameObject;
-                    GameObject go = Instantiate(GameManager.Instance.PrefabUtils.PrefabItemUI);
-                    go.transform.SetParent(currentSlot.transform);
-                    go.GetComponent<ItemInstance>().ItemContainer = inventory[i];
-                    go.name = inventory[i].ToString();
-
-                    go.GetComponent<Image>().sprite = inventory[i].Item.InventorySprite;
-                    go.transform.localScale = Vector3.one;
-
-                    go.transform.position = currentSlot.transform.position;
-                    go.transform.SetAsFirstSibling();
-
-                    if (go.GetComponent<ItemInstance>().ItemContainer.Item.GetType() == typeof(Ressource))
-                    {
-                        go.transform.GetComponentInChildren<Text>().text = inventory[i].Quantity.ToString();
-                    } else
-                    {
-                        go.transform.GetComponentInChildren<Text>().text = "";
-                    }
-                }
-            }
         }
     }
 
