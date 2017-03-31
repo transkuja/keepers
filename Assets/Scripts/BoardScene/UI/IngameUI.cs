@@ -111,7 +111,7 @@ public class IngameUI : MonoBehaviour
     {
         if (GameManager.Instance == null) { return; }
         if (goActionPanelQ == null) { return; }
-        if (GameManager.Instance.ListOfSelectedKeepersOld.Count == 0) { return; }
+        if (GameManager.Instance.ListOfSelectedKeepers.Count == 0) { return; }
 
         //Clear
         ClearActionPanel();
@@ -121,12 +121,12 @@ public class IngameUI : MonoBehaviour
         // Actions
         for (int i = 0; i < ic.listActionContainers.Count; i++)
         {
-            bool bIsForbiden = ic.listActionContainers[i].strName == "Escort" && !GameManager.Instance.ListOfSelectedKeepersOld[0].isEscortAvailable;
-            bIsForbiden = bIsForbiden || ic.listActionContainers[i].strName == "Unescort" && GameManager.Instance.ListOfSelectedKeepersOld[0].isEscortAvailable;
-            bIsForbiden = bIsForbiden || ic.listActionContainers[i].strName == "Quest" && !GameManager.Instance.ListOfSelectedKeepersOld[0].isAbleToImproveMoral;
-            bIsForbiden = bIsForbiden || ic.listActionContainers[i].strName == "Moral" && !GameManager.Instance.ListOfSelectedKeepersOld[0].isAbleToImproveMoral;
-            if (!bIsForbiden)
-            {
+            //bool bIsForbiden = ic.listActionContainers[i].strName == "Escort" && !GameManager.Instance.ListOfSelectedKeepers[0].isEscortAvailable;
+            //bIsForbiden = bIsForbiden || ic.listActionContainers[i].strName == "Unescort" && GameManager.Instance.ListOfSelectedKeepers[0].isEscortAvailable;
+            //bIsForbiden = bIsForbiden || ic.listActionContainers[i].strName == "Quest" && !GameManager.Instance.ListOfSelectedKeepers[0].isAbleToImproveMoral;
+            //bIsForbiden = bIsForbiden || ic.listActionContainers[i].strName == "Moral" && !GameManager.Instance.ListOfSelectedKeepers[0].isAbleToImproveMoral;
+            //if (!bIsForbiden)
+            //{
                 GameObject goAction = Instantiate(GameManager.Instance.PrefabUtils.PrefabActionUI, goActionPanelQ.transform);
                 goAction.name = ic.listActionContainers[i].strName;
 
@@ -138,7 +138,7 @@ public class IngameUI : MonoBehaviour
                 int n = i;
 
                 // TODO @Remi, cette merde bug quand on change de perso selectionné et qu'on rentre dans le trigger du panneau >:(
-                int nbActionRestantKeeper = GameManager.Instance.ListOfSelectedKeepersOld[0].ActionPoints;
+                int nbActionRestantKeeper = GameManager.Instance.ListOfSelectedKeepers[0].GetComponent<Behaviour.Keeper>().ActionPoints;
 
                 if (ic.listActionContainers[i].costAction > nbActionRestantKeeper)
                 {
@@ -166,7 +166,7 @@ public class IngameUI : MonoBehaviour
 
                 btn.transform.GetComponentInChildren<Image>().sprite = ic.listActionContainers[i].sprite;
                 btn.transform.GetComponentInChildren<Image>().transform.localScale = Vector3.one;
-            }
+            //}
         }
 
         worldSpaceCanvas.transform.SetParent(GameManager.Instance.GoTarget.transform);

@@ -202,7 +202,6 @@ public class TileManager : MonoBehaviour {
             Debug.Log("Can't add keeper to tile, missing component Keeper.");
             return;
         }
-        Debug.Log(tile);
 
         if (KeepersOnTile.ContainsKey(tile))
         {
@@ -285,7 +284,6 @@ public class TileManager : MonoBehaviour {
         instance.prisonerTile = beginTile.GetComponentInParent<Tile>();
         GameManager.Instance.PrisonerInstance.CurrentTile = instance.prisonerTile;
 
-        Debug.Log(GameManager.Instance.AllKeepersList.Count);
         foreach (PawnInstance pi in GameManager.Instance.AllKeepersList)
         {
             instance.AddKeeperOnTile(beginTile.GetComponentInParent<Tile>(), pi);

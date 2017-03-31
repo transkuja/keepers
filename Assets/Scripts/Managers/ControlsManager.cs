@@ -27,7 +27,6 @@ public class ControlsManager : MonoBehaviour {
 
     private void SelectionControls()
     {
-
         if (Input.GetMouseButtonDown(0))
         {
             if (!EventSystem.current.IsPointerOverGameObject())
@@ -105,8 +104,6 @@ public class ControlsManager : MonoBehaviour {
                         Tile tileHit = hitInfo.collider.gameObject.GetComponentInParent<Tile>();
                         Tile keeperSelectedTile = GameManager.Instance.GetFirstSelectedKeeper().CurrentTile;
                         GameObject clickTarget = hitInfo.collider.gameObject;
-                        Debug.Log(tileHit);
-                        Debug.Log(keeperSelectedTile);
 
                         // Handle click on a ItemInstance
                         if (clickTarget.GetComponent<ItemInstance>() != null)
