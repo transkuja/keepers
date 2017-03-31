@@ -1,13 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.AI;
 
 namespace Behaviour
 {
     public class AnimatedPawn : MonoBehaviour
     {
         PawnInstance instance;
-
+        NavMeshAgent agent;
 
         // Movement between tile
         // Prevents action poping when arriving on a tile
@@ -33,28 +32,51 @@ namespace Behaviour
         void Start()
         {
             instance = GetComponent<PawnInstance>();
+            agent = GetComponent<NavMeshAgent>();
+            arrivingTrigger = Direction.None;
+            anim = GetComponentInChildren<Animator>();
+            fRotateSpeed = 5.0f;
         }
 
         void Update()
         {
+            if (GetComponent<Keeper>() != null)
+            {
+                Keeper keeper = GetComponent<Keeper>();
+                GameObject goDestinationTemp = gameObject;
+                for (int i = 0; i < GetComponent<Keeper>().GoListCharacterFollowing.Count; i++)
+                {
+                    if (!keeper.GoListCharacterFollowing[i].GetComponent<AnimatedPawn>().IsMovingBetweenTiles)
+                    {
+                        keeper.GoListCharacterFollowing[i].GetComponentInParent<NavMeshAgent>().destination = goDestinationTemp.transform.position;
+                        goDestinationTemp = keeper.GoListCharacterFollowing[i];
+                    }
+                }
+            }
 
+            if (bIsRotating)
+            {
+                Rotate();
+            }
+
+            anim.SetFloat("velocity", agent.velocity.magnitude);
         }
 
-        
+
         public void StartBetweenTilesAnimation(Vector3 newPosition)
         {
-            //lerpMoveParam = 0.0f;
-            //lerpStartPosition = transform.position;
-            //lerpEndPosition = newPosition;
-            //Vector3 direction = newPosition - transform.position;
-            //lerpStartRotation = Quaternion.LookRotation(transform.forward);
-            //lerpEndRotation = Quaternion.LookRotation(direction);
+            lerpMoveParam = 0.0f;
+            lerpStartPosition = transform.position;
+            lerpEndPosition = newPosition;
+            Vector3 direction = newPosition - transform.position;
+            lerpStartRotation = Quaternion.LookRotation(transform.forward);
+            lerpEndRotation = Quaternion.LookRotation(direction);
 
-            //anim.SetTrigger("moveBetweenTiles");
+            anim.SetTrigger("moveBetweenTiles");
 
-            //IsMovingBetweenTiles = true;
+            IsMovingBetweenTiles = true;
         }
-        /*
+        
         public void TriggerRotation(Vector3 v3Direction)
         {
             if (agent.enabled == false)
@@ -99,7 +121,7 @@ namespace Behaviour
                 transform.rotation = Quaternion.Lerp(quatPreviousRotation, quatTargetRotation, fLerpRotation);
             }
         }
-        */
+        
 
         #region Accessors
         public bool IsMovingBetweenTiles

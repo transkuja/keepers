@@ -165,8 +165,7 @@ public class ControlsManager : MonoBehaviour {
                                 {
                                     if (GameManager.Instance.ListOfSelectedKeepers[i].GetComponent<Mortal>().IsAlive && !GameManager.Instance.ListOfSelectedKeepers[i].GetComponent<AnimatedPawn>().IsMovingBetweenTiles)
                                     {
-                                        // TODO implement animated pawn component @Anthony
-                                        // GameManager.Instance.ListOfSelectedKeepers[i].GetComponent<AnimatedPawn>().TriggerRotation(hitInfo.point);
+                                        GameManager.Instance.ListOfSelectedKeepers[i].GetComponent<AnimatedPawn>().TriggerRotation(hitInfo.point);
                                     }
                                 }
                             }
@@ -190,10 +189,7 @@ public class ControlsManager : MonoBehaviour {
                                         // Move the keeper
                                         for (int i = 0; i < GameManager.Instance.ListOfSelectedKeepers.Count; i++)
                                         {
-                                            // TODO implement animated pawn component @Anthony
-
-                                            //  GameManager.Instance.ListOfSelectedKeepers[i].TriggerRotation(movePosition);
-
+                                            GameManager.Instance.ListOfSelectedKeepers[i].GetComponent<AnimatedPawn>().TriggerRotation(movePosition);
                                         }
                                     }
                                 }
