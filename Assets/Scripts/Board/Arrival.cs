@@ -36,7 +36,7 @@ public class Arrival : MonoBehaviour {
 
     public void ClickEnd(int i = -1)
     {
-        GameManager.Instance.CheckGameState();
+        GameManager.Instance.MainQuest.CheckAndComplete();
     }
 
     void EndGameQuest()

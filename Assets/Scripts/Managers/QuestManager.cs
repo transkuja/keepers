@@ -31,11 +31,18 @@ public class QuestManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
+            DontDestroyOnLoad(gameObject);
         }
         else if (instance != this)
         {
             Destroy(gameObject);
         }
+    }
+
+    void Start()
+    {
+        CurrentQuestDeck = new QuestDeck();
+        CurrentQuestDeck.Id = 0;
     }
 
     public Quest GetQuestByID(int id)

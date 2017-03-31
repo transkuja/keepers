@@ -138,8 +138,15 @@ public class ControlsManager : MonoBehaviour {
                                     clickTarget.GetComponentInParent<Escortable>().UpdateEscortableInteractions();
                                 }
 
+                                
+
                                 GameManager.Instance.GoTarget = clickTarget;
                                 ui.UpdateActionPanelUIQ(clickTarget.GetComponentInParent<PawnInstance>().Interactions);
+                            }
+                            if (clickTarget.GetComponentInParent<QuestDealer>() != null)
+                            {
+                                Debug.Log("Here");
+                                clickTarget.GetComponentInParent<QuestDealer>().Quest();
                             }
                         }
                         else if (hitInfo.collider.gameObject.GetComponent<Arrival>() != null)
