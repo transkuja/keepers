@@ -217,23 +217,15 @@ namespace Behaviour
             }
         }
 
-        public Sprite DeadSprite
-        {
-            get
-            {
-                return deadSprite;
-            }
-
-            set
-            {
-                deadSprite = value;
-            }
-        }
         public MortalData Data
         {
             get
             {
                 return data;
+            }
+            set
+            {
+                data = value;
             }
         }
 

@@ -386,7 +386,7 @@ public class IngameUI : MonoBehaviour
                             goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.Image).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteSupport;
 
                             GameObject go = Instantiate(GameManager.Instance.PrefabUtils.PrefabImageUI);
-                            go.GetComponent<Image>().sprite = currentCharacter.GetComponent<Behaviour.Mortal>().DeadSprite;
+                            go.GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteDeath;
                             go.transform.SetParent(goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.Image).transform);
                             go.transform.localScale = Vector3.one * 0.75f;
 

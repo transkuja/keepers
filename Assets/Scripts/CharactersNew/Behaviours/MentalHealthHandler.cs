@@ -132,6 +132,10 @@ namespace Behaviour
             {
                 return data;
             }
+            set
+            {
+                data = value;
+            }
         }
 
         public bool IsLowMentalHealthBuffApplied

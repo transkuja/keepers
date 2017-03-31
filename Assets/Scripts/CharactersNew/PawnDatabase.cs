@@ -123,9 +123,6 @@ public class PawnDatabase {
                                 case "maxHp":
                                     newMortalData.MaxHp = (int)mortalEntry.Value.Number;
                                     break;
-                                case "spriteDead":
-                                    newMortalData.SpriteDead = Resources.Load(mortalEntry.Value.Str) as Sprite;
-                                    break;
                             }
                         }
                         newPawnDataContainer.dicComponentData.Add(typeof(Behaviour.Mortal), newMortalData);
