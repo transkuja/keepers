@@ -71,6 +71,9 @@ namespace Behaviour
 
         public void StartBetweenTilesAnimation(Vector3 newPosition)
         {
+            // Probleme du déplacement ?????
+            //agent.enabled = false;
+
             lerpMoveParam = 0.0f;
             lerpStartPosition = transform.position;
             lerpEndPosition = newPosition;
@@ -140,6 +143,7 @@ namespace Behaviour
             set
             {
                 isMovingBetweenTiles = value;
+                agent.enabled = !isMovingBetweenTiles;
             }
         }
 
