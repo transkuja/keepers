@@ -12,6 +12,8 @@ qui vous interessent
 			"id": "",
 			"name" : "",
 			"sprite" : "",
+			"inGameVisual" : "Models/Pawns/Pawn_Ashley",
+			"canSpeak" : "true",
 			
 			"AnimatedPawn" : {},
 			
@@ -20,7 +22,7 @@ qui vous interessent
 			"Fighter" : {},
 			
 			"HungerHandler" : {
-				"maxHunger" : ""
+				"maxHunger" : 0
 			},
 			
 			"Inventory" : {
@@ -30,7 +32,7 @@ qui vous interessent
 			"Keeper" : {},
 			
 			"MentalHealthHandler" : {
-				"maxMentalHealth" : ""
+				"maxMentalHealth" : 0
 			},
 			
 			"Monster" : {},

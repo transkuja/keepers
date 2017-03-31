@@ -3,6 +3,7 @@ using UnityEngine.AI;
 
 namespace Behaviour
 {
+    [RequireComponent(typeof(NavMeshAgent))]
     public class AnimatedPawn : MonoBehaviour
     {
         PawnInstance instance;
@@ -31,6 +32,11 @@ namespace Behaviour
 
         void Start()
         {
+            if(GetComponent<NavMeshAgent>() == null)
+            {
+                gameObject.AddComponent<NavMeshAgent>();
+            }
+
             instance = GetComponent<PawnInstance>();
             agent = GetComponent<NavMeshAgent>();
             arrivingTrigger = Direction.None;

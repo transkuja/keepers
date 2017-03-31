@@ -41,6 +41,11 @@ public class PawnData {
     // DiceType diceType;
     // enum DiceType = { Offensive, Defensive, Support } => define DiceTypes + what they are used for
     #endregion
+    
+    public PawnData()
+    {
+        behaviours = new bool[(int)BehavioursEnum.Size];
+    }
 
     #region Accessors
     public string PawnId

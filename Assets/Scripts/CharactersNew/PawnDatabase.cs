@@ -59,6 +59,17 @@ public class PawnDatabase {
                     case "inGameVisual":
                         newPawnDataContainer.pawnData.goInGameVisual = Resources.Load(pawnEntry.Value.Str) as GameObject;
                         break;
+                    case "canSpeak":
+                        switch (pawnEntry.Value.Str)
+                        {
+                            case "true":
+                                newPawnDataContainer.pawnData.Behaviours[(int)BehavioursEnum.CanSpeak] = true;
+                                    break;
+                            case "false":
+                                newPawnDataContainer.pawnData.Behaviours[(int)BehavioursEnum.CanSpeak] = false;
+                                break;
+                        }
+                        break;
                     // COMPONENTS DATA
                     case "AnimatedPawn":
                         newPawnDataContainer.dicComponentData.Add(typeof(Behaviour.AnimatedPawn), null);
@@ -153,8 +164,6 @@ public class PawnDatabase {
         foreach(KeyValuePair<Type, ComponentData> pdc in dicPawnDataContainer[idPawn].dicComponentData)
         {
             goNew.AddComponent(pdc.Key);
-
-            Debug.Log("Component " + pdc.Key.ToString() + " added");
 
             switch (pdc.Key.ToString())
             {
