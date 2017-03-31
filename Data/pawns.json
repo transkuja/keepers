@@ -1,0 +1,41 @@
+{
+	"Pawns": [
+		{
+			"id": "character_01",
+			"name" : "Philippe",
+			"sprite" : "",
+			
+			"AnimatedPawn" : {},
+			
+			"Escortable" : {},
+			
+			"Fighter" : {},
+			
+			"HungerHandler" : {
+				"maxHunger" : "100"
+			},
+			
+			"Inventory" : {
+				"nbSlot" : "4"
+			}
+			
+			"Keeper" : {},
+			
+			"MentalHealthHandler" : {
+				"maxMentalHealth" : "100"
+			},
+			
+			"Monster" : {},
+			
+			"Mortal" : {
+				"maxHp" : "100"
+			},
+			
+			"PathBlocker" : {},
+			
+			"Prisoner" : {},
+			
+			"QuestDealer" : {},
+		}
+	]
+}
