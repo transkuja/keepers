@@ -42,6 +42,8 @@ namespace Behaviour
 
         void Awake()
         {
+            // J'ai un probleme j'ai besoin que la creation de l'ui de ce mec soit faite avant celle des autres composants
+            // Peut que sa sera corrigé avec le truc de Quentin du coup on pourra le déplacer dans le start
             instance = GetComponent<PawnInstance>();
 
             CreateShortcutKeeperUI();
@@ -95,7 +97,7 @@ namespace Behaviour
             else
             {
                 GameManager.Instance.Ui.ZeroActionTextAnimation();
-                }
+            }
         }
         #endregion
 
@@ -128,8 +130,8 @@ namespace Behaviour
             selectedActionPointsUI = selectedStatPanelUI.transform.GetChild((int)PanelSelectedKeeperStatChildren.ActionPoints).gameObject;
             selectedActionPointsUI.transform.localScale = Vector3.one;
 
-            selectedStatPanelUI.transform.GetChild((int)PanelSelectedKeeperStatChildren.ButtonCycleLeft).GetComponent<Button>().onClick.AddListener(() => GoToPreviousKeeper());
-            selectedStatPanelUI.transform.GetChild((int)PanelSelectedKeeperStatChildren.ButtonCycleRight).GetComponent<Button>().onClick.AddListener(() => GoToNextKeeper());
+            selectedStatPanelUI.transform.GetChild((int)PanelSelectedKeeperStatChildren.ButtonCycleLeft).GetComponent<Button>().onClick.AddListener(() => GoToKeeper(-1));
+            selectedStatPanelUI.transform.GetChild((int)PanelSelectedKeeperStatChildren.ButtonCycleRight).GetComponent<Button>().onClick.AddListener(() => GoToKeeper(+1));
         }
 
         public void ShowSelectdePanelUI(bool isShow)
@@ -144,59 +146,34 @@ namespace Behaviour
             IsSelected = true;
         }
 
-        // TODO etre plus malin que ça
-        public void GoToPreviousKeeper()
+        public void GoToKeeper(int direction)
         {
             GameManager.Instance.ClearListKeeperSelected();
-            int indice = -1;
-            for (int i = 0; i < GameManager.Instance.AllKeepersList.Count; i++)
+            int currentKeeperSelectedIndex = GameManager.Instance.AllKeepersList.FindIndex(x => x == instance);
+
+            PawnInstance nextKeeper = null;
+            int nbIterations = 1;
+            while (nextKeeper == null && nbIterations <= GameManager.Instance.AllKeepersList.Count)
             {
-                PawnInstance pi = GameManager.Instance.AllKeepersList[i];
-                if (pi == instance)
+                if ((currentKeeperSelectedIndex + direction * nbIterations) % GameManager.Instance.AllKeepersList.Count < 0)
                 {
-                    indice = i;
+                    nextKeeper = GameManager.Instance.AllKeepersList[GameManager.Instance.AllKeepersList.Count - 1];
                 }
-            }
-            if (indice != -1)
-            {
-                int indicePreviousKeeper = indice - 1;
-                if (indicePreviousKeeper < 0)
+                else
                 {
-                    indicePreviousKeeper = GameManager.Instance.AllKeepersList.Count -1;
+                    nextKeeper = GameManager.Instance.AllKeepersList[(currentKeeperSelectedIndex + direction * nbIterations) % GameManager.Instance.AllKeepersList.Count];
                 }
 
-                PawnInstance nextKeeper = GameManager.Instance.AllKeepersList[indicePreviousKeeper];
-                GameManager.Instance.ListOfSelectedKeepers.Add(nextKeeper);
-                nextKeeper.GetComponent<Keeper>().IsSelected = true;
-            }
-        }
-
-        // TODO etre plus malin que ça
-        public void GoToNextKeeper()
-        {
-            GameManager.Instance.ClearListKeeperSelected();
-            int indice = -1;
-            for (int i = 0; i < GameManager.Instance.AllKeepersList.Count; i++)
-            {
-                PawnInstance pi = GameManager.Instance.AllKeepersList[i];
-                if ( pi == instance)
+                if (!nextKeeper.GetComponent<Behaviour.Mortal>().IsAlive)
                 {
-                    indice = i;
+                    nextKeeper = null;
                 }
+                nbIterations++;
             }
 
-            if( indice != -1)
-            {
-                int indiceNextKeeper = indice + 1;
-                if (indiceNextKeeper > GameManager.Instance.AllKeepersList.Count -1)
-                {
-                    indiceNextKeeper = 0;
-                }
+            GameManager.Instance.ListOfSelectedKeepers.Add(nextKeeper);
+            nextKeeper.GetComponent<Keeper>().IsSelected = true;
 
-                PawnInstance nextKeeper = GameManager.Instance.AllKeepersList[indiceNextKeeper];
-                GameManager.Instance.ListOfSelectedKeepers.Add(nextKeeper);
-                nextKeeper.GetComponent<Keeper>().IsSelected = true;
-            }
         }
 
         public void UpdateActionPoint(int actionPoint)
@@ -269,6 +246,7 @@ namespace Behaviour
                     GameManager.Instance.CameraManager.UpdateCameraPosition(instance);
                 }
                 ShowSelectdePanelUI(isSelected);
+                GameManager.Instance.Ui.ClearActionPanel();
                 GameManager.Instance.Ui.HideInventoryPanels();
             }
         }

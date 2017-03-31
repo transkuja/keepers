@@ -13,9 +13,7 @@ public class EventManager : MonoBehaviour {
         ApplyEndTurnMentalHealthPenalty();
 
         ResetActionPointsForNextTurn();
-        GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
-        //GameManager.Instance.Ui.UpdateShortcutPanel();
-        GameManager.Instance.Ui.ClearActionPanel();
+        GameManager.Instance.Ui.ResetIngameUI();
     }
 
     private static void DecreaseMentalHealth()

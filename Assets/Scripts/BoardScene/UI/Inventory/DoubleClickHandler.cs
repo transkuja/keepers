@@ -20,9 +20,9 @@ public class DoubleClickHandler : MonoBehaviour, IPointerClickHandler
         if (tap == 2)
         {
             // Only keeper can use items
-            KeeperInstance owner = eventData.pointerPress.GetComponentInParent<InventoryOwner>().Owner.GetComponent<KeeperInstance>();
+            Behaviour.Keeper owner = eventData.pointerPress.GetComponentInParent<InventoryOwner>().Owner.GetComponent<Behaviour.Keeper>();
             if (owner == null 
-                    || owner != GameManager.Instance.GetFirstSelectedKeeper())
+                    || owner != GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Keeper>())
             {
                 GameObject goOwner = eventData.pointerPress.GetComponentInParent<InventoryOwner>().Owner;
                 ItemContainer[] selectedKeeperInventory = GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Inventory>().Items;
@@ -58,19 +58,21 @@ public class DoubleClickHandler : MonoBehaviour, IPointerClickHandler
                         }
                     }
                     goOwner.GetComponent<Behaviour.Inventory>().UpdateInventory();
+                    GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Inventory>().UpdateInventory();
                     GameManager.Instance.Ui.UpdatePrisonerFeedingPanel(goOwner);
                 }
                 return;
             }
 
 
-            ii.ItemContainer.UseItem(owner);
+            ii.ItemContainer.UseItem(owner.GetComponent<PawnInstance>());
             if (ii.ItemContainer.Quantity <= 0)
             {
                 InventoryManager.RemoveItem(owner.GetComponent<Behaviour.Inventory>().Items, ii.ItemContainer);
             }
 
-            GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
+            owner.GetComponent<Behaviour.Inventory>().UpdateInventory();
+            //GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
         }
     }
 }

@@ -141,16 +141,10 @@ public class Item
         isStackable = from.IsStackable;
         rarity = from.rarity;
     }
-    public virtual void UseItem(ItemContainer ic, KeeperInstance owner, bool isQuantityPreviouslyEqualOne = false)
+    public virtual void UseItem(ItemContainer ic, PawnInstance owner, bool isQuantityPreviouslyEqualOne = false)
     {
         Debug.Log("Use item of item type undefined");
     }
-
-    public virtual void UseItem(ItemContainer ic, PrisonerInstance owner, bool isQuantityPreviouslyEqualOne = false)
-    {
-        Debug.Log("Use item of item type undefined");
-    }
-
 }
 
 public enum EquipmentSlot { Weapon, Armor, Soul }
@@ -209,7 +203,7 @@ public class Equipment : Item
         Rarity = 1;
     }
 
-    public override void UseItem(ItemContainer ic, KeeperInstance owner, bool isQuantityPreviouslyEqualOne = false)
+    public override void UseItem(ItemContainer ic, PawnInstance owner, bool isQuantityPreviouslyEqualOne = false)
     {
         //bool isEquiped = EquipementManager.CheckIfItemTypeIsInEquipement(GameManager.Instance.GetFirstSelectedKeeper().Equipment, ic);
         //if (isEquiped)
@@ -235,10 +229,8 @@ public enum ResourceFunctions { UpMentalHealth, DecreaseHunger }
 public class Ressource : Item
 {
     int value;
-    public delegate bool Use(int _value, KeeperInstance owner);
-    public delegate bool UsePrisoner(int _value, PrisonerInstance owner);
+    public delegate bool Use(int _value, PawnInstance owner);
     Use resourceUse = null;
-    UsePrisoner resourceUsePrisoner = null;
     ResourceFunctions resourceUseIndex;
 
     public Use ResourceUse
@@ -251,15 +243,6 @@ public class Ressource : Item
         private set { }
     }
 
-    public UsePrisoner ResourceUsePrisoner
-    {
-        get
-        {
-            return resourceUsePrisoner;
-        }
-
-        private set { }
-    }
 
     public ResourceFunctions ResourceUseIndex
     {
@@ -270,12 +253,10 @@ public class Ressource : Item
             if (value.Equals(ResourceFunctions.UpMentalHealth))
             {
                 resourceUse = UpMentalHealth;
-                resourceUsePrisoner = DoNothing;
             }
             if (value.Equals(ResourceFunctions.DecreaseHunger))
             {
                 resourceUse = DecreaseHunger;
-                resourceUsePrisoner = DecreaseHunger;
             }
                 
 
@@ -304,46 +285,23 @@ public class Ressource : Item
         Rarity = 5;
     }
 
-    private bool DoNothing(int _value, PrisonerInstance owner)
-    {
-        return false;
-    }
-
-    private bool UpMentalHealth(int _value, KeeperInstance owner)
+    private bool UpMentalHealth(int _value, PawnInstance owner)
     {
         GameManager.Instance.Ui.BuffActionTextAnimation(GameManager.Instance.Ui.goMentalHeathBuffOnStatPanel, _value);
-        owner.CurrentMentalHealth += (short)_value;
-        GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
-        //GameManager.Instance.Ui.UpdateShortcutPanel();
+        owner.GetComponent<Behaviour.MentalHealthHandler>().CurrentMentalHealth += (short)_value;
         return true;
     }
 
-    private bool DecreaseHunger(int _value, KeeperInstance owner)
+    private bool DecreaseHunger(int _value, PawnInstance owner)
     {
         GameManager.Instance.Ui.BuffActionTextAnimation(GameManager.Instance.Ui.goHungerBuffOnStatPanel, _value);
-        owner.CurrentHunger += (short)_value;
-        GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
-        //GameManager.Instance.Ui.UpdateShortcutPanel();
+        owner.GetComponent<Behaviour.MentalHealthHandler>().CurrentMentalHealth += (short)_value;
         return true;
     }
 
-    private bool DecreaseHunger(int _value, PrisonerInstance owner)
-    {
-        GameManager.Instance.Ui.BuffActionTextAnimation(GameManager.Instance.Ui.goHungerBuffOnStatPanel, _value);
-        owner.CurrentHunger += (short)_value;
-        //GameManager.Instance.Ui.UpdateShortcutPanel();
-        return true;
-    }
 
-    public override void UseItem(ItemContainer ic, KeeperInstance owner, bool isQuantityPreviouslyEqualOne = false)
+    public override void UseItem(ItemContainer ic, PawnInstance owner, bool isQuantityPreviouslyEqualOne = false)
     {
-
         resourceUse.Invoke(Value, owner);
-    }
-
-    public override void UseItem(ItemContainer ic, PrisonerInstance owner, bool isQuantityPreviouslyEqualOne = false)
-    {
-
-        resourceUsePrisoner.Invoke(Value, owner);
     }
 }

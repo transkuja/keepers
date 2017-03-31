@@ -57,7 +57,7 @@ public class ItemContainer {
         quantity = ic.Quantity;
     }
 
-    public void UseItem(KeeperInstance owner)
+    public void UseItem(PawnInstance owner)
     {
         // TODO architecturez moi tout ça @Seb
         Quantity -= 1;

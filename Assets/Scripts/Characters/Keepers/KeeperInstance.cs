@@ -213,7 +213,6 @@ public class KeeperInstance : MonoBehaviour, ITradable {
 
             if (value < actionPoints) GameManager.Instance.Ui.DecreaseActionTextAnimation(actionPoints - value);
             actionPoints = value;
-            GameManager.Instance.Ui.UpdateSelectedKeeperPanel();   
             if (actionPoints > keeper.MaxActionPoints)
                 actionPoints = keeper.MaxActionPoints;
             if (actionPoints < 0)

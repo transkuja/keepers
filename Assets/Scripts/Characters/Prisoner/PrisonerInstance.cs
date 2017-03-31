@@ -358,7 +358,8 @@ public class PrisonerInstance : MonoBehaviour, IEscortable {
             }
             else
             {
-                inv.Items[i].Item.UseItem(inv.Items[i], this);
+                // Je suis un prisonnier
+                inv.Items[i].Item.UseItem(inv.Items[i], this.GetComponent<PawnInstance>());
                 inv.Items[i].Quantity--;
             }
         }
