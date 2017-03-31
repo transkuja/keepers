@@ -21,6 +21,8 @@ public class PawnDatabase {
 
     [SerializeField] private GameObject goPawnBase;
 
+    RuntimeAnimatorController pawnAnimationController;
+
     Dictionary<string, PawnDataContainer> dicPawnDataContainer;
 
     public PawnDatabase()
@@ -33,6 +35,8 @@ public class PawnDatabase {
         string pathBase = Application.dataPath + "/../Data";
 
         goPawnBase = Resources.Load("Prefabs/Pawns/PawnBase") as GameObject;
+
+        pawnAnimationController = Resources.Load("Animations/PawnAnimationController") as RuntimeAnimatorController;
 
         string fileContent = File.ReadAllText(pathBase + "/pawns.json");
         JSONObject json = JSONObject.Parse(fileContent);
@@ -159,7 +163,8 @@ public class PawnDatabase {
 
         goNew.GetComponent<PawnInstance>().Data = dicPawnDataContainer[idPawn].pawnData;
 
-        GameObject.Instantiate(dicPawnDataContainer[idPawn].pawnData.goInGameVisual, goNew.transform);
+        Animator anim = GameObject.Instantiate(dicPawnDataContainer[idPawn].pawnData.goInGameVisual, goNew.transform).GetComponent<Animator>();
+        anim.runtimeAnimatorController = pawnAnimationController;
 
         foreach(KeyValuePair<Type, ComponentData> pdc in dicPawnDataContainer[idPawn].dicComponentData)
         {
