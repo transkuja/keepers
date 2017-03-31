@@ -7,11 +7,34 @@ namespace Behaviour
 {
     public class MentalHealthHandler : MonoBehaviour
     {
+        public class MentalHealthHandlerData : ComponentData
+        {
+            int maxMentalHealth;
 
+            public MentalHealthHandlerData(int _maxMentalHealth)
+            {
+                maxMentalHealth = _maxMentalHealth;
+            }
+
+            public int MaxMentalHealth
+            {
+                get
+                {
+                    return maxMentalHealth;
+                }
+
+                set
+                {
+                    maxMentalHealth = value;
+                }
+            }
+        } 
+    
         PawnInstance instance;
 
         [SerializeField]
-        int maxMentalHealth;
+        MentalHealthHandlerData data;
+        //int maxMentalHealth;  OLD WITHOUT DATA
         int currentMentalHealth;
 
         // UI
@@ -51,7 +74,7 @@ namespace Behaviour
                 shortcutMentalHealthUI.transform.localPosition = Vector3.zero;
             }
 
-            CurrentMentalHealth = maxMentalHealth;
+            CurrentMentalHealth = data.MaxMentalHealth;
         }
 
         #region UI
@@ -69,12 +92,12 @@ namespace Behaviour
         {
             if (instance.GetComponent<Escortable>() != null)
             {
-                shortcutMentalHealthUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)mentalHealth / (float)maxMentalHealth;
+                shortcutMentalHealthUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)mentalHealth / (float)data.MaxMentalHealth;
             }
             else if (instance.GetComponent<Keeper>() != null)
             {
-                selectedMentalHealthUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)mentalHealth / (float)maxMentalHealth;
-                shortcutMentalHealthUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)mentalHealth / (float)maxMentalHealth;
+                selectedMentalHealthUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)mentalHealth / (float)data.MaxMentalHealth;
+                shortcutMentalHealthUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)mentalHealth / (float)data.MaxMentalHealth;
             }
         }
         #endregion
@@ -92,9 +115,9 @@ namespace Behaviour
                     currentMentalHealth = 0;
                     isDepressed = true;
                 }
-                else if (currentMentalHealth > maxMentalHealth)
+                else if (currentMentalHealth > data.MaxMentalHealth)
                 {
-                    currentMentalHealth = maxMentalHealth;
+                    currentMentalHealth = data.MaxMentalHealth;
                     isDepressed = false;
                 }
                 else
@@ -105,16 +128,11 @@ namespace Behaviour
             }
         }
 
-        public int MaxMentalHealth
+        public MentalHealthHandlerData Data
         {
             get
             {
-                return maxMentalHealth;
-            }
-
-            set
-            {
-                maxMentalHealth = value;
+                return data;
             }
         }
     }

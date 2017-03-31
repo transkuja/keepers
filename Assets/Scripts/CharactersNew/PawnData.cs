@@ -3,7 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
+public abstract class ComponentData
+{
+
+}
+
+[System.Serializable]
 public class PawnData {
+
+
 
     [SerializeField]
     private string pawnId;

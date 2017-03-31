@@ -7,10 +7,34 @@ namespace Behaviour
 {
     public class Mortal : MonoBehaviour
     {
+        public class MortalData
+        {
+            int maxHp;
+
+            public MortalData(int _maxHp)
+            {
+                maxHp = _maxHp;
+            }
+
+            public int MaxHp
+            {
+                get
+                {
+                    return maxHp;
+                }
+
+                set
+                {
+                    maxHp = value;
+                }
+            }
+        }
+
         PawnInstance instance;
 
         [SerializeField]
-        int maxHp;
+        private MortalData data;
+        //int maxHp;    // OLD WITHOUT DATA
         int currentHp;
         bool isAlive;
 
@@ -57,7 +81,7 @@ namespace Behaviour
                 shortcutHPUI.transform.localPosition = Vector3.zero;
             }
 
-            CurrentHp = maxHp;
+            CurrentHp = data.MaxHp;
             isAlive = true;
         }
 
@@ -136,12 +160,12 @@ namespace Behaviour
         {
             if (instance.GetComponent<Escortable>() != null)
             {
-                shortcutHPUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)hunger / (float)maxHp;
+                shortcutHPUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)hunger / (float)Data.MaxHp;
             }
             else if (instance.GetComponent<Keeper>() != null)
             {
-                selectedHPUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)hunger / (float)maxHp;
-                shortcutHPUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)hunger / (float)maxHp;
+                selectedHPUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)hunger / (float)Data.MaxHp;
+                shortcutHPUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)hunger / (float)Data.MaxHp;
             }
 
         }
@@ -153,12 +177,7 @@ namespace Behaviour
         {
             get
             {
-                return maxHp;
-            }
-
-            set
-            {
-                maxHp = value;
+                return Data.MaxHp;
             }
         }
 
@@ -168,9 +187,9 @@ namespace Behaviour
             set
             {
                 currentHp = value;
-                if (currentHp > maxHp)
+                if (currentHp > Data.MaxHp)
                 {
-                    currentHp = maxHp;
+                    currentHp = Data.MaxHp;
                     IsAlive = true;
                 }
                 else if (currentHp <= 0)
@@ -211,6 +230,13 @@ namespace Behaviour
             set
             {
                 deadSprite = value;
+            }
+        }
+        public MortalData Data
+        {
+            get
+            {
+                return data;
             }
         }
 

@@ -7,10 +7,34 @@ namespace Behaviour
     [RequireComponent(typeof(PawnInstance))]
     public class Inventory : MonoBehaviour
     {
+        public class InventoryData
+        {
+            int nbSlot;
+
+            public InventoryData(int _nbSlot)
+            {
+                nbSlot = _nbSlot;
+            }
+
+            public int NbSlot
+            {
+                get
+                {
+                    return nbSlot;
+                }
+
+                set
+                {
+                    nbSlot = value;
+                }
+            }
+        }
+
         PawnInstance instance;
 
         [SerializeField]
-        int nbSlot;
+        InventoryData data;
+        //int nbSlot;   // OLD WITHOUT DATA
         private ItemContainer[] items;
         private GameObject inventoryPanel;
 
@@ -23,7 +47,7 @@ namespace Behaviour
             instance.Interactions.Add(new Interaction(Trade), 0, "Trade", GameManager.Instance.SpriteUtils.spriteTrade);
 
             // TODO remove
-            Init(nbSlot);
+            Init(data.NbSlot);
         }
 
         public ItemContainer[] Items
@@ -37,11 +61,11 @@ namespace Behaviour
             {
                 if(value != null)
                 {
-                    NbSlot = value.Length;
+                    data.NbSlot = value.Length;
                 }
                 else
                 {
-                    NbSlot = 0;
+                    data.NbSlot = 0;
                 }
             
                 items = value;
@@ -61,7 +85,7 @@ namespace Behaviour
             }
         }
 
-        public int NbSlot
+        /*public int NbSlot 
         {
             get
             {
@@ -72,29 +96,42 @@ namespace Behaviour
             {
                 nbSlot = value;
             }
+        }*/ // OLD WITHOUT DATA
+
+        public InventoryData Data
+        {
+            get
+            {
+                return data;
+            }
+
+            set
+            {
+                data = value;
+            }
         }
 
         public void Init(int slotCount)
         {
-            NbSlot = slotCount;
+            data.NbSlot = slotCount;
             items = new ItemContainer[slotCount];
         }
 
         public void Add(ItemContainer item)
         {
             ItemContainer[] temp = items;
-            items = new ItemContainer[NbSlot];
-            for (int i = 0; i < NbSlot; i++)
+            items = new ItemContainer[data.NbSlot];
+            for (int i = 0; i < data.NbSlot; i++)
             {
                 items[i] = temp[i];
             }
-            items[NbSlot] = item;
-            NbSlot++;
+            items[data.NbSlot] = item;
+            data.NbSlot++;
         }
 
         public void ComputeItems()
         {
-            items = new ItemContainer[NbSlot];
+            items = new ItemContainer[data.NbSlot];
             Item it = null;
             int i = 0;
             foreach (string _IdItem in possibleItems)
@@ -104,7 +141,7 @@ namespace Behaviour
                 {
                     items[i++] = new ItemContainer(it, 1);
                 }
-                if (i >= NbSlot)
+                if (i >= data.NbSlot)
                     break;
             }
 

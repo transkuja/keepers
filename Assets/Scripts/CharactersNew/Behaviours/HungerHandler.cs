@@ -7,10 +7,34 @@ namespace Behaviour
 {
     public class HungerHandler : MonoBehaviour
     {
+        public class HungerHandlerData
+        {
+            int maxHunger;
+
+            public HungerHandlerData(int _maxHunger)
+            {
+                maxHunger = _maxHunger;
+            }
+
+            public int MaxHunger
+            {
+                get
+                {
+                    return maxHunger;
+                }
+
+                set
+                {
+                    maxHunger = value;
+                }
+            }
+        }
+
         PawnInstance instance;
 
         [SerializeField]
-        int maxHunger;
+        HungerHandlerData data;
+        //int maxHunger;  // OLD WITHOUT DATA
         int currentHunger;
         bool isStarving = false;
 
@@ -55,7 +79,7 @@ namespace Behaviour
                 shortcutHungerUI.transform.localPosition = Vector3.zero;
             }
 
-            CurrentHunger = maxHunger;
+            CurrentHunger = data.MaxHunger;
         }
 
         #region UI
@@ -73,12 +97,12 @@ namespace Behaviour
         {
             if (instance.GetComponent<Escortable>() != null)
             {
-                shortcutHungerUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)hunger / (float)maxHunger;
+                shortcutHungerUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)hunger / (float)data.MaxHunger;
             }
             else if (instance.GetComponent<Keeper>() != null)
             {
-                selectedHungerUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)hunger / (float)maxHunger;
-                shortcutHungerUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)hunger / (float)maxHunger;
+                selectedHungerUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)hunger / (float)data.MaxHunger;
+                shortcutHungerUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)hunger / (float)data.MaxHunger;
             }
         }
 
@@ -95,9 +119,9 @@ namespace Behaviour
                     currentHunger = 0;
                     isStarving = true;
                 }
-                else if (currentHunger > maxHunger)
+                else if (currentHunger > data.MaxHunger)
                 {
-                    currentHunger = maxHunger;
+                    currentHunger = data.MaxHunger;
                     isStarving = false;
                 }
                 else
@@ -108,18 +132,12 @@ namespace Behaviour
             }
         }
 
-        public int MaxHunger
+        public HungerHandlerData Data
         {
             get
             {
-                return maxHunger;
-            }
-
-            set
-            {
-                maxHunger = value;
+                return data;
             }
         }
-
     }
 }
