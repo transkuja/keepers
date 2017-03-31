@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
 
     private Database database = new Database();
 
+    private PawnDatabase pawnDataBase = new PawnDatabase();
+
     private List<PawnInstance> allKeepersList = new List<PawnInstance>();
     private GameObject goTarget;
 
@@ -56,6 +58,14 @@ public class GameManager : MonoBehaviour
             cameraManager = value;
         }
     }
+
+    public PawnDatabase PawnDataBase
+    {
+        get
+        {
+            return pawnDataBase;
+        }
+    }
     #endregion
 
     void Awake()
@@ -65,6 +75,9 @@ public class GameManager : MonoBehaviour
         {
             instance = this;
             database.Init();
+
+            PawnDataBase.Init();
+
             // TODO this should not be handled like, especially if there is more prisoner in scene
             prisonerInstance = FindObjectOfType<Behaviour.Prisoner>().GetComponent<PawnInstance>();
             nbTurn = 1;
