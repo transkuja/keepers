@@ -22,9 +22,8 @@ public static class ItemManager {
 
             drop.GetComponent<LootInstance>().nbSlot = loot.Length;
             Behaviour.Inventory dropInventory = drop.GetComponent<Behaviour.Inventory>();
-            dropInventory.Init(loot.Length);
+            //dropInventory.Init(loot.Length);
             Array.Copy(loot, dropInventory.Items, dropInventory.Items.Length);
-            drop.GetComponent<LootInstance>().Init();
         }
     }
     public static Item getInstanciateItem(string type)

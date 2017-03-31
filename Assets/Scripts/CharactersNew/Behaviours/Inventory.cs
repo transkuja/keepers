@@ -52,13 +52,12 @@ namespace Behaviour
 
         void Start()
         {
-
             instance.Interactions.Add(new Interaction(Trade), 0, "Trade", GameManager.Instance.SpriteUtils.spriteTrade);
-
             InitInventoryPanel();
-
             // TODO remove
             Init(data.NbSlot);
+
+            ShowInventoryPanel(false);
         }
 
         public void Init(int slotCount)
@@ -74,20 +73,12 @@ namespace Behaviour
             string name = "";
             int nbSlots = 0;
 
-            if (instance.GetComponent<PNJInstance>() != null)
+            if (instance.GetComponent<PawnInstance>() != null)
             {
-                PNJInstance pnjInstance = instance.GetComponent<PNJInstance>();
-                associatedSprite = pnjInstance.Pnj.AssociatedSprite;
-                name = pnjInstance.Pnj.CharacterName;
-                owner = pnjInstance.gameObject;
-            }
-            else if (instance.GetComponent<Keeper>() != null)
-            {
-                PawnInstance keeperInstance = instance.GetComponent<PawnInstance>();
-                associatedSprite = keeperInstance.Data.AssociatedSprite;
-                name = keeperInstance.Data.PawnName;
-                owner = keeperInstance.gameObject;
-
+                PawnInstance pawnInstance = instance.GetComponent<PawnInstance>();
+                associatedSprite = pawnInstance.Data.AssociatedSprite;
+                name = pawnInstance.Data.PawnName;
+                owner = pawnInstance.gameObject;
             }
             else if (instance.GetComponent<LootInstance>() != null)
             {
@@ -167,7 +158,6 @@ namespace Behaviour
         public void CreateInventoryUI()
         {
             inventoryPanel = Instantiate(GameManager.Instance.PrefabUtils.PrefabInventaireUI, GameManager.Instance.Ui.Panel_Inventories.transform);
-      
         }
 
         public void ShowInventoryPanel(bool isShow)

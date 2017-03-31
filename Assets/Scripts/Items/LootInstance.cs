@@ -17,17 +17,22 @@ public class LootInstance : MonoBehaviour, IPickable {
     void Awake()
     {
         interactionImplementer = new InteractionImplementer();
-        interactionImplementer.Add(new Interaction(Pick), 0, "Pick", GameManager.Instance.SpriteUtils.spritePick);
-        if (isInScene)
-        {
-            Init();
-        }
+
     }
 
-    public void Init()
+    void Start()
     {
-        lootPanel = GameManager.Instance.Ui.CreateInventoryPanel(gameObject);
+        interactionImplementer.Add(new Interaction(Pick), 0, "Pick", GameManager.Instance.SpriteUtils.spritePick);
+        //if (isInScene)
+        //{
+        //    Init();
+        //}
     }
+
+    //public void Init()
+    //{
+        //lootPanel = GameManager.Instance.Ui.CreateInventoryPanel(gameObject);
+    //}
 
     public InteractionImplementer InteractionImplementer
     {
