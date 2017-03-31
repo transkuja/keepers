@@ -20,10 +20,14 @@ public static class ItemManager {
             drop.transform.SetParent(tileWhere.transform);
             drop.transform.position = where.position;
 
-            drop.GetComponent<LootInstance>().nbSlot = loot.Length;
+            // ? 
+            //drop.GetComponent<LootInstance>().nbSlot = loot.Length;
             Behaviour.Inventory dropInventory = drop.GetComponent<Behaviour.Inventory>();
-            //dropInventory.Init(loot.Length);
+            dropInventory.Init(loot.Length);
+
+
             Array.Copy(loot, dropInventory.Items, dropInventory.Items.Length);
+            dropInventory.UpdateInventory();
         }
     }
     public static Item getInstanciateItem(string type)

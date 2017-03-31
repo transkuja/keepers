@@ -57,8 +57,7 @@ public class DoubleClickHandler : MonoBehaviour, IPointerClickHandler
                             Destroy(inventaireDequi.GetComponentInParent<DragHandlerInventoryPanel>().gameObject);
                         }
                     }
-                    GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
-                    goOwner.GetComponent<Behaviour.Inventory>().UpdateInventoryPanel();
+                    goOwner.GetComponent<Behaviour.Inventory>().UpdateInventory();
                     GameManager.Instance.Ui.UpdatePrisonerFeedingPanel(goOwner);
                 }
                 return;

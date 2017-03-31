@@ -6,8 +6,6 @@ public class LootInstance : MonoBehaviour, IPickable {
 
     private InteractionImplementer interactionImplementer;
 
-    public GameObject lootPanel;
-
     private List<string> Items;
 
     public int nbSlot;
@@ -49,8 +47,7 @@ public class LootInstance : MonoBehaviour, IPickable {
 
     public void Pick(int _i = 0)
     {
-        lootPanel.SetActive(true);
-        GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Inventory>().UpdateInventoryPanel();
+        GetComponent<Behaviour.Inventory>().InventoryPanel.SetActive(true);
     }
     public void OnMouseOver()
     {

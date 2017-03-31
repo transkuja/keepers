@@ -114,7 +114,6 @@ public class Slot : MonoBehaviour, IDropHandler
                             if (quantityLeft <= 0)
                             {
                                 InventoryManager.RemoveItem(inventoryKeeperDequi, eventData.pointerDrag.GetComponent<ItemInstance>().ItemContainer);
-
                             }
                         }
                         else
@@ -131,12 +130,9 @@ public class Slot : MonoBehaviour, IDropHandler
                 }
 
                 Destroy(eventData.pointerDrag.gameObject);
-                inventaireDequi.Owner.GetComponent<Behaviour.Inventory>().UpdateInventoryPanel();
-                inventaireversqui.Owner.GetComponent<Behaviour.Inventory>().UpdateInventoryPanel();
 
-                GameManager.Instance.Ui.UpdatePrisonerFeedingPanel(inventaireDequi.Owner);
-                GameManager.Instance.Ui.UpdatePrisonerFeedingPanel(inventaireversqui.Owner);
-                GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
+                inventaireDequi.Owner.GetComponent<Behaviour.Inventory>().UpdateInventory();
+                inventaireversqui.Owner.GetComponent<Behaviour.Inventory>().UpdateInventory();
             }
             // Drag Characters in battle scene
             else

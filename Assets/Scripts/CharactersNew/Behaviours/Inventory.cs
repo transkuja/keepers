@@ -48,29 +48,10 @@ namespace Behaviour
         void Start()
         {
             instance = GetComponent<PawnInstance>();
-            CreateInventoryUI();
-            Init(data.NbSlot);
-            InitInventoryPanel();
 
-            if (instance.GetComponent<Keeper>() != null)
+            if ( instance != null)
             {
-                CreateSelectedInventoryPanel();
-                selectedInventoryPanel.name = "Panel_Inventory" + instance.Data.PawnName;
-                InitSelectedInventoryPanel();
-
-            }
-
-             instance.Interactions.Add(new Interaction(Trade), 0, "Trade", GameManager.Instance.SpriteUtils.spriteTrade);
-
-     
-
-            ShowInventoryPanel(false);
-
-            if (instance.GetComponent<Keeper>() != null)
-            {
-                selectedInventoryPanel.transform.SetParent(instance.GetComponent<Keeper>().selectedPanelUI.transform);
-                selectedInventoryPanel.transform.localScale = Vector3.one;
-                selectedInventoryPanel.transform.localPosition = new Vector3(800, 0, 0);
+                Init(data.NbSlot);
             }
         }
 
@@ -78,6 +59,28 @@ namespace Behaviour
         {
             data.NbSlot = slotCount;
             items = new ItemContainer[slotCount];
+
+            CreateInventoryUI();
+            InitInventoryPanel();
+
+            ShowInventoryPanel(false);
+
+            if (instance != null)
+            {
+                instance.Interactions.Add(new Interaction(Trade), 0, "Trade", GameManager.Instance.SpriteUtils.spriteTrade);
+
+                if (instance.GetComponent<Keeper>() != null)
+                {
+                    CreateSelectedInventoryPanel();
+                    selectedInventoryPanel.name = "Panel_Inventory" + instance.Data.PawnName;
+                    InitSelectedInventoryPanel();
+
+                    selectedInventoryPanel.transform.SetParent(instance.GetComponent<Keeper>().selectedPanelUI.transform);
+                    selectedInventoryPanel.transform.localScale = Vector3.one;
+                    selectedInventoryPanel.transform.localPosition = new Vector3(800, 0, 0);
+                }
+            }
+
         }
 
         public void Add(ItemContainer item)
@@ -139,22 +142,25 @@ namespace Behaviour
             GameObject owner = null;
             Sprite associatedSprite = null;
             string name = "";
+            int nbSlot = 0;
 
-            if (instance.GetComponent<PawnInstance>() != null)
+            if ( instance!= null && instance.GetComponent<PawnInstance>() != null)
             {
                 PawnInstance pawnInstance = instance.GetComponent<PawnInstance>();
                 associatedSprite = pawnInstance.Data.AssociatedSprite;
                 name = pawnInstance.Data.PawnName;
                 owner = pawnInstance.gameObject;
+                nbSlot = data.NbSlot;
             }
-            else if (instance.GetComponent<LootInstance>() != null)
+            else if (GetComponent<LootInstance>() != null)
             {
-                LootInstance lootInstance = instance.GetComponent<LootInstance>();
+                LootInstance lootInstance = GetComponent<LootInstance>();
 
                 associatedSprite = GameManager.Instance.SpriteUtils.spriteLoot;
                 inventoryPanel.transform.GetChild(0).gameObject.SetActive(false);
                 owner = lootInstance.gameObject;
                 name = "Loot";
+                nbSlot = lootInstance.nbSlot;
             }
             else
             {
@@ -166,9 +172,9 @@ namespace Behaviour
             inventoryPanel.name = "Inventory_" + name;
             inventoryPanel.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = associatedSprite;
 
-            inventoryPanel.transform.GetChild(1).GetComponent<InventoryOwner>().Owner = instance.gameObject;
+            inventoryPanel.transform.GetChild(1).GetComponent<InventoryOwner>().Owner = owner;
 
-            for (int i = 0; i < data.NbSlot; i++)
+            for (int i = 0; i < nbSlot; i++)
             {
                 //Create Slots
                 GameObject currentgoSlotPanel = Instantiate(GameManager.Instance.PrefabUtils.PrefabSlotUI, Vector3.zero, Quaternion.identity) as GameObject;
@@ -207,25 +213,33 @@ namespace Behaviour
             selectedInventoryPanel.GetComponent<GridLayoutGroup>().constraintCount = data.NbSlot;
         }
 
+        public void UpdateInventory()
+        {
+            UpdateInventoryPanel();
+            if (instance != null && instance.GetComponent<Keeper>() != null)
+            {
+                UpdateSelectedPanel();
+            }
+        }
+
         public void UpdateInventoryPanel()
         {
             GameObject owner = null;
             Sprite associatedSprite = null;
             string name = "";
 
-            if (instance.GetComponent<PawnInstance>() != null)
+            if (instance != null && instance.GetComponent<PawnInstance>() != null)
             {
                 PawnInstance pawnInstance = instance.GetComponent<PawnInstance>();
                 associatedSprite = pawnInstance.Data.AssociatedSprite;
                 name = pawnInstance.Data.PawnName;
                 owner = pawnInstance.gameObject;
             }
-            else if (instance.GetComponent<LootInstance>() != null)
+            else if (GetComponent<LootInstance>() != null)
             {
-                LootInstance lootInstance = instance.GetComponent<LootInstance>();
+                LootInstance lootInstance = GetComponent<LootInstance>();
 
                 associatedSprite = GameManager.Instance.SpriteUtils.spriteLoot;
-                inventoryPanel.transform.GetChild(0).gameObject.SetActive(false);
                 owner = lootInstance.gameObject;
                 name = "Loot";
             }
@@ -247,6 +261,7 @@ namespace Behaviour
             {
                 if (items[i] != null && items[i].Item != null && items[i].Item.Id != null)
                 {
+        
                     GameObject currentSlot = inventoryPanel.transform.GetChild(1).GetChild(i).gameObject;
                     GameObject go = Instantiate(GameManager.Instance.PrefabUtils.PrefabItemUI);
                     go.transform.SetParent(currentSlot.transform);
