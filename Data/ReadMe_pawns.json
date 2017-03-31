@@ -36,7 +36,8 @@ qui vous interessent
 			"Monster" : {},
 			
 			"Mortal" : {
-				"maxHp" : ""
+				"maxHp" : "",
+				"spriteDead" : ""
 			},
 			
 			"PathBlocker" : {},

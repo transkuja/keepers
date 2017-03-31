@@ -4,6 +4,7 @@
 			"id": "character_01",
 			"name" : "Philippe",
 			"sprite" : "",
+			"inGameVisual" : "Models/Pawns/Pawn_Ashley",
 			
 			"AnimatedPawn" : {},
 			
