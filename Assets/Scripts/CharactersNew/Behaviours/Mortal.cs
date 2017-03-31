@@ -50,8 +50,7 @@ namespace Behaviour
         public GameObject selectedHPUI;
         public GameObject shortcutHPUI;
 
-
-        void Awake()
+        void Start()
         {
             instance = GetComponent<PawnInstance>();
 
@@ -59,16 +58,6 @@ namespace Behaviour
             CreateShortcutHPPanel();
             shortcutHPUI.name = "Mortal";
 
-            if (instance.GetComponent<Keeper>() != null)
-            {
-                CreateSelectedHPPanel();
-                selectedHPUI.name = "Mortal";
-            }
-
-        }
-
-        void Start()
-        {
             if (instance.GetComponent<Escortable>() != null)
             {
                 shortcutHPUI.transform.SetParent(instance.GetComponent<Escortable>().shorcutUI.transform);
@@ -77,6 +66,9 @@ namespace Behaviour
             }
             else if (instance.GetComponent<Keeper>() != null)
             {
+
+                CreateSelectedHPPanel();
+                selectedHPUI.name = "Mortal";
                 selectedHPUI.transform.SetParent(instance.GetComponent<Keeper>().selectedStatPanelUI.transform);
                 selectedHPUI.transform.localScale = Vector3.one;
                 selectedHPUI.transform.localPosition = new Vector3(200, 200, 0);

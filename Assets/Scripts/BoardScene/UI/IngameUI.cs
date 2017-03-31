@@ -422,10 +422,6 @@ public class IngameUI : MonoBehaviour
         goSelectedKeeperPanel.SetActive(true);
     }
 
-    public void HideSelectedKeeperPanel()
-    {
-        goSelectedKeeperPanel.SetActive(false);
-    }
 
     public void UpdateSelectedKeeperPanel()
     {

@@ -44,25 +44,12 @@ namespace Behaviour
         public GameObject selectedHungerUI;
         public GameObject shortcutHungerUI;
 
-
-        void Awake()
+        void Start()
         {
             instance = GetComponent<PawnInstance>();
 
             CreateShortcutHungerPanel();
             shortcutHungerUI.name = "Hunger";
-            if (instance.GetComponent<Keeper>() != null)
-            {
-                CreateSelectedHungerPanel();
-                selectedHungerUI.name = "Hunger";
-            }
-
-        }
-
-
-        void Start()
-        {
-            instance = GetComponent<PawnInstance>();
 
             if (instance.GetComponent<Escortable>() != null)
             {
@@ -72,6 +59,8 @@ namespace Behaviour
             }
             else if (instance.GetComponent<Keeper>() != null)
             {
+                CreateSelectedHungerPanel();
+                selectedHungerUI.name = "Hunger";
                 selectedHungerUI.transform.SetParent(instance.GetComponent<Keeper>().selectedStatPanelUI.transform);
                 selectedHungerUI.transform.localScale = Vector3.one;
                 selectedHungerUI.transform.localPosition = new Vector3(100, 125, 0);

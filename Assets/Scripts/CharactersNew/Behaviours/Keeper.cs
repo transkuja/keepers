@@ -84,30 +84,24 @@ namespace Behaviour
 
         public void MoralBuff(int _i = 0)
         {
-            if (GameManager.Instance.ListOfSelectedKeepers.Count > 0)
+            int costAction = instance.Interactions.Get("Moral").costAction;
+            if (ActionPoints >= costAction)
             {
-                int costAction = instance.Interactions.Get("Moral").costAction;
-                if (GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Keeper>().ActionPoints >= costAction)
-                {
-                    GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Keeper>().ActionPoints -= (short)costAction;
-                    short amountMoralBuff = (short)Random.Range(minMoralBuff, maxMoralBuff);
-                    GameManager.Instance.GoTarget.GetComponentInParent<KeeperInstance>().CurrentMentalHealth += amountMoralBuff;
-                    GameManager.Instance.Ui.UpdateShortcutPanel();
-                    GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
-                    GameManager.Instance.Ui.MoralBuffActionTextAnimation(amountMoralBuff);
-                }
-                else
-                {
-                    GameManager.Instance.Ui.ZeroActionTextAnimation();
-                }
+                ActionPoints -= (short)costAction;
+                short amountMoralBuff = (short)Random.Range(minMoralBuff, maxMoralBuff);
+                GetComponent<MentalHealthHandler>().CurrentMentalHealth += amountMoralBuff;
+                GameManager.Instance.Ui.MoralBuffActionTextAnimation(amountMoralBuff);
             }
+            else
+            {
+                GameManager.Instance.Ui.ZeroActionTextAnimation();
+                }
         }
         #endregion
 
         #region UI
         public void CreateShortcutKeeperUI()
         {
-
             Sprite associatedSprite = instance.Data.AssociatedSprite;
             shorcutUI = Instantiate(GameManager.Instance.PrefabUtils.PrefabShorcutCharacter, GameManager.Instance.Ui.goShortcutKeepersPanel.transform);
 

@@ -104,8 +104,8 @@ public class ItemInstance : MonoBehaviour, IHavestable
             }
 
             GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Keeper>().ActionPoints -= (short)costAction;
-          //  GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
-         //   GameManager.Instance.Ui.UpdateInventoryPanel(GameManager.Instance.GetFirstSelectedKeeper().gameObject);
+            GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Inventory>().UpdateInventoryPanel();
+            GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Inventory>().UpdateSelectedPanel();
         }
         else
         {

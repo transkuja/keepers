@@ -79,7 +79,6 @@ public class ControlsManager : MonoBehaviour {
                         GameManager.Instance.ClearListKeeperSelected();
 
                         GameManager.Instance.Ui.HideInventoryPanels();
-                        GameManager.Instance.Ui.HideSelectedKeeperPanel();
                     }
                 }
             }

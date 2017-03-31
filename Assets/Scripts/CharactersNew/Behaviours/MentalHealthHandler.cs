@@ -46,28 +46,23 @@ namespace Behaviour
 
         bool isDepressed = false;
 
-        void Awake()
+
+        void Start()
         {
             instance = GetComponent<PawnInstance>();
 
             CreateShortcutMentalHealthPanel();
             shortcutMentalHealthUI.name = "MentalHealth";
-            if (instance.GetComponent<Keeper>() != null)
-            {
-                CreateSelectedMentalHealthPanel();
-                selectedMentalHealthUI.name = "MentalHealth";
-            }
 
-        }
 
-        void Start()
-        {
             if (instance.GetComponent<Escortable>() != null)
             {
                 //selectedHPUI.transform.SetParent(instance.GetComponent<Escortable>().selectedStatPanelUI.transform);
             }
             else if (instance.GetComponent<Keeper>() != null)
             {
+                CreateSelectedMentalHealthPanel();
+                selectedMentalHealthUI.name = "MentalHealth";
                 selectedMentalHealthUI.transform.SetParent(instance.GetComponent<Keeper>().selectedStatPanelUI.transform);
                 selectedMentalHealthUI.transform.localScale = Vector3.one;
                 selectedMentalHealthUI.transform.localPosition = new Vector3(230, 100, 0);
