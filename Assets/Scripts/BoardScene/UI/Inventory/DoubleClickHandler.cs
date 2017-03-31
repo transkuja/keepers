@@ -57,9 +57,10 @@ public class DoubleClickHandler : MonoBehaviour, IPointerClickHandler
                             Destroy(inventaireDequi.GetComponentInParent<DragHandlerInventoryPanel>().gameObject);
                         }
                     }
+                    
                     goOwner.GetComponent<Behaviour.Inventory>().UpdateInventory();
                     GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Inventory>().UpdateInventory();
-                    GameManager.Instance.Ui.UpdatePrisonerFeedingPanel(goOwner);
+                    //GameManager.Instance.Ui.UpdatePrisonerFeedingPanel(goOwner);
                 }
                 return;
             }
@@ -72,7 +73,6 @@ public class DoubleClickHandler : MonoBehaviour, IPointerClickHandler
             }
 
             owner.GetComponent<Behaviour.Inventory>().UpdateInventory();
-            //GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
         }
     }
 }

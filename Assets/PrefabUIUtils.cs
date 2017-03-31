@@ -37,7 +37,9 @@ public class PrefabUIUtils : MonoBehaviour {
     public GameObject PrefabShorcutCharacter;
 
     // Utils 
+    [Header("Utils UI")]
     public GameObject PrefabImageUI;
+    public GameObject PrefabConfimationButtonUI;
 
     [Header("Quest")]
     public GameObject PrefabContentQuestUI;

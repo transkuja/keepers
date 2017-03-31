@@ -58,11 +58,11 @@ public class StatsHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         //    GameManager.Instance.Ui.statsPanelTooltip.transform.GetChild(3).GetChild(0).GetComponent<Text>().text += " " + currentSelectedCharacter.Keeper.BonusIntelligence.ToString();
         //}
 
-        GameManager.Instance.Ui.statsPanelTooltip.SetActive(true);
+        //GameManager.Instance.Ui.statsPanelTooltip.SetActive(true);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        GameManager.Instance.Ui.statsPanelTooltip.SetActive(false);
+        //GameManager.Instance.Ui.statsPanelTooltip.SetActive(false);
     }
 }

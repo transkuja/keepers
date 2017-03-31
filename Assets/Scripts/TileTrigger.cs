@@ -233,11 +233,11 @@ public class TileTrigger : MonoBehaviour {
             // Apply exploration costs
             if (toMove.GetComponent<HungerHandler>() != null)
                 toMove.GetComponent<HungerHandler>().CurrentHunger -= 5;
-            GameManager.Instance.Ui.BuffActionTextAnimation(GameManager.Instance.Ui.goHungerBuffOnStatPanel, -5);
+            //GameManager.Instance.Ui.BuffActionTextAnimation(GameManager.Instance.Ui.goHungerBuffOnStatPanel, -5);
             //TODO: Apply this only when the discovered tile is unfriendly
             if (toMove.GetComponent<MentalHealthHandler>() != null)
                 toMove.GetComponent<MentalHealthHandler>().CurrentMentalHealth -= 5;
-            GameManager.Instance.Ui.BuffActionTextAnimation(GameManager.Instance.Ui.goMentalHeathBuffOnStatPanel, -5);
+            //GameManager.Instance.Ui.BuffActionTextAnimation(GameManager.Instance.Ui.goMentalHeathBuffOnStatPanel, -5);
 
             // If the player is exploring with the prisoner following, apply costs to him too
             if (toMove.GetComponent<Keeper>() != null && toMove.GetComponent<Keeper>().GoListCharacterFollowing.Count > 0)
@@ -260,11 +260,11 @@ public class TileTrigger : MonoBehaviour {
             {
                 if (toMove.GetComponent<Mortal>() != null)
                     toMove.GetComponent<Mortal>().CurrentHp -= 5;
-                GameManager.Instance.Ui.BuffActionTextAnimation(GameManager.Instance.Ui.goHPBuffOnStatPanel, -5);
+                //GameManager.Instance.Ui.BuffActionTextAnimation(GameManager.Instance.Ui.goHPBuffOnStatPanel, -5);
 
                 if (toMove.GetComponent<MentalHealthHandler>() != null)
                     toMove.GetComponent<MentalHealthHandler>().CurrentMentalHealth -= 5;
-                GameManager.Instance.Ui.BuffActionTextAnimation(GameManager.Instance.Ui.goMentalHeathBuffOnStatPanel, -5);
+                //GameManager.Instance.Ui.BuffActionTextAnimation(GameManager.Instance.Ui.goMentalHeathBuffOnStatPanel, -5);
 
                 if (toMove.GetComponent<Keeper>() != null && toMove.GetComponent<Keeper>().GoListCharacterFollowing.Count > 0)
                 {
