@@ -37,10 +37,10 @@ public class EventManager : MonoBehaviour {
 
         // TODO fix prisoner
 
-        //if (GameManager.Instance.PrisonerInstanceOld.IsAlive)
-        //{
-        //    GameManager.Instance.PrisonerInstanceOld.CurrentHunger -= 10;
-        //}
+        if (GameManager.Instance.PrisonerInstance.GetComponent<Mortal>().IsAlive)
+        {
+            GameManager.Instance.PrisonerInstance.GetComponent<HungerHandler>().CurrentHunger -= 10;
+        }
     }
 
     private static void ResetActionPointsForNextTurn()

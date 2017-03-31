@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 
 
-public enum PanelShortcutChildren { Image, HpGauge, HungerGauge, MentalHealthGauge, ActionPoints };
+public enum PanelShortcutChildren { Image, ActionPoints, HpGauge, HungerGauge, MentalHealthGauge };
 public enum PanelSelectedKeeperStatChildren { Image, ButtonCycleLeft, ButtonCycleRight, ActionPoints, StatTrigger };
 namespace Behaviour
 {
