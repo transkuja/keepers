@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Obsolete]
 [System.Serializable]
 public class MonsterOld : Character
 {

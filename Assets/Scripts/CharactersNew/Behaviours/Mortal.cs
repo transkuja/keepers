@@ -7,30 +7,11 @@ namespace Behaviour
 {
     public class Mortal : MonoBehaviour
     {
-        public class MortalData
+        public class MortalData : ComponentData
         {
             int maxHp;
 
-            public MortalData(int _maxHp)
-            {
-                maxHp = _maxHp;
-            }
-
-            public int MaxHp
-            {
-                get
-                {
-                    return maxHp;
-                }
-
-                set
-                {
-                    maxHp = value;
-                }
-            }
-        }
-
-            public MortalData(int _maxHp)
+            public MortalData(int _maxHp = 0)
             {
                 maxHp = _maxHp;
             }
@@ -278,24 +259,3 @@ namespace Behaviour
         #endregion
     }
 }
-
-    {
-        public class MortalData : ComponentData
-            public MortalData(int _maxHp = 0)
-            {
-                maxHp = _maxHp;
-            }
-
-            public int MaxHp
-            {
-                get
-                {
-                    return maxHp;
-                }
-
-                set
-                {
-                    maxHp = value;
-                }
-            }
-        }

@@ -402,9 +402,9 @@ public class IngameUI : MonoBehaviour
                         // Update HP
                         goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.HpGauge).GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)currentCharacter.GetComponent<Behaviour.Mortal>().CurrentHp / (float)currentCharacter.GetComponent<Behaviour.Mortal>().MaxHp;
                         // Update Hunger
-                        goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.HungerGauge).GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)currentCharacter.GetComponent<Behaviour.HungerHandler>().CurrentHunger / (float)currentCharacter.GetComponent<Behaviour.HungerHandler>().MaxHunger;
+                        goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.HungerGauge).GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)currentCharacter.GetComponent<Behaviour.HungerHandler>().CurrentHunger / (float)currentCharacter.GetComponent<Behaviour.HungerHandler>().Data.MaxHunger;
                         // Update MentalHealth
-                        goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.MentalHealthGauge).GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)currentCharacter.GetComponent<Behaviour.MentalHealthHandler>().CurrentMentalHealth / (float)currentCharacter.GetComponent<Behaviour.MentalHealthHandler>().MaxMentalHealth;
+                        goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.MentalHealthGauge).GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)currentCharacter.GetComponent<Behaviour.MentalHealthHandler>().CurrentMentalHealth / (float)currentCharacter.GetComponent<Behaviour.MentalHealthHandler>().Data.MaxMentalHealth;
 
                         // Update Action Points
                         goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.ActionPoints).gameObject.GetComponentInChildren<Text>().text = currentCharacter.GetComponent<Behaviour.Keeper>().ActionPoints.ToString();

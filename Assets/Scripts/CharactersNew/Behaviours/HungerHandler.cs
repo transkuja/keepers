@@ -7,11 +7,11 @@ namespace Behaviour
 {
     public class HungerHandler : MonoBehaviour
     {
-        public class HungerHandlerData
+        public class HungerHandlerData : ComponentData
         {
             int maxHunger;
 
-            public HungerHandlerData(int _maxHunger)
+            public HungerHandlerData(int _maxHunger = 0)
             {
                 maxHunger = _maxHunger;
             }
@@ -154,37 +154,4 @@ namespace Behaviour
         }
     }
 }
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-
-namespace Behaviour
-{
-    public class HungerHandler : MonoBehaviour
-    {
-        public class HungerHandlerData : ComponentData
-        {
-            int maxHunger;
-
-            public HungerHandlerData(int _maxHunger = 0)
-            {
-                maxHunger = _maxHunger;
-            }
-
-            public int MaxHunger
-            {
-                get
-                {
-                    return maxHunger;
-                }
-
-                set
-                {
-                    maxHunger = value;
-                }
-            }
-        }
-
-        PawnInstance instance;
 

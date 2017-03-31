@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-[System.Obsolete]
 [System.Serializable]
 public class KeeperOld : Character
 {
