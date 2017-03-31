@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 
 public enum PanelShortcutChildren { Image, ActionPoints, HpGauge, HungerGauge, MentalHealthGauge };
-public enum PanelSelectedKeeperStatChildren { Image, ButtonCycleLeft, ButtonCycleRight, ActionPoints, StatTrigger };
+public enum PanelSelectedKeeperStatChildren { Image, ButtonCycleRight, ButtonCycleLeft, ActionPoints, StatTrigger };
 namespace Behaviour
 {
     public class Keeper : MonoBehaviour
@@ -127,6 +127,9 @@ namespace Behaviour
             selectedStatPanelUI.transform.GetChild((int)PanelSelectedKeeperStatChildren.Image).GetComponent<Image>().sprite = associatedSprite;
             selectedActionPointsUI = selectedStatPanelUI.transform.GetChild((int)PanelSelectedKeeperStatChildren.ActionPoints).gameObject;
             selectedActionPointsUI.transform.localScale = Vector3.one;
+
+            selectedStatPanelUI.transform.GetChild((int)PanelSelectedKeeperStatChildren.ButtonCycleLeft).GetComponent<Button>().onClick.AddListener(() => GoToPreviousKeeper());
+            selectedStatPanelUI.transform.GetChild((int)PanelSelectedKeeperStatChildren.ButtonCycleRight).GetComponent<Button>().onClick.AddListener(() => GoToNextKeeper());
         }
 
         public void ShowSelectdePanelUI(bool isShow)
@@ -136,7 +139,64 @@ namespace Behaviour
 
         public void GoToKeeper()
         {
+            GameManager.Instance.ClearListKeeperSelected();
+            GameManager.Instance.ListOfSelectedKeepers.Add(instance);
             IsSelected = true;
+        }
+
+        // TODO etre plus malin que ça
+        public void GoToPreviousKeeper()
+        {
+            GameManager.Instance.ClearListKeeperSelected();
+            int indice = -1;
+            for (int i = 0; i < GameManager.Instance.AllKeepersList.Count; i++)
+            {
+                PawnInstance pi = GameManager.Instance.AllKeepersList[i];
+                if (pi == instance)
+                {
+                    indice = i;
+                }
+            }
+            if (indice != -1)
+            {
+                int indicePreviousKeeper = indice - 1;
+                if (indicePreviousKeeper < 0)
+                {
+                    indicePreviousKeeper = GameManager.Instance.AllKeepersList.Count -1;
+                }
+
+                PawnInstance nextKeeper = GameManager.Instance.AllKeepersList[indicePreviousKeeper];
+                GameManager.Instance.ListOfSelectedKeepers.Add(nextKeeper);
+                nextKeeper.GetComponent<Keeper>().IsSelected = true;
+            }
+        }
+
+        // TODO etre plus malin que ça
+        public void GoToNextKeeper()
+        {
+            GameManager.Instance.ClearListKeeperSelected();
+            int indice = -1;
+            for (int i = 0; i < GameManager.Instance.AllKeepersList.Count; i++)
+            {
+                PawnInstance pi = GameManager.Instance.AllKeepersList[i];
+                if ( pi == instance)
+                {
+                    indice = i;
+                }
+            }
+
+            if( indice != -1)
+            {
+                int indiceNextKeeper = indice + 1;
+                if (indiceNextKeeper > GameManager.Instance.AllKeepersList.Count -1)
+                {
+                    indiceNextKeeper = 0;
+                }
+
+                PawnInstance nextKeeper = GameManager.Instance.AllKeepersList[indiceNextKeeper];
+                GameManager.Instance.ListOfSelectedKeepers.Add(nextKeeper);
+                nextKeeper.GetComponent<Keeper>().IsSelected = true;
+            }
         }
 
         public void UpdateActionPoint(int actionPoint)
@@ -209,6 +269,7 @@ namespace Behaviour
                     GameManager.Instance.CameraManager.UpdateCameraPosition(instance);
                 }
                 ShowSelectdePanelUI(isSelected);
+                GameManager.Instance.Ui.HideInventoryPanels();
             }
         }
 

@@ -35,12 +35,8 @@ public class EventManager : MonoBehaviour {
                 ki.GetComponent<HungerHandler>().CurrentHunger -= 10;
         }
 
-        // TODO fix prisoner
-
         if (GameManager.Instance.PrisonerInstance.GetComponent<Mortal>().IsAlive)
-        {
             GameManager.Instance.PrisonerInstance.GetComponent<HungerHandler>().CurrentHunger -= 10;
-        }
     }
 
     private static void ResetActionPointsForNextTurn()
@@ -60,11 +56,8 @@ public class EventManager : MonoBehaviour {
                 ki.GetComponent<Mortal>().CurrentHp -= 20;
         }
 
-        /*
-        if (GameManager.Instance.PrisonerInstanceOld.IsAlive && GameManager.Instance.PrisonerInstanceOld.IsStarving)
-        {
-            GameManager.Instance.PrisonerInstanceOld.CurrentHp -= 20;
-        }*/
+        if (GameManager.Instance.PrisonerInstance.GetComponent<Mortal>().IsAlive && GameManager.Instance.PrisonerInstance.GetComponent<HungerHandler>().IsStarving)
+            GameManager.Instance.PrisonerInstance.GetComponent<Mortal>().CurrentHp -= 20;
     }
 
     public static void ApplyEndTurnMentalHealthPenalty()
