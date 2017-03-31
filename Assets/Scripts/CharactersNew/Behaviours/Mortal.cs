@@ -41,10 +41,13 @@ namespace Behaviour
         [SerializeField]
         private Sprite deadSprite;
 
+        [SerializeField]
+        private ParticleSystem deathParticles;
 
         // UI
         public GameObject selectedHPUI;
         public GameObject shortcutHPUI;
+
 
         void Awake()
         {
@@ -237,6 +240,19 @@ namespace Behaviour
             get
             {
                 return data;
+            }
+        }
+
+        public ParticleSystem DeathParticles
+        {
+            get
+            {
+                return deathParticles;
+            }
+
+            set
+            {
+                deathParticles = value;
             }
         }
 

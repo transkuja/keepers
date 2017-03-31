@@ -117,16 +117,16 @@ namespace Behaviour
                 if (currentHunger < 0)
                 {
                     currentHunger = 0;
-                    isStarving = true;
+                    IsStarving = true;
                 }
                 else if (currentHunger > data.MaxHunger)
                 {
                     currentHunger = data.MaxHunger;
-                    isStarving = false;
+                    IsStarving = false;
                 }
                 else
                 {
-                    isStarving = false;
+                    IsStarving = false;
                 }
                 UpdateHungerPanel(currentHunger);
             }
@@ -137,6 +137,19 @@ namespace Behaviour
             get
             {
                 return data;
+            }
+        }
+
+        public bool IsStarving
+        {
+            get
+            {
+                return isStarving;
+            }
+
+            set
+            {
+                isStarving = value;
             }
         }
     }

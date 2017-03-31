@@ -286,63 +286,63 @@ public class IngameUI : MonoBehaviour
         goShortcutKeepersPanel.SetActive(!goShortcutKeepersPanel.activeSelf);
     }
 
-    public void CreateShortcutPanel()
-    {
-        if (GameManager.Instance == null) { return; }
-        if (goShortcutKeepersPanel == null) { return; }
+    //public void CreateShortcutPanel()
+    //{
+    //    if (GameManager.Instance == null) { return; }
+    //    if (goShortcutKeepersPanel == null) { return; }
 
-        int nbCaracters = GameManager.Instance.AllKeepersListOld.Count;
+    //    int nbCaracters = GameManager.Instance.AllKeepersListOld.Count;
 
-        for (int i = 0; i < nbCaracters; i++)
-        {
-            KeeperInstance currentSelectedCharacter = GameManager.Instance.AllKeepersListOld[i];
+    //    for (int i = 0; i < nbCaracters; i++)
+    //    {
+    //        KeeperInstance currentSelectedCharacter = GameManager.Instance.AllKeepersListOld[i];
 
-            Sprite associatedSprite = currentSelectedCharacter.Keeper.AssociatedSprite;
-            Sprite deadSprite = currentSelectedCharacter.Keeper.DeadSprite;
+    //        Sprite associatedSprite = currentSelectedCharacter.Keeper.AssociatedSprite;
+    //        Sprite deadSprite = currentSelectedCharacter.Keeper.DeadSprite;
 
-            if (associatedSprite != null)
-            {
-                GameObject goKeeper = Instantiate(GameManager.Instance.PrefabUtils.PrefabShorcutCharacter, goShortcutKeepersPanel.transform);
+    //        if (associatedSprite != null)
+    //        {
+    //            GameObject goKeeper = Instantiate(GameManager.Instance.PrefabUtils.PrefabShorcutCharacter, goShortcutKeepersPanel.transform);
 
-                goKeeper.name = "Panel_Shortcut_" + currentSelectedCharacter.Keeper.CharacterName;
-                goKeeper.transform.GetChild((int)PanelShortcutChildren.Image).GetComponent<Image>().sprite = associatedSprite;
-                goKeeper.transform.localScale = Vector3.one;
-                int n = i;
-                goKeeper.GetComponent<Button>().onClick.AddListener(() => GoToCharacter(n));
+    //            goKeeper.name = "Panel_Shortcut_" + currentSelectedCharacter.Keeper.CharacterName;
+    //            goKeeper.transform.GetChild((int)PanelShortcutChildren.Image).GetComponent<Image>().sprite = associatedSprite;
+    //            goKeeper.transform.localScale = Vector3.one;
+    //            int n = i;
+    //            goKeeper.GetComponent<Button>().onClick.AddListener(() => GoToCharacter(n));
 
 
-            }
-        }
-    }
+    //        }
+    //    }
+    //}
 
-    public void GoToCharacter(int i)
-    {
-        if ( i == -1)
-        {
-            // Go to prisoner
-            Camera.main.GetComponent<CameraManager>().UpdateCameraPosition();
-            GameManager.Instance.Ui.HideInventoryPanels();
-        }
-        // Next keeper
-        else
-        {
-            // Do not go to keeper if dead
-            if (!GameManager.Instance.AllKeepersListOld[i].IsAlive)
-                return;
+    //public void GoToCharacter(int i)
+    //{
+    //    if ( i == -1)
+    //    {
+    //        // Go to prisoner
+    //        Camera.main.GetComponent<CameraManager>().UpdateCameraPosition();
+    //        GameManager.Instance.Ui.HideInventoryPanels();
+    //    }
+    //    // Next keeper
+    //    else
+    //    {
+    //        // Do not go to keeper if dead
+    //        if (!GameManager.Instance.AllKeepersListOld[i].IsAlive)
+    //            return;
 
-            GameManager.Instance.ClearListKeeperSelected();
-            KeeperInstance nextKeeper = GameManager.Instance.AllKeepersListOld[i];
-            GameManager.Instance.ListOfSelectedKeepersOld.Add(nextKeeper);
-            nextKeeper.IsSelected = true;
+    //        GameManager.Instance.ClearListKeeperSelected();
+    //        KeeperInstance nextKeeper = GameManager.Instance.AllKeepersListOld[i];
+    //        GameManager.Instance.ListOfSelectedKeepersOld.Add(nextKeeper);
+    //        nextKeeper.IsSelected = true;
 
-            Camera.main.GetComponent<CameraManager>().UpdateCameraPositionOld(nextKeeper);
-            GameManager.Instance.Ui.ShowSelectedKeeperPanel();
-            GameManager.Instance.Ui.ClearActionPanel();
-            GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
-            GameManager.Instance.Ui.UpdateActionText();
-            HideInventoryPanels();
-        }
-    }
+    //        Camera.main.GetComponent<CameraManager>().UpdateCameraPositionOld(nextKeeper);
+    //        GameManager.Instance.Ui.ShowSelectedKeeperPanel();
+    //        GameManager.Instance.Ui.ClearActionPanel();
+    //        GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
+    //        GameManager.Instance.Ui.UpdateActionText();
+    //        HideInventoryPanels();
+    //    }
+    //}
 
     public void UpdateShortcutPanel()
     {
@@ -364,12 +364,12 @@ public class IngameUI : MonoBehaviour
             }
             else
             {
-                KeeperInstance currentCharacter = GameManager.Instance.AllKeepersListOld[i-1];
+                PawnInstance currentCharacter = GameManager.Instance.AllKeepersList[i-1];
 
                 if (currentCharacter != null)
                 {
                     // Handle character death
-                    if (!currentCharacter.IsAlive)
+                    if (!currentCharacter.GetComponent<Behaviour.Mortal>().IsAlive)
                     {
 
                         // Do this process once only
@@ -386,7 +386,7 @@ public class IngameUI : MonoBehaviour
                             goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.Image).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteSupport;
 
                             GameObject go = Instantiate(GameManager.Instance.PrefabUtils.PrefabImageUI);
-                            go.GetComponent<Image>().sprite = currentCharacter.Keeper.DeadSprite;
+                            go.GetComponent<Image>().sprite = currentCharacter.GetComponent<Behaviour.Mortal>().DeadSprite;
                             go.transform.SetParent(goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.Image).transform);
                             go.transform.localScale = Vector3.one * 0.75f;
 
@@ -400,14 +400,14 @@ public class IngameUI : MonoBehaviour
                     else
                     {
                         // Update HP
-                        goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.HpGauge).GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)currentCharacter.CurrentHp / (float)currentCharacter.Keeper.MaxHp;
+                        goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.HpGauge).GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)currentCharacter.GetComponent<Behaviour.Mortal>().CurrentHp / (float)currentCharacter.GetComponent<Behaviour.Mortal>().MaxHp;
                         // Update Hunger
-                        goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.HungerGauge).GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)currentCharacter.CurrentHunger / (float)currentCharacter.Keeper.MaxHunger;
+                        goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.HungerGauge).GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)currentCharacter.GetComponent<Behaviour.HungerHandler>().CurrentHunger / (float)currentCharacter.GetComponent<Behaviour.HungerHandler>().MaxHunger;
                         // Update MentalHealth
-                        goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.MentalHealthGauge).GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)currentCharacter.CurrentMentalHealth / (float)currentCharacter.Keeper.MaxMentalHealth;
+                        goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.MentalHealthGauge).GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)currentCharacter.GetComponent<Behaviour.MentalHealthHandler>().CurrentMentalHealth / (float)currentCharacter.GetComponent<Behaviour.MentalHealthHandler>().MaxMentalHealth;
 
                         // Update Action Points
-                        goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.ActionPoints).gameObject.GetComponentInChildren<Text>().text = currentCharacter.ActionPoints.ToString();
+                        goShortcutKeepersPanel.transform.GetChild(i).GetChild((int)PanelShortcutChildren.ActionPoints).gameObject.GetComponentInChildren<Text>().text = currentCharacter.GetComponent<Behaviour.Keeper>().ActionPoints.ToString();
                     }
                 }
             }
@@ -532,43 +532,43 @@ public class IngameUI : MonoBehaviour
 
     public void CycleThroughKeepersButtonHandler(int direction)
     {
-        if (GameManager.Instance.AllKeepersListOld != null)
+        if (GameManager.Instance.AllKeepersList != null)
         {
-            if (GameManager.Instance.ListOfSelectedKeepersOld != null)
+            if (GameManager.Instance.ListOfSelectedKeepers != null)
             {
-                if (GameManager.Instance.ListOfSelectedKeepersOld.Count <= 0)
+                if (GameManager.Instance.ListOfSelectedKeepers.Count <= 0)
                 {
                     // tmp
-                    GameManager.Instance.ListOfSelectedKeepersOld.Add(GameManager.Instance.AllKeepersListOld[0]);
+                    GameManager.Instance.ListOfSelectedKeepers.Add(GameManager.Instance.AllKeepersList[0]);
                 }
                 // Get first selected
-                KeeperInstance currentKeeperSelected = GameManager.Instance.ListOfSelectedKeepersOld[0];
-                int currentKeeperSelectedIndex = GameManager.Instance.AllKeepersListOld.FindIndex(x => x == currentKeeperSelected);
+                PawnInstance currentKeeperSelected = GameManager.Instance.ListOfSelectedKeepers[0];
+                int currentKeeperSelectedIndex = GameManager.Instance.AllKeepersList.FindIndex(x => x == currentKeeperSelected);
 
                 // Next keeper
                 GameManager.Instance.ClearListKeeperSelected();
-                KeeperInstance nextKeeper = null;
+                PawnInstance nextKeeper = null;
                 int nbIterations = 1;
-                while (nextKeeper == null && nbIterations <= GameManager.Instance.AllKeepersListOld.Count)
+                while (nextKeeper == null && nbIterations <= GameManager.Instance.AllKeepersList.Count)
                 {
-                    if ((currentKeeperSelectedIndex + direction* nbIterations) % GameManager.Instance.AllKeepersListOld.Count < 0)
+                    if ((currentKeeperSelectedIndex + direction* nbIterations) % GameManager.Instance.AllKeepersList.Count < 0)
                     {
-                        nextKeeper = GameManager.Instance.AllKeepersListOld[GameManager.Instance.AllKeepersListOld.Count - 1];
+                        nextKeeper = GameManager.Instance.AllKeepersList[GameManager.Instance.AllKeepersList.Count - 1];
                     }
                     else
                     {
-                        nextKeeper = GameManager.Instance.AllKeepersListOld[(currentKeeperSelectedIndex + direction*nbIterations) % GameManager.Instance.AllKeepersListOld.Count];
+                        nextKeeper = GameManager.Instance.AllKeepersList[(currentKeeperSelectedIndex + direction*nbIterations) % GameManager.Instance.AllKeepersList.Count];
                     }
 
-                    if (!nextKeeper.IsAlive)
+                    if (!nextKeeper.GetComponent<Behaviour.Mortal>().IsAlive)
                     {
                         nextKeeper = null;
                     }
                     nbIterations++;
                 }
 
-                GameManager.Instance.ListOfSelectedKeepersOld.Add(nextKeeper);
-                nextKeeper.IsSelected = true;
+                GameManager.Instance.ListOfSelectedKeepers.Add(nextKeeper);
+                nextKeeper.GetComponent<Behaviour.Keeper>().IsSelected = true;
 
                 //Camera.main.GetComponent<CameraManager>().UpdateCameraPosition(nextKeeper);
 
@@ -631,9 +631,9 @@ public class IngameUI : MonoBehaviour
     #region Keepers_Inventory
     public void CreateKeepersInventoryPanels()
     {
-        foreach (KeeperInstance ki in GameManager.Instance.AllKeepersListOld)
+        foreach (PawnInstance ki in GameManager.Instance.AllKeepersList)
         {
-            ki.keeperInventoryPanel = CreateInventoryPanel(ki.gameObject);
+            ki.GetComponent<Behaviour.Inventory>().InventoryPanel = CreateInventoryPanel(ki.gameObject);
         }
     }
 

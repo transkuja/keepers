@@ -205,9 +205,14 @@ namespace Behaviour
             set
             {
                 isSelected = value;
-                if(isSelected == true)
+
+                feedbackSelection.SetActive(value);
+                if (agent != null)
+                    agent.avoidancePriority = value == true ? 80 : 50;
+
+                if (isSelected == true)
                 {
-                    //GameManager.Instance.CameraManager.UpdateCameraPosition(instance);
+                    GameManager.Instance.CameraManager.UpdateCameraPosition(instance);
                 }
                 ShowSelectdePanelUI(isSelected);
             }
@@ -223,6 +228,19 @@ namespace Behaviour
             set
             {
                 maxActionPoints = value;
+            }
+        }
+
+        public bool IsSelectedInMenu
+        {
+            get
+            {
+                return isSelectedInMenu;
+            }
+
+            set
+            {
+                isSelectedInMenu = value;
             }
         }
         #endregion

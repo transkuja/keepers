@@ -2,6 +2,7 @@
 using UnityEngine.SceneManagement;
 using UnityEngine;
 using QuestSystem;
+using Behaviour;
 
 public class GameManager : MonoBehaviour
 {
@@ -18,8 +19,6 @@ public class GameManager : MonoBehaviour
 
     private Database database = new Database();
 
-    [System.Obsolete]
-    private List<KeeperInstance> allKeepersListOld = new List<KeeperInstance>();
     private List<PawnInstance> allKeepersList = new List<PawnInstance>();
     private GameObject goTarget;
 
@@ -68,7 +67,8 @@ public class GameManager : MonoBehaviour
         {
             instance = this;
             database.Init();
-           // prisonerInstance = GameObject.Find("Prisoner").GetComponent<PrisonerInstance>();
+            // TODO this should not be handled like, especially if there is more prisoner in scene
+            prisonerInstance = FindObjectOfType<Behaviour.Prisoner>().GetComponent<PawnInstance>();
             nbTurn = 1;
         }
         else if (instance != this)
@@ -79,9 +79,9 @@ public class GameManager : MonoBehaviour
 
         if (isDebugGameManager)
         {
-            foreach( KeeperInstance ki in GetComponentsInChildren<KeeperInstance>())
+            foreach(Keeper k in GetComponentsInChildren<Keeper>())
             {
-                AllKeepersListOld.Add(ki);
+                AllKeepersList.Add(k.GetComponent<PawnInstance>());
             }
         }
 
@@ -91,8 +91,8 @@ public class GameManager : MonoBehaviour
             // TODO : @Rémi @Rustine : recuperer les positions de départ du prisonnier et des keepers
             //tileManager.Init();
             //Transform[] beginPositionsKeepers = tileManager.beginPositionsKeepers;
-            GameObject[] beginPositionsKeepers = new GameObject[allKeepersListOld.Count];
-            for (int i = 0; i < allKeepersListOld.Count; i++)
+            GameObject[] beginPositionsKeepers = new GameObject[allKeepersList.Count];
+            for (int i = 0; i < allKeepersList.Count; i++)
             {
                 GameObject beginPositionKeeper = new GameObject();
                 beginPositionKeeper.transform.position = Vector3.zero;
@@ -127,7 +127,7 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < listOfSelectedKeepers.Count; i++)
         {
-            listOfSelectedKeepers[i].GetComponent<Behaviour.Keeper>().IsSelected = false;
+            listOfSelectedKeepers[i].GetComponent<Keeper>().IsSelected = false;
 
         }
         listOfSelectedKeepers.Clear();
@@ -135,11 +135,11 @@ public class GameManager : MonoBehaviour
 
     public void InitializeInGameKeepers()
     {
-        foreach (KeeperInstance ki in AllKeepersListOld)
+        foreach (PawnInstance ki in AllKeepersList)
         {
             ki.gameObject.transform.SetParent(transform);
         }
-        prisonerInstanceOld.gameObject.transform.SetParent(transform);
+        prisonerInstance.gameObject.transform.SetParent(transform);
                 
     }
 
@@ -396,19 +396,6 @@ public class GameManager : MonoBehaviour
         set
         {
             allKeepersList = value;
-        }
-    }
-
-    public List<KeeperInstance> AllKeepersListOld
-    {
-        get
-        {
-            return allKeepersListOld;
-        }
-
-        set
-        {
-            allKeepersListOld = value;
         }
     }
 

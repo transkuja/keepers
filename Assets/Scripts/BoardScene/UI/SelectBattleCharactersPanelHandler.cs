@@ -29,7 +29,7 @@ public class SelectBattleCharactersPanelHandler : MonoBehaviour {
     {
         int j = 0;
 
-        foreach (KeeperInstance ki in TileManager.Instance.KeepersOnTileOld[activeTile])
+        foreach (PawnInstance ki in TileManager.Instance.KeepersOnTile[activeTile])
         {
             GameObject kiImage = Instantiate(imagePrefab, transform.GetChild((int)SelectBattleCharactersScreenChildren.CharactersOnTile).GetChild(j));
             kiImage.AddComponent<UIKeeperInstance>();
@@ -39,11 +39,11 @@ public class SelectBattleCharactersPanelHandler : MonoBehaviour {
 
             kiImage.transform.localScale = Vector3.one;
             kiImage.transform.localPosition = Vector3.zero;
-            kiImage.GetComponent<Image>().sprite = ki.Keeper.AssociatedSprite;
+            kiImage.GetComponent<Image>().sprite = ki.Data.AssociatedSprite;
             
             j++;
         }
-
+        /*
         if (TileManager.Instance.PrisonerTile != null && TileManager.Instance.PrisonerTile == activeTile)
         {
             isPrisonerOnTile = true;
@@ -53,16 +53,16 @@ public class SelectBattleCharactersPanelHandler : MonoBehaviour {
             kiImage.GetComponent<Image>().sprite = GameManager.Instance.PrisonerInstanceOld.Prisoner.AssociatedSprite;
         }
         else
-        {
+        {*/
             isPrisonerOnTile = false;
-        }
+ //       }
 
         // TODO load monsters on tile in UI (sprites only)
     }
 
     public void CloseSelectBattleCharactersPanel()
     {
-        List<KeeperInstance> selected = new List<KeeperInstance>();
+        List<PawnInstance> selected = new List<PawnInstance>();
 
         if (transform.GetChild((int)SelectBattleCharactersScreenChildren.CharactersSelected).GetChild(0).childCount > 0)
             selected.Add(transform.GetChild((int)SelectBattleCharactersScreenChildren.CharactersSelected).GetComponentInChildren<UIKeeperInstance>().keeperInstance);

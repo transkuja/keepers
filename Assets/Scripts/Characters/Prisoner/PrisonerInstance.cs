@@ -310,16 +310,16 @@ public class PrisonerInstance : MonoBehaviour, IEscortable {
 
     public void Escort(int _i = 0)
     {
-        for(int i = 0; i < GameManager.Instance.AllKeepersListOld.Count; i++)
-        {
-            GameManager.Instance.AllKeepersListOld[i].Keeper.GoListCharacterFollowing.Clear();
-            GameManager.Instance.AllKeepersListOld[i].isEscortAvailable = true;
-        }
-        // Ne va fonctionner que pour le prisonnier
-        GameManager.Instance.ListOfSelectedKeepersOld[0].Keeper.GoListCharacterFollowing.Add(GameManager.Instance.GoTarget.GetComponentInParent<PrisonerInstance>().gameObject);
-        GetComponent<NavMeshAgent>().stoppingDistance = 0.75f;
-        GetComponent<NavMeshAgent>().avoidancePriority = 80;
-        GameManager.Instance.ListOfSelectedKeepersOld[0].isEscortAvailable = false;
+        //for(int i = 0; i < GameManager.Instance.AllKeepersList.Count; i++)
+        //{
+        //    GameManager.Instance.AllKeepersList[i].Keeper.GoListCharacterFollowing.Clear();
+        //    GameManager.Instance.AllKeepersList[i].isEscortAvailable = true;
+        //}
+        //// Ne va fonctionner que pour le prisonnier
+        //GameManager.Instance.ListOfSelectedKeepersOld[0].Keeper.GoListCharacterFollowing.Add(GameManager.Instance.GoTarget.GetComponentInParent<PrisonerInstance>().gameObject);
+        //GetComponent<NavMeshAgent>().stoppingDistance = 0.75f;
+        //GetComponent<NavMeshAgent>().avoidancePriority = 80;
+        //GameManager.Instance.ListOfSelectedKeepersOld[0].isEscortAvailable = false;
 
     }
 

@@ -9,7 +9,7 @@ using UnityEngine.EventSystems;
 /// </summary>
 public class UIKeeperInstance : MonoBehaviour, IPointerClickHandler
 {
-    public KeeperInstance keeperInstance;
+    public PawnInstance keeperInstance;
 
     public void OnPointerClick(PointerEventData eventData)
     {

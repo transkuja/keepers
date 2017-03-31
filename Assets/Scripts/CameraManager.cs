@@ -99,14 +99,6 @@ public class CameraManager : MonoBehaviour {
         activeTile = pi.CurrentTile;
     }
 
-    [System.Obsolete]
-    public void UpdateCameraPositionOld(KeeperInstance selectedKeeper)
-    {
-        isUpdateNeeded = true;
-        oldPosition = transform.position;
-        activeTile = TileManager.Instance.GetTileFromKeeperOld[selectedKeeper];
-    }
-
     public void UpdateCameraPosition()
     {
         isUpdateNeeded = true;

@@ -36,6 +36,7 @@ namespace Behaviour
         MentalHealthHandlerData data;
         //int maxMentalHealth;  OLD WITHOUT DATA
         int currentMentalHealth;
+        bool isLowMentalHealthBuffApplied = false;
 
         // UI
         public GameObject selectedMentalHealthUI;
@@ -133,6 +134,27 @@ namespace Behaviour
             get
             {
                 return data;
+            }
+        }
+
+        public bool IsLowMentalHealthBuffApplied
+        {
+            get
+            {
+                return isLowMentalHealthBuffApplied;
+            }
+
+            set
+            {
+                isLowMentalHealthBuffApplied = value;
+            }
+        }
+
+        public bool IsDepressed
+        {
+            get
+            {
+                return isDepressed;
             }
         }
     }

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Behaviour;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -28,20 +27,20 @@ public class MenuControls : MonoBehaviour {
                     // On Click on a personnage
                     if (hit.transform.gameObject.layer == LayerMask.NameToLayer("KeeperInstance"))
                     {
-                        KeeperInstance k = hit.transform.gameObject.GetComponent<KeeperInstance>();
+                        PawnInstance k = hit.transform.gameObject.GetComponent<PawnInstance>();
                         if (k != null)
                         {
-                            if (GameManager.Instance.AllKeepersListOld.Contains(k))
+                            if (GameManager.Instance.AllKeepersList.Contains(k))
                             {
                                 AudioManager.Instance.PlayOneShot(AudioManager.Instance.deselectSound, 0.25f);
-                                k.IsSelectedInMenu = false;
-                                GameManager.Instance.AllKeepersListOld.Remove(k);
+                                k.GetComponent<Keeper>().IsSelectedInMenu = false;
+                                GameManager.Instance.AllKeepersList.Remove(k);
                             }
                             else
                             {
                                 AudioManager.Instance.PlayOneShot(AudioManager.Instance.selectSound, 0.25f);
-                                k.IsSelectedInMenu = true;
-                                GameManager.Instance.AllKeepersListOld.Add(k);
+                                k.GetComponent<Keeper>().IsSelectedInMenu = true;
+                                GameManager.Instance.AllKeepersList.Add(k);
                             }
                             GetComponent<MenuUI>().UpdateUI();
                         }
@@ -67,11 +66,11 @@ public class MenuControls : MonoBehaviour {
             // Deselect all
             if (Input.GetKeyDown(KeyCode.A))
             {
-                foreach (KeeperInstance ki in GameManager.Instance.AllKeepersListOld)
+                foreach (PawnInstance ki in GameManager.Instance.AllKeepersList)
                 {
-                    ki.IsSelectedInMenu = false;       
+                    ki.GetComponent<Keeper>().IsSelectedInMenu = false;       
                 }
-                GameManager.Instance.AllKeepersListOld.Clear();
+                GameManager.Instance.AllKeepersList.Clear();
                 GetComponent<MenuUI>().UpdateUI();
             }
         }
@@ -79,12 +78,12 @@ public class MenuControls : MonoBehaviour {
         // Skip Cinematique
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (GameManager.Instance.AllKeepersListOld.Count == 0)
+            if (GameManager.Instance.AllKeepersList.Count == 0)
             {
-                KeeperInstance[] keeperInstances = FindObjectsOfType<KeeperInstance>();
+                Keeper[] keeperInstances = FindObjectsOfType<Keeper>();
                 for (int i = 0; i < keeperInstances.Length; i++)
                 {
-                    GameManager.Instance.AllKeepersListOld.Add(keeperInstances[i]);
+                    GameManager.Instance.AllKeepersList.Add(keeperInstances[i].getPawnInstance);
                 }
             }
 

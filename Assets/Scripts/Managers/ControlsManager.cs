@@ -11,38 +11,12 @@ public class ControlsManager : MonoBehaviour {
     [SerializeField] private float fDoubleClickCoolDown = 0.3f;
 
     public LayerMask layerMask;
-    //public List<Character> listCharacters;
 
-    /*public Character currentCharacter = null;
-
-    public int iIdCurrentCharacter = 0;
-
-    private float fMoveSpeed = 1.0f;
-    private float fRotateSpeed = 1.1f;
-    private float fLerpRotation = 0.0f;
-
-    Quaternion quatPreviousRotation, quatTargetRotation;
-    bool bIsRotating = false;*/
-
-    // Camera parameters
-    /*[Header("Camera Controls")]
-    [SerializeField]
-    float dragSpeed = 2;
-    Vector3 dragOrigin;
-
-    float minFov = 15f;
-    float maxFov = 90f;
-    float sensitivity = 10f;*/
-
-
-    // Use this for initialization
     void Start () {
-        //currentCharacter = listCharacters[iIdCurrentCharacter];
         goPreviousLeftclicked = null;
         fTimerDoubleClick = 0;
     }
 	
-	// Update is called once per frame
 	void Update () {
         SelectionControls();
         ChangeSelectedKeeper();
@@ -127,11 +101,12 @@ public class ControlsManager : MonoBehaviour {
 
                     if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo, Mathf.Infinity, ~layerMask) == true)
                     {
-
                         IngameUI ui = GameManager.Instance.Ui;
                         Tile tileHit = hitInfo.collider.gameObject.GetComponentInParent<Tile>();
                         Tile keeperSelectedTile = GameManager.Instance.GetFirstSelectedKeeper().CurrentTile;
                         GameObject clickTarget = hitInfo.collider.gameObject;
+                        Debug.Log(tileHit);
+                        Debug.Log(keeperSelectedTile);
 
                         // Handle click on a ItemInstance
                         if (clickTarget.GetComponent<ItemInstance>() != null)
@@ -154,6 +129,7 @@ public class ControlsManager : MonoBehaviour {
                         // Handle click on a pawn
                         else if (clickTarget.GetComponentInParent<PawnInstance>() != null)
                         {
+                            tileHit = clickTarget.GetComponentInParent<PawnInstance>().CurrentTile;
                             if (tileHit == keeperSelectedTile)
                             {
                                 // If click on same keeper, do nothing

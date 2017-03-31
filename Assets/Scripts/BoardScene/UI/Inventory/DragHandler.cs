@@ -51,7 +51,7 @@ public class DragHandler : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
             InventoryOwner inventaireDequi = startParent.parent.GetComponent<InventoryOwner>();
 
             // On ne peut drop que d'un keeper
-            if( inventaireDequi.Owner.GetComponent<KeeperInstance>() != null)
+            if( inventaireDequi.Owner.GetComponent<Behaviour.Keeper>() != null)
             {
                 ItemContainer[] inventoryKeeperDequi = inventaireDequi.Owner.GetComponent<Behaviour.Inventory>().Items;
 
@@ -61,7 +61,7 @@ public class DragHandler : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
                 loot[0] = eventData.pointerDrag.gameObject.GetComponent<ItemInstance>().ItemContainer;
 
 
-                Tile t = TileManager.Instance.GetTileFromKeeperOld[inventaireDequi.Owner.GetComponent<KeeperInstance>()];
+                Tile t = inventaireDequi.Owner.GetComponent<PawnInstance>().CurrentTile;
 
                 ItemManager.AddItemOnTheGround(t, inventaireDequi.Owner.transform, loot);
 

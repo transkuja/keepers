@@ -152,30 +152,30 @@ public class KeeperInstance : MonoBehaviour, ITradable {
 
     void Die()
     {
-        Debug.Log("Blaeuurgh... *dead*");
-        Tile currentTile = TileManager.Instance.GetTileFromKeeperOld[this];
+        //Debug.Log("Blaeuurgh... *dead*");
+        //Tile currentTile = TileManager.Instance.GetTileFromKeeperOld[this];
 
-        // Drop items
-        ItemManager.AddItemOnTheGround(currentTile, transform, GetComponent<Behaviour.Inventory>().Items);
+        //// Drop items
+        //ItemManager.AddItemOnTheGround(currentTile, transform, GetComponent<Behaviour.Inventory>().Items);
 
-        // Remove reference from tiles
-        TileManager.Instance.RemoveKilledKeeperOld(this);
+        //// Remove reference from tiles
+        //TileManager.Instance.RemoveKilledKeeperOld(this);
 
-        // Death operations
+        //// Death operations
 
-        GlowController.UnregisterObject(GetComponent<GlowObjectCmd>());
-        anim.SetTrigger("triggerDeath");
+        //GlowController.UnregisterObject(GetComponent<GlowObjectCmd>());
+        //anim.SetTrigger("triggerDeath");
 
-        // Try to fix glow bug
-        Destroy(GetComponent<GlowObjectCmd>());
+        //// Try to fix glow bug
+        //Destroy(GetComponent<GlowObjectCmd>());
 
 
-        GameManager.Instance.Ui.UpdateShortcutPanel();
-        GameManager.Instance.Ui.HideSelectedKeeperPanel();
-        GameManager.Instance.CheckGameState();
+        //GameManager.Instance.Ui.UpdateShortcutPanel();
+        //GameManager.Instance.Ui.HideSelectedKeeperPanel();
+        //GameManager.Instance.CheckGameState();
 
-        // Deactivate pawn
-        DeactivatePawn();
+        //// Deactivate pawn
+        //DeactivatePawn();
     }
 
     public short CurrentMentalHealth
