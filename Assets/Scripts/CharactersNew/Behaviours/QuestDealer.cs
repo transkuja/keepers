@@ -79,7 +79,7 @@ namespace Behaviour
                 }
                 else
                 {
-                    GameManager.Instance.Ui.ZeroActionTextAnimation();
+                    GameManager.Instance.Ui.ZeroActionTextAnimation(GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Keeper>());
                 }
             }
         }

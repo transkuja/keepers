@@ -7,8 +7,6 @@ using System;
 
 public class IngameUI : MonoBehaviour
 {
-    private enum PanelShortcutChildren { Image, HpGauge, HungerGauge, MentalHealthGauge, ActionPoints };
-
     // KeeperPanel
     [Header("Character Panel")]
     //public GameObject goSelectedKeeperPanel;
@@ -278,45 +276,47 @@ public class IngameUI : MonoBehaviour
     #endregion
 
     #region SelectedKeeper
-    public void ShowSelectedKeeperPanel()
+
+    public void ZeroActionTextAnimation(Behaviour.Keeper ki)
     {
-        goSelectedKeeperPanel.SetActive(true);
+        ki.ShorcutUI.transform.GetChild((int)PanelShortcutChildren.ActionPoints).GetComponent<Text>().color = Color.red;
+        ki.ShorcutUI.transform.GetChild((int)PanelShortcutChildren.ActionPoints).GetComponent<Text>().transform.localScale = new Vector3(1.4f, 1.4f, 1.4f);
+
+
+        ki.SelectedActionPointsUI.GetComponentInChildren<Text>().color = Color.red;
+        ki.SelectedActionPointsUI.GetComponentInChildren<Text>().transform.localScale = new Vector3(1.4f, 1.4f, 1.4f);
+        StartCoroutine(TextAnimationNormalState(ki));
     }
 
-
-    public void ZeroActionTextAnimation()
+    private IEnumerator TextAnimationNormalState(Behaviour.Keeper ki)
     {
-        //SelectedKeeperActionText.GetComponent<Text>().color = Color.red;
-        //SelectedKeeperActionText.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
-        StartCoroutine(TextAnimationNormalState());
-    }
+        yield return new WaitForSeconds(1);
+        ki.ShorcutUI.transform.GetChild((int)PanelShortcutChildren.ActionPoints).GetComponent<Text>().color = Color.white;
+        ki.ShorcutUI.transform.GetChild((int)PanelShortcutChildren.ActionPoints).GetComponent<Text>().transform.localScale = Vector3.one;
 
-    private IEnumerator TextAnimationNormalState()
-    {
-        //yield return new WaitForSeconds(1);
-        //SelectedKeeperActionText.GetComponent<Text>().color = Color.white;
-        //SelectedKeeperActionText.transform.localScale = Vector3.one;
+        ki.SelectedActionPointsUI.GetComponentInChildren<Text>().color = Color.white;
+        ki.SelectedActionPointsUI.GetComponentInChildren<Text>().transform.localScale = Vector3.one;
         yield return null;
     }
 
-    public void DecreaseActionTextAnimation(int amount)
+    public void DecreaseActionTextAnimation(Behaviour.Keeper ki, int amount)
     {
-        //DecreasedActionText.GetComponent<Text>().text = "- " + amount.ToString();
-        //DecreasedActionText.gameObject.SetActive(true);
-        //StartCoroutine(DecreaseTextNormalState());
+        ki.SelectedActionPointsUI.transform.GetChild(0).GetChild(0).GetComponentInChildren<Text>().text = "- " + amount.ToString();
+        ki.SelectedActionPointsUI.transform.GetChild(0).GetChild(0).GetComponentInChildren<Text>().gameObject.SetActive(true);
+        StartCoroutine(DecreaseTextNormalState(ki));
     }
 
-    private IEnumerator DecreaseTextNormalState()
+    private IEnumerator DecreaseTextNormalState(Behaviour.Keeper ki)
     {
-        //Vector3 origin = DecreasedActionText.transform.position;
-        //for (float f = 3.0f; f >= 0; f -= 0.1f)
-        //{
-        //    Vector3 decal = new Vector3(0.0f, f, 0.0f);
-        //    DecreasedActionText.transform.position += decal;
-        //    yield return null;
-        //}
-        //DecreasedActionText.transform.position = origin;
-        //DecreasedActionText.gameObject.SetActive(false);
+        Vector3 origin = ki.SelectedActionPointsUI.transform.GetChild(0).GetChild(0).GetComponentInChildren<Text>().transform.position;
+        for (float f = 3.0f; f >= 0; f -= 0.1f)
+        {
+            Vector3 decal = new Vector3(0.0f, f, 0.0f);
+            ki.SelectedActionPointsUI.transform.GetChild(0).GetChild(0).GetComponentInChildren<Text>().transform.position += decal;
+            yield return null;
+        }
+        ki.SelectedActionPointsUI.transform.GetChild(0).GetChild(0).GetComponentInChildren<Text>().transform.position = origin;
+        ki.SelectedActionPointsUI.transform.GetChild(0).GetChild(0).GetComponentInChildren<Text>().gameObject.SetActive(false);
         yield return null;
     }
     #endregion

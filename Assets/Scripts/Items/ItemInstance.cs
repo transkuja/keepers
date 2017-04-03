@@ -108,7 +108,7 @@ public class ItemInstance : MonoBehaviour, IHavestable
         }
         else
         {
-            GameManager.Instance.Ui.ZeroActionTextAnimation();
+            GameManager.Instance.Ui.ZeroActionTextAnimation(GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Keeper>());
         }
     }
     public void OnMouseOver()

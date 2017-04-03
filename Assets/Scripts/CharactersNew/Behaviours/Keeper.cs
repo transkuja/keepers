@@ -2,6 +2,7 @@
 using UnityEngine.AI;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using System.Collections;
 
 namespace Behaviour
 {
@@ -85,16 +86,17 @@ namespace Behaviour
         public void MoralBuff(int _i = 0)
         {
             int costAction = instance.Interactions.Get("Moral").costAction;
-            if (ActionPoints >= costAction)
+            Keeper from = GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Keeper>();
+            if (from.ActionPoints >= costAction)
             {
-                ActionPoints -= (short)costAction;
+                from.ActionPoints -= (short)costAction;
                 short amountMoralBuff = (short)Random.Range(minMoralBuff, maxMoralBuff);
                 GetComponent<MentalHealthHandler>().CurrentMentalHealth += amountMoralBuff;
                 GameManager.Instance.Ui.MoralBuffActionTextAnimation(amountMoralBuff);
             }
             else
             {
-                GameManager.Instance.Ui.ZeroActionTextAnimation();
+                GameManager.Instance.Ui.ZeroActionTextAnimation(from);
             }
         }
         #endregion
@@ -109,7 +111,6 @@ namespace Behaviour
             ShorcutUI.transform.GetChild((int)PanelShortcutChildren.Image).GetComponent<Image>().sprite = associatedSprite;
             ShorcutUI.transform.localScale = Vector3.one;
             ShorcutUI.GetComponent<Button>().onClick.AddListener(() => GoToKeeper());
-
         }
 
         public void CreateSelectedPanel()
@@ -218,8 +219,11 @@ namespace Behaviour
 
         public void UpdateActionPoint(int actionPoint)
         {
+            SelectedActionPointsUI.transform.SetAsLastSibling();
             SelectedActionPointsUI.transform.GetChild(0).gameObject.GetComponentInChildren<Text>().text = actionPoint.ToString();
-            SelectedActionPointsUI.gameObject.GetComponentInChildren<Image>().fillAmount = actionPoint / maxActionPoints; ;
+
+            ShorcutUI.transform.GetChild((int)PanelShortcutChildren.ActionPoints).transform.SetAsLastSibling();
+            ShorcutUI.transform.GetChild((int)PanelShortcutChildren.ActionPoints).GetComponent<Text>().text = actionPoint.ToString();
         }
         #endregion
 
@@ -234,8 +238,8 @@ namespace Behaviour
 
             set
             {
-                if (value < actionPoints) GameManager.Instance.Ui.DecreaseActionTextAnimation(actionPoints - value);
-                actionPoints = value;
+                if (value < actionPoints) GameManager.Instance.Ui.DecreaseActionTextAnimation(this, actionPoints - value);
+                    actionPoints = value;
                 UpdateActionPoint(actionPoints);
                 if (actionPoints > MaxActionPoints)
                     actionPoints = MaxActionPoints;

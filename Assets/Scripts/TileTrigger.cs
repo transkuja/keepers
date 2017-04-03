@@ -143,7 +143,7 @@ public class TileTrigger : MonoBehaviour {
             }
             else
             {
-                GameManager.Instance.Ui.ZeroActionTextAnimation();
+                GameManager.Instance.Ui.ZeroActionTextAnimation(GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Keeper>());
             }
         }
     }
@@ -184,7 +184,7 @@ public class TileTrigger : MonoBehaviour {
             }
             else
             {
-                GameManager.Instance.Ui.ZeroActionTextAnimation();
+                GameManager.Instance.Ui.ZeroActionTextAnimation(GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Keeper>());
             }
         }
     }
