@@ -1,7 +1,26 @@
 ﻿using Behaviour;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class EventManager : MonoBehaviour {
+
+    // Lister tous les types d'évènements.
+    // Les objets concernés invoqueront les delegate, avec une reférence vers eux même.
+    // Ex: Jean-Louis le loup meurt -> Dans sa fonction de mort : Eventmanager.OnMonsterDie(this)
+
+    public delegate void DefaultEvent();
+    public delegate void MonsterEvent(Monster m);
+    public delegate void KeeperEvent(Keeper k);
+    public delegate void PrisonerEvent(Prisoner p);
+    public delegate void AnimatedPawnEvent(AnimatedPawn ap);
+    public delegate void PawnInstanceEvent(PawnInstance pi);
+    public delegate void ItemEvent(ItemInstance ii);
+
+    public static MonsterEvent OnMonsterDie;
+    public static KeeperEvent OnKeeperDie;
+    public static ItemEvent OnHarvest;
+    public static ItemEvent OnPickUp;
+
 
     private static short actionPointsResetValue = 3;
 

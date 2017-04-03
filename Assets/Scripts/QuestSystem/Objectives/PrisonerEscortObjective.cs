@@ -10,8 +10,12 @@ public class PrisonerEscortObjective : IQuestObjective
     private string description;
     private bool isComplete;
 
-    private GameObject prisoner;
-    private Tile destination;
+    // We must give an ID to every Quest Objective class (static because it belongs to the class)
+    // So we can know what to call when loading the quest from JSON
+    private static int id = 0;
+
+    public GameObject prisoner;
+    public Tile destination;
 
     public PrisonerEscortObjective(string _title, string desc, GameObject _prisoner, Tile dest, bool complete = false)
     {
@@ -46,6 +50,14 @@ public class PrisonerEscortObjective : IQuestObjective
         }
     }
 
+    public int ID
+    {
+        get
+        {
+            return id;
+        }
+    }
+
     public void CheckProgress()
     {
         if(prisoner.GetComponent<PawnInstance>().CurrentTile == destination)
@@ -59,6 +71,11 @@ public class PrisonerEscortObjective : IQuestObjective
     }
 
     public void UpdateProgress()
+    {
+        
+    }
+
+    public void Init()
     {
         
     }
