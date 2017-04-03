@@ -9,6 +9,8 @@ public class StatsHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 {
     public void OnPointerEnter(PointerEventData eventData)
     {
+        //GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Keeper>();
+
         //if (GameManager.Instance.ListOfSelectedKeepers.Count < 1) return;
         //KeeperInstance currentSelectedCharacter = GameManager.Instance.ListOfSelectedKeepers[0];
 
@@ -58,11 +60,11 @@ public class StatsHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         //    GameManager.Instance.Ui.statsPanelTooltip.transform.GetChild(3).GetChild(0).GetComponent<Text>().text += " " + currentSelectedCharacter.Keeper.BonusIntelligence.ToString();
         //}
 
-        //GameManager.Instance.Ui.statsPanelTooltip.SetActive(true);
+        transform.GetChild(0).gameObject.SetActive(true);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        //GameManager.Instance.Ui.statsPanelTooltip.SetActive(false);
+        transform.GetChild(0).gameObject.SetActive(false);
     }
 }

@@ -143,10 +143,9 @@ namespace Behaviour
 
         public void UpdateEquipement()
         {
-
             for (int i = 0; i < equipements.Length; i++)
             {
-                GameObject currentSlot = SelectedEquipementUI.transform.GetChild(1).GetChild(i).gameObject;
+                GameObject currentSlot = SelectedEquipementUI.transform.GetChild(i).gameObject;
                 if (currentSlot.GetComponentInChildren<ItemInstance>() != null)
                 {
                     Destroy(currentSlot.GetComponentInChildren<ItemInstance>().gameObject);
@@ -155,7 +154,7 @@ namespace Behaviour
 
             for (int i = 0; i < equipements.Length; i++)
             {
-                GameObject currentSlot = SelectedEquipementUI.transform.GetChild(1).GetChild(i).gameObject;
+                GameObject currentSlot = SelectedEquipementUI.transform.GetChild(i).gameObject;
                 if (equipements[i] != null && equipements[i].Item != null && equipements[i].Item.Id != null)
                 {
                     GameObject go = Instantiate(GameManager.Instance.PrefabUtils.PrefabItemUI);
