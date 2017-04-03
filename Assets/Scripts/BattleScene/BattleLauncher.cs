@@ -16,6 +16,8 @@ public class BattleLauncher : MonoBehaviour {
             foreach (PawnInstance mi in TileManager.Instance.MonstersOnTile[tile])
                 mi.GetComponent<NavMeshAgent>().SetDestination(mi.transform.position);
             BattleHandler.StartBattleProcess(tile);
+
+            GameManager.Instance.CameraManager.UpdateCameraPosition(GetComponentInParent<Behaviour.Keeper>().getPawnInstance);
         }
     }
 }
