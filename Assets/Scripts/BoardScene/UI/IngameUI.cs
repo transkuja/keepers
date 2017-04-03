@@ -113,12 +113,10 @@ public class IngameUI : MonoBehaviour
         // Actions
         for (int i = 0; i < ic.listActionContainers.Count; i++)
         {
-            //bool bIsForbiden = ic.listActionContainers[i].strName == "Escort" && !GameManager.Instance.ListOfSelectedKeepers[0].isEscortAvailable;
-            //bIsForbiden = bIsForbiden || ic.listActionContainers[i].strName == "Unescort" && GameManager.Instance.ListOfSelectedKeepers[0].isEscortAvailable;
-            //bIsForbiden = bIsForbiden || ic.listActionContainers[i].strName == "Quest" && !GameManager.Instance.ListOfSelectedKeepers[0].isAbleToImproveMoral;
-            //bIsForbiden = bIsForbiden || ic.listActionContainers[i].strName == "Moral" && !GameManager.Instance.ListOfSelectedKeepers[0].isAbleToImproveMoral;
-            //if (!bIsForbiden)
-            //{
+            bool bIsForbiden = ic.listActionContainers[i].strName == "Quest" && !GameManager.Instance.GetFirstSelectedKeeper().Data.Behaviours[(int)BehavioursEnum.CanSpeak];
+            bIsForbiden = bIsForbiden || ic.listActionContainers[i].strName == "Moral" && !GameManager.Instance.GetFirstSelectedKeeper().Data.Behaviours[(int)BehavioursEnum.CanSpeak];
+            if (!bIsForbiden)
+            {
                 GameObject goAction = Instantiate(GameManager.Instance.PrefabUtils.PrefabActionUI, goActionPanelQ.transform);
                 goAction.name = ic.listActionContainers[i].strName;
 
@@ -158,7 +156,7 @@ public class IngameUI : MonoBehaviour
 
                 btn.transform.GetComponentInChildren<Image>().sprite = ic.listActionContainers[i].sprite;
                 btn.transform.GetComponentInChildren<Image>().transform.localScale = Vector3.one;
-            //}
+            }
         }
 
         worldSpaceCanvas.transform.SetParent(GameManager.Instance.GoTarget.transform);
