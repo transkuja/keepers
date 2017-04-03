@@ -66,13 +66,23 @@ namespace Behaviour
             }
 
             anim.SetFloat("velocity", agent.velocity.magnitude);
+
+            if (IsMovingBetweenTiles)
+            {
+                lerpMoveParam += Time.deltaTime;
+                if (lerpMoveParam >= 1.0f)
+                {
+                    IsMovingBetweenTiles = false;
+                }
+                transform.position = Vector3.Lerp(lerpStartPosition, lerpEndPosition, Mathf.Clamp(lerpMoveParam, 0, 1));
+                transform.rotation = Quaternion.Lerp(lerpStartRotation, lerpEndRotation, Mathf.Clamp(lerpMoveParam, 0, 1));
+            }
         }
 
 
         public void StartBetweenTilesAnimation(Vector3 newPosition)
         {
-            // Probleme du déplacement ?????
-            //agent.enabled = false;
+            agent.enabled = false;
 
             lerpMoveParam = 0.0f;
             lerpStartPosition = transform.position;

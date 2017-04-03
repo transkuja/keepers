@@ -77,9 +77,6 @@ public class TileManager : MonoBehaviour {
         // Physical movement
         keeper.GetComponent<Behaviour.AnimatedPawn>().StartBetweenTilesAnimation(spawnPoints[0].position);
 
-        // TODO remove this line when animated pawn is implemented
-        keeper.transform.position = spawnPoints[0].position;
-
         Behaviour.Keeper keeperComponent = keeper.GetComponent<Behaviour.Keeper>();
         keeperComponent.ActionPoints -= (short)costAction;
         keeperComponent.getPawnInstance.CurrentTile = destination;
@@ -94,9 +91,6 @@ public class TileManager : MonoBehaviour {
             {
                 goCurrentCharacter.GetComponent<PawnInstance>().CurrentTile = destination;
                 goCurrentCharacter.GetComponent<Behaviour.AnimatedPawn>().StartBetweenTilesAnimation(spawnPoints[i + 1 % spawnPoints.Length].position);
-
-                // TODO remove this line when animated pawn is implemented
-                keeper.transform.position = spawnPoints[i + 1 % spawnPoints.Length].position;
             }
 
         }
