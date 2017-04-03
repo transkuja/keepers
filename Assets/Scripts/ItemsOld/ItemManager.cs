@@ -15,16 +15,20 @@ public static class ItemManager {
     {
         if (loot != null && loot.Length > 0)
         {
-            GameObject drop = GameObject.Instantiate(GameManager.Instance.PrefabUtils.prefabItemToDrop) as GameObject;
+            GameObject dropedItem = GameObject.Instantiate(GameManager.Instance.PrefabUtils.prefabItemToDrop) as GameObject;
+            Behaviour.Inventory dropInventory = dropedItem.GetComponent<Behaviour.Inventory>();
+            dropedItem.transform.SetParent(tileWhere.transform);
+            dropedItem.transform.position = where.position;
 
-            drop.transform.SetParent(tileWhere.transform);
-            drop.transform.position = where.position;
-
-            // ? 
-            //drop.GetComponent<LootInstance>().nbSlot = loot.Length;
-            Behaviour.Inventory dropInventory = drop.GetComponent<Behaviour.Inventory>();
-            dropInventory.InitUI(loot.Length);
-
+            int j = 0;
+            for (int i = 0; i < loot.Length; i++)
+            {
+                if (loot[i] != null)
+                {
+                    j++;
+                }
+            }
+            dropInventory.InitUI(j);
 
             Array.Copy(loot, dropInventory.Items, dropInventory.Items.Length);
             dropInventory.UpdateInventories();

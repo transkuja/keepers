@@ -119,6 +119,7 @@ namespace Behaviour
                     GameObject button = Instantiate(GameManager.Instance.PrefabUtils.PrefabConfimationButtonUI, inventoryPanel.transform);
 
                     button.GetComponent<Button>().onClick.AddListener(instance.GetComponent<Prisoner>().ProcessFeeding);
+                    button.GetComponent<Button>().onClick.AddListener(() => inventoryPanel.SetActive(false));
                     button.transform.localScale = Vector3.one;
                     // TMP
                     button.transform.localPosition = new Vector3(0, -200, 0);

@@ -16,7 +16,6 @@ namespace Behaviour
 
         public void ProcessFeeding()
         {
-            /*
             Behaviour.Inventory inv = GetComponent<Behaviour.Inventory>();
             HungerHandler hungerHandler = GetComponent<Behaviour.HungerHandler>();
             int i = 0;
@@ -29,8 +28,6 @@ namespace Behaviour
                     {
                         InventoryManager.RemoveItem(inv.Items, inv.Items[i]);
                     }
-                    //inv.Items[i] = null;
-
                     i++;
                 }
                 else
@@ -52,7 +49,7 @@ namespace Behaviour
             }
             if (!isEmpty)
             {
-
+                // Bug ? 
                 ItemManager.AddItemOnTheGround(TileManager.Instance.PrisonerTile, transform, inv.Items);
                 for (int j = 0; j < inv.Items.Length; j++)
                 {
@@ -61,8 +58,7 @@ namespace Behaviour
 
             }
 
-            inv.UpdateInventory();
-            */
+            inv.UpdateInventories();  
         }
     }
 }
