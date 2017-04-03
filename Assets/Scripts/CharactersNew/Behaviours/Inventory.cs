@@ -112,7 +112,6 @@ namespace Behaviour
                 if (instance.GetComponent<Keeper>() != null)
                 {
                     CreateSelectedInventoryPanel();
-                    selectedInventoryPanel.name = "Panel_Inventory" + instance.Data.PawnName;
                     InitSelectedInventoryPanel();
                 }
                 else if (instance.GetComponent<Prisoner>() != null)
@@ -121,7 +120,8 @@ namespace Behaviour
 
                     button.GetComponent<Button>().onClick.AddListener(instance.GetComponent<Prisoner>().ProcessFeeding);
                     button.transform.localScale = Vector3.one;
-                    button.transform.localPosition = Vector3.zero;
+                    // TMP
+                    button.transform.localPosition = new Vector3(0, -200, 0);
                 }
             }
         }
@@ -130,6 +130,7 @@ namespace Behaviour
         {
             inventoryPanel = Instantiate(GameManager.Instance.PrefabUtils.PrefabInventaireUI, GameManager.Instance.PrefabUtils.PrefabInventaireUI.transform.position, GameManager.Instance.PrefabUtils.PrefabInventaireUI.transform.rotation);
             inventoryPanel.transform.SetParent(GameManager.Instance.Ui.Panel_Inventories.transform, false);
+            inventoryPanel.name = "Inventory_" + (GetComponent<LootInstance>() != null ? "Loot" : instance.Data.PawnName);
         }
 
         public void CreateSelectedInventoryPanel()
@@ -138,6 +139,7 @@ namespace Behaviour
             selectedInventoryPanel.GetComponent<InventoryOwner>().Owner = instance.gameObject;
             selectedInventoryPanel.transform.SetParent(instance.GetComponent<Keeper>().SelectedPanelUI.transform, false);
             selectedInventoryPanel.transform.localScale = Vector3.one;
+            selectedInventoryPanel.name = "Inventory";
         }
 
         public void ShowInventoryPanel(bool isShow)
@@ -149,7 +151,6 @@ namespace Behaviour
         {
             GameObject owner = null;
             Sprite associatedSprite = null;
-            string name = "";
             int nbSlot = 0;
 
             if ( instance!= null && instance.GetComponent<PawnInstance>() != null)
@@ -167,7 +168,6 @@ namespace Behaviour
                 associatedSprite = GameManager.Instance.SpriteUtils.spriteLoot;
                 inventoryPanel.transform.GetChild(0).gameObject.SetActive(false);
                 owner = lootInstance.gameObject;
-                name = "Loot";
                 nbSlot = lootInstance.nbSlot;
             }
             else
@@ -175,11 +175,7 @@ namespace Behaviour
                 return;
             }
 
-            //inventoryPanel.transform.localPosition = Vector3.zero;
-            //inventoryPanel.transform.localScale = Vector3.one;
-            inventoryPanel.name = "Inventory_" + name;
             inventoryPanel.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = associatedSprite;
-
             inventoryPanel.transform.GetChild(1).GetComponent<InventoryOwner>().Owner = owner;
 
             for (int i = 0; i < nbSlot; i++)
@@ -198,11 +194,7 @@ namespace Behaviour
         {
             PawnInstance pawnInstance = instance.GetComponent<PawnInstance>();
             Sprite associatedSprite = pawnInstance.Data.AssociatedSprite;
-            name = pawnInstance.Data.PawnName;
             GameObject owner = pawnInstance.gameObject;
-
-            selectedInventoryPanel.name = "Inventory_" + name;
-
             selectedInventoryPanel.GetComponent<InventoryOwner>().Owner = instance.gameObject;
 
             for (int i = 0; i < data.NbSlot; i++)

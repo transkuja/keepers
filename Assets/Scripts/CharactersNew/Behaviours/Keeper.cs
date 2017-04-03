@@ -60,9 +60,6 @@ namespace Behaviour
 
             agent = GetComponent<NavMeshAgent>();
 
-            ShorcutUI.name = "Shortcut" + instance.Data.PawnName;
-            SelectedPanelUI.name = "SelectedKeeper" + instance.Data.PawnName;
-
             ActionPoints = MaxActionPoints;
         }
 
@@ -125,10 +122,12 @@ namespace Behaviour
             SelectedStatPanelUI = Instantiate(GameManager.Instance.PrefabUtils.PrefabSelectedStatsUIPanel, GameManager.Instance.PrefabUtils.PrefabSelectedStatsUIPanel.transform.position, GameManager.Instance.PrefabUtils.PrefabSelectedStatsUIPanel.transform.rotation);
             SelectedStatPanelUI.transform.SetParent(SelectedPanelUI.transform, false);
             SelectedStatPanelUI.transform.localScale = Vector3.one;
+            SelectedStatPanelUI.name = "Stats";
 
             SelectedStatPanelUI.transform.GetChild((int)PanelSelectedKeeperStatChildren.Image).GetComponent<Image>().sprite = associatedSprite;
             SelectedActionPointsUI = SelectedStatPanelUI.transform.GetChild((int)PanelSelectedKeeperStatChildren.ActionPoints).gameObject;
             SelectedActionPointsUI.transform.localScale = Vector3.one;
+            SelectedActionPointsUI.name = "Action";
 
             SelectedStatPanelUI.transform.GetChild((int)PanelSelectedKeeperStatChildren.ButtonCycleLeft).GetComponent<Button>().onClick.AddListener(() => GoToKeeper(-1));
             SelectedStatPanelUI.transform.GetChild((int)PanelSelectedKeeperStatChildren.ButtonCycleRight).GetComponent<Button>().onClick.AddListener(() => GoToKeeper(+1));
@@ -137,6 +136,9 @@ namespace Behaviour
             selectedEquipementUI.transform.GetComponent<InventoryOwner>().Owner = gameObject;
             selectedEquipementUI.transform.SetParent(SelectedPanelUI.transform, false);
             selectedEquipementUI.transform.localScale = Vector3.one;
+            selectedEquipementUI.name = "Equipment";
+
+            SelectedPanelUI.name = "Keeper_" + instance.Data.PawnName;
         }
 
         public void UpdateEquipement()
