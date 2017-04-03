@@ -37,12 +37,16 @@ namespace Behaviour
         private GameObject selectedPanelUI;
         private GameObject selectedStatPanelUI;
         private GameObject selectedActionPointsUI;
+        private GameObject selectedEquipementUI;
 
         void Awake()
         {
             // J'ai un probleme j'ai besoin que la creation de l'ui de ce mec soit faite avant celle des autres composants
             // Peut que sa sera corrigé avec le truc de Quentin du coup on pourra le déplacer dans le start
             instance = GetComponent<PawnInstance>();
+
+            // Equipement
+            equipements = new ItemContainer[3];
 
             CreateShortcutKeeperUI();
             CreateSelectedPanel();
@@ -58,9 +62,6 @@ namespace Behaviour
 
             ShorcutUI.name = "Shortcut" + instance.Data.PawnName;
             SelectedPanelUI.name = "SelectedKeeper" + instance.Data.PawnName;
-       
-        
-            // Equipement
 
             ActionPoints = MaxActionPoints;
         }
@@ -132,7 +133,47 @@ namespace Behaviour
 
             SelectedStatPanelUI.transform.GetChild((int)PanelSelectedKeeperStatChildren.ButtonCycleLeft).GetComponent<Button>().onClick.AddListener(() => GoToKeeper(-1));
             SelectedStatPanelUI.transform.GetChild((int)PanelSelectedKeeperStatChildren.ButtonCycleRight).GetComponent<Button>().onClick.AddListener(() => GoToKeeper(+1));
+
+
+            selectedEquipementUI = Instantiate(GameManager.Instance.PrefabUtils.PrefabSelectedEquipementUIPanel, SelectedPanelUI.transform);
+            selectedEquipementUI.transform.GetComponent<InventoryOwner>().Owner = gameObject;
+            selectedEquipementUI.transform.localPosition = Vector3.zero;
+            selectedEquipementUI.transform.localScale = Vector3.one;
         }
+
+        public void UpdateEquipement()
+        {
+
+            for (int i = 0; i < equipements.Length; i++)
+            {
+                GameObject currentSlot = SelectedEquipementUI.transform.GetChild(1).GetChild(i).gameObject;
+                if (currentSlot.GetComponentInChildren<ItemInstance>() != null)
+                {
+                    Destroy(currentSlot.GetComponentInChildren<ItemInstance>().gameObject);
+                }
+            }
+
+            for (int i = 0; i < equipements.Length; i++)
+            {
+                GameObject currentSlot = SelectedEquipementUI.transform.GetChild(1).GetChild(i).gameObject;
+                if (equipements[i] != null && equipements[i].Item != null && equipements[i].Item.Id != null)
+                {
+                    GameObject go = Instantiate(GameManager.Instance.PrefabUtils.PrefabItemUI);
+                    go.transform.SetParent(currentSlot.transform);
+                    go.GetComponent<ItemInstance>().ItemContainer = equipements[i];
+                    go.name = equipements[i].ToString();
+
+                    go.GetComponent<Image>().sprite = equipements[i].Item.InventorySprite;
+                    go.transform.localScale = Vector3.one;
+
+                    go.transform.position = currentSlot.transform.position;
+                    go.transform.SetAsFirstSibling();
+
+
+                    go.transform.GetComponentInChildren<Text>().text = "";
+            }
+        }
+    }
 
         public void ShowSelectdePanelUI(bool isShow)
         {
@@ -224,7 +265,6 @@ namespace Behaviour
                 return instance;
             }
         }
-
 
         public bool IsSelected
         {
@@ -339,6 +379,19 @@ namespace Behaviour
             set
             {
                 equipements = value;
+            }
+        }
+
+        public GameObject SelectedEquipementUI
+        {
+            get
+            {
+                return selectedEquipementUI;
+            }
+
+            set
+            {
+                selectedEquipementUI = value;
             }
         }
         #endregion

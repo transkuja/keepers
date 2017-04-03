@@ -48,53 +48,53 @@ public class EquipementManager {
         });
     }
 
-    public static void ApplyStats(KeeperInstance ki, Equipment equipement)
+    public static void ApplyStats(PawnInstance ki, Equipment equipement)
     {
-        switch (equipement.Stat) {
-                case Stat.Strength:
-                ki.Keeper.BonusStrength += equipement.BonusToStat;
-                break;
-            case Stat.Defense:
-                ki.Keeper.BonusDefense += equipement.BonusToStat;
-                break;
-            case Stat.Spirit:
-                ki.Keeper.BonusSpirit += equipement.BonusToStat;
-                break;
-            case Stat.Intelligence:
-                ki.Keeper.BonusIntelligence += equipement.BonusToStat;
-                break;
-            case Stat.HP:
-                ki.Keeper.MaxHp += equipement.BonusToStat;
-                break;
-            case Stat.MP:
-                ki.Keeper.MaxMp += equipement.BonusToStat;
-                break;
-        }
+        //switch (equipement.Stat) {
+        //        case Stat.Strength:
+        //        ki.Keeper.BonusStrength += equipement.BonusToStat;
+        //        break;
+        //    case Stat.Defense:
+        //        ki.Keeper.BonusDefense += equipement.BonusToStat;
+        //        break;
+        //    case Stat.Spirit:
+        //        ki.Keeper.BonusSpirit += equipement.BonusToStat;
+        //        break;
+        //    case Stat.Intelligence:
+        //        ki.Keeper.BonusIntelligence += equipement.BonusToStat;
+        //        break;
+        //    case Stat.HP:
+        //        ki.Keeper.MaxHp += equipement.BonusToStat;
+        //        break;
+        //    case Stat.MP:
+        //        ki.Keeper.MaxMp += equipement.BonusToStat;
+        //        break;
+        //}
 
     }
 
-    public static void UnapplyStats(KeeperInstance ki, Equipment equipement)
+    public static void UnapplyStats(PawnInstance ki, Equipment equipement)
     {
-        switch (equipement.Stat)
-        {
-            case Stat.Strength:
-                ki.Keeper.BonusStrength -= equipement.BonusToStat;
-                break;
-            case Stat.Defense:
-                ki.Keeper.BonusDefense -= equipement.BonusToStat;
-                break;
-            case Stat.Spirit:
-                ki.Keeper.BonusSpirit -= equipement.BonusToStat;
-                break;
-            case Stat.Intelligence:
-                ki.Keeper.BonusIntelligence -= equipement.BonusToStat;
-                break;
-            case Stat.HP:
-                ki.Keeper.MaxHp -= equipement.BonusToStat;
-                break;
-            case Stat.MP:
-                ki.Keeper.MaxMp -= equipement.BonusToStat;
-                break;
-        }
+        //switch (equipement.Stat)
+        //{
+        //    case Stat.Strength:
+        //        ki.Keeper.BonusStrength -= equipement.BonusToStat;
+        //        break;
+        //    case Stat.Defense:
+        //        ki.Keeper.BonusDefense -= equipement.BonusToStat;
+        //        break;
+        //    case Stat.Spirit:
+        //        ki.Keeper.BonusSpirit -= equipement.BonusToStat;
+        //        break;
+        //    case Stat.Intelligence:
+        //        ki.Keeper.BonusIntelligence -= equipement.BonusToStat;
+        //        break;
+        //    case Stat.HP:
+        //        ki.Keeper.MaxHp -= equipement.BonusToStat;
+        //        break;
+        //    case Stat.MP:
+        //        ki.Keeper.MaxMp -= equipement.BonusToStat;
+        //        break;
+        //}
     }
 }

@@ -338,7 +338,11 @@ namespace Behaviour
             }
 
             selectedInventoryPanel.GetComponent<GridLayoutGroup>().constraintCount = nbSlot;
+
+            // Met a jour l'équipement aswell
+            instance.GetComponent<Keeper>().UpdateEquipement();
         }
+        
         #endregion
 
         #region Accessors
