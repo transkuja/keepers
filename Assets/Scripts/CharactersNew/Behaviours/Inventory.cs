@@ -117,7 +117,7 @@ namespace Behaviour
 
                     selectedInventoryPanel.transform.SetParent(instance.GetComponent<Keeper>().SelectedPanelUI.transform);
                     selectedInventoryPanel.transform.localScale = Vector3.one;
-                    selectedInventoryPanel.transform.localPosition = new Vector3(800, 0, 0);
+                    //selectedInventoryPanel.transform.localPosition = Vector3.zero;
                 }
                 else if (instance.GetComponent<Prisoner>() != null)
                 {

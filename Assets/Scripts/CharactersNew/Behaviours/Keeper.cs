@@ -120,16 +120,17 @@ namespace Behaviour
             Sprite associatedSprite = instance.Data.AssociatedSprite;
             SelectedPanelUI = Instantiate(GameManager.Instance.PrefabUtils.PrefabSelectedKeeper, GameManager.Instance.Ui.goSelectedKeeperPanel.transform);
             SelectedPanelUI.transform.localScale = Vector3.one;
-            SelectedPanelUI.transform.localPosition = Vector3.zero;
+            //SelectedPanelUI.transform.localPosition = Vector3.zero;
 
             SelectedStatPanelUI = Instantiate(GameManager.Instance.PrefabUtils.PrefabSelectedStatsUIPanel, SelectedPanelUI.transform);
             SelectedStatPanelUI.transform.localScale = Vector3.one;
-            SelectedStatPanelUI.transform.localPosition = new Vector3(30, 70, 0);
+            //SelectedStatPanelUI.transform.localPosition = new Vector3(30, 70, 0);
 
 
             SelectedStatPanelUI.transform.GetChild((int)PanelSelectedKeeperStatChildren.Image).GetComponent<Image>().sprite = associatedSprite;
             SelectedActionPointsUI = SelectedStatPanelUI.transform.GetChild((int)PanelSelectedKeeperStatChildren.ActionPoints).gameObject;
             SelectedActionPointsUI.transform.localScale = Vector3.one;
+
 
             SelectedStatPanelUI.transform.GetChild((int)PanelSelectedKeeperStatChildren.ButtonCycleLeft).GetComponent<Button>().onClick.AddListener(() => GoToKeeper(-1));
             SelectedStatPanelUI.transform.GetChild((int)PanelSelectedKeeperStatChildren.ButtonCycleRight).GetComponent<Button>().onClick.AddListener(() => GoToKeeper(+1));

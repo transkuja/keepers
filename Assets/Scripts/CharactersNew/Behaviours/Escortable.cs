@@ -60,6 +60,11 @@ namespace Behaviour
             ShorcutUI.transform.GetChild((int)PanelShortcutChildren.Image).GetComponent<Image>().sprite = associatedSprite;
 
             // ? ? 
+            ShorcutUI.transform.SetAsFirstSibling();
+            // TMP Destroy action points irrelevent
+            Destroy(ShorcutUI.transform.GetChild((int)PanelShortcutChildren.ActionPoints).gameObject);
+            // TMP
+
             ShorcutUI.GetComponent<Button>().onClick.AddListener(() => GoToEscorted());
         }
         
