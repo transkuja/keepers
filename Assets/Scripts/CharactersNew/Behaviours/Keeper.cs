@@ -118,27 +118,24 @@ namespace Behaviour
         public void CreateSelectedPanel()
         {
             Sprite associatedSprite = instance.Data.AssociatedSprite;
-            SelectedPanelUI = Instantiate(GameManager.Instance.PrefabUtils.PrefabSelectedKeeper, GameManager.Instance.Ui.goSelectedKeeperPanel.transform);
+            SelectedPanelUI = Instantiate(GameManager.Instance.PrefabUtils.PrefabSelectedKeeper, GameManager.Instance.PrefabUtils.PrefabSelectedKeeper.transform.position, GameManager.Instance.PrefabUtils.PrefabSelectedKeeper.transform.rotation);
+            SelectedPanelUI.transform.SetParent(GameManager.Instance.Ui.goSelectedKeeperPanel.transform, false);
             SelectedPanelUI.transform.localScale = Vector3.one;
-            //SelectedPanelUI.transform.localPosition = Vector3.zero;
 
-            SelectedStatPanelUI = Instantiate(GameManager.Instance.PrefabUtils.PrefabSelectedStatsUIPanel, SelectedPanelUI.transform);
+            SelectedStatPanelUI = Instantiate(GameManager.Instance.PrefabUtils.PrefabSelectedStatsUIPanel, GameManager.Instance.PrefabUtils.PrefabSelectedStatsUIPanel.transform.position, GameManager.Instance.PrefabUtils.PrefabSelectedStatsUIPanel.transform.rotation);
+            SelectedStatPanelUI.transform.SetParent(SelectedPanelUI.transform, false);
             SelectedStatPanelUI.transform.localScale = Vector3.one;
-            //SelectedStatPanelUI.transform.localPosition = new Vector3(30, 70, 0);
-
 
             SelectedStatPanelUI.transform.GetChild((int)PanelSelectedKeeperStatChildren.Image).GetComponent<Image>().sprite = associatedSprite;
             SelectedActionPointsUI = SelectedStatPanelUI.transform.GetChild((int)PanelSelectedKeeperStatChildren.ActionPoints).gameObject;
             SelectedActionPointsUI.transform.localScale = Vector3.one;
 
-
             SelectedStatPanelUI.transform.GetChild((int)PanelSelectedKeeperStatChildren.ButtonCycleLeft).GetComponent<Button>().onClick.AddListener(() => GoToKeeper(-1));
             SelectedStatPanelUI.transform.GetChild((int)PanelSelectedKeeperStatChildren.ButtonCycleRight).GetComponent<Button>().onClick.AddListener(() => GoToKeeper(+1));
 
-
-            selectedEquipementUI = Instantiate(GameManager.Instance.PrefabUtils.PrefabSelectedEquipementUIPanel, SelectedPanelUI.transform);
+            selectedEquipementUI = Instantiate(GameManager.Instance.PrefabUtils.PrefabSelectedEquipementUIPanel, GameManager.Instance.PrefabUtils.PrefabSelectedEquipementUIPanel.transform.position, GameManager.Instance.PrefabUtils.PrefabSelectedEquipementUIPanel.transform.rotation);
             selectedEquipementUI.transform.GetComponent<InventoryOwner>().Owner = gameObject;
-            selectedEquipementUI.transform.localPosition = Vector3.zero;
+            selectedEquipementUI.transform.SetParent(SelectedPanelUI.transform, false);
             selectedEquipementUI.transform.localScale = Vector3.one;
         }
 
