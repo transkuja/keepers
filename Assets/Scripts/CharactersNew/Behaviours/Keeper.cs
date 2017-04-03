@@ -222,7 +222,6 @@ namespace Behaviour
             SelectedActionPointsUI.transform.SetAsLastSibling();
             SelectedActionPointsUI.transform.GetChild(0).gameObject.GetComponentInChildren<Text>().text = actionPoint.ToString();
 
-            ShorcutUI.transform.GetChild((int)PanelShortcutChildren.ActionPoints).transform.SetAsLastSibling();
             ShorcutUI.transform.GetChild((int)PanelShortcutChildren.ActionPoints).GetComponent<Text>().text = actionPoint.ToString();
         }
         #endregion
