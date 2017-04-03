@@ -41,62 +41,66 @@ namespace Behaviour
         bool isStarving = false;
 
         // UI
-        public GameObject selectedHungerUI;
-        public GameObject shortcutHungerUI;
+        private GameObject selectedHungerUI;
+        private GameObject shortcutHungerUI;
 
         void Start()
         {
             instance = GetComponent<PawnInstance>();
 
-            CreateShortcutHungerPanel();
-            shortcutHungerUI.name = "Hunger";
-
-            if (instance.GetComponent<Escortable>() != null)
-            {
-                shortcutHungerUI.transform.SetParent(instance.GetComponent<Escortable>().shorcutUI.transform);
-                shortcutHungerUI.transform.localScale = Vector3.one;
-                shortcutHungerUI.transform.localPosition = Vector3.zero;
-            }
-            else if (instance.GetComponent<Keeper>() != null)
-            {
-                CreateSelectedHungerPanel();
-                selectedHungerUI.name = "Hunger";
-                selectedHungerUI.transform.SetParent(instance.GetComponent<Keeper>().selectedStatPanelUI.transform);
-                selectedHungerUI.transform.localScale = Vector3.one;
-                selectedHungerUI.transform.localPosition = new Vector3(100, 125, 0);
-
-                shortcutHungerUI.transform.SetParent(instance.GetComponent<Keeper>().shorcutUI.transform);
-                shortcutHungerUI.transform.localScale = Vector3.one;
-                shortcutHungerUI.transform.localPosition = Vector3.zero;
-            }
-
+            InitUI();
+   
             CurrentHunger = data.MaxHunger;
         }
 
         #region UI
+        public void InitUI()
+        {
+            CreateShortcutHungerPanel();
+            ShortcutHungerUI.name = "Hunger";
+
+            if (instance.GetComponent<Escortable>() != null)
+            {
+                ShortcutHungerUI.transform.SetParent(instance.GetComponent<Escortable>().ShorcutUI.transform);
+                ShortcutHungerUI.transform.localScale = Vector3.one;
+                ShortcutHungerUI.transform.localPosition = Vector3.zero;
+            }
+            else if (instance.GetComponent<Keeper>() != null)
+            {
+                CreateSelectedHungerPanel();
+                SelectedHungerUI.name = "Hunger";
+                SelectedHungerUI.transform.SetParent(instance.GetComponent<Keeper>().SelectedStatPanelUI.transform);
+                SelectedHungerUI.transform.localScale = Vector3.one;
+                SelectedHungerUI.transform.localPosition = new Vector3(100, 125, 0);
+
+                ShortcutHungerUI.transform.SetParent(instance.GetComponent<Keeper>().ShorcutUI.transform);
+                ShortcutHungerUI.transform.localScale = Vector3.one;
+                ShortcutHungerUI.transform.localPosition = Vector3.zero;
+            }
+        }
+
         public void CreateSelectedHungerPanel()
         {
-            selectedHungerUI = Instantiate(GameManager.Instance.PrefabUtils.PrefabHungerUI);
+            SelectedHungerUI = Instantiate(GameManager.Instance.PrefabUtils.PrefabHungerUI);
         }
 
         public void CreateShortcutHungerPanel()
         {
-            shortcutHungerUI = Instantiate(GameManager.Instance.PrefabUtils.PrefabHungerUI);
+            ShortcutHungerUI = Instantiate(GameManager.Instance.PrefabUtils.PrefabHungerUI);
         }
 
         public void UpdateHungerPanel(int hunger)
         {
             if (instance.GetComponent<Escortable>() != null)
             {
-                shortcutHungerUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)hunger / (float)data.MaxHunger;
+                ShortcutHungerUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)hunger / (float)data.MaxHunger;
             }
             else if (instance.GetComponent<Keeper>() != null)
             {
-                selectedHungerUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)hunger / (float)data.MaxHunger;
-                shortcutHungerUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)hunger / (float)data.MaxHunger;
+                SelectedHungerUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)hunger / (float)data.MaxHunger;
+                ShortcutHungerUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)hunger / (float)data.MaxHunger;
             }
         }
-
         #endregion
 
         public int CurrentHunger
@@ -145,6 +149,32 @@ namespace Behaviour
             set
             {
                 isStarving = value;
+            }
+        }
+
+        public GameObject SelectedHungerUI
+        {
+            get
+            {
+                return selectedHungerUI;
+            }
+
+            set
+            {
+                selectedHungerUI = value;
+            }
+        }
+
+        public GameObject ShortcutHungerUI
+        {
+            get
+            {
+                return shortcutHungerUI;
+            }
+
+            set
+            {
+                shortcutHungerUI = value;
             }
         }
     }

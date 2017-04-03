@@ -247,7 +247,7 @@ public class KeeperInstance : MonoBehaviour, ITradable {
 
         if(GetComponent<Behaviour.Inventory>() != null)
         {
-            GetComponent<Behaviour.Inventory>().Init(Keeper.nbSlot);
+            GetComponent<Behaviour.Inventory>().InitUI(Keeper.nbSlot);
         }
         currentHp = keeper.MaxHp;
         currentHunger = keeper.MaxHunger;

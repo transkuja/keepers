@@ -37,13 +37,15 @@ namespace Behaviour
 
         [SerializeField]
         InventoryData data;
-        //int nbSlot;   // OLD WITHOUT DATA
+
         private ItemContainer[] items;
-        private GameObject inventoryPanel;
-        private GameObject selectedInventoryPanel;
 
         [SerializeField]
         List<string> possibleItems;
+
+        // UI
+        private GameObject inventoryPanel;
+        private GameObject selectedInventoryPanel;
 
         void Start()
         {
@@ -51,43 +53,8 @@ namespace Behaviour
 
             if ( instance != null)
             {
-                Init(data.NbSlot);
+                InitUI(data.NbSlot);
             }
-        }
-
-        public void Init(int slotCount)
-        {
-            data.NbSlot = slotCount;
-            items = new ItemContainer[slotCount];
-
-            CreateInventoryUI();
-            InitInventoryPanel();
-
-            ShowInventoryPanel(false);
-
-            if (instance != null)
-            {
-                instance.Interactions.Add(new Interaction(Trade), 0, "Trade", GameManager.Instance.SpriteUtils.spriteTrade);
-
-                if (instance.GetComponent<Keeper>() != null)
-                {
-                    CreateSelectedInventoryPanel();
-                    selectedInventoryPanel.name = "Panel_Inventory" + instance.Data.PawnName;
-                    InitSelectedInventoryPanel();
-
-                    selectedInventoryPanel.transform.SetParent(instance.GetComponent<Keeper>().selectedPanelUI.transform);
-                    selectedInventoryPanel.transform.localScale = Vector3.one;
-                    selectedInventoryPanel.transform.localPosition = new Vector3(800, 0, 0);
-                } else if (instance.GetComponent<Prisoner>() != null)
-                {
-                    GameObject button = Instantiate(GameManager.Instance.PrefabUtils.PrefabConfimationButtonUI, inventoryPanel.transform);
-    
-                    button.GetComponent<Button>().onClick.AddListener(instance.GetComponent<Prisoner>().ProcessFeeding);
-                    button.transform.localScale = Vector3.one;
-                    button.transform.localPosition = Vector3.zero;
-                }
-            }
-
         }
 
         public void Add(ItemContainer item)
@@ -128,6 +95,41 @@ namespace Behaviour
         }
 
         #region UI
+        public void InitUI(int slotCount)
+        {
+            data.NbSlot = slotCount;
+            items = new ItemContainer[slotCount];
+
+            CreateInventoryUI();
+            InitInventoryPanel();
+
+            ShowInventoryPanel(false);
+
+            if (instance != null)
+            {
+                instance.Interactions.Add(new Interaction(Trade), 0, "Trade", GameManager.Instance.SpriteUtils.spriteTrade);
+
+                if (instance.GetComponent<Keeper>() != null)
+                {
+                    CreateSelectedInventoryPanel();
+                    selectedInventoryPanel.name = "Panel_Inventory" + instance.Data.PawnName;
+                    InitSelectedInventoryPanel();
+
+                    selectedInventoryPanel.transform.SetParent(instance.GetComponent<Keeper>().SelectedPanelUI.transform);
+                    selectedInventoryPanel.transform.localScale = Vector3.one;
+                    selectedInventoryPanel.transform.localPosition = new Vector3(800, 0, 0);
+                }
+                else if (instance.GetComponent<Prisoner>() != null)
+                {
+                    GameObject button = Instantiate(GameManager.Instance.PrefabUtils.PrefabConfimationButtonUI, inventoryPanel.transform);
+
+                    button.GetComponent<Button>().onClick.AddListener(instance.GetComponent<Prisoner>().ProcessFeeding);
+                    button.transform.localScale = Vector3.one;
+                    button.transform.localPosition = Vector3.zero;
+                }
+            }
+        }
+
         public void CreateInventoryUI()
         {
             inventoryPanel = Instantiate(GameManager.Instance.PrefabUtils.PrefabInventaireUI, GameManager.Instance.Ui.Panel_Inventories.transform);
@@ -220,7 +222,7 @@ namespace Behaviour
             selectedInventoryPanel.GetComponent<GridLayoutGroup>().constraintCount = data.NbSlot;
         }
 
-        public void UpdateInventory()
+        public void UpdateInventories()
         {
             UpdateInventoryPanel();
             if (instance != null && instance.GetComponent<Keeper>() != null)

@@ -36,47 +36,21 @@ namespace Behaviour
 
         [SerializeField]
         private MortalData data;
-        //int maxHp;    // OLD WITHOUT DATA
+
         int currentHp;
         bool isAlive;
-
-        [SerializeField]
-        private Sprite deadSprite;
 
         [SerializeField]
         private ParticleSystem deathParticles;
 
         // UI
-        public GameObject selectedHPUI;
-        public GameObject shortcutHPUI;
+        private GameObject selectedHPUI;
+        private GameObject shortcutHPUI;
 
         void Start()
         {
             instance = GetComponent<PawnInstance>();
-
-
-            CreateShortcutHPPanel();
-            shortcutHPUI.name = "Mortal";
-
-            if (instance.GetComponent<Escortable>() != null)
-            {
-                shortcutHPUI.transform.SetParent(instance.GetComponent<Escortable>().shorcutUI.transform);
-                shortcutHPUI.transform.localScale = Vector3.one;
-                shortcutHPUI.transform.localPosition = Vector3.zero;
-            }
-            else if (instance.GetComponent<Keeper>() != null)
-            {
-
-                CreateSelectedHPPanel();
-                selectedHPUI.name = "Mortal";
-                selectedHPUI.transform.SetParent(instance.GetComponent<Keeper>().selectedStatPanelUI.transform);
-                selectedHPUI.transform.localScale = Vector3.one;
-                selectedHPUI.transform.localPosition = new Vector3(200, 200, 0);
-
-                shortcutHPUI.transform.SetParent(instance.GetComponent<Keeper>().shorcutUI.transform);
-                shortcutHPUI.transform.localScale = Vector3.one;
-                shortcutHPUI.transform.localPosition = Vector3.zero;
-            }
+            InitUI();
 
             CurrentHp = data.MaxHp;
             isAlive = true;
@@ -143,26 +117,52 @@ namespace Behaviour
         }
 
         #region UI
+        public void InitUI()
+        {
+            CreateShortcutHPPanel();
+            ShortcutHPUI.name = "Mortal";
+
+            if (instance.GetComponent<Escortable>() != null)
+            {
+                ShortcutHPUI.transform.SetParent(instance.GetComponent<Escortable>().ShorcutUI.transform);
+                ShortcutHPUI.transform.localScale = Vector3.one;
+                ShortcutHPUI.transform.localPosition = Vector3.zero;
+            }
+            else if (instance.GetComponent<Keeper>() != null)
+            {
+
+                CreateSelectedHPPanel();
+                SelectedHPUI.name = "Mortal";
+                SelectedHPUI.transform.SetParent(instance.GetComponent<Keeper>().SelectedStatPanelUI.transform);
+                SelectedHPUI.transform.localScale = Vector3.one;
+                SelectedHPUI.transform.localPosition = new Vector3(200, 200, 0);
+
+                ShortcutHPUI.transform.SetParent(instance.GetComponent<Keeper>().ShorcutUI.transform);
+                ShortcutHPUI.transform.localScale = Vector3.one;
+                ShortcutHPUI.transform.localPosition = Vector3.zero;
+            }
+        }
+
         public void CreateSelectedHPPanel()
         {
-            selectedHPUI = Instantiate(GameManager.Instance.PrefabUtils.PrefabHPUI);
+            SelectedHPUI = Instantiate(GameManager.Instance.PrefabUtils.PrefabHPUI);
         }
 
         public void CreateShortcutHPPanel()
         {
-            shortcutHPUI = Instantiate(GameManager.Instance.PrefabUtils.PrefabHPUI);
+            ShortcutHPUI = Instantiate(GameManager.Instance.PrefabUtils.PrefabHPUI);
         }
 
         public void UpdateHPPanel(int hunger)
         {
             if (instance.GetComponent<Escortable>() != null)
             {
-                shortcutHPUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)hunger / (float)Data.MaxHp;
+                ShortcutHPUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)hunger / (float)Data.MaxHp;
             }
             else if (instance.GetComponent<Keeper>() != null)
             {
-                selectedHPUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)hunger / (float)Data.MaxHp;
-                shortcutHPUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)hunger / (float)Data.MaxHp;
+                SelectedHPUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)hunger / (float)Data.MaxHp;
+                ShortcutHPUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)hunger / (float)Data.MaxHp;
             }
 
         }
@@ -239,6 +239,32 @@ namespace Behaviour
             set
             {
                 deathParticles = value;
+            }
+        }
+
+        public GameObject SelectedHPUI
+        {
+            get
+            {
+                return selectedHPUI;
+            }
+
+            set
+            {
+                selectedHPUI = value;
+            }
+        }
+
+        public GameObject ShortcutHPUI
+        {
+            get
+            {
+                return shortcutHPUI;
+            }
+
+            set
+            {
+                shortcutHPUI = value;
             }
         }
 

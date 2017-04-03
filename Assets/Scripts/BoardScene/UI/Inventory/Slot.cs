@@ -131,8 +131,8 @@ public class Slot : MonoBehaviour, IDropHandler
 
                 Destroy(eventData.pointerDrag.gameObject);
 
-                inventaireDequi.Owner.GetComponent<Behaviour.Inventory>().UpdateInventory();
-                inventaireversqui.Owner.GetComponent<Behaviour.Inventory>().UpdateInventory();
+                inventaireDequi.Owner.GetComponent<Behaviour.Inventory>().UpdateInventories();
+                inventaireversqui.Owner.GetComponent<Behaviour.Inventory>().UpdateInventories();
             }
             // Drag Characters in battle scene
             else

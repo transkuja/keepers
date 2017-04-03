@@ -9,7 +9,7 @@ namespace Behaviour
         PawnInstance instance;
 
         // UI
-        public GameObject shorcutUI;
+        private GameObject shorcutUI;
 
         //  Escort
         public bool isEscortAvailable = true;
@@ -54,13 +54,13 @@ namespace Behaviour
         public void CreateShortcutEscortUI()
         {
             Sprite associatedSprite = instance.Data.AssociatedSprite;
-            shorcutUI = Instantiate(GameManager.Instance.PrefabUtils.PrefabShorcutCharacter, GameManager.Instance.Ui.goShortcutKeepersPanel.transform);
-            shorcutUI.transform.localScale = Vector3.one;
-            shorcutUI.transform.localPosition = Vector3.zero;
-            shorcutUI.transform.GetChild((int)PanelShortcutChildren.Image).GetComponent<Image>().sprite = associatedSprite;
+            ShorcutUI = Instantiate(GameManager.Instance.PrefabUtils.PrefabShorcutCharacter, GameManager.Instance.Ui.goShortcutKeepersPanel.transform);
+            ShorcutUI.transform.localScale = Vector3.one;
+            ShorcutUI.transform.localPosition = Vector3.zero;
+            ShorcutUI.transform.GetChild((int)PanelShortcutChildren.Image).GetComponent<Image>().sprite = associatedSprite;
 
             // ? ? 
-            shorcutUI.GetComponent<Button>().onClick.AddListener(() => GoToEscorted());
+            ShorcutUI.GetComponent<Button>().onClick.AddListener(() => GoToEscorted());
         }
         
         public void GoToEscorted()
@@ -78,6 +78,19 @@ namespace Behaviour
             set
             {
                 isEscorted = value;          
+            }
+        }
+
+        public GameObject ShorcutUI
+        {
+            get
+            {
+                return shorcutUI;
+            }
+
+            set
+            {
+                shorcutUI = value;
             }
         }
 

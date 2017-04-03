@@ -3,20 +3,11 @@ using UnityEngine.AI;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
-
-public enum PanelShortcutChildren { Image, ActionPoints, HpGauge, HungerGauge, MentalHealthGauge };
-public enum PanelSelectedKeeperStatChildren { Image, ButtonCycleRight, ButtonCycleLeft, ActionPoints, StatTrigger };
 namespace Behaviour
 {
     public class Keeper : MonoBehaviour
     {
         PawnInstance instance;
-
-        // UI
-        public GameObject shorcutUI;
-        public GameObject selectedPanelUI;
-        public GameObject selectedStatPanelUI;
-        public GameObject selectedActionPointsUI;
 
         // Interactions variables
         public int minMoralBuff = -10;
@@ -24,7 +15,6 @@ namespace Behaviour
 
         // Actions
         [Header("Actions")]
-
         private int actionPoints;
         [SerializeField]
         private int maxActionPoints = 3;
@@ -33,12 +23,20 @@ namespace Behaviour
         [SerializeField]
         private GameObject feedbackSelection;
         private bool isSelected = false;
-        // Used only in menu. Handles selection in main menu.
+
         [SerializeField]
         private bool isSelectedInMenu = false;
         NavMeshAgent agent;
 
         private List<GameObject> goListCharacterFollowing = new List<GameObject>();
+
+        private ItemContainer[] equipements;
+
+        // UI
+        private GameObject shorcutUI;
+        private GameObject selectedPanelUI;
+        private GameObject selectedStatPanelUI;
+        private GameObject selectedActionPointsUI;
 
         void Awake()
         {
@@ -58,9 +56,11 @@ namespace Behaviour
 
             agent = GetComponent<NavMeshAgent>();
 
-            shorcutUI.name = "Shortcut" + instance.Data.PawnName;
-            selectedPanelUI.name = "SelectedKeeper" + instance.Data.PawnName;
-            // Need Equipement and inventory data
+            ShorcutUI.name = "Shortcut" + instance.Data.PawnName;
+            SelectedPanelUI.name = "SelectedKeeper" + instance.Data.PawnName;
+       
+        
+            // Equipement
 
             ActionPoints = MaxActionPoints;
         }
@@ -105,38 +105,38 @@ namespace Behaviour
         public void CreateShortcutKeeperUI()
         {
             Sprite associatedSprite = instance.Data.AssociatedSprite;
-            shorcutUI = Instantiate(GameManager.Instance.PrefabUtils.PrefabShorcutCharacter, GameManager.Instance.Ui.goShortcutKeepersPanel.transform);
+            ShorcutUI = Instantiate(GameManager.Instance.PrefabUtils.PrefabShorcutCharacter, GameManager.Instance.Ui.goShortcutKeepersPanel.transform);
 
-            shorcutUI.name = "Panel_Shortcut_" + instance.Data.PawnName;
-            shorcutUI.transform.GetChild((int)PanelShortcutChildren.Image).GetComponent<Image>().sprite = associatedSprite;
-            shorcutUI.transform.localScale = Vector3.one;
-            shorcutUI.GetComponent<Button>().onClick.AddListener(() => GoToKeeper());
+            ShorcutUI.name = "Panel_Shortcut_" + instance.Data.PawnName;
+            ShorcutUI.transform.GetChild((int)PanelShortcutChildren.Image).GetComponent<Image>().sprite = associatedSprite;
+            ShorcutUI.transform.localScale = Vector3.one;
+            ShorcutUI.GetComponent<Button>().onClick.AddListener(() => GoToKeeper());
 
         }
 
         public void CreateSelectedPanel()
         {
             Sprite associatedSprite = instance.Data.AssociatedSprite;
-            selectedPanelUI = Instantiate(GameManager.Instance.PrefabUtils.PrefabSelectedKeeper, GameManager.Instance.Ui.goSelectedKeeperPanel.transform);
-            selectedPanelUI.transform.localScale = Vector3.one;
-            selectedPanelUI.transform.localPosition = Vector3.zero;
+            SelectedPanelUI = Instantiate(GameManager.Instance.PrefabUtils.PrefabSelectedKeeper, GameManager.Instance.Ui.goSelectedKeeperPanel.transform);
+            SelectedPanelUI.transform.localScale = Vector3.one;
+            SelectedPanelUI.transform.localPosition = Vector3.zero;
 
-            selectedStatPanelUI = Instantiate(GameManager.Instance.PrefabUtils.PrefabSelectedStatsUIPanel, selectedPanelUI.transform);
-            selectedStatPanelUI.transform.localScale = Vector3.one;
-            selectedStatPanelUI.transform.localPosition = new Vector3(30, 70, 0);
+            SelectedStatPanelUI = Instantiate(GameManager.Instance.PrefabUtils.PrefabSelectedStatsUIPanel, SelectedPanelUI.transform);
+            SelectedStatPanelUI.transform.localScale = Vector3.one;
+            SelectedStatPanelUI.transform.localPosition = new Vector3(30, 70, 0);
 
 
-            selectedStatPanelUI.transform.GetChild((int)PanelSelectedKeeperStatChildren.Image).GetComponent<Image>().sprite = associatedSprite;
-            selectedActionPointsUI = selectedStatPanelUI.transform.GetChild((int)PanelSelectedKeeperStatChildren.ActionPoints).gameObject;
-            selectedActionPointsUI.transform.localScale = Vector3.one;
+            SelectedStatPanelUI.transform.GetChild((int)PanelSelectedKeeperStatChildren.Image).GetComponent<Image>().sprite = associatedSprite;
+            SelectedActionPointsUI = SelectedStatPanelUI.transform.GetChild((int)PanelSelectedKeeperStatChildren.ActionPoints).gameObject;
+            SelectedActionPointsUI.transform.localScale = Vector3.one;
 
-            selectedStatPanelUI.transform.GetChild((int)PanelSelectedKeeperStatChildren.ButtonCycleLeft).GetComponent<Button>().onClick.AddListener(() => GoToKeeper(-1));
-            selectedStatPanelUI.transform.GetChild((int)PanelSelectedKeeperStatChildren.ButtonCycleRight).GetComponent<Button>().onClick.AddListener(() => GoToKeeper(+1));
+            SelectedStatPanelUI.transform.GetChild((int)PanelSelectedKeeperStatChildren.ButtonCycleLeft).GetComponent<Button>().onClick.AddListener(() => GoToKeeper(-1));
+            SelectedStatPanelUI.transform.GetChild((int)PanelSelectedKeeperStatChildren.ButtonCycleRight).GetComponent<Button>().onClick.AddListener(() => GoToKeeper(+1));
         }
 
         public void ShowSelectdePanelUI(bool isShow)
         {
-            selectedPanelUI.SetActive(isShow);
+            SelectedPanelUI.SetActive(isShow);
         }
 
         public void GoToKeeper()
@@ -178,8 +178,8 @@ namespace Behaviour
 
         public void UpdateActionPoint(int actionPoint)
         {
-            selectedActionPointsUI.transform.GetChild(0).gameObject.GetComponentInChildren<Text>().text = actionPoint.ToString();
-            selectedActionPointsUI.gameObject.GetComponentInChildren<Image>().fillAmount = actionPoint / maxActionPoints; ;
+            SelectedActionPointsUI.transform.GetChild(0).gameObject.GetComponentInChildren<Text>().text = actionPoint.ToString();
+            SelectedActionPointsUI.gameObject.GetComponentInChildren<Image>().fillAmount = actionPoint / maxActionPoints; ;
         }
         #endregion
 
@@ -276,6 +276,74 @@ namespace Behaviour
                 isSelectedInMenu = value;
             }
         }
+
+        public GameObject ShorcutUI
+        {
+            get
+            {
+                return shorcutUI;
+            }
+
+            set
+            {
+                shorcutUI = value;
+            }
+        }
+
+        public GameObject SelectedPanelUI
+        {
+            get
+            {
+                return selectedPanelUI;
+            }
+
+            set
+            {
+                selectedPanelUI = value;
+            }
+        }
+
+        public GameObject SelectedActionPointsUI
+        {
+            get
+            {
+                return selectedActionPointsUI;
+            }
+
+            set
+            {
+                selectedActionPointsUI = value;
+            }
+        }
+
+        public GameObject SelectedStatPanelUI
+        {
+            get
+            {
+                return selectedStatPanelUI;
+            }
+
+            set
+            {
+                selectedStatPanelUI = value;
+            }
+        }
+
+        public ItemContainer[] Equipements
+        {
+            get
+            {
+                return equipements;
+            }
+
+            set
+            {
+                equipements = value;
+            }
+        }
         #endregion
     }
 }
+
+public enum PanelShortcutChildren { Image, ActionPoints, HpGauge, HungerGauge, MentalHealthGauge };
+public enum PanelSelectedKeeperStatChildren { Image, ButtonCycleRight, ButtonCycleLeft, ActionPoints, StatTrigger };

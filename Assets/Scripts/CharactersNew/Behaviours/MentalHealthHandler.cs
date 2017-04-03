@@ -36,23 +36,29 @@ namespace Behaviour
 
         [SerializeField]
         MentalHealthHandlerData data;
-        //int maxMentalHealth;  OLD WITHOUT DATA
+
         int currentMentalHealth;
         bool isLowMentalHealthBuffApplied = false;
-
-        // UI
-        public GameObject selectedMentalHealthUI;
-        public GameObject shortcutMentalHealthUI;
-
         bool isDepressed = false;
 
+        // UI
+        private GameObject selectedMentalHealthUI;
+        private GameObject shortcutMentalHealthUI;
 
         void Start()
         {
             instance = GetComponent<PawnInstance>();
 
+            InitUI();
+
+            CurrentMentalHealth = data.MaxMentalHealth;
+        }
+
+        #region UI
+        public void InitUI()
+        {
             CreateShortcutMentalHealthPanel();
-            shortcutMentalHealthUI.name = "MentalHealth";
+            ShortcutMentalHealthUI.name = "MentalHealth";
 
 
             if (instance.GetComponent<Escortable>() != null)
@@ -63,19 +69,16 @@ namespace Behaviour
             {
                 CreateSelectedMentalHealthPanel();
                 selectedMentalHealthUI.name = "MentalHealth";
-                selectedMentalHealthUI.transform.SetParent(instance.GetComponent<Keeper>().selectedStatPanelUI.transform);
+                selectedMentalHealthUI.transform.SetParent(instance.GetComponent<Keeper>().SelectedStatPanelUI.transform);
                 selectedMentalHealthUI.transform.localScale = Vector3.one;
                 selectedMentalHealthUI.transform.localPosition = new Vector3(230, 100, 0);
 
-                shortcutMentalHealthUI.transform.SetParent(instance.GetComponent<Keeper>().shorcutUI.transform);
-                shortcutMentalHealthUI.transform.localScale = Vector3.one;
-                shortcutMentalHealthUI.transform.localPosition = Vector3.zero;
+                ShortcutMentalHealthUI.transform.SetParent(instance.GetComponent<Keeper>().ShorcutUI.transform);
+                ShortcutMentalHealthUI.transform.localScale = Vector3.one;
+                ShortcutMentalHealthUI.transform.localPosition = Vector3.zero;
             }
-
-            CurrentMentalHealth = data.MaxMentalHealth;
         }
 
-        #region UI
         public void CreateSelectedMentalHealthPanel()
         {
             selectedMentalHealthUI = Instantiate(GameManager.Instance.PrefabUtils.PrefabMentalHealthUI);
@@ -83,19 +86,19 @@ namespace Behaviour
 
         public void CreateShortcutMentalHealthPanel()
         {
-            shortcutMentalHealthUI = Instantiate(GameManager.Instance.PrefabUtils.PrefabMentalHealthUI);
+            ShortcutMentalHealthUI = Instantiate(GameManager.Instance.PrefabUtils.PrefabMentalHealthUI);
         }
 
         public void UpdateMentalHealthPanel(int mentalHealth)
         {
             if (instance.GetComponent<Escortable>() != null)
             {
-                shortcutMentalHealthUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)mentalHealth / (float)data.MaxMentalHealth;
+                ShortcutMentalHealthUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)mentalHealth / (float)data.MaxMentalHealth;
             }
             else if (instance.GetComponent<Keeper>() != null)
             {
                 selectedMentalHealthUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)mentalHealth / (float)data.MaxMentalHealth;
-                shortcutMentalHealthUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)mentalHealth / (float)data.MaxMentalHealth;
+                ShortcutMentalHealthUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)mentalHealth / (float)data.MaxMentalHealth;
             }
         }
         #endregion
@@ -156,6 +159,19 @@ namespace Behaviour
             get
             {
                 return isDepressed;
+            }
+        }
+
+        public GameObject ShortcutMentalHealthUI
+        {
+            get
+            {
+                return shortcutMentalHealthUI;
+            }
+
+            set
+            {
+                shortcutMentalHealthUI = value;
             }
         }
     }

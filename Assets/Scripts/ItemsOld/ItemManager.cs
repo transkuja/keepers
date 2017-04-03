@@ -23,11 +23,11 @@ public static class ItemManager {
             // ? 
             //drop.GetComponent<LootInstance>().nbSlot = loot.Length;
             Behaviour.Inventory dropInventory = drop.GetComponent<Behaviour.Inventory>();
-            dropInventory.Init(loot.Length);
+            dropInventory.InitUI(loot.Length);
 
 
             Array.Copy(loot, dropInventory.Items, dropInventory.Items.Length);
-            dropInventory.UpdateInventory();
+            dropInventory.UpdateInventories();
         }
     }
     public static Item getInstanciateItem(string type)
