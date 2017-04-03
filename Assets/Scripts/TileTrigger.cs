@@ -196,9 +196,8 @@ public class TileTrigger : MonoBehaviour {
             PawnInstance toMove = GameManager.Instance.GetFirstSelectedKeeper();
 
             TileManager.Instance.MoveKeeper(toMove, toMove.CurrentTile, (Direction)_i, actionCostMove);
-            //GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
-            ////GameManager.Instance.Ui.UpdateShortcutPanel();
-            //GameManager.Instance.Ui.HideInventoryPanels();
+
+            GameManager.Instance.Ui.HideInventoryPanels();
 
             if (toMove.GetComponent<Fighter>() != null)
                 toMove.GetComponent<Fighter>().IsTargetableByMonster = false;
@@ -280,9 +279,8 @@ public class TileTrigger : MonoBehaviour {
                 }
 
             }
-            //GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
-            ////GameManager.Instance.Ui.UpdateShortcutPanel();
-            //GameManager.Instance.Ui.HideInventoryPanels();
+
+            GameManager.Instance.Ui.HideInventoryPanels();
 
             if (toMove.GetComponent<Fighter>() != null)
                 toMove.GetComponent<Fighter>().IsTargetableByMonster = false;
