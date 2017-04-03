@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class TriggerPanneau : MonoBehaviour {
 
-    public GameObject prefabPanelPanneau;
     public string textPanneau;
     private GameObject goPanneau;
 
@@ -18,9 +17,9 @@ public class TriggerPanneau : MonoBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponentInParent<KeeperInstance>() != null)
+        if (other.GetComponentInParent<Behaviour.Keeper>() != null)
         {
-            KeeperInstance ki = other.GetComponentInParent<KeeperInstance>();
+            Behaviour.Keeper ki = other.GetComponentInParent<Behaviour.Keeper>();
             // On veut le mesh collider actif du perso
             foreach (MeshCollider mc in ki.gameObject.GetComponentsInChildren<MeshCollider>())
             {
@@ -58,7 +57,7 @@ public class TriggerPanneau : MonoBehaviour {
 
     void OnTriggerExit(Collider other)
     {
-        if (other.GetComponentInParent<KeeperInstance>() != null)
+        if (other.GetComponentInParent<Behaviour.Keeper>() != null)
         {
             if (goPanneau == null) return;
             goPanneau.SetActive(false);
