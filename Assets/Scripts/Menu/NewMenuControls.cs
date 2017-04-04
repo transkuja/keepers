@@ -21,6 +21,7 @@ public class NewMenuControls : MonoBehaviour {
         DeckSelectionControls();
         LevelSelectionControls();
         KeeperSelectionControls();
+        RuleBookControls();
     }
 
     public void MenuControls()
@@ -109,6 +110,21 @@ public class NewMenuControls : MonoBehaviour {
                     }
                     menuUI.UpdateSelectedKeepers();
                 }
+            }
+        }
+    }
+
+    public void RuleBookControls()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            RaycastHit hit;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            LayerMask ruleBookLayer = 1 << LayerMask.NameToLayer("RuleBook"); ;
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, ruleBookLayer) == true)
+            {
+                Debug.Log("Click on rule book");
             }
         }
     }
