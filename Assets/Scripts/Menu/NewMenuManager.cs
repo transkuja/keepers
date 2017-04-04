@@ -11,6 +11,8 @@ public class NewMenuManager : MonoBehaviour {
     private List<PawnInstance> listeSelectedKeepers;
 
     public Transform[] questDecksPosition;
+    public Transform[] keepersPosition;
+    public Transform[] cardlevelPosition;
 
     void Start()
     {
@@ -18,6 +20,7 @@ public class NewMenuManager : MonoBehaviour {
 
 
         InitDeckOfCards();
+        InitCardLevels();
 
         // TMP for debug use when level start
         foreach (string id in NewGameManager.Instance.PawnDataBase.DicPawnDataContainer.Keys)
@@ -56,7 +59,25 @@ public class NewMenuManager : MonoBehaviour {
             else
                 Debug.Log("Deck with no id to set on the prefab");
         }
+    }
 
+    public void InitCardLevels()
+    {
+        for (int i = 0; i < 2; i++)
+        {
+            // Instanciation du deck
+            GameObject goCardLevel = Instantiate(NewGameManager.Instance.PrefabUtils.prefabLevelCard);
+            goCardLevel.transform.SetParent(cardlevelPosition[i], false);
+
+            // Recuperation du component card level for selection in menu
+            CardLevel cardLevel = goCardLevel.GetComponentInChildren<CardLevel>();
+            if (cardLevel != null)
+            {
+                cardLevel.levelIndex = i;
+            }
+            else
+                Debug.Log("Card with no id to set on the prefab");
+        }
     }
 
     #region Accessors
