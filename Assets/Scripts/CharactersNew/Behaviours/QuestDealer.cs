@@ -33,7 +33,8 @@ namespace Behaviour
             goQuest.transform.localScale = Vector3.one;
             instance.Interactions.Add(new Interaction(Quest), 1, "Quest", GameManager.Instance.SpriteUtils.spriteQuest);
 
-            questToGive = QuestManager.Instance.GetQuestByID(PossibleQuests[QuestManager.Instance.CurrentQuestDeck.Id].QuestIDs[0]);
+            //questToGive = QuestManager.Instance.GetQuestByID(PossibleQuests[QuestManager.Instance.CurrentQuestDeck.Id].QuestIDs[0]);
+            questToGive = GameManager.Instance.MainQuest;
             //Test
             questToGive = GameManager.Instance.MainQuest;
             if (questToGive == null)
@@ -49,7 +50,7 @@ namespace Behaviour
         {
             questToGive.Init(new QuestIdentifier(questToGive.Identifier.ID, gameObject), questToGive.Information, questToGive.Objectives);
             goQuest.transform.GetChild(goQuest.transform.childCount-1).GetComponent<Text>().text = questToGive.Information.Title;
-            goQuest.transform.GetChild(goQuest.transform.childCount - 2).GetComponent<Text>().text = questToGive.Information.Dialog;
+            goQuest.transform.GetChild(goQuest.transform.childCount - 2).GetComponentInChildren<Text>().text = questToGive.Information.Dialog;
             Button validate = goQuest.transform.GetChild(goQuest.transform.childCount - 3).GetComponent<Button>();
             if(validate != null)
             {
