@@ -47,9 +47,9 @@ namespace QuestSystem
             string fileContent = File.ReadAllText(pathBase + "/quests.json");
             JSONObject json = JSONObject.Parse(fileContent);
 
-            JSONArray pawnArray = json["Quests"].Array;
+            JSONArray questsArray = json["Quests"].Array;
 
-            foreach (JSONValue value in pawnArray)
+            foreach (JSONValue value in questsArray)
             {
                 QuestDataContainer newQuestDataContainer = new QuestDataContainer();
                 foreach (KeyValuePair<string, JSONValue> questEntry in value.Obj)
