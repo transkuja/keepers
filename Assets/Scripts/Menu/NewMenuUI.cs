@@ -7,16 +7,16 @@ public class NewMenuUI : MonoBehaviour {
 
     public void UpdateSelectedKeepers()
     {
-        Debug.Log("do nothing yet");
+        Debug.Log("Keeper Selected");
     }
 
     public void UpdateCardLevelSelection()
     {
-        Debug.Log("do nothing yet");
+        Debug.Log("Level Selected");
     }
 
     public void UpdateDeckSelection()
     {
-        Debug.Log("do nothing yet");
+        Debug.Log("Deck Selected");
     }
 }
