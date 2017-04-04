@@ -16,17 +16,20 @@ public class NewMenuManager : MonoBehaviour {
     {
         listeSelectedKeepers = new List<PawnInstance>();
 
-        foreach( string id in NewGameManager.Instance.PawnDataBase.DicPawnDataContainer.Keys)
+
+        InitDeckOfCards();
+
+        // TMP for debug use when level start
+        foreach (string id in NewGameManager.Instance.PawnDataBase.DicPawnDataContainer.Keys)
         {
             Debug.Log(id);
         }
-
-        InitDeckOfCards();
 
         for (int i = 0; i < NewGameManager.Instance.QuestDataBase.ListQuestData.Count; i++)
         {
             Debug.Log(NewGameManager.Instance.QuestDataBase.ListQuestData[i].idQuest);
         }
+        // ENd tmp
     }
 
     public void InitDeckOfCards()
@@ -46,18 +49,12 @@ public class NewMenuManager : MonoBehaviour {
                 deckOfCards.idQuestDeck = qdd.idQuestDeck;
                 goDeck.layer = LayerMask.NameToLayer("DeckOfCards");
                 if (qdd.materialQuestDeck != null)
-                {
                     goDeck.GetComponent<MeshRenderer>().material = qdd.materialQuestDeck;
-                }
                 else
-                {
                     Debug.Log("No material found.");
-                }
             }
             else
-            {
                 Debug.Log("Deck with no id to set on the prefab");
-            }
         }
 
     }

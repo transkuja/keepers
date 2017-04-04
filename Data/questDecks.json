@@ -13,6 +13,20 @@
 					"idQuestDealer" : "pnj01"
 				}
 			]
+		}, 
+		{
+			"id": "deck_02",
+			"name" : "level1",
+			"material" : "Deck/Deck02_mat",
+			"main" : {
+				"id": "quest_01"
+			},
+			"secondary" : [
+				{
+					"idQuest": "quest_03",
+					"idQuestDealer" : "pnj02"
+				}
+			]
 		}
 	]
 }
