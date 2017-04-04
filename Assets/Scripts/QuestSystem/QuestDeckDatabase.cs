@@ -70,7 +70,7 @@ namespace QuestSystem
                             newQuestDeckDataContainer.idQuestDeck = deckQuestEntry.Value.Str;
                             break;
                         case "name":
-                            newQuestDeckDataContainer.idQuestDeck = deckQuestEntry.Value.Str;
+                            newQuestDeckDataContainer.nameQuestDeck = deckQuestEntry.Value.Str;
                             break;
                         case "sprite":
                             // if null -> didn't the corresponding sprite
@@ -105,5 +105,19 @@ namespace QuestSystem
                 dicQuestDeck.Add(newQuestDeckDataContainer.idQuestDeck, newQuestDeckDataContainer);
             }
         }
+        #region Accessors
+        public Dictionary<string, QuestDeckDataContainer> DicQuestDeck
+        {
+            get
+            {
+                return dicQuestDeck;
+            }
+
+            set
+            {
+                dicQuestDeck = value;
+            }
+        }
+        #endregion
     }
 }

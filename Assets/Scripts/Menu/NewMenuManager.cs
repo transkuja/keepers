@@ -10,6 +10,22 @@ public class NewMenuManager : MonoBehaviour {
     void Start()
     {
         listeSelectedKeepers = new List<PawnInstance>();
+
+
+        foreach (string id in NewGameManager.Instance.PawnDataBase.DicPawnDataContainer.Keys)
+        {
+            Debug.Log(id);
+        }
+
+        foreach (string id in NewGameManager.Instance.QuestDeckDataBase.DicQuestDeck.Keys)
+        {
+            Debug.Log(id);
+        }
+
+        foreach (string id in NewGameManager.Instance.QuestDataBase.DicQuestDataContainer.Keys)
+        {
+            Debug.Log(id);
+        }
     }
 
     #region Accessors

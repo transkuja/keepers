@@ -8,7 +8,6 @@ public class Database
 {
     public Dictionary<string, Sprite> dictSprites = new Dictionary<string, Sprite>();
 
-
     private class ItemElement
     {
         public string type;

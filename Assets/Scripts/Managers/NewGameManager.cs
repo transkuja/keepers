@@ -31,8 +31,8 @@ public class NewGameManager : MonoBehaviour
         {
             instance = this;
             // InitAllDatabase
-            ItemDataBase.Init();
-            PawnDataBase.Init();
+            itemDataBase.Init();
+            pawnDataBase.Init();
             questDeckDataBase.Init();
             questDataBase.Init();
         }
@@ -43,7 +43,7 @@ public class NewGameManager : MonoBehaviour
 
         if (IsDebugGameManager)
         {
-            // HERE if is not
+            // HERE if is not gameManager
         }
         DontDestroyOnLoad(gameObject);
     }

@@ -86,5 +86,21 @@ namespace QuestSystem
                 dicQuestDataContainer.Add(newQuestDataContainer.idQuest, newQuestDataContainer);
             }
         }
+
+        #region Accessors
+        public Dictionary<string, QuestDataContainer> DicQuestDataContainer
+        {
+            get
+            {
+                return dicQuestDataContainer;
+            }
+
+            set
+            {
+                dicQuestDataContainer = value;
+            }
+        }
+
+        #endregion
     }
 }

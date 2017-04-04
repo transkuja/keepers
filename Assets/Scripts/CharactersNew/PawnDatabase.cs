@@ -204,4 +204,19 @@ public class PawnDatabase {
         }
         return goNew;
     }
+
+    #region Accessors
+    public Dictionary<string, PawnDataContainer> DicPawnDataContainer
+    {
+        get
+        {
+            return dicPawnDataContainer;
+        }
+
+        set
+        {
+            dicPawnDataContainer = value;
+        }
+    }
+    #endregion
 }

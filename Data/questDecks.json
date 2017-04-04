@@ -1,15 +1,15 @@
 {
 	"QuestDecks": [	
 		{
-			"id": "deck01",
+			"id": "deck_01",
 			"name" : "tuto",
 			"sprite" : "",
 			"main" : {
-				"id": "quest01"
+				"id": "quest_01"
 			},
 			"secondary" : [
 				{
-					"idQuest": "quest02",
+					"idQuest": "quest_02",
 					"idQuestDealer" : "pnj01"
 				}
 			]
