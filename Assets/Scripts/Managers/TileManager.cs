@@ -21,11 +21,14 @@ public class TileManager : MonoBehaviour {
 
     private static TileManager instance = null;
 
-    Dictionary<Tile, List<MonsterInstance>> monstersOnTile = new Dictionary<Tile, List<MonsterInstance>>();
-    Dictionary<Tile, List<KeeperInstance>> keepersOnTile = new Dictionary<Tile, List<KeeperInstance>>();
-    Dictionary<KeeperInstance, Tile> getTileFromKeeper = new Dictionary<KeeperInstance, Tile>();
+    Dictionary<Tile, List<PawnInstance>> monstersOnTile = new Dictionary<Tile, List<PawnInstance>>();
+    Dictionary<Tile, List<PawnInstance>> keepersOnTile = new Dictionary<Tile, List<PawnInstance>>();
+    Dictionary<PawnInstance, Tile> getTileFromKeeper = new Dictionary<PawnInstance, Tile>();
+
     Tile prisonerTile;
     GameObject tiles;
+    GameObject beginTile;
+    GameObject endTile;
 
     void Awake()
     {
@@ -57,59 +60,46 @@ public class TileManager : MonoBehaviour {
         }
     }
 
-    /// <summary>
-    /// Move keeper and its followers from a tile to another.
-    /// </summary>
-    /// <param name="keeper">The keeper to move</param>
-    /// <param name="from">The origin tile</param>
-    /// <param name="direction">The direction of the movement from the origin tile</param>
-    public void MoveKeeper(KeeperInstance keeper, Tile from, Direction direction, int costAction)
+    public void MoveKeeper(PawnInstance keeper, Tile from, Direction direction, int costAction)
     {
         Tile destination = from.Neighbors[(int)direction];
         if (destination == null)
+        {
+            Debug.Log("Destination Unknown");
             return;
+        }
+
 
         RemoveKeeperFromTile(from, keeper);
         AddKeeperOnTile(destination, keeper);
         Transform[] spawnPoints = GetSpawnPositions(destination, direction);
 
         // Physical movement
-        keeper.StartBetweenTilesAnimation(spawnPoints[0].position);
+        keeper.GetComponent<Behaviour.AnimatedPawn>().StartBetweenTilesAnimation(spawnPoints[0].position);
 
-        keeper.ActionPoints -= (short)costAction;
+        Behaviour.Keeper keeperComponent = keeper.GetComponent<Behaviour.Keeper>();
+        keeperComponent.ActionPoints -= (short)costAction;
+        keeperComponent.getPawnInstance.CurrentTile = destination;
+
         GameObject goCurrentCharacter;
 
-        for (int i = 0; i < keeper.Keeper.GoListCharacterFollowing.Count; i++)
+        for (int i = 0; i < keeperComponent.GoListCharacterFollowing.Count; i++)
         {
-            goCurrentCharacter = keeper.Keeper.GoListCharacterFollowing[i];
+            goCurrentCharacter = keeperComponent.GoListCharacterFollowing[i];
 
-            if (goCurrentCharacter.GetComponent<PrisonerInstance>() != null)
+            if (goCurrentCharacter.GetComponent<Behaviour.Escortable>() != null)
             {
-                prisonerTile = destination;
-                goCurrentCharacter.GetComponent<PrisonerInstance>().StartBetweenTilesAnimation(spawnPoints[i + 1 % spawnPoints.Length].position);
-
-            }
-            else
-            {
-                RemoveKeeperFromTile(from, goCurrentCharacter.GetComponent<KeeperInstance>());
-                AddKeeperOnTile(destination, goCurrentCharacter.GetComponent<KeeperInstance>());
-                goCurrentCharacter.GetComponent<KeeperInstance>().ActionPoints = 0;
-                goCurrentCharacter.GetComponent<KeeperInstance>().StartBetweenTilesAnimation(spawnPoints[i + 1 % spawnPoints.Length].position);
+                goCurrentCharacter.GetComponent<PawnInstance>().CurrentTile = destination;
+                goCurrentCharacter.GetComponent<Behaviour.AnimatedPawn>().StartBetweenTilesAnimation(spawnPoints[i + 1 % spawnPoints.Length].position);
             }
 
         }
     }
 
-    /// <summary>
-    /// Move a monster to another tile.
-    /// </summary>
-    /// <param name="monster">The monster to move</param>
-    /// <param name="from">The origin tile of the monster</param>
-    /// <param name="direction">The direction of the movement from the origin tile</param>
-    public void MoveMonster(MonsterInstance monster, Tile from, Direction direction)
+    public void MoveMonster(PawnInstance monster, Tile from, Direction direction)
     {
         RemoveMonsterFromTile(from, monster);
-        AddMonsterOnTile(from.Neighbors[(int)direction], monster);        
+        AddMonsterOnTile(from.Neighbors[(int)direction], monster);
     }
 
     /// <summary>
@@ -118,27 +108,27 @@ public class TileManager : MonoBehaviour {
     /// <param name="tile">The tile concerned</param>
     public void RemoveDefeatedMonsters(Tile tile)
     {
-        MonsterInstance[] removeIndex = new MonsterInstance[monstersOnTile[tile].Count];
+        PawnInstance[] removeIndex = new PawnInstance[monstersOnTile[tile].Count];
         short nbrOfElementsToRemove = 0;
 
         List<ItemContainer> lootList = new List<ItemContainer>();
         Transform lastMonsterPosition = null;
-        foreach (MonsterInstance mi in monstersOnTile[tile])
+        foreach (PawnInstance pi in monstersOnTile[tile])
         {
-            if (mi.CurrentHp == 0)
+            if (pi.GetComponent<Behaviour.Mortal>().CurrentHp == 0)
             {
-                lastMonsterPosition = mi.transform;
-                if (mi.deathParticles != null)
+                lastMonsterPosition = pi.transform;
+                if (pi.GetComponent<Behaviour.Mortal>().DeathParticles != null)
                 {
-                    ParticleSystem ps = Instantiate(mi.deathParticles, mi.transform.parent);
-                    ps.transform.position = mi.transform.position;
+                    ParticleSystem ps = Instantiate(pi.GetComponent<Behaviour.Mortal>().DeathParticles, pi.transform.parent);
+                    ps.transform.position = pi.transform.position;
                     ps.Play();
                     Destroy(ps.gameObject, ps.main.duration);
                 }
+                pi.GetComponent<Behaviour.Inventory>().ComputeItems();
+                lootList.AddRange(pi.GetComponent<Behaviour.Inventory>().Items);
 
-                lootList.AddRange(mi.ComputeLoot());
-
-                removeIndex[nbrOfElementsToRemove] = mi;
+                removeIndex[nbrOfElementsToRemove] = pi;
                 nbrOfElementsToRemove++;
             }
         }
@@ -146,7 +136,7 @@ public class TileManager : MonoBehaviour {
 
         if (lootList.Count > 0)
         {
-            ItemManager.AddItemOnTheGround(tile, lastMonsterPosition, lootList);
+            ItemManager.AddItemOnTheGround(tile, lastMonsterPosition, lootList.ToArray());
         }
 
         int elementsRemoved = 0;
@@ -177,78 +167,73 @@ public class TileManager : MonoBehaviour {
             monstersOnTile.Remove(tile);
     }
 
-    /// <summary>
-    /// Remove a killed keeper from play
-    /// </summary>
-    /// <param name="keeper">The keeper to remove</param>
-    public void RemoveKilledKeeper(KeeperInstance keeper)
+    public void RemoveKilledKeeper(PawnInstance keeper)
     {
         RemoveKeeperFromTile(getTileFromKeeper[keeper], keeper);
         getTileFromKeeper.Remove(keeper);
     }
-    
-    /// <summary>
-    /// Add a monster on a tile
-    /// </summary>
-    /// <param name="tile">A Tile</param>
-    /// <param name="monster">A new MonsterInstance</param>
-    private void AddMonsterOnTile(Tile tile, MonsterInstance monster)
+
+    private void AddMonsterOnTile(Tile tile, PawnInstance monster)
     {
-        if (monstersOnTile.ContainsKey(tile))
+        if (monster.GetComponent<Behaviour.Monster>() == null)
         {
-            monstersOnTile[tile].Add(monster);
+            Debug.Log("Can't add monster to tile, missing component Monster.");
+            return;
+        }
+
+        if (MonstersOnTile.ContainsKey(tile))
+        {
+            MonstersOnTile[tile].Add(monster);
         }
         else
         {
-            List<MonsterInstance> newList = new List<MonsterInstance>();
+            List<PawnInstance> newList = new List<PawnInstance>();
             newList.Add(monster);
-            monstersOnTile.Add(tile, newList);
+            MonstersOnTile.Add(tile, newList);
         }
     }
 
-
-    /// <summary>
-    /// Update tile references for a keeper.
-    /// </summary>
-    /// <param name="tile">New tile</param>
-    /// <param name="keeper">KeeperInstance</param>
-    private void AddKeeperOnTile(Tile tile, KeeperInstance keeper)
+    private void AddKeeperOnTile(Tile tile, PawnInstance keeper)
     {
-        if (keepersOnTile.ContainsKey(tile))
+        if (keeper.GetComponent<Behaviour.Keeper>() == null)
         {
-            keepersOnTile[tile].Add(keeper);
+            Debug.Log("Can't add keeper to tile, missing component Keeper.");
+            return;
+        }
+
+        if (KeepersOnTile.ContainsKey(tile))
+        {
+            KeepersOnTile[tile].Add(keeper);
         }
         else
         {
-            List<KeeperInstance> newList = new List<KeeperInstance>();
+            List<PawnInstance> newList = new List<PawnInstance>();
             newList.Add(keeper);
-            keepersOnTile.Add(tile, newList);
+            KeepersOnTile.Add(tile, newList);
         }
 
-        if (getTileFromKeeper.ContainsKey(keeper))
-            getTileFromKeeper[keeper] = tile;
+        if (GetTileFromKeeper.ContainsKey(keeper))
+            GetTileFromKeeper[keeper] = tile;
         else
-            getTileFromKeeper.Add(keeper, tile);
+            GetTileFromKeeper.Add(keeper, tile);
+
+        keeper.CurrentTile = tile;
     }
 
-    /// <summary>
-    /// Remove monster from a tile after a movement.
-    /// </summary>
-    /// <param name="tile">Old tile</param>
-    /// <param name="monster">MonsterInstance</param>
-    private void RemoveMonsterFromTile(Tile tile, MonsterInstance monster)
+    private void RemoveMonsterFromTile(Tile tile, PawnInstance monster)
     {
-        monstersOnTile[tile].Remove(monster);
+        if (monster.GetComponent<Behaviour.Monster>() != null)
+            MonstersOnTile[tile].Remove(monster);
+        else
+            Debug.Log("Could not add monster because Monster component missing.");
     }
 
-    /// <summary>
-    /// Remove keeper from a tile after a movement.
-    /// </summary>
-    /// <param name="tile">Old tile</param>
-    /// <param name="keeper">KeeperInstance</param>
-    private void RemoveKeeperFromTile(Tile tile, KeeperInstance keeper)
+    private void RemoveKeeperFromTile(Tile tile, PawnInstance keeper)
     {
-        keepersOnTile[tile].Remove(keeper);
+        if (keeper.GetComponent<Behaviour.Keeper>() != null)
+            KeepersOnTile[tile].Remove(keeper);
+        else
+            Debug.Log("Could not add keeper because Keeper component missing.");
     }
 
     /// <summary>
@@ -272,9 +257,9 @@ public class TileManager : MonoBehaviour {
 
     public void ResetTileManager()
     {
-        instance.monstersOnTile.Clear();
-        instance.keepersOnTile.Clear();
-        instance.getTileFromKeeper.Clear();
+        instance.MonstersOnTile.Clear();
+        instance.KeepersOnTile.Clear();
+        instance.GetTileFromKeeper.Clear();
 
         // Re-initialize
         instance.InitializeState();
@@ -282,16 +267,24 @@ public class TileManager : MonoBehaviour {
 
     private void InitializeState()
     {
-        GameObject beginTile = GameObject.FindGameObjectWithTag("BeginTile");
+        beginTile = GameObject.FindGameObjectWithTag("BeginTile");
+        endTile = GameObject.FindGameObjectWithTag("EndTile");
         if (beginTile == null)
         {
             Debug.Log("No tag BeginTile on the first tile has been set.");
             return;
         }
-        instance.prisonerTile = beginTile.GetComponentInParent<Tile>();
-        foreach (KeeperInstance ki in GameManager.Instance.AllKeepersList)
+        if (endTile == null)
         {
-            instance.AddKeeperOnTile(instance.prisonerTile, ki);
+            Debug.Log("No tag EndTile on the last tile has been set.");
+            return;
+        }
+        instance.prisonerTile = beginTile.GetComponentInParent<Tile>();
+        GameManager.Instance.PrisonerInstance.CurrentTile = instance.prisonerTile;
+
+        foreach (PawnInstance pi in GameManager.Instance.AllKeepersList)
+        {
+            instance.AddKeeperOnTile(beginTile.GetComponentInParent<Tile>(), pi);
         }
         instance.InitializeMonsters();
     }
@@ -305,9 +298,9 @@ public class TileManager : MonoBehaviour {
             return;
         }
         instance.tiles = helperRoot.gameObject;
-        foreach (MonsterInstance mi in instance.tiles.GetComponentsInChildren<MonsterInstance>())
+        foreach (Behaviour.Monster m in instance.tiles.GetComponentsInChildren<Behaviour.Monster>())
         {
-            instance.AddMonsterOnTile(mi.GetComponentInParent<Tile>(), mi);
+            instance.AddMonsterOnTile(m.GetComponentInParent<Tile>(), m.GetComponent<PawnInstance>());
         }
     }
 
@@ -323,34 +316,40 @@ public class TileManager : MonoBehaviour {
         }
     }
 
-    public Dictionary<Tile, List<MonsterInstance>> MonstersOnTile
+    public Dictionary<Tile, List<PawnInstance>> MonstersOnTile
     {
         get
         {
             return monstersOnTile;
         }
-
-        private set { }
-
     }
 
-    public Dictionary<Tile, List<KeeperInstance>> KeepersOnTile
+    public Dictionary<Tile, List<PawnInstance>> KeepersOnTile
     {
         get
         {
             return keepersOnTile;
         }
-        private set { }
-
     }
 
-    public Dictionary<KeeperInstance, Tile> GetTileFromKeeper
+    public Dictionary<PawnInstance, Tile> GetTileFromKeeper
     {
         get
         {
             return getTileFromKeeper;
         }
-        private set { }
+    }
 
+    public GameObject EndTile
+    {
+        get
+        {
+            return endTile;
+        }
+
+        set
+        {
+            endTile = value;
+        }
     }
 }

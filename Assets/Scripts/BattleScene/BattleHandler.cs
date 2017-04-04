@@ -24,7 +24,7 @@ public class BattleHandler {
         // Auto selection
         if (TileManager.Instance.KeepersOnTile[tile].Count <= 1)
         {
-            List<KeeperInstance> keepersForBattle = TileManager.Instance.KeepersOnTile[tile];
+            List<PawnInstance> keepersForBattle = TileManager.Instance.KeepersOnTile[tile];
             if (TileManager.Instance.PrisonerTile == tile)
             {
                 isPrisonerOnTile = true;
@@ -49,7 +49,7 @@ public class BattleHandler {
     /// </summary>
     /// <param name="tile">Tile where the battle happens</param>
     /// <param name="selectedKeepersForBattle">Keepers selected for the battle</param>
-    public static void LaunchBattle(Tile tile, List<KeeperInstance> selectedKeepersForBattle)
+    public static void LaunchBattle(Tile tile, List<PawnInstance> selectedKeepersForBattle)
     {
         battleLogger = GameManager.Instance.BattleResultScreen.GetChild((int)BattleResultScreenChildren.Logger).GetComponentInChildren<Text>();
         battleLogger.text = string.Empty;
@@ -70,11 +70,16 @@ public class BattleHandler {
     /*
      * Auto resolve battle. Will later be replaced by EngageBattle. Returns true if the battle is won, else false. 
      */
-    private static bool ResolveBattle(List<KeeperInstance> keepers, Tile tile)
+    
+    private static bool ResolveBattle(List<PawnInstance> keepers, Tile tile)
     {
-        List<MonsterInstance> monsters = new List<MonsterInstance>();
+       
+        List<PawnInstance> monsters = new List<PawnInstance>();
         monsters.AddRange(TileManager.Instance.MonstersOnTile[tile]);
 
+        foreach (PawnInstance m in monsters)
+            m.GetComponent<Behaviour.Mortal>().CurrentHp = 0;
+ /*
         // General melee!
         int totalDamageTaken = 0;
         int[] damageTaken = new int[keepers.Count + 1];
@@ -85,20 +90,20 @@ public class BattleHandler {
         string[] monsterNames = new string[monsters.Count];
 
         for (int i = 0; i < keepers.Count; i++)
-            keeperNames[i] = keepers[i].Keeper.CharacterName;
+            keeperNames[i] = keepers[i].Data.PawnName;
 
         for (int i = 0; i < monsters.Count; i++)
         {
-            monsterNames[i] = monsters[i].Monster.CharacterName;
-            monstersInitialHp[i] = monsters[i].CurrentHp;
+            monsterNames[i] = monsters[i].Data.PawnName;
+            monstersInitialHp[i] = monsters[i].GetComponent<Behaviour.Mortal>().CurrentHp;
         }
 
         while (monsters.Count > 0 && totalDamageTaken < 50 && keepers.Count > 0)
         {
             // Keepers turn
-            foreach (KeeperInstance currentKeeper in keepers)
+            foreach (PawnInstance currentKeeper in keepers)
             {
-                MonsterInstance target;
+                PawnInstance target;
                 AttackType attackType = currentKeeper.Keeper.GetEffectiveStrength() > currentKeeper.Keeper.GetEffectiveIntelligence() ? AttackType.Physical : AttackType.Magical;
 
                 target = GetTargetForAttack(monsters, attackType);
@@ -124,7 +129,7 @@ public class BattleHandler {
             }
 
             // Monsters turn
-            foreach (MonsterInstance currentMonster in monsters)
+            foreach (PawnInstance currentMonster in monsters)
             {
                 bool isPrisonerTargeted = false;
                 AttackType attackType = currentMonster.Monster.GetEffectiveStrength() > currentMonster.Monster.GetEffectiveIntelligence() ? AttackType.Physical : AttackType.Magical;
@@ -148,7 +153,7 @@ public class BattleHandler {
                     {
                         break;
                     }
-                    KeeperInstance target = GetTargetForAttack(keepers);
+                    PawnInstance target = GetTargetForAttack(keepers);
                     int keeperIndexForDmgCalculation = 0;
                     for (int i = 0; i < keeperNames.Length; i++)
                     {
@@ -175,7 +180,7 @@ public class BattleHandler {
                 BattleLog("Over 50hp lost. Battle ends.");
                 break;
             }
-            else if (GameManager.Instance.PrisonerInstance.CurrentHp <= 0)
+            else if (GameManager.Instance.PrisonerInstanceOld.CurrentHp <= 0)
             {
                 BattleLog("Prisoner died. Battle ends.");
                 break;
@@ -197,7 +202,7 @@ public class BattleHandler {
                 BattleLog(monsterNames[i] + " lost " + damageTakenByMonsters[i] + " health.");
             BattleLog(monsterNames[i] + " has " + (monstersInitialHp[i] - damageTakenByMonsters[i]) + " health left.");
         }
-
+        
         // Battle result
         if (monsters.Count == 0)
         {
@@ -207,13 +212,14 @@ public class BattleHandler {
         else
         {
             return false;
-        }
+        }*/
+        return true;
     }
-
-    private static MonsterInstance GetTargetForAttack(List<MonsterInstance> monsters, AttackType attackType)
+    /*
+    private static PawnInstance GetTargetForAttack(List<PawnInstance> monsters, AttackType attackType)
     {
-        List<MonsterInstance> subMonstersList = new List<MonsterInstance>();
-        foreach (MonsterInstance mi in monsters)
+        List<PawnInstance> subMonstersList = new List<PawnInstance>();
+        foreach (PawnInstance mi in monsters)
         {
             if (mi.CurrentHp == 0)
             {
@@ -237,10 +243,10 @@ public class BattleHandler {
             subMonstersList.AddRange(monsters);
         }
 
-        MonsterInstance target = null;
+        PawnInstance target = null;
         int tmpHp = 100;
 
-        foreach (MonsterInstance mi in subMonstersList)
+        foreach (PawnInstance mi in subMonstersList)
         {
             if (mi.CurrentHp <= tmpHp)
             {
@@ -252,12 +258,12 @@ public class BattleHandler {
         return target;
     }
 
-    private static KeeperInstance GetTargetForAttack(List<KeeperInstance> keepers)
+    private static PawnInstance GetTargetForAttack(List<PawnInstance> keepers)
     {
         return keepers[Random.Range(0, keepers.Count)];
     }
 
-    private static int KeeperDamageCalculation(KeeperInstance attacker, MonsterInstance targetMonster, AttackType attackType)
+    private static int KeeperDamageCalculation(PawnInstance attacker, PawnInstance targetMonster, AttackType attackType)
     {
         int damage = 0;
         if (attackType == AttackType.Physical)
@@ -277,7 +283,7 @@ public class BattleHandler {
         return damage;
     }
 
-    private static int MonsterDamageCalculation(MonsterInstance attacker, KeeperInstance targetKeeper, AttackType attackType, bool prisonerTargeted = false)
+    private static int MonsterDamageCalculation(PawnInstance attacker, PawnInstance targetKeeper, AttackType attackType, bool prisonerTargeted = false)
     {
         int damage = 0;
         if (attackType == AttackType.Physical)
@@ -285,21 +291,21 @@ public class BattleHandler {
             if (!prisonerTargeted)
                 damage = Mathf.RoundToInt(attacker.Monster.GetEffectiveStrength() / targetKeeper.Keeper.GetEffectiveDefense());
             else
-                damage = Mathf.RoundToInt(attacker.Monster.GetEffectiveStrength() / GameManager.Instance.PrisonerInstance.Prisoner.GetEffectiveDefense());
+                damage = Mathf.RoundToInt(attacker.Monster.GetEffectiveStrength() / GameManager.Instance.PrisonerInstanceOld.Prisoner.GetEffectiveDefense());
         }
         else
         {
             if (!prisonerTargeted)
                 damage = Mathf.RoundToInt(attacker.Monster.GetEffectiveIntelligence() / targetKeeper.Keeper.GetEffectiveSpirit());
             else
-                damage = Mathf.RoundToInt(attacker.Monster.GetEffectiveIntelligence() / GameManager.Instance.PrisonerInstance.Prisoner.GetEffectiveSpirit());
+                damage = Mathf.RoundToInt(attacker.Monster.GetEffectiveIntelligence() / GameManager.Instance.PrisonerInstanceOld.Prisoner.GetEffectiveSpirit());
         }
 
         damage = Mathf.RoundToInt(damage * Random.Range(0.75f, 1.25f));
 
         if (prisonerTargeted)
         {
-            GameManager.Instance.PrisonerInstance.CurrentHp -= damage;
+            GameManager.Instance.PrisonerInstanceOld.CurrentHp -= damage;
             //Debug.Log(attacker.Monster.CharacterName + " deals " + damage + " damage to prisoner.\n");
             //Debug.Log("Prisoner has " + GameManager.Instance.PrisonerInstance.CurrentHp + " left.\n");
         }
@@ -312,33 +318,35 @@ public class BattleHandler {
 
         return damage;
     }
-
+    */
     /*
      * Process everything that needs to be processed after a victory
      */
-    private static void HandleBattleVictory(List<KeeperInstance> keepers, Tile tile)
+    private static void HandleBattleVictory(List<PawnInstance> keepers, Tile tile)
     {
-        foreach (KeeperInstance ki in keepers)
+        foreach (PawnInstance ki in keepers)
         {
-            ki.CurrentMentalHealth += 10;
-            ki.CurrentHunger -= 5;
+            ki.GetComponent<Behaviour.MentalHealthHandler>().CurrentMentalHealth += 10;
+            ki.GetComponent<Behaviour.HungerHandler>().CurrentHunger -= 5;
             //BattleLog(ki.Keeper.CharacterName + " won 10 mental health and lost 5 hunger due to victory.");
         }
 
+        /*
         if (isPrisonerOnTile)
         {
-            GameManager.Instance.PrisonerInstance.CurrentMentalHealth += 10;
-            GameManager.Instance.PrisonerInstance.CurrentHunger -= 5;
+            GameManager.Instance.PrisonerInstanceOld.CurrentMentalHealth += 10;
+            GameManager.Instance.PrisonerInstanceOld.CurrentHunger -= 5;
             //BattleLog("Prisoner won 10 mental health and lost 5 hunger due to victory.");
-        }
+        }*/
     }
 
     /*
      * Process everything that needs to be processed after a defeat
      */
-    private static void HandleBattleDefeat(List<KeeperInstance> keepers, List<MonsterInstance> monsters)
+    private static void HandleBattleDefeat(List<PawnInstance> keepers, List<PawnInstance> monsters)
     {
-        foreach (KeeperInstance ki in keepers)
+        /*
+        foreach (PawnInstance ki in keepers)
         {
             if (ki.IsAlive)
             {
@@ -348,16 +356,16 @@ public class BattleHandler {
                 ki.CurrentHp -= 10;
                 //  BattleLog(ki.Keeper.CharacterName + " lost 10 mental health, 5 hunger, 10HP due to defeat.");
             }
-            if (isPrisonerOnTile && GameManager.Instance.PrisonerInstance.IsAlive)
+            if (isPrisonerOnTile && GameManager.Instance.PrisonerInstanceOld.IsAlive)
             {
-                GameManager.Instance.PrisonerInstance.CurrentMentalHealth -= 10;
-                GameManager.Instance.PrisonerInstance.CurrentHunger -= 5;
-                GameManager.Instance.PrisonerInstance.CurrentHp -= 10;
+                GameManager.Instance.PrisonerInstanceOld.CurrentMentalHealth -= 10;
+                GameManager.Instance.PrisonerInstanceOld.CurrentHunger -= 5;
+                GameManager.Instance.PrisonerInstanceOld.CurrentHp -= 10;
                // BattleLog("Prisoner lost 10 mental health, 5 hunger, 10HP due to defeat.");
             }
         }
 
-        foreach (KeeperInstance ki in GameManager.Instance.ListOfSelectedKeepers)
+        foreach (PawnInstance ki in GameManager.Instance.ListOfSelectedKeepersOld)
         {
             if (ki.IsAlive)
             {
@@ -365,13 +373,13 @@ public class BattleHandler {
             }
         }
 
-        foreach (MonsterInstance mi in monsters)
+        foreach (PawnInstance mi in monsters)
         {
             mi.RestAfterBattle();
-        }
+        }*/
     }
 
-    private static void PostBattleCommonProcess(List<KeeperInstance> keepers, Tile tile)
+    private static void PostBattleCommonProcess(List<PawnInstance> keepers, Tile tile)
     {
         TileManager.Instance.RemoveDefeatedMonsters(tile);
     }

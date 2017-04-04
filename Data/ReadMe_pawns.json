@@ -1,0 +1,52 @@
+Voici le modèle à respecter pour ajouter un nouveau pion
+
+Les informations peuvent être renseignés dans l'ordre que vous souhaitez,
+mais ce serait bien de respecter toujours le même
+
+Il a a dans ce modèle tous les components, a vous de ne renseigner que ceux
+qui vous interessent
+
+{
+	"Pawns": [
+		{
+			"id": "",
+			"name" : "",
+			"sprite" : "",
+			"inGameVisual" : "Models/Pawns/Pawn_Ashley",
+			"canSpeak" : "true",
+			
+			"AnimatedPawn" : {},
+			
+			"Escortable" : {},
+			
+			"Fighter" : {},
+			
+			"HungerHandler" : {
+				"maxHunger" : 0
+			},
+			
+			"Inventory" : {
+				"nbSlot" : ""
+			},
+			
+			"Keeper" : {},
+			
+			"MentalHealthHandler" : {
+				"maxMentalHealth" : 0
+			},
+			
+			"Monster" : {},
+			
+			"Mortal" : {
+				"maxHp" : "",
+				"spriteDead" : ""
+			},
+			
+			"PathBlocker" : {},
+			
+			"Prisoner" : {},
+			
+			"QuestDealer" : {},
+		},
+	]
+}

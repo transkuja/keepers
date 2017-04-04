@@ -70,16 +70,18 @@ public class AnimationButtonClick : MonoBehaviour, IPointerEnterHandler {
     {
         for (int i = 0; i < GameManager.Instance.AllKeepersList.Count; i++)
         {
-            if (GameManager.Instance.AllKeepersList[i].IsAlive)
+            PawnInstance pi = GameManager.Instance.AllKeepersList[i];
+            if (pi.GetComponent<Behaviour.Keeper>() != null && pi.GetComponent<Behaviour.Mortal>().IsAlive)
             {
-                if (GameManager.Instance.AllKeepersList[i].ActionPoints > 0)
+                if (pi.GetComponent<Behaviour.Keeper>().ActionPoints > 0)
                 {
                     GameManager.Instance.Ui.goShortcutKeepersPanel.SetActive(true);
                     // Actions
 
                     // If keeper is dead this will be destroy
-                    GameManager.Instance.Ui.goShortcutKeepersPanel.transform.GetChild(i + 1).GetChild(4).GetComponent<Text>().color = Color.green;
-                    GameManager.Instance.Ui.goShortcutKeepersPanel.transform.GetChild(i + 1).GetChild(4).transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
+                    pi.GetComponent<Behaviour.Keeper>().ShorcutUI.transform.GetChild((int)PanelShortcutChildren.ActionPoints).GetComponent<Text>().color = Color.green;
+                    pi.GetComponent<Behaviour.Keeper>().ShorcutUI.transform.GetChild((int)PanelShortcutChildren.ActionPoints).GetComponent<Text>().transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
+          
                     StartCoroutine(TextAnimationNormalState(i));
                     return;
                 }
@@ -90,8 +92,10 @@ public class AnimationButtonClick : MonoBehaviour, IPointerEnterHandler {
     private IEnumerator TextAnimationNormalState(int _i)
     {
         yield return new WaitForSeconds(1);
-        GameManager.Instance.Ui.goShortcutKeepersPanel.transform.GetChild(_i + 1).GetChild(4).GetComponent<Text>().color = Color.white;
-        GameManager.Instance.Ui.goShortcutKeepersPanel.transform.GetChild(_i + 1).GetChild(4).transform.localScale = Vector3.one;
+        PawnInstance pi = GameManager.Instance.AllKeepersList[_i];
+        pi.GetComponent<Behaviour.Keeper>().ShorcutUI.transform.GetChild((int)PanelShortcutChildren.ActionPoints).GetComponent<Text>().color = Color.white;
+        pi.GetComponent<Behaviour.Keeper>().ShorcutUI.transform.GetChild((int)PanelShortcutChildren.ActionPoints).GetComponent<Text>().transform.localScale = Vector3.one;
         yield return null;
     }
+
 }

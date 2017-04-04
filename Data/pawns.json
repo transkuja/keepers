@@ -1,0 +1,45 @@
+{
+	"Pawns": [
+		{
+			"id": "character_01",
+			"name" : "Philippe",
+			"sprite" : "",
+			"inGameVisual" : "Models/Pawns/Pawn_Ashley",
+			"canSpeak" : "true",
+			
+			
+			"AnimatedPawn" : {},
+			
+			"Fighter" : {},
+			
+			"HungerHandler" : {
+				"maxHunger" : 100
+			},
+			
+			"Inventory" : {
+				"nbSlot" : 4
+			},
+			
+			"Keeper" : {},
+			
+			"MentalHealthHandler" : {
+				"maxMentalHealth" : 100
+			},
+			
+			"Mortal" : {
+				"maxHp" : 100
+			}
+		},
+		{
+			"id": "pnj_01",
+			"name" : "Alberto",
+			"sprite" : "",
+					
+			"Inventory" : {
+				"nbSlot" : 4
+			},
+			
+			"QuestDealer" : {},
+		}
+	]
+}

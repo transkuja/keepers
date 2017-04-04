@@ -9,10 +9,22 @@ public class PrefabUIUtils : MonoBehaviour {
     //public GameObject goSelectedKeeperPanel;
     // Inventory
     public GameObject PrefabInventaireUI;
+
     public GameObject PrefabSlotUI;
     public GameObject PrefabItemUI;
 
     public GameObject prefabItemToDrop;
+
+    // ActionPanel
+    [Header("Selected Keeper UI")]
+    public GameObject PrefabSelectedKeeper;
+    public GameObject PrefabSelectedStatsUIPanel;
+    public GameObject PrefabSelectedInventoryUIPanel;
+    public GameObject PrefabSelectedEquipementUIPanel;
+
+    public GameObject PrefabMentalHealthUI;
+    public GameObject PrefabHungerUI;
+    public GameObject PrefabHPUI;
 
     // ActionPanel
     [Header("Action UI")]
@@ -22,10 +34,12 @@ public class PrefabUIUtils : MonoBehaviour {
 
     // ShortcutPanel
     [Header("Shortcut UI")]
-    public GameObject PrefabSelectedCharacterUI;
+    public GameObject PrefabShorcutCharacter;
 
     // Utils 
+    [Header("Utils UI")]
     public GameObject PrefabImageUI;
+    public GameObject PrefabConfimationButtonUI;
 
     [Header("Quest")]
     public GameObject PrefabContentQuestUI;

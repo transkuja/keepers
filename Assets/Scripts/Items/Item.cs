@@ -141,11 +141,10 @@ public class Item
         isStackable = from.IsStackable;
         rarity = from.rarity;
     }
-    public virtual void UseItem(ItemContainer ic, bool isQuantityPreviouslyEqualOne = false)
+    public virtual void UseItem(ItemContainer ic, PawnInstance owner, bool isQuantityPreviouslyEqualOne = false)
     {
         Debug.Log("Use item of item type undefined");
     }
-
 }
 
 public enum EquipmentSlot { Weapon, Armor, Soul }
@@ -204,25 +203,28 @@ public class Equipment : Item
         Rarity = 1;
     }
 
-    public override void UseItem(ItemContainer ic, bool isQuantityPreviouslyEqualOne = false)
+    public override void UseItem(ItemContainer ic, PawnInstance owner, bool isQuantityPreviouslyEqualOne = false)
     {
-        bool isEquiped = EquipementManager.CheckIfItemTypeIsInEquipement(GameManager.Instance.ListOfSelectedKeepers[0].Equipment, ic);
+        ItemContainer[] equipements = GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Keeper>().Equipements;
+        bool isEquiped = EquipementManager.CheckIfItemTypeIsInEquipement(equipements, ic);
         if (isEquiped)
         {
-            int nbSlot = GameManager.Instance.ListOfSelectedKeepers[0].Keeper.nbSlot;
-            EquipementManager.UnequipItem(GameManager.Instance.ListOfSelectedKeepers[0].GetComponent<Inventory>().List_inventaire, nbSlot, GameManager.Instance.ListOfSelectedKeepers[0].Equipment, ((Equipment)ic.Item).constraint);
+            int nbSlot = GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Inventory>().Data.NbSlot;
+            EquipementManager.UnequipItem(GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Inventory>().Items, nbSlot, equipements, ((Equipment)ic.Item).constraint);
 
             // Unapply Bonus Stats
-            EquipementManager.UnapplyStats(GameManager.Instance.ListOfSelectedKeepers[0], ((Equipment)ic.Item));
-        } else
+            EquipementManager.UnapplyStats(GameManager.Instance.GetFirstSelectedKeeper(), ((Equipment)ic.Item));
+        }
+        else
         {
-            EquipementManager.EquipItem(GameManager.Instance.ListOfSelectedKeepers[0].GetComponent<Inventory>().List_inventaire, GameManager.Instance.ListOfSelectedKeepers[0].Equipment, ic);
+            EquipementManager.EquipItem(GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Inventory>().Items, equipements, ic);
 
             // Apply Bonus stats
-            EquipementManager.ApplyStats(GameManager.Instance.ListOfSelectedKeepers[0], ((Equipment)ic.Item));
+            EquipementManager.ApplyStats(GameManager.Instance.GetFirstSelectedKeeper(), ((Equipment)ic.Item));
         }
 
-        GameManager.Instance.Ui.UpdateShortcutPanel();
+
+        owner.GetComponent<Behaviour.Inventory>().UpdateInventories();
     }
 }
 
@@ -230,7 +232,7 @@ public enum ResourceFunctions { UpMentalHealth, DecreaseHunger }
 public class Ressource : Item
 {
     int value;
-    public delegate bool Use(int _value);
+    public delegate bool Use(int _value, PawnInstance owner);
     Use resourceUse = null;
     ResourceFunctions resourceUseIndex;
 
@@ -244,6 +246,7 @@ public class Ressource : Item
         private set { }
     }
 
+
     public ResourceFunctions ResourceUseIndex
     {
         get { return resourceUseIndex; }
@@ -255,7 +258,10 @@ public class Ressource : Item
                 resourceUse = UpMentalHealth;
             }
             if (value.Equals(ResourceFunctions.DecreaseHunger))
+            {
                 resourceUse = DecreaseHunger;
+            }
+                
 
             resourceUseIndex = value;
 
@@ -282,38 +288,23 @@ public class Ressource : Item
         Rarity = 5;
     }
 
-    private bool UpMentalHealth(int _value)
+    private bool UpMentalHealth(int _value, PawnInstance owner)
     {
-        GameManager.Instance.Ui.BuffActionTextAnimation(GameManager.Instance.Ui.goMentalHeathBuffOnStatPanel, _value);
-        GameManager.Instance.ListOfSelectedKeepers[0].CurrentMentalHealth += (short)_value;
-        GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
-        GameManager.Instance.Ui.UpdateShortcutPanel();
+        //GameManager.Instance.Ui.BuffActionTextAnimation(GameManager.Instance.Ui.goMentalHeathBuffOnStatPanel, _value);
+        owner.GetComponent<Behaviour.MentalHealthHandler>().CurrentMentalHealth += (short)_value;
         return true;
     }
 
-    private bool DecreaseHunger(int _value)
+    private bool DecreaseHunger(int _value, PawnInstance owner)
     {
-        GameManager.Instance.Ui.BuffActionTextAnimation(GameManager.Instance.Ui.goHungerBuffOnStatPanel, _value);
-        GameManager.Instance.ListOfSelectedKeepers[0].CurrentHunger += (short)_value;
-        GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
-        GameManager.Instance.Ui.UpdateShortcutPanel();
+        //GameManager.Instance.Ui.BuffActionTextAnimation(GameManager.Instance.Ui.goHungerBuffOnStatPanel, _value);
+        owner.GetComponent<Behaviour.MentalHealthHandler>().CurrentMentalHealth += (short)_value;
         return true;
     }
 
-    public override void UseItem(ItemContainer ic, bool isQuantityPreviouslyEqualOne = false)
-    {
-        // TODO architecturez moi tout ça @Seb
-        if (GameManager.Instance.ListOfSelectedKeepers[0].Keeper.GoListCharacterFollowing.Count > 0
-            && (ic.Item.GetType() == typeof(Ressource) && ((Ressource)ic.Item).ResourceUseIndex != ResourceFunctions.UpMentalHealth))
-        {
-            GameManager.Instance.PrisonerInstance.CurrentHunger += (short)Value;
-        }
 
-        if (!isQuantityPreviouslyEqualOne)
-            resourceUse.Invoke(Value);
-        else
-        {
-            GameManager.Instance.Ui.UpdateShortcutPanel();
-        }
+    public override void UseItem(ItemContainer ic, PawnInstance owner, bool isQuantityPreviouslyEqualOne = false)
+    {
+        resourceUse.Invoke(Value, owner);
     }
 }

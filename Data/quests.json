@@ -1,0 +1,13 @@
+{
+	"Quests": [
+		{
+			"id": "quest01",
+			"name" : "The legend of Wardeubeul",
+			"information" : {
+				"description" : "okok",
+				"dialog" : "okok",
+				"hint" : "okok"
+			}
+		}
+	]
+}

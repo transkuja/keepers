@@ -6,8 +6,6 @@ public class LootInstance : MonoBehaviour, IPickable {
 
     private InteractionImplementer interactionImplementer;
 
-    public GameObject lootPanel;
-
     private List<string> Items;
 
     public int nbSlot;
@@ -17,17 +15,22 @@ public class LootInstance : MonoBehaviour, IPickable {
     void Awake()
     {
         interactionImplementer = new InteractionImplementer();
-        interactionImplementer.Add(new Interaction(Pick), 0, "Pick", GameManager.Instance.SpriteUtils.spritePick);
-        if (isInScene)
-        {
-            Init();
-        }
+
     }
 
-    public void Init()
+    void Start()
     {
-        lootPanel = GameManager.Instance.Ui.CreateInventoryPanel(gameObject);
+        interactionImplementer.Add(new Interaction(Pick), 0, "Pick", GameManager.Instance.SpriteUtils.spritePick);
+        //if (isInScene)
+        //{
+        //    Init();
+        //}
     }
+
+    //public void Init()
+    //{
+        //lootPanel = GameManager.Instance.Ui.CreateInventoryPanel(gameObject);
+    //}
 
     public InteractionImplementer InteractionImplementer
     {
@@ -44,8 +47,7 @@ public class LootInstance : MonoBehaviour, IPickable {
 
     public void Pick(int _i = 0)
     {
-        lootPanel.SetActive(true);
-        GameManager.Instance.Ui.UpdateInventoryPanel(gameObject);
+        GetComponent<Behaviour.Inventory>().InventoryPanel.SetActive(true);
     }
     public void OnMouseOver()
     {

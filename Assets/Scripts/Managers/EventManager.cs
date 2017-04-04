@@ -1,8 +1,26 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Behaviour;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class EventManager : MonoBehaviour {
+
+    // Lister tous les types d'évènements.
+    // Les objets concernés invoqueront les delegate, avec une reférence vers eux même.
+    // Ex: Jean-Louis le loup meurt -> Dans sa fonction de mort : Eventmanager.OnMonsterDie(this)
+
+    public delegate void DefaultEvent();
+    public delegate void MonsterEvent(Monster m);
+    public delegate void KeeperEvent(Keeper k);
+    public delegate void PrisonerEvent(Prisoner p);
+    public delegate void AnimatedPawnEvent(AnimatedPawn ap);
+    public delegate void PawnInstanceEvent(PawnInstance pi);
+    public delegate void ItemEvent(ItemInstance ii);
+
+    public static MonsterEvent OnMonsterDie;
+    public static KeeperEvent OnKeeperDie;
+    public static ItemEvent OnHarvest;
+    public static ItemEvent OnPickUp;
+
 
     private static short actionPointsResetValue = 3;
 
@@ -14,67 +32,62 @@ public class EventManager : MonoBehaviour {
         ApplyEndTurnMentalHealthPenalty();
 
         ResetActionPointsForNextTurn();
-        GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
-        GameManager.Instance.Ui.UpdateShortcutPanel();
-        GameManager.Instance.Ui.ClearActionPanel();
+        GameManager.Instance.Ui.ResetIngameUI();
     }
 
     private static void DecreaseMentalHealth()
     {
-        foreach (KeeperInstance ki in GameManager.Instance.AllKeepersList)
+        foreach (PawnInstance ki in GameManager.Instance.AllKeepersList)
         {
-            if (ki.IsAlive)
-                ki.CurrentMentalHealth -= 10;
+            if (ki.GetComponent<Mortal>().IsAlive)
+                ki.GetComponent<MentalHealthHandler>().CurrentMentalHealth -= 10;
         }
     }
 
     private static void IncreaseHunger()
     {
-        foreach (KeeperInstance ki in GameManager.Instance.AllKeepersList)
+        foreach (PawnInstance ki in GameManager.Instance.AllKeepersList)
         {
-            if (ki.IsAlive)
-                ki.CurrentHunger -= 10;
+            if (ki.GetComponent<Mortal>().IsAlive)
+                ki.GetComponent<HungerHandler>().CurrentHunger -= 10;
         }
-        if (GameManager.Instance.PrisonerInstance.IsAlive)
-        {
-            GameManager.Instance.PrisonerInstance.CurrentHunger -= 10;
-        }
+
+        if (GameManager.Instance.PrisonerInstance.GetComponent<Mortal>().IsAlive)
+            GameManager.Instance.PrisonerInstance.GetComponent<HungerHandler>().CurrentHunger -= 10;
     }
 
     private static void ResetActionPointsForNextTurn()
     {
-        foreach (KeeperInstance ki in GameManager.Instance.AllKeepersList)
+        foreach (PawnInstance ki in GameManager.Instance.AllKeepersList)
         {
-            if (ki.IsAlive)
-                ki.ActionPoints = actionPointsResetValue;
+            if (ki.GetComponent<Mortal>().IsAlive)
+                ki.GetComponent<Keeper>().ActionPoints = actionPointsResetValue;
         }
     }
 
     public static void ApplyEndTurnHungerPenalty()
     {
-        foreach (KeeperInstance ki in GameManager.Instance.AllKeepersList)
+        foreach (PawnInstance ki in GameManager.Instance.AllKeepersList)
         {
-            if (ki.IsAlive && ki.IsStarving)
-                ki.CurrentHp -= 20;
+            if (ki.GetComponent<Mortal>().IsAlive && ki.GetComponent<HungerHandler>().IsStarving)
+                ki.GetComponent<Mortal>().CurrentHp -= 20;
         }
 
-        if (GameManager.Instance.PrisonerInstance.IsAlive && GameManager.Instance.PrisonerInstance.IsStarving)
-        {
-            GameManager.Instance.PrisonerInstance.CurrentHp -= 20;
-        }
+        if (GameManager.Instance.PrisonerInstance.GetComponent<Mortal>().IsAlive && GameManager.Instance.PrisonerInstance.GetComponent<HungerHandler>().IsStarving)
+            GameManager.Instance.PrisonerInstance.GetComponent<Mortal>().CurrentHp -= 20;
     }
 
     public static void ApplyEndTurnMentalHealthPenalty()
     {
-        foreach (KeeperInstance ki in GameManager.Instance.AllKeepersList)
+        foreach (PawnInstance ki in GameManager.Instance.AllKeepersList)
         {
-            if (ki.IsAlive && ki.IsMentalHealthLow && !ki.isLowMentalHealthBuffApplied)
+            if (ki.GetComponent<Mortal>().IsAlive && ki.GetComponent<MentalHealthHandler>().IsDepressed && !ki.GetComponent<MentalHealthHandler>().IsLowMentalHealthBuffApplied)
             {
-                ki.Keeper.BonusDefense = (short)(ki.Keeper.BonusDefense - ki.Keeper.BaseDefense/2);
-                ki.Keeper.BonusStrength = (short)(ki.Keeper.BonusStrength - ki.Keeper.BaseStrength / 2);
-                ki.Keeper.BonusIntelligence = (short)(ki.Keeper.BonusIntelligence - ki.Keeper.BaseIntelligence / 2);
-                ki.Keeper.BonusSpirit = (short)(ki.Keeper.BonusSpirit - ki.Keeper.BaseSpirit / 2);
-                ki.isLowMentalHealthBuffApplied = true;
+                //ki.Keeper.BonusDefense = (short)(ki.Keeper.BonusDefense - ki.Keeper.BaseDefense/2);
+                //ki.Keeper.BonusStrength = (short)(ki.Keeper.BonusStrength - ki.Keeper.BaseStrength / 2);
+                //ki.Keeper.BonusIntelligence = (short)(ki.Keeper.BonusIntelligence - ki.Keeper.BaseIntelligence / 2);
+                //ki.Keeper.BonusSpirit = (short)(ki.Keeper.BonusSpirit - ki.Keeper.BaseSpirit / 2);
+                ki.GetComponent<MentalHealthHandler>().IsLowMentalHealthBuffApplied = true;
             }
         }
     }

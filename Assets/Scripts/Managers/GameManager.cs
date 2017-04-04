@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using QuestSystem;
+using Behaviour;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,23 +12,28 @@ public class GameManager : MonoBehaviour
     public bool isDebugGameManager;
     #endregion
 
-    private List<KeeperInstance> allKeepersList = new List<KeeperInstance>();
-    private PrisonerInstance prisonerInstance;
-    private List<KeeperInstance> listOfSelectedKeepers = new List<KeeperInstance>();
-
+    private PawnInstance prisonerInstance;
+    private List<PawnInstance> listOfSelectedKeepers= new List<PawnInstance>();
 
     private Database database = new Database();
 
+    private PawnDatabase pawnDataBase = new PawnDatabase();
+
+    private List<PawnInstance> allKeepersList = new List<PawnInstance>();
     private GameObject goTarget;
 
     [SerializeField]
     private PrefabUIUtils prefabUtils;
     [SerializeField]
     private SpriteUIUtils spriteUtils;
+    [SerializeField]
+    private CharactersInitializer characterInitializer;
+    [SerializeField]
+    private TileManager tileManager;
 
+    private Quest mainQuest;
 
     private IngameUI ui;
-    private MenuUI menuUi;
     private IngameScreens gameScreens;
 
     // quentin Camera
@@ -51,14 +58,28 @@ public class GameManager : MonoBehaviour
             cameraManager = value;
         }
     }
+
+    public PawnDatabase PawnDataBase
+    {
+        get
+        {
+            return pawnDataBase;
+        }
+    }
     #endregion
 
     void Awake()
     {
+        
         if (instance == null)
         {
             instance = this;
             database.Init();
+
+            PawnDataBase.Init();
+
+            // TODO this should not be handled like, especially if there is more prisoner in scene
+            prisonerInstance = FindObjectOfType<Behaviour.Prisoner>().GetComponent<PawnInstance>();
             nbTurn = 1;
         }
         else if (instance != this)
@@ -69,13 +90,47 @@ public class GameManager : MonoBehaviour
 
         if (isDebugGameManager)
         {
-            foreach( KeeperInstance ki in GetComponentsInChildren<KeeperInstance>())
+            foreach(Keeper k in GetComponentsInChildren<Keeper>())
             {
-                allKeepersList.Add(ki);
+                AllKeepersList.Add(k.GetComponent<PawnInstance>());
             }
         }
 
+
+        if (SceneManager.GetActiveScene().name != "Menu")
+        {
+            // TODO : @Rémi @Rustine : recuperer les positions de départ du prisonnier et des keepers
+            //tileManager.Init();
+            //Transform[] beginPositionsKeepers = tileManager.beginPositionsKeepers;
+            GameObject[] beginPositionsKeepers = new GameObject[allKeepersList.Count];
+            for (int i = 0; i < allKeepersList.Count; i++)
+            {
+                GameObject beginPositionKeeper = new GameObject();
+                beginPositionKeeper.transform.position = Vector3.zero;
+                beginPositionsKeepers[i] = beginPositionKeeper;
+            }
+            //Transform[] beginPositionPrisonnier = tileManager.beginPositionPrisonnier;
+            GameObject beginPositionPrisonnier = new GameObject();
+            beginPositionPrisonnier.transform.position = Vector3.zero;
+
+            characterInitializer.Init(beginPositionsKeepers, beginPositionPrisonnier);
+
+            foreach(GameObject go in beginPositionsKeepers)
+            {
+                Destroy(go);
+            }
+            Destroy(beginPositionPrisonnier);
+        }
+
         DontDestroyOnLoad(gameObject);
+    }
+
+    void Start()
+    {
+        // I NEED A QUEST INITIALIZER
+        List<IQuestObjective> mainObjectives = new List<IQuestObjective>();
+        mainObjectives.Add(new PrisonerEscortObjective("Until the end", "Bring Ashley to the end, and ALIVE.", GameObject.FindObjectOfType<Behaviour.Prisoner>().gameObject, TileManager.Instance.EndTile.GetComponent<Tile>()));
+        mainQuest = new Quest(new QuestIdentifier(0, gameObject), new QuestText("Main Quest: The last phoque licorne", "", "You're probably wondering why I gathered all of you here today. Well I'll be quick, I want you to bring this wonderful animal to my good and rich friend. Don't worry, you will be rewarded. His name is \"End\", you'll see his flag from pretty far away, head towards it. I'm counting on you, it is extremely important.", "Hint: Don't kill Ashley."), mainObjectives);
     }
 
 
@@ -83,7 +138,7 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < listOfSelectedKeepers.Count; i++)
         {
-            listOfSelectedKeepers[i].IsSelected = false;
+            listOfSelectedKeepers[i].GetComponent<Keeper>().IsSelected = false;
 
         }
         listOfSelectedKeepers.Clear();
@@ -91,37 +146,38 @@ public class GameManager : MonoBehaviour
 
     public void InitializeInGameKeepers()
     {
-        foreach (KeeperInstance ki in allKeepersList)
+        foreach (PawnInstance ki in AllKeepersList)
         {
             ki.gameObject.transform.SetParent(transform);
         }
+        prisonerInstance.gameObject.transform.SetParent(transform);
                 
     }
 
     public void CheckGameState()
     {
-        if (!prisonerInstance.IsAlive)
-        {
-            Debug.Log("GameOver - Prisoner Died");
-            Lose();
-        }
-        else
-        {
-            short nbDead = 0;
-            foreach (KeeperInstance ki in allKeepersList)
-            {
-                if (!ki.IsAlive)
-                {
-                    nbDead++;
-                }
-            }
+        //if (!prisonerInstanceOld.IsAlive)
+        //{
+        //    Debug.Log("GameOver - Prisoner Died");
+        //    Lose();
+        //}
+        //else
+        //{
+        //    short nbDead = 0;
+        //    foreach (KeeperInstance ki in AllKeepersListOld)
+        //    {
+        //        if (!ki.IsAlive)
+        //        {
+        //            nbDead++;
+        //        }
+        //    }
 
-            if (nbDead == allKeepersList.Count)
-            {
-                Debug.Log("GameOver - All Keepers died");
-                Lose();
-            }
-        }
+        //    if (nbDead == allKeepersList.Count)
+        //    {
+        //        Debug.Log("GameOver - All Keepers died");
+        //        Lose();
+        //    }
+        //}
 
     }
 
@@ -157,43 +213,29 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public List<KeeperInstance> ListOfSelectedKeepers
+    public SpriteUIUtils SpriteUtils
     {
         get
         {
-            return listOfSelectedKeepers;
+            return spriteUtils;
         }
 
         set
         {
-            listOfSelectedKeepers = value;
+            spriteUtils = value;
         }
     }
 
-
-    public List<KeeperInstance> AllKeepersList
+    public PrefabUIUtils PrefabUtils
     {
         get
         {
-            return allKeepersList;
+            return prefabUtils;
         }
 
         set
         {
-            allKeepersList = value;
-        }
-    }
-
-    public PrisonerInstance PrisonerInstance
-    {
-        get
-        {
-            return prisonerInstance;
-        }
-
-        set
-        {
-            prisonerInstance = value;
+            prefabUtils = value;
         }
     }
 
@@ -207,19 +249,6 @@ public class GameManager : MonoBehaviour
         set
         {
             goTarget = value;
-        }
-    }
-
-    public MenuUI MenuUi
-    {
-        get
-        {
-            if (menuUi == null)
-            {
-                if (SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Menu")) return null;
-                menuUi = GameObject.Find("MenuUI").GetComponent<MenuUI>();
-            }
-            return menuUi;
         }
     }
 
@@ -341,31 +370,71 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public PrefabUIUtils PrefabUtils
+    public List<PawnInstance> AllKeepersList
     {
         get
         {
-            return prefabUtils;
+            return allKeepersList;
         }
 
         set
         {
-            prefabUtils = value;
+            allKeepersList = value;
         }
     }
 
-    public SpriteUIUtils SpriteUtils
+    public Quest MainQuest
     {
         get
         {
-            return spriteUtils;
+            return mainQuest;
         }
 
         set
         {
-            spriteUtils = value;
+            mainQuest = value;
+        }
+    }
+    public List<PawnInstance> ListOfSelectedKeepers
+    {
+        get
+        {
+            return listOfSelectedKeepers;
+        }
+
+        set
+        {
+            listOfSelectedKeepers = value;
         }
     }
 
- 
+    public PawnInstance PrisonerInstance
+    {
+        get
+        {
+            return prisonerInstance;
+        }
+
+        set
+        {
+            prisonerInstance = value;
+        }
+    }
+
+    public PawnInstance GetFirstSelectedKeeper()
+    {
+        return listOfSelectedKeepers[0];
+    }
+
+    public void AddKeeperToSelectedList(PawnInstance pawn)
+    {
+        if (pawn.GetComponent<Behaviour.Keeper>() != null)
+        {
+            ListOfSelectedKeepers.Add(pawn);
+        }
+        else
+        {
+            Debug.Log("Can't add a pawn to selected keepers list without the Keeper component.");
+        }
+    }
 }

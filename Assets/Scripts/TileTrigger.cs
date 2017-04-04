@@ -1,27 +1,27 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Behaviour;
 
 public class TileTrigger : MonoBehaviour {
     
-    public List<KeeperInstance> ki;
+    public List<PawnInstance> piList;
 
     int actionCostExplore = 3;
     int actionCostMove = 2;
 
     public void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponentInParent<KeeperInstance>() != null && other.isTrigger)
+        if (other.GetComponentInParent<Keeper>() != null && other.isTrigger)
         {
-            HandleTrigger(other.GetComponentInParent<KeeperInstance>());
+            HandleTrigger(other.GetComponentInParent<PawnInstance>());
         }
    
     }
 
-    public void HandleTrigger(KeeperInstance k)
+    public void HandleTrigger(PawnInstance k)
     {
-        ki.Add(k);
+        piList.Add(k);
         InteractionImplementer InteractionImplementer = new InteractionImplementer();
         Direction eTrigger = Direction.None;
 
@@ -54,13 +54,13 @@ public class TileTrigger : MonoBehaviour {
 
         if (eTrigger != Direction.None && GetComponentInParent<Tile>().Neighbors[(int)eTrigger] != null)
         {
-            if (k.ArrivingTrigger == eTrigger)
+            if (k.GetComponent<AnimatedPawn>().ArrivingTrigger == eTrigger)
             {
-                k.ArrivingTrigger = Direction.None;
+                k.GetComponent<AnimatedPawn>().ArrivingTrigger = Direction.None;
             }
             else
             {
-                k.ArrivingTrigger = Utils.GetOppositeDirection(eTrigger);
+                k.GetComponent<AnimatedPawn>().ArrivingTrigger = Utils.GetOppositeDirection(eTrigger);
 
                 if (GameManager.Instance.ListOfSelectedKeepers.Count > 0)
                 {
@@ -89,7 +89,7 @@ public class TileTrigger : MonoBehaviour {
                 else
                 {
                     // TODO : reflechir
-                    Debug.Log("Cas non géré (last selected keeper");
+                    Debug.Log("Cas non géré (last selected keeper)");
                 }
             }
         }
@@ -97,12 +97,12 @@ public class TileTrigger : MonoBehaviour {
 
     void OnTriggerExit(Collider other)
     {
-        if (other.GetComponentInParent<KeeperInstance>() != null)
+        if (other.GetComponentInParent<Keeper>() != null)
         {
-            KeeperInstance leaving = other.GetComponentInParent<KeeperInstance>();
-            if (ki.Contains(leaving))
+            PawnInstance leaving = other.GetComponentInParent<PawnInstance>();
+            if (piList.Contains(leaving))
             {
-                ki.Remove(leaving);
+                piList.Remove(leaving);
             }
         }
     }
@@ -112,29 +112,18 @@ public class TileTrigger : MonoBehaviour {
         
         if (GameManager.Instance.ListOfSelectedKeepers.Count > 0)
         {
-            KeeperInstance toMove = GameManager.Instance.ListOfSelectedKeepers[0];
-            if (toMove.ActionPoints >= actionCostMove)
+            PawnInstance toMove = GameManager.Instance.GetFirstSelectedKeeper();
+            if (toMove.GetComponent<Keeper>() != null
+                && toMove.GetComponent<Keeper>().ActionPoints >= actionCostMove)
             {
-                Tile currentTile = TileManager.Instance.GetTileFromKeeper[toMove];
+                Tile currentTile = toMove.CurrentTile;
 
                 // Confirmation Panel
                 // TODO : refaire en mieux ? 
-                if (toMove.Keeper.GoListCharacterFollowing.Count == 0
-                    && currentTile == TileManager.Instance.PrisonerTile)
-                {
-                    bool isAshleyNotAlone = false;
-                    foreach (KeeperInstance kip in GameManager.Instance.AllKeepersList)
-                    {
-                        if (kip.IsAlive)
-                        {
-                            if (kip != toMove && TileManager.Instance.PrisonerTile == TileManager.Instance.GetTileFromKeeper[kip])
-                            {
-                                isAshleyNotAlone = true;
-                                break;
-                            }
-                        }
-                    }
-                    if (isAshleyNotAlone)
+                if (toMove.GetComponent<Keeper>().GoListCharacterFollowing.Count == 0
+                    && currentTile == GameManager.Instance.PrisonerInstance.CurrentTile)
+                {                    
+                    if (!toMove.GetComponent<Keeper>().IsTheLastKeeperOnTheTile())
                     {
                         MoveWithoutConfirmation(_i);
                     }
@@ -154,7 +143,7 @@ public class TileTrigger : MonoBehaviour {
             }
             else
             {
-                GameManager.Instance.Ui.ZeroActionTextAnimation();
+                GameManager.Instance.Ui.ZeroActionTextAnimation(GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Keeper>());
             }
         }
     }
@@ -164,29 +153,18 @@ public class TileTrigger : MonoBehaviour {
         if (GameManager.Instance.ListOfSelectedKeepers.Count > 0)
         {
 
-            KeeperInstance toMove = GameManager.Instance.ListOfSelectedKeepers[0];
-            if (toMove.ActionPoints >= actionCostExplore)
+            PawnInstance toMove = GameManager.Instance.GetFirstSelectedKeeper();
+            if (toMove.GetComponent<Keeper>() != null
+                && toMove.GetComponent<Keeper>().ActionPoints >= actionCostExplore)
             {
-                Tile currentTile = TileManager.Instance.GetTileFromKeeper[toMove];
+                Tile currentTile = toMove.CurrentTile;
 
                 // Confirmation Panel
                 // TODO : refaire en mieux ? 
-                if (toMove.Keeper.GoListCharacterFollowing.Count == 0
-                    && currentTile == TileManager.Instance.PrisonerTile)
+                if (toMove.GetComponent<Keeper>().GoListCharacterFollowing.Count == 0
+                    && currentTile == GameManager.Instance.PrisonerInstance.CurrentTile)
                 {
-                    bool isAshleyNotAlone = false;
-                    foreach (KeeperInstance kip in GameManager.Instance.AllKeepersList)
-                    {
-                        if (kip.IsAlive)
-                        {
-                            if (kip != toMove && TileManager.Instance.PrisonerTile == TileManager.Instance.GetTileFromKeeper[kip])
-                            {
-                                isAshleyNotAlone = true;
-                                break;
-                            }
-                        }
-                    }
-                    if (isAshleyNotAlone)
+                    if (!toMove.GetComponent<Keeper>().IsTheLastKeeperOnTheTile())
                     {
                         ExploreWithoutConfirmation(_i);
                     }
@@ -206,7 +184,7 @@ public class TileTrigger : MonoBehaviour {
             }
             else
             {
-                GameManager.Instance.Ui.ZeroActionTextAnimation();
+                GameManager.Instance.Ui.ZeroActionTextAnimation(GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Keeper>());
             }
         }
     }
@@ -215,15 +193,14 @@ public class TileTrigger : MonoBehaviour {
     {
         if (GameManager.Instance.ListOfSelectedKeepers.Count > 0)
         {
-            KeeperInstance toMove = GameManager.Instance.ListOfSelectedKeepers[0];
+            PawnInstance toMove = GameManager.Instance.GetFirstSelectedKeeper();
 
-            //int costAction = interactionImplementer.Get("Move").costAction;
-            TileManager.Instance.MoveKeeper(toMove, TileManager.Instance.GetTileFromKeeper[toMove], (Direction)_i, actionCostMove);
-            GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
-            GameManager.Instance.Ui.UpdateShortcutPanel();
+            TileManager.Instance.MoveKeeper(toMove, toMove.CurrentTile, (Direction)_i, actionCostMove);
+
             GameManager.Instance.Ui.HideInventoryPanels();
 
-            toMove.IsTargetableByMonster = false;
+            if (toMove.GetComponent<Fighter>() != null)
+                toMove.GetComponent<Fighter>().IsTargetableByMonster = false;
         }
         else
         {
@@ -235,19 +212,13 @@ public class TileTrigger : MonoBehaviour {
     {
         if (GameManager.Instance.ListOfSelectedKeepers.Count > 0)
         {
-            KeeperInstance toMove = GameManager.Instance.ListOfSelectedKeepers[0];
-            //Check if the prisoner is following
-            PrisonerInstance prisoner = null;
-            if (toMove.Keeper.GoListCharacterFollowing.Count > 0 && toMove.Keeper.GoListCharacterFollowing[0].GetComponent<PrisonerInstance>())
-            {
-                prisoner = toMove.Keeper.GoListCharacterFollowing[0].GetComponent<PrisonerInstance>();
-            }
+            PawnInstance toMove = GameManager.Instance.GetFirstSelectedKeeper();
 
             // Move to explored tile
-            //int costAction = interactionImplementer.Get("Explore").costAction;
-            TileManager.Instance.MoveKeeper(toMove, TileManager.Instance.GetTileFromKeeper[toMove], (Direction)_i, actionCostExplore);
+            TileManager.Instance.MoveKeeper(toMove, toMove.CurrentTile, (Direction)_i, actionCostExplore);
+
             // Tell the tile it has been discovered (and watch it panic)
-            Tile exploredTile = TileManager.Instance.GetTileFromKeeper[toMove];
+            Tile exploredTile = toMove.CurrentTile;
             exploredTile.State = TileState.Discovered;
             foreach (Tile t in exploredTile.Neighbors)
             {
@@ -259,17 +230,26 @@ public class TileTrigger : MonoBehaviour {
             }
 
             // Apply exploration costs
-            toMove.CurrentHunger -= 5;
-            GameManager.Instance.Ui.BuffActionTextAnimation(GameManager.Instance.Ui.goHungerBuffOnStatPanel, -5);
+            if (toMove.GetComponent<HungerHandler>() != null)
+                toMove.GetComponent<HungerHandler>().CurrentHunger -= 5;
+            //GameManager.Instance.Ui.BuffActionTextAnimation(GameManager.Instance.Ui.goHungerBuffOnStatPanel, -5);
             //TODO: Apply this only when the discovered tile is unfriendly
-            toMove.CurrentMentalHealth -= 5;
-            GameManager.Instance.Ui.BuffActionTextAnimation(GameManager.Instance.Ui.goMentalHeathBuffOnStatPanel, -5);
+            if (toMove.GetComponent<MentalHealthHandler>() != null)
+                toMove.GetComponent<MentalHealthHandler>().CurrentMentalHealth -= 5;
+            //GameManager.Instance.Ui.BuffActionTextAnimation(GameManager.Instance.Ui.goMentalHeathBuffOnStatPanel, -5);
+
             // If the player is exploring with the prisoner following, apply costs to him too
-            if (prisoner != null)
+            if (toMove.GetComponent<Keeper>() != null && toMove.GetComponent<Keeper>().GoListCharacterFollowing.Count > 0)
             {
-                prisoner.CurrentHunger -= 5;
-                //TODO: Apply this only when the discovered tile is unfriendly
-                prisoner.CurrentMentalHealth -= 5;
+                foreach(GameObject follower in toMove.GetComponent<Keeper>().GoListCharacterFollowing)
+                {
+                    if (follower.GetComponent<HungerHandler>() != null)
+                        follower.GetComponent<HungerHandler>().CurrentHunger -= 5;
+
+                    //TODO: Apply this only when the discovered tile is unfriendly
+                    if (follower.GetComponent<MentalHealthHandler>() != null)
+                        follower.GetComponent<MentalHealthHandler>().CurrentMentalHealth -= 5;
+                }
             }
 
             // Apply bad effects if monsters are discovered
@@ -277,19 +257,33 @@ public class TileTrigger : MonoBehaviour {
                 && TileManager.Instance.MonstersOnTile[exploredTile] != null
                 && TileManager.Instance.MonstersOnTile[exploredTile].Count > 0)
             {
-                toMove.CurrentHp -= 5;
-                toMove.CurrentMentalHealth -= 5;
-                if (prisoner != null)
+                if (toMove.GetComponent<Mortal>() != null)
+                    toMove.GetComponent<Mortal>().CurrentHp -= 5;
+                //GameManager.Instance.Ui.BuffActionTextAnimation(GameManager.Instance.Ui.goHPBuffOnStatPanel, -5);
+
+                if (toMove.GetComponent<MentalHealthHandler>() != null)
+                    toMove.GetComponent<MentalHealthHandler>().CurrentMentalHealth -= 5;
+                //GameManager.Instance.Ui.BuffActionTextAnimation(GameManager.Instance.Ui.goMentalHeathBuffOnStatPanel, -5);
+
+                if (toMove.GetComponent<Keeper>() != null && toMove.GetComponent<Keeper>().GoListCharacterFollowing.Count > 0)
                 {
-                    prisoner.CurrentHp -= 5;
-                    prisoner.CurrentMentalHealth -= 5;
+                    foreach (GameObject follower in toMove.GetComponent<Keeper>().GoListCharacterFollowing)
+                    {
+                        if (follower.GetComponent<Mortal>() != null)
+                            follower.GetComponent<Mortal>().CurrentHp -= 5;
+
+                        //TODO: Apply this only when the discovered tile is unfriendly
+                        if (follower.GetComponent<MentalHealthHandler>() != null)
+                            follower.GetComponent<MentalHealthHandler>().CurrentMentalHealth -= 5;
+                    }
                 }
+
             }
-            GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
-            GameManager.Instance.Ui.UpdateShortcutPanel();
+
             GameManager.Instance.Ui.HideInventoryPanels();
 
-            toMove.IsTargetableByMonster = false;
+            if (toMove.GetComponent<Fighter>() != null)
+                toMove.GetComponent<Fighter>().IsTargetableByMonster = false;
         }
         else
         {

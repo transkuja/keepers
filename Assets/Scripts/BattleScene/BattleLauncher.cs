@@ -7,18 +7,17 @@ public class BattleLauncher : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.GetComponent<MonsterInstance>())
+        if (other.gameObject.GetComponent<Behaviour.Monster>() != null)
         {
             Tile tile;
-            if (GetComponentInParent<KeeperInstance>() != null)
-                tile = TileManager.Instance.GetTileFromKeeper[GetComponentInParent<KeeperInstance>()];
-            else
-                tile = TileManager.Instance.PrisonerTile;
+            tile = GetComponentInParent<PawnInstance>().CurrentTile;
 
             GetComponentInParent<NavMeshAgent>().SetDestination(transform.position);
-            foreach (MonsterInstance mi in TileManager.Instance.MonstersOnTile[tile])
+            foreach (PawnInstance mi in TileManager.Instance.MonstersOnTile[tile])
                 mi.GetComponent<NavMeshAgent>().SetDestination(mi.transform.position);
             BattleHandler.StartBattleProcess(tile);
+
+            GameManager.Instance.CameraManager.UpdateCameraPosition(GetComponentInParent<Behaviour.Keeper>().getPawnInstance);
         }
     }
 }

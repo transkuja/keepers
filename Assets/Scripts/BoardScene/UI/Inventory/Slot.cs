@@ -42,8 +42,8 @@ public class Slot : MonoBehaviour, IDropHandler
                 InventoryOwner inventaireDequi = previous.parent.GetComponent<InventoryOwner>();
                 InventoryOwner inventaireversqui = transform.parent.GetComponent<InventoryOwner>();
 
-                List<ItemContainer> inventoryKeeperDequi = inventaireDequi.Owner.GetComponent<Inventory>().List_inventaire;
-                List<ItemContainer> inventoryKeeperVersqui = inventaireversqui.Owner.GetComponent<Inventory>().List_inventaire;
+                ItemContainer[] inventoryKeeperDequi = inventaireDequi.Owner.GetComponent<Behaviour.Inventory>().Items;
+                ItemContainer[] inventoryKeeperVersqui = inventaireversqui.Owner.GetComponent<Behaviour.Inventory>().Items;
 
                 //Si les inventaires sont differents
                 if (inventaireDequi != inventaireversqui)
@@ -79,9 +79,9 @@ public class Slot : MonoBehaviour, IDropHandler
                     if (inventaireDequi.Owner.GetComponent<LootInstance>() != null)
                     {
                         bool isEmpty = true;
-                        for (int i = 0; i < inventaireDequi.Owner.GetComponent<Inventory>().List_inventaire.Count; i++)
+                        for (int i = 0; i < inventaireDequi.Owner.GetComponent<Behaviour.Inventory>().Items.Length; i++)
                         {
-                            if (inventaireDequi.Owner.GetComponent<Inventory>().List_inventaire[i] != null)
+                            if (inventaireDequi.Owner.GetComponent<Behaviour.Inventory>().Items[i] != null)
                             {
                                 isEmpty = false;
                                 break;
@@ -98,7 +98,7 @@ public class Slot : MonoBehaviour, IDropHandler
                         }
                     }
                 }
-                // Si l'inventaire est le même
+                // Si l'inventaire est le mï¿½me
                 else
                 {
                     if (hasAlreadyAnItem)
@@ -114,7 +114,6 @@ public class Slot : MonoBehaviour, IDropHandler
                             if (quantityLeft <= 0)
                             {
                                 InventoryManager.RemoveItem(inventoryKeeperDequi, eventData.pointerDrag.GetComponent<ItemInstance>().ItemContainer);
-
                             }
                         }
                         else
@@ -132,9 +131,8 @@ public class Slot : MonoBehaviour, IDropHandler
 
                 Destroy(eventData.pointerDrag.gameObject);
 
-                GameManager.Instance.Ui.UpdateInventoryPanel(inventaireDequi.Owner);
-                GameManager.Instance.Ui.UpdateInventoryPanel(inventaireversqui.Owner);
-                GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
+                inventaireDequi.Owner.GetComponent<Behaviour.Inventory>().UpdateInventories();
+                inventaireversqui.Owner.GetComponent<Behaviour.Inventory>().UpdateInventories();
             }
             // Drag Characters in battle scene
             else

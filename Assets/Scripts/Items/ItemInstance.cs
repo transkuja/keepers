@@ -88,10 +88,9 @@ public class ItemInstance : MonoBehaviour, IHavestable
     public void Harvest(int _i = 0)
     {
         int costAction = interactionImplementer.Get("Harvest").costAction;
-        if (GameManager.Instance.ListOfSelectedKeepers[0].ActionPoints >= costAction)
+        if (GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Keeper>().ActionPoints >= costAction)
         {
-            int nbSlot = GameManager.Instance.ListOfSelectedKeepers[0].Keeper.nbSlot;
-            bool isNoLeftOver = InventoryManager.AddItemToInventory(GameManager.Instance.ListOfSelectedKeepers[0].GetComponent<Inventory>().List_inventaire, nbSlot, itemContainer);
+            bool isNoLeftOver = InventoryManager.AddItemToInventory(GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Inventory>().Items, itemContainer);
             if (isNoLeftOver)
             {
 
@@ -104,13 +103,12 @@ public class ItemInstance : MonoBehaviour, IHavestable
 
             }
 
-            GameManager.Instance.ListOfSelectedKeepers[0].ActionPoints -= (short)costAction;
-            GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
-            GameManager.Instance.Ui.UpdateInventoryPanel(GameManager.Instance.ListOfSelectedKeepers[0].gameObject);
+            GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Keeper>().ActionPoints -= (short)costAction;
+            GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Inventory>().UpdateInventories();
         }
         else
         {
-            GameManager.Instance.Ui.ZeroActionTextAnimation();
+            GameManager.Instance.Ui.ZeroActionTextAnimation(GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Keeper>());
         }
     }
     public void OnMouseOver()
