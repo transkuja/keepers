@@ -108,3 +108,18 @@ namespace Behaviour
         #endregion
     }
 }
+
+/*
+ * Contains definition of battle skills 
+ */
+[System.Serializable]
+public class SkillBattle
+{
+    private int damage;
+
+    public int Damage
+    {
+        get { return damage; }
+        set { damage = value; }
+    }
+}
