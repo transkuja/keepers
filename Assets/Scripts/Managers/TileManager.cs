@@ -300,7 +300,7 @@ public class TileManager : MonoBehaviour {
         instance.tiles = helperRoot.gameObject;
         foreach (Behaviour.Monster m in instance.tiles.GetComponentsInChildren<Behaviour.Monster>())
         {
-            instance.AddMonsterOnTile(m.GetComponentInParent<Tile>(), m.getPawnInstance);
+            instance.AddMonsterOnTile(m.GetComponentInParent<Tile>(), m.GetComponent<PawnInstance>());
         }
     }
 

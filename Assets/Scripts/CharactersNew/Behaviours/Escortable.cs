@@ -17,6 +17,12 @@ namespace Behaviour
         private bool isEscorted = false;
         public Keeper escort;
 
+        // Feed
+        private int feedingSlotsCount = 2;
+
+        // @ Seb: j'ai mis ça là mais à mon avis il va falloir faire qq chose pour récupérer le panel, vois avec Rémi
+        public GameObject prisonerFeedingPanel;
+
         void Awake()
         {
             instance = GetComponent<PawnInstance>();
@@ -26,9 +32,12 @@ namespace Behaviour
 
         void Start()
         {
+            if (GetComponent<HungerHandler>() != null && GetComponent<MentalHealthHandler>() != null)
+                instance.Interactions.Add(new Interaction(InitFeeding), 1, "Feed", GameManager.Instance.SpriteUtils.spriteHarvest);
             instance.Interactions.Add(new Interaction(Escort), 0, "Escort", GameManager.Instance.SpriteUtils.spriteEscort);
         }
 
+        #region Interactions
         public void Escort(int _i = 0)
         {
             if (escort != null)
@@ -50,6 +59,17 @@ namespace Behaviour
             GetComponent<NavMeshAgent>().avoidancePriority = 50;
             ActivateEscortAction();
         }
+
+        public void InitFeeding(int _i = 0)
+        {
+            Inventory inv = gameObject.AddComponent<Inventory>();
+
+            inv.InitUI(feedingSlotsCount);
+
+            prisonerFeedingPanel.SetActive(true);
+        }
+
+        #endregion
 
         public void CreateShortcutEscortUI()
         {
@@ -96,6 +116,19 @@ namespace Behaviour
             set
             {
                 shorcutUI = value;
+            }
+        }
+
+        public int FeedingSlotsCount
+        {
+            get
+            {
+                return feedingSlotsCount;
+            }
+
+            set
+            {
+                feedingSlotsCount = value;
             }
         }
 

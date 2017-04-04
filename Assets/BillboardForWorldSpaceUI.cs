@@ -34,8 +34,8 @@ public class BillboardForWorldSpaceUI : MonoBehaviour {
                     transform.localPosition = V1 + (Vector3.up * (1.1f - GameManager.Instance.CameraManager.FZoomLerp));
                     ///////////////////////////// ! \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
                     // TODO WARNING BIG CHIASSOUILLE fix for protoprout fix quickly after ask Rémi
-                    if (GameManager.Instance.GoTarget.GetComponentInParent<KeeperInstance>() != null &&
-                        GameManager.Instance.GoTarget.GetComponentInParent<KeeperInstance>().Keeper.CharacterName == "Grekhan")
+                    if (GameManager.Instance.GoTarget.GetComponentInParent<PawnInstance>() != null &&
+                        GameManager.Instance.GoTarget.GetComponentInParent<PawnInstance>().Data.PawnName == "Grekhan")
                     {
                         transform.localPosition -= Vector3.up * 0.2f;
                     }
