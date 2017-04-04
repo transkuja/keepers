@@ -9,7 +9,9 @@ public class NewGameManager : MonoBehaviour
     private static NewGameManager instance = null;
 
     [SerializeField]
-    private PrefabUIUtils prefabUtils;
+    private PrefabUIUtils prefabUIUtils;
+    [SerializeField]
+    private PrefabUtils prefabUtils;
     [SerializeField]
     private SpriteUIUtils spriteUtils;
 
@@ -69,16 +71,16 @@ public class NewGameManager : MonoBehaviour
         }
     }
 
-    public PrefabUIUtils PrefabUtils
+    public PrefabUIUtils PrefabUIUtils
     {
         get
         {
-            return prefabUtils;
+            return prefabUIUtils;
         }
 
         set
         {
-            prefabUtils = value;
+            prefabUIUtils = value;
         }
     }
 
