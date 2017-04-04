@@ -13,13 +13,10 @@ public class NewGameManager : MonoBehaviour
     [SerializeField]
     private SpriteUIUtils spriteUtils;
 
-
-
     #region Debug Variables
     [SerializeField]
     private bool isDebugGameManager;
     #endregion
-
     
     private Database itemDataBase = new Database();
     private PawnDatabase pawnDataBase = new PawnDatabase();
@@ -34,7 +31,8 @@ public class NewGameManager : MonoBehaviour
         {
             instance = this;
             // InitAllDatabase
-            itemDataBase.Init();
+            ItemDataBase.Init();
+            PawnDataBase.Init();
             questDeckDataBase.Init();
             questDataBase.Init();
         }
@@ -83,8 +81,46 @@ public class NewGameManager : MonoBehaviour
             prefabUtils = value;
         }
     }
-    
-    public Database Database
+
+    public bool IsDebugGameManager
+    {
+        get
+        {
+            return isDebugGameManager;
+        }
+        set
+        {
+            isDebugGameManager = value;
+        }
+    }
+
+    public QuestDeckDatabase QuestDeckDataBase
+    {
+        get
+        {
+            return questDeckDataBase;
+        }
+
+        set
+        {
+            questDeckDataBase = value;
+        }
+    }
+
+    public QuestDatabase QuestDataBase
+    {
+        get
+        {
+            return questDataBase;
+        }
+
+        set
+        {
+            questDataBase = value;
+        }
+    }
+
+    public Database ItemDataBase
     {
         get
         {
@@ -97,15 +133,16 @@ public class NewGameManager : MonoBehaviour
         }
     }
 
-    public bool IsDebugGameManager
+    public PawnDatabase PawnDataBase
     {
         get
         {
-            return isDebugGameManager;
+            return pawnDataBase;
         }
+
         set
         {
-            isDebugGameManager = value;
+            pawnDataBase = value;
         }
     }
 }
