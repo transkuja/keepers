@@ -173,7 +173,7 @@ public class TileManager : MonoBehaviour {
         getTileFromKeeper.Remove(keeper);
     }
 
-    private void AddMonsterOnTile(Tile tile, PawnInstance monster)
+    public void AddMonsterOnTile(Tile tile, PawnInstance monster)
     {
         if (monster.GetComponent<Behaviour.Monster>() == null)
         {
