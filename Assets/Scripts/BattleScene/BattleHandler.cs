@@ -73,10 +73,13 @@ public class BattleHandler {
     
     private static bool ResolveBattle(List<PawnInstance> keepers, Tile tile)
     {
-        /*
+       
         List<PawnInstance> monsters = new List<PawnInstance>();
         monsters.AddRange(TileManager.Instance.MonstersOnTile[tile]);
 
+        foreach (PawnInstance m in monsters)
+            m.GetComponent<Behaviour.Mortal>().CurrentHp = 0;
+ /*
         // General melee!
         int totalDamageTaken = 0;
         int[] damageTaken = new int[keepers.Count + 1];
