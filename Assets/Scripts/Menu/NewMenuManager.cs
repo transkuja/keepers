@@ -1,31 +1,65 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using QuestDeckLoader;
+using QuestLoader; 
 
 public class NewMenuManager : MonoBehaviour {
 
     private int cardLevelSelected = -1;
+    private string deckOfCardsSelected = string.Empty;
     private List<PawnInstance> listeSelectedKeepers;
+
+    public Transform[] questDecksPosition;
 
     void Start()
     {
         listeSelectedKeepers = new List<PawnInstance>();
 
-
-        foreach (string id in NewGameManager.Instance.PawnDataBase.DicPawnDataContainer.Keys)
+        foreach( string id in NewGameManager.Instance.PawnDataBase.DicPawnDataContainer.Keys)
         {
             Debug.Log(id);
         }
 
-        foreach (string id in NewGameManager.Instance.QuestDeckDataBase.DicQuestDeck.Keys)
+        InitDeckOfCards();
+
+        for (int i = 0; i < NewGameManager.Instance.QuestDataBase.ListQuestData.Count; i++)
         {
-            Debug.Log(id);
+            Debug.Log(NewGameManager.Instance.QuestDataBase.ListQuestData[i].idQuest);
+        }
+    }
+
+    public void InitDeckOfCards()
+    {
+        for (int i = 0; i < NewGameManager.Instance.QuestDeckDataBase.ListQuestDeck.Count; i++)
+        {
+            QuestDeckData qdd = NewGameManager.Instance.QuestDeckDataBase.ListQuestDeck[i];
+
+            // Instanciation du deck
+            GameObject goDeck = Instantiate(NewGameManager.Instance.PrefabUtils.prefabQuestDeck);
+            goDeck.transform.SetParent(questDecksPosition[i], false);
+
+            // Recuperation du component deck of cards for selection in menu
+            DeckOfCards deckOfCards = goDeck.GetComponent<DeckOfCards>();
+            if (deckOfCards != null && qdd.idQuestDeck != string.Empty)
+            {
+                deckOfCards.idQuestDeck = qdd.idQuestDeck;
+                goDeck.layer = LayerMask.NameToLayer("DeckOfCards");
+                if (qdd.materialQuestDeck != null)
+                {
+                    goDeck.GetComponent<MeshRenderer>().material = qdd.materialQuestDeck;
+                }
+                else
+                {
+                    Debug.Log("No material found.");
+                }
+            }
+            else
+            {
+                Debug.Log("Deck with no id to set on the prefab");
+            }
         }
 
-        foreach (string id in NewGameManager.Instance.QuestDataBase.DicQuestDataContainer.Keys)
-        {
-            Debug.Log(id);
-        }
     }
 
     #region Accessors
@@ -39,6 +73,19 @@ public class NewMenuManager : MonoBehaviour {
         set
         {
             cardLevelSelected = value;
+        }
+    }
+
+    public string DeckOfCardsSelected
+    {
+        get
+        {
+            return deckOfCardsSelected;
+        }
+
+        set
+        {
+            deckOfCardsSelected = value;
         }
     }
 

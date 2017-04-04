@@ -3,7 +3,7 @@
 		{
 			"id": "deck_01",
 			"name" : "tuto",
-			"sprite" : "",
+			"material" : "Deck/Deck01_mat",
 			"main" : {
 				"id": "quest_01"
 			},

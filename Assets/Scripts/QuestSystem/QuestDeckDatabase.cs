@@ -3,50 +3,51 @@ using UnityEngine;
 using System.IO;
 using Boomlagoon.JSON;
 
-namespace QuestSystem
+namespace QuestDeckLoader
 {
+    public class QuestAssociationDealer
+    {
+        public string idQuest;
+        public string idQuestDealer;
+
+        public QuestAssociationDealer()
+        {
+            // For tests
+            idQuest = "defaultIdQuest";
+            idQuestDealer = "defaultIdQuestDealer";
+        }
+    }
+
+    public class QuestDeckData
+    {
+        public string idQuestDeck;
+        public string nameQuestDeck;
+        public Material materialQuestDeck;
+        public string idMainQuest;
+        public List<QuestAssociationDealer> secondaryQuests;
+
+        public QuestDeckData()
+        {
+            // For tests
+            idQuestDeck = "defaultId";
+            nameQuestDeck = "defaultQuestDeckName";
+            materialQuestDeck = null;
+            idMainQuest = "defaultIdMainQuest";
+
+            // Not for tests
+            secondaryQuests = new List<QuestAssociationDealer>();
+        }
+    }
+
     public class QuestDeckDatabase
     {
-        public class QuestAssociationDealer
-        {
-            public string idQuest;
-            public string idQuestDealer;
-
-            public QuestAssociationDealer()
-            {
-                // For tests
-                idQuest = "defaultIdQuest";
-                idQuestDealer = "defaultIdQuestDealer";
-            }
-        }
-
-        public class QuestDeckDataContainer
-        {
-            public string idQuestDeck;
-            public string nameQuestDeck;
-            public Sprite spriteQuestDeck;
-            public string idMainQuest;
-            public List<QuestAssociationDealer> secondaryQuests;
-
-            public QuestDeckDataContainer()
-            {
-                // For tests
-                idQuestDeck = "defaultId";
-                nameQuestDeck = "defaultQuestDeckName";
-                spriteQuestDeck = null;
-                idMainQuest = "defaultIdMainQuest";
-
-                // Not for tests
-                secondaryQuests = new List<QuestAssociationDealer>();
-            }
-        }
-
-        Dictionary<string, QuestDeckDataContainer> dicQuestDeck;
+       
+        List<QuestDeckData> listeQuestDeck;
 
         // Use this for initialization
         public QuestDeckDatabase()
         {
-            dicQuestDeck = new Dictionary<string, QuestDeckDataContainer>();
+            listeQuestDeck = new List<QuestDeckData>();
         }
 
         public void Init()
@@ -60,7 +61,7 @@ namespace QuestSystem
 
             foreach (JSONValue questDeck in questDeckArray)
             {
-                QuestDeckDataContainer newQuestDeckDataContainer = new QuestDeckDataContainer();
+                QuestDeckData newQuestDeckDataContainer = new QuestDeckData();
                 foreach (KeyValuePair<string, JSONValue> deckQuestEntry in questDeck.Obj)
                 {
                     switch (deckQuestEntry.Key)
@@ -72,9 +73,9 @@ namespace QuestSystem
                         case "name":
                             newQuestDeckDataContainer.nameQuestDeck = deckQuestEntry.Value.Str;
                             break;
-                        case "sprite":
-                            // if null -> didn't the corresponding sprite
-                            newQuestDeckDataContainer.spriteQuestDeck = Resources.Load(deckQuestEntry.Value.Str) as Sprite;
+                        case "material":
+                            // if null -> didn't the corresponding material
+                            newQuestDeckDataContainer.materialQuestDeck = Resources.Load(deckQuestEntry.Value.Str) as Material;
                             break;
                         case "main":
                             newQuestDeckDataContainer.idMainQuest = deckQuestEntry.Value.Str;
@@ -102,20 +103,15 @@ namespace QuestSystem
                             break;
                     }
                 }
-                dicQuestDeck.Add(newQuestDeckDataContainer.idQuestDeck, newQuestDeckDataContainer);
+                listeQuestDeck.Add(newQuestDeckDataContainer);
             }
         }
         #region Accessors
-        public Dictionary<string, QuestDeckDataContainer> DicQuestDeck
+        public List<QuestDeckData> ListQuestDeck
         {
             get
             {
-                return dicQuestDeck;
-            }
-
-            set
-            {
-                dicQuestDeck = value;
+                return listeQuestDeck;
             }
         }
         #endregion

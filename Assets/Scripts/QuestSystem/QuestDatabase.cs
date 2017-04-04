@@ -5,7 +5,7 @@ using System.IO;
 using System;
 using Boomlagoon.JSON;
 
-namespace QuestSystem
+namespace QuestLoader
 {
     public class QuestDatabase
     {
@@ -17,7 +17,7 @@ namespace QuestSystem
             public string hint;
         }
 
-        public class QuestDataContainer
+        public class QuestData
         {
             public string idQuest;
             public string nameQuest;
@@ -25,19 +25,19 @@ namespace QuestSystem
             public string idQuestDealer;
             // Reward
 
-            public QuestDataContainer()
+            public QuestData()
             {
                 informationsQuest = new InformationQuestData();
             }
         }
 
 
-        Dictionary<string, QuestDataContainer> dicQuestDataContainer;
+        List<QuestData> listQuest;
 
         // Use this for initialization
         public QuestDatabase()
         {
-            dicQuestDataContainer = new Dictionary<string, QuestDataContainer>();
+            listQuest = new List<QuestData>();
         }
 
         public void Init()
@@ -51,7 +51,7 @@ namespace QuestSystem
 
             foreach (JSONValue value in questsArray)
             {
-                QuestDataContainer newQuestDataContainer = new QuestDataContainer();
+                QuestData newQuestDataContainer = new QuestData();
                 foreach (KeyValuePair<string, JSONValue> questEntry in value.Obj)
                 {
                     switch (questEntry.Key)
@@ -83,21 +83,16 @@ namespace QuestSystem
                             break;
                     }
                 }
-                dicQuestDataContainer.Add(newQuestDataContainer.idQuest, newQuestDataContainer);
+                listQuest.Add(newQuestDataContainer);
             }
         }
 
         #region Accessors
-        public Dictionary<string, QuestDataContainer> DicQuestDataContainer
+        public List<QuestData> ListQuestData
         {
             get
             {
-                return dicQuestDataContainer;
-            }
-
-            set
-            {
-                dicQuestDataContainer = value;
+                return listQuest;
             }
         }
 

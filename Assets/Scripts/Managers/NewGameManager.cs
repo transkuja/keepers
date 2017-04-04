@@ -3,6 +3,8 @@ using UnityEngine.SceneManagement;
 using UnityEngine;
 using QuestSystem;
 using Behaviour;
+using QuestDeckLoader;
+using QuestLoader;
 
 public class NewGameManager : MonoBehaviour
 {
@@ -55,32 +57,6 @@ public class NewGameManager : MonoBehaviour
         get
         {
             return instance;
-        }
-    }
-
-    public SpriteUIUtils SpriteUtils
-    {
-        get
-        {
-            return spriteUtils;
-        }
-
-        set
-        {
-            spriteUtils = value;
-        }
-    }
-
-    public PrefabUIUtils PrefabUIUtils
-    {
-        get
-        {
-            return prefabUIUtils;
-        }
-
-        set
-        {
-            prefabUIUtils = value;
         }
     }
 
@@ -145,6 +121,30 @@ public class NewGameManager : MonoBehaviour
         set
         {
             pawnDataBase = value;
+        }
+    }
+
+    public SpriteUIUtils SpriteUtils
+    {
+        get
+        {
+            return spriteUtils;
+        }
+    }
+
+    public PrefabUIUtils PrefabUIUtils
+    {
+        get
+        {
+            return prefabUIUtils;
+        }
+    }
+
+    public PrefabUtils PrefabUtils
+    {
+        get
+        {
+            return prefabUtils;
         }
     }
 }

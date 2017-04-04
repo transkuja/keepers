@@ -31,7 +31,29 @@ public class NewMenuControls : MonoBehaviour {
 
     public void DeckSelectionControls()
     {
+        if (Input.GetMouseButtonDown(0))
+        {
+            RaycastHit hit;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
+            LayerMask DeckOfCardsLayerMask = 1 << LayerMask.NameToLayer("DeckOfCards");
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, DeckOfCardsLayerMask) == true)
+            {
+                DeckOfCards card = hit.transform.gameObject.GetComponent<DeckOfCards>();
+                if (card != null)
+                {
+                    if (menuManager.DeckOfCardsSelected == card.idQuestDeck)
+                    {
+                        menuManager.DeckOfCardsSelected = string.Empty;
+                    }
+                    else
+                    {
+                        menuManager.DeckOfCardsSelected = card.idQuestDeck;
+                    }
+                    menuUI.UpdateDeckSelection();
+                }
+            }
+        }
     }
 
     public void LevelSelectionControls()
@@ -41,8 +63,8 @@ public class NewMenuControls : MonoBehaviour {
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-            LayerMask keeperLayerMask = 1 << LayerMask.NameToLayer("CardLevel"); ;
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, ~keeperLayerMask) == true)
+            LayerMask cardLevelLayerMask = 1 << LayerMask.NameToLayer("CardLevel"); ;
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, cardLevelLayerMask) == true)
             {
                 CardLevel card = hit.transform.gameObject.GetComponent<CardLevel>();
                 if (card != null)
@@ -70,7 +92,7 @@ public class NewMenuControls : MonoBehaviour {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
             LayerMask keeperLayerMask = 1 << LayerMask.NameToLayer("KeeperInstance"); ;
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, ~keeperLayerMask) == true)
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, keeperLayerMask) == true)
             {
                 PawnInstance pi = hit.transform.gameObject.GetComponent<PawnInstance>();
                 if (pi != null)
