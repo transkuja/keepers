@@ -97,7 +97,7 @@ public class GameManager : MonoBehaviour
         }
 
 
-        if (SceneManager.GetActiveScene().buildIndex != 0)
+        if (SceneManager.GetActiveScene().name != "Menu")
         {
             // TODO : @Rémi @Rustine : recuperer les positions de départ du prisonnier et des keepers
             //tileManager.Init();
