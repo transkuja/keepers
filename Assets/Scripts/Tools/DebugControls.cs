@@ -10,7 +10,7 @@ public class DebugControls : MonoBehaviour {
     [SerializeField]
     GameObject monsterToPopPrefab;
     [SerializeField]
-    GameObject itemsToPopPrefab;
+    [Range(1, 99)] int itemsToPopAmount = 1;
     [SerializeField]
     GameObject debugCanvas;
 
@@ -98,7 +98,11 @@ public class DebugControls : MonoBehaviour {
             // Pop an item on the ground
             if (Input.GetKeyDown(KeyCode.Alpha7))
             {
-                // @ Remi/Seb faites le j'comprends rien à l'inventory
+                ItemContainer[] itemToSpawn = new ItemContainer[1];
+                Debug.Log(GameManager.Instance.Database.ItemsList.Count);
+                itemToSpawn[0] = new ItemContainer(GameManager.Instance.Database.ItemsList[Random.Range(0, GameManager.Instance.Database.ItemsList.Count)], itemsToPopAmount);
+                ItemManager.AddItemOnTheGround(GameManager.Instance.GetFirstSelectedKeeper().CurrentTile, GameManager.Instance.GetFirstSelectedKeeper().CurrentTile.transform, itemToSpawn);
+
                 Debug.Log("Not implemented yet.");
             }
 
