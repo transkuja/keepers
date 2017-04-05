@@ -153,16 +153,16 @@ namespace Behaviour
             ShortcutHPUI = Instantiate(GameManager.Instance.PrefabUtils.PrefabHPUI);
         }
 
-        public void UpdateHPPanel(int hunger)
+        public void UpdateHPPanel(int currentHp)
         {
             if (instance.GetComponent<Escortable>() != null)
             {
-                ShortcutHPUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)hunger / (float)Data.MaxHp;
+                ShortcutHPUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)currentHp / (float)Data.MaxHp;
             }
             else if (instance.GetComponent<Keeper>() != null)
             {
-                SelectedHPUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)hunger / (float)Data.MaxHp;
-                ShortcutHPUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)hunger / (float)Data.MaxHp;
+                SelectedHPUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)currentHp / (float)Data.MaxHp;
+                ShortcutHPUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)currentHp / (float)Data.MaxHp;
             }
 
         }
