@@ -60,34 +60,30 @@ namespace Behaviour
         {
             if (GetComponent<Keeper>() != null)
             {
-                // TODO refacto TileManager needed
-                //Debug.Log("Blaeuurgh... *dead*");
-                //Tile currentTile = TileManager.Instance.GetTileFromKeeperOld[this];
+                Debug.Log("Blaeuurgh... *dead*");
+                PawnInstance pawnInstance = GetComponent<PawnInstance>();
 
-                //// Drop items
-                //ItemManager.AddItemOnTheGround(currentTile, transform, GetComponent<Behaviour.Inventory>().Items);
+                // Drop items
+                ItemManager.AddItemOnTheGround(pawnInstance.CurrentTile, transform, GetComponent<Inventory>().Items);
 
-                //// Remove reference from tiles
-                //TileManager.Instance.RemoveKilledKeeperOld(this);
+                // Remove reference from tiles
+                TileManager.Instance.RemoveKilledKeeper(pawnInstance);
 
-                //// Death operations
+                // Death operations
+                // TODO @Rémi, il me faut de quoi mettre a jour le shortcut panel pour afficher l'icone de mort
                 //GameManager.Instance.ShortcutPanel_NeedUpdate = true;
 
-                //GlowController.UnregisterObject(GetComponent<GlowObjectCmd>());
-                //anim.SetTrigger("triggerDeath");
+                GlowController.UnregisterObject(GetComponent<GlowObjectCmd>());
+                GetComponent<AnimatedPawn>().Anim.SetTrigger("triggerDeath");
 
-                //// Try to fix glow bug
-                //Destroy(GetComponent<GlowObjectCmd>());
+                // Try to fix glow bug
+                Destroy(GetComponent<GlowObjectCmd>());
 
-                //GameManager.Instance.Ui.HideSelectedKeeperPanel();
-                //GameManager.Instance.CheckGameState();
+                GetComponent<Keeper>().ShowSelectedPanelUI(false);
+                GameManager.Instance.CheckGameState();
 
-                //// Deactivate pawn
-                //DeactivatePawn();
-            }
-            else if (GetComponent<Monster>() != null)
-            {
-
+                // Deactivate pawn
+                DeactivatePawn();
             }
             else
             {

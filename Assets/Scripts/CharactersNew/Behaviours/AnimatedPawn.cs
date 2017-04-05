@@ -169,6 +169,19 @@ namespace Behaviour
                 arrivingTrigger = value;
             }
         }
+
+        public Animator Anim
+        {
+            get
+            {
+                return anim;
+            }
+
+            set
+            {
+                anim = value;
+            }
+        }
         #endregion
     }
 }

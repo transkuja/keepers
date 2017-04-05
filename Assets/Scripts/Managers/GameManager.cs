@@ -163,20 +163,29 @@ public class GameManager : MonoBehaviour
         //}
         //else
         //{
-        //    short nbDead = 0;
-        //    foreach (KeeperInstance ki in AllKeepersListOld)
-        //    {
-        //        if (!ki.IsAlive)
-        //        {
-        //            nbDead++;
-        //        }
-        //    }
+        short nbDead = 0;
+        short nbImmortal = 0;
+        foreach (PawnInstance pi in AllKeepersList)
+        {
 
-        //    if (nbDead == allKeepersList.Count)
-        //    {
-        //        Debug.Log("GameOver - All Keepers died");
-        //        Lose();
-        //    }
+            if (pi.GetComponent<Mortal>() == null)
+            {
+                nbImmortal++;
+            }
+            else
+            {
+                if (!pi.GetComponent<Mortal>().IsAlive)
+                {
+                    nbDead++;
+                }
+            }
+        }
+
+        if (nbDead == allKeepersList.Count - nbImmortal)
+        {
+            Debug.Log("GameOver - All Keepers died");
+            Lose();
+        }
         //}
 
     }

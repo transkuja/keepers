@@ -41,7 +41,6 @@ public class DebugControls : MonoBehaviour {
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
                 Debug.Log("Killed " + GameManager.Instance.GetFirstSelectedKeeper().Data.PawnName + " using debug tools.");
-                Debug.LogWarning("Pawn death is broken.");
                 GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Mortal>().CurrentHp = 0;
             }
 
