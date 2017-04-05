@@ -171,11 +171,11 @@ namespace Behaviour
 
 
                     go.transform.GetComponentInChildren<Text>().text = "";
+                }
             }
         }
-    }
 
-        public void ShowSelectdePanelUI(bool isShow)
+        public void ShowSelectedPanelUI(bool isShow)
         {
             SelectedPanelUI.SetActive(isShow);
         }
@@ -287,7 +287,7 @@ namespace Behaviour
                 {
                     GameManager.Instance.CameraManager.UpdateCameraPosition(instance);
                 }
-                ShowSelectdePanelUI(isSelected);
+                ShowSelectedPanelUI(isSelected);
                 GameManager.Instance.Ui.ClearActionPanel();
                 GameManager.Instance.Ui.HideInventoryPanels();
             }
