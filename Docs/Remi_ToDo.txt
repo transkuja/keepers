@@ -1,0 +1,10 @@
+behaviours ajouté par le caractère initializer ?
+Initialisation de l'ui par des methode initUI appelle dans l'ordre dans le caractere initialisru
+pawn mis dans la boite sans leur behaviour
+pas de selection de card level
+carte event lie a des type de tile des jours, mis sur un composant climat des tiles
+mise en place du tuto fonctions des jours genre cinematiqe : jour 1 explication camera, ui, carte objectif et actions, jour 2 constat que les stats on diminué, les caracs de combat et les events
+feedback au dessus des perso défini par un transfomr au dessus d'eux fixée des la prefab
+prefabui -> ajout les actions points a gérer dynamiquement ( enlever le destroy dans escortable)
+changer le fond du short cut.
+Feed back stat qui diminue ? 
