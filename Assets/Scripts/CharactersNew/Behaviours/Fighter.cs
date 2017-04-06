@@ -15,9 +15,13 @@ namespace Behaviour
         // Monster variables
         bool hasRecentlyBattled = false;
 
-        // TODO add battle associated fields
+        // Battle stats
         [SerializeField]
         private List<SkillBattle> battleSkills;
+        [SerializeField]
+        int nbrOfDice;
+        [SerializeField]
+        Die[] dice;
 
         void Start()
         {
