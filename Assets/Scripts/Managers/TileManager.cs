@@ -11,7 +11,8 @@ public enum TilePrefabChildren
 {
     Model,
     PortalTriggers,
-    SpawnPoints
+    SpawnPoints,
+    BeginPositions // Only on begin tile
 }
 
 /// <summary>
@@ -30,9 +31,8 @@ public class TileManager : MonoBehaviour {
     GameObject beginTile;
     GameObject endTile;
 
-    void Awake()
+    public void Init()
     {
-
         if (instance == null)
         {
             instance = this;
@@ -44,20 +44,6 @@ public class TileManager : MonoBehaviour {
             Destroy(gameObject);
         }
         DontDestroyOnLoad(instance.gameObject);
-    
-    }
-
-    public Tile PrisonerTile
-    {
-        get
-        {
-            return prisonerTile;
-        }
-
-        set
-        {
-            prisonerTile = value;
-        }
     }
 
     public void MoveKeeper(PawnInstance keeper, Tile from, Direction direction, int costAction)
@@ -304,10 +290,7 @@ public class TileManager : MonoBehaviour {
         }
     }
 
-    /* ------------------------------------------------------------------------------------ */
-    /* ------------------------------------- Accessors ------------------------------------ */
-    /* ------------------------------------------------------------------------------------ */
-
+    #region Accessors
     public static TileManager Instance
     {
         get
@@ -340,6 +323,44 @@ public class TileManager : MonoBehaviour {
         }
     }
 
+    public Tile PrisonerTile
+    {
+        get
+        {
+            return prisonerTile;
+        }
+
+        set
+        {
+            prisonerTile = value;
+        }
+    }
+
+    public GameObject BeginTile
+    {
+        get
+        {
+            return beginTile;
+        }
+
+        set
+        {
+            beginTile = value;
+        }
+    }
+
+    public Transform[] GetBeginPositions
+    {
+        get
+        {
+            int beginPositionsCount = instance.beginTile.transform.GetChild((int)TilePrefabChildren.BeginPositions).childCount;
+            Transform[] beginPositions = new Transform[beginPositionsCount];
+            for (int i = 0; i < beginPositionsCount; i++)
+                beginPositions[i] = instance.beginTile.transform.GetChild((int)TilePrefabChildren.BeginPositions).GetChild(i);
+            return beginPositions;
+        }
+    }
+
     public GameObject EndTile
     {
         get
@@ -352,4 +373,5 @@ public class TileManager : MonoBehaviour {
             endTile = value;
         }
     }
+    #endregion
 }

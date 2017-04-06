@@ -6,11 +6,11 @@ using UnityEngine.AI;
 
 public class CharactersInitializer : MonoBehaviour {
 
-    public void Init(GameObject[] beginPositionsKeepers, GameObject beginPositionPrisonnier)
+    public void Init(Transform[] beginPositionsKeepers, GameObject beginPositionPrisonnier)
     {
         for (int i = 0; i < GameManager.Instance.AllKeepersList.Count; i++)
         {
-            GameManager.Instance.AllKeepersList[i].transform.position = beginPositionsKeepers[i].transform.position;
+            GameManager.Instance.AllKeepersList[i].transform.position = beginPositionsKeepers[i].position;
             GameManager.Instance.AllKeepersList[i].transform.SetParent(null);
             GameManager.Instance.AllKeepersList[i].transform.rotation = Quaternion.identity;
             GameManager.Instance.AllKeepersList[i].transform.localScale = Vector3.one;

@@ -99,26 +99,15 @@ public class GameManager : MonoBehaviour
 
         if (SceneManager.GetActiveScene().name != "Menu")
         {
-            // TODO : @Rémi @Rustine : recuperer les positions de départ du prisonnier et des keepers
-            //tileManager.Init();
-            //Transform[] beginPositionsKeepers = tileManager.beginPositionsKeepers;
-            GameObject[] beginPositionsKeepers = new GameObject[allKeepersList.Count];
-            for (int i = 0; i < allKeepersList.Count; i++)
-            {
-                GameObject beginPositionKeeper = new GameObject();
-                beginPositionKeeper.transform.position = Vector3.zero;
-                beginPositionsKeepers[i] = beginPositionKeeper;
-            }
-            //Transform[] beginPositionPrisonnier = tileManager.beginPositionPrisonnier;
+            tileManager.Init();
+            Transform[] beginPositionsKeepers = tileManager.GetBeginPositions;
+            
+            // TODO: retrieve position using main quest 
             GameObject beginPositionPrisonnier = new GameObject();
             beginPositionPrisonnier.transform.position = Vector3.zero;
 
             characterInitializer.Init(beginPositionsKeepers, beginPositionPrisonnier);
 
-            foreach(GameObject go in beginPositionsKeepers)
-            {
-                Destroy(go);
-            }
             Destroy(beginPositionPrisonnier);
         }
 
