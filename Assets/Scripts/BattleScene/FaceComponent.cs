@@ -33,12 +33,19 @@ public class FaceComponent : MonoBehaviour {
         }
     }
 
+    private void Start()
+    {
+        scoredFace = null;
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (GetComponentInParent<Rigidbody>().velocity.magnitude <= 0)
         {
-            // TODO save scored face, this should be the face opposite
-            // scoredFace = 
+            if (transform.GetSiblingIndex() % 2 == 0)
+                scoredFace = transform.parent.GetChild(transform.GetSiblingIndex() + 1).GetComponent<FaceComponent>().faceData;
+            else
+                scoredFace = transform.parent.GetChild(transform.GetSiblingIndex() - 1).GetComponent<FaceComponent>().faceData;
         }
     }
 }

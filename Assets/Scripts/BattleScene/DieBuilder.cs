@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DieBuilder : MonoBehaviour {
 
-	public static void BuildDie(Die dieToBuild)
+	public static GameObject BuildDie(Die dieToBuild)
     {
         if (dieToBuild.NbrOfFaces == 6)
         {
@@ -25,6 +25,10 @@ public class DieBuilder : MonoBehaviour {
             faceColliders[3].GetComponent<SphereCollider>().center += new Vector3(-bounds.extents.y, 0, 0);
             faceColliders[4].GetComponent<SphereCollider>().center += new Vector3(bounds.extents.z, 0, 0);
             faceColliders[5].GetComponent<SphereCollider>().center += new Vector3(-bounds.extents.z, 0, 0);
+            return dieInstance;
         }
+
+        Debug.LogWarning("Nbr of faces != 6 not supported. Crash in 3, 2, 1 ...");
+        return null;
     }
 }

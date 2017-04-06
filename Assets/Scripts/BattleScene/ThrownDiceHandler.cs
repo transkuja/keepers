@@ -7,22 +7,18 @@ public class ThrownDiceHandler : MonoBehaviour {
     Die[] diceForCurrentThrow;
     bool isRunning = false;
     int stoppedDice = 0;
-
-    // isRunning
-    // Init(diceForCurrentThrow)
-    // build dice
-    // throw 'em
-    // Update check dice status
-    // RollEnded method, clean the handler, send data to battle handler
+    GameObject[] diceInstance;
 
     public void InitThrow(Die[] diceForThrow)
     {
         if (!isRunning)
         {
             diceForCurrentThrow = diceForThrow;
+            diceInstance = new GameObject[diceForCurrentThrow.Length];
+
             for (int i = 0; i < diceForCurrentThrow.Length; i++)
             {
-                DieBuilder.BuildDie(diceForCurrentThrow[i]);
+                diceInstance[i] = DieBuilder.BuildDie(diceForCurrentThrow[i]);
             }
             isRunning = true;
         }
@@ -44,12 +40,32 @@ public class ThrownDiceHandler : MonoBehaviour {
         // TODO show/mask validation button
     }
 
+    // TODO link this function to the button
     public void SendDataToBattleHandler()
     {
-        // TODO link this function to the button
-        // BattleHandler.ReceiveData();
+        Face[] throwResult = GatherResults();
+        BattleHandler.ReceiveDiceThrowData(throwResult);
         isRunning = false;
         diceForCurrentThrow = null;
-        // DieBuilder.DestroyDice();
+        for (int i = 0; i < diceInstance.Length; i++)
+            Destroy(diceInstance[i]);
+    }
+
+    private Face[] GatherResults()
+    {
+        Face[] result = new Face[diceInstance.Length];
+        for (int i = 0; i < diceInstance.Length; i++)
+        {
+            // TODO pretty ugly handling, the handler should receive the throw result instead
+            for (int j = 0; j < diceInstance[i].transform.childCount; j++)
+            {
+                if (diceInstance[i].transform.GetChild(j).GetComponent<FaceComponent>().ScoredFace != null)
+                {
+                    result[i] = diceInstance[i].transform.GetChild(j).GetComponent<FaceComponent>().ScoredFace;
+                    break;
+                }
+            }
+        }
+        return result;
     }
 }

@@ -12,6 +12,7 @@ public class BattleHandler {
 
     // Debug parameters
     private static bool isDebugModeActive = false;
+    private static Face[] lastThrowResult;
 
     /// <summary>
     /// Autoselect keepers if there are not enough for a selection
@@ -65,6 +66,11 @@ public class BattleHandler {
 
         PrintResultsScreen(isVictorious);
         PostBattleCommonProcess(selectedKeepersForBattle, tile);
+    }
+
+    public static void ReceiveDiceThrowData(Face[] _result)
+    {
+        lastThrowResult = _result;
     }
 
     /*
