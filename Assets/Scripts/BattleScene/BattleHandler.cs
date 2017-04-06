@@ -77,8 +77,23 @@ public class BattleHandler {
         List<PawnInstance> monsters = new List<PawnInstance>();
         monsters.AddRange(TileManager.Instance.MonstersOnTile[tile]);
 
+        // TODO @Anthony temporary
         foreach (PawnInstance m in monsters)
             m.GetComponent<Behaviour.Mortal>().CurrentHp = 0;
+
+        // Battle loop
+        // -- Keepers turn
+        // -- -- Keeper turn
+        // -- -- -- Throw dices for special skills
+        // -- -- -- -- Attack/Defend/Use special skill
+        // -- -- -- -- -- if attack or defend -> throw dices again
+        // -- -- -- -- -- for attack, apply result directly for offensive strike
+        // -- -- -- -- -- for defense, add result to current defense stock, consumed first
+        // -- -- -- -- -- if special skill, just resolve the special skill
+        // -- Monsters turn
+        // -- -- Monster turn
+        // -- -- -- Same pattern? Fix set of skill battles with algorithm to determine which skill use?
+
  /*
         // General melee!
         int totalDamageTaken = 0;
