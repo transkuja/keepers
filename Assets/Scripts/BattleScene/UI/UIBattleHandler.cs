@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum BattleUIButtons { MainButtons, Skills, ThrowDice, ValidateThrow }
+public enum UIBattleState { WaitForDiceThrow, DiceRolling, WaitForDiceThrowValidation, Actions, SkillsOpened, Disabled }
+
 public class UIBattleHandler : MonoBehaviour {
 
     [SerializeField]
@@ -9,9 +12,15 @@ public class UIBattleHandler : MonoBehaviour {
     [SerializeField]
     private GameObject skillsButtons;
     [SerializeField]
-    private GameObject itemsButtons;
+    private GameObject throwDiceButton;
     [SerializeField]
-    private GameObject switchButtons;
+    private GameObject sendDiceResultsButton;
+
+
+    void OnEnable()
+    {
+        ChangeState(UIBattleState.WaitForDiceThrow);
+    }
 
     public void PressAttackButton()
     {
@@ -21,16 +30,8 @@ public class UIBattleHandler : MonoBehaviour {
     public void PressSkillsButton()
     {
         // Retrieve skills list and print them on UI (disable all buttons, enable Skills buttons)
-        mainButtons.SetActive(false);
-        skillsButtons.SetActive(true);
+        ChangeState(UIBattleState.SkillsOpened);
 
-    }
-
-    public void PressItemsButton()
-    {
-        // Retrieve items from GameManager? (disable all buttons, enable battle Items buttons)
-        mainButtons.SetActive(false);
-        itemsButtons.SetActive(true);
     }
 
     public void PressGuardButton()
@@ -38,17 +39,59 @@ public class UIBattleHandler : MonoBehaviour {
         // Retrieve current character from CharacterManager to process guard
     }
 
-    public void PressSwitchButton()
-    {
-        // Retrieve characters on same tile from some Manager (disable all buttons, enable Switch buttons with Character names on it)
-        mainButtons.SetActive(false);
-        switchButtons.SetActive(true);
-
-    }
-
     public void PressRunButton()
     {
         // Run process here
     }
 
+    public void ChangeState(UIBattleState newState)
+    {
+        switch(newState)
+        {
+            case UIBattleState.Actions:
+                mainButtons.SetActive(true);
+                skillsButtons.SetActive(false);
+                sendDiceResultsButton.SetActive(false);
+                throwDiceButton.SetActive(false);
+                break;
+            case UIBattleState.Disabled:
+                mainButtons.SetActive(false);
+                skillsButtons.SetActive(false);
+                sendDiceResultsButton.SetActive(false);
+                throwDiceButton.SetActive(false);
+                break;
+            case UIBattleState.SkillsOpened:
+                mainButtons.SetActive(false);
+                skillsButtons.SetActive(true);
+                break;
+            case UIBattleState.WaitForDiceThrow:
+                mainButtons.SetActive(false);
+                skillsButtons.SetActive(false);
+                sendDiceResultsButton.SetActive(false);
+                throwDiceButton.SetActive(true);
+                break;
+            case UIBattleState.WaitForDiceThrowValidation:
+                sendDiceResultsButton.SetActive(true);
+                break;
+            case UIBattleState.DiceRolling:
+                mainButtons.SetActive(false);
+                skillsButtons.SetActive(false);
+                throwDiceButton.SetActive(false);
+                break;
+
+        }
+    }
+
+    public GameObject SendDiceResultsButton
+    {
+        get
+        {
+            return sendDiceResultsButton;
+        }
+
+        set
+        {
+            sendDiceResultsButton = value;
+        }
+    }
 }

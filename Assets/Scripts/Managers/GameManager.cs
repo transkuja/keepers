@@ -341,6 +341,11 @@ public class GameManager : MonoBehaviour
         screen.gameObject.SetActive(true);
     }
 
+    public GameObject GetBattleUI()
+    {
+        return ui.battleUI;
+    }
+
 
     public Database Database
     {

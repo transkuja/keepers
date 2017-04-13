@@ -7,11 +7,13 @@ namespace Behaviour
     public class Fighter : MonoBehaviour
     {
         PawnInstance instance;
+        // TODO: externalize this in Monster
         bool isAMonster;
 
         // Non monster variables
         bool isTargetableByMonster = true;
 
+        // TODO: externalize this in Monster
         // Monster variables
         bool hasRecentlyBattled = false;
 
@@ -22,6 +24,12 @@ namespace Behaviour
         int nbrOfDice;
         [SerializeField]
         Die[] dice;
+
+        // Instance variables
+        int physicalSymbolStored = 0;
+        int magicalSymbolStored = 0;
+        int defensiveSymbolStored = 0;
+        int supportSymbolStored = 0;
 
         void Start()
         {
@@ -57,6 +65,7 @@ namespace Behaviour
             }
         }
 
+        // TODO: externalize this in Monster
         public bool HasRecentlyBattled
         {
             get
@@ -70,6 +79,7 @@ namespace Behaviour
             }
         }
 
+        // TODO: externalize this in Monster
         public bool IsAMonster
         {
             get
@@ -82,9 +92,74 @@ namespace Behaviour
                 isAMonster = value;
             }
         }
+
+        public Die[] Dice
+        {
+            get
+            {
+                return dice;
+            }
+
+            set
+            {
+                dice = value;
+            }
+        }
+
+        public int PhysicalSymbolStored
+        {
+            get
+            {
+                return physicalSymbolStored;
+            }
+
+            set
+            {
+                physicalSymbolStored = value;
+            }
+        }
+
+        public int MagicalSymbolStored
+        {
+            get
+            {
+                return magicalSymbolStored;
+            }
+
+            set
+            {
+                magicalSymbolStored = value;
+            }
+        }
+
+        public int DefensiveSymbolStored
+        {
+            get
+            {
+                return defensiveSymbolStored;
+            }
+
+            set
+            {
+                defensiveSymbolStored = value;
+            }
+        }
+
+        public int SupportSymbolStored
+        {
+            get
+            {
+                return supportSymbolStored;
+            }
+
+            set
+            {
+                supportSymbolStored = value;
+            }
+        }
         #endregion
 
-
+        // TODO: externalize this in Monster
         #region Monster functions
         public void RestAfterBattle()
         {

@@ -1,18 +1,25 @@
 ﻿using UnityEngine.UI;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
-using Random = UnityEngine.Random;
+using Behaviour;
 
 public class BattleHandler {
     private enum AttackType { Physical, Magical }
+    // Current battle data
+    private static Face[] lastThrowResult;
     // Is the prisoner on the tile where the battle is processed
     public static bool isPrisonerOnTile = false;
     private static Text battleLogger;
+    // TODO: Reset these 3 @Anthony
+    private static PawnInstance[] currentBattleMonsters;
+    private static PawnInstance[] currentBattleKeepers;
+    private static int turnId = 0;
+    private static bool isVictorious;
+    private static PawnInstance currentPawnTurn;
 
     // Debug parameters
     private static bool isDebugModeActive = false;
-    private static Face[] lastThrowResult;
+
 
     /// <summary>
     /// Autoselect keepers if there are not enough for a selection
@@ -22,6 +29,12 @@ public class BattleHandler {
     {
         AudioManager.Instance.PlayOneShot(AudioManager.Instance.battleSound, 0.5f);
         Time.timeScale = 0.0f;
+        if (currentBattleKeepers != null || currentBattleMonsters != null)
+        {
+            Debug.LogWarning("A battle is already in process.");
+            return;
+        }
+
         // Auto selection
         if (TileManager.Instance.KeepersOnTile[tile].Count <= 1)
         {
@@ -54,7 +67,19 @@ public class BattleHandler {
     {
         battleLogger = GameManager.Instance.BattleResultScreen.GetChild((int)BattleResultScreenChildren.Logger).GetComponentInChildren<Text>();
         battleLogger.text = string.Empty;
-        bool isVictorious = ResolveBattle(selectedKeepersForBattle, tile);
+
+        currentBattleMonsters = new PawnInstance[TileManager.Instance.MonstersOnTile[tile].Count];
+        for (int i = 0; i < TileManager.Instance.MonstersOnTile[tile].Count; i++)
+            currentBattleMonsters[i] = TileManager.Instance.MonstersOnTile[tile][i];
+
+        currentBattleKeepers = selectedKeepersForBattle.ToArray();
+
+        ShiftTurn();
+    }
+
+    private static void HandleBattleEnding(Tile tile, List<PawnInstance> selectedKeepersForBattle)
+    {
+        bool isVictorious = true;
         if (isVictorious)
         {
             HandleBattleVictory(selectedKeepersForBattle, tile);
@@ -68,9 +93,79 @@ public class BattleHandler {
         PostBattleCommonProcess(selectedKeepersForBattle, tile);
     }
 
-    public static void ReceiveDiceThrowData(Face[] _result)
+    public static void ReceiveDiceThrowData(Face[] _result, ThrowType _throwType)
     {
         lastThrowResult = _result;
+        switch (_throwType)
+        {
+            case ThrowType.Attack:
+                // TODO: Attack button press behaviour
+                break;
+            case ThrowType.BeginTurn:
+                // TODO: 1st throw of turn
+                for (int i = 0; i < _result.Length; i++)
+                {
+                    switch (_result[i].Type)
+                    {
+                        case FaceType.Physical:
+                            currentPawnTurn.GetComponent<Fighter>().PhysicalSymbolStored += _result[i].Value;
+                            break;
+                        case FaceType.Magical:
+                            currentPawnTurn.GetComponent<Fighter>().MagicalSymbolStored += _result[i].Value;
+                            break;
+                        case FaceType.Defensive:
+                            currentPawnTurn.GetComponent<Fighter>().DefensiveSymbolStored += _result[i].Value;
+                            break;
+                        case FaceType.Support:
+                            currentPawnTurn.GetComponent<Fighter>().SupportSymbolStored += _result[i].Value;
+                            break;
+                    }
+                }
+                GameManager.Instance.GetBattleUI().GetComponent<UIBattleHandler>().ChangeState(UIBattleState.Actions);
+                break;
+            case ThrowType.Defense:
+                // TODO: GUard button press behaviour
+                break;
+            case ThrowType.Special:
+                // TODO: Attack button press behaviour
+                break;
+        }
+    }
+
+    public static void ShiftTurn()
+    {
+        if (turnId > currentBattleKeepers.Length + currentBattleMonsters.Length)
+            turnId = 0;
+
+        if (turnId > currentBattleKeepers.Length)
+        {
+            currentPawnTurn = currentBattleMonsters[turnId];
+            // TODO: resolve monster turn
+        }
+        else
+        {
+            currentPawnTurn = currentBattleKeepers[turnId];
+            GameManager.Instance.GetBattleUI().SetActive(true);
+        }
+
+        turnId++;
+    }
+
+    private static bool BattleEndConditionsReached()
+    {
+        if (currentBattleMonsters.Length == 0)
+        {
+            isVictorious = true;
+            return true;
+        }
+
+        if (currentBattleKeepers.Length == 0 || GameManager.Instance.PrisonerInstance.GetComponent<Behaviour.Mortal>().CurrentHp == 0)
+        {
+            isVictorious = false;
+            return true;
+        }
+
+        return false;
     }
 
     /*
@@ -84,6 +179,7 @@ public class BattleHandler {
         // TODO @Anthony temporary
         foreach (PawnInstance m in monsters)
             m.GetComponent<Behaviour.Mortal>().CurrentHp = 0;
+
 
         // Battle loop
         // -- Keepers turn
@@ -409,5 +505,18 @@ public class BattleHandler {
         }
         tmp += log + '\n';
         battleLogger.text = tmp;
+    }
+
+    public static PawnInstance CurrentPawnTurn
+    {
+        get
+        {
+            return currentPawnTurn;
+        }
+
+        set
+        {
+            currentPawnTurn = value;
+        }
     }
 }

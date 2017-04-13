@@ -51,6 +51,10 @@ public class IngameUI : MonoBehaviour
     [HideInInspector]
     public bool isTurnEnding = false;
 
+    [Header("Battle UI")]
+    // Battle ui
+    public GameObject battleUI;
+
     #region Accessors
     public UIIconFeedback UiIconFeedBack
     {
