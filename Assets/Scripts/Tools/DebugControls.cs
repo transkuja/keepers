@@ -31,6 +31,12 @@ public class DebugControls : MonoBehaviour {
 
         if (isDebugModeActive)
         {
+            // Help window
+            if (Input.GetKeyDown(KeyCode.Alpha0))
+            {
+                debugCanvas.SetActive(!debugCanvas.activeInHierarchy);
+            }
+
             if (GameManager.Instance.ListOfSelectedKeepers == null || GameManager.Instance.ListOfSelectedKeepers.Count == 0)
             {
                 Debug.Log("Select a keeper to use debug tools.");
@@ -106,11 +112,6 @@ public class DebugControls : MonoBehaviour {
                 Debug.Log("Not implemented yet.");
             }
 
-            // Help window
-            if (Input.GetKeyDown(KeyCode.Alpha0))
-            {
-                debugCanvas.SetActive(!debugCanvas.activeInHierarchy);
-            }
         }
 
     }
