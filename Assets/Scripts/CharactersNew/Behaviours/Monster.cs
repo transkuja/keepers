@@ -14,6 +14,10 @@ namespace Behaviour
         // Battle variables
         Vector3 originPosition;
         Quaternion originRotation;
+        int baseAttack;
+        int baseDefense;
+        int bonusAttack;
+        int bonusDefense;
         // TODO: fix this behaviour
         bool hasRecentlyBattled = false;
 
@@ -35,6 +39,74 @@ namespace Behaviour
             set
             {
                 hasRecentlyBattled = value;
+            }
+        }
+
+        public int BaseAttack
+        {
+            get
+            {
+                return baseAttack;
+            }
+
+            set
+            {
+                baseAttack = value;
+            }
+        }
+
+        public int BaseDefense
+        {
+            get
+            {
+                return baseDefense;
+            }
+
+            set
+            {
+                baseDefense = value;
+            }
+        }
+
+        public int BonusAttack
+        {
+            get
+            {
+                return bonusAttack;
+            }
+
+            set
+            {
+                bonusAttack = value;
+            }
+        }
+
+        public int BonusDefense
+        {
+            get
+            {
+                return bonusDefense;
+            }
+
+            set
+            {
+                bonusDefense = value;
+            }
+        }
+
+        public int EffectiveAttack
+        {
+            get
+            {
+                return baseAttack + bonusAttack;
+            }
+        }
+
+        public int EffectiveDefense
+        {
+            get
+            {
+                return baseDefense + bonusDefense;
             }
         }
 

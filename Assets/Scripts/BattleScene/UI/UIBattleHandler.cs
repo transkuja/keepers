@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum BattleUIButtons { MainButtons, Skills, ThrowDice, ValidateThrow }
-public enum UIBattleState { WaitForDiceThrow, DiceRolling, WaitForDiceThrowValidation, Actions, SkillsOpened, Disabled }
+public enum UIBattleState { WaitForDiceThrow, DiceRolling, WaitForDiceThrowValidation, Actions, SkillsOpened, TargetSelection, Disabled }
 
 public class UIBattleHandler : MonoBehaviour {
 
@@ -15,7 +15,8 @@ public class UIBattleHandler : MonoBehaviour {
     private GameObject throwDiceButton;
     [SerializeField]
     private GameObject sendDiceResultsButton;
-
+    [SerializeField]
+    private GameObject targetSelectionInfo;
 
     void OnEnable()
     {
@@ -77,6 +78,9 @@ public class UIBattleHandler : MonoBehaviour {
                 mainButtons.SetActive(false);
                 skillsButtons.SetActive(false);
                 throwDiceButton.SetActive(false);
+                break;
+            case UIBattleState.TargetSelection:
+                targetSelectionInfo.SetActive(true);
                 break;
 
         }

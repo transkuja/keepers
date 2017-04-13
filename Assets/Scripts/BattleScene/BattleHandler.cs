@@ -16,6 +16,7 @@ public class BattleHandler {
     private static int turnId = 0;
     private static bool isVictorious;
     private static PawnInstance currentPawnTurn;
+    private static PawnInstance currentTargetMonster;
 
     // Debug parameters
     private static bool isDebugModeActive = false;
@@ -99,10 +100,24 @@ public class BattleHandler {
         switch (_throwType)
         {
             case ThrowType.Attack:
-                // TODO: Attack button press behaviour
+                int attackValue = 0;
+                for (int i = 0; i < _result.Length; i++)
+                {
+                    switch (_result[i].Type)
+                    {
+                        case FaceType.Physical:
+                            attackValue += _result[i].Value;
+                            break;
+                        case FaceType.Magical:
+                        case FaceType.Defensive:
+                        case FaceType.Support:
+                            attackValue++;
+                            break;
+                    }
+                    ResolveStandardAttack(attackValue);
+                }
                 break;
             case ThrowType.BeginTurn:
-                // TODO: 1st throw of turn
                 for (int i = 0; i < _result.Length; i++)
                 {
                     switch (_result[i].Type)
@@ -130,6 +145,12 @@ public class BattleHandler {
                 // TODO: Attack button press behaviour
                 break;
         }
+    }
+
+    private static void ResolveStandardAttack(int attackValue)
+    {
+        int damage = (int)(attackValue * ((float)attackValue / currentTargetMonster.GetComponent<Monster>().EffectiveDefense));
+        currentTargetMonster.GetComponent<Mortal>().CurrentHp -= damage;
     }
 
     public static void ShiftTurn()
