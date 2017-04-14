@@ -19,9 +19,8 @@ public class NewGameManager : MonoBehaviour
     private SpriteUIUtils spriteUtils;
     [SerializeField]
     private CharactersInitializer characterInitializer;
-    // Check with Rémi
-       [SerializeField]
-        private IngameUI ui;
+    [SerializeField]
+    private IngameUI ui;
     #endregion
 
 
@@ -44,22 +43,9 @@ public class NewGameManager : MonoBehaviour
     private GameObject goTarget;
     private PawnInstance prisonerInstance;
 
-    private int nbTurn;
-
-    private IngameUI ui;
-    private IngameScreens gameScreens;
-
-    // quentin Camera
-    [SerializeField]
-    private CameraManager cameraManager;
-    [SerializeField]
-    private CharactersInitializer characterInitializer;
-    [SerializeField]
-    private TileManager tileManager;
-
     private Quest mainQuest;
 
-
+    private int nbTurn = 1;
 
     void Awake()
     {
@@ -78,6 +64,7 @@ public class NewGameManager : MonoBehaviour
             Destroy(gameObject);
         }
 
+        ResetInstance();
         if (isDebugGameManager)
         {
             foreach (Keeper k in GetComponentsInChildren<Keeper>())
@@ -86,39 +73,9 @@ public class NewGameManager : MonoBehaviour
             }
         }
 
-        ResetInstance();
-        if (SceneManager.GetActiveScene().name != "Menu")
-        {
-            NewGame();
-        }
-
         DontDestroyOnLoad(gameObject);
     }
 
-
-    public void NewGame()
-    {
-
-        // I NEED A QUEST INITIALIZER
-        List<IQuestObjective> mainObjectives = new List<IQuestObjective>();
-        mainObjectives.Add(new PrisonerEscortObjective("Until the end", "Bring Ashley to the end, and ALIVE.", GameObject.FindObjectOfType<Behaviour.Prisoner>().gameObject, TileManager.Instance.EndTile.GetComponent<Tile>()));
-        mainQuest = new Quest(new QuestIdentifier(0, gameObject), new QuestText("Main Quest: The last phoque licorne", "", "You're probably wondering why I gathered all of you here today. Well I'll be quick, I want you to bring this wonderful animal to my good and rich friend. Don't worry, you will be rewarded. His name is \"End\", you'll see his flag from pretty far away, head towards it. I'm counting on you, it is extremely important.", "Hint: Don't kill Ashley."), mainObjectives);
-
-
-        // TODO this should not be handled like, especially if there is more prisoner in scene
-        prisonerInstance = FindObjectOfType<Behaviour.Prisoner>().GetComponent<PawnInstance>();
-
-        tileManager.Init();
-        Transform[] beginPositionsKeepers = tileManager.GetBeginPositions;
-
-        // TODO: retrieve position using main quest 
-        GameObject beginPositionPrisonnier = new GameObject();
-        beginPositionPrisonnier.transform.position = Vector3.zero;
-
-        characterInitializer.Init(beginPositionsKeepers, beginPositionPrisonnier);
-
-        Destroy(beginPositionPrisonnier);
-    }
 
 
     public void CheckGameState()
@@ -146,8 +103,6 @@ public class NewGameManager : MonoBehaviour
             Debug.Log("GameOver - All Keepers died");
             Lose();
         }
-        //}
-
     }
 
     public void Win()
@@ -328,11 +283,6 @@ public class NewGameManager : MonoBehaviour
     {
         get
         {
-            if (ui == null)
-            {
-                if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Menu")) return null;
-                ui = GameObject.Find("IngameUI").GetComponent<IngameUI>();
-            }
             return ui;
         }
     }
@@ -341,11 +291,6 @@ public class NewGameManager : MonoBehaviour
     {
         get
         {
-            if (gameScreens == null)
-            {
-                if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Menu")) return null;
-                gameScreens = GameObject.Find("IngameScreens").GetComponent<IngameScreens>();
-            }
             return gameScreens;
         }
     }
@@ -354,10 +299,6 @@ public class NewGameManager : MonoBehaviour
     {
         get
         {
-            if (gameScreens == null)
-            {
-                gameScreens = GameObject.Find("IngameScreens").GetComponent<IngameScreens>();
-            }
             return gameScreens.transform.GetChild(0).GetChild((int)IngameScreensEnum.BattleResultScreens);
         }
     }
@@ -366,10 +307,6 @@ public class NewGameManager : MonoBehaviour
     {
         get
         {
-            if (gameScreens == null)
-            {
-                gameScreens = GameObject.Find("IngameScreens").GetComponent<IngameScreens>();
-            }
             return gameScreens.transform.GetChild(0).GetChild((int)IngameScreensEnum.SelectBattleCharactersScreen);
         }
     }
@@ -378,10 +315,6 @@ public class NewGameManager : MonoBehaviour
     {
         get
         {
-            if (gameScreens == null)
-            {
-                gameScreens = GameObject.Find("IngameScreens").GetComponent<IngameScreens>();
-            }
             return gameScreens.transform.GetChild(0).GetChild((int)IngameScreensEnum.WinScreen);
         }
     }
@@ -390,10 +323,6 @@ public class NewGameManager : MonoBehaviour
     {
         get
         {
-            if (gameScreens == null)
-            {
-                gameScreens = GameObject.Find("IngameScreens").GetComponent<IngameScreens>();
-            }
             return gameScreens.transform.GetChild(0).GetChild((int)IngameScreensEnum.LoseScreen);
         }
     }
