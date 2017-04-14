@@ -116,6 +116,9 @@ namespace Behaviour
             agent = GetComponent<NavMeshAgent>();
             originPosition = transform.position;
             originRotation = transform.rotation;
+
+            GameManager.Instance.RegisterMonsterPosition(instance);
+            NewGameManager.Instance.RegisterMonsterPosition(instance);
         }
 
         // TODO should be export in a patrol specific component
