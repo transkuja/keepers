@@ -28,22 +28,32 @@ public class TileManager : MonoBehaviour {
 
     Tile prisonerTile;
     GameObject tiles;
+    [SerializeField]
     GameObject beginTile;
+    [SerializeField]
     GameObject endTile;
+
+    [SerializeField]
+    int levelWidth;
+    [SerializeField]
+    int levelHeight;
+
+    // Tags
+    string beginTileTag = "BeginTile";
+    string endTileTag = "EndTile";
+
+    // Called after tiles instantiation as TileManager must be on the gameobject containing all tiles
+    void Start()
+    {
+        Init();
+    }
 
     public void Init()
     {
-        if (instance == null)
-        {
-            instance = this;
-            InitializeState();
-        }
-        else if (instance != this)
-        {
-            instance.ResetTileManager();
-            Destroy(gameObject);
-        }
-        DontDestroyOnLoad(instance.gameObject);
+        instance = this;
+        InitializeState();
+        GameManager.Instance.RegisterTileManager(this);
+        NewGameManager.Instance.RegisterTileManager(this);
     }
 
     public void MoveKeeper(PawnInstance keeper, Tile from, Direction direction, int costAction)
@@ -179,6 +189,27 @@ public class TileManager : MonoBehaviour {
         }
     }
 
+    public void AddMonsterOnTile(PawnInstance monster)
+    {
+        Tile tile = monster.GetComponentInParent<Tile>();
+        if (monster.GetComponent<Behaviour.Monster>() == null)
+        {
+            Debug.Log("Can't add monster to tile, missing component Monster.");
+            return;
+        }
+
+        if (MonstersOnTile.ContainsKey(tile))
+        {
+            MonstersOnTile[tile].Add(monster);
+        }
+        else
+        {
+            List<PawnInstance> newList = new List<PawnInstance>();
+            newList.Add(monster);
+            MonstersOnTile.Add(tile, newList);
+        }
+    }
+
     private void AddKeeperOnTile(Tile tile, PawnInstance keeper)
     {
         if (keeper.GetComponent<Behaviour.Keeper>() == null)
@@ -253,16 +284,15 @@ public class TileManager : MonoBehaviour {
 
     private void InitializeState()
     {
-        beginTile = GameObject.FindGameObjectWithTag("BeginTile");
-        endTile = GameObject.FindGameObjectWithTag("EndTile");
+        tiles = gameObject;
         if (beginTile == null)
         {
-            Debug.Log("No tag BeginTile on the first tile has been set.");
+            Debug.Log("Reference to begin tile is null.");
             return;
         }
         if (endTile == null)
         {
-            Debug.Log("No tag EndTile on the last tile has been set.");
+            Debug.Log("Reference to end tile is null.");
             return;
         }
         instance.prisonerTile = beginTile.GetComponentInParent<Tile>();
@@ -272,21 +302,33 @@ public class TileManager : MonoBehaviour {
         {
             instance.AddKeeperOnTile(beginTile.GetComponentInParent<Tile>(), pi);
         }
-        instance.InitializeMonsters();
     }
 
-    private void InitializeMonsters()
+    public void ChangeBeginTile(string _newTileName)
     {
-        HelperRoot helperRoot = FindObjectOfType<HelperRoot>();
-        if (helperRoot == null)
+        beginTile.tag = null;
+        for (int i = 0; i < tiles.transform.childCount; i++)
         {
-            Debug.Log("No helper root found in scene, can't retrieve tiles.");
-            return;
+            if (tiles.transform.GetChild(i).name.Equals(_newTileName))
+            {
+                beginTile = tiles.transform.GetChild(i).gameObject;
+                beginTile.tag = beginTileTag;
+                break;
+            }
         }
-        instance.tiles = helperRoot.gameObject;
-        foreach (Behaviour.Monster m in instance.tiles.GetComponentsInChildren<Behaviour.Monster>())
+    }
+
+    public void ChangeEndTile(string _newTileName)
+    {
+        endTile.tag = null;
+        for (int i = 0; i < tiles.transform.childCount; i++)
         {
-            instance.AddMonsterOnTile(m.GetComponentInParent<Tile>(), m.GetComponent<PawnInstance>());
+            if (tiles.transform.GetChild(i).name.Equals(_newTileName))
+            {
+                endTile = tiles.transform.GetChild(i).gameObject;
+                endTile.tag = endTileTag;
+                break;
+            }
         }
     }
 

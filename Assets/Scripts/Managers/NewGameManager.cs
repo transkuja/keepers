@@ -10,12 +10,19 @@ public class NewGameManager : MonoBehaviour
 {
     private static NewGameManager instance = null;
 
+    #region GameManager children
     [SerializeField]
     private PrefabUIUtils prefabUIUtils;
     [SerializeField]
     private PrefabUtils prefabUtils;
     [SerializeField]
     private SpriteUIUtils spriteUtils;
+    [SerializeField]
+    private CharactersInitializer characterInitializer;
+    // Check with Rémi
+       [SerializeField]
+        private IngameUI ui;
+    #endregion
 
     #region Debug Variables
     [SerializeField]
@@ -27,6 +34,9 @@ public class NewGameManager : MonoBehaviour
     private QuestDeckDatabase questDeckDataBase = new QuestDeckDatabase();
     private QuestDatabase questDataBase = new QuestDatabase();
 
+    private TileManager tileManagerReference;
+    private CameraManager cameraManagerReference;
+    private IngameScreens gameScreens;
 
     void Awake()
     {
@@ -147,4 +157,40 @@ public class NewGameManager : MonoBehaviour
             return prefabUtils;
         }
     }
+
+    #region Registrations
+    // Called once during initialization, launch next step
+    public void RegisterTileManager(TileManager _tileManager)
+    {
+        tileManagerReference = _tileManager;
+        ui.gameObject.SetActive(true);
+
+        // Next step, init keepers        
+        characterInitializer.InitKeepers(tileManagerReference.GetBeginPositions);
+    }
+
+    public void RegisterCameraManager(CameraManager _cameraManager)
+    {
+        cameraManagerReference = _cameraManager;
+    }
+
+    public void RegisterGameScreens(IngameScreens _gameScreens)
+    {
+        gameScreens = _gameScreens;
+    }
+    #endregion
+
+    #region Camera facade
+    public void UpdateCameraPosition()
+    {
+        cameraManagerReference.UpdateCameraPosition();
+    }
+    #endregion
+
+    #region TileManager facade
+    public void RegisterMonsterPosition(PawnInstance _monster)
+    {
+        tileManagerReference.AddMonsterOnTile(_monster);
+    }
+    #endregion
 }

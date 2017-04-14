@@ -440,4 +440,30 @@ public class GameManager : MonoBehaviour
             Debug.Log("Can't add a pawn to selected keepers list without the Keeper component.");
         }
     }
+
+    public void RegisterMonsterPosition(PawnInstance _monster)
+    {
+        tileManager.AddMonsterOnTile(_monster);
+    }
+
+    // Called once during initialization, launch next step
+    public void RegisterTileManager(TileManager _tileManager)
+    {
+        tileManager = _tileManager;
+        ui.gameObject.SetActive(true);
+
+        // Next step, init keepers        
+        characterInitializer.InitKeepers(tileManager.GetBeginPositions);
+    }
+
+    public void RegisterCameraManager(CameraManager _cameraManager)
+    {
+        cameraManager = _cameraManager;
+    }
+
+    public void RegisterGameScreens(IngameScreens _gameScreens)
+    {
+        gameScreens = _gameScreens;
+    }
+
 }
