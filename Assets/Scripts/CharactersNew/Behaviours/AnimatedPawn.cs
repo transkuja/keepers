@@ -32,13 +32,10 @@ namespace Behaviour
 
         void Start()
         {
-            if(GetComponent<NavMeshAgent>() == null)
-            {
-                gameObject.AddComponent<NavMeshAgent>();
-            }
-
             instance = GetComponent<PawnInstance>();
+
             agent = GetComponent<NavMeshAgent>();
+
             arrivingTrigger = Direction.None;
             anim = GetComponentInChildren<Animator>();
             fRotateSpeed = 5.0f;
@@ -58,25 +55,27 @@ namespace Behaviour
                         goDestinationTemp = keeper.GoListCharacterFollowing[i];
                     }
                 }
-            }
 
-            if (bIsRotating)
-            {
-                Rotate();
-            }
-
-            anim.SetFloat("velocity", agent.velocity.magnitude);
-
-            if (IsMovingBetweenTiles)
-            {
-                lerpMoveParam += Time.deltaTime;
-                if (lerpMoveParam >= 1.0f)
+                if (bIsRotating)
                 {
-                    IsMovingBetweenTiles = false;
+                    Rotate();
                 }
-                transform.position = Vector3.Lerp(lerpStartPosition, lerpEndPosition, Mathf.Clamp(lerpMoveParam, 0, 1));
-                transform.rotation = Quaternion.Lerp(lerpStartRotation, lerpEndRotation, Mathf.Clamp(lerpMoveParam, 0, 1));
+
+
+                if (IsMovingBetweenTiles)
+                {
+                    lerpMoveParam += Time.deltaTime;
+                    if (lerpMoveParam >= 1.0f)
+                    {
+                        IsMovingBetweenTiles = false;
+                    }
+                    transform.position = Vector3.Lerp(lerpStartPosition, lerpEndPosition, Mathf.Clamp(lerpMoveParam, 0, 1));
+                    transform.rotation = Quaternion.Lerp(lerpStartRotation, lerpEndRotation, Mathf.Clamp(lerpMoveParam, 0, 1));
+                }
             }
+            
+             anim.SetFloat("velocity", agent.velocity.magnitude);
+
         }
 
 

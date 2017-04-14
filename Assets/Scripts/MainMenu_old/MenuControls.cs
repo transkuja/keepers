@@ -101,7 +101,6 @@ public class MenuControls : MonoBehaviour {
 
     public void StartGame()
     {
-        GameManager.Instance.InitializeInGameKeepers();
         if (AudioManager.Instance != null)
         {
             AudioClip toPlay;
@@ -120,6 +119,5 @@ public class MenuControls : MonoBehaviour {
             AudioManager.Instance.Fade(toPlay);
         }
         SceneManager.LoadScene(levelSelected);
-
     }
 }

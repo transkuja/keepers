@@ -10,21 +10,75 @@ namespace Behaviour
     {
         PawnInstance instance;
 
-        // Interactions variables
-        public int minMoralBuff = -10;
-        public int maxMoralBuff = 20;
+        [System.Serializable]
+        public class KeeperData : ComponentData
+        {
+            [SerializeField]
+            int minMoralBuff;
+            [SerializeField]
+            int maxMoralBuff;
+            [SerializeField]    
+            int maxActionPoint;
+
+            public int MinMoralBuff
+            {
+                get
+                {
+                    return minMoralBuff;
+                }
+
+                set
+                {
+                    minMoralBuff = value;
+                }
+            }
+
+            public int MaxMoralBuff
+            {
+                get
+                {
+                    return maxMoralBuff;
+                }
+
+                set
+                {
+                    maxMoralBuff = value;
+                }
+            }
+
+            public int MaxActionPoint
+            {
+                get
+                {
+                    return maxActionPoint;
+                }
+
+                set
+                {
+                    maxActionPoint = value;
+                }
+            }
+
+            public KeeperData(int _minMoralBuff = -10, int _maxMoralBuff = 20, int _maxActionPoint = 3)
+            {
+                minMoralBuff = _minMoralBuff;
+                maxMoralBuff = _maxMoralBuff;
+                maxActionPoint = _maxActionPoint;
+            }
+
+        }
 
         // Actions
         [Header("Actions")]
         private int actionPoints;
-        [SerializeField]
-        private int maxActionPoints = 3;
 
+        public KeeperData Data;
 
         [SerializeField]
         private GameObject feedbackSelection;
         private bool isSelected = false;
 
+        // TODO remove
         [SerializeField]
         private bool isSelectedInMenu = false;
         NavMeshAgent agent;
@@ -48,9 +102,6 @@ namespace Behaviour
 
             // Equipement
             equipements = new ItemContainer[3];
-
-            CreateShortcutKeeperUI();
-            CreateSelectedPanel();
         }
 
         void Start()
@@ -90,7 +141,7 @@ namespace Behaviour
             if (from.ActionPoints >= costAction)
             {
                 from.ActionPoints -= (short)costAction;
-                short amountMoralBuff = (short)Random.Range(minMoralBuff, maxMoralBuff);
+                short amountMoralBuff = (short)Random.Range(Data.MinMoralBuff, Data.MaxMoralBuff);
                 GetComponent<MentalHealthHandler>().CurrentMentalHealth += amountMoralBuff;
                 GameManager.Instance.Ui.MoralBuffActionTextAnimation(amountMoralBuff);
             }
@@ -102,6 +153,12 @@ namespace Behaviour
         #endregion
 
         #region UI
+        public void InitUI()
+        {
+            CreateShortcutKeeperUI();
+            CreateSelectedPanel();
+        }
+
         public void CreateShortcutKeeperUI()
         {
             Sprite associatedSprite = instance.Data.AssociatedSprite;
@@ -297,12 +354,11 @@ namespace Behaviour
         {
             get
             {
-                return maxActionPoints;
+                return Data.MaxActionPoint;
             }
-
             set
             {
-                maxActionPoints = value;
+                Data.MaxActionPoint = value;
             }
         }
 

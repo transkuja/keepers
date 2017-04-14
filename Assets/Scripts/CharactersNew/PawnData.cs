@@ -29,10 +29,6 @@ public class PawnData {
     [SerializeField]
     private Sprite associatedSprite;
 
-    // TODO Ce truc est en public car besoin a la fois eventuellement dans l'inspecteur, mais aussi en code
-        //  Si c'est Pas ok n'hesitez pas a le mettre en private serialisable avec accesseurs.  Quentin
-    public GameObject goInGameVisual;
-
     #region Ideas
     // int specialDicesUse = 3;
     // int numberOfDice = 4;

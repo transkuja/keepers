@@ -13,6 +13,7 @@ public class PrefabUIUtils : MonoBehaviour {
     public GameObject PrefabSlotUI;
     public GameObject PrefabItemUI;
 
+    // TODO : Remove this one
     public GameObject prefabItemToDrop;
 
     // ActionPanel
@@ -48,5 +49,6 @@ public class PrefabUIUtils : MonoBehaviour {
     [Header("Panneau")]
     public GameObject PrefabContentPanneauUI;
 
-
+    [Header("Menu")]
+    public GameObject prefabMenuSelectedKeeperUI;
 }

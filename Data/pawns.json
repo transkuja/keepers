@@ -1,14 +1,32 @@
 {
 	"Pawns": [
 		{
-			"id": "character_01",
-			"name" : "Philippe",
-			"sprite" : "",
-			"inGameVisual" : "Models/Pawns/Pawn_Ashley",
+			"id": "ashley",
+			"name" : "Ashley",
+			"sprite" : "Pawn_mini_icon/ashley_mini_icon",
 			"canSpeak" : "true",
 			
+			"HungerHandler" : {
+				"maxHunger" : 100
+			},
 			
-			"AnimatedPawn" : {},
+			"Inventory" : {
+				"nbSlot" : 2
+			},
+			
+			"MentalHealthHandler" : {
+				"maxMentalHealth" : 100
+			},
+			
+			"Mortal" : {
+				"maxHp" : 100
+			}
+		},
+		{
+			"id": "grekhan",
+			"name" : "Test",
+			"sprite" : "Pawn_mini_icon/oldman_mini_icon",
+			"canSpeak" : "true",
 			
 			"Fighter" : {},
 			
@@ -20,7 +38,11 @@
 				"nbSlot" : 4
 			},
 			
-			"Keeper" : {},
+			"Keeper" : {
+				"minMoralBuff" : -10,
+				"maxMoralBuff" : 20,
+				"maxActionPoint" : 3
+			},
 			
 			"MentalHealthHandler" : {
 				"maxMentalHealth" : 100
@@ -31,15 +53,87 @@
 			}
 		},
 		{
-			"id": "pnj_01",
-			"name" : "Alberto",
-			"sprite" : "",
-					
+			"id": "lupus",
+			"name" : "Lupus",
+			"sprite" : "Pawn_mini_icon/dog_mini_icon",
+			"canSpeak" : "false",
+			
+			"Fighter" : {},
+			
+			"HungerHandler" : {
+				"maxHunger" : 100
+			},
+			
+			"Inventory" : {
+				"nbSlot" : 2
+			},
+			
+			"Keeper" : {
+				"minMoralBuff" : -10,
+				"maxMoralBuff" : 20,
+				"maxActionPoint" : 3
+			},
+			
+			"MentalHealthHandler" : {
+				"maxMentalHealth" : 100
+			},
+			
+			"Mortal" : {
+				"maxHp" : 100
+			}
+		},
+		{
+			"id": "nana",
+			"name" : "Nana",
+			"sprite" : "Pawn_mini_icon/doll_mini_icon",
+			"canSpeak" : "true",
+
+			"Fighter" : {},
+			
+			"HungerHandler" : {
+				"maxHunger" : 100
+			},
+			
 			"Inventory" : {
 				"nbSlot" : 4
 			},
 			
-			"QuestDealer" : {},
+			"Keeper" : {
+				"minMoralBuff" : -10,
+				"maxMoralBuff" : 20,
+				"maxActionPoint" : 3
+			},
+			
+			"MentalHealthHandler" : {
+				"maxMentalHealth" : 100
+			},
+			
+			"Mortal" : {
+				"maxHp" : 100
+			}
+		},
+		{
+			"id": "swag",
+			"name" : "Swag",
+			"sprite" : "Pawn_mini_icon/Heal_mini_icon",
+			"canSpeak" : "true",
+
+			"HungerHandler" : {
+				"maxHunger" : 100
+			},
+			
+			"Inventory" : {
+				"nbSlot" : 6
+			},
+						
+			"MentalHealthHandler" : {
+				"maxMentalHealth" : 100
+			},
+			
+			"Mortal" : {
+				"maxHp" : 100
+			}
 		}
+		
 	]
 }

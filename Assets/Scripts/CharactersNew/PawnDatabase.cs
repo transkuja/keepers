@@ -5,23 +5,20 @@ using System.IO;
 using System;
 using Boomlagoon.JSON;
 
-public class PawnDatabase {
 
-    public class PawnDataContainer
+public class PawnDataContainer
+{
+    public PawnData pawnData;
+    public Dictionary<Type, ComponentData> dicComponentData;
+
+    public PawnDataContainer()
     {
-        public PawnData pawnData;
-        public Dictionary<Type, ComponentData> dicComponentData;
-
-        public PawnDataContainer()
-        {
-            pawnData = new PawnData();
-            dicComponentData = new Dictionary<Type, ComponentData>();
-        }
+        pawnData = new PawnData();
+        dicComponentData = new Dictionary<Type, ComponentData>();
     }
+}
 
-    [SerializeField] private GameObject goPawnBase;
-
-    RuntimeAnimatorController pawnAnimationController;
+public class PawnDatabase {
 
     Dictionary<string, PawnDataContainer> dicPawnDataContainer;
 
@@ -33,10 +30,6 @@ public class PawnDatabase {
     public void Init()
     {
         string pathBase = Application.dataPath + "/../Data";
-
-        goPawnBase = Resources.Load("Prefabs/Pawns/PawnBase") as GameObject;
-
-        pawnAnimationController = Resources.Load("Animations/PawnAnimationController") as RuntimeAnimatorController;
 
         string fileContent = File.ReadAllText(pathBase + "/pawns.json");
         JSONObject json = JSONObject.Parse(fileContent);
@@ -58,10 +51,7 @@ public class PawnDatabase {
                         newPawnDataContainer.pawnData.PawnName = pawnEntry.Value.Str;
                         break;
                     case "sprite":
-                        newPawnDataContainer.pawnData.AssociatedSprite = Resources.Load(pawnEntry.Value.Str) as Sprite;
-                        break;
-                    case "inGameVisual":
-                        newPawnDataContainer.pawnData.goInGameVisual = Resources.Load(pawnEntry.Value.Str) as GameObject;
+                        newPawnDataContainer.pawnData.AssociatedSprite = Resources.Load<Sprite>(pawnEntry.Value.Str) as Sprite;
                         break;
                     case "canSpeak":
                         switch (pawnEntry.Value.Str)
@@ -75,12 +65,6 @@ public class PawnDatabase {
                         }
                         break;
                     // COMPONENTS DATA
-                    case "AnimatedPawn":
-                        newPawnDataContainer.dicComponentData.Add(typeof(Behaviour.AnimatedPawn), null);
-                        break;
-                    case "Escortable":
-                        newPawnDataContainer.dicComponentData.Add(typeof(Behaviour.Escortable), null);
-                        break;
                     case "Fighter":
                         newPawnDataContainer.dicComponentData.Add(typeof(Behaviour.Fighter), null);
                         break;
@@ -111,7 +95,23 @@ public class PawnDatabase {
                         newPawnDataContainer.dicComponentData.Add(typeof(Behaviour.Inventory), newInventoryData);
                         break;
                     case "Keeper":
-                        newPawnDataContainer.dicComponentData.Add(typeof(Behaviour.Keeper), null);
+                        Behaviour.Keeper.KeeperData newKeeperData = new Behaviour.Keeper.KeeperData();
+                        foreach (KeyValuePair<string, JSONValue> keeperEntry in pawnEntry.Value.Obj)
+                        {
+                            switch (keeperEntry.Key)
+                            {
+                                case "minMoralBuff":
+                                    newKeeperData.MinMoralBuff = (int)keeperEntry.Value.Number;
+                                    break;
+                                case "maxMoralBuff":
+                                    newKeeperData.MaxMoralBuff = (int)keeperEntry.Value.Number;
+                                    break;
+                                case "maxActionPoint":
+                                    newKeeperData.MaxActionPoint = (int)keeperEntry.Value.Number;
+                                    break;
+                            }
+                        }
+                        newPawnDataContainer.dicComponentData.Add(typeof(Behaviour.Keeper), newKeeperData);
                         break;
                     case "MentalHealthHandler":
                         Behaviour.MentalHealthHandler.MentalHealthHandlerData newMentalHealthHandlerData = new Behaviour.MentalHealthHandler.MentalHealthHandlerData();
@@ -126,9 +126,6 @@ public class PawnDatabase {
                         }
                         newPawnDataContainer.dicComponentData.Add(typeof(Behaviour.MentalHealthHandler), newMentalHealthHandlerData);
                         break;
-                    case "Monster":
-                        newPawnDataContainer.dicComponentData.Add(typeof(Behaviour.Monster), null);
-                        break;
                     case "Mortal":
                         Behaviour.Mortal.MortalData newMortalData = new Behaviour.Mortal.MortalData();
                         foreach(KeyValuePair<string, JSONValue> mortalEntry in pawnEntry.Value.Obj)
@@ -142,67 +139,52 @@ public class PawnDatabase {
                         }
                         newPawnDataContainer.dicComponentData.Add(typeof(Behaviour.Mortal), newMortalData);
                         break;
-                    case "PathBlocker":
-                        newPawnDataContainer.dicComponentData.Add(typeof(Behaviour.PathBlocker), null);
-                        break;
-                    case "Prisoner":
-                        newPawnDataContainer.dicComponentData.Add(typeof(Behaviour.Prisoner), null);
-                        break;
-                    case "QuestDealer":
-                        newPawnDataContainer.dicComponentData.Add(typeof(Behaviour.QuestDealer), null);
-                        break;
                 }
             }
             dicPawnDataContainer.Add(newPawnDataContainer.pawnData.PawnId, newPawnDataContainer);
         }
     }
 
-    public GameObject CreatePawn(string idPawn, Vector3 v3Position, Quaternion quatRotation ,Transform trParent)
+    public GameObject CreatePawn(string idPawn, Vector3 v3Position, Quaternion quatRotation, Transform trParent)
     {
-        GameObject goNew = GameObject.Instantiate(goPawnBase, v3Position, quatRotation, trParent);
+        GameObject goPawn = GameObject.Instantiate(NewGameManager.Instance.PrefabUtils.getPawnPrefabById(idPawn), v3Position, quatRotation);
+        if (goPawn == null) { Debug.Log("Couldn't find the corresponding prefab in prefabUtils"); return null; }
+        goPawn.transform.SetParent(trParent, false);
+        goPawn.GetComponent<PawnInstance>().Data = dicPawnDataContainer[idPawn].pawnData;
 
-        goNew.GetComponent<PawnInstance>().Data = dicPawnDataContainer[idPawn].pawnData;
+        return goPawn;
+    }
 
-        Animator anim = GameObject.Instantiate(dicPawnDataContainer[idPawn].pawnData.goInGameVisual, goNew.transform).GetComponent<Animator>();
-        anim.runtimeAnimatorController = pawnAnimationController;
+    public void InitPawn(PawnInstance pi)
+    {
+        GameObject goPawn = pi.gameObject;
+        string idPawn = pi.Data.PawnId;
 
         foreach(KeyValuePair<Type, ComponentData> pdc in dicPawnDataContainer[idPawn].dicComponentData)
         {
-            goNew.AddComponent(pdc.Key);
+            goPawn.AddComponent(pdc.Key);
 
             switch (pdc.Key.ToString())
             {
-                case "Behaviour.AnimatedPawn":
-                    break;
-                case "Behaviour.Escortable":
-                    break;
                 case "Behaviour.Fighter":
                     break;
                 case "Behaviour.HungerHandler":
-                    goNew.GetComponent<Behaviour.HungerHandler>().Data = (Behaviour.HungerHandler.HungerHandlerData)pdc.Value;
+                    goPawn.GetComponent<Behaviour.HungerHandler>().Data = (Behaviour.HungerHandler.HungerHandlerData)pdc.Value;
                     break;
                 case "Behaviour.Inventory":
-                    goNew.GetComponent<Behaviour.Inventory>().Data = (Behaviour.Inventory.InventoryData)pdc.Value;
+                    goPawn.GetComponent<Behaviour.Inventory>().Data = (Behaviour.Inventory.InventoryData)pdc.Value;
                     break;
                 case "Behaviour.Keeper":
+                    goPawn.GetComponent<Behaviour.Keeper>().Data = (Behaviour.Keeper.KeeperData)pdc.Value;
                     break;
                 case "Behaviour.MentalHealthHandler":
-                    goNew.GetComponent<Behaviour.MentalHealthHandler>().Data = (Behaviour.MentalHealthHandler.MentalHealthHandlerData)pdc.Value;
-                    break;
-                case "Behaviour.Monster":
+                    goPawn.GetComponent<Behaviour.MentalHealthHandler>().Data = (Behaviour.MentalHealthHandler.MentalHealthHandlerData)pdc.Value;
                     break;
                 case "Behaviour.Mortal":
-                    goNew.GetComponent<Behaviour.Mortal>().Data = (Behaviour.Mortal.MortalData)pdc.Value;
-                    break;
-                case "Behaviour.PathBlocker":
-                    break;
-                case "Behaviour.Prisoner":
-                    break;
-                case "Behaviour.QuestDealer":
+                    goPawn.GetComponent<Behaviour.Mortal>().Data = (Behaviour.Mortal.MortalData)pdc.Value;
                     break;
             }
         }
-        return goNew;
     }
 
     #region Accessors

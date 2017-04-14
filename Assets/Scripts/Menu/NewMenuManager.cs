@@ -18,21 +18,9 @@ public class NewMenuManager : MonoBehaviour {
     {
         listeSelectedKeepers = new List<PawnInstance>();
 
-
         InitDeckOfCards();
         InitCardLevels();
-
-        // TMP for debug use when level start
-        foreach (string id in NewGameManager.Instance.PawnDataBase.DicPawnDataContainer.Keys)
-        {
-            Debug.Log(id);
-        }
-
-        for (int i = 0; i < NewGameManager.Instance.QuestDataBase.ListQuestData.Count; i++)
-        {
-            Debug.Log(NewGameManager.Instance.QuestDataBase.ListQuestData[i].idQuest);
-        }
-        // ENd tmp
+        InitKeepers();
     }
 
     public void InitDeckOfCards()
@@ -80,6 +68,24 @@ public class NewMenuManager : MonoBehaviour {
         }
     }
 
+    public void InitKeepers()
+    {
+        int iKeeper = 0;
+        foreach (string id in NewGameManager.Instance.PawnDataBase.DicPawnDataContainer.Keys)
+        {
+            if (iKeeper > keepersPosition.Length) break;
+
+            if (NewGameManager.Instance.PawnDataBase.DicPawnDataContainer[id].dicComponentData.ContainsKey(typeof(Behaviour.Keeper)))
+            {
+                GameObject goKeeper = NewGameManager.Instance.PawnDataBase.CreatePawn(id, Vector3.zero, Quaternion.Euler(180, 90, -90), keepersPosition[iKeeper]);
+                //TMP
+                goKeeper.transform.localScale = 5 * Vector3.one;
+                //END TMP
+                iKeeper++;
+            }
+        }
+    }
+
     #region Accessors
     public int CardLevelSelected
     {
@@ -104,6 +110,19 @@ public class NewMenuManager : MonoBehaviour {
         set
         {
             deckOfCardsSelected = value;
+        }
+    }
+
+    public List<PawnInstance> ListeSelectedKeepers
+    {
+        get
+        {
+            return listeSelectedKeepers;
+        }
+
+        set
+        {
+            listeSelectedKeepers = value;
         }
     }
 

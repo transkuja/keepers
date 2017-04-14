@@ -1,7 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Behaviour;
+﻿using UnityEngine;
+
+// Temp
+using UnityEngine.SceneManagement;
 
 public class NewMenuControls : MonoBehaviour {
 
@@ -70,7 +70,7 @@ public class NewMenuControls : MonoBehaviour {
                 CardLevel card = hit.transform.gameObject.GetComponent<CardLevel>();
                 if (card != null)
                 {
-                   
+                    AudioManager.Instance.PlayOneShot(AudioManager.Instance.paperSelectSound, 0.5f);
                     if (menuManager.CardLevelSelected == card.levelIndex)
                     {
                         menuManager.CardLevelSelected = -1;
@@ -127,5 +127,35 @@ public class NewMenuControls : MonoBehaviour {
                 Debug.Log("Click on rule book");
             }
         }
+    }
+
+    public void StartGame()
+    {
+        AudioManager.Instance.PlayOneShot(AudioManager.Instance.buttonClick, 0.5f);
+
+        foreach (PawnInstance ki in menuManager.ListeSelectedKeepers)
+        {
+            NewGameManager.Instance.ListOfSelectedKeepers.Add(ki);
+            ki.gameObject.transform.SetParent(NewGameManager.Instance.transform);
+        }
+
+        if (AudioManager.Instance != null)
+        {
+            AudioClip toPlay;
+            switch (menuManager.CardLevelSelected)
+            {
+                case 1:
+                    toPlay = AudioManager.Instance.Scene1Clip;
+                    break;
+                case 2:
+                    toPlay = AudioManager.Instance.Scene2Clip;
+                    break;
+                default:
+                    toPlay = toPlay = AudioManager.Instance.menuMusic;
+                    break;
+            }
+            AudioManager.Instance.Fade(toPlay);
+        }
+        SceneManager.LoadScene(menuManager.CardLevelSelected);
     }
 }
