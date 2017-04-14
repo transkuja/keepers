@@ -31,4 +31,34 @@ public class CharactersInitializer : MonoBehaviour {
         // Pour que ça marche il me faut l'instanciation du tile Manager
         //GameManager.Instance.CameraManager.UpdateCameraPosition();
     }
+
+    // Init keepers and call next initialization
+    public void InitKeepers(Transform[] beginPositionsKeepers)
+    {
+        for (int i = 0; i < GameManager.Instance.AllKeepersList.Count; i++)
+        {
+            GameManager.Instance.AllKeepersList[i].transform.position = beginPositionsKeepers[i].position;
+            GameManager.Instance.AllKeepersList[i].transform.SetParent(null);
+            GameManager.Instance.AllKeepersList[i].transform.rotation = Quaternion.identity;
+            GameManager.Instance.AllKeepersList[i].transform.localScale = Vector3.one;
+            GameManager.Instance.AllKeepersList[i].transform.GetComponent<NavMeshAgent>().enabled = true;
+
+            //GlowController.RegisterObject(GameManager.Instance.AllKeepersList[i].GetComponent<GlowObjectCmd>());
+        }
+
+        // Next step, init quests
+        // TODO: init quests
+
+        // Next step, init NPCs
+        // TODO: init quests and call this properly
+        InitNPCs(new QuestSystem.QuestDeck());
+
+        GameManager.Instance.CameraManager.UpdateCameraPosition();
+        //NewGameManager.Instance.UpdateCameraPosition();
+    }
+
+    private void InitNPCs(QuestSystem.QuestDeck _questDeck)
+    {
+        // TODO: init characters linked to quests
+    }
 }
