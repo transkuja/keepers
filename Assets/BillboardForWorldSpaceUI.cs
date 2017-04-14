@@ -24,14 +24,14 @@ public class BillboardForWorldSpaceUI : MonoBehaviour {
                 {
                     Vector3 size = GameManager.Instance.GoTarget.GetComponent<BoxCollider>().bounds.size;
                     Vector3 V1 = new Vector3(0, Mathf.Max(size.y, size.z), 0);
-                    transform.localPosition = V1 + (Vector3.up * (1 - GameManager.Instance.CameraManager.FZoomLerp));
+                    transform.localPosition = V1 + (Vector3.up * (1 - GameManager.Instance.CameraFZoomLerp));
 
                 }
                 else if (GameManager.Instance.GoTarget.GetComponentInChildren<MeshCollider>() != null)
                 {
                     Vector3 size = GameManager.Instance.GoTarget.GetComponentInChildren<MeshCollider>().bounds.size;
                     Vector3 V1 = new Vector3(0, size.y, 0);
-                    transform.localPosition = V1 + (Vector3.up * (1.1f - GameManager.Instance.CameraManager.FZoomLerp));
+                    transform.localPosition = V1 + (Vector3.up * (1.1f - GameManager.Instance.CameraFZoomLerp));
                     ///////////////////////////// ! \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
                     // TODO WARNING BIG CHIASSOUILLE fix for protoprout fix quickly after ask Rémi
                     if (GameManager.Instance.GoTarget.GetComponentInParent<PawnInstance>() != null &&
@@ -43,7 +43,7 @@ public class BillboardForWorldSpaceUI : MonoBehaviour {
                 }
             }
     
-            transform.localScale = new Vector3(0.2f, 0.2f, 0.2f)  + new Vector3(0.5f,0.5f,0.5f)  * (1 - GameManager.Instance.CameraManager.FZoomLerp);
+            transform.localScale = new Vector3(0.2f, 0.2f, 0.2f)  + new Vector3(0.5f,0.5f,0.5f)  * (1 - GameManager.Instance.CameraFZoomLerp);
         }
     }
 

@@ -81,12 +81,12 @@ namespace Behaviour
 
         public void CreateSelectedMentalHealthPanel()
         {
-            selectedMentalHealthUI = Instantiate(GameManager.Instance.PrefabUtils.PrefabMentalHealthUI);
+            selectedMentalHealthUI = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabMentalHealthUI);
         }
 
         public void CreateShortcutMentalHealthPanel()
         {
-            ShortcutMentalHealthUI = Instantiate(GameManager.Instance.PrefabUtils.PrefabMentalHealthUI);
+            ShortcutMentalHealthUI = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabMentalHealthUI);
         }
 
         public void UpdateMentalHealthPanel(int mentalHealth)

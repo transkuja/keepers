@@ -53,7 +53,6 @@ public class TileManager : MonoBehaviour {
         instance = this;
         InitializeState();
         GameManager.Instance.RegisterTileManager(this);
-        NewGameManager.Instance.RegisterTileManager(this);
     }
 
     public void MoveKeeper(PawnInstance keeper, Tile from, Direction direction, int costAction)

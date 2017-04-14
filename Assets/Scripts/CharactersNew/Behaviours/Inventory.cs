@@ -76,7 +76,7 @@ namespace Behaviour
             int i = 0;
             foreach (string _IdItem in possibleItems)
             {
-                it = GameManager.Instance.Database.getItemById(_IdItem);
+                it = GameManager.Instance.ItemDataBase.getItemById(_IdItem);
                 if (Random.Range(0, 10) > it.Rarity)
                 {
                     items[i++] = new ItemContainer(it, 1);
@@ -116,7 +116,7 @@ namespace Behaviour
                 }
                 else if (instance.GetComponent<Prisoner>() != null)
                 {
-                    GameObject button = Instantiate(GameManager.Instance.PrefabUtils.PrefabConfimationButtonUI, inventoryPanel.transform);
+                    GameObject button = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabConfimationButtonUI, inventoryPanel.transform);
 
                     button.GetComponent<Button>().onClick.AddListener(instance.GetComponent<Prisoner>().ProcessFeeding);
                     button.GetComponent<Button>().onClick.AddListener(() => inventoryPanel.SetActive(false));
@@ -129,14 +129,14 @@ namespace Behaviour
 
         public void CreateInventoryUI()
         {
-            inventoryPanel = Instantiate(GameManager.Instance.PrefabUtils.PrefabInventaireUI, GameManager.Instance.PrefabUtils.PrefabInventaireUI.transform.position, GameManager.Instance.PrefabUtils.PrefabInventaireUI.transform.rotation);
+            inventoryPanel = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabInventaireUI, GameManager.Instance.PrefabUIUtils.PrefabInventaireUI.transform.position, GameManager.Instance.PrefabUIUtils.PrefabInventaireUI.transform.rotation);
             inventoryPanel.transform.SetParent(GameManager.Instance.Ui.Panel_Inventories.transform, false);
             inventoryPanel.name = "Inventory_" + (GetComponent<LootInstance>() != null ? "Loot" : instance.Data.PawnName);
         }
 
         public void CreateSelectedInventoryPanel()
         {
-            selectedInventoryPanel = Instantiate(GameManager.Instance.PrefabUtils.PrefabSelectedInventoryUIPanel, GameManager.Instance.PrefabUtils.PrefabSelectedInventoryUIPanel.transform.position, GameManager.Instance.PrefabUtils.PrefabSelectedInventoryUIPanel.transform.rotation);
+            selectedInventoryPanel = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabSelectedInventoryUIPanel, GameManager.Instance.PrefabUIUtils.PrefabSelectedInventoryUIPanel.transform.position, GameManager.Instance.PrefabUIUtils.PrefabSelectedInventoryUIPanel.transform.rotation);
             selectedInventoryPanel.GetComponent<InventoryOwner>().Owner = instance.gameObject;
             selectedInventoryPanel.transform.SetParent(instance.GetComponent<Keeper>().SelectedPanelUI.transform, false);
             selectedInventoryPanel.transform.localScale = Vector3.one;
@@ -182,7 +182,7 @@ namespace Behaviour
             for (int i = 0; i < nbSlot; i++)
             {
                 //Create Slots
-                GameObject currentgoSlotPanel = Instantiate(GameManager.Instance.PrefabUtils.PrefabSlotUI, Vector3.zero, Quaternion.identity) as GameObject;
+                GameObject currentgoSlotPanel = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabSlotUI, Vector3.zero, Quaternion.identity) as GameObject;
                 currentgoSlotPanel.transform.SetParent(inventoryPanel.transform.GetChild(1).transform);
 
                 currentgoSlotPanel.transform.localPosition = Vector3.zero;
@@ -201,7 +201,7 @@ namespace Behaviour
             for (int i = 0; i < data.NbSlot; i++)
             {
                 //Create Slots
-                GameObject currentgoSlotPanel = Instantiate(GameManager.Instance.PrefabUtils.PrefabSlotUI, Vector3.zero, Quaternion.identity) as GameObject;
+                GameObject currentgoSlotPanel = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabSlotUI, Vector3.zero, Quaternion.identity) as GameObject;
                 currentgoSlotPanel.transform.SetParent(selectedInventoryPanel.transform);
 
                 currentgoSlotPanel.transform.localPosition = Vector3.zero;
@@ -262,7 +262,7 @@ namespace Behaviour
                 {
         
                     GameObject currentSlot = inventoryPanel.transform.GetChild(1).GetChild(i).gameObject;
-                    GameObject go = Instantiate(GameManager.Instance.PrefabUtils.PrefabItemUI);
+                    GameObject go = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabItemUI);
                     go.transform.SetParent(currentSlot.transform);
                     go.GetComponent<ItemInstance>().ItemContainer = items[i];
                     go.name = items[i].ToString();
@@ -303,7 +303,7 @@ namespace Behaviour
                 GameObject currentSlot = selectedInventoryPanel.transform.GetChild(i).gameObject;
                 if (items != null && items.Length > 0 && i < items.Length && items[i] != null && items[i].Item != null && items[i].Item.Id != null)
                 {
-                    GameObject go = Instantiate(GameManager.Instance.PrefabUtils.PrefabItemUI);
+                    GameObject go = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabItemUI);
                     go.transform.SetParent(currentSlot.transform);
                     go.GetComponent<ItemInstance>().ItemContainer = items[i];
                     go.name = items[i].Item.ItemName;

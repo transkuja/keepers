@@ -74,7 +74,7 @@ namespace Behaviour
         public void CreateShortcutEscortUI()
         {
             Sprite associatedSprite = instance.Data.AssociatedSprite;
-            ShorcutUI = Instantiate(GameManager.Instance.PrefabUtils.PrefabShorcutCharacter, GameManager.Instance.Ui.goShortcutKeepersPanel.transform);
+            ShorcutUI = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabShorcutCharacter, GameManager.Instance.Ui.goShortcutKeepersPanel.transform);
             ShorcutUI.transform.localScale = Vector3.one;
             ShorcutUI.transform.localPosition = Vector3.zero;
             ShorcutUI.transform.GetChild((int)PanelShortcutChildren.Image).GetComponent<Image>().sprite = associatedSprite;
@@ -90,7 +90,7 @@ namespace Behaviour
         
         public void GoToEscorted()
         {
-            GameManager.Instance.CameraManager.UpdateCameraPosition(instance);
+            GameManager.Instance.UpdateCameraPosition(instance);
         }
 
         public bool IsEscorted

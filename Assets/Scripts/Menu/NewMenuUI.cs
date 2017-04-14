@@ -40,7 +40,7 @@ public class NewMenuUI : MonoBehaviour {
             Sprite associatedSprite = currentSelectedCharacter.Data.AssociatedSprite;
             if (associatedSprite != null)
             {
-                GameObject CharacterImage = Instantiate(NewGameManager.Instance.PrefabUIUtils.prefabMenuSelectedKeeperUI, CharacterPanel.transform);
+                GameObject CharacterImage = Instantiate(GameManager.Instance.PrefabUIUtils.prefabMenuSelectedKeeperUI, CharacterPanel.transform);
                 CharacterImage.name = currentSelectedCharacter.Data.PawnName + ".Panel";
                 CharacterImage.transform.GetChild(0).GetComponent<Image>().sprite = associatedSprite;
                 CharacterImage.transform.localScale = Vector3.one;}

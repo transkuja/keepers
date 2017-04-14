@@ -25,12 +25,12 @@ public class NewMenuManager : MonoBehaviour {
 
     public void InitDeckOfCards()
     {
-        for (int i = 0; i < NewGameManager.Instance.QuestDeckDataBase.ListQuestDeck.Count; i++)
+        for (int i = 0; i < GameManager.Instance.QuestDeckDataBase.ListQuestDeck.Count; i++)
         {
-            QuestDeckData qdd = NewGameManager.Instance.QuestDeckDataBase.ListQuestDeck[i];
+            QuestDeckData qdd = GameManager.Instance.QuestDeckDataBase.ListQuestDeck[i];
 
             // Instanciation du deck
-            GameObject goDeck = Instantiate(NewGameManager.Instance.PrefabUtils.prefabQuestDeck);
+            GameObject goDeck = Instantiate(GameManager.Instance.PrefabUtils.prefabQuestDeck);
             goDeck.transform.SetParent(questDecksPosition[i], false);
 
             // Recuperation du component deck of cards for selection in menu
@@ -54,7 +54,7 @@ public class NewMenuManager : MonoBehaviour {
         for (int i = 0; i < 2; i++)
         {
             // Instanciation du deck
-            GameObject goCardLevel = Instantiate(NewGameManager.Instance.PrefabUtils.prefabLevelCard);
+            GameObject goCardLevel = Instantiate(GameManager.Instance.PrefabUtils.prefabLevelCard);
             goCardLevel.transform.SetParent(cardlevelPosition[i], false);
 
             // Recuperation du component card level for selection in menu
@@ -71,13 +71,13 @@ public class NewMenuManager : MonoBehaviour {
     public void InitKeepers()
     {
         int iKeeper = 0;
-        foreach (string id in NewGameManager.Instance.PawnDataBase.DicPawnDataContainer.Keys)
+        foreach (string id in GameManager.Instance.PawnDataBase.DicPawnDataContainer.Keys)
         {
             if (iKeeper > keepersPosition.Length) break;
 
-            if (NewGameManager.Instance.PawnDataBase.DicPawnDataContainer[id].dicComponentData.ContainsKey(typeof(Behaviour.Keeper)))
+            if (GameManager.Instance.PawnDataBase.DicPawnDataContainer[id].dicComponentData.ContainsKey(typeof(Behaviour.Keeper)))
             {
-                GameObject goKeeper = NewGameManager.Instance.PawnDataBase.CreatePawn(id, Vector3.zero, Quaternion.Euler(180, 90, -90), keepersPosition[iKeeper]);
+                GameObject goKeeper = GameManager.Instance.PawnDataBase.CreatePawn(id, Vector3.zero, Quaternion.Euler(180, 90, -90), keepersPosition[iKeeper]);
                 //TMP
                 goKeeper.transform.localScale = 5 * Vector3.one;
                 //END TMP

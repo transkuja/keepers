@@ -28,7 +28,7 @@ namespace Behaviour
         {
             currentQuestIndex = 0;
 
-            goQuest = Instantiate(GameManager.Instance.PrefabUtils.PrefabContentQuestUI, GameManager.Instance.Ui.goContentQuestParent.transform);
+            goQuest = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabContentQuestUI, GameManager.Instance.Ui.goContentQuestParent.transform);
             goQuest.transform.localPosition = Vector3.zero;
             goQuest.transform.localScale = Vector3.one;
             instance.Interactions.Add(new Interaction(Quest), 1, "Quest", GameManager.Instance.SpriteUtils.spriteQuest);

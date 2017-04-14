@@ -147,7 +147,7 @@ public class PawnDatabase {
 
     public GameObject CreatePawn(string idPawn, Vector3 v3Position, Quaternion quatRotation, Transform trParent)
     {
-        GameObject goPawn = GameObject.Instantiate(NewGameManager.Instance.PrefabUtils.getPawnPrefabById(idPawn), v3Position, quatRotation);
+        GameObject goPawn = GameObject.Instantiate(GameManager.Instance.PrefabUtils.getPawnPrefabById(idPawn), v3Position, quatRotation);
         if (goPawn == null) { Debug.Log("Couldn't find the corresponding prefab in prefabUtils"); return null; }
         goPawn.transform.SetParent(trParent, false);
         goPawn.GetComponent<PawnInstance>().Data = dicPawnDataContainer[idPawn].pawnData;

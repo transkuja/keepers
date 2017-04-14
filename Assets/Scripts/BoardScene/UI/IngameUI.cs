@@ -76,7 +76,7 @@ public class IngameUI : MonoBehaviour
         //CreateKeepersInventoryPanels();
        // GameManager.Instance.PrisonerInstance.prisonerFeedingPanel = CreatePrisonerFeedingPanel(GameManager.Instance.PrisonerInstance.gameObject);
         // TODO : rustine pour que ça marche quand on relance le jeu
-        GameObject worldSpaceUI = Instantiate(GameManager.Instance.PrefabUtils.WorldSpaceUIprefab);
+        GameObject worldSpaceUI = Instantiate(GameManager.Instance.PrefabUIUtils.WorldSpaceUIprefab);
         worldSpaceCanvas = worldSpaceUI.transform.GetChild(0).GetComponent<Canvas>();
         goActionPanelQ = worldSpaceUI.transform.GetChild(0).GetChild(0).gameObject;
         //UpdateShortcutPanel();
@@ -119,7 +119,7 @@ public class IngameUI : MonoBehaviour
             bIsForbiden = bIsForbiden || ic.listActionContainers[i].strName == "Moral" && !GameManager.Instance.GetFirstSelectedKeeper().Data.Behaviours[(int)BehavioursEnum.CanSpeak];
             if (!bIsForbiden)
             {
-                GameObject goAction = Instantiate(GameManager.Instance.PrefabUtils.PrefabActionUI, goActionPanelQ.transform);
+                GameObject goAction = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabActionUI, goActionPanelQ.transform);
                 goAction.name = ic.listActionContainers[i].strName;
 
                 goAction.GetComponent<RectTransform>().localPosition = Vector3.zero;
@@ -139,7 +139,7 @@ public class IngameUI : MonoBehaviour
 
                 if (ic.listActionContainers[i].costAction > 0)
                 {
-                    GameObject actionPoints = Instantiate(GameManager.Instance.PrefabUtils.PrefabActionPoint, goAction.transform);
+                    GameObject actionPoints = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabActionPoint, goAction.transform);
                     actionPoints.transform.localScale = Vector3.one;
                     actionPoints.transform.localPosition = Vector3.zero;
                     actionPoints.transform.localRotation = Quaternion.identity;

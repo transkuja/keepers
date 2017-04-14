@@ -141,12 +141,12 @@ namespace Behaviour
 
         public void CreateSelectedHPPanel()
         {
-            SelectedHPUI = Instantiate(GameManager.Instance.PrefabUtils.PrefabHPUI);
+            SelectedHPUI = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabHPUI);
         }
 
         public void CreateShortcutHPPanel()
         {
-            ShortcutHPUI = Instantiate(GameManager.Instance.PrefabUtils.PrefabHPUI);
+            ShortcutHPUI = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabHPUI);
         }
 
         public void UpdateHPPanel(int currentHp)

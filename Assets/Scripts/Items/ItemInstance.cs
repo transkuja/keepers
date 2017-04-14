@@ -37,7 +37,7 @@ public class ItemInstance : MonoBehaviour, IHavestable
     public void Init(string _IdItem, int _iNb)
     {
         idItem = _IdItem;
-        itemContainer = new ItemContainer(GameManager.Instance.Database.getItemById(_IdItem), quantity);
+        itemContainer = new ItemContainer(GameManager.Instance.ItemDataBase.getItemById(_IdItem), quantity);
 
         if (itemContainer.Item.IngameVisual != null)
         {

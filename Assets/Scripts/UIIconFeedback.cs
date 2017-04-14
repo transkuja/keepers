@@ -27,7 +27,7 @@ public class UIIconFeedback : MonoBehaviour {
 
     bool CheckFarEnough()
     {
-        float fValue = GameManager.Instance.CameraManager.FZoomLerp;
+        float fValue = GameManager.Instance.CameraFZoomLerp;
 
         if (bIsFarEnough)
         {

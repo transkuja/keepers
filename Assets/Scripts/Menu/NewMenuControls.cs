@@ -135,8 +135,8 @@ public class NewMenuControls : MonoBehaviour {
 
         foreach (PawnInstance ki in menuManager.ListeSelectedKeepers)
         {
-            NewGameManager.Instance.ListOfSelectedKeepers.Add(ki);
-            ki.gameObject.transform.SetParent(NewGameManager.Instance.transform);
+            GameManager.Instance.ListOfSelectedKeepers.Add(ki);
+            ki.gameObject.transform.SetParent(GameManager.Instance.transform);
         }
 
         if (AudioManager.Instance != null)

@@ -52,10 +52,9 @@ public class CharactersInitializer : MonoBehaviour {
 
         // Next step, init NPCs
         // TODO: init quests and call this properly
-        InitNPCs(new QuestSystem.QuestDeck());
+        InitNPCs(new QuestDeck());
 
-        GameManager.Instance.CameraManager.UpdateCameraPosition();
-        //NewGameManager.Instance.UpdateCameraPosition();
+        GameManager.Instance.UpdateCameraPosition(GameManager.Instance.PrisonerInstance);
     }
 
     private void InitNPCs(QuestSystem.QuestDeck _questDeck)
@@ -63,7 +62,7 @@ public class CharactersInitializer : MonoBehaviour {
         // TODO: init characters linked to quests
 
         // TODO this should not be handled like, especially if there is more prisoner in scene
-        NewGameManager.Instance.PrisonerInstance = FindObjectOfType<Behaviour.Prisoner>().GetComponent<PawnInstance>();
+        GameManager.Instance.PrisonerInstance = FindObjectOfType<Behaviour.Prisoner>().GetComponent<PawnInstance>();
 
         // I NEED A QUEST INITIALIZER
         List<IQuestObjective> mainObjectives = new List<IQuestObjective>();

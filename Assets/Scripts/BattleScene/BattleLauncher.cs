@@ -17,7 +17,7 @@ public class BattleLauncher : MonoBehaviour {
                 mi.GetComponent<NavMeshAgent>().SetDestination(mi.transform.position);
             BattleHandler.StartBattleProcess(tile);
 
-            GameManager.Instance.CameraManager.UpdateCameraPosition(GetComponentInParent<Behaviour.Keeper>().getPawnInstance);
+            GameManager.Instance.UpdateCameraPosition(GetComponentInParent<Behaviour.Keeper>().getPawnInstance);
         }
     }
 }

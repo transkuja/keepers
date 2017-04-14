@@ -93,7 +93,6 @@ public class CameraManager : MonoBehaviour {
         fZoomLerpOrigin = 1;
 
         GameManager.Instance.RegisterCameraManager(this);
-        NewGameManager.Instance.RegisterCameraManager(this);
     }
     public void UpdateCameraPosition(PawnInstance pi)
     {

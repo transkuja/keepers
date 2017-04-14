@@ -10,7 +10,7 @@ public class TriggerPanneau : MonoBehaviour {
 
     void Awake()
     {
-        goPanneau = Instantiate(GameManager.Instance.PrefabUtils.PrefabContentPanneauUI, GameManager.Instance.Ui.goContentPanneauParent.transform);
+        goPanneau = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabContentPanneauUI, GameManager.Instance.Ui.goContentPanneauParent.transform);
         goPanneau.transform.localPosition = Vector3.zero;
         goPanneau.transform.localScale = Vector3.one;
     }

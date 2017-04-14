@@ -162,7 +162,7 @@ namespace Behaviour
         public void CreateShortcutKeeperUI()
         {
             Sprite associatedSprite = instance.Data.AssociatedSprite;
-            ShorcutUI = Instantiate(GameManager.Instance.PrefabUtils.PrefabShorcutCharacter, GameManager.Instance.Ui.goShortcutKeepersPanel.transform);
+            ShorcutUI = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabShorcutCharacter, GameManager.Instance.Ui.goShortcutKeepersPanel.transform);
 
             ShorcutUI.name = "Panel_Shortcut_" + instance.Data.PawnName;
             ShorcutUI.transform.GetChild((int)PanelShortcutChildren.Image).GetComponent<Image>().sprite = associatedSprite;
@@ -173,11 +173,11 @@ namespace Behaviour
         public void CreateSelectedPanel()
         {
             Sprite associatedSprite = instance.Data.AssociatedSprite;
-            SelectedPanelUI = Instantiate(GameManager.Instance.PrefabUtils.PrefabSelectedKeeper, GameManager.Instance.PrefabUtils.PrefabSelectedKeeper.transform.position, GameManager.Instance.PrefabUtils.PrefabSelectedKeeper.transform.rotation);
+            SelectedPanelUI = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabSelectedKeeper, GameManager.Instance.PrefabUIUtils.PrefabSelectedKeeper.transform.position, GameManager.Instance.PrefabUIUtils.PrefabSelectedKeeper.transform.rotation);
             SelectedPanelUI.transform.SetParent(GameManager.Instance.Ui.goSelectedKeeperPanel.transform, false);
             SelectedPanelUI.transform.localScale = Vector3.one;
 
-            SelectedStatPanelUI = Instantiate(GameManager.Instance.PrefabUtils.PrefabSelectedStatsUIPanel, GameManager.Instance.PrefabUtils.PrefabSelectedStatsUIPanel.transform.position, GameManager.Instance.PrefabUtils.PrefabSelectedStatsUIPanel.transform.rotation);
+            SelectedStatPanelUI = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabSelectedStatsUIPanel, GameManager.Instance.PrefabUIUtils.PrefabSelectedStatsUIPanel.transform.position, GameManager.Instance.PrefabUIUtils.PrefabSelectedStatsUIPanel.transform.rotation);
             SelectedStatPanelUI.transform.SetParent(SelectedPanelUI.transform, false);
             SelectedStatPanelUI.transform.localScale = Vector3.one;
             SelectedStatPanelUI.name = "Stats";
@@ -190,7 +190,7 @@ namespace Behaviour
             SelectedStatPanelUI.transform.GetChild((int)PanelSelectedKeeperStatChildren.ButtonCycleLeft).GetComponent<Button>().onClick.AddListener(() => GoToKeeper(-1));
             SelectedStatPanelUI.transform.GetChild((int)PanelSelectedKeeperStatChildren.ButtonCycleRight).GetComponent<Button>().onClick.AddListener(() => GoToKeeper(+1));
 
-            selectedEquipementUI = Instantiate(GameManager.Instance.PrefabUtils.PrefabSelectedEquipementUIPanel, GameManager.Instance.PrefabUtils.PrefabSelectedEquipementUIPanel.transform.position, GameManager.Instance.PrefabUtils.PrefabSelectedEquipementUIPanel.transform.rotation);
+            selectedEquipementUI = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabSelectedEquipementUIPanel, GameManager.Instance.PrefabUIUtils.PrefabSelectedEquipementUIPanel.transform.position, GameManager.Instance.PrefabUIUtils.PrefabSelectedEquipementUIPanel.transform.rotation);
             selectedEquipementUI.transform.GetComponent<InventoryOwner>().Owner = gameObject;
             selectedEquipementUI.transform.SetParent(SelectedPanelUI.transform, false);
             selectedEquipementUI.transform.localScale = Vector3.one;
@@ -215,7 +215,7 @@ namespace Behaviour
                 GameObject currentSlot = SelectedEquipementUI.transform.GetChild(i).gameObject;
                 if (equipements[i] != null && equipements[i].Item != null && equipements[i].Item.Id != null)
                 {
-                    GameObject go = Instantiate(GameManager.Instance.PrefabUtils.PrefabItemUI);
+                    GameObject go = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabItemUI);
                     go.transform.SetParent(currentSlot.transform);
                     go.GetComponent<ItemInstance>().ItemContainer = equipements[i];
                     go.name = equipements[i].ToString();
@@ -342,7 +342,7 @@ namespace Behaviour
 
                 if (isSelected == true)
                 {
-                    GameManager.Instance.CameraManager.UpdateCameraPosition(instance);
+                    GameManager.Instance.UpdateCameraPosition(instance);
                 }
                 ShowSelectedPanelUI(isSelected);
                 GameManager.Instance.Ui.ClearActionPanel();
