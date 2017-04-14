@@ -135,7 +135,7 @@ public class NewMenuControls : MonoBehaviour {
 
         foreach (PawnInstance ki in menuManager.ListeSelectedKeepers)
         {
-            GameManager.Instance.ListOfSelectedKeepers.Add(ki);
+            GameManager.Instance.AllKeepersList.Add(ki);
             ki.gameObject.transform.SetParent(GameManager.Instance.transform);
         }
 

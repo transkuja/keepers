@@ -108,7 +108,6 @@ namespace Behaviour
             agent = GetComponent<NavMeshAgent>();
 
             actionPoints = MaxActionPoints;
-            GameManager.Instance.RegisterKeeperPosition(instance);
         }
 
         public bool IsTheLastKeeperOnTheTile()

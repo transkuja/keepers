@@ -51,11 +51,11 @@ public class NewMenuManager : MonoBehaviour {
 
     public void InitCardLevels()
     {
-        for (int i = 0; i < 2; i++)
+        for (int i = 1; i <= 2; i++)
         {
             // Instanciation du deck
             GameObject goCardLevel = Instantiate(GameManager.Instance.PrefabUtils.prefabLevelCard);
-            goCardLevel.transform.SetParent(cardlevelPosition[i], false);
+            goCardLevel.transform.SetParent(cardlevelPosition[i-1], false);
 
             // Recuperation du component card level for selection in menu
             CardLevel cardLevel = goCardLevel.GetComponentInChildren<CardLevel>();
