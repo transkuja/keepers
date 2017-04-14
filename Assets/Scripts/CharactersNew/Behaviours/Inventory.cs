@@ -119,6 +119,8 @@ namespace Behaviour
                     button.transform.localPosition = new Vector3(0, -200, 0);
                 }
             }
+
+            UpdateInventories();
         }
 
         public void CreateInventoryUI()

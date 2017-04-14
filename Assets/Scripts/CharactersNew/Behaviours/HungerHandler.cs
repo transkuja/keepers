@@ -78,6 +78,8 @@ namespace Behaviour
                 ShortcutHungerUI.transform.localScale = Vector3.one;
                 ShortcutHungerUI.transform.localPosition = Vector3.zero;
             }
+
+            UpdateHungerPanel(Data.MaxHunger);
         }
 
         public void CreateSelectedHungerPanel()

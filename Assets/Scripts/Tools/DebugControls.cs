@@ -68,8 +68,13 @@ public class DebugControls : MonoBehaviour {
                 GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Mortal>().CurrentHp--;
             }
 
-            // Unlimited action points
             if (Input.GetKeyDown(KeyCode.Alpha5))
+            {
+                GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Keeper>().ActionPoints--;
+            }
+
+            // Unlimited action points
+            if (Input.GetKeyDown(KeyCode.Alpha6))
             {
                 if (isUnlimitedActionPointsModeActive)
                 {
@@ -93,26 +98,23 @@ public class DebugControls : MonoBehaviour {
             }
 
             // Pop a monster
-            if (Input.GetKeyDown(KeyCode.Alpha6))
+            if (Input.GetKeyDown(KeyCode.Alpha7))
             {
-                GameObject go = Instantiate(monsterToPopPrefab, 
+                GameObject go = Instantiate(monsterToPopPrefab,
                     GameManager.Instance.GetFirstSelectedKeeper().CurrentTile.transform.position,
                     Quaternion.identity, GameManager.Instance.GetFirstSelectedKeeper().CurrentTile.transform);
                 TileManager.Instance.AddMonsterOnTile(GameManager.Instance.GetFirstSelectedKeeper().CurrentTile, go.GetComponent<PawnInstance>());
             }
 
             // Pop an item on the ground
-            if (Input.GetKeyDown(KeyCode.Alpha7))
+            if (Input.GetKeyDown(KeyCode.Alpha8))
             {
                 ItemContainer[] itemToSpawn = new ItemContainer[1];
                 Debug.Log(GameManager.Instance.ItemDataBase.ItemsList.Count);
                 itemToSpawn[0] = new ItemContainer(GameManager.Instance.ItemDataBase.ItemsList[Random.Range(0, GameManager.Instance.ItemDataBase.ItemsList.Count)], itemsToPopAmount);
                 ItemManager.AddItemOnTheGround(GameManager.Instance.GetFirstSelectedKeeper().CurrentTile, GameManager.Instance.GetFirstSelectedKeeper().CurrentTile.transform, itemToSpawn);
-
-                Debug.Log("Not implemented yet.");
             }
 
         }
-
     }
 }

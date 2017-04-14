@@ -78,6 +78,8 @@ namespace Behaviour
                 ShortcutMentalHealthUI.transform.localScale = Vector3.one;
                 ShortcutMentalHealthUI.transform.localPosition = Vector3.zero;
             }
+
+            UpdateMentalHealthPanel(Data.MaxMentalHealth);
         }
 
         public void CreateSelectedMentalHealthPanel()

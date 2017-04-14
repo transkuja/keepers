@@ -97,12 +97,11 @@ namespace Behaviour
         void Awake()
         {
             instance = GetComponent<PawnInstance>();
+            equipements = new ItemContainer[3];
         }
 
         void Start()
         {
-            equipements = new ItemContainer[3];
-
             if (instance.Data.Behaviours[(int)BehavioursEnum.CanSpeak])
                 instance.Interactions.Add(new Interaction(MoralBuff), 1, "Moral", GameManager.Instance.SpriteUtils.spriteMoral);
 
@@ -154,6 +153,8 @@ namespace Behaviour
         {
             CreateShortcutKeeperUI();
             CreateSelectedPanel();
+
+            UpdateActionPoint(MaxActionPoints);
         }
 
         public void CreateShortcutKeeperUI()

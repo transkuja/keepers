@@ -139,6 +139,8 @@ namespace Behaviour
                 ShortcutHPUI.transform.localScale = Vector3.one;
                 ShortcutHPUI.transform.localPosition = Vector3.zero;
             }
+
+            UpdateHPPanel(MaxHp);
         }
 
         public void CreateSelectedHPPanel()
@@ -162,7 +164,6 @@ namespace Behaviour
                 SelectedHPUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)currentHp / (float)Data.MaxHp;
                 ShortcutHPUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)currentHp / (float)Data.MaxHp;
             }
-
         }
         #endregion
 

@@ -298,7 +298,7 @@ public class Ressource : Item
     private bool DecreaseHunger(int _value, PawnInstance owner)
     {
         //GameManager.Instance.Ui.BuffActionTextAnimation(GameManager.Instance.Ui.goHungerBuffOnStatPanel, _value);
-        owner.GetComponent<Behaviour.MentalHealthHandler>().CurrentMentalHealth += (short)_value;
+        owner.GetComponent<Behaviour.HungerHandler>().CurrentHunger += (short)_value;
         return true;
     }
 
