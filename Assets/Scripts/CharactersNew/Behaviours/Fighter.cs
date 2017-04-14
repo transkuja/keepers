@@ -31,9 +31,13 @@ namespace Behaviour
         int defensiveSymbolStored = 0;
         int supportSymbolStored = 0;
 
-        void Start()
+        void Awake()
         {
             instance = GetComponent<PawnInstance>();
+        }
+
+        void Start()
+        {
             if (GetComponent<Monster>() != null) IsAMonster = true;
             else IsAMonster = false;
         }

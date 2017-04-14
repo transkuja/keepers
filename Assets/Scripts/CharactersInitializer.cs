@@ -45,6 +45,8 @@ public class CharactersInitializer : MonoBehaviour {
             GameManager.Instance.AllKeepersList[i].transform.GetComponent<NavMeshAgent>().enabled = true;
 
             //GlowController.RegisterObject(GameManager.Instance.AllKeepersList[i].GetComponent<GlowObjectCmd>());
+
+            InitCharacterUI(GameManager.Instance.AllKeepersList[i]);
         }
 
         // Next step, init quests
@@ -53,8 +55,6 @@ public class CharactersInitializer : MonoBehaviour {
         // Next step, init NPCs
         // TODO: init quests and call this properly
         InitNPCs(new QuestDeck());
-
-        GameManager.Instance.UpdateCameraPosition(GameManager.Instance.PrisonerInstance);
     }
 
     private void InitNPCs(QuestSystem.QuestDeck _questDeck)
@@ -66,8 +66,47 @@ public class CharactersInitializer : MonoBehaviour {
 
         // I NEED A QUEST INITIALIZER
         List<IQuestObjective> mainObjectives = new List<IQuestObjective>();
-        mainObjectives.Add(new PrisonerEscortObjective("Until the end", "Bring Ashley to the end, and ALIVE.", GameObject.FindObjectOfType<Behaviour.Prisoner>().gameObject, TileManager.Instance.EndTile.GetComponent<Tile>()));
+        mainObjectives.Add(new PrisonerEscortObjective("Until the end", "Bring Ashley to the end, and ALIVE.", GameObject.FindObjectOfType<Behaviour.Prisoner>().gameObject, TileManager.Instance.EndTile));
         GameManager.Instance.MainQuest = new Quest(new QuestIdentifier(0, gameObject), new QuestText("Main Quest: The last phoque licorne", "", "You're probably wondering why I gathered all of you here today. Well I'll be quick, I want you to bring this wonderful animal to my good and rich friend. Don't worry, you will be rewarded. His name is \"End\", you'll see his flag from pretty far away, head towards it. I'm counting on you, it is extremely important.", "Hint: Don't kill Ashley."), mainObjectives);
+        GameManager.Instance.MainQuest.CheckAndComplete();
+        GameManager.Instance.MainQuest.OnQuestComplete += EndGameQuest;
+
+        InitCharacterUI(GameManager.Instance.PrisonerInstance);
+    }
+
+    void EndGameQuest()
+    {
+        GameManager.Instance.MainQuest.OnQuestComplete -= EndGameQuest;
+        GameManager.Instance.Win();
+    }
+
+    public void InitCharacterUI(PawnInstance newCharacter)
+    {
+        if (newCharacter.GetComponent<Behaviour.Keeper>() != null)
+        {
+            newCharacter.GetComponent<Behaviour.Keeper>().InitUI();
+        }
+        else if (newCharacter.GetComponent<Behaviour.Escortable>() != null)
+        {
+            newCharacter.GetComponent<Behaviour.Escortable>().InitUI();
+        }
+        else
+        {
+            Debug.LogWarning("Trying to initialize UI on a pawn that is not a Keeper or an Escortable. Pawn name: " + newCharacter.Data.PawnName);
+            return;
+        }
+
+        if (newCharacter.GetComponent<Behaviour.Mortal>() != null)
+            newCharacter.GetComponent<Behaviour.Mortal>().InitUI();
+
+        if (newCharacter.GetComponent<Behaviour.HungerHandler>() != null)
+            newCharacter.GetComponent<Behaviour.HungerHandler>().InitUI();
+
+        if (newCharacter.GetComponent<Behaviour.MentalHealthHandler>() != null)
+            newCharacter.GetComponent<Behaviour.MentalHealthHandler>().InitUI();
+
+        if (newCharacter.GetComponent<Behaviour.Inventory>() != null)
+            newCharacter.GetComponent<Behaviour.Inventory>().InitUI();
 
     }
 }

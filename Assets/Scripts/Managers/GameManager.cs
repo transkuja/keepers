@@ -377,6 +377,7 @@ public class GameManager : MonoBehaviour
     public void RegisterCameraManager(CameraManager _cameraManager)
     {
         cameraManagerReference = _cameraManager;
+        UpdateCameraPosition(tileManagerReference.BeginTile);
     }
 
     public void RegisterGameScreens(IngameScreens _gameScreens)
@@ -387,6 +388,11 @@ public class GameManager : MonoBehaviour
 
     #region Camera facade
     public void UpdateCameraPosition(PawnInstance cameraTarget)
+    {
+        cameraManagerReference.UpdateCameraPosition(cameraTarget);
+    }
+
+    public void UpdateCameraPosition(Tile cameraTarget)
     {
         cameraManagerReference.UpdateCameraPosition(cameraTarget);
     }
@@ -417,6 +423,17 @@ public class GameManager : MonoBehaviour
     public void RegisterMonsterPosition(PawnInstance _monster)
     {
         tileManagerReference.AddMonsterOnTile(_monster);
+    }
+
+    public void RegisterKeeperPosition(PawnInstance _keeper)
+    {
+        tileManagerReference.AddKeeperOnTile(tileManagerReference.BeginTile, _keeper);
+    }
+
+    public void RegisterPrisoner(PawnInstance _prisoner)
+    {
+        prisonerInstance = _prisoner;
+        tileManagerReference.RegisterPrisonerPosition(_prisoner);
     }
     #endregion
 

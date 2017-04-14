@@ -28,7 +28,8 @@ public static class ItemManager {
                     j++;
                 }
             }
-            dropInventory.InitUI(j);
+            dropInventory.Data.NbSlot = j;
+            dropInventory.InitUI();
 
             Array.Copy(loot, dropInventory.Items, dropInventory.Items.Length);
             dropInventory.UpdateInventories();

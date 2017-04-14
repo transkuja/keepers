@@ -8,7 +8,7 @@ public class TriggerPanneau : MonoBehaviour {
     public string textPanneau;
     private GameObject goPanneau;
 
-    void Awake()
+    void Start()
     {
         goPanneau = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabContentPanneauUI, GameManager.Instance.Ui.goContentPanneauParent.transform);
         goPanneau.transform.localPosition = Vector3.zero;

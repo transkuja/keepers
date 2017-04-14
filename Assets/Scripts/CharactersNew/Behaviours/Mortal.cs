@@ -47,12 +47,14 @@ namespace Behaviour
         private GameObject selectedHPUI;
         private GameObject shortcutHPUI;
 
-        void Start()
+        void Awake()
         {
             instance = GetComponent<PawnInstance>();
-            InitUI();
+        }
 
-            CurrentHp = data.MaxHp;
+        void Start()
+        {
+            currentHp = data.MaxHp;
             isAlive = true;
         }
 

@@ -110,10 +110,14 @@ namespace Behaviour
             }
         }
 
+        void Awake()
+        {
+            agent = GetComponent<NavMeshAgent>();
+            instance = GetComponent<PawnInstance>();
+        }
+
         void Start()
         {
-            instance = GetComponent<PawnInstance>();
-            agent = GetComponent<NavMeshAgent>();
             originPosition = transform.position;
             originRotation = transform.rotation;
 

@@ -9,9 +9,14 @@ namespace Behaviour
 
         PawnInstance instance;
 
-        void Start()
+        void Awake()
         {
             instance = GetComponent<PawnInstance>();
+        }
+
+        void Start()
+        {
+            GameManager.Instance.RegisterPrisoner(instance);
         }
 
         public void ProcessFeeding()

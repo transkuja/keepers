@@ -44,13 +44,14 @@ namespace Behaviour
         private GameObject selectedHungerUI;
         private GameObject shortcutHungerUI;
 
-        void Start()
+        void Awake()
         {
             instance = GetComponent<PawnInstance>();
+        }
 
-            InitUI();
-   
-            CurrentHunger = data.MaxHunger;
+        void Start()
+        { 
+            currentHunger = data.MaxHunger;
         }
 
         #region UI

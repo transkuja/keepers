@@ -22,7 +22,7 @@ public class ItemInstance : MonoBehaviour, IHavestable
     [SerializeField]
     private string idItem;
 
-    void Awake()
+    void Start()
     {
         if (isInScene)
         {

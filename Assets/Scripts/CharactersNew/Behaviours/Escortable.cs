@@ -26,8 +26,6 @@ namespace Behaviour
         void Awake()
         {
             instance = GetComponent<PawnInstance>();
-
-            CreateShortcutEscortUI();
         }
 
         void Start()
@@ -64,12 +62,19 @@ namespace Behaviour
         {
             Inventory inv = gameObject.AddComponent<Inventory>();
 
-            inv.InitUI(feedingSlotsCount);
+            inv.Data.NbSlot = feedingSlotsCount;
+            inv.InitUI();
 
             prisonerFeedingPanel.SetActive(true);
         }
 
         #endregion
+
+        #region UI
+        public void InitUI()
+        {
+            CreateShortcutEscortUI();
+        }
 
         public void CreateShortcutEscortUI()
         {
@@ -87,7 +92,9 @@ namespace Behaviour
 
             ShorcutUI.GetComponent<Button>().onClick.AddListener(() => GoToEscorted());
         }
-        
+
+        #endregion
+
         public void GoToEscorted()
         {
             GameManager.Instance.UpdateCameraPosition(instance);

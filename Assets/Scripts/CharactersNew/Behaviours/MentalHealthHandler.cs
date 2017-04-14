@@ -45,13 +45,14 @@ namespace Behaviour
         private GameObject selectedMentalHealthUI;
         private GameObject shortcutMentalHealthUI;
 
-        void Start()
+        void Awake()
         {
             instance = GetComponent<PawnInstance>();
+        }
 
-            InitUI();
-
-            CurrentMentalHealth = data.MaxMentalHealth;
+        void Start()
+        {
+            currentMentalHealth = data.MaxMentalHealth;
         }
 
         #region UI

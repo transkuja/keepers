@@ -29,9 +29,9 @@ public class TileManager : MonoBehaviour {
     Tile prisonerTile;
     GameObject tiles;
     [SerializeField]
-    GameObject beginTile;
+    Tile beginTile;
     [SerializeField]
-    GameObject endTile;
+    Tile endTile;
 
     [SerializeField]
     int levelWidth;
@@ -209,7 +209,7 @@ public class TileManager : MonoBehaviour {
         }
     }
 
-    private void AddKeeperOnTile(Tile tile, PawnInstance keeper)
+    public void AddKeeperOnTile(Tile tile, PawnInstance keeper)
     {
         if (keeper.GetComponent<Behaviour.Keeper>() == null)
         {
@@ -271,16 +271,6 @@ public class TileManager : MonoBehaviour {
         return spawnPositions;
     }
 
-    public void ResetTileManager()
-    {
-        instance.MonstersOnTile.Clear();
-        instance.KeepersOnTile.Clear();
-        instance.GetTileFromKeeper.Clear();
-
-        // Re-initialize
-        instance.InitializeState();
-    }
-
     private void InitializeState()
     {
         tiles = gameObject;
@@ -294,24 +284,22 @@ public class TileManager : MonoBehaviour {
             Debug.Log("Reference to end tile is null.");
             return;
         }
-        instance.prisonerTile = beginTile.GetComponentInParent<Tile>();
-        GameManager.Instance.PrisonerInstance.CurrentTile = instance.prisonerTile;
 
-        foreach (PawnInstance pi in GameManager.Instance.AllKeepersList)
-        {
-            instance.AddKeeperOnTile(beginTile.GetComponentInParent<Tile>(), pi);
-        }
+    }
+
+    public void RegisterPrisonerPosition(PawnInstance _prisoner)
+    {
+        prisonerTile = beginTile;
+        _prisoner.CurrentTile = beginTile;
     }
 
     public void ChangeBeginTile(string _newTileName)
     {
-        beginTile.tag = null;
         for (int i = 0; i < tiles.transform.childCount; i++)
         {
             if (tiles.transform.GetChild(i).name.Equals(_newTileName))
             {
-                beginTile = tiles.transform.GetChild(i).gameObject;
-                beginTile.tag = beginTileTag;
+                beginTile = tiles.transform.GetChild(i).GetComponent<Tile>();
                 break;
             }
         }
@@ -319,13 +307,11 @@ public class TileManager : MonoBehaviour {
 
     public void ChangeEndTile(string _newTileName)
     {
-        endTile.tag = null;
         for (int i = 0; i < tiles.transform.childCount; i++)
         {
             if (tiles.transform.GetChild(i).name.Equals(_newTileName))
             {
-                endTile = tiles.transform.GetChild(i).gameObject;
-                endTile.tag = endTileTag;
+                endTile = tiles.transform.GetChild(i).GetComponent<Tile>();
                 break;
             }
         }
@@ -377,7 +363,7 @@ public class TileManager : MonoBehaviour {
         }
     }
 
-    public GameObject BeginTile
+    public Tile BeginTile
     {
         get
         {
@@ -394,15 +380,15 @@ public class TileManager : MonoBehaviour {
     {
         get
         {
-            int beginPositionsCount = instance.beginTile.transform.GetChild((int)TilePrefabChildren.BeginPositions).childCount;
+            int beginPositionsCount = beginTile.transform.GetChild(0).GetChild((int)TilePrefabChildren.BeginPositions).childCount;
             Transform[] beginPositions = new Transform[beginPositionsCount];
             for (int i = 0; i < beginPositionsCount; i++)
-                beginPositions[i] = instance.beginTile.transform.GetChild((int)TilePrefabChildren.BeginPositions).GetChild(i);
+                beginPositions[i] = beginTile.transform.GetChild(0).GetChild((int)TilePrefabChildren.BeginPositions).GetChild(i);
             return beginPositions;
         }
     }
 
-    public GameObject EndTile
+    public Tile EndTile
     {
         get
         {

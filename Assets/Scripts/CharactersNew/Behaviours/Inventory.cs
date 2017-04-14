@@ -47,14 +47,9 @@ namespace Behaviour
         private GameObject inventoryPanel;
         private GameObject selectedInventoryPanel;
 
-        void Start()
+        void Awake()
         {
             instance = GetComponent<PawnInstance>();
-
-            if ( instance != null)
-            {
-                InitUI(data.NbSlot);
-            }
         }
 
         public void Add(ItemContainer item)
@@ -95,10 +90,9 @@ namespace Behaviour
         }
 
         #region UI
-        public void InitUI(int slotCount)
+        public void InitUI()
         {
-            data.NbSlot = slotCount;
-            items = new ItemContainer[slotCount];
+            items = new ItemContainer[data.NbSlot];
 
             CreateInventoryUI();
             InitInventoryPanel();

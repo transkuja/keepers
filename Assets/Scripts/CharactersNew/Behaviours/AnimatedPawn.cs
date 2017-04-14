@@ -30,14 +30,16 @@ namespace Behaviour
         [SerializeField]
         float fRotateSpeed = 1.0f;
 
-        void Start()
+        void Awake()
         {
             instance = GetComponent<PawnInstance>();
-
             agent = GetComponent<NavMeshAgent>();
-
-            arrivingTrigger = Direction.None;
             anim = GetComponentInChildren<Animator>();
+        }
+
+        void Start()
+        {
+            arrivingTrigger = Direction.None;
             fRotateSpeed = 5.0f;
         }
 

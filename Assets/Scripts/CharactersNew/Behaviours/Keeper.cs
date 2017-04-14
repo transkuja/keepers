@@ -96,23 +96,20 @@ namespace Behaviour
 
         void Awake()
         {
-            // J'ai un probleme j'ai besoin que la creation de l'ui de ce mec soit faite avant celle des autres composants
-            // Peut que sa sera corrigé avec le truc de Quentin du coup on pourra le déplacer dans le start
             instance = GetComponent<PawnInstance>();
-
-            // Equipement
-            equipements = new ItemContainer[3];
         }
 
         void Start()
         {
-    
+            equipements = new ItemContainer[3];
+
             if (instance.Data.Behaviours[(int)BehavioursEnum.CanSpeak])
                 instance.Interactions.Add(new Interaction(MoralBuff), 1, "Moral", GameManager.Instance.SpriteUtils.spriteMoral);
 
             agent = GetComponent<NavMeshAgent>();
 
-            ActionPoints = MaxActionPoints;
+            actionPoints = MaxActionPoints;
+            GameManager.Instance.RegisterKeeperPosition(instance);
         }
 
         public bool IsTheLastKeeperOnTheTile()

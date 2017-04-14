@@ -11,7 +11,7 @@ using UnityEngine.SceneManagement;
 public class IngameScreens : MonoBehaviour {
     private static IngameScreens instance = null;
 
-    public void Awake()
+    public void Start()
     {
         instance = this;
         GameManager.Instance.RegisterGameScreens(this);

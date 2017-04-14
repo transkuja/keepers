@@ -98,14 +98,15 @@ public class CameraManager : MonoBehaviour {
     {
         isUpdateNeeded = true;
         oldPosition = transform.position;
+
         activeTile = pi.CurrentTile;
     }
 
-    public void UpdateCameraPosition()
+    public void UpdateCameraPosition(Tile targetTile)
     {
         isUpdateNeeded = true;
         oldPosition = transform.position;
-        activeTile = TileManager.Instance.PrisonerTile;
+        activeTile = targetTile;
     }
 
     void Update()
