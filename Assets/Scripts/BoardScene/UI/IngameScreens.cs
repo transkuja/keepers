@@ -14,6 +14,8 @@ public class IngameScreens : MonoBehaviour {
     public void Awake()
     {
         instance = this;
+        GameManager.Instance.RegisterGameScreens(this);
+        NewGameManager.Instance.RegisterGameScreens(this);
     }
 
     public static IngameScreens Instance
