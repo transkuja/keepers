@@ -111,39 +111,42 @@ public class CameraManager : MonoBehaviour {
 
     void Update()
     {
-        if (isUpdateNeeded)
+        if (GameManager.Instance.CurrentState == GameState.Normal)
         {
-            lerpParameter += Time.deltaTime;
-
-            Vector3 v3NewPos = Vector3.Lerp(oldPosition, positionFromATileClose + activeTile.transform.position + Vector3.back, Mathf.Min(lerpParameter, 1.0f));
-
-            v3NewPos.y = transform.position.y;
-            transform.localPosition = v3NewPos;
-
-            v3NewPos.y = tClose.position.y;
-            tClose.position = v3NewPos;
-
-            v3NewPos.y = tFar.position.y;
-            tFar.position = v3NewPos;
-
-            if (lerpParameter >= 1.0f)
+            if (isUpdateNeeded)
             {
-                isUpdateNeeded = false;
-                oldPosition = Vector3.zero;
-                lerpParameter = 0.0f;
+                lerpParameter += Time.deltaTime;
+
+                Vector3 v3NewPos = Vector3.Lerp(oldPosition, positionFromATileClose + activeTile.transform.position + Vector3.back, Mathf.Min(lerpParameter, 1.0f));
+
+                v3NewPos.y = transform.position.y;
+                transform.localPosition = v3NewPos;
+
+                v3NewPos.y = tClose.position.y;
+                tClose.position = v3NewPos;
+
+                v3NewPos.y = tFar.position.y;
+                tFar.position = v3NewPos;
+
+                if (lerpParameter >= 1.0f)
+                {
+                    isUpdateNeeded = false;
+                    oldPosition = Vector3.zero;
+                    lerpParameter = 0.0f;
+                }
+
+                //Vector3 pos = transform.position;
+                //pos.x = Mathf.Clamp(pos.x, cameraBounds.GetChild((int)CameraBound.West).position.x, cameraBounds.GetChild((int)CameraBound.East).position.x);
+                //pos.z = Mathf.Clamp(pos.z, cameraBounds.GetChild((int)CameraBound.South).position.z, cameraBounds.GetChild((int)CameraBound.North).position.z);
+                //transform.position = pos;
             }
 
-            //Vector3 pos = transform.position;
-            //pos.x = Mathf.Clamp(pos.x, cameraBounds.GetChild((int)CameraBound.West).position.x, cameraBounds.GetChild((int)CameraBound.East).position.x);
-            //pos.z = Mathf.Clamp(pos.z, cameraBounds.GetChild((int)CameraBound.South).position.z, cameraBounds.GetChild((int)CameraBound.North).position.z);
-            //transform.position = pos;
-        }
+            Controls();
 
-        Controls();
-
-        if(zoomState != eZoomState.idle)
-        {
-            UpdateCamZoom();
+            if (zoomState != eZoomState.idle)
+            {
+                UpdateCamZoom();
+            }
         }
     }
 
