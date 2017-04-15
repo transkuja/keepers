@@ -25,7 +25,7 @@ public class ThrownDiceHandler : MonoBehaviour {
 
             for (int i = 0; i < diceForCurrentThrow.Length; i++)
             {
-                diceInstance[i] = DieBuilder.BuildDie(diceForCurrentThrow[i], throwTile, throwPosition + (Vector3.right*i)/5.0f);
+              //  diceInstance[i] = DieBuilder.BuildDie(diceForCurrentThrow[i], throwTile, throwPosition + (Vector3.right*i)/5.0f);
             }
             isRunning = true;
 
