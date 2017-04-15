@@ -50,7 +50,7 @@ public class ThrownDiceHandler : MonoBehaviour {
 
     private void ShowButton(bool show)
     {
-        GameManager.Instance.GetBattleUI().GetComponent<UIBattleHandler>().SendDiceResultsButton.SetActive(show);
+        GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().SendDiceResultsButton.SetActive(show);
     }
 
     private Face[] ComputeNotPhysicalResult()

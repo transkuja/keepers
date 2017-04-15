@@ -136,7 +136,7 @@ public class BattleHandler {
                             break;
                     }
                 }
-                GameManager.Instance.GetBattleUI().GetComponent<UIBattleHandler>().ChangeState(UIBattleState.Actions);
+                GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().ChangeState(UIBattleState.Actions);
                 break;
             case ThrowType.Defense:
                 // TODO: GUard button press behaviour
@@ -166,7 +166,7 @@ public class BattleHandler {
         else
         {
             currentPawnTurn = currentBattleKeepers[turnId];
-            GameManager.Instance.GetBattleUI().SetActive(true);
+            GameManager.Instance.GetBattleUI.SetActive(true);
         }
 
         turnId++;

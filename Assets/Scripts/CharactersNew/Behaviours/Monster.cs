@@ -127,7 +127,10 @@ namespace Behaviour
         // TODO should be export in a patrol specific component
         void Update()
         {
-            NavMeshMovement();
+            if (GameManager.Instance.CurrentState == GameState.Normal)
+            {
+                NavMeshMovement();
+            }
         }
 
         public void NavMeshMovement()

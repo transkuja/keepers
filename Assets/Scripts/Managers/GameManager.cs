@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using UnityEngine.AI;
+
 using QuestSystem;
 using Behaviour;
 using QuestDeckLoader;
@@ -46,6 +48,8 @@ public class GameManager : MonoBehaviour
     private Quest mainQuest;
 
     private int nbTurn = 1;
+
+    private List<NavMeshAgent> pausedAgents = new List<NavMeshAgent>();
 
     void Awake()
     {
@@ -362,6 +366,33 @@ public class GameManager : MonoBehaviour
             prisonerInstance = value;
         }
     }
+
+
+    public GameState CurrentState
+    {
+        get
+        {
+            return currentState;
+        }
+
+        set
+        {
+            if (value == GameState.Normal && currentState == GameState.InPause)
+                ExitPauseSateProcess();
+            else if (value == GameState.InPause && currentState == GameState.Normal)
+                SwitchToPauseStateProcess();
+
+            currentState = value;      
+        }
+    }
+
+    public GameObject GetBattleUI
+    {
+        get
+        {
+            return ui.battleUI;
+        }
+    }
     #endregion
 
     #region Registrations
@@ -418,19 +449,6 @@ public class GameManager : MonoBehaviour
             cameraManagerReference = value;
         }
     }
-
-    public GameState CurrentState
-    {
-        get
-        {
-            return currentState;
-        }
-
-        set
-        {
-            currentState = value;
-        }
-    }
     #endregion
 
     #region TileManager facade
@@ -467,10 +485,58 @@ public class GameManager : MonoBehaviour
             Debug.Log("Can't add a pawn to selected keepers list without the Keeper component.");
     }
 
-    public GameObject GetBattleUI()
-    {
-        return ui.battleUI;
+    #region Game states switch functions
+    private void SwitchToPauseStateProcess()
+    {     
+        // Pause keepers
+        foreach (PawnInstance pi in allKeepersList)
+        {
+            NavMeshAgent currentAgent = pi.GetComponent<NavMeshAgent>();
+            if (currentAgent != null && currentAgent.isActiveAndEnabled)
+            {
+                currentAgent.Stop();
+                pausedAgents.Add(currentAgent);
+            }
+        }
+
+        // Pause NPCs
+        // If needed, we should register all PNJ on tiles in TileManager so we can handle AI behaviours when the game paused
+        // For now we'll only deal with the prisoner
+        if (prisonerInstance != null)
+        {
+            NavMeshAgent prisonerAgent = prisonerInstance.GetComponent<NavMeshAgent>();
+            if (prisonerAgent != null && prisonerAgent.isActiveAndEnabled)
+            {
+                prisonerAgent.Stop();
+                pausedAgents.Add(prisonerAgent);
+            }
+        }
+
+        // Pause monsters
+        foreach (Tile tile in tileManagerReference.MonstersOnTile.Keys)
+        {
+            List<PawnInstance> monsterList = tileManagerReference.MonstersOnTile[tile];
+            foreach (PawnInstance pi in monsterList)
+            {
+                NavMeshAgent currentAgent = pi.GetComponent<NavMeshAgent>();
+                if (currentAgent != null && currentAgent.isActiveAndEnabled)
+                {
+                    currentAgent.Stop();
+                    pausedAgents.Add(currentAgent);
+                }
+            }
+        }
+
     }
+
+    private void ExitPauseSateProcess()
+    {
+        foreach (NavMeshAgent agent in pausedAgents)
+            agent.Resume();
+        pausedAgents.Clear();
+    }
+    #endregion
+
 }
 
 public enum GameState
