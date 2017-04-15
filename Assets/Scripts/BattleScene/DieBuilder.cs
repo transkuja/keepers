@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class DieBuilder : MonoBehaviour {
 
-	public static GameObject BuildDie(Die dieToBuild)
+	public static GameObject BuildDie(Die dieToBuild, Tile tileConcerned, Vector3 position)
     {
         if (dieToBuild.NbrOfFaces == 6)
         {
@@ -25,6 +23,10 @@ public class DieBuilder : MonoBehaviour {
             faceColliders[3].GetComponent<SphereCollider>().center += new Vector3(-bounds.extents.y, 0, 0);
             faceColliders[4].GetComponent<SphereCollider>().center += new Vector3(bounds.extents.z, 0, 0);
             faceColliders[5].GetComponent<SphereCollider>().center += new Vector3(-bounds.extents.z, 0, 0);
+
+            dieInstance.transform.SetParent(tileConcerned.transform);
+            dieInstance.transform.localPosition = position;
+            dieInstance.transform.localScale = Vector3.one * 0.1f;
             return dieInstance;
         }
 

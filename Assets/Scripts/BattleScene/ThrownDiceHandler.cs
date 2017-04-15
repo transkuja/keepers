@@ -21,10 +21,11 @@ public class ThrownDiceHandler : MonoBehaviour {
         {
             diceForCurrentThrow = BattleHandler.CurrentPawnTurn.GetComponent<Behaviour.Fighter>().Dice;
             diceInstance = new GameObject[diceForCurrentThrow.Length];
+            Vector3 throwPosition = new Vector3(0.0f, 0.5f, 0.0f);
 
             for (int i = 0; i < diceForCurrentThrow.Length; i++)
             {
-                diceInstance[i] = DieBuilder.BuildDie(diceForCurrentThrow[i]);
+                diceInstance[i] = DieBuilder.BuildDie(diceForCurrentThrow[i], throwTile, throwPosition + (Vector3.right*i)/5.0f);
             }
             isRunning = true;
 
