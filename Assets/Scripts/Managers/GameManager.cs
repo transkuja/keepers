@@ -9,7 +9,7 @@ using QuestLoader;
 public class GameManager : MonoBehaviour
 {
     private static GameManager instance = null;
-
+    private GameState currentState;
     #region GameManager children
     [SerializeField]
     private PrefabUIUtils prefabUIUtils;
@@ -123,6 +123,7 @@ public class GameManager : MonoBehaviour
         allKeepersList.Clear();
         listOfSelectedKeepers.Clear();
         nbTurn = 1;
+        currentState = GameState.Normal;
     }
 
     public PawnInstance GetFirstSelectedKeeper()
@@ -417,6 +418,19 @@ public class GameManager : MonoBehaviour
             cameraManagerReference = value;
         }
     }
+
+    public GameState CurrentState
+    {
+        get
+        {
+            return currentState;
+        }
+
+        set
+        {
+            currentState = value;
+        }
+    }
     #endregion
 
     #region TileManager facade
@@ -457,4 +471,11 @@ public class GameManager : MonoBehaviour
     {
         return ui.battleUI;
     }
+}
+
+public enum GameState
+{
+    Normal,
+    InBattle,
+    InPause
 }
