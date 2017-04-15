@@ -41,16 +41,16 @@ public class IngameScreens : MonoBehaviour {
 
     public void OpenCloseEscapeMenu()
     {
-        if (Time.timeScale == 1.0f)
+        if (GameManager.Instance.CurrentState == GameState.Normal)
         {
             transform.GetChild(0).GetChild((int)IngameScreensEnum.EscapeMenu).gameObject.SetActive(true);
-            Time.timeScale = 0.0f;
+            GameManager.Instance.CurrentState = GameState.InPause;
         }
         else
         {
             transform.GetChild(0).GetChild((int)IngameScreensEnum.EscapeMenu).gameObject.SetActive(false);
             transform.GetChild(0).GetChild((int)IngameScreensEnum.BattleResultScreens).gameObject.SetActive(false);
-            Time.timeScale = 1.0f;
+            GameManager.Instance.CurrentState = GameState.Normal;
         }
     }
 
@@ -61,7 +61,7 @@ public class IngameScreens : MonoBehaviour {
 
     public void BackToMenu()
     {
-        Time.timeScale = 1.0f;
+        GameManager.Instance.CurrentState = GameState.Normal;
         AudioManager.Instance.Fade(AudioManager.Instance.menuMusic);
         GameManager.Instance.ResetInstance();
         SceneManager.LoadScene(0);

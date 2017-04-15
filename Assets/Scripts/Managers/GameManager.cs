@@ -109,13 +109,13 @@ public class GameManager : MonoBehaviour
     {
         AudioManager.Instance.PlayOneShot(AudioManager.Instance.winningSound);
         WinScreen.gameObject.SetActive(true);
-        Time.timeScale = 0.0f;
+        currentState = GameState.InPause;
     }
 
     public void Lose()
     {
         LoseScreen.gameObject.SetActive(true);
-        Time.timeScale = 0.0f;
+        currentState = GameState.InPause;
     }
 
     public void ResetInstance()

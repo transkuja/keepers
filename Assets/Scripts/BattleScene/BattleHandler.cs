@@ -29,7 +29,7 @@ public class BattleHandler {
     public static void StartBattleProcess(Tile tile)
     {
         AudioManager.Instance.PlayOneShot(AudioManager.Instance.battleSound, 0.5f);
-        Time.timeScale = 0.0f;
+        GameManager.Instance.CurrentState = GameState.InPause;
         if (currentBattleKeepers != null || currentBattleMonsters != null)
         {
             Debug.LogWarning("A battle is already in process.");
@@ -512,7 +512,7 @@ public class BattleHandler {
 
         // Freeze time until close button is pressed
         GameManager.Instance.ClearListKeeperSelected();
-        Time.timeScale = 0.0f;
+        GameManager.Instance.CurrentState = GameState.InPause;
     }
 
     private static void BattleLog(string log)
