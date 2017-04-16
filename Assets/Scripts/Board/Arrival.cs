@@ -4,11 +4,8 @@ using UnityEngine;
 
 public class Arrival : MonoBehaviour {
 
-    InteractionImplementer interationImplementer;
-
     void Start () {
-        interationImplementer = new InteractionImplementer();
-        interationImplementer.Add(new Interaction(ClickEnd), 0, "End Game", GameManager.Instance.SpriteUtils.spriteEndAction);  
+        InterationImplementer.Add(new Interaction(ClickEnd), 0, "End Game", GameManager.Instance.SpriteUtils.spriteEndAction);  
 	}
 
     public void EndGame(int i = -1)
@@ -40,7 +37,7 @@ public class Arrival : MonoBehaviour {
     {
         get
         {
-            return interationImplementer;
+            return GetComponent<Interactable>().Interactions;
         }
     }
 }

@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
 
     private List<PawnInstance> allKeepersList = new List<PawnInstance>();
     private List<PawnInstance> listOfSelectedKeepers = new List<PawnInstance>();
-    private GameObject goTarget;
+    private Interactable goTarget;
     private PawnInstance prisonerInstance;
 
     private Quest mainQuest;
@@ -271,7 +271,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public GameObject GoTarget
+    public Interactable GoTarget
     {
         get
         {

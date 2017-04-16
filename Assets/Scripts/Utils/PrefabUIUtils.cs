@@ -13,9 +13,6 @@ public class PrefabUIUtils : MonoBehaviour {
     public GameObject PrefabSlotUI;
     public GameObject PrefabItemUI;
 
-    // TODO : Remove this one
-    public GameObject prefabItemToDrop;
-
     // ActionPanel
     [Header("Selected Keeper UI")]
     public GameObject PrefabSelectedKeeper;

@@ -14,9 +14,6 @@ public class IngameUI : MonoBehaviour
     public GameObject goSelectedKeeperPanel;
     public GameObject Panel_Inventories;
 
-    // StatsPanel
-    public GameObject goStats;
-
     // Turn Panel
     [Header("Turn Panel")]
     public GameObject TurnPanel;
@@ -27,9 +24,7 @@ public class IngameUI : MonoBehaviour
     [Header("Action Panel")]
     private GameObject goActionPanelQ;
     private Canvas worldSpaceCanvas;
-
-    public GameObject goMoralPanel;
-
+    private GameObject goMoralFeedback;
 
     // ContentQuest
     public GameObject goContentQuestParent;
@@ -79,6 +74,7 @@ public class IngameUI : MonoBehaviour
         GameObject worldSpaceUI = Instantiate(GameManager.Instance.PrefabUIUtils.WorldSpaceUIprefab);
         worldSpaceCanvas = worldSpaceUI.transform.GetChild(0).GetComponent<Canvas>();
         goActionPanelQ = worldSpaceUI.transform.GetChild(0).GetChild(0).gameObject;
+        goMoralFeedback = worldSpaceUI.transform.GetChild(0).GetChild(1).gameObject;
         //UpdateShortcutPanel();
     }
 
@@ -129,9 +125,7 @@ public class IngameUI : MonoBehaviour
 
                 int n = i;
 
-                // TODO @Remi, cette merde bug quand on change de perso selectionné et qu'on rentre dans le trigger du panneau >:(
-                int nbActionRestantKeeper = GameManager.Instance.ListOfSelectedKeepers[0].GetComponent<Behaviour.Keeper>().ActionPoints;
-
+                int nbActionRestantKeeper = GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Keeper>().ActionPoints;
                 if (ic.listActionContainers[i].costAction > nbActionRestantKeeper)
                 {
                     goAction.GetComponent<Image>().color = Color.grey;
@@ -161,7 +155,7 @@ public class IngameUI : MonoBehaviour
             }
         }
 
-        worldSpaceCanvas.transform.SetParent(GameManager.Instance.GoTarget.transform);
+        worldSpaceCanvas.transform.SetParent(GameManager.Instance.GoTarget.GetComponent<Interactable>().Feedback);
         worldSpaceCanvas.GetComponent<BillboardForWorldSpaceUI>().RecalculateActionCanvas();
     }
 
@@ -179,21 +173,21 @@ public class IngameUI : MonoBehaviour
     // TODO : rendre cette fonction générique avec target et panel where 
     public void MoralBuffActionTextAnimation(int amount)
     {
-        goMoralPanel.gameObject.SetActive(true);
+        goMoralFeedback.gameObject.SetActive(true);
         // TODO : Ajouter la taille pion ? 
-        goMoralPanel.transform.position = Camera.main.WorldToScreenPoint(GameManager.Instance.GoTarget.transform.position);
+        goMoralFeedback.transform.position = Camera.main.WorldToScreenPoint(GameManager.Instance.GoTarget.transform.position);
         if (amount < 0)
         {
-            goMoralPanel.transform.GetChild(0).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteMoralDebuff;
-            goMoralPanel.GetComponentInChildren<Text>().color = Color.red;
-            goMoralPanel.GetComponentInChildren<Text>().text = "";
+            goMoralFeedback.transform.GetChild(0).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteMoralDebuff;
+            goMoralFeedback.GetComponentInChildren<Text>().color = Color.red;
+            goMoralFeedback.GetComponentInChildren<Text>().text = "";
         } else
         {
-            goMoralPanel.transform.GetChild(0).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteMoralBuff;
-            goMoralPanel.GetComponentInChildren<Text>().color = Color.green;
-            goMoralPanel.GetComponentInChildren<Text>().text = "+ ";
+            goMoralFeedback.transform.GetChild(0).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteMoralBuff;
+            goMoralFeedback.GetComponentInChildren<Text>().color = Color.green;
+            goMoralFeedback.GetComponentInChildren<Text>().text = "+ ";
         }
-        goMoralPanel.GetComponentInChildren<Text>().text += amount.ToString();
+        goMoralFeedback.GetComponentInChildren<Text>().text += amount.ToString();
 
         StartCoroutine(MoralPanelNormalState());
     }
@@ -203,10 +197,10 @@ public class IngameUI : MonoBehaviour
         for (float f = 3.0f; f >= 0; f -= 0.1f)
         {
             Vector3 decal = new Vector3(0.0f, f, 0.0f);
-            goMoralPanel.transform.position += decal;
+            goMoralFeedback.transform.position += decal;
             yield return null;
         }
-        goMoralPanel.gameObject.SetActive(false);
+        goMoralFeedback.gameObject.SetActive(false);
     }
 
 

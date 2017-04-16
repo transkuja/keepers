@@ -13,6 +13,8 @@ public class TriggerPanneau : MonoBehaviour {
         goPanneau = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabContentPanneauUI, GameManager.Instance.Ui.goContentPanneauParent.transform);
         goPanneau.transform.localPosition = Vector3.zero;
         goPanneau.transform.localScale = Vector3.one;
+
+        GetComponent<Interactable>().Interactions.Add(new Interaction(Look), 0, "Look", GameManager.Instance.SpriteUtils.spriteExplore, true);
     }
 
     void OnTriggerEnter(Collider other)
@@ -20,18 +22,11 @@ public class TriggerPanneau : MonoBehaviour {
         if (other.GetComponentInParent<Behaviour.Keeper>() != null)
         {
             Behaviour.Keeper ki = other.GetComponentInParent<Behaviour.Keeper>();
+
             // On veut le mesh collider actif du perso
-            foreach (MeshCollider mc in ki.gameObject.GetComponentsInChildren<MeshCollider>())
-            {
-                if (mc.enabled)
-                {
-                    GameManager.Instance.GoTarget = mc.gameObject;
-                    break;
-                }
-            }
-            InteractionImplementer InteractionImplementer = new InteractionImplementer();
-            InteractionImplementer.Add(new Interaction(Look), 0, "Look", GameManager.Instance.SpriteUtils.spriteExplore, true);
-            GameManager.Instance.Ui.UpdateActionPanelUIQ(InteractionImplementer);
+            GameManager.Instance.GoTarget = other.GetComponent<Interactable>();
+
+            GameManager.Instance.Ui.UpdateActionPanelUIQ(GetComponent<Interactable>().Interactions);
         }
     }
 

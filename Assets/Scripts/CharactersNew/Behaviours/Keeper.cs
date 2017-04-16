@@ -78,8 +78,10 @@ namespace Behaviour
         private GameObject feedbackSelection;
         private bool isSelected = false;
 
+
         // TODO remove
         [SerializeField]
+        [System.Obsolete("remove this with old menu")]
         private bool isSelectedInMenu = false;
         NavMeshAgent agent;
 

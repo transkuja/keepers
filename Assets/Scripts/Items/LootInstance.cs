@@ -4,44 +4,29 @@ using UnityEngine;
 
 public class LootInstance : MonoBehaviour, IPickable {
 
-    private InteractionImplementer interactionImplementer;
-
     private List<string> Items;
 
     public int nbSlot;
 
     public bool isInScene = false;
 
-    void Awake()
-    {
-        interactionImplementer = new InteractionImplementer();
-
-    }
-
     void Start()
     {
-        interactionImplementer.Add(new Interaction(Pick), 0, "Pick", GameManager.Instance.SpriteUtils.spritePick);
-        //if (isInScene)
-        //{
-        //    Init();
-        //}
+        InteractionImplementer.Add(new Interaction(Pick), 0, "Pick", GameManager.Instance.SpriteUtils.spritePick);
     }
 
-    //public void Init()
-    //{
-        //lootPanel = GameManager.Instance.Ui.CreateInventoryPanel(gameObject);
-    //}
 
+    [System.Obsolete("Use interactable component instead")]
     public InteractionImplementer InteractionImplementer
     {
         get
         {
-            return interactionImplementer;
+            return GetComponent<Interactable>().Interactions;
         }
 
         set
         {
-            interactionImplementer = value;
+            GetComponent<Interactable>().Interactions = value;
         }
     }
 

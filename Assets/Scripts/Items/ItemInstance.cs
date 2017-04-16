@@ -6,8 +6,6 @@ using UnityEngine.UI;
 
 public class ItemInstance : MonoBehaviour, IHavestable
 {
-    private InteractionImplementer interactionImplementer;
-
     [SerializeField]
     private ItemContainer itemContainer = null;
 
@@ -26,17 +24,16 @@ public class ItemInstance : MonoBehaviour, IHavestable
     {
         if (isInScene)
         {
-
             Init(idItem, quantity);
         }
-        interactionImplementer = new InteractionImplementer();
-        interactionImplementer.Add(new Interaction(Harvest), 1, "Harvest", GameManager.Instance.SpriteUtils.spriteHarvest);
+
     }
 
 
     public void Init(string _IdItem, int _iNb)
     {
         idItem = _IdItem;
+        InteractionImplementer.Add(new Interaction(Harvest), 1, "Harvest", GameManager.Instance.SpriteUtils.spriteHarvest);
         itemContainer = new ItemContainer(GameManager.Instance.ItemDataBase.getItemById(_IdItem), quantity);
 
         if (itemContainer.Item.IngameVisual != null)
@@ -72,33 +69,34 @@ public class ItemInstance : MonoBehaviour, IHavestable
         }
     }
 
+    [System.Obsolete("Use interactable component instead")]
     public InteractionImplementer InteractionImplementer
     {
         get
         {
-            return interactionImplementer;
+            return GetComponent<Interactable>().Interactions;
         }
 
         set
         {
-            interactionImplementer = value;
+            GetComponent<Interactable>().Interactions = value;
         }
     }
 
     public void Harvest(int _i = 0)
     {
-        int costAction = interactionImplementer.Get("Harvest").costAction;
+        int costAction = InteractionImplementer.Get("Harvest").costAction;
         if (GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Keeper>().ActionPoints >= costAction)
         {
             bool isNoLeftOver = InventoryManager.AddItemToInventory(GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Inventory>().Items, itemContainer);
             if (isNoLeftOver)
             {
-
+                // TODO : bug here miscellenous interactions with feedback action UI
                 Destroy(this);
                 GlowController.UnregisterObject(GlowCmd);
                 if (this.transform.childCount > 0)
                 {
-                    DestroyImmediate(this.transform.GetChild(0).gameObject);
+                    DestroyImmediate(this.transform.GetChild(1).gameObject);
                 }
 
             }

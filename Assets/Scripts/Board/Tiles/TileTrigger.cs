@@ -22,7 +22,7 @@ public class TileTrigger : MonoBehaviour {
     public void HandleTrigger(PawnInstance k)
     {
         piList.Add(k);
-        InteractionImplementer InteractionImplementer = new InteractionImplementer();
+        GetComponent<Interactable>().Interactions = new InteractionImplementer();
         Direction eTrigger = Direction.None;
 
         string strTag = tag;
@@ -65,24 +65,17 @@ public class TileTrigger : MonoBehaviour {
                 if (GameManager.Instance.ListOfSelectedKeepers.Count > 0)
                 {
                     // On veut le mesh collider actif du perso
-                    foreach (MeshCollider mc in GameManager.Instance.ListOfSelectedKeepers[0].gameObject.GetComponentsInChildren<MeshCollider>())
-                    {
-                        if (mc.enabled)
-                        {
-                            GameManager.Instance.GoTarget = mc.gameObject;
-                            break;
-                        }
-                    }
+                    GameManager.Instance.GoTarget = GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Interactable>();
 
                     if (GetComponentInParent<Tile>().Neighbors[(int)eTrigger].State == TileState.Discovered)
                     {
-                        InteractionImplementer.Add(new Interaction(Move), actionCostMove, "Move", GameManager.Instance.SpriteUtils.spriteMove, true, (int)eTrigger);
-                        GameManager.Instance.Ui.UpdateActionPanelUIQ(InteractionImplementer);
+                        GetComponent<Interactable>().Interactions.Add(new Interaction(Move), actionCostMove, "Move", GameManager.Instance.SpriteUtils.spriteMove, true, (int)eTrigger);
+                        GameManager.Instance.Ui.UpdateActionPanelUIQ(GetComponent<Interactable>().Interactions);
                     }
                     if (GetComponentInParent<Tile>().Neighbors[(int)eTrigger].State == TileState.Greyed)
                     {
-                        InteractionImplementer.Add(new Interaction(Explore), actionCostExplore, "Explore", GameManager.Instance.SpriteUtils.spriteExplore, true, (int)eTrigger);
-                        GameManager.Instance.Ui.UpdateActionPanelUIQ(InteractionImplementer);
+                        GetComponent<Interactable>().Interactions.Add(new Interaction(Explore), actionCostExplore, "Explore", GameManager.Instance.SpriteUtils.spriteExplore, true, (int)eTrigger);
+                        GameManager.Instance.Ui.UpdateActionPanelUIQ(GetComponent<Interactable>().Interactions);
                     }
 
                 }

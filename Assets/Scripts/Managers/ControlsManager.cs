@@ -110,7 +110,7 @@ public class ControlsManager : MonoBehaviour
                             {
                                 if (tileHit == keeperSelectedTile)
                                 {
-                                    GameManager.Instance.GoTarget = hitInfo.collider.gameObject;
+                                    GameManager.Instance.GoTarget = hitInfo.collider.gameObject.GetComponent<Interactable>();
                                     ui.UpdateActionPanelUIQ(hitInfo.collider.gameObject.GetComponent<ItemInstance>().InteractionImplementer);
                                 }
                             }
@@ -119,7 +119,7 @@ public class ControlsManager : MonoBehaviour
                             {
                                 if (tileHit == keeperSelectedTile)
                                 {
-                                    GameManager.Instance.GoTarget = hitInfo.collider.gameObject;
+                                    GameManager.Instance.GoTarget = hitInfo.collider.gameObject.GetComponent<Interactable>();
                                     ui.UpdateActionPanelUIQ(hitInfo.collider.gameObject.GetComponent<LootInstance>().InteractionImplementer);
                                 }
                             }
@@ -148,8 +148,8 @@ public class ControlsManager : MonoBehaviour
                                         //clickTarget.GetComponentInParent<QuestDealer>().;
                                     }
 
-                                    GameManager.Instance.GoTarget = clickTarget;
-                                    Debug.Log(clickTarget.name);
+     
+                                    GameManager.Instance.GoTarget = clickTarget.GetComponentInParent<Interactable>();
                                     ui.UpdateActionPanelUIQ(clickTarget.GetComponentInParent<PawnInstance>().Interactions);
                                 }
 
@@ -158,7 +158,7 @@ public class ControlsManager : MonoBehaviour
                             {
                                 if (tileHit == keeperSelectedTile)
                                 {
-                                    GameManager.Instance.GoTarget = clickTarget;
+                                    GameManager.Instance.GoTarget = clickTarget.GetComponentInParent<Interactable>();
                                     ui.UpdateActionPanelUIQ(clickTarget.GetComponent<Arrival>().InterationImplementer);
                                 }
                             }

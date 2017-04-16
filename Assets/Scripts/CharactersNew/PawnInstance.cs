@@ -6,18 +6,11 @@ public class PawnInstance : MonoBehaviour {
 
     [SerializeField]
     PawnData data;
-    InteractionImplementer interactions;
 
     // Need to be initialized in charactersInitializer and changed in moveCharacter
     Tile currentTile;
 
-    void Awake()
-    {
-        interactions = new InteractionImplementer();
-    }
-
     #region Accessors
-
     public PawnData Data
     {
         get
@@ -31,16 +24,17 @@ public class PawnInstance : MonoBehaviour {
         }
     }
 
+    [System.Obsolete("Use interaction component instead")]
     public InteractionImplementer Interactions
     {
         get
         {
-            return interactions;
+            return GetComponent<Interactable>().Interactions;
         }
 
         set
         {
-            interactions = value;
+            GetComponent<Interactable>().Interactions = value;
         }
     }
 
