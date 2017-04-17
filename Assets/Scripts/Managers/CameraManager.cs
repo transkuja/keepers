@@ -39,6 +39,12 @@ public class CameraManager : MonoBehaviour {
     float fKeySpeed = 5.0f;
     bool bIsDraging = false;
     Vector3 v3DragOrigin;
+
+    // Camera adapters
+    public List<GreyTileCameraAdapter> greyTileCameraAdapters = new List<GreyTileCameraAdapter>();
+    public List<SelectionPointerCameraAdapter> selectionPointerCameraAdapters = new List<SelectionPointerCameraAdapter>();
+    public List<WorldspaceCanvasCameraAdapter> worldspaceCanvasCameraAdapters = new List<WorldspaceCanvasCameraAdapter>();
+
     // *********************************
     enum CameraBound
     {
@@ -65,6 +71,19 @@ public class CameraManager : MonoBehaviour {
         {
             return fZoomLerp;
         }
+
+        private set
+        {
+            fZoomLerp = value;
+            foreach (GreyTileCameraAdapter ca in greyTileCameraAdapters)
+                ca.RecalculateOrientation(Camera.main);
+
+            foreach (SelectionPointerCameraAdapter ca in selectionPointerCameraAdapters)
+                ca.RecalculateOrientationAndScale();
+
+            foreach (WorldspaceCanvasCameraAdapter ca in worldspaceCanvasCameraAdapters)
+                ca.RecalculateActionCanvas(Camera.main);
+        }
     }
 
     public Tile ActiveTile
@@ -83,7 +102,7 @@ public class CameraManager : MonoBehaviour {
 
     public void Start()
     {
-        fZoomLerp = 0;
+        FZoomLerp = 0;
 
         positionFromATileClose = transform.position;
 
@@ -101,7 +120,7 @@ public class CameraManager : MonoBehaviour {
         transform.rotation = tClose.rotation;
 
         zoomState = eZoomState.idle;
-        fZoomLerp = 1;
+        FZoomLerp = 1;
         fLerpTarget = 1;
         fZoomLerpOrigin = 1;
 
@@ -322,12 +341,12 @@ public class CameraManager : MonoBehaviour {
 
     private void UpdateCamZoom()
     {
-        fZoomLerp = fZoomLerp + (fLerpTarget - fZoomLerpOrigin) * fZoomSpeed * Time.unscaledDeltaTime;
+        FZoomLerp = fZoomLerp + (fLerpTarget - fZoomLerpOrigin) * fZoomSpeed * Time.unscaledDeltaTime;
 
         if((zoomState == eZoomState.forward && fZoomLerp > fLerpTarget) || (zoomState == eZoomState.backward && fZoomLerp < fLerpTarget))
         {
-                fZoomLerp = fLerpTarget;
-                zoomState = eZoomState.idle;
+            FZoomLerp = fLerpTarget;
+            zoomState = eZoomState.idle;
         }
 
         transform.position = Vector3.Lerp(tFar.position, tClose.position, fZoomLerp);

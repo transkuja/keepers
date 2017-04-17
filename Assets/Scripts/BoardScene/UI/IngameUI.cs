@@ -156,7 +156,7 @@ public class IngameUI : MonoBehaviour
         }
 
         worldSpaceCanvas.transform.SetParent(GameManager.Instance.GoTarget.GetComponent<Interactable>().Feedback);
-        worldSpaceCanvas.GetComponent<BillboardForWorldSpaceUI>().RecalculateActionCanvas();
+        worldSpaceCanvas.GetComponent<WorldspaceCanvasCameraAdapter>().RecalculateActionCanvas(Camera.main);
     }
 
     public void ClearActionPanel()

@@ -461,6 +461,20 @@ public class GameManager : MonoBehaviour
             cameraManagerReference = value;
         }
     }
+
+    public void RegisterGreyTileCameraAdapter(GreyTileCameraAdapter _cameraAdapter)
+    {
+        cameraManagerReference.greyTileCameraAdapters.Add(_cameraAdapter);
+    }
+    public void RegisterSelectionPointerCameraAdapter(SelectionPointerCameraAdapter _cameraAdapter)
+    {
+        cameraManagerReference.selectionPointerCameraAdapters.Add(_cameraAdapter);
+    }
+    public void RegisterWorldspaceCanvasCameraAdapter(WorldspaceCanvasCameraAdapter _cameraAdapter)
+    {
+        cameraManagerReference.worldspaceCanvasCameraAdapters.Add(_cameraAdapter);
+    }
+
     #endregion
 
     #region TileManager facade
