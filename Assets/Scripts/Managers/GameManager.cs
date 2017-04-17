@@ -49,7 +49,10 @@ public class GameManager : MonoBehaviour
 
     private int nbTurn = 1;
 
+    // Change game state variables
     private List<NavMeshAgent> pausedAgents = new List<NavMeshAgent>();
+    private List<NavMeshAgent> disabledAgents = new List<NavMeshAgent>();
+    private PawnInstance[] currentFighters;
 
     void Awake()
     {
@@ -337,6 +340,7 @@ public class GameManager : MonoBehaviour
         Transform screen = SelectBattleCharactersScreen;
         screen.GetComponent<SelectBattleCharactersPanelHandler>().ActiveTile = tile;
         screen.gameObject.SetActive(true);
+        CurrentState = GameState.InPause;
     }
 
 
@@ -377,10 +381,18 @@ public class GameManager : MonoBehaviour
 
         set
         {
-            if (value == GameState.Normal && currentState == GameState.InPause)
-                ExitPauseSateProcess();
+            // Exit pause state
+            if (currentState == GameState.InPause && value != GameState.InPause)
+                ExitPauseStateProcess();
+            // Exit battle state
+            else if (currentState == GameState.InBattle && value == GameState.Normal)
+                ExitBattleStateProcess();
+            // Enter pause state
             else if (value == GameState.InPause && currentState == GameState.Normal)
                 SwitchToPauseStateProcess();
+            // Enter battle state
+            else if (value == GameState.InBattle && currentState != GameState.InBattle)
+                SwitchToBattleStateProcess();
 
             currentState = value;      
         }
@@ -529,12 +541,119 @@ public class GameManager : MonoBehaviour
 
     }
 
-    private void ExitPauseSateProcess()
+    private void ExitPauseStateProcess()
     {
         foreach (NavMeshAgent agent in pausedAgents)
             agent.Resume();
         pausedAgents.Clear();
     }
+
+    public void SetStateToInBattle(PawnInstance[] _fighters)
+    {
+        currentFighters = _fighters;
+        CurrentState = GameState.InBattle;
+    }
+
+    private void SwitchToBattleStateProcess()
+    {
+        // Pause keepers
+        foreach (PawnInstance pi in allKeepersList)
+        {
+            bool mustBeDisabled = false;
+            for (int i = 0; i < 3; i++)
+            {
+                if (pi == currentFighters[i])
+                {
+                    mustBeDisabled = true;
+                }
+            }
+
+            if (mustBeDisabled)
+            {
+                disabledAgents.Add(pi.GetComponent<NavMeshAgent>());
+                pi.GetComponent<NavMeshAgent>().enabled = false;
+            }
+            else
+            {
+                NavMeshAgent currentAgent = pi.GetComponent<NavMeshAgent>();
+                if (currentAgent != null && currentAgent.isActiveAndEnabled)
+                {
+                    currentAgent.Stop();
+                    pausedAgents.Add(currentAgent);
+                }
+            }
+        }
+
+        // Pause NPCs
+        // If needed, we should register all PNJ on tiles in TileManager so we can handle AI behaviours when the game paused
+        // For now we'll only deal with the prisoner
+        if (currentFighters[currentFighters.Length - 1].GetComponent<Prisoner>() != null)
+        {
+            NavMeshAgent prisonerAgent = currentFighters[currentFighters.Length - 1].GetComponent<NavMeshAgent>();
+            if (prisonerAgent != null && prisonerAgent.isActiveAndEnabled)
+            {
+                disabledAgents.Add(prisonerAgent);
+                prisonerAgent.enabled = false;
+            }
+        }
+        else
+        {
+            if (prisonerInstance != null)
+            {
+                NavMeshAgent prisonerAgent = prisonerInstance.GetComponent<NavMeshAgent>();
+                if (prisonerAgent != null && prisonerAgent.isActiveAndEnabled)
+                {
+                    prisonerAgent.Stop();
+                    pausedAgents.Add(prisonerAgent);
+                }
+            }
+        }
+
+        // Pause monsters
+        foreach (Tile tile in tileManagerReference.MonstersOnTile.Keys)
+        {
+            if (tile != cameraManagerReference.ActiveTile)
+            {
+                List<PawnInstance> monsterList = tileManagerReference.MonstersOnTile[tile];
+                foreach (PawnInstance pi in monsterList)
+                {
+                    NavMeshAgent currentAgent = pi.GetComponent<NavMeshAgent>();
+                    if (currentAgent != null && currentAgent.isActiveAndEnabled)
+                    {
+                        currentAgent.Stop();
+                        pausedAgents.Add(currentAgent);
+                    }
+                }
+            }
+            else
+            {
+                List<PawnInstance> monsterList = tileManagerReference.MonstersOnTile[tile];
+                foreach (PawnInstance pi in monsterList)
+                {
+                    NavMeshAgent currentAgent = pi.GetComponent<NavMeshAgent>();
+                    if (currentAgent != null && currentAgent.isActiveAndEnabled)
+                    {
+                        disabledAgents.Add(currentAgent);
+                        currentAgent.enabled = false;
+                    }
+                }
+            }            
+        }
+
+    }
+
+    private void ExitBattleStateProcess()
+    {
+        foreach (NavMeshAgent agent in pausedAgents)
+            agent.Resume();
+        pausedAgents.Clear();
+
+        foreach (NavMeshAgent agent in disabledAgents)
+            agent.enabled = true;
+        disabledAgents.Clear();
+    }
+
+
     #endregion
 
 }

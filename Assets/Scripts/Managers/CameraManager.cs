@@ -66,6 +66,19 @@ public class CameraManager : MonoBehaviour {
             return fZoomLerp;
         }
     }
+
+    public Tile ActiveTile
+    {
+        get
+        {
+            return activeTile;
+        }
+
+        set
+        {
+            activeTile = value;
+        }
+    }
     #endregion
 
     public void Start()

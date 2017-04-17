@@ -4,6 +4,7 @@ using UnityEngine;
 using Behaviour;
 
 public class BattleHandler {
+
     private enum AttackType { Physical, Magical }
     // Current battle data
     private static Face[] lastThrowResult;
@@ -75,9 +76,22 @@ public class BattleHandler {
 
         currentBattleKeepers = selectedKeepersForBattle.ToArray();
 
+        GameManager.Instance.SetStateToInBattle(AllCurrentFighters());
+
         ShiftTurn();
     }
 
+    private static PawnInstance[] AllCurrentFighters()
+    {
+        PawnInstance[] currentFighters = new PawnInstance[currentBattleKeepers.Length + currentBattleMonsters.Length + ((isPrisonerOnTile) ? 1 : 0)];
+        for (int i = 0; i < currentBattleKeepers.Length; i++)
+            currentFighters[i] = currentBattleKeepers[i];
+        for (int i = 0; i < currentBattleMonsters.Length; i++)
+            currentFighters[i + currentBattleKeepers.Length] = currentBattleMonsters[i];
+        if (isPrisonerOnTile)
+            currentFighters[currentBattleKeepers.Length + currentBattleMonsters.Length] = GameManager.Instance.PrisonerInstance;
+        return currentFighters;
+    }
     private static void HandleBattleEnding(Tile tile, List<PawnInstance> selectedKeepersForBattle)
     {
         bool isVictorious = true;
