@@ -167,15 +167,15 @@ public class IngameUI : MonoBehaviour
     {
         goMoralFeedback.gameObject.SetActive(true);
         // TODO : Ajouter la taille pion ? 
-        goMoralFeedback.transform.position = Camera.main.WorldToScreenPoint(GameManager.Instance.GoTarget.transform.position);
+        goMoralFeedback.transform.localPosition = Vector3.zero;
         if (amount < 0)
         {
-            goMoralFeedback.transform.GetChild(0).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteMoralDebuff;
+            goMoralFeedback.transform.GetChild(1).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteMoralDebuff;
             goMoralFeedback.GetComponentInChildren<Text>().color = Color.red;
             goMoralFeedback.GetComponentInChildren<Text>().text = "";
         } else
         {
-            goMoralFeedback.transform.GetChild(0).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteMoralBuff;
+            goMoralFeedback.transform.GetChild(1).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteMoralBuff;
             goMoralFeedback.GetComponentInChildren<Text>().color = Color.green;
             goMoralFeedback.GetComponentInChildren<Text>().text = "+ ";
         }
@@ -188,8 +188,8 @@ public class IngameUI : MonoBehaviour
     {
         for (float f = 3.0f; f >= 0; f -= 0.1f)
         {
-            Vector3 decal = new Vector3(0.0f, f, 0.0f);
-            goMoralFeedback.transform.position += decal;
+            Vector3 decal = new Vector3(0.0f, f, 0.0f) * 0.01f;
+            goMoralFeedback.transform.localPosition += decal;
             yield return null;
         }
         goMoralFeedback.gameObject.SetActive(false);
