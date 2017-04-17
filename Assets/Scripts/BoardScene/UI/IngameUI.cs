@@ -22,8 +22,11 @@ public class IngameUI : MonoBehaviour
 
     // ActionPanel
     [Header("Action Panel")]
+    [SerializeField]
     private GameObject goActionPanelQ;
+    [SerializeField]
     private Canvas worldSpaceCanvas;
+    [SerializeField]
     private GameObject goMoralFeedback;
 
     // ContentQuest
@@ -64,19 +67,6 @@ public class IngameUI : MonoBehaviour
         }
     }
     #endregion
-
-    public void Start()
-    {
-        //CreateShortcutPanel();
-        //CreateKeepersInventoryPanels();
-       // GameManager.Instance.PrisonerInstance.prisonerFeedingPanel = CreatePrisonerFeedingPanel(GameManager.Instance.PrisonerInstance.gameObject);
-        // TODO : rustine pour que ça marche quand on relance le jeu
-        GameObject worldSpaceUI = Instantiate(GameManager.Instance.PrefabUIUtils.WorldSpaceUIprefab);
-        worldSpaceCanvas = worldSpaceUI.transform.GetChild(0).GetComponent<Canvas>();
-        goActionPanelQ = worldSpaceUI.transform.GetChild(0).GetChild(0).gameObject;
-        goMoralFeedback = worldSpaceUI.transform.GetChild(0).GetChild(1).gameObject;
-        //UpdateShortcutPanel();
-    }
 
     public void ResetIngameUI()
     {
@@ -156,6 +146,8 @@ public class IngameUI : MonoBehaviour
         }
 
         worldSpaceCanvas.transform.SetParent(GameManager.Instance.GoTarget.GetComponent<Interactable>().Feedback);
+        worldSpaceCanvas.transform.localPosition = Vector3.zero;
+        goMoralFeedback.transform.localPosition = Vector3.zero;
         worldSpaceCanvas.GetComponent<WorldspaceCanvasCameraAdapter>().RecalculateActionCanvas(Camera.main);
     }
 
