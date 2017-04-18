@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using QuestSystem;
+using Behaviour;
 using System;
 
-public class PrisonerEscortObjective : IQuestObjective
+public class KillMonsterObjective : IQuestObjective
 {
     InitEvent onInit;
     private string title;
@@ -15,16 +16,15 @@ public class PrisonerEscortObjective : IQuestObjective
     // So we can know what to call when loading the quest from JSON
     private static int id = 0;
 
-    public GameObject prisoner;
-    public Tile destination;
+    public string monsterID;
+    bool monsterKilled = false;
 
-    public PrisonerEscortObjective(string _title, string desc, GameObject _prisoner, Tile dest, bool complete = false)
+    public KillMonsterObjective(string _title, string desc, string _monsterID, bool complete = false)
     {
         title = _title;
         description = desc;
-        prisoner = _prisoner;
+        monsterID = _monsterID;
         isComplete = complete;
-        destination = dest;
     }
 
     public string Title
@@ -74,7 +74,7 @@ public class PrisonerEscortObjective : IQuestObjective
 
     public void CheckProgress()
     {
-        if(prisoner.GetComponent<PawnInstance>().CurrentTile == destination)
+        if(monsterKilled)
         {
             isComplete = true;
         }
@@ -89,11 +89,26 @@ public class PrisonerEscortObjective : IQuestObjective
         
     }
 
+    public void UpdateProgress(Monster m)
+    {
+        if(m.getPawnInstance.Data.PawnId == monsterID)
+        {
+            monsterKilled = true;
+            CheckProgress();
+        }
+    }
+
     public void Init()
     {
+        EventManager.OnMonsterDie += UpdateProgress;
         if (onInit != null)
         {
             onInit();
         }
+    }
+
+    public void Unregister()
+    {
+        EventManager.OnMonsterDie -= UpdateProgress;
     }
 }

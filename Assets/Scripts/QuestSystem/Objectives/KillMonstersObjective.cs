@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using QuestSystem;
+using Behaviour;
 using System;
 
-public class PrisonerEscortObjective : IQuestObjective
+public class KillMonstersObjective : IQuestObjective
 {
     InitEvent onInit;
     private string title;
@@ -15,16 +16,17 @@ public class PrisonerEscortObjective : IQuestObjective
     // So we can know what to call when loading the quest from JSON
     private static int id = 0;
 
-    public GameObject prisoner;
-    public Tile destination;
+    public string monsterTypeID;
+    public int amountToKill;
+    public int amountKilled = 0;
 
-    public PrisonerEscortObjective(string _title, string desc, GameObject _prisoner, Tile dest, bool complete = false)
+    public KillMonstersObjective(string _title, string desc, string _monsterTypeID, int _amount, bool complete = false)
     {
         title = _title;
         description = desc;
-        prisoner = _prisoner;
+        monsterTypeID = _monsterTypeID;
+        amountToKill = _amount;
         isComplete = complete;
-        destination = dest;
     }
 
     public string Title
@@ -74,7 +76,7 @@ public class PrisonerEscortObjective : IQuestObjective
 
     public void CheckProgress()
     {
-        if(prisoner.GetComponent<PawnInstance>().CurrentTile == destination)
+        if(amountKilled >= amountToKill)
         {
             isComplete = true;
         }
@@ -89,11 +91,27 @@ public class PrisonerEscortObjective : IQuestObjective
         
     }
 
+    public void UpdateProgress(Monster m)
+    {
+        if(m.MonsterTypeID == monsterTypeID)
+        {
+            amountKilled++;
+            if (amountKilled >= amountToKill)
+                CheckProgress();
+        }
+    }
+
     public void Init()
     {
-        if (onInit != null)
+        EventManager.OnMonsterDie += UpdateProgress;
+        if(onInit != null)
         {
             onInit();
         }
+    }
+
+    public void Unregister()
+    {
+        EventManager.OnMonsterDie -= UpdateProgress;
     }
 }

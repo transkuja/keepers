@@ -6,6 +6,8 @@ namespace Behaviour
     public class Monster : MonoBehaviour
     {
         PawnInstance instance;
+        [SerializeField]
+        string monsterTypeID;
 
         private NavMeshAgent agent;
         private float moveTimer = 0.0f;
@@ -107,6 +109,14 @@ namespace Behaviour
             get
             {
                 return baseDefense + bonusDefense;
+            }
+        }
+
+        public string MonsterTypeID
+        {
+            get
+            {
+                return monsterTypeID;
             }
         }
 
