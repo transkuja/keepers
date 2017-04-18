@@ -114,13 +114,16 @@ namespace Behaviour
 
             quatTargetRotation.SetLookRotation(v3Direction - v3PosTemp);
 
-            bIsRotating = true;
+            if(Quaternion.Angle(quatPreviousRotation, quatTargetRotation) > 10.0f)
+            {
+                bIsRotating = true;
 
-            agent.Stop();
+                agent.Stop();
 
+
+                fLerpRotation = 0.0f;
+            }
             v3AgentDirectionTemp = v3Direction;
-
-            fLerpRotation = 0.0f;
         }
 
         void Rotate()

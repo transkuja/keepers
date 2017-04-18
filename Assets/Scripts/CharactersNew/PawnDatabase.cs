@@ -152,6 +152,7 @@ public class PawnDatabase {
         goPawn.transform.SetParent(trParent, false);
         goPawn.GetComponent<PawnInstance>().Data = dicPawnDataContainer[idPawn].pawnData;
 
+        InitPawn(goPawn.GetComponent<PawnInstance>());
         return goPawn;
     }
 
