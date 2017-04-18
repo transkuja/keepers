@@ -45,7 +45,7 @@ public class QuestManager : MonoBehaviour
         CurrentQuestDeck.Id = 0;
     }
 
-    public Quest GetQuestByID(int id)
+    public Quest GetQuestByID(string id)
     {
         foreach (Quest quest in AvailableQuests)
         {

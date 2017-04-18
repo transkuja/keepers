@@ -7,10 +7,10 @@ namespace QuestSystem
     public class QuestIdentifier
     {
         [SerializeField]
-        private int id;
+        private string id;
         //private int chainQuestID;
         [SerializeField]
-        private GameObject source;
+        private string sourceID;
 
 
         /*public int ChainQuestID
@@ -21,7 +21,7 @@ namespace QuestSystem
             }
         }*/
 
-        public int ID
+        public string ID
         {
             get
             {
@@ -29,18 +29,18 @@ namespace QuestSystem
             }
         }
 
-        public GameObject Source
+        public string SourceID
         {
             get
             {
-                return source;
+                return sourceID;
             }
         }
 
-        public QuestIdentifier(int _id, GameObject _source)
+        public QuestIdentifier(string _id, string _sourceID)
         {
             id = _id;
-            source = _source;
+            sourceID = _sourceID;
         }
     }
 }

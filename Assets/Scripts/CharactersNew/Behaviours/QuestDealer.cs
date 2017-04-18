@@ -48,7 +48,7 @@ namespace Behaviour
 
         public void InitializeQuest()
         {
-            questToGive.Init(new QuestIdentifier(questToGive.Identifier.ID, gameObject), questToGive.Information, questToGive.Objectives);
+            questToGive.Init(new QuestIdentifier(questToGive.Identifier.ID, instance.Data.PawnId), questToGive.Information, questToGive.Objectives);
             goQuest.transform.GetChild(goQuest.transform.childCount-1).GetComponent<Text>().text = questToGive.Information.Title;
             goQuest.transform.GetChild(goQuest.transform.childCount - 2).GetComponentInChildren<Text>().text = questToGive.Information.Dialog;
             Button validate = goQuest.transform.GetChild(goQuest.transform.childCount - 3).GetComponent<Button>();

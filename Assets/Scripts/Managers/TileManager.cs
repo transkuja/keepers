@@ -120,11 +120,14 @@ public class TileManager : MonoBehaviour {
                     ps.Play();
                     Destroy(ps.gameObject, ps.main.duration);
                 }
+
                 pi.GetComponent<Behaviour.Inventory>().ComputeItems();
                 lootList.AddRange(pi.GetComponent<Behaviour.Inventory>().Items);
 
                 removeIndex[nbrOfElementsToRemove] = pi;
                 nbrOfElementsToRemove++;
+                if (EventManager.OnMonsterDie != null)
+                    EventManager.OnMonsterDie(pi.GetComponent<Behaviour.Monster>());
             }
         }
 
