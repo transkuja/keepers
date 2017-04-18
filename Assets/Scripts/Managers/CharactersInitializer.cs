@@ -44,10 +44,11 @@ public class CharactersInitializer : MonoBehaviour {
             GameManager.Instance.AllKeepersList[i].transform.localScale = Vector3.one;
             GameManager.Instance.AllKeepersList[i].transform.GetComponent<NavMeshAgent>().enabled = true;
 
-            //GlowController.RegisterObject(GameManager.Instance.AllKeepersList[i].GetComponent<GlowObjectCmd>());
+
 
             InitCharacterUI(GameManager.Instance.AllKeepersList[i]);
             GameManager.Instance.RegisterKeeperPosition(GameManager.Instance.AllKeepersList[i]);
+            GlowController.RegisterObject(GameManager.Instance.AllKeepersList[i].GetComponent<GlowObjectCmd>());
         }
 
         // Next step, init quests
@@ -64,6 +65,7 @@ public class CharactersInitializer : MonoBehaviour {
 
         // TODO this should not be handled like, especially if there is more prisoner in scene
         GameObject prisoner = GameManager.Instance.PawnDataBase.CreatePawn("ashley", TileManager.Instance.BeginTile.transform.position, Quaternion.identity, GameManager.Instance.transform);
+        GlowController.RegisterObject(prisoner.GetComponent<GlowObjectCmd>());
         GameManager.Instance.PrisonerInstance = prisoner.GetComponent<PawnInstance>();
 
         // I NEED A QUEST INITIALIZER
