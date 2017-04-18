@@ -6,6 +6,8 @@ using Behaviour;
 public class BattleHandler {
 
     private enum AttackType { Physical, Magical }
+    private static bool isProcessingABattle = false;
+
     // Current battle data
     private static Face[] lastThrowResult;
     // Is the prisoner on the tile where the battle is processed
@@ -22,6 +24,10 @@ public class BattleHandler {
     // Debug parameters
     private static bool isDebugModeActive = false;
 
+    public static bool IsABattleAlreadyInProcess()
+    {
+        return isProcessingABattle;
+    }
 
     /// <summary>
     /// Autoselect keepers if there are not enough for a selection
@@ -29,14 +35,9 @@ public class BattleHandler {
     /// <param name="tile"></param>
     public static void StartBattleProcess(Tile tile)
     {
+        isProcessingABattle = true;
         AudioManager.Instance.PlayOneShot(AudioManager.Instance.battleSound, 0.5f);
         GameManager.Instance.CurrentState = GameState.InPause;
-        if (currentBattleKeepers != null || currentBattleMonsters != null)
-        {
-            Debug.LogWarning("A battle is already in process.");
-            return;
-        }
-
         // Auto selection
         if (TileManager.Instance.KeepersOnTile[tile].Count <= 1)
         {
@@ -75,8 +76,36 @@ public class BattleHandler {
             currentBattleMonsters[i] = TileManager.Instance.MonstersOnTile[tile][i];
 
         currentBattleKeepers = selectedKeepersForBattle.ToArray();
-
+        Debug.Log(selectedKeepersForBattle);
+        Debug.Log(currentBattleKeepers[0]);
         GameManager.Instance.SetStateToInBattle(AllCurrentFighters());
+
+        // Move pawns to battle positions
+        int offsetIndex = 0;
+        if (isPrisonerOnTile)
+        {
+            Transform newTransform = TileManager.Instance.BattlePositions.GetChild(offsetIndex);
+            GameManager.Instance.PrisonerInstance.GetComponent<AnimatedPawn>().StartMoveToBattlePositionAnimation(newTransform.localPosition, newTransform.localRotation);
+            offsetIndex = 1;
+        }
+
+        int keeperIndex = 0;
+        for (int i = offsetIndex; i < offsetIndex + currentBattleKeepers.Length; i++)
+        {
+            Transform newTransform = TileManager.Instance.BattlePositions.GetChild(i);
+            Debug.Log(newTransform.localPosition);
+            currentBattleKeepers[keeperIndex].GetComponent<AnimatedPawn>().StartMoveToBattlePositionAnimation(newTransform.localPosition, newTransform.localRotation);
+            keeperIndex++;
+        }
+
+        int monsterIndex = 0;
+        Debug.Log(currentBattleMonsters.Length);
+        for (int i = 3; i < 3 + currentBattleMonsters.Length; i++)
+        {
+            Transform newTransform = TileManager.Instance.BattlePositions.GetChild(i);
+            currentBattleMonsters[monsterIndex].GetComponent<AnimatedPawn>().StartMoveToBattlePositionAnimation(newTransform.localPosition, newTransform.localRotation);
+            monsterIndex++;
+        }
 
         ShiftTurn();
     }
@@ -514,6 +543,7 @@ public class BattleHandler {
     private static void PostBattleCommonProcess(List<PawnInstance> keepers, Tile tile)
     {
         TileManager.Instance.RemoveDefeatedMonsters(tile);
+        isProcessingABattle = false;
     }
 
     private static void PrintResultsScreen(bool isVictorious)

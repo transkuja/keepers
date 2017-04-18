@@ -9,15 +9,17 @@ public class BattleLauncher : MonoBehaviour {
     {
         if (other.gameObject.GetComponent<Behaviour.Monster>() != null)
         {
-            Tile tile;
-            tile = GetComponentInParent<PawnInstance>().CurrentTile;
+            if (BattleHandler.IsABattleAlreadyInProcess())
+                return;
 
-            GetComponentInParent<NavMeshAgent>().SetDestination(transform.position);
-            foreach (PawnInstance mi in TileManager.Instance.MonstersOnTile[tile])
-                mi.GetComponent<NavMeshAgent>().SetDestination(mi.transform.position);
+            Tile tile = GetComponentInParent<PawnInstance>().CurrentTile;
+
+            //GetComponentInParent<NavMeshAgent>().SetDestination(transform.position);
+            //foreach (PawnInstance mi in TileManager.Instance.MonstersOnTile[tile])
+            //    mi.GetComponent<NavMeshAgent>().SetDestination(mi.transform.position);
             BattleHandler.StartBattleProcess(tile);
 
-            GameManager.Instance.UpdateCameraPosition(GetComponentInParent<Behaviour.Keeper>().getPawnInstance);
+            GameManager.Instance.UpdateCameraPosition(GetComponentInParent<PawnInstance>());
         }
     }
 }

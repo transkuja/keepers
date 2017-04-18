@@ -52,6 +52,7 @@ public class GameManager : MonoBehaviour
     // Change game state variables
     private List<NavMeshAgent> pausedAgents = new List<NavMeshAgent>();
     private List<NavMeshAgent> disabledAgents = new List<NavMeshAgent>();
+    private List<GameObject> disabledModels = new List<GameObject>();
     private PawnInstance[] currentFighters;
 
     void Awake()
@@ -340,7 +341,6 @@ public class GameManager : MonoBehaviour
         Transform screen = SelectBattleCharactersScreen;
         screen.GetComponent<SelectBattleCharactersPanelHandler>().ActiveTile = tile;
         screen.gameObject.SetActive(true);
-        CurrentState = GameState.InPause;
     }
 
 
@@ -385,14 +385,16 @@ public class GameManager : MonoBehaviour
             if (currentState == GameState.InPause && value != GameState.InPause)
                 ExitPauseStateProcess();
             // Exit battle state
-            else if (currentState == GameState.InBattle && value == GameState.Normal)
+            if (currentState == GameState.InBattle && value == GameState.Normal)
                 ExitBattleStateProcess();
             // Enter pause state
-            else if (value == GameState.InPause && currentState == GameState.Normal)
+            if (value == GameState.InPause && currentState == GameState.Normal)
                 SwitchToPauseStateProcess();
             // Enter battle state
-            else if (value == GameState.InBattle && currentState != GameState.InBattle)
+            if (value == GameState.InBattle && currentState == GameState.InPause)
+            {
                 SwitchToBattleStateProcess();
+            }
 
             currentState = value;      
         }
@@ -403,6 +405,14 @@ public class GameManager : MonoBehaviour
         get
         {
             return ui.battleUI;
+        }
+    }
+
+    public Tile ActiveTile
+    {
+        get
+        {
+            return cameraManagerReference.ActiveTile;
         }
     }
     #endregion
@@ -594,6 +604,8 @@ public class GameManager : MonoBehaviour
                 {
                     currentAgent.Stop();
                     pausedAgents.Add(currentAgent);
+                    pi.transform.GetChild(0).gameObject.SetActive(false);
+                    disabledModels.Add(pi.transform.GetChild(0).gameObject);
                 }
             }
         }
@@ -665,6 +677,10 @@ public class GameManager : MonoBehaviour
         foreach (NavMeshAgent agent in disabledAgents)
             agent.enabled = true;
         disabledAgents.Clear();
+
+        foreach (GameObject go in disabledModels)
+            go.SetActive(true);
+        disabledModels.Clear();
     }
 
 

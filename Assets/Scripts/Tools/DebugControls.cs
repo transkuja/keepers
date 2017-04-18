@@ -39,7 +39,6 @@ public class DebugControls : MonoBehaviour {
 
             if (GameManager.Instance.ListOfSelectedKeepers == null || GameManager.Instance.ListOfSelectedKeepers.Count == 0)
             {
-                Debug.Log("Select a keeper to use debug tools.");
                 return;
             }
 
@@ -103,7 +102,6 @@ public class DebugControls : MonoBehaviour {
                 GameObject go = Instantiate(monsterToPopPrefab,
                     GameManager.Instance.GetFirstSelectedKeeper().CurrentTile.transform.position,
                     Quaternion.identity, GameManager.Instance.GetFirstSelectedKeeper().CurrentTile.transform);
-                TileManager.Instance.AddMonsterOnTile(GameManager.Instance.GetFirstSelectedKeeper().CurrentTile, go.GetComponent<PawnInstance>());
             }
 
             // Pop an item on the ground

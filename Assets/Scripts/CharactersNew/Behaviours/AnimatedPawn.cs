@@ -13,11 +13,13 @@ namespace Behaviour
         // Prevents action poping when arriving on a tile
         Direction arrivingTrigger = Direction.None;
         bool isMovingBetweenTiles = false;
+        bool isMovingToBattlePosition = false;
         float lerpMoveParam = 0.0f;
         Vector3 lerpStartPosition;
         Vector3 lerpEndPosition;
         Quaternion lerpStartRotation;
         Quaternion lerpEndRotation;
+        Transform originParent;
 
         Animator anim;
         Vector3 v3AgentDirectionTemp;
@@ -75,9 +77,20 @@ namespace Behaviour
                     transform.rotation = Quaternion.Lerp(lerpStartRotation, lerpEndRotation, Mathf.Clamp(lerpMoveParam, 0, 1));
                 }
             }
-            
-             anim.SetFloat("velocity", agent.velocity.magnitude);
 
+            if (isMovingToBattlePosition)
+            {
+                lerpMoveParam += Time.deltaTime;
+                if (lerpMoveParam >= 1.0f)
+                {
+                    IsMovingToBattlePosition = false;
+                }
+                transform.position = Vector3.Lerp(lerpStartPosition, lerpEndPosition, Mathf.Clamp(lerpMoveParam, 0, 1));
+                transform.rotation = Quaternion.Lerp(lerpStartRotation, lerpEndRotation, Mathf.Clamp(lerpMoveParam, 0, 1));
+            }
+
+            if (GameManager.Instance.CurrentState == GameState.Normal)
+                anim.SetFloat("velocity", agent.velocity.magnitude);
         }
 
 
@@ -95,6 +108,22 @@ namespace Behaviour
             anim.SetTrigger("moveBetweenTiles");
 
             IsMovingBetweenTiles = true;
+        }
+
+        // TODO: merge with the above function
+        public void StartMoveToBattlePositionAnimation(Vector3 newPosition, Quaternion newRotation)
+        {
+            originParent = transform.parent;
+            transform.SetParent(GameManager.Instance.ActiveTile.transform);
+            lerpMoveParam = 0.0f;
+            lerpStartPosition = transform.position;
+            lerpEndPosition = GetComponent<PawnInstance>().CurrentTile.transform.position + newPosition;
+            lerpStartRotation = Quaternion.LookRotation(transform.forward);
+            lerpEndRotation = newRotation;
+
+            anim.SetTrigger("moveToBattlePosition");
+
+            isMovingToBattlePosition = true;
         }
         
         public void TriggerRotation(Vector3 v3Direction)
@@ -181,6 +210,21 @@ namespace Behaviour
             set
             {
                 anim = value;
+            }
+        }
+
+        public bool IsMovingToBattlePosition
+        {
+            get
+            {
+                return isMovingToBattlePosition;
+            }
+
+            set
+            {
+                isMovingToBattlePosition = value;
+                if (value == false)
+                    transform.SetParent(originParent);
             }
         }
         #endregion
