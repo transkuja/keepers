@@ -62,6 +62,7 @@ namespace Behaviour
 
             if (instance.GetComponent<Escortable>() != null)
             {
+                ShortcutHungerUI.name = "Hunger_test";
                 ShortcutHungerUI.transform.SetParent(instance.GetComponent<Escortable>().ShorcutUI.transform);
                 ShortcutHungerUI.transform.localScale = Vector3.one;
                 ShortcutHungerUI.transform.localPosition = Vector3.zero;
@@ -78,7 +79,6 @@ namespace Behaviour
                 ShortcutHungerUI.transform.localScale = Vector3.one;
                 ShortcutHungerUI.transform.localPosition = Vector3.zero;
             }
-
             UpdateHungerPanel(Data.MaxHunger);
         }
 

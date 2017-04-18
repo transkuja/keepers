@@ -504,7 +504,8 @@ public class GameManager : MonoBehaviour
         listOfSelectedKeepers.Clear();
     }
 
-    public void AddKeeperToSelectedList(PawnInstance pawn)    {
+    public void AddKeeperToSelectedList(PawnInstance pawn)
+    {
         if (pawn.GetComponent<Behaviour.Keeper>() != null)
             ListOfSelectedKeepers.Add(pawn);
         else

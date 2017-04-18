@@ -44,8 +44,6 @@ public class CharactersInitializer : MonoBehaviour {
             GameManager.Instance.AllKeepersList[i].transform.localScale = Vector3.one;
             GameManager.Instance.AllKeepersList[i].transform.GetComponent<NavMeshAgent>().enabled = true;
 
-
-
             InitCharacterUI(GameManager.Instance.AllKeepersList[i]);
             GameManager.Instance.RegisterKeeperPosition(GameManager.Instance.AllKeepersList[i]);
             GlowController.RegisterObject(GameManager.Instance.AllKeepersList[i].GetComponent<GlowObjectCmd>());
@@ -66,6 +64,8 @@ public class CharactersInitializer : MonoBehaviour {
         // TODO this should not be handled like, especially if there is more prisoner in scene
         GameObject prisoner = GameManager.Instance.PawnDataBase.CreatePawn("ashley", TileManager.Instance.BeginTile.transform.position, Quaternion.identity, GameManager.Instance.transform);
         GlowController.RegisterObject(prisoner.GetComponent<GlowObjectCmd>());
+
+        InitCharacterUI(prisoner.GetComponent<PawnInstance>());
         GameManager.Instance.PrisonerInstance = prisoner.GetComponent<PawnInstance>();
 
         // I NEED A QUEST INITIALIZER
@@ -74,8 +74,6 @@ public class CharactersInitializer : MonoBehaviour {
         GameManager.Instance.MainQuest = new Quest(new QuestIdentifier("main_quest_0", ""), new QuestText("Main Quest: The last phoque licorne", "", "You're probably wondering why I gathered all of you here today. Well I'll be quick, I want you to bring this wonderful animal to my good and rich friend. Don't worry, you will be rewarded. His name is \"The End\", you'll see his flag from pretty far away, head towards it. I'm counting on you, it is extremely important.", "Hint: Don't kill Ashley."), mainObjectives);
         GameManager.Instance.MainQuest.CheckAndComplete();
         GameManager.Instance.MainQuest.OnQuestComplete += EndGameQuest;
-
-        InitCharacterUI(GameManager.Instance.PrisonerInstance);
     }
 
     void EndGameQuest()
