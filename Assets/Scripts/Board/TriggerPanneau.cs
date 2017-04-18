@@ -24,7 +24,7 @@ public class TriggerPanneau : MonoBehaviour {
             Behaviour.Keeper ki = other.GetComponentInParent<Behaviour.Keeper>();
 
             // On veut le mesh collider actif du perso
-            GameManager.Instance.GoTarget = other.GetComponent<Interactable>();
+            GameManager.Instance.GoTarget = ki.GetComponent<Interactable>();
 
             GameManager.Instance.Ui.UpdateActionPanelUIQ(GetComponent<Interactable>().Interactions);
         }

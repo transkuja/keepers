@@ -400,5 +400,18 @@ public class TileManager : MonoBehaviour {
             endTile = value;
         }
     }
+
+    public GameObject Tiles
+    {
+        get
+        {
+            return tiles;
+        }
+
+        set
+        {
+            tiles = value;
+        }
+    }
     #endregion
 }

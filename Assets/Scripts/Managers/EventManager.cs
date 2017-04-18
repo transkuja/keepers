@@ -33,6 +33,7 @@ public class EventManager : MonoBehaviour {
 
         ResetActionPointsForNextTurn();
         GameManager.Instance.Ui.ResetIngameUI();
+        HandleWeather();
     }
 
     private static void DecreaseMentalHealth()
@@ -88,6 +89,26 @@ public class EventManager : MonoBehaviour {
                 //ki.Keeper.BonusIntelligence = (short)(ki.Keeper.BonusIntelligence - ki.Keeper.BaseIntelligence / 2);
                 //ki.Keeper.BonusSpirit = (short)(ki.Keeper.BonusSpirit - ki.Keeper.BaseSpirit / 2);
                 ki.GetComponent<MentalHealthHandler>().IsLowMentalHealthBuffApplied = true;
+            }
+        }
+    }
+
+    public static void HandleWeather()
+    {
+        Tile[] tiles = TileManager.Instance.Tiles.GetComponentsInChildren<Tile>();
+        if (GameManager.Instance.NbTurn == 2)
+        {
+            foreach (Tile tile in tiles)
+            {
+                if (tile.Type == TileType.Snow/* && tile.State == TileState.Discovered*/)
+                {
+                    Climat climat = tile.gameObject.GetComponent<Climat>();
+                    if (climat != null)
+                    {
+                        climat.TypeClimat = TypeClimat.Snow;
+                    }
+
+                }
             }
         }
     }
