@@ -42,6 +42,7 @@ public class EventManager : MonoBehaviour {
         {
             if (ki.GetComponent<Mortal>().IsAlive)
                 ki.GetComponent<MentalHealthHandler>().CurrentMentalHealth -= 10;
+                ki.AddFeedBackToQueue(GameManager.Instance.SpriteUtils.spriteMoralDebuff, -10);
         }
     }
 
@@ -51,10 +52,12 @@ public class EventManager : MonoBehaviour {
         {
             if (ki.GetComponent<Mortal>().IsAlive)
                 ki.GetComponent<HungerHandler>().CurrentHunger -= 10;
+                ki.AddFeedBackToQueue(GameManager.Instance.SpriteUtils.spriteHunger, -10);
         }
 
         if (GameManager.Instance.PrisonerInstance.GetComponent<Mortal>().IsAlive)
             GameManager.Instance.PrisonerInstance.GetComponent<HungerHandler>().CurrentHunger -= 10;
+            GameManager.Instance.PrisonerInstance.AddFeedBackToQueue(GameManager.Instance.SpriteUtils.spriteHunger, -10);
     }
 
     private static void ResetActionPointsForNextTurn()

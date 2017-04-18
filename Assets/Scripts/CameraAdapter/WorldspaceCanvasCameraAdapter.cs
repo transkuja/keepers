@@ -2,9 +2,12 @@
 
 public class WorldspaceCanvasCameraAdapter : MonoBehaviour {
 
+    Vector3 v3ScaleRef;
+
     void Start()
     {
         GameManager.Instance.RegisterWorldspaceCanvasCameraAdapter(this);
+        v3ScaleRef = transform.localScale;
     }
 
     public void RecalculateActionCanvas(Camera camera)
@@ -13,7 +16,7 @@ public class WorldspaceCanvasCameraAdapter : MonoBehaviour {
         {
             transform.rotation = camera.transform.rotation;
             //transform.GetChild(1).localPosition = Vector3.zero;
-            transform.localScale = new Vector3(0.2f, 0.2f, 0.2f) + new Vector3(0.5f, 0.5f, 0.5f) * (1 - GameManager.Instance.CameraFZoomLerp);
+            transform.localScale = v3ScaleRef + new Vector3(0.5f, 0.5f, 0.5f) * (1 - GameManager.Instance.CameraFZoomLerp);
         }
     }
 }

@@ -24,5 +24,6 @@ public class SpriteUIUtils : MonoBehaviour {
     public Sprite spriteSupport;
     public Sprite spriteDeath;
 
-
+    // Feedback ui
+    public Sprite spriteHunger;
 }

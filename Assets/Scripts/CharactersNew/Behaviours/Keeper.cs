@@ -140,7 +140,8 @@ namespace Behaviour
                 from.ActionPoints -= (short)costAction;
                 short amountMoralBuff = (short)Random.Range(Data.MinMoralBuff, Data.MaxMoralBuff);
                 GetComponent<MentalHealthHandler>().CurrentMentalHealth += amountMoralBuff;
-                GameManager.Instance.Ui.MoralBuffActionTextAnimation(amountMoralBuff);
+                //GameManager.Instance.Ui.MoralBuffActionTextAnimation(amountMoralBuff);
+                GetComponent<PawnInstance>().AddFeedBackToQueue(GameManager.Instance.SpriteUtils.spriteMoralBuff, amountMoralBuff);
             }
             else
             {
