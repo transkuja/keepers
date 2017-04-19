@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
+
 using UnityEngine.EventSystems;
 using Behaviour;
 
@@ -150,7 +152,10 @@ public class ControlsManager : MonoBehaviour
 
      
                                     GameManager.Instance.GoTarget = clickTarget.GetComponentInParent<Interactable>();
-                                    ui.UpdateActionPanelUIQ(clickTarget.GetComponentInParent<PawnInstance>().Interactions);
+                                    if (clickTarget.GetComponentInParent<Monster>() != null)
+                                        GameManager.Instance.GetFirstSelectedKeeper().GetComponent<NavMeshAgent>().SetDestination(clickTarget.transform.position);
+                                    else
+                                        ui.UpdateActionPanelUIQ(clickTarget.GetComponentInParent<PawnInstance>().Interactions);
                                 }
 
                             }
