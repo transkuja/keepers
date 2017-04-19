@@ -336,16 +336,23 @@ namespace Behaviour
                 isSelected = value;
 
                 feedbackSelection.SetActive(value);
-                if (agent != null)
-                    agent.avoidancePriority = value == true ? 80 : 50;
-
-                if (isSelected == true)
+                if (GameManager.Instance.CurrentState == GameState.Normal)
                 {
-                    GameManager.Instance.UpdateCameraPosition(instance);
+                    if (agent != null)
+                        agent.avoidancePriority = value == true ? 80 : 50;
+
+                    if (isSelected == true)
+                    {
+                        GameManager.Instance.UpdateCameraPosition(instance);
+                    }
+                    ShowSelectedPanelUI(isSelected);
+                    GameManager.Instance.Ui.ClearActionPanel();
+                    GameManager.Instance.Ui.HideInventoryPanels();
                 }
-                ShowSelectedPanelUI(isSelected);
-                GameManager.Instance.Ui.ClearActionPanel();
-                GameManager.Instance.Ui.HideInventoryPanels();
+                if (GameManager.Instance.CurrentState == GameState.InBattle)
+                {
+                    // TODO: show/unshow battle possible actions
+                }
             }
         }
 

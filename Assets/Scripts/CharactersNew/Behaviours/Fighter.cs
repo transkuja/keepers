@@ -31,6 +31,8 @@ namespace Behaviour
         int defensiveSymbolStored = 0;
         int supportSymbolStored = 0;
 
+        bool hasPlayedThisTurn = false;
+
         void Awake()
         {
             instance = GetComponent<PawnInstance>();
@@ -161,6 +163,20 @@ namespace Behaviour
                 supportSymbolStored = value;
             }
         }
+
+        public bool HasPlayedThisTurn
+        {
+            get
+            {
+                return hasPlayedThisTurn;
+            }
+
+            set
+            {
+                hasPlayedThisTurn = value;
+            }
+        }
+
         #endregion
 
         // TODO: externalize this in Monster
@@ -199,10 +215,38 @@ namespace Behaviour
 public class SkillBattle
 {
     private int damage;
+    private string description;
+    private Dictionary<FaceType, int> cost = new Dictionary<FaceType, int>();
 
     public int Damage
     {
         get { return damage; }
         set { damage = value; }
+    }
+
+    public string Description
+    {
+        get
+        {
+            return description;
+        }
+
+        set
+        {
+            description = value;
+        }
+    }
+
+    public Dictionary<FaceType, int> Cost
+    {
+        get
+        {
+            return cost;
+        }
+
+        set
+        {
+            cost = value;
+        }
     }
 }

@@ -9,17 +9,18 @@ public class BattleHandler {
     private static bool isProcessingABattle = false;
 
     // Current battle data
-    private static Face[] lastThrowResult;
+    private static Dictionary<PawnInstance, Face[]> lastThrowResult;
     // Is the prisoner on the tile where the battle is processed
     public static bool isPrisonerOnTile = false;
     private static Text battleLogger;
     // TODO: Reset these 3 @Anthony
     private static PawnInstance[] currentBattleMonsters;
     private static PawnInstance[] currentBattleKeepers;
-    private static int turnId = 0;
+    private static int nbTurn = 0;
     private static bool isVictorious;
-    private static PawnInstance currentPawnTurn;
     private static PawnInstance currentTargetMonster;
+    private static bool isKeepersTurn = true;
+    private static Die[] currentTurnDice;
 
     // Debug parameters
     private static bool isDebugModeActive = false;
@@ -135,56 +136,30 @@ public class BattleHandler {
         PostBattleCommonProcess(selectedKeepersForBattle, tile);
     }
 
-    public static void ReceiveDiceThrowData(Face[] _result, ThrowType _throwType)
+    public static void ReceiveDiceThrowData(Dictionary<PawnInstance, Face[]> _result, ThrowType _throwType)
     {
         lastThrowResult = _result;
-        switch (_throwType)
+
+        foreach (PawnInstance pi in lastThrowResult.Keys)
         {
-            case ThrowType.Attack:
-                int attackValue = 0;
-                for (int i = 0; i < _result.Length; i++)
+            foreach (Face face in lastThrowResult[pi])
+            {
+                switch (face.Type)
                 {
-                    switch (_result[i].Type)
-                    {
-                        case FaceType.Physical:
-                            attackValue += _result[i].Value;
-                            break;
-                        case FaceType.Magical:
-                        case FaceType.Defensive:
-                        case FaceType.Support:
-                            attackValue++;
-                            break;
-                    }
-                    ResolveStandardAttack(attackValue);
+                    case FaceType.Physical:
+                        pi.GetComponent<Fighter>().PhysicalSymbolStored += face.Value;
+                        break;
+                    case FaceType.Magical:
+                        pi.GetComponent<Fighter>().MagicalSymbolStored += face.Value;
+                        break;
+                    case FaceType.Defensive:
+                        pi.GetComponent<Fighter>().DefensiveSymbolStored += face.Value;
+                        break;
+                    case FaceType.Support:
+                        pi.GetComponent<Fighter>().SupportSymbolStored += face.Value;
+                        break;
                 }
-                break;
-            case ThrowType.BeginTurn:
-                for (int i = 0; i < _result.Length; i++)
-                {
-                    switch (_result[i].Type)
-                    {
-                        case FaceType.Physical:
-                            currentPawnTurn.GetComponent<Fighter>().PhysicalSymbolStored += _result[i].Value;
-                            break;
-                        case FaceType.Magical:
-                            currentPawnTurn.GetComponent<Fighter>().MagicalSymbolStored += _result[i].Value;
-                            break;
-                        case FaceType.Defensive:
-                            currentPawnTurn.GetComponent<Fighter>().DefensiveSymbolStored += _result[i].Value;
-                            break;
-                        case FaceType.Support:
-                            currentPawnTurn.GetComponent<Fighter>().SupportSymbolStored += _result[i].Value;
-                            break;
-                    }
-                }
-                GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().ChangeState(UIBattleState.Actions);
-                break;
-            case ThrowType.Defense:
-                // TODO: GUard button press behaviour
-                break;
-            case ThrowType.Special:
-                // TODO: Attack button press behaviour
-                break;
+            }
         }
     }
 
@@ -196,21 +171,27 @@ public class BattleHandler {
 
     public static void ShiftTurn()
     {
-        if (turnId > currentBattleKeepers.Length + currentBattleMonsters.Length)
-            turnId = 0;
+        isKeepersTurn = !isKeepersTurn;
 
-        if (turnId > currentBattleKeepers.Length)
+        if (isKeepersTurn)
         {
-            currentPawnTurn = currentBattleMonsters[turnId];
-            // TODO: resolve monster turn
+            nbTurn++;
+            
+            // Initialization for keepers turn
+            for (int i = 0; i < currentBattleKeepers.Length; i++)
+            {
+                currentBattleKeepers[i].GetComponent<Fighter>().HasPlayedThisTurn = false;
+            }
         }
         else
         {
-            currentPawnTurn = currentBattleKeepers[turnId];
-            GameManager.Instance.GetBattleUI.SetActive(true);
+            // Resolve turn for each monster then shift turn to keepers'
+            for (int i = 0; i < currentBattleMonsters.Length; i++)
+            {
+                // TODO: monster i plays his turn
+            }
+            ShiftTurn();
         }
-
-        turnId++;
     }
 
     private static bool BattleEndConditionsReached()
@@ -580,6 +561,32 @@ public class BattleHandler {
         set
         {
             currentPawnTurn = value;
+        }
+    }
+
+    public static bool IsKeepersTurn
+    {
+        get
+        {
+            return isKeepersTurn;
+        }
+
+        set
+        {
+            isKeepersTurn = value;
+        }
+    }
+
+    public static PawnInstance[] CurrentBattleKeepers
+    {
+        get
+        {
+            return currentBattleKeepers;
+        }
+
+        set
+        {
+            currentBattleKeepers = value;
         }
     }
 }
