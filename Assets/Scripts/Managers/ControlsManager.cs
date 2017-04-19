@@ -247,23 +247,25 @@ public class ControlsManager : MonoBehaviour
                     RaycastHit hitInfo;
                     if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo) == true)
                     {
-                        GameManager.Instance.Ui.ClearActionPanel();
-                        GameObject clickedGameobject = hitInfo.transform.parent.gameObject;
-                        if (clickedGameobject.GetComponent<Keeper>() != null)
+                        GameObject clickTarget = hitInfo.collider.gameObject;
+                        if (clickTarget.GetComponentInParent<PawnInstance>() != null)
                         {
-                            if (clickedGameobject.GetComponent<Fighter>() != null && !clickedGameobject.GetComponent<Fighter>().HasPlayedThisTurn)
+                            if (clickTarget.GetComponentInParent<Keeper>() != null)
                             {
-                                Keeper clickedKeeper = clickedGameobject.GetComponent<Keeper>();
+                                if (clickTarget.GetComponentInParent<Fighter>() != null && !clickTarget.GetComponentInParent<Fighter>().HasPlayedThisTurn)
+                                {
+                                    Keeper clickedKeeper = clickTarget.GetComponentInParent<Keeper>();
 
-                                GameManager.Instance.ClearListKeeperSelected();
-                                GameManager.Instance.AddKeeperToSelectedList(clickedKeeper.getPawnInstance);
+                                    GameManager.Instance.ClearListKeeperSelected();
+                                    GameManager.Instance.AddKeeperToSelectedList(clickedKeeper.getPawnInstance);
 
-                                clickedKeeper.IsSelected = true;
+                                    clickedKeeper.IsSelected = true;
+                                }
                             }
-                        }
-                        else if (hitInfo.transform.gameObject.GetComponentInParent<Monster>() != null)
-                        {
-                            // TODO: Show monster informations (pv, name, etc.)
+                            else if (clickTarget.GetComponentInParent<Monster>() != null)
+                            {
+                                // TODO: Show monster informations (pv, name, etc.)
+                            }
                         }
 
                     }
@@ -298,16 +300,50 @@ public class ControlsManager : MonoBehaviour
                     GameManager.Instance.ClearListKeeperSelected();
                     PawnInstance nextKeeper = keepersOnTile[(currentKeeperSelectedIndex + 1) % keepersOnTile.Count];
                     GameManager.Instance.AddKeeperToSelectedList(nextKeeper);
-                    nextKeeper.GetComponent<Behaviour.Keeper>().IsSelected = true;
+                    nextKeeper.GetComponent<Keeper>().IsSelected = true;
 
                     //GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
                     GameManager.Instance.Ui.HideInventoryPanels();
                 }
+
             }
 
             if (GameManager.Instance.CurrentState == GameState.InBattle)
             {
-                // TODO switch keeper selected in battle
+                if (GameManager.Instance.ListOfSelectedKeepers != null && GameManager.Instance.ListOfSelectedKeepers.Count > 0)
+                {
+                    // Get first selected
+                    PawnInstance currentKeeperSelected = GameManager.Instance.GetFirstSelectedKeeper();
+
+                    // Get next in battle
+                    List<PawnInstance> keepersInBattle = new List<PawnInstance>();
+                    keepersInBattle.AddRange(BattleHandler.CurrentBattleKeepers);
+
+                    int currentKeeperSelectedIndex = keepersInBattle.FindIndex(x => x == currentKeeperSelected);
+
+                    // Next keeper is now active
+                    GameManager.Instance.ClearListKeeperSelected();
+                    PawnInstance nextKeeper;
+
+                    int nbIterations = 0;
+                    do
+                    {
+                        nextKeeper = keepersInBattle[(currentKeeperSelectedIndex + nbIterations + 1) % keepersInBattle.Count];
+                        nbIterations++;
+                    } while (nextKeeper.GetComponent<Fighter>().HasPlayedThisTurn && nbIterations < 3);
+
+
+                    GameManager.Instance.AddKeeperToSelectedList(nextKeeper);
+                    nextKeeper.GetComponent<Keeper>().IsSelected = true;
+                }
+                else
+                {
+                    GameManager.Instance.ClearListKeeperSelected();
+                    PawnInstance nextKeeper = BattleHandler.CurrentBattleKeepers[0];
+                    GameManager.Instance.AddKeeperToSelectedList(nextKeeper);
+                    nextKeeper.GetComponent<Keeper>().IsSelected = true;
+                }
+
             }
 
         }

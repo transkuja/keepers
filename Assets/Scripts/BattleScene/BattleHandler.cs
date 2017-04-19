@@ -551,19 +551,6 @@ public class BattleHandler {
         battleLogger.text = tmp;
     }
 
-    public static PawnInstance CurrentPawnTurn
-    {
-        get
-        {
-            return currentPawnTurn;
-        }
-
-        set
-        {
-            currentPawnTurn = value;
-        }
-    }
-
     public static bool IsKeepersTurn
     {
         get
