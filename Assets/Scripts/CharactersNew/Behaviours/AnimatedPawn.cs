@@ -19,7 +19,6 @@ namespace Behaviour
         Vector3 lerpEndPosition;
         Quaternion lerpStartRotation;
         Quaternion lerpEndRotation;
-        Transform originParent;
 
         Animator anim;
         Vector3 v3AgentDirectionTemp;
@@ -89,8 +88,10 @@ namespace Behaviour
                 transform.rotation = Quaternion.Lerp(lerpStartRotation, lerpEndRotation, Mathf.Clamp(lerpMoveParam, 0, 1));
             }
 
-            if (GameManager.Instance.CurrentState == GameState.Normal)
+            if (anim.isActiveAndEnabled == true && agent.isActiveAndEnabled == true)
+            {
                 anim.SetFloat("velocity", agent.velocity.magnitude);
+            }
         }
 
 
@@ -113,8 +114,6 @@ namespace Behaviour
         // TODO: merge with the above function
         public void StartMoveToBattlePositionAnimation(Vector3 newPosition, Quaternion newRotation)
         {
-            originParent = transform.parent;
-            transform.SetParent(GameManager.Instance.ActiveTile.transform);
             lerpMoveParam = 0.0f;
             lerpStartPosition = transform.position;
             lerpEndPosition = GetComponent<PawnInstance>().CurrentTile.transform.position + newPosition;
@@ -223,8 +222,7 @@ namespace Behaviour
             set
             {
                 isMovingToBattlePosition = value;
-                if (value == false)
-                    transform.SetParent(originParent);
+                anim.SetFloat("velocity", 0.0f);
             }
         }
         #endregion

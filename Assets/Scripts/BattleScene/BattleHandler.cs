@@ -76,8 +76,7 @@ public class BattleHandler {
             currentBattleMonsters[i] = TileManager.Instance.MonstersOnTile[tile][i];
 
         currentBattleKeepers = selectedKeepersForBattle.ToArray();
-        Debug.Log(selectedKeepersForBattle);
-        Debug.Log(currentBattleKeepers[0]);
+
         GameManager.Instance.SetStateToInBattle(AllCurrentFighters());
 
         // Move pawns to battle positions
@@ -93,13 +92,11 @@ public class BattleHandler {
         for (int i = offsetIndex; i < offsetIndex + currentBattleKeepers.Length; i++)
         {
             Transform newTransform = TileManager.Instance.BattlePositions.GetChild(i);
-            Debug.Log(newTransform.localPosition);
             currentBattleKeepers[keeperIndex].GetComponent<AnimatedPawn>().StartMoveToBattlePositionAnimation(newTransform.localPosition, newTransform.localRotation);
             keeperIndex++;
         }
 
         int monsterIndex = 0;
-        Debug.Log(currentBattleMonsters.Length);
         for (int i = 3; i < 3 + currentBattleMonsters.Length; i++)
         {
             Transform newTransform = TileManager.Instance.BattlePositions.GetChild(i);
@@ -119,6 +116,7 @@ public class BattleHandler {
             currentFighters[i + currentBattleKeepers.Length] = currentBattleMonsters[i];
         if (isPrisonerOnTile)
             currentFighters[currentBattleKeepers.Length + currentBattleMonsters.Length] = GameManager.Instance.PrisonerInstance;
+
         return currentFighters;
     }
     private static void HandleBattleEnding(Tile tile, List<PawnInstance> selectedKeepersForBattle)

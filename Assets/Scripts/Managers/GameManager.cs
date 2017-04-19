@@ -575,6 +575,7 @@ public class GameManager : MonoBehaviour
     public void SetStateToInBattle(PawnInstance[] _fighters)
     {
         currentFighters = _fighters;
+        ClearListKeeperSelected();
         CurrentState = GameState.InBattle;
     }
 
@@ -584,7 +585,7 @@ public class GameManager : MonoBehaviour
         foreach (PawnInstance pi in allKeepersList)
         {
             bool mustBeDisabled = false;
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < currentFighters.Length && i < 3; i++)
             {
                 if (pi == currentFighters[i])
                 {
