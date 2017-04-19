@@ -63,18 +63,17 @@ namespace Behaviour
                 {
                     Rotate();
                 }
+            }
 
-
-                if (IsMovingBetweenTiles)
+            if (IsMovingBetweenTiles)
+            {
+                lerpMoveParam += Time.deltaTime;
+                if (lerpMoveParam >= 1.0f)
                 {
-                    lerpMoveParam += Time.deltaTime;
-                    if (lerpMoveParam >= 1.0f)
-                    {
-                        IsMovingBetweenTiles = false;
-                    }
-                    transform.position = Vector3.Lerp(lerpStartPosition, lerpEndPosition, Mathf.Clamp(lerpMoveParam, 0, 1));
-                    transform.rotation = Quaternion.Lerp(lerpStartRotation, lerpEndRotation, Mathf.Clamp(lerpMoveParam, 0, 1));
+                    IsMovingBetweenTiles = false;
                 }
+                transform.position = Vector3.Lerp(lerpStartPosition, lerpEndPosition, Mathf.Clamp(lerpMoveParam, 0, 1));
+                transform.rotation = Quaternion.Lerp(lerpStartRotation, lerpEndRotation, Mathf.Clamp(lerpMoveParam, 0, 1));
             }
 
             if (isMovingToBattlePosition)
