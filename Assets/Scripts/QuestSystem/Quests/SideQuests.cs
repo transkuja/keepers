@@ -11,7 +11,7 @@ public class SideQuests {
         quests = new List<Quest>();
 
         List<IQuestObjective> objectives = new List<IQuestObjective>();
-        objectives.Add(new KillMonsterObjective("Kill the Jacob the SCARY MONSTER", 
+        objectives.Add(new KillMonsterObjective("Kill Rabbit Jacob the SCARY MONSTER", 
                                                 "Eliminate the scary monster menacing the village. That guy said it should be near this hidden passage...", 
                                                 "rabbit_jacob_01" , 
                                                 TileManager.Instance.EndTile));

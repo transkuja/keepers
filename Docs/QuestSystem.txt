@@ -1,0 +1,44 @@
+					Quest System : Le cheminement recherché
+
+1/ Choix du deck
+  - (Pas implémenté) Le joueur sélectionne un deck qui servira, entre autres,
+	à l'initialisation des quêtes en définissant celles qui doivent être utilisées.
+ 
+2/ Initialisation des quêtes possibles
+  - (Pas implémenté) Aller chercher dans le fichier définissant les quêtes
+	(MainQuests et SideQuests, qui pourraient n'être qu'un seul fichier en fait)
+	celles qui sont référencées par leur ID dans le deck sélectionné.
+	Les rajouter dans les quêtes dispo dans le Quest Manager.
+	
+  - (Pas implémenté) Lorsque le niveau est chargé, il faut trouver un moyen soit d'instancier les pnj, 
+	soit d'activer ceux qui sont concernés si on met tout directement dans la scène.
+	 - Différents "niveaux d'initialisation" possibles: 
+	    - (Pas implémenté) Une première init qui permet de mettre en place les pnj qui donnent les quêtes qui est faite au chargement du niveau,
+		- (Normalement, c'est implémenté) Une deuxième lorsque la quête est acceptée par le joueur 
+		(il faut alors appeler la fonction init de la quête acceptée)
+		qui permettra d'initialiser les objectifs par exemple.
+		A cette étape, des delegate OnInit sont invoqués par la quête et par chaque objectif.
+		Si on veux par exemple activer un tile ou quoi que ce soit d'autre, on pourrait rajouter
+		le comportement adapté dans le delegate correspont avant l'initialisation.
+		- (Pas implémenté) Initialisée la main quest au chargement du niveau.
+
+3/ Mise à jour des quêtes
+  - Plusieurs manières de le faire, les objectifs peuvent s'occuper de se lier à un Event de l'Event Manager,
+	et leur Update se ferait lorsque les events sont invoqués.
+	On peut check si tous les objectifs sont remplis (avec la fonction Check ou CheckAndComplete de la quête)
+	lorsqu'on replarle au pnj qui l'a donné par exemple.
+
+
+4/ Completion d'une quête
+  - 
+
+
+
+Side notes:
+
+  QuestDealer: Lorsqu'une quête est donnée, on veut pouvoir reparler au pnj?
+	Il afficherait un dialogue qui prendrait le texte du champ "Hint" de la quête qui a été donnée par exemple.
+   Le pnj pourrait avoir d'autres quêtes à donner: On attend la fin de la précédente? 
+	Ou on rajoute la possibilité de voir les dialogues hint des quêtes acceptées, 
+	en plus de pouvoir voir les autres quêtes qu'il propose? (Bien plus compliqué et plus long, mais plus permissif)
+	

@@ -133,6 +133,19 @@
 			"Mortal" : {
 				"maxHp" : 100
 			}
+		},
+		{
+			"id": "pnj_01",
+			"name" : "SwaggittySwooty",
+			"sprite" : "Pawn_mini_icon/Heal_mini_icon",
+			"canSpeak" : "true",
+			
+			"Inventory" : {
+				"nbSlot" : 6
+			},
+			"QuestDealer" : 
+			{}
+			
 		}
 		
 	]

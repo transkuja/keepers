@@ -14,6 +14,8 @@ namespace QuestSystem
         private string dialog;
         [SerializeField]
         private string hint;
+        [SerializeField]
+        private string endDialog;
 
         public string DescriptionSummary
         {
