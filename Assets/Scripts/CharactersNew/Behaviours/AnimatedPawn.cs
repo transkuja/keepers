@@ -31,6 +31,9 @@ namespace Behaviour
         [SerializeField]
         float fRotateSpeed = 1.0f;
 
+        Vector3 beforeBattlePosition;
+        Quaternion beforeBattleRotation;
+
         void Awake()
         {
             instance = GetComponent<PawnInstance>();
@@ -116,14 +119,32 @@ namespace Behaviour
             lerpMoveParam = 0.0f;
             lerpStartPosition = transform.position;
             lerpEndPosition = GetComponent<PawnInstance>().CurrentTile.transform.position + newPosition;
+
             lerpStartRotation = Quaternion.LookRotation(transform.forward);
             lerpEndRotation = newRotation;
+
+            beforeBattlePosition = lerpStartPosition;
+            beforeBattleRotation = lerpStartRotation;
 
             anim.SetTrigger("moveToBattlePosition");
 
             isMovingToBattlePosition = true;
         }
-        
+
+        public void StartMoveFromBattlePositionAnimation()
+        {
+            lerpMoveParam = 0.0f;
+            lerpStartPosition = transform.position;
+            lerpEndPosition = beforeBattlePosition;
+
+            lerpStartRotation = Quaternion.LookRotation(transform.forward);
+            lerpEndRotation = beforeBattleRotation;
+
+            anim.SetTrigger("moveToBattlePosition");
+
+            isMovingToBattlePosition = true;
+        }
+
         public void TriggerRotation(Vector3 v3Direction)
         {
             if (agent.enabled == false)

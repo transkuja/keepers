@@ -115,8 +115,8 @@ public class UIBattleHandler : MonoBehaviour {
 
     public void EscapeBattle()
     {
-        // reset camera
-        // reset position
+        BattleHandler.PostBattleCommonProcess();
+        GameManager.Instance.CurrentState = GameState.Normal;
     }
 
 }

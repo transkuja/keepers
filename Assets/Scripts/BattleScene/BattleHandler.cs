@@ -136,7 +136,7 @@ public class BattleHandler {
         }
 
         PrintResultsScreen(isVictorious);
-        PostBattleCommonProcess(selectedKeepersForBattle, tile);
+        PostBattleCommonProcess();
     }
 
     public static void ReceiveDiceThrowData(Dictionary<PawnInstance, Face[]> _result, Dictionary<PawnInstance, List<GameObject>> _diceInstances)
@@ -536,14 +536,29 @@ public class BattleHandler {
         }*/
     }
 
-    private static void PostBattleCommonProcess(List<PawnInstance> keepers, Tile tile)
+    public static void PostBattleCommonProcess()
     {
-        TileManager.Instance.RemoveDefeatedMonsters(tile);
+        TileManager.Instance.RemoveDefeatedMonsters(GameManager.Instance.ActiveTile);
         isProcessingABattle = false;
         for (int i = 0; i < currentBattleKeepers.Length; i++)
         {
             currentBattleKeepers[i].GetComponent<Fighter>().ResetValuesAfterBattle();
+            currentBattleKeepers[i].GetComponent<AnimatedPawn>().StartMoveFromBattlePositionAnimation();
         }
+
+        if (isPrisonerOnTile)
+            GameManager.Instance.PrisonerInstance.GetComponent<AnimatedPawn>().StartMoveFromBattlePositionAnimation();
+
+        for (int i = 0; i < currentBattleMonsters.Length; i++)
+        {
+            // TODO: test death cases
+            if (currentBattleMonsters[i] != null)
+            {
+                if (currentBattleMonsters[i].GetComponent<Mortal>().CurrentHp > 0)
+                    currentBattleMonsters[i].GetComponent<AnimatedPawn>().StartMoveFromBattlePositionAnimation();
+            }
+        }
+
     }
 
     private static void PrintResultsScreen(bool isVictorious)

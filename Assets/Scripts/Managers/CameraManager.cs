@@ -65,6 +65,8 @@ public class CameraManager : MonoBehaviour {
     Vector3 oldPosition;
     float lerpParameter = 0.0f;
 
+    Vector3 referenceTClosePosition;
+
     #region Accessors
     public float FZoomLerp
     {
@@ -110,6 +112,7 @@ public class CameraManager : MonoBehaviour {
         GameObject goCameraCloseRef = GameObject.Find("CameraCloseRef");
         tClose.rotation = goCameraCloseRef.transform.rotation;
         tClose.position = goCameraCloseRef.transform.position;
+        referenceTClosePosition = tClose.position;
         Destroy(goCameraCloseRef);
 
         GameObject goCameraFarRef = GameObject.Find("CameraFarRef");
@@ -151,6 +154,14 @@ public class CameraManager : MonoBehaviour {
         zoomState = eZoomState.forward;
         fZoomLerpOrigin = fZoomLerp;
         fLerpTarget = 1.0f;
+    }
+
+    public void UpdateCameraPositionExitBattle()
+    {
+        isUpdateNeeded = true;
+        oldPosition = transform.position;
+        newPosition = referenceTClosePosition;
+        tClose.position = referenceTClosePosition;
     }
 
     void Update()

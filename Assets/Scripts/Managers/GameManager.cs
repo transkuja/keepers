@@ -698,7 +698,7 @@ public class GameManager : MonoBehaviour
             go.SetActive(true);
         disabledModels.Clear();
 
-        UpdateCameraPosition(ActiveTile);
+        cameraManagerReference.UpdateCameraPositionExitBattle();
     }
 
 
