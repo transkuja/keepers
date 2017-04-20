@@ -144,9 +144,13 @@ public class CameraManager : MonoBehaviour {
 
     public void UpdateCameraPosition(Vector3 _newPosition)
     {
-        isUpdateNeeded = true;
+      //  isUpdateNeeded = true;
         oldPosition = transform.position;
         newPosition = _newPosition;
+        tClose.position += (tClose.position - _newPosition);
+        zoomState = eZoomState.forward;
+        fZoomLerpOrigin = fZoomLerp;
+        fLerpTarget = 1.0f;
     }
 
     void Update()
@@ -211,6 +215,11 @@ public class CameraManager : MonoBehaviour {
                     oldPosition = Vector3.zero;
                     lerpParameter = 0.0f;
                 }
+            }
+
+            if (zoomState != eZoomState.idle)
+            {
+                UpdateCamZoom();
             }
         }
     }

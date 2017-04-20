@@ -28,7 +28,8 @@ public class ThrownDiceHandler : MonoBehaviour {
                 diceInstance.Add(currentKeeper, new List<GameObject>());
                 for (int j = 0; j < currentKeeper.GetComponent<Behaviour.Fighter>().Dice.Length; j++)
                 {
-                    diceInstance[currentKeeper].Add(DieBuilder.BuildDie(diceForCurrentThrow[currentKeeper][j], GameManager.Instance.ActiveTile, TileManager.Instance.DicePositionsOnTile.GetChild(i).GetChild(j).localPosition));
+                    Transform diePosition = TileManager.Instance.DicePositionsOnTile.GetChild(i).GetChild(j);
+                    diceInstance[currentKeeper].Add(DieBuilder.BuildDie(diceForCurrentThrow[currentKeeper][j], GameManager.Instance.ActiveTile, diePosition.localPosition + diePosition.parent.localPosition));
                 }
             }
 
@@ -113,7 +114,7 @@ public class ThrownDiceHandler : MonoBehaviour {
                 timerAnimation = 0.0f;
                 isRunning = false;
                 SendDataToBattleHandler();
-                //GetComponent<UIBattleHandler>().ChangeState(UIBattleState.WaitForDiceThrowValidation);
+               // GetComponent<UIBattleHandler>().ChangeState(UIBattleState.);
             }
         }
     }
