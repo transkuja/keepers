@@ -7,6 +7,9 @@ namespace Behaviour
     public class Fighter : MonoBehaviour
     {
         PawnInstance instance;
+        private InteractionImplementer battleInteractions;
+        private Transform interactionsPosition;
+
         // TODO: externalize this in Monster
         bool isAMonster;
 
@@ -40,13 +43,44 @@ namespace Behaviour
         void Awake()
         {
             instance = GetComponent<PawnInstance>();
+            battleInteractions = new InteractionImplementer();
+            foreach (Transform child in transform)
+            {
+                if (child.CompareTag("FeedbackTransform"))
+                {
+                    interactionsPosition = child;
+                    break;
+                }
+            }
         }
 
         void Start()
         {
             if (GetComponent<Monster>() != null) IsAMonster = true;
             else IsAMonster = false;
+
+            battleInteractions.Add(new Interaction(Attack), 0, "Attack", GameManager.Instance.SpriteUtils.spriteMoral);
+            battleInteractions.Add(new Interaction(Guard), 0, "Guard", GameManager.Instance.SpriteUtils.spriteMoral);
+            battleInteractions.Add(new Interaction(OpenSkillPanel), 0, "OpenSkillPanel", GameManager.Instance.SpriteUtils.spriteMoral);
+
         }
+
+        #region Interactions
+        public void Attack(int _i = 0)
+        {
+            Debug.Log("attack");
+        }
+
+        public void Guard(int _i = 0)
+        {
+            Debug.Log("guard");
+        }
+
+        public void OpenSkillPanel(int _i = 0)
+        {
+            Debug.Log("openskillpanel");
+        }
+        #endregion
 
         #region Accessors
         public List<SkillBattle> BattleSkills
@@ -178,6 +212,32 @@ namespace Behaviour
             set
             {
                 hasPlayedThisTurn = value;
+            }
+        }
+
+        public Transform InteractionsPosition
+        {
+            get
+            {
+                return interactionsPosition;
+            }
+
+            set
+            {
+                interactionsPosition = value;
+            }
+        }
+
+        public InteractionImplementer BattleInteractions
+        {
+            get
+            {
+                return battleInteractions;
+            }
+
+            set
+            {
+                battleInteractions = value;
             }
         }
 

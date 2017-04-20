@@ -258,8 +258,9 @@ public class ControlsManager : MonoBehaviour
 
                                     GameManager.Instance.ClearListKeeperSelected();
                                     GameManager.Instance.AddKeeperToSelectedList(clickedKeeper.getPawnInstance);
-
                                     clickedKeeper.IsSelected = true;
+
+                                    GameManager.Instance.Ui.UpdateActionPanelUIForBattle(clickedKeeper.GetComponent<Fighter>());
                                 }
                             }
                             else if (clickTarget.GetComponentInParent<Monster>() != null)

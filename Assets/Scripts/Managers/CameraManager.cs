@@ -144,7 +144,7 @@ public class CameraManager : MonoBehaviour {
 
     public void UpdateCameraPosition(Vector3 _newPosition)
     {
-      //  isUpdateNeeded = true;
+        isUpdateNeeded = true;
         oldPosition = transform.position;
         newPosition = _newPosition;
         tClose.position += (tClose.position - _newPosition);
