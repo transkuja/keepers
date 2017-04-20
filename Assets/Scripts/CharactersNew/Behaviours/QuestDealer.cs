@@ -93,7 +93,7 @@ namespace Behaviour
 
         void AcceptQuest()
         {
-            QuestManager.Instance.CurrentQuests.Add(questToGive);
+            GameManager.Instance.QuestManager.ActiveQuests.Add(questToGive);
             GameManager.Instance.Ui.goContentQuestParent.SetActive(false);
             goQuest.SetActive(false);
         }

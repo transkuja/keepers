@@ -5,44 +5,32 @@ using QuestSystem;
 
 public class QuestManager : MonoBehaviour
 {
-
-    private static QuestManager instance = null;
-
     public QuestDeck CurrentQuestDeck;
 
     public List<Quest> AvailableQuests;
-    public List<Quest> CurrentQuests;
-
-    public static QuestManager Instance
-    {
-        get
-        {
-            return instance;
-        }
-
-        set
-        {
-            instance = value;
-        }
-    }
-
-    void Awake()
-    {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else if (instance != this)
-        {
-            Destroy(gameObject);
-        }
-    }
+    public List<Quest> ActiveQuests;
+    public Quest MainQuest;
 
     void Start()
     {
         CurrentQuestDeck = new QuestDeck();
         CurrentQuestDeck.Id = 0;
+    }
+
+    public void Init()
+    {
+        ActiveQuests = new List<Quest>();
+        AvailableQuests = new List<Quest>();
+        // if temporaire
+        if(CurrentQuestDeck != null)
+        {
+            MainQuest = GameManager.Instance.QuestsContainer.FindQuestByID(CurrentQuestDeck.MainQuest);
+            foreach (string questID in CurrentQuestDeck.SideQuests)
+            {
+                AvailableQuests.Add(GameManager.Instance.QuestsContainer.FindQuestByID(questID));
+            }
+        }
+        
     }
 
     public Quest GetQuestByID(string id)

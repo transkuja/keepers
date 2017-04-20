@@ -52,6 +52,7 @@ public class TileManager : MonoBehaviour {
     {
         instance = this;
         InitializeState();
+        //GameManager.Instance.RegisterQuestSourceContainer(GetComponent<QuestSourceContainer>());
         GameManager.Instance.RegisterTileManager(this);
     }
 

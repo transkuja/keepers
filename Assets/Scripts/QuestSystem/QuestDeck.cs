@@ -8,7 +8,8 @@ namespace QuestSystem
     {
         int id;
         string deckName;
-        List<Quest> quests;
+        string mainQuest;
+        List<string> sideQuests;
 
         public int Id
         {
@@ -23,16 +24,16 @@ namespace QuestSystem
             }
         }
 
-        public List<Quest> Quests
+        public List<string> SideQuests
         {
             get
             {
-                return quests;
+                return sideQuests;
             }
 
             set
             {
-                quests = value;
+                sideQuests = value;
             }
         }
 
@@ -46,6 +47,19 @@ namespace QuestSystem
             set
             {
                 deckName = value;
+            }
+        }
+
+        public string MainQuest
+        {
+            get
+            {
+                return mainQuest;
+            }
+
+            set
+            {
+                mainQuest = value;
             }
         }
     }

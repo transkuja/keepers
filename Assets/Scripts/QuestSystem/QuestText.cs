@@ -33,7 +33,7 @@ namespace QuestSystem
             }
         }
 
-        public string Hint
+        public string HintDialog
         {
             get
             {
@@ -49,11 +49,20 @@ namespace QuestSystem
             }
         }
 
-        public QuestText(string _title, string _descriptionSummary, string _dialog, string _hint)
+        public string EndDialog
+        {
+            get
+            {
+                return endDialog;
+            }
+        }
+
+        public QuestText(string _title, string _descriptionSummary, string _dialog, string _endDialog, string _hint)
         {
             title = _title;
             descriptionSummary = _descriptionSummary;
             dialog = _dialog;
+            endDialog = _endDialog;
             hint = _hint;
         }
     }

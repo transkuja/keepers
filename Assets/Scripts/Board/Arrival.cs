@@ -26,11 +26,11 @@ public class Arrival : MonoBehaviour {
     public void ClickEnd(int i = -1)
     {
         // Temporary, these will be set by the QuestInitializer I guess
-        ((PrisonerEscortObjective)GameManager.Instance.MainQuest.Objectives[0]).prisoner = GameManager.Instance.PrisonerInstance.gameObject;
-        ((PrisonerEscortObjective)GameManager.Instance.MainQuest.Objectives[0]).destination = TileManager.Instance.EndTile;
+        //((PrisonerEscortObjective)GameManager.Instance.QuestManager.MainQuest.Objectives[0]).prisoner = GameManager.Instance.PrisonerInstance.gameObject;
+        //((PrisonerEscortObjective)GameManager.Instance.QuestManager.MainQuest.Objectives[0]).destination = TileManager.Instance.EndTile;
 
 
-        GameManager.Instance.MainQuest.CheckAndComplete();
+        GameManager.Instance.QuestManager.MainQuest.CheckAndComplete();
     }
 
     public InteractionImplementer InterationImplementer

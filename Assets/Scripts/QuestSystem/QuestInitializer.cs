@@ -4,27 +4,23 @@ using UnityEngine;
 using QuestSystem;
 
 public class QuestInitializer : MonoBehaviour {
-
+    // Here will be all the functions or things we need to do specific to a certain quest (activating a tile ...)
     [Header("Quest 1")]
     [SerializeField]
     string id1;
-    [SerializeField]
-    string idPNJ1;
-    [SerializeField]
-    Transform transform1;
-    [SerializeField]
-    Tile tile1;
+
+
     void Start () {
 		
 	}
-    
-    void InitializeQuests()
+
+    public void InitializeQuests()
     {
-        if(QuestManager.Instance.AvailableQuests.Contains(QuestManager.Instance.GetQuestByID("side_quest_01")))
+        Quest main1 = GameManager.Instance.QuestManager.GetQuestByID("main_quest_01");
+        if (GameManager.Instance.QuestManager.AvailableQuests.Contains(main1))
         {
-            GameObject createdPNJ = GameManager.Instance.PawnDataBase.CreatePawn(idPNJ1, transform1.position, transform1.rotation, null);
-            createdPNJ.GetComponent<Behaviour.QuestDealer>().questToGive = QuestManager.Instance.GetQuestByID("side_quest_01");
-            createdPNJ.GetComponent<Behaviour.QuestDealer>().Init();
+            ((PrisonerEscortObjective)main1.Objectives[0]).prisoner = GameManager.Instance.PrisonerInstance.gameObject;
+            ((PrisonerEscortObjective)main1.Objectives[0]).destination = TileManager.Instance.EndTile;
         }
     }	
 }

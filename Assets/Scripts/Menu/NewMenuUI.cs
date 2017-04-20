@@ -61,6 +61,8 @@ public class NewMenuUI : MonoBehaviour {
 
     public void UpdateDeckSelection()
     {
+        GameManager.Instance.QuestManager.CurrentQuestDeck = new QuestSystem.QuestDeck();
+
         Debug.Log("Deck Selected");
     }
 

@@ -23,6 +23,8 @@ public class GameManager : MonoBehaviour
     private CharactersInitializer characterInitializer;
     [SerializeField]
     private IngameUI ui;
+    [SerializeField]
+    private QuestManager questManagerReference;
     #endregion
 
 
@@ -34,7 +36,12 @@ public class GameManager : MonoBehaviour
     private Database itemDataBase = new Database();
     private PawnDatabase pawnDataBase = new PawnDatabase();
     private QuestDeckDatabase questDeckDataBase = new QuestDeckDatabase();
-    private QuestDatabase questDataBase = new QuestDatabase();
+    
+    //Not used for now
+        private QuestDatabase questDataBase = new QuestDatabase();
+
+    private QuestsContainer questsContainer = new QuestsContainer();
+    private QuestSourceContainer questSources;
 
     private TileManager tileManagerReference;
     private CameraManager cameraManagerReference;
@@ -44,8 +51,6 @@ public class GameManager : MonoBehaviour
     private List<PawnInstance> listOfSelectedKeepers = new List<PawnInstance>();
     private Interactable goTarget;
     private PawnInstance prisonerInstance;
-
-    private Quest mainQuest;
 
     private int nbTurn = 1;
 
@@ -64,7 +69,8 @@ public class GameManager : MonoBehaviour
             itemDataBase.Init();
             pawnDataBase.Init();
             questDeckDataBase.Init();
-            questDataBase.Init();
+            //questDataBase.Init();
+            questsContainer.Init();
         }
         else if (instance != this)
         {
@@ -343,21 +349,6 @@ public class GameManager : MonoBehaviour
         CurrentState = GameState.InPause;
     }
 
-
-    public Quest MainQuest
-    {
-        get
-        {
-            return mainQuest;
-        }
-
-        set
-        {
-            mainQuest = value;
-        }
-    }
-
-
     public PawnInstance PrisonerInstance
     {
         get
@@ -414,7 +405,18 @@ public class GameManager : MonoBehaviour
         tileManagerReference = _tileManager;
         ui.gameObject.SetActive(true);
 
-        // Next step, init keepers        
+
+        // Next step, init quests     
+        RegisterQuestSourceContainer(tileManagerReference.GetComponent<QuestSourceContainer>());
+        InitQuests();  
+        
+    }
+
+    void InitQuests()
+    {
+        questManagerReference.Init();
+
+        // Next step, init keepers 
         characterInitializer.InitKeepers(tileManagerReference.GetBeginPositions);
     }
 
@@ -428,6 +430,12 @@ public class GameManager : MonoBehaviour
     {
         gameScreens = _gameScreens;
     }
+
+    public void RegisterQuestSourceContainer(QuestSourceContainer container)
+    {
+        questSources = container;
+    }
+
     #endregion
 
     #region Camera facade
@@ -459,6 +467,45 @@ public class GameManager : MonoBehaviour
         set
         {
             cameraManagerReference = value;
+        }
+    }
+
+    public QuestsContainer QuestsContainer
+    {
+        get
+        {
+            return questsContainer;
+        }
+
+        set
+        {
+            questsContainer = value;
+        }
+    }
+
+    public QuestManager QuestManager
+    {
+        get
+        {
+            return questManagerReference;
+        }
+
+        set
+        {
+            questManagerReference = value;
+        }
+    }
+
+    public QuestSourceContainer QuestSources
+    {
+        get
+        {
+            return questSources;
+        }
+
+        set
+        {
+            questSources = value;
         }
     }
 
