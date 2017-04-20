@@ -26,6 +26,9 @@ public class PrefabUtils : MonoBehaviour {
     [Header("LevelCard")]
     public GameObject prefabLevelCard;
 
+    [Header("Battle")]
+    public GameObject die;
+
     public GameObject getPawnPrefabById(string id)
     {
         for(int i= 0; i <listPawnPrefab.Count; i++)

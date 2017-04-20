@@ -39,7 +39,7 @@ public class TileManager : MonoBehaviour {
     int levelHeight;
 
     [SerializeField]
-    Transform battlePositions;
+    Transform referenceTileForBattlePositions;
 
     // Called after tiles instantiation as TileManager must be on the gameobject containing all tiles
     void Start()
@@ -406,12 +406,16 @@ public class TileManager : MonoBehaviour {
     {
         get
         {
-            return battlePositions;
+            return referenceTileForBattlePositions.GetChild(0);
         }
 
-        set
+    }
+
+    public Transform DicePositionsOnTile
+    {
+        get
         {
-            battlePositions = value;
+            return referenceTileForBattlePositions.GetChild(1);
         }
     }
 

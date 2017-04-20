@@ -105,6 +105,8 @@ public class BattleHandler {
             monsterIndex++;
         }
 
+        GameManager.Instance.GetBattleUI.SetActive(true);
+
         ShiftTurn();
     }
 

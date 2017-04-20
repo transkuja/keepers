@@ -7,6 +7,9 @@ public enum ThrowType { BeginTurn, Attack, Defense, Special }
 
 public class ThrownDiceHandler : MonoBehaviour {
 
+    [SerializeField]
+    private Transform dicePositions;
+
     Dictionary<PawnInstance, Die[]> diceForCurrentThrow = new Dictionary<PawnInstance, Die[]>();
     bool isRunning = false;
     int stoppedDice = 0;
@@ -15,36 +18,34 @@ public class ThrownDiceHandler : MonoBehaviour {
     ThrowType currentThrowType;
     float timerAnimation = 0.0f;
 
-    public void InitThrow(string type)
+    public void InitThrow()
     {
         if (!isRunning)
         {
             for (int i = 0; i < BattleHandler.CurrentBattleKeepers.Length; i++)
             {
-                diceForCurrentThrow.Add(BattleHandler.CurrentBattleKeepers[i], BattleHandler.CurrentBattleKeepers[i].GetComponent<Behaviour.Fighter>().Dice);
-                // TODO: should create the die and set its owner 
-                diceInstance.Add(BattleHandler.CurrentBattleKeepers[i], new List<GameObject>());
-                for (int j = 0; j < BattleHandler.CurrentBattleKeepers[i].GetComponent<Behaviour.Fighter>().Dice.Length; j++)
-                    diceInstance[BattleHandler.CurrentBattleKeepers[i]].Add(new GameObject());
+                PawnInstance currentKeeper = BattleHandler.CurrentBattleKeepers[i];
+                diceForCurrentThrow.Add(currentKeeper, currentKeeper.GetComponent<Behaviour.Fighter>().Dice);
 
+                // Create dice visuals
+                diceInstance.Add(currentKeeper, new List<GameObject>());
+                for (int j = 0; j < currentKeeper.GetComponent<Behaviour.Fighter>().Dice.Length; j++)
+                {
+                    diceInstance[currentKeeper].Add(DieBuilder.BuildDie(diceForCurrentThrow[currentKeeper][j], GameManager.Instance.ActiveTile, TileManager.Instance.DicePositionsOnTile.GetChild(i).GetChild(j).localPosition));
+                }
             }
 
-            Vector3 throwPosition = new Vector3(0.0f, 0.5f, 0.0f);
-
-            for (int i = 0; i < diceForCurrentThrow.Count; i++)
-            {
-              //  diceInstance[i] = DieBuilder.BuildDie(diceForCurrentThrow[i], throwTile, throwPosition + (Vector3.right*i)/5.0f);
-            }
             isRunning = true;
 
             throwResult = ComputeNotPhysicalResult();
-            GetComponent<UIBattleHandler>().ChangeState(UIBattleState.DiceRolling);
+            //GetComponent<UIBattleHandler>().ChangeState(UIBattleState.DiceRolling);
         }
         else
         {
             Debug.LogWarning("A dice throw is already in process.");
         }
     }
+    
 
     // Replace by Invoke with delay
     public void SendDataToBattleHandler()
@@ -75,12 +76,38 @@ public class ThrownDiceHandler : MonoBehaviour {
             {
                 int j = Random.Range(0, 5);
                 result[i] = diceForCurrentThrow[piDice][i].Faces[j];
-                diceInstance[piDice][i].GetComponent<Animator>().SetTrigger("startFace" + (j + 1) + "Anim");
+                // TODO: handle this with animations
+                //diceInstance[piDice][i].GetComponent<Animator>().SetTrigger("startFace" + (j + 1) + "Anim");
+                RotateDie(diceInstance[piDice][i], j + 1);
             }
             results.Add(piDice, result);
         }
 
         return results;
+    }
+
+    private void RotateDie(GameObject dieToRotate, int upFace)
+    {
+        if (upFace == (int)DieFaceChildren.Back)
+        {
+            dieToRotate.transform.Rotate(transform.right, -90);
+        }
+        else if (upFace == (int)DieFaceChildren.Front)
+        {
+            dieToRotate.transform.Rotate(transform.right, 90);
+        }
+        else if (upFace == (int)DieFaceChildren.Left)
+        {
+            dieToRotate.transform.Rotate(transform.forward, -90);
+        }
+        else if (upFace == (int)DieFaceChildren.Right)
+        {
+            dieToRotate.transform.Rotate(transform.forward, 90);
+        }
+        else if (upFace == (int)DieFaceChildren.Down)
+        {
+            dieToRotate.transform.Rotate(transform.right, 180);
+        }
     }
 
     void FixedUpdate()

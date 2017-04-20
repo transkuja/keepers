@@ -20,6 +20,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private SpriteUIUtils spriteUtils;
     [SerializeField]
+    private Texture2DUtils texture2DUtils;
+    [SerializeField]
     private CharactersInitializer characterInitializer;
     [SerializeField]
     private IngameUI ui;
@@ -472,6 +474,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public Texture2DUtils Texture2DUtils
+    {
+        get
+        {
+            return texture2DUtils;
+        }
+    }
+
     public void RegisterGreyTileCameraAdapter(GreyTileCameraAdapter _cameraAdapter)
     {
         cameraManagerReference.greyTileCameraAdapters.Add(_cameraAdapter);
@@ -609,6 +619,10 @@ public class GameManager : MonoBehaviour
                     disabledModels.Add(pi.transform.GetChild(0).gameObject);
                 }
             }
+
+            pi.GetComponent<Keeper>().ShowSelectedPanelUI(false);
+            ui.ClearActionPanel();
+            ui.HideInventoryPanels();
         }
 
         // Pause NPCs

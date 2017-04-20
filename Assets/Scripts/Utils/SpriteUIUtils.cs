@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SpriteUIUtils : MonoBehaviour {
 
-    // Actions
+    [Header("Action sprites")]
     public Sprite spriteMove;
     public Sprite spriteExplore;
     public Sprite spriteHarvest;
@@ -20,9 +20,8 @@ public class SpriteUIUtils : MonoBehaviour {
     public Sprite spriteMoralDebuff;
     public Sprite spriteEndAction;
 
-    // for death
+    [Header("Death sprites")]
     public Sprite spriteSupport;
     public Sprite spriteDeath;
-
 
 }

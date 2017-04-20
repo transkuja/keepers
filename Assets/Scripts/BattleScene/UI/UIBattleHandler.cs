@@ -18,9 +18,38 @@ public class UIBattleHandler : MonoBehaviour {
     [SerializeField]
     private GameObject targetSelectionInfo;
 
+    [Header("Hidden in battle")]
+    [SerializeField]
+    private GameObject endTurnButton;
+    [SerializeField]
+    private GameObject shortcutButton;
+
     void OnEnable()
     {
+        if (endTurnButton == null)
+            Debug.LogWarning("End turn button reference not set in UIBattleHandler.");
+        else
+            endTurnButton.SetActive(false);
+
+        if (shortcutButton == null)
+            Debug.LogWarning("Shortcut button reference not set in UIBattleHandler (top left button).");
+        else
+            shortcutButton.SetActive(false);
+
         ChangeState(UIBattleState.WaitForDiceThrow);
+    }
+
+    void OnDisable()
+    {
+        if (endTurnButton == null)
+            Debug.LogWarning("End turn button reference not set in UIBattleHandler.");
+        else
+            endTurnButton.SetActive(true);
+
+        if (shortcutButton == null)
+            Debug.LogWarning("Shortcut button reference not set in UIBattleHandler (top left button).");
+        else
+            shortcutButton.SetActive(true);
     }
 
     public void PressAttackButton()
