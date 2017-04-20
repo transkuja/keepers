@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: e67ffd9678bed4d418e1cdac95d6da53
-timeCreated: 1492615819
+timeCreated: 1492672916
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -13,6 +13,10 @@ ModelImporter:
     100010: Face_Droit
     100012: Face_Front
     100014: Face_Gauche
+    100016: Face_Down
+    100018: Face_Left
+    100020: Face_Right
+    100022: Face_Up
     400000: Bordure_De
     400002: //RootNode
     400004: Face_Back
@@ -21,6 +25,10 @@ ModelImporter:
     400010: Face_Droit
     400012: Face_Front
     400014: Face_Gauche
+    400016: Face_Down
+    400018: Face_Left
+    400020: Face_Right
+    400022: Face_Up
     2300000: Bordure_De
     2300002: Face_Back
     2300004: Face_Bas
@@ -28,6 +36,10 @@ ModelImporter:
     2300008: Face_Droit
     2300010: Face_Front
     2300012: Face_Gauche
+    2300014: Face_Down
+    2300016: Face_Left
+    2300018: Face_Right
+    2300020: Face_Up
     3300000: Bordure_De
     3300002: Face_Back
     3300004: Face_Bas
@@ -35,6 +47,10 @@ ModelImporter:
     3300008: Face_Droit
     3300010: Face_Front
     3300012: Face_Gauche
+    3300014: Face_Down
+    3300016: Face_Left
+    3300018: Face_Right
+    3300020: Face_Up
     4300000: Bordure_De
     4300002: Face_Dessus
     4300004: Face_Droit
@@ -42,6 +58,10 @@ ModelImporter:
     4300008: Face_Front
     4300010: Face_Gauche
     4300012: Face_Back
+    4300014: Face_Down
+    4300016: Face_Left
+    4300018: Face_Right
+    4300020: Face_Up
     9500000: //RootNode
   materials:
     importMaterials: 1
