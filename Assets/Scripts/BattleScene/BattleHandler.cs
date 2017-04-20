@@ -540,6 +540,10 @@ public class BattleHandler {
     {
         TileManager.Instance.RemoveDefeatedMonsters(tile);
         isProcessingABattle = false;
+        for (int i = 0; i < currentBattleKeepers.Length; i++)
+        {
+            currentBattleKeepers[i].GetComponent<Fighter>().ResetValuesAfterBattle();
+        }
     }
 
     private static void PrintResultsScreen(bool isVictorious)

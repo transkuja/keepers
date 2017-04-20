@@ -28,6 +28,7 @@ public class ThrownDiceHandler : MonoBehaviour {
                 diceInstance.Add(currentKeeper, new List<GameObject>());
                 for (int j = 0; j < currentKeeper.GetComponent<Behaviour.Fighter>().Dice.Length; j++)
                 {
+                    
                     Transform diePosition = TileManager.Instance.DicePositionsOnTile.GetChild(i).GetChild(j);
                     diceInstance[currentKeeper].Add(DieBuilder.BuildDie(diceForCurrentThrow[currentKeeper][j], GameManager.Instance.ActiveTile, diePosition.localPosition + diePosition.parent.localPosition));
                 }
@@ -52,11 +53,6 @@ public class ThrownDiceHandler : MonoBehaviour {
         BattleHandler.ReceiveDiceThrowData(throwResult, diceInstance);
         diceForCurrentThrow.Clear();
         throwResult.Clear();
-    }
-
-    private void ShowButton(bool show)
-    {
-        GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().SendDiceResultsButton.SetActive(show);
     }
 
     private Dictionary<PawnInstance, Face[]> ComputeNotPhysicalResult()

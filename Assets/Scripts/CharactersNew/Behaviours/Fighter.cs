@@ -65,15 +65,26 @@ namespace Behaviour
 
         }
 
+        public void ResetValuesAfterBattle()
+        {
+            physicalSymbolStored = 0;
+            magicalSymbolStored = 0;
+            defensiveSymbolStored = 0;
+            supportSymbolStored = 0;
+            hasPlayedThisTurn = false;
+        }
+
         #region Interactions
         public void Attack(int _i = 0)
         {
             Debug.Log("attack");
+            HasPlayedThisTurn = true;
         }
 
         public void Guard(int _i = 0)
         {
             Debug.Log("guard");
+            HasPlayedThisTurn = true;
         }
 
         public void OpenSkillPanel(int _i = 0)
