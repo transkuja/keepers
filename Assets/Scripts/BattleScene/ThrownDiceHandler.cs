@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public enum ThrowType { BeginTurn, Attack, Defense, Special }
-
 public class ThrownDiceHandler : MonoBehaviour {
 
     [SerializeField]
@@ -15,7 +13,6 @@ public class ThrownDiceHandler : MonoBehaviour {
     int stoppedDice = 0;
     Dictionary<PawnInstance, List<GameObject>> diceInstance = new Dictionary<PawnInstance, List<GameObject>>();
     Dictionary<PawnInstance, Face[]> throwResult = new Dictionary<PawnInstance, Face[]>();
-    ThrowType currentThrowType;
     float timerAnimation = 0.0f;
 
     public void InitThrow()
@@ -38,6 +35,7 @@ public class ThrownDiceHandler : MonoBehaviour {
             isRunning = true;
 
             throwResult = ComputeNotPhysicalResult();
+            
             //GetComponent<UIBattleHandler>().ChangeState(UIBattleState.DiceRolling);
         }
         else
@@ -50,15 +48,9 @@ public class ThrownDiceHandler : MonoBehaviour {
     // Replace by Invoke with delay
     public void SendDataToBattleHandler()
     {
-        BattleHandler.ReceiveDiceThrowData(throwResult, currentThrowType);
+        BattleHandler.ReceiveDiceThrowData(throwResult, diceInstance);
         diceForCurrentThrow.Clear();
-        
         throwResult.Clear();
-        foreach (PawnInstance pi in diceInstance.Keys)
-        {
-            for (int i = 0; i < diceInstance[pi].Count; i++)
-                Destroy(diceInstance[pi][i]);
-        }
     }
 
     private void ShowButton(bool show)
@@ -120,7 +112,8 @@ public class ThrownDiceHandler : MonoBehaviour {
             {
                 timerAnimation = 0.0f;
                 isRunning = false;
-                GetComponent<UIBattleHandler>().ChangeState(UIBattleState.WaitForDiceThrowValidation);
+                SendDataToBattleHandler();
+                //GetComponent<UIBattleHandler>().ChangeState(UIBattleState.WaitForDiceThrowValidation);
             }
         }
     }

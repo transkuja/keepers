@@ -26,9 +26,13 @@ namespace Behaviour
         Die[] dice;
 
         // Instance variables
+        [SerializeField]
         int physicalSymbolStored = 0;
+        [SerializeField]
         int magicalSymbolStored = 0;
+        [SerializeField]
         int defensiveSymbolStored = 0;
+        [SerializeField]
         int supportSymbolStored = 0;
 
         bool hasPlayedThisTurn = false;

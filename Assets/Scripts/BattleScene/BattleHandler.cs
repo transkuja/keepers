@@ -21,6 +21,7 @@ public class BattleHandler {
     private static PawnInstance currentTargetMonster;
     private static bool isKeepersTurn = true;
     private static Die[] currentTurnDice;
+    private static Dictionary<PawnInstance, List<GameObject>> currentTurnDiceInstance;
 
     // Debug parameters
     private static bool isDebugModeActive = false;
@@ -138,9 +139,10 @@ public class BattleHandler {
         PostBattleCommonProcess(selectedKeepersForBattle, tile);
     }
 
-    public static void ReceiveDiceThrowData(Dictionary<PawnInstance, Face[]> _result, ThrowType _throwType)
+    public static void ReceiveDiceThrowData(Dictionary<PawnInstance, Face[]> _result, Dictionary<PawnInstance, List<GameObject>> _diceInstances)
     {
         lastThrowResult = _result;
+        currentTurnDiceInstance = _diceInstances;
 
         foreach (PawnInstance pi in lastThrowResult.Keys)
         {
@@ -165,6 +167,18 @@ public class BattleHandler {
         }
     }
 
+    private static void ClearDiceForNextThrow()
+    {
+        if (currentTurnDiceInstance != null)
+        {
+            foreach (PawnInstance pi in currentTurnDiceInstance.Keys)
+            {
+                for (int i = 0; i < currentTurnDiceInstance[pi].Count; i++)
+                    GameObject.Destroy(currentTurnDiceInstance[pi][i]);
+            }
+        }
+    }
+
     private static void ResolveStandardAttack(int attackValue)
     {
         int damage = (int)(attackValue * ((float)attackValue / currentTargetMonster.GetComponent<Monster>().EffectiveDefense));
@@ -184,6 +198,7 @@ public class BattleHandler {
             {
                 currentBattleKeepers[i].GetComponent<Fighter>().HasPlayedThisTurn = false;
             }
+            ClearDiceForNextThrow();
         }
         else
         {
