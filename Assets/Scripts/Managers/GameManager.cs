@@ -587,6 +587,7 @@ public class GameManager : MonoBehaviour
         currentFighters = _fighters;
         ClearListKeeperSelected();
         CurrentState = GameState.InBattle;
+        cameraManagerReference.UpdateCameraPosition(tileManagerReference.CameraPositionForBattle.localPosition);
     }
 
     private void SwitchToBattleStateProcess()
@@ -696,6 +697,8 @@ public class GameManager : MonoBehaviour
         foreach (GameObject go in disabledModels)
             go.SetActive(true);
         disabledModels.Clear();
+
+        UpdateCameraPosition(ActiveTile);
     }
 
 

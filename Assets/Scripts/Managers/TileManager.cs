@@ -419,6 +419,14 @@ public class TileManager : MonoBehaviour {
         }
     }
 
+    public Transform CameraPositionForBattle
+    {
+        get
+        {
+            return referenceTileForBattlePositions.GetChild(2);
+        }
+    }
+
     public GameObject Tiles
     {
         get
