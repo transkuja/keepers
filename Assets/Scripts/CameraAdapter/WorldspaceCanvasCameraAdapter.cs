@@ -8,6 +8,7 @@ public class WorldspaceCanvasCameraAdapter : MonoBehaviour {
     {
         GameManager.Instance.RegisterWorldspaceCanvasCameraAdapter(this);
         v3ScaleRef = transform.localScale;
+        this.RecalculateActionCanvas(Camera.main);
     }
 
     public void RecalculateActionCanvas(Camera camera)

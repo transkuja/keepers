@@ -1,4 +1,5 @@
 fileFormatVersion: 2
+<<<<<<< refs/remotes/origin/master
 <<<<<<< HEAD
 guid: 5cfc131d46106104b9d2fa653707114c
 timeCreated: 1492620077
@@ -6,6 +7,15 @@ timeCreated: 1492620077
 guid: 28a99e4b584b393439d214af36e1fb99
 timeCreated: 1492673398
 >>>>>>> master
+=======
+<<<<<<< refs/remotes/origin/master
+guid: 28a99e4b584b393439d214af36e1fb99
+timeCreated: 1492673398
+=======
+guid: e0db47d6587b12a48917e8eda263c407
+timeCreated: 1492620334
+>>>>>>> Tuto v2
+>>>>>>> Tuto v2
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName: {}

@@ -31,7 +31,7 @@ public class UIPointer : MonoBehaviour {
 	void Update () {
         if (bBackward)
         {
-            fSlerp += Time.unscaledDeltaTime * fSpeed;
+            fSlerp += Mathf.Min(Time.unscaledDeltaTime * fSpeed, 0.03f);
         }
         else
         {

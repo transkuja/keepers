@@ -1,5 +1,15 @@
 fileFormatVersion: 2
+<<<<<<< refs/remotes/origin/master
 guid: 1071327490bbcf5419be66a45ba6c2e2
+<<<<<<< refs/remotes/origin/master
+=======
+timeCreated: 1492673399
+=======
+guid: f8ac3511eac519e42b948a1369749a65
+timeCreated: 1492620336
+>>>>>>> Tuto v2
+licenseType: Free
+>>>>>>> Tuto v2
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:

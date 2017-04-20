@@ -26,8 +26,6 @@ public class IngameUI : MonoBehaviour
     private GameObject goActionPanelQ;
     [SerializeField]
     private Canvas worldSpaceCanvas;
-    [SerializeField]
-    private GameObject goMoralFeedback;
 
     // ContentQuest
     public GameObject goContentQuestParent;
@@ -147,7 +145,6 @@ public class IngameUI : MonoBehaviour
 
         worldSpaceCanvas.transform.SetParent(GameManager.Instance.GoTarget.GetComponent<Interactable>().Feedback);
         worldSpaceCanvas.transform.localPosition = Vector3.zero;
-        goMoralFeedback.transform.localPosition = Vector3.zero;
         worldSpaceCanvas.GetComponent<WorldspaceCanvasCameraAdapter>().RecalculateActionCanvas(Camera.main);
     }
 
@@ -199,40 +196,6 @@ public class IngameUI : MonoBehaviour
             }
         }
     }
-
-    // TODO : rendre cette fonction générique avec target et panel where 
-    public void MoralBuffActionTextAnimation(int amount)
-    {
-        goMoralFeedback.gameObject.SetActive(true);
-        // TODO : Ajouter la taille pion ? 
-        goMoralFeedback.transform.localPosition = Vector3.zero;
-        if (amount < 0)
-        {
-            goMoralFeedback.transform.GetChild(1).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteMoralDebuff;
-            goMoralFeedback.GetComponentInChildren<Text>().color = Color.red;
-            goMoralFeedback.GetComponentInChildren<Text>().text = "";
-        } else
-        {
-            goMoralFeedback.transform.GetChild(1).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteMoralBuff;
-            goMoralFeedback.GetComponentInChildren<Text>().color = Color.green;
-            goMoralFeedback.GetComponentInChildren<Text>().text = "+ ";
-        }
-        goMoralFeedback.GetComponentInChildren<Text>().text += amount.ToString();
-
-        StartCoroutine(MoralPanelNormalState());
-    }
-
-    private IEnumerator MoralPanelNormalState()
-    {
-        for (float f = 3.0f; f >= 0; f -= 0.1f)
-        {
-            Vector3 decal = new Vector3(0.0f, f, 0.0f) * 0.01f;
-            goMoralFeedback.transform.localPosition += decal;
-            yield return null;
-        }
-        goMoralFeedback.gameObject.SetActive(false);
-    }
-
 
     public void BuffActionTextAnimation(GameObject goStatBuff, int amount)
     {

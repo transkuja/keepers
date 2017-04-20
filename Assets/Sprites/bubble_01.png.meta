@@ -1,28 +1,13 @@
 fileFormatVersion: 2
-<<<<<<< refs/remotes/origin/master
-<<<<<<< HEAD
-guid: 7894eac13cd02494688587289b24b20e
-timeCreated: 1492620077
-=======
-guid: 80ebbf925ec58db44b412d1bc20acd07
-timeCreated: 1492673398
->>>>>>> master
-=======
-<<<<<<< refs/remotes/origin/master
-guid: 80ebbf925ec58db44b412d1bc20acd07
-timeCreated: 1492673398
-=======
-guid: 68f61e09186a88347941c963419b1b93
-timeCreated: 1492620331
->>>>>>> Tuto v2
->>>>>>> Tuto v2
+guid: b0e1a563ab5c8ac499912ddc5f0c567b
+timeCreated: 1492674663
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName: {}
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 1
+    enableMipMap: 0
     sRGBTexture: 1
     linearTexture: 0
     fadeOut: 0
@@ -45,27 +30,35 @@ TextureImporter:
     filterMode: -1
     aniso: -1
     mipBias: -1
-    wrapMode: -1
-  nPOTScale: 1
+    wrapMode: 1
+  nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 0
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
-  alignment: 0
-  spritePivot: {x: 0.5, y: 0.5}
-  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  alignment: 9
+  spritePivot: {x: 0.53065264, y: 0.58933824}
+  spriteBorder: {x: 43, y: 50, z: 35, w: 24}
   spritePixelsToUnits: 100
   alphaUsage: 1
-  alphaIsTransparency: 0
+  alphaIsTransparency: 1
   spriteTessellationDetail: -1
-  textureType: 0
+  textureType: 8
   textureShape: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
   platformSettings:
   - buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: Standalone
     maxTextureSize: 2048
     textureFormat: -1
     textureCompression: 1
