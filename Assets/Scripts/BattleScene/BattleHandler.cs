@@ -22,6 +22,7 @@ public class BattleHandler {
     private static bool isKeepersTurn = true;
     private static Die[] currentTurnDice;
     private static Dictionary<PawnInstance, List<GameObject>> currentTurnDiceInstance;
+    private static bool hasDiceBeenThrown = false;
 
     // Debug parameters
     private static bool isDebugModeActive = false;
@@ -165,6 +166,8 @@ public class BattleHandler {
                 }
             }
         }
+
+        hasDiceBeenThrown = true;
     }
 
     private static void ClearDiceForNextThrow()
@@ -192,7 +195,8 @@ public class BattleHandler {
         if (isKeepersTurn)
         {
             nbTurn++;
-            
+            hasDiceBeenThrown = false;
+
             // Initialization for keepers turn
             for (int i = 0; i < currentBattleKeepers.Length; i++)
             {
@@ -555,10 +559,14 @@ public class BattleHandler {
             if (currentBattleMonsters[i] != null)
             {
                 if (currentBattleMonsters[i].GetComponent<Mortal>().CurrentHp > 0)
+                {
+                    currentBattleMonsters[i].GetComponent<Fighter>().RestAfterBattle();
                     currentBattleMonsters[i].GetComponent<AnimatedPawn>().StartMoveFromBattlePositionAnimation();
+                }
             }
         }
 
+        ClearDiceForNextThrow();
     }
 
     private static void PrintResultsScreen(bool isVictorious)
@@ -610,6 +618,23 @@ public class BattleHandler {
         set
         {
             currentBattleKeepers = value;
+        }
+    }
+
+    public static bool HasDiceBeenThrown
+    {
+        get
+        {
+            return hasDiceBeenThrown;
+        }
+
+    }
+
+    public static Dictionary<PawnInstance, Face[]> LastThrowResult
+    {
+        get
+        {
+            return lastThrowResult;
         }
     }
 }

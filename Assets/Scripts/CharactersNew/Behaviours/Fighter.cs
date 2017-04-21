@@ -6,6 +6,10 @@ namespace Behaviour
 {
     public class Fighter : MonoBehaviour
     {
+        // Balance variables
+        private int effectiveAttackValue = 5;
+        private int effectiveDefenseValue = 5;
+
         PawnInstance instance;
         private InteractionImplementer battleInteractions;
         private Transform interactionsPosition;
@@ -39,6 +43,8 @@ namespace Behaviour
         int supportSymbolStored = 0;
 
         bool hasPlayedThisTurn = false;
+
+        bool hasClickedOnAttack = false;
 
         void Awake()
         {
@@ -78,6 +84,46 @@ namespace Behaviour
         public void Attack(int _i = 0)
         {
             Debug.Log("attack");
+            HasClickedOnAttack = true;
+        }
+
+        public void AttackProcess(Fighter _attackTarget)
+        {
+            Debug.Log("attackProcess lunched");
+            Debug.Log(BattleHandler.LastThrowResult.ContainsKey(GetComponent<PawnInstance>()));
+            Debug.Log(BattleHandler.LastThrowResult[GetComponent<PawnInstance>()]);
+            foreach(PawnInstance pi in BattleHandler.LastThrowResult.Keys)
+            {
+                Debug.Log(pi.Data.PawnName);
+            }
+            Face[] lastThrowFaces = BattleHandler.LastThrowResult[GetComponent<PawnInstance>()];
+            int attackDamage = 0;
+            for (int i = 0; i < lastThrowFaces.Length; i++)
+            {
+                // Apply attack calculation
+                if (lastThrowFaces[i].Type == FaceType.Physical)
+                {
+                    attackDamage += (effectiveAttackValue * lastThrowFaces[i].Value);
+                }
+                else
+                {
+                    // All non-physical faces count for 1 damage only
+                    attackDamage += 1;
+                }
+            }
+            if (_attackTarget.GetComponent<Keeper>() != null || _attackTarget.GetComponent<Escortable>() != null)
+            {
+                int effectiveDamage = (int)((float)attackDamage / (defensiveSymbolStored + 1));
+                _attackTarget.GetComponent<Mortal>().CurrentHp -= effectiveDamage;
+            }
+            else if (_attackTarget.GetComponent<Monster>() != null)
+            {
+                // max defense => 10% dmg taken
+                // 0 defense => 100% dmg taken
+                int effectiveDamage = Mathf.Max((int)(attackDamage/(Mathf.Sqrt(_attackTarget.GetComponent<Monster>().EffectiveDefense + 1))), (int)(attackDamage/10.0f));
+                _attackTarget.GetComponent<Mortal>().CurrentHp -= effectiveDamage;
+            }
+
             HasPlayedThisTurn = true;
         }
 
@@ -249,6 +295,19 @@ namespace Behaviour
             set
             {
                 battleInteractions = value;
+            }
+        }
+
+        public bool HasClickedOnAttack
+        {
+            get
+            {
+                return hasClickedOnAttack;
+            }
+
+            set
+            {
+                hasClickedOnAttack = value;
             }
         }
 

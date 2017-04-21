@@ -346,14 +346,15 @@ namespace Behaviour
                         GameManager.Instance.UpdateCameraPosition(instance);
                     }
                     ShowSelectedPanelUI(isSelected);
-                    GameManager.Instance.Ui.ClearActionPanel();
                     GameManager.Instance.Ui.HideInventoryPanels();
                 }
                 if (GameManager.Instance.CurrentState == GameState.InBattle)
                 {
                     // TODO: show/unshow battle possible actions
                 }
+                GameManager.Instance.Ui.ClearActionPanel();
             }
+
         }
 
         public int MaxActionPoints

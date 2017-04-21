@@ -238,7 +238,7 @@ public class ControlsManager : MonoBehaviour
 
     private void InBattleControls()
     {
-        if (BattleHandler.IsABattleAlreadyInProcess() && BattleHandler.IsKeepersTurn)
+        if (BattleHandler.IsABattleAlreadyInProcess() && BattleHandler.IsKeepersTurn && BattleHandler.HasDiceBeenThrown)
         {
             if (Input.GetMouseButtonDown(0))
             {
@@ -268,11 +268,46 @@ public class ControlsManager : MonoBehaviour
                                 // TODO: Show monster informations (pv, name, etc.)
                             }
                         }
+                        else
+                        {
+                            GameManager.Instance.ClearListKeeperSelected();
+                        }
 
                     }
                     else
                     {
                         GameManager.Instance.ClearListKeeperSelected();
+                    }
+                }
+            }
+            else if (Input.GetMouseButtonDown(1))
+            {
+                if (GameManager.Instance.ListOfSelectedKeepers != null && GameManager.Instance.ListOfSelectedKeepers.Count > 0)
+                {
+                    if (GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Fighter>().HasClickedOnAttack)
+                    {
+                        if (!EventSystem.current.IsPointerOverGameObject())
+                        {
+                            RaycastHit hitInfo;
+                            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo) == true)
+                            {
+                                GameObject clickTarget = hitInfo.collider.gameObject;
+                                if (clickTarget.GetComponentInParent<PawnInstance>() != null)
+                                {
+                                    GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Fighter>().AttackProcess(clickTarget.GetComponent<Fighter>());
+                                }
+                                else
+                                {
+                                    GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Fighter>().HasClickedOnAttack = false;
+                                    GameManager.Instance.ClearListKeeperSelected();
+                                }
+                            }
+                            else
+                            {
+                                GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Fighter>().HasClickedOnAttack = false;
+                                GameManager.Instance.ClearListKeeperSelected();
+                            }
+                        }
                     }
                 }
             }
