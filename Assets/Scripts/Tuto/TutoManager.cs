@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
 
-public enum SequenceState { Idle, ReadyForNext, WaitingForInput, End };
+public enum SequenceState { Idle, ReadyForNext, WaitingForInput, WaitingForClickUI, End };
 
 public abstract class Etape
 {
@@ -85,6 +85,8 @@ public class TutoManager : MonoBehaviour {
     private Sequence playingSequence;
     private List<Sequence> sequences;
 
+    private static bool mouseCLicked;
+
     public Sequence PlayingSequence
     {
         get
@@ -95,6 +97,19 @@ public class TutoManager : MonoBehaviour {
         set
         {
             playingSequence = value;
+        }
+    }
+
+    public static bool MouseCLicked
+    {
+        get
+        {
+            return mouseCLicked;
+        }
+
+        set
+        {
+            mouseCLicked = value;
         }
     }
 
@@ -116,7 +131,17 @@ public class TutoManager : MonoBehaviour {
 	void Update () {
         if (playingSequence != null)
         {
-            if ((Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)))
+            if (playingSequence.CurrentState == SequenceState.WaitingForClickUI)
+            {
+                if (MouseCLicked == true)
+                {
+                    MouseCLicked = false;
+                    playingSequence.CurrentState = SequenceState.Idle;
+                    playingSequence.MoveNext();
+                    playingSequence.Play();
+                }
+            }
+            else if ((Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)))
             {
                 switch (playingSequence.CurrentState)
                 {

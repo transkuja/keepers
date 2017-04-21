@@ -230,9 +230,12 @@ public class IngameUI : MonoBehaviour
     #region Turn
     public void EndTurn()
     {
-        if (!isTurnEnding)
+        if (TutoManager.s_instance.PlayingSequence == null)
         {
-            AnimateButtonOnClick();
+            if (!isTurnEnding)
+            {
+                AnimateButtonOnClick();
+            }
         }
     }
     

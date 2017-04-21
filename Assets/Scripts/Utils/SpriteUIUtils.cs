@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SpriteUIUtils : MonoBehaviour {
 
-    [Header("Action sprites")]
+    // Actions
     public Sprite spriteMove;
     public Sprite spriteExplore;
     public Sprite spriteHarvest;
@@ -20,10 +20,21 @@ public class SpriteUIUtils : MonoBehaviour {
     public Sprite spriteMoralDebuff;
     public Sprite spriteEndAction;
 
-    [Header("Death sprites")]
+    // for death
     public Sprite spriteSupport;
     public Sprite spriteDeath;
 
     // Feedback ui
     public Sprite spriteHunger;
+
+    // Objectif
+    public Sprite spriteOrientation;
+
+    // Tuto
+    public Sprite spriteTutoHighlightCercle;
+    public Sprite spriteTutoJighlightSquare;
+    public Sprite spriteMouse;
+    public Sprite spriteMouseRightClicked;
+    public Sprite spriteMouseLeftClicked;
+    public Sprite spriteMouseMiddleClicked;
 }
