@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: e8abf77a876f5f7409c5a3b5ce9d59ae
-timeCreated: 1492612878
+guid: 745b107f32e7830458027bf86ed7bb43
+timeCreated: 1492761295
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -9,8 +9,7 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: Carte_Map_01
-    4300002: Carte_Map_02
+    4300000: Guide_Book
     9500000: //RootNode
   materials:
     importMaterials: 1
