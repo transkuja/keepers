@@ -8,7 +8,8 @@
 			"secondary" : [
 				{
 					"idQuest": "quest_02",
-					"idQuestDealer" : "pnj01"
+					"idQuestDealer" : "pnj01",
+					"cardModel" : "Asset_Carte_Event_01"
 				}
 			]
 		}, 
@@ -19,8 +20,9 @@
 			"main" : "main_quest_01",
 			"secondary" : [
 				{
-					"idQuest": "side_quest_01",
-					"idQuestDealer" : "pnj_01"
+					"idQuest": "quest_03",
+					"idQuestDealer" : "pnj02",
+					"cardModel" : "Asset_Carte_Event_02"
 				}
 			]
 		}

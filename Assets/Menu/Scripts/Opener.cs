@@ -7,26 +7,24 @@ public class Opener : MonoBehaviour {
     public bool bOverMode = false;
     public bool bAlwaysAllowed = true;
     public Transform trOffset = null;
+    public float fOffsetX = .1f;
+    public float fOffsetZ = .1f;
 
     bool bAllowed = true;
     bool bIsOpen = false;
 
+    Vector3 v3Size;
     Vector3 v3Offset = Vector3.zero;
 
-    List<GameObject> listGoCards = new List<GameObject>();
+    public List<GameObject> listGoCards = new List<GameObject>();
     List<Opener> listOpenerSiblings;
 
-	// Use this for initialization
 	void Start () {
         Init();
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
-    // OverMode
+    #region OverMode
+
     void OnMouseEnter()
     {
         if (bOverMode)
@@ -42,9 +40,11 @@ public class Opener : MonoBehaviour {
             Close();
         }
     }
-    //
 
-    // NormalMode
+    #endregion
+
+    #region NormalMode
+
     void OnMouseDown()
     {
         if (!bOverMode)
@@ -66,7 +66,8 @@ public class Opener : MonoBehaviour {
             }
         }
     }
-    //
+
+    #endregion
 
     void Init()
     {
@@ -100,15 +101,17 @@ public class Opener : MonoBehaviour {
         {
             v3Offset = trOffset.position - transform.position;
         }
+
+        v3Size = GetComponentInChildren<MeshRenderer>().bounds.size;
     }
 
     void Open()
     {
         for (int i = 0; i < listGoCards.Count; i++)
         {
-            float x = -((listGoCards.Count / 2.0f) * 1.1f) + i * 1.1f;
+            float x = -((listGoCards.Count / 2.0f) * (v3Size.x + fOffsetX)) + ((listGoCards.Count % 2 == 0)? v3Size.x / 2.0f : v3Size.x) + i * (v3Size.x + fOffsetX);
 
-            listGoCards[i].transform.localPosition = new Vector3(x, 0, 1.2f) + v3Offset;
+            listGoCards[i].transform.localPosition = new Vector3(x, 0, (trOffset == null ? (v3Size.z + fOffsetZ) : v3Size.z / 2.0f)) + v3Offset;
 
             listGoCards[i].SetActive(true);
         }

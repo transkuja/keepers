@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 533da3b5d2f44ce45b304b7258adc1f8
-timeCreated: 1492612877
+guid: 6cb0fa5ad4f512f4685ae690f4d3cc0c
+timeCreated: 1492775996
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -9,8 +9,7 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: Boite_Couvercle
-    4300002: Asset_Boite_Couvercle
+    4300000: Asset_Carte_Level_02
     9500000: //RootNode
   materials:
     importMaterials: 1

@@ -13,8 +13,8 @@ FBXHeaderExtension:  {
 		Day: 21
 		Hour: 12
 		Minute: 23
-		Second: 9
-		Millisecond: 262
+		Second: 17
+		Millisecond: 186
 	}
 	Creator: "FBX SDK/FBX Plugins version 2016.1.2"
 	SceneInfo: "SceneInfo::GlobalInfo", "UserData" {
@@ -30,19 +30,19 @@ FBXHeaderExtension:  {
 			Comment: ""
 		}
 		Properties70:  {
-			P: "DocumentUrl", "KString", "Url", "", "C:\Users\Etudiant 1\Documents\Keepers\keepers\Trucs_Graph\BoardGame_UI\scenes\Asset_Guide_Book.fbx"
-			P: "SrcDocumentUrl", "KString", "Url", "", "C:\Users\Etudiant 1\Documents\Keepers\keepers\Trucs_Graph\BoardGame_UI\scenes\Asset_Guide_Book.fbx"
+			P: "DocumentUrl", "KString", "Url", "", "C:\Users\Etudiant 1\Documents\Keepers\keepers\Trucs_Graph\BoardGame_UI\scenes\Asset_Deck_Levels.fbx"
+			P: "SrcDocumentUrl", "KString", "Url", "", "C:\Users\Etudiant 1\Documents\Keepers\keepers\Trucs_Graph\BoardGame_UI\scenes\Asset_Deck_Levels.fbx"
 			P: "Original", "Compound", "", ""
 			P: "Original|ApplicationVendor", "KString", "", "", "Autodesk"
 			P: "Original|ApplicationName", "KString", "", "", "Maya"
 			P: "Original|ApplicationVersion", "KString", "", "", "2016"
-			P: "Original|DateTime_GMT", "DateTime", "", "", "21/04/2017 10:23:09.261"
-			P: "Original|FileName", "KString", "", "", "C:\Users\Etudiant 1\Documents\Keepers\keepers\Trucs_Graph\BoardGame_UI\scenes\Asset_Guide_Book.fbx"
+			P: "Original|DateTime_GMT", "DateTime", "", "", "21/04/2017 10:23:17.186"
+			P: "Original|FileName", "KString", "", "", "C:\Users\Etudiant 1\Documents\Keepers\keepers\Trucs_Graph\BoardGame_UI\scenes\Asset_Deck_Levels.fbx"
 			P: "LastSaved", "Compound", "", ""
 			P: "LastSaved|ApplicationVendor", "KString", "", "", "Autodesk"
 			P: "LastSaved|ApplicationName", "KString", "", "", "Maya"
 			P: "LastSaved|ApplicationVersion", "KString", "", "", "2016"
-			P: "LastSaved|DateTime_GMT", "DateTime", "", "", "21/04/2017 10:23:09.261"
+			P: "LastSaved|DateTime_GMT", "DateTime", "", "", "21/04/2017 10:23:17.186"
 			P: "Original|ApplicationActiveProject", "KString", "", "", "C:\Users\Etudiant 1\Documents\Keepers\keepers\Trucs_Graph\BoardGame_UI\scenes"
 			P: "Original|ApplicationNativeFile", "KString", "", "", "C:\Users\Etudiant 1\Documents\Keepers\keepers\Trucs_Graph\BoardGame_UI\scenes\Menu.ma"
 		}
@@ -79,7 +79,7 @@ GlobalSettings:  {
 
 Documents:  {
 	Count: 1
-	Document: 2510790049920, "", "Scene" {
+	Document: 2510725362736, "", "Scene" {
 		Properties70:  {
 			P: "SourceObject", "object", "", ""
 			P: "ActiveAnimStackName", "KString", "", "", "Take 001"
@@ -297,9 +297,9 @@ Definitions:  {
 ;------------------------------------------------------------------
 
 Objects:  {
-	Geometry: 2510863664752, "Geometry::", "Mesh" {
+	Geometry: 2510863663216, "Geometry::", "Mesh" {
 		Vertices: *24 {
-			a: -66.146240234375,20.3461494445801,-43.3689346313477,-66.1462249755859,20.3461494445801,43.3689193725586,66.1461944580078,20.3461494445801,-43.3689308166504,66.1462097167969,20.3461494445801,43.3688926696777,-66.146240234375,-4.76837158203125e-007,-43.3689346313477,-66.1462249755859,-4.76837158203125e-007,43.3689193725586,66.1461944580078,-4.76837158203125e-007,-43.3689308166504,66.1462097167969,-4.76837158203125e-007,43.3688926696777
+			a: -27.8446044921875,20.3461494445801,-43.368896484375,-27.8446083068848,20.3461494445801,43.368896484375,27.8446044921875,20.3461494445801,-43.368896484375,27.844612121582,20.3461494445801,43.368896484375,-27.8446044921875,0,-43.368896484375,-27.8446083068848,0,43.368896484375,27.8446044921875,0,-43.368896484375,27.844612121582,0,43.368896484375
 		} 
 		PolygonVertexIndex: *24 {
 			a: 0,1,3,-3,1,0,4,-6,0,2,6,-5,3,1,5,-8,2,3,7,-7,5,4,6,-8
@@ -314,7 +314,7 @@ Objects:  {
 			MappingInformationType: "ByPolygonVertex"
 			ReferenceInformationType: "Direct"
 			Normals: *72 {
-				a: 0,1,0,0,1,0,0,1,0,0,1,0,-1,0,1.75918472677949e-007,-1,0,1.75918472677949e-007,-1,0,1.75918472677949e-007,-1,0,1.75918472677949e-007,2.26758096744106e-008,0,-1,2.26758096744106e-008,0,-1,2.26758096744106e-008,0,-1,2.26758096744106e-008,0,-1,2.04082283516982e-007,0,1,2.04082283516982e-007,0,1,2.04082283516982e-007,0,1,2.04082283516982e-007,0,1,1,0,-1.75918486888804e-007,1,0,-1.75918486888804e-007,1,0,-1.75918486888804e-007,1,0,-1.75918486888804e-007,0,-1,0,0,-1,0,0,-1,0,0,-1,0
+				a: 0,1,0,0,0.999999940395355,0,0,0.999999940395355,0,0,1,0,-1,0,-4.39796465911968e-008,-1,0,-4.39796465911968e-008,-1,0,-4.39796465911968e-008,-1,0,-4.39796465911968e-008,0,0,-1,0,0,-1,0,0,-1,0,0,-1,0,0,1,0,0,1,0,0,1,0,0,1,1,0,-8.79592931823936e-008,1,0,-8.79592931823936e-008,1,0,-8.79592931823936e-008,1,0,-8.79592931823936e-008,0,-0.999999940395355,0,0,-1,0,0,-1,0,0,-0.999999940395355,0
 			} 
 			NormalsW: *24 {
 				a: 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
@@ -325,11 +325,11 @@ Objects:  {
 			Name: "map1"
 			MappingInformationType: "ByPolygonVertex"
 			ReferenceInformationType: "IndexToDirect"
-			UV: *36 {
-				a: 0.16559562087059,0.400039196014404,0.00661155022680759,0.40003913640976,0.00661155022680759,0.156815692782402,0.16559562087059,0.156815633177757,0.147272109985352,0.409735769033432,0.147876352071762,0.40971440076828,0.147881388664246,0.409856140613556,0.148846715688705,0.41036194562912,0.146285235881805,0.409770786762238,0.146290272474289,0.409912496805191,0.146889507770538,0.409749329090118,0.148810833692551,0.408597052097321,0.148258954286575,0.409700810909271,0.148263961076736,0.409842520952225,0.146023660898209,0.408653855323792,0.146894514560699,0.409891039133072,0.147277116775513,0.409877479076386,0.146059632301331,0.410418748855591
+			UV: *40 {
+				a: 0.0133580854162574,0.881772220134735,0.0133580854162574,0.654854118824005,0.164450466632843,0.654854118824005,0.164450466632843,0.881772220134735,0.184118270874023,0.839247465133667,0.271156132221222,0.839247465133667,0.271156132221222,0.860423922538757,0.164450466632843,0.654854118824005,0.184118270874023,0.839247465133667,0.184118270874023,0.860423922538757,0.271156132221222,0.839247465133667,0.01335808634758,0.654854118824005,0.326270997524261,0.839247465133667,0.326270997524261,0.860423922538757,0.0133580854162574,0.88177227973938,0.271156132221222,0.860423922538757,0.184118270874023,0.860423922538757,0.164450466632843,0.881772220134735,0.326270997524261,0.839247465133667,0.326270997524261,0.860423922538757
 			} 
 			UVIndex: *24 {
-				a: 0,1,2,3,4,5,6,16,5,12,13,6,10,4,16,15,8,10,15,9,7,17,14,11
+				a: 0,1,2,3,4,5,6,16,5,12,13,6,10,18,19,15,8,10,15,9,7,17,14,11
 			} 
 		}
 		LayerElementMaterial: 0 {
@@ -357,9 +357,11 @@ Objects:  {
 			}
 		}
 	}
-	Model: 2510854709632, "Model::Asset_Guide_Book", "Mesh" {
+	Model: 2510854721232, "Model::Asset_Deck_Levels", "Mesh" {
 		Version: 232
 		Properties70:  {
+			P: "RotationPivot", "Vector3D", "Vector", "",0,-3.33066907387547e-016,-8.88178419700125e-016
+			P: "ScalingPivot", "Vector3D", "Vector", "",0,-3.33066907387547e-016,-8.88178419700125e-016
 			P: "RotationActive", "bool", "", "",1
 			P: "InheritType", "enum", "", "",1
 			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
@@ -369,7 +371,7 @@ Objects:  {
 		Shading: T
 		Culling: "CullingOff"
 	}
-	Material: 2510653071088, "Material::TEX_Box", "" {
+	Material: 2510653070688, "Material::TEX_Box", "" {
 		Version: 102
 		ShadingModel: "lambert"
 		MultiLayer: 0
@@ -384,7 +386,7 @@ Objects:  {
 			P: "Opacity", "double", "Number", "",1
 		}
 	}
-	Video: 2510653071888, "Video::file1", "Clip" {
+	Video: 2510653071088, "Video::file1", "Clip" {
 		Type: "Clip"
 		Properties70:  {
 			P: "Path", "KString", "XRefUrl", "", "C:/Users/Etudiant 1/Documents/Keepers/keepers/Trucs_Graph/BoardGame_UI/sourceimages/TEX_MenuBox_2048x2048.png"
@@ -393,7 +395,7 @@ Objects:  {
 		Filename: "C:/Users/Etudiant 1/Documents/Keepers/keepers/Trucs_Graph/BoardGame_UI/sourceimages/TEX_MenuBox_2048x2048.png"
 		RelativeFilename: "..\sourceimages\TEX_MenuBox_2048x2048.png"
 	}
-	Texture: 2510538551360, "Texture::file1", "" {
+	Texture: 2510798447184, "Texture::file1", "" {
 		Type: "TextureVideoClip"
 		Version: 202
 		TextureName: "Texture::file1"
@@ -410,7 +412,7 @@ Objects:  {
 		Texture_Alpha_Source: "None"
 		Cropping: 0,0,0,0
 	}
-	AnimationStack: 2510853604096, "AnimStack::Take 001", "" {
+	AnimationStack: 2510725385728, "AnimStack::Take 001", "" {
 		Properties70:  {
 			P: "LocalStart", "KTime", "Time", "",1924423250
 			P: "LocalStop", "KTime", "Time", "",230930790000
@@ -418,7 +420,7 @@ Objects:  {
 			P: "ReferenceStop", "KTime", "Time", "",230930790000
 		}
 	}
-	AnimationLayer: 2510656357664, "AnimLayer::BaseLayer", "" {
+	AnimationLayer: 2510656364656, "AnimLayer::BaseLayer", "" {
 	}
 }
 
@@ -427,23 +429,23 @@ Objects:  {
 
 Connections:  {
 	
-	;Model::Asset_Guide_Book, Model::RootNode
-	C: "OO",2510854709632,0
+	;Model::Asset_Deck_Levels, Model::RootNode
+	C: "OO",2510854721232,0
 	
 	;AnimLayer::BaseLayer, AnimStack::Take 001
-	C: "OO",2510656357664,2510853604096
+	C: "OO",2510656364656,2510725385728
 	
 	;Texture::file1, Material::TEX_Box
-	C: "OP",2510538551360,2510653071088, "DiffuseColor"
+	C: "OP",2510798447184,2510653070688, "DiffuseColor"
 	
 	;Video::file1, Texture::file1
-	C: "OO",2510653071888,2510538551360
+	C: "OO",2510653071088,2510798447184
 	
-	;Geometry::, Model::Asset_Guide_Book
-	C: "OO",2510863664752,2510854709632
+	;Geometry::, Model::Asset_Deck_Levels
+	C: "OO",2510863663216,2510854721232
 	
-	;Material::TEX_Box, Model::Asset_Guide_Book
-	C: "OO",2510653071088,2510854709632
+	;Material::TEX_Box, Model::Asset_Deck_Levels
+	C: "OO",2510653070688,2510854721232
 }
 ;Takes section
 ;----------------------------------------------------

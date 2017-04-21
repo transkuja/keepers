@@ -14,6 +14,11 @@ public class MenuManagerQ : MonoBehaviour {
     public Transform[] keepersPosition;
     public Transform[] cardlevelPosition;
 
+    public GameObject GoPrefabCard;
+
+    [SerializeField] public List<GameObject> listCardModels = new List<GameObject>();
+    [SerializeField] public List<GameObject> listDeckModels = new List<GameObject>();
+
     void Start()
     {
         listeSelectedKeepers = new List<PawnInstance>();
@@ -40,13 +45,20 @@ public class MenuManagerQ : MonoBehaviour {
             {
                 deckOfCards.idQuestDeck = qdd.idQuestDeck;
                 goDeck.layer = LayerMask.NameToLayer("DeckOfCards");
-                if (qdd.materialQuestDeck != null)
-                    goDeck.GetComponent<MeshRenderer>().material = qdd.materialQuestDeck;
-                else
-                    Debug.Log("No material found.");
+                goDeck.GetComponent<MeshFilter>().mesh = GetDeckModel(qdd.deckModelName).GetComponent<MeshFilter>().sharedMesh;
             }
             else
                 Debug.Log("Deck with no id to set on the prefab");
+
+            for (int j = 0; j < qdd.secondaryQuests.Count; j++)
+            {
+                GameObject goTemp = Instantiate(GoPrefabCard, goDeck.transform);
+                goTemp.GetComponent<MeshFilter>().mesh = GetCardModel(qdd.secondaryQuests[j].cardModelname).GetComponent<MeshFilter>().sharedMesh;
+                goTemp.tag = "OpenerContent";
+                goTemp.SetActive(false);
+            }
+
+            goDeck.AddComponent<Opener>().bOverMode = true;
         }
     }
 
@@ -140,5 +152,33 @@ public class MenuManagerQ : MonoBehaviour {
     {
         return listeSelectedKeepers.Contains(pi);
     }
+
+    public GameObject GetCardModel(string strName)
+    {
+        foreach(GameObject goCardModel in listCardModels)
+        {
+            if(strName == goCardModel.name)
+            {
+                return goCardModel;
+            }
+        }
+        Debug.Log("Modele de carte \"" + strName + "\" introuvable");
+        return null;
+    }
+
+    public GameObject GetDeckModel(string strName)
+    {
+        foreach (GameObject goDeckModel in listDeckModels)
+        {
+            if (strName == goDeckModel.name)
+            {
+                return goDeckModel;
+            }
+        }
+        Debug.Log("Modele de deck \"" + strName + "\" introuvable");
+        return null;
+    }
     #endregion
+
+
 }
