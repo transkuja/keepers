@@ -46,6 +46,9 @@ namespace Behaviour
 
         bool hasClickedOnAttack = false;
 
+        Face[] lastThrowResult;
+        List<GameObject> lastThrowDiceInstance;
+
         void Awake()
         {
             instance = GetComponent<PawnInstance>();
@@ -90,20 +93,14 @@ namespace Behaviour
         public void AttackProcess(Fighter _attackTarget)
         {
             Debug.Log("attackProcess lunched");
-            Debug.Log(BattleHandler.LastThrowResult.ContainsKey(GetComponent<PawnInstance>()));
-            Debug.Log(BattleHandler.LastThrowResult[GetComponent<PawnInstance>()]);
-            foreach(PawnInstance pi in BattleHandler.LastThrowResult.Keys)
-            {
-                Debug.Log(pi.Data.PawnName);
-            }
-            Face[] lastThrowFaces = BattleHandler.LastThrowResult[GetComponent<PawnInstance>()];
+
             int attackDamage = 0;
-            for (int i = 0; i < lastThrowFaces.Length; i++)
+            for (int i = 0; i < lastThrowResult.Length; i++)
             {
                 // Apply attack calculation
-                if (lastThrowFaces[i].Type == FaceType.Physical)
+                if (lastThrowResult[i].Type == FaceType.Physical)
                 {
-                    attackDamage += (effectiveAttackValue * lastThrowFaces[i].Value);
+                    attackDamage += (effectiveAttackValue * lastThrowResult[i].Value);
                 }
                 else
                 {
@@ -270,6 +267,8 @@ namespace Behaviour
             set
             {
                 hasPlayedThisTurn = value;
+                if (hasPlayedThisTurn == true)
+                    GameManager.Instance.ClearListKeeperSelected();
             }
         }
 
@@ -309,6 +308,32 @@ namespace Behaviour
             set
             {
                 hasClickedOnAttack = value;
+            }
+        }
+
+        public Face[] LastThrowResult
+        {
+            get
+            {
+                return lastThrowResult;
+            }
+
+            set
+            {
+                lastThrowResult = value;
+            }
+        }
+
+        public List<GameObject> LastThrowDiceInstance
+        {
+            get
+            {
+                return lastThrowDiceInstance;
+            }
+
+            set
+            {
+                lastThrowDiceInstance = value;
             }
         }
 

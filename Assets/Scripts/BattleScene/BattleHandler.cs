@@ -165,6 +165,8 @@ public class BattleHandler {
                         break;
                 }
             }
+            pi.GetComponent<Fighter>().LastThrowResult = lastThrowResult[pi];
+            pi.GetComponent<Fighter>().LastThrowDiceInstance = currentTurnDiceInstance[pi];
         }
 
         hasDiceBeenThrown = true;
