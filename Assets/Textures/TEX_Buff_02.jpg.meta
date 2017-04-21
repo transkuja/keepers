@@ -1,6 +1,11 @@
 fileFormatVersion: 2
+<<<<<<< refs/remotes/origin/master
 guid: 04184a5c901f30341a8ee3e2ed8265dd
 timeCreated: 1492759320
+=======
+guid: b524e0d0b383e5e4fa87d08509f6f491
+timeCreated: 1492764835
+>>>>>>> Update perso + Pipou New
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName: {}
