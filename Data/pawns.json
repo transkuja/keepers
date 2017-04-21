@@ -133,6 +133,25 @@
 			"Mortal" : {
 				"maxHp" : 100
 			}
+		},
+		{
+			"id": "mrresetti",
+			"name" : "Mr Resetti",
+			"sprite" : "Pawn_mini_icon/ashley_mini_icon",
+			"canSpeak" : "true"
+		},
+		{
+			"id": "pnj_01",
+			"name" : "SwaggittySwooty",
+			"sprite" : "Pawn_mini_icon/Heal_mini_icon",
+			"canSpeak" : "true",
+			
+			"Inventory" : {
+				"nbSlot" : 6
+			},
+			"QuestDealer" : 
+			{}
+			
 		}
 		
 	]

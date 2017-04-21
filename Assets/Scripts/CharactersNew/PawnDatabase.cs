@@ -152,6 +152,7 @@ public class PawnDatabase {
         goPawn.transform.SetParent(trParent, false);
         goPawn.GetComponent<PawnInstance>().Data = dicPawnDataContainer[idPawn].pawnData;
 
+        InitPawn(goPawn.GetComponent<PawnInstance>());
         return goPawn;
     }
 
@@ -162,26 +163,31 @@ public class PawnDatabase {
 
         foreach(KeyValuePair<Type, ComponentData> pdc in dicPawnDataContainer[idPawn].dicComponentData)
         {
-            goPawn.AddComponent(pdc.Key);
+            //goPawn.AddComponent(pdc.Key);
 
             switch (pdc.Key.ToString())
             {
                 case "Behaviour.Fighter":
                     break;
                 case "Behaviour.HungerHandler":
-                    goPawn.GetComponent<Behaviour.HungerHandler>().Data = (Behaviour.HungerHandler.HungerHandlerData)pdc.Value;
+                    if (goPawn.GetComponent<Behaviour.HungerHandler>() != null)
+                        goPawn.GetComponent<Behaviour.HungerHandler>().Data = (Behaviour.HungerHandler.HungerHandlerData)pdc.Value;
                     break;
                 case "Behaviour.Inventory":
-                    goPawn.GetComponent<Behaviour.Inventory>().Data = (Behaviour.Inventory.InventoryData)pdc.Value;
+                    if (goPawn.GetComponent<Behaviour.Inventory>() != null)
+                        goPawn.GetComponent<Behaviour.Inventory>().Data = (Behaviour.Inventory.InventoryData)pdc.Value;
                     break;
                 case "Behaviour.Keeper":
-                    goPawn.GetComponent<Behaviour.Keeper>().Data = (Behaviour.Keeper.KeeperData)pdc.Value;
+                    if (goPawn.GetComponent<Behaviour.Keeper>() != null)
+                        goPawn.GetComponent<Behaviour.Keeper>().Data = (Behaviour.Keeper.KeeperData)pdc.Value;
                     break;
                 case "Behaviour.MentalHealthHandler":
+                    if (goPawn.GetComponent<Behaviour.MentalHealthHandler>() != null)
                     goPawn.GetComponent<Behaviour.MentalHealthHandler>().Data = (Behaviour.MentalHealthHandler.MentalHealthHandlerData)pdc.Value;
                     break;
                 case "Behaviour.Mortal":
-                    goPawn.GetComponent<Behaviour.Mortal>().Data = (Behaviour.Mortal.MortalData)pdc.Value;
+                    if (goPawn.GetComponent<Behaviour.Mortal>() != null)
+                        goPawn.GetComponent<Behaviour.Mortal>().Data = (Behaviour.Mortal.MortalData)pdc.Value;
                     break;
             }
         }

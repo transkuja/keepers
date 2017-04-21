@@ -10,6 +10,7 @@ namespace QuestSystem
     {
         // Events
         public delegate void QuestEvent();
+        public QuestEvent OnQuestInit;
         public QuestEvent OnQuestComplete;
         public QuestEvent OnQuestUpdate;
         public QuestEvent OnQuestFail;
@@ -37,12 +38,22 @@ namespace QuestSystem
         public Quest()
         { }
 
-        public void Init(QuestIdentifier ident, QuestText info, List<IQuestObjective> obj, QuestReward _reward = null)
+        public void Reset(QuestIdentifier ident, QuestText info, List<IQuestObjective> obj, QuestReward _reward = null)
         {
             identifier = ident;
             information = info;
             objectives = obj;
             reward = _reward;
+        }
+
+        public void Init()
+        {
+            for(int i = 0; i < objectives.Count; i++)
+            {
+                objectives[i].Init();
+            }
+            if (OnQuestInit != null)
+                OnQuestInit();
         }
 
         public void ResetQuestObjectives(List<IQuestObjective> obj, QuestReward _reward = null)

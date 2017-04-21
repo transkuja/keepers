@@ -10,10 +10,7 @@ public class Interactable : MonoBehaviour {
     void Awake()
     {
         interactions = new InteractionImplementer();
-    }
 
-    void Start()
-    {
         foreach (Transform child in transform)
         {
             if (child.CompareTag("FeedbackTransform"))
@@ -22,7 +19,10 @@ public class Interactable : MonoBehaviour {
                 break;
             }
         }
+    }
 
+    void Start()
+    {
         if (feedback == null)
         {
             // Normal pour les tiles triggers de ne pas avoir de feedback puisqu'il sera sur le perso ? 

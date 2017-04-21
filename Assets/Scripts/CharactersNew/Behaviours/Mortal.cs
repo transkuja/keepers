@@ -83,7 +83,8 @@ namespace Behaviour
 
                 GetComponent<Keeper>().ShowSelectedPanelUI(false);
                 GameManager.Instance.CheckGameState();
-
+                if(EventManager.OnKeeperDie != null)
+                    EventManager.OnKeeperDie(GetComponent<Keeper>());
                 // Deactivate pawn
                 DeactivatePawn();
             }

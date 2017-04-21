@@ -44,8 +44,6 @@ public class CharactersInitializer : MonoBehaviour {
             GameManager.Instance.AllKeepersList[i].transform.localScale = Vector3.one;
             GameManager.Instance.AllKeepersList[i].transform.GetComponent<NavMeshAgent>().enabled = true;
 
-
-
             InitCharacterUI(GameManager.Instance.AllKeepersList[i]);
             GameManager.Instance.RegisterKeeperPosition(GameManager.Instance.AllKeepersList[i]);
             GlowController.RegisterObject(GameManager.Instance.AllKeepersList[i].GetComponent<GlowObjectCmd>());
@@ -56,31 +54,51 @@ public class CharactersInitializer : MonoBehaviour {
 
         // Next step, init NPCs
         // TODO: init quests and call this properly
-        InitNPCs(new QuestDeck());
+        InitNPCs();
     }
 
-    private void InitNPCs(QuestSystem.QuestDeck _questDeck)
+    private void InitNPCs()
     {
         // TODO: init characters linked to quests
+        foreach (Quest quest in GameManager.Instance.QuestManager.AvailableQuests)
+        {
+            if(quest.Identifier.SourceID != string.Empty && 
+                quest.Identifier.SourceID.Contains("pnj"))
+            {
+                if(GameManager.Instance.QuestSources == null)
+                {
 
+                }
+                QuestSource source = GameManager.Instance.QuestSources.FindSourceByID(quest.Identifier.SourceID);
+                if(source == null)
+                {
+                    Debug.Log("Can't spawn NPC \"" + quest.Identifier.SourceID + "\". No QuestSource with this ID found in the scene.");
+                }
+                else
+                {
+                    if (source.needsToBeSpawned)
+                    {
+                        GameObject spawnedPawn = GameManager.Instance.PawnDataBase.CreatePawn(source.ID, source.Transform.position, source.Transform.rotation, null);
+                        spawnedPawn.GetComponent<PawnInstance>().CurrentTile = source.Tile;
+                        spawnedPawn.GetComponent<Behaviour.QuestDealer>().questToGive = quest;
+
+                    }
+                }
+            }
+        }
         // TODO this should not be handled like, especially if there is more prisoner in scene
         GameObject prisoner = GameManager.Instance.PawnDataBase.CreatePawn("ashley", TileManager.Instance.BeginTile.transform.position, Quaternion.identity, GameManager.Instance.transform);
         GlowController.RegisterObject(prisoner.GetComponent<GlowObjectCmd>());
+
+        InitCharacterUI(prisoner.GetComponent<PawnInstance>());
         GameManager.Instance.PrisonerInstance = prisoner.GetComponent<PawnInstance>();
-
-        // I NEED A QUEST INITIALIZER
-        List<IQuestObjective> mainObjectives = new List<IQuestObjective>();
-        mainObjectives.Add(new PrisonerEscortObjective("Until the end", "Bring Ashley to the end, and ALIVE.", GameObject.FindObjectOfType<Behaviour.Prisoner>().gameObject, TileManager.Instance.EndTile));
-        GameManager.Instance.MainQuest = new Quest(new QuestIdentifier(0, gameObject), new QuestText("Main Quest: The last phoque licorne", "", "You're probably wondering why I gathered all of you here today. Well I'll be quick, I want you to bring this wonderful animal to my good and rich friend. Don't worry, you will be rewarded. His name is \"End\", you'll see his flag from pretty far away, head towards it. I'm counting on you, it is extremely important.", "Hint: Don't kill Ashley."), mainObjectives);
-        GameManager.Instance.MainQuest.CheckAndComplete();
-        GameManager.Instance.MainQuest.OnQuestComplete += EndGameQuest;
-
-        InitCharacterUI(GameManager.Instance.PrisonerInstance);
+        GameManager.Instance.QuestSources.GetComponent<QuestInitializer>().InitializeQuests();
+        GameManager.Instance.QuestManager.MainQuest.OnQuestComplete += EndGameQuest;
     }
 
-    void EndGameQuest()
+    public void EndGameQuest()
     {
-        GameManager.Instance.MainQuest.OnQuestComplete -= EndGameQuest;
+        GameManager.Instance.QuestManager.MainQuest.OnQuestComplete -= EndGameQuest;
         GameManager.Instance.Win();
     }
 

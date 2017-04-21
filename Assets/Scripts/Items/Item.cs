@@ -290,15 +290,15 @@ public class Ressource : Item
 
     private bool UpMentalHealth(int _value, PawnInstance owner)
     {
-        //GameManager.Instance.Ui.BuffActionTextAnimation(GameManager.Instance.Ui.goMentalHeathBuffOnStatPanel, _value);
         owner.GetComponent<Behaviour.MentalHealthHandler>().CurrentMentalHealth += (short)_value;
+        owner.AddFeedBackToQueue(GameManager.Instance.SpriteUtils.spriteMoralBuff, _value);
         return true;
     }
 
     private bool DecreaseHunger(int _value, PawnInstance owner)
     {
-        //GameManager.Instance.Ui.BuffActionTextAnimation(GameManager.Instance.Ui.goHungerBuffOnStatPanel, _value);
         owner.GetComponent<Behaviour.HungerHandler>().CurrentHunger += (short)_value;
+        owner.AddFeedBackToQueue(GameManager.Instance.SpriteUtils.spriteHunger, _value);
         return true;
     }
 

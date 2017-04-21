@@ -68,6 +68,7 @@ public class GlowController : MonoBehaviour
     /// </summary>
     private void RebuildCommandBuffer()
 	{
+        if (GameManager.Instance.CurrentState == GameState.InPause) return;
         if (_commandBuffer == null) return;
 
 		_commandBuffer.Clear();

@@ -48,9 +48,12 @@ public class IngameScreens : MonoBehaviour {
         }
         else if (GameManager.Instance.CurrentState == GameState.InPause)
         {
-            transform.GetChild(0).GetChild((int)IngameScreensEnum.EscapeMenu).gameObject.SetActive(false);
-            transform.GetChild(0).GetChild((int)IngameScreensEnum.BattleResultScreens).gameObject.SetActive(false);
-            GameManager.Instance.CurrentState = GameState.Normal;
+            if (transform.GetChild(0).GetChild((int)IngameScreensEnum.EscapeMenu).gameObject.activeInHierarchy)
+            {
+                transform.GetChild(0).GetChild((int)IngameScreensEnum.EscapeMenu).gameObject.SetActive(false);
+                transform.GetChild(0).GetChild((int)IngameScreensEnum.BattleResultScreens).gameObject.SetActive(false);
+                GameManager.Instance.CurrentState = GameState.Normal;
+            }
         }
     }
 
