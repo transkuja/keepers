@@ -267,6 +267,8 @@ namespace Behaviour
             set
             {
                 hasPlayedThisTurn = value;
+                if (hasPlayedThisTurn == true)
+                    GameManager.Instance.ClearListKeeperSelected();
             }
         }
 
