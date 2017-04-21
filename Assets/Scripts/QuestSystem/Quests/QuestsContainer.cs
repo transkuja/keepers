@@ -5,6 +5,7 @@ using QuestSystem;
 
 public class QuestsContainer {
     private List<Quest> quests;
+    public bool isInitialized = false;
 
     public List<Quest> Quests
     {
@@ -25,7 +26,7 @@ public class QuestsContainer {
 
         List<IQuestObjective> mainObjectives = new List<IQuestObjective>();
         mainObjectives.Add(new PrisonerEscortObjective("Until The End", "Bring Ashley to The End, and ALIVE.", null, null));
-        quests.Add(new Quest(new QuestIdentifier("main_quest_0", ""), 
+        quests.Add(new Quest(new QuestIdentifier("main_quest_01", ""), 
                             new QuestText("Main Quest: The last phoque licorne", 
                             "", 
                             "You're probably wondering why I gathered all of you here today. Well I'll be quick, I want you to bring this wonderful animal to my good and rich friend." + 
@@ -49,6 +50,7 @@ public class QuestsContainer {
                                                         "You know what, I have been wishing to get on an adventure for some time now... I'm coming with you!",
                                                         "Hint: The target should be on a surrounding tile. Don't go alone."),
                                          objectives));
+        isInitialized = true;
     }
 
     public Quest FindQuestByID(string id)

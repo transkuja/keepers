@@ -6,12 +6,12 @@ namespace QuestSystem
 {
     public class QuestDeck
     {
-        int id;
+        string id;
         string deckName;
         string mainQuest;
         List<string> sideQuests;
 
-        public int Id
+        public string Id
         {
             get
             {
@@ -61,6 +61,11 @@ namespace QuestSystem
             {
                 mainQuest = value;
             }
+        }
+
+        public QuestDeck()
+        {
+            sideQuests = new List<string>();
         }
     }
 }

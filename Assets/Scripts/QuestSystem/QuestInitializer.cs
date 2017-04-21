@@ -16,11 +16,16 @@ public class QuestInitializer : MonoBehaviour {
 
     public void InitializeQuests()
     {
-        Quest main1 = GameManager.Instance.QuestManager.GetQuestByID("main_quest_01");
-        if (GameManager.Instance.QuestManager.AvailableQuests.Contains(main1))
+        Quest main1 = GameManager.Instance.QuestManager.MainQuest;
+        if (main1.Identifier.ID == "main_quest_01")
         {
             ((PrisonerEscortObjective)main1.Objectives[0]).prisoner = GameManager.Instance.PrisonerInstance.gameObject;
             ((PrisonerEscortObjective)main1.Objectives[0]).destination = TileManager.Instance.EndTile;
         }
+        Quest side1 = GameManager.Instance.QuestManager.GetQuestByID("");
+        if (GameManager.Instance.QuestManager.AvailableQuests.Contains(side1))
+        {
+        }
+
     }	
 }

@@ -59,10 +59,9 @@ public class CharactersInitializer : MonoBehaviour {
 
     private void InitNPCs()
     {
-        // TODO: init characters linked to quests
         foreach (Quest quest in GameManager.Instance.QuestManager.AvailableQuests)
         {
-            if(quest.Identifier.SourceID != string.Empty && 
+            if (quest.Identifier.SourceID != string.Empty && 
                 quest.Identifier.SourceID.Contains("pnj"))
             {
                 if(GameManager.Instance.QuestSources == null)
@@ -79,8 +78,14 @@ public class CharactersInitializer : MonoBehaviour {
                     if (source.needsToBeSpawned)
                     {
                         GameObject spawnedPawn = GameManager.Instance.PawnDataBase.CreatePawn(source.ID, source.Transform.position, source.Transform.rotation, null);
+                        spawnedPawn.transform.SetParent(source.Tile.transform);
+                        spawnedPawn.transform.SetAsLastSibling();
                         spawnedPawn.GetComponent<PawnInstance>().CurrentTile = source.Tile;
                         spawnedPawn.GetComponent<Behaviour.QuestDealer>().questToGive = quest;
+                        if (source.Tile.State != TileState.Discovered)
+                        {
+                            spawnedPawn.SetActive(false);
+                        }
 
                     }
                 }

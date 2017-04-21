@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.IO;
 using Boomlagoon.JSON;
+using QuestSystem;
 
 namespace QuestDeckLoader
 {
@@ -43,11 +44,13 @@ namespace QuestDeckLoader
     {
        
         List<QuestDeckData> listeQuestDeck;
+        List<QuestSystem.QuestDeck> questDeckList;
 
         // Use this for initialization
         public QuestDeckDatabase()
         {
             listeQuestDeck = new List<QuestDeckData>();
+            questDeckList = new List<QuestSystem.QuestDeck>();
         }
 
         public void Init()
@@ -62,6 +65,7 @@ namespace QuestDeckLoader
             foreach (JSONValue questDeck in questDeckArray)
             {
                 QuestDeckData newQuestDeckDataContainer = new QuestDeckData();
+                QuestSystem.QuestDeck newDeck = new QuestSystem.QuestDeck();
                 foreach (KeyValuePair<string, JSONValue> deckQuestEntry in questDeck.Obj)
                 {
                     switch (deckQuestEntry.Key)
@@ -69,9 +73,11 @@ namespace QuestDeckLoader
                         // ROOT DATA
                         case "id":
                             newQuestDeckDataContainer.idQuestDeck = deckQuestEntry.Value.Str;
+                            newDeck.Id = deckQuestEntry.Value.Str;
                             break;
                         case "name":
                             newQuestDeckDataContainer.nameQuestDeck = deckQuestEntry.Value.Str;
+                            newDeck.DeckName = deckQuestEntry.Value.Str;
                             break;
                         case "material":
                             // if null -> didn't the corresponding material
@@ -79,31 +85,34 @@ namespace QuestDeckLoader
                             break;
                         case "main":
                             newQuestDeckDataContainer.idMainQuest = deckQuestEntry.Value.Str;
+                            newDeck.MainQuest = deckQuestEntry.Value.Str;
                             break;
                         case "secondary":
                             JSONArray secondaryQuestArray = deckQuestEntry.Value.Array;
                             foreach (JSONValue secondaryQuest in secondaryQuestArray)
                             {
                                 QuestAssociationDealer association = new QuestAssociationDealer();
-                                foreach (KeyValuePair<string, JSONValue> secondaryQuestId in questDeck.Obj)
+                                foreach (KeyValuePair<string, JSONValue> secondaryQuestId in secondaryQuest.Obj)
                                 {
                                     switch (secondaryQuestId.Key)
                                     {
                                         // SECONDARY QUEST DATA
                                         case "idQuest":
-                                          association.idQuest = deckQuestEntry.Value.Str;
+                                            association.idQuest = secondaryQuestId.Value.Str;
                                             break;
                                         case "idQuestDealer":
-                                            association.idQuestDealer = deckQuestEntry.Value.Str;
+                                            association.idQuestDealer = secondaryQuestId.Value.Str;
                                             break;
                                     }
                                 }
+                                newDeck.SideQuests.Add(association.idQuest); 
                                 newQuestDeckDataContainer.secondaryQuests.Add(association);
                             }
                             break;
                     }
                 }
                 listeQuestDeck.Add(newQuestDeckDataContainer);
+                questDeckList.Add(newDeck);
             }
         }
         #region Accessors
@@ -114,6 +123,20 @@ namespace QuestDeckLoader
                 return listeQuestDeck;
             }
         }
+
+        public List<QuestDeck> QuestDeckList
+        {
+            get
+            {
+                return questDeckList;
+            }
+        }
+
+        public QuestDeck GetDeckByID(string id)
+        {
+            return questDeckList.Find(x => x.Id == id);
+        } 
+
         #endregion
     }
 }
