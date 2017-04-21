@@ -12,11 +12,11 @@ public class SeqIntro : Sequence {
     // Look at 1
     private GameObject pointer;
     public AnimationClip turnLeftAnimationClip;
-    public Transform shortcutBtn;
+    public GameObject shortcutBtn;
 
     // Look at 2
     private GameObject pointer2;
-    public Transform endTurnBtn;
+    public GameObject endTurnBtn;
 
 
     public void playAppearenceFeedback()
@@ -40,7 +40,7 @@ public class SeqIntro : Sequence {
 
     public GameObject SpawnPointer()
     {
-        pointer = GameObject.Instantiate(GameManager.Instance.PrefabUIUtils.PrefabImageUI, shortcutBtn, false);
+        pointer = GameObject.Instantiate(GameManager.Instance.PrefabUIUtils.PrefabImageUI, shortcutBtn.transform, false);
 
         pointer.GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteTutoHighlightCercle;
         pointer.transform.SetParent(shortcutBtn.transform.parent);
@@ -52,7 +52,7 @@ public class SeqIntro : Sequence {
 
     public GameObject SpawnPointer2()
     {
-        GameObject pointer = GameObject.Instantiate(GameManager.Instance.PrefabUIUtils.PrefabImageUI, endTurnBtn, false);
+        GameObject pointer = GameObject.Instantiate(GameManager.Instance.PrefabUIUtils.PrefabImageUI, endTurnBtn.transform, false);
 
         pointer.GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteTutoHighlightCercle;
         pointer.transform.SetParent(endTurnBtn.transform.parent);
@@ -126,18 +126,18 @@ public class SeqIntro : Sequence {
     {
         GameObject mrresetti;
         GameObject pointer;
-        Transform gobtn;
+        GameObject gobtn;
         AnimationClip turnLeft;
         string str;
 
-        public LootAt(GameObject _mrresetti, GameObject _pointer, Transform _btnToHightlight, AnimationClip _turnLeft)
+        public LootAt(GameObject _mrresetti, GameObject _pointer, GameObject _btnToHightlight, AnimationClip _turnLeft)
         {
             mrresetti = _mrresetti;
             gobtn = _btnToHightlight;
             turnLeft = _turnLeft;
             pointer = _pointer;
             pointer.transform.localScale = Vector3.one;
-            pointer.transform.position = gobtn.position;
+            pointer.transform.position = gobtn.transform.position;
             RectTransform rt = _btnToHightlight.GetComponent(typeof(RectTransform)) as RectTransform;
             float newX = _btnToHightlight.GetComponent<RectTransform>().sizeDelta.x + 70;
             float newY = _btnToHightlight.GetComponent<RectTransform>().sizeDelta.y + 70;
@@ -186,10 +186,10 @@ public class SeqIntro : Sequence {
         GameObject mrresetti;
         GameObject pointer;
         AnimationClip jump;
-        Transform btnToUnHightlight;
+        GameObject btnToUnHightlight;
         string str;
 
-        public UnLookAt(GameObject _mrresetti, GameObject _pointer, Transform _btnToUnHightlight, AnimationClip _jumpAnimationClip)
+        public UnLookAt(GameObject _mrresetti, GameObject _pointer, GameObject _btnToUnHightlight, AnimationClip _jumpAnimationClip)
         {
             mrresetti = _mrresetti;
             jump = _jumpAnimationClip;
@@ -204,7 +204,7 @@ public class SeqIntro : Sequence {
             mrresetti.GetComponentInChildren<Animator>().SetTrigger("jumpArround");
             yield return new WaitForSeconds(jump.length);
             TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.ReadyForNext;
-            btnToUnHightlight.gameObject.GetComponent<MouseClickExpected>().enabled = false;
+            btnToUnHightlight.GetComponent<MouseClickExpected>().enabled = false;
 
             // Clean
             //pointer.SetActive(false);
@@ -291,8 +291,8 @@ public class SeqIntro : Sequence {
         Destroy(pointer2);
         shortcutBtn.gameObject.GetComponent<MouseClickExpected>().enabled = false;
         endTurnBtn.gameObject.GetComponent<MouseClickExpected>().enabled = false;
-        shortcutBtn.localScale = Vector3.one;
-        endTurnBtn.localScale = Vector3.one;
+        shortcutBtn.transform.localScale = Vector3.one;
+        endTurnBtn.transform.localScale = Vector3.one;
         TutoManager.s_instance.StartCoroutine(this.Etapes[Etapes.Count - 1].step);
     }
 }
