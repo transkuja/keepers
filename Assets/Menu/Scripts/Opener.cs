@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Opener : MonoBehaviour {
 
+    public bool bOverMode = false;
     public bool bAlwaysAllowed = true;
     public Transform trOffset = null;
 
@@ -25,24 +26,47 @@ public class Opener : MonoBehaviour {
 		
 	}
 
+    // OverMode
+    void OnMouseEnter()
+    {
+        if (bOverMode)
+        {
+            Open();
+        }
+    }
+
+    void OnMouseExit()
+    {
+        if (bOverMode)
+        {
+            Close();
+        }
+    }
+    //
+
+    // NormalMode
     void OnMouseDown()
     {
-        if (bAllowed || bAlwaysAllowed)
+        if (!bOverMode)
         {
-            if (!bIsOpen)
+            if (bAllowed || bAlwaysAllowed)
             {
-                for(int i =0; i < listOpenerSiblings.Count; i++)
+                if (!bIsOpen)
                 {
-                    listOpenerSiblings[i].Close();
+                    for(int i =0; i < listOpenerSiblings.Count; i++)
+                    {
+                        listOpenerSiblings[i].Close();
+                    }
+                    Open();
                 }
-                Open();
-            }
-            else
-            {
-                Close();
+                else
+                {
+                    Close();
+                }
             }
         }
     }
+    //
 
     void Init()
     {
