@@ -98,7 +98,7 @@ public class BattleHandler {
             currentBattleKeepers[keeperIndex].GetComponent<AnimatedPawn>().StartMoveToBattlePositionAnimation(newTransform.localPosition, newTransform.localRotation);
             keeperIndex++;
         }
-
+        
         int monsterIndex = 0;
         for (int i = 3; i < 3 + currentBattleMonsters.Length; i++)
         {

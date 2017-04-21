@@ -122,6 +122,7 @@ namespace Behaviour
                 // 0 defense => 100% dmg taken
                 int effectiveDamage = Mathf.Max((int)(attackDamage/(Mathf.Sqrt(_attackTarget.GetComponent<Monster>().EffectiveDefense + 1))), (int)(attackDamage/10.0f));
                 _attackTarget.GetComponent<Mortal>().CurrentHp -= effectiveDamage;
+                _attackTarget.GetComponent<PawnInstance>().AddFeedBackToQueue(-effectiveDamage);
             }
 
             HasPlayedThisTurn = true;
