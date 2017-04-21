@@ -114,11 +114,17 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        if (nbDead == allKeepersList.Count - nbImmortal)
-        {
-            Debug.Log("GameOver - All Keepers died");
-            Lose();
-        }
+        if (nbDead == allKeepersList.Count - nbImmortal)        {
+            Debug.Log("GameOver - All Keepers died");
+            Lose();
+        }
+
+        if(!prisonerInstance.GetComponent<Mortal>().IsAlive)
+        {
+            Debug.Log("GameOver - The prisoner is dead");
+            Lose();
+        }
+
     }
 
     public void Win()
@@ -555,11 +561,13 @@ public class GameManager : MonoBehaviour
         tileManagerReference.AddKeeperOnTile(tileManagerReference.BeginTile, _keeper);
     }
 
-    public void RegisterPrisoner(PawnInstance _prisoner)
-    {
-        prisonerInstance = _prisoner;
-        tileManagerReference.RegisterPrisonerPosition(_prisoner);
-    }
+    public void RegisterPrisoner(PawnInstance _prisoner)
+    {
+        prisonerInstance = _prisoner;
+        tileManagerReference.RegisterPrisonerPosition(_prisoner);
+    }    public List<PawnInstance> GetKeepersOnTile(Tile _tile)    {
+        return tileManagerReference.KeepersOnTile[_tile];
+    }
     #endregion
 
     public void ClearListKeeperSelected()
@@ -698,9 +706,8 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
-
-        // Pause monsters
-        foreach (Tile tile in tileManagerReference.MonstersOnTile.Keys)
+        // Pause monsters
+        foreach (Tile tile in tileManagerReference.MonstersOnTile.Keys)
         {
             if (tile != cameraManagerReference.ActiveTile)
             {
@@ -714,45 +721,45 @@ public class GameManager : MonoBehaviour
                         pausedAgents.Add(currentAgent);
                     }
                 }
-            }
-            else
-            {
-                List<PawnInstance> monsterList = tileManagerReference.MonstersOnTile[tile];
-                foreach (PawnInstance pi in monsterList)
-                {
-                    NavMeshAgent currentAgent = pi.GetComponent<NavMeshAgent>();
-                    if (currentAgent != null && currentAgent.isActiveAndEnabled)
-                    {
-                        disabledAgents.Add(currentAgent);
-                        currentAgent.enabled = false;
-                    }
-                }
-            }            
-        }
-
-    }
-
-    private void ExitBattleStateProcess()
-    {
-        foreach (NavMeshAgent agent in pausedAgents)
-            agent.Resume();
+            }
+            else
+            {
+                List<PawnInstance> monsterList = tileManagerReference.MonstersOnTile[tile];
+                foreach (PawnInstance pi in monsterList)
+                {
+                    NavMeshAgent currentAgent = pi.GetComponent<NavMeshAgent>();
+                    if (currentAgent != null && currentAgent.isActiveAndEnabled)
+                    {
+                        disabledAgents.Add(currentAgent);
+                        currentAgent.enabled = false;
+                    }
+                }
+            }            
+        }    }
+    private void ExitBattleStateProcess()
+    {
+        foreach (NavMeshAgent agent in pausedAgents)
+            agent.Resume();
         pausedAgents.Clear();
-
-        foreach (NavMeshAgent agent in disabledAgents)
-            agent.enabled = true;
+        foreach (NavMeshAgent agent in disabledAgents)
+            agent.enabled = true;
         disabledAgents.Clear();
-
-        foreach (GameObject go in disabledModels)
-            go.SetActive(true);
-        disabledModels.Clear();
-
-        cameraManagerReference.UpdateCameraPositionExitBattle();
-    }
-
-
-    #endregion
-
-}
+        foreach (GameObject go in disabledModels)
+            go.SetActive(true);
+        disabledModels.Clear();
+
+        // Prevents monster agression when returning to normal state
+        foreach (PawnInstance pi in tileManagerReference.KeepersOnTile[ActiveTile])        {
+            Debug.Log(pi.Data.PawnName);
+            if (pi.GetComponent<Fighter>() != null)
+                pi.GetComponent<Fighter>().IsTargetableByMonster = false;
+        }        if (prisonerInstance.CurrentTile == ActiveTile)        {
+            Debug.Log(prisonerInstance.Data.PawnName);
+            if (prisonerInstance.GetComponent<Fighter>() != null)
+                prisonerInstance.GetComponent<Fighter>().IsTargetableByMonster = false;
+        }
+        cameraManagerReference.UpdateCameraPositionExitBattle();
+    }    #endregion}
 
 public enum GameState
 {

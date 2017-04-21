@@ -179,16 +179,18 @@ public class ControlsManager : MonoBehaviour
                                 ui.UpdateActionPanelUIQ(clickTarget.GetComponent<Arrival>().InterationImplementer);
                             }
                         }
-                        else
-                        {
+                        else
+                        {
                             ui.ClearActionPanel();
-                            if (tileHit != null)
-                            {
-                                GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Fighter>().IsTargetableByMonster = true;
+                            if (tileHit != null)                            {                                Tile currentKeeperTile = GameManager.Instance.GetFirstSelectedKeeper().CurrentTile;                                foreach (PawnInstance pi in GameManager.Instance.GetKeepersOnTile(currentKeeperTile))                                    pi.GetComponent<Fighter>().IsTargetableByMonster = true;                                if (GameManager.Instance.PrisonerInstance.CurrentTile == currentKeeperTile)
+                                {
+                                    if (GameManager.Instance.PrisonerInstance.GetComponent<Fighter>() != null)
+                                        GameManager.Instance.PrisonerInstance.GetComponent<Fighter>().IsTargetableByMonster = true;                                    else
+                                        Debug.LogWarning("Missing Fighter component on Prisoner.");
+                                }
                             }
-
-                            if (tileHit == keeperSelectedTile)
-                            {
+                            if (tileHit == keeperSelectedTile)
+                            {
                                 // Move the keeper
                                 for (int i = 0; i < GameManager.Instance.ListOfSelectedKeepers.Count; i++)
                                 {
@@ -289,29 +291,29 @@ public class ControlsManager : MonoBehaviour
                         if (!EventSystem.current.IsPointerOverGameObject())
                         {
                             RaycastHit hitInfo;
-                            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo) == true)
-                            {
-                                GameObject clickTarget = hitInfo.collider.gameObject;
-                                if (clickTarget.GetComponentInParent<PawnInstance>() != null)
-                                {
-                                    GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Fighter>().AttackProcess(clickTarget.GetComponent<Fighter>());
-                                }
-                                else
-                                {
-                                    GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Fighter>().HasClickedOnAttack = false;
-                                    GameManager.Instance.ClearListKeeperSelected();
-                                }
-                            }
-                            else
-                            {
-                                GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Fighter>().HasClickedOnAttack = false;
-                                GameManager.Instance.ClearListKeeperSelected();
-                            }
-                        }
-                    }
-                }
-            }
-        }
+                            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo) == true)
+                            {
+                                GameObject clickTarget = hitInfo.collider.gameObject;
+                                if (clickTarget.GetComponentInParent<PawnInstance>() != null)
+                                {
+                                    GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Fighter>().AttackProcess(clickTarget.GetComponentInParent<Fighter>());
+                                }
+                                else
+                                {
+                                    GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Fighter>().HasClickedOnAttack = false;
+                                    GameManager.Instance.ClearListKeeperSelected();
+                                }
+                            }
+                            else
+                            {
+                                GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Fighter>().HasClickedOnAttack = false;
+                                GameManager.Instance.ClearListKeeperSelected();
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private void ChangeSelectedKeeper()

@@ -112,8 +112,24 @@ public class PawnInstance : MonoBehaviour {
 
     void StartAscendingFeedback(AscendingFeedback af)
     {
+        Vector3 ascFeedbackOffset = Vector3.down * 0.3f;
+        Vector3 txtWithImgPosition = Vector3.right * 0.1f;
+
         goPanelAscendingFeedback.gameObject.SetActive(true);
-        goPanelAscendingFeedback.transform.localPosition = Vector3.zero;
+        goPanelAscendingFeedback.transform.localPosition = Vector3.zero + ascFeedbackOffset;
+
+        if (af.sprite == null)
+        {
+            goPanelAscendingFeedback.transform.GetChild(0).gameObject.SetActive(false);
+            goPanelAscendingFeedback.transform.GetChild(1).gameObject.SetActive(false);
+            goPanelAscendingFeedback.transform.GetChild(2).localPosition = Vector3.zero;
+        }
+        else
+        {
+            goPanelAscendingFeedback.transform.GetChild(0).gameObject.SetActive(true);
+            goPanelAscendingFeedback.transform.GetChild(1).gameObject.SetActive(true);
+            goPanelAscendingFeedback.transform.GetChild(2).localPosition = txtWithImgPosition;
+        }
 
         goPanelAscendingFeedback.transform.GetChild(1).GetComponent<Image>().sprite = af.sprite;
         goPanelAscendingFeedback.GetComponentInChildren<Text>().color = af.txtColor;

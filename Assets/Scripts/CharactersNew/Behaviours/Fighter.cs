@@ -1,6 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Behaviour
 {
@@ -49,6 +49,13 @@ namespace Behaviour
         Face[] lastThrowResult;
         List<GameObject> lastThrowDiceInstance;
 
+        // Pending variables
+        bool isWaitingForDmgFeedback = false;
+        int pendingDamage = 0;
+        bool isWaitingForSkillPanelToClose = false;
+        float showSkillPanelTimer = 3.0f;
+        float showFeedbackDmgTimer = 2.0f;
+
         void Awake()
         {
             instance = GetComponent<PawnInstance>();
@@ -72,6 +79,39 @@ namespace Behaviour
             battleInteractions.Add(new Interaction(Guard), 0, "Guard", GameManager.Instance.SpriteUtils.spriteMoral);
             battleInteractions.Add(new Interaction(OpenSkillPanel), 0, "OpenSkillPanel", GameManager.Instance.SpriteUtils.spriteMoral);
 
+        }
+
+        private void Update()
+        {
+            if (isWaitingForSkillPanelToClose)
+            {
+                if (showSkillPanelTimer < 0.0f)
+                {
+                    GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().SkillName.SetActive(false);
+                    showSkillPanelTimer = 1.5f;
+                    showFeedbackDmgTimer = 1.0f;
+                    isWaitingForSkillPanelToClose = false;
+                    BattleHandler.ShiftToNextMonsterTurn();
+                }
+                else
+                {
+                    showSkillPanelTimer -= Time.deltaTime;
+                }
+
+                Debug.Log(isWaitingForDmgFeedback);
+                if (isWaitingForDmgFeedback)
+                {
+                    if (showFeedbackDmgTimer < 0.0f)
+                    {
+                        GetComponent<PawnInstance>().AddFeedBackToQueue(-pendingDamage);
+                        isWaitingForDmgFeedback = false;
+                    }
+                    else
+                    {
+                        showFeedbackDmgTimer -= Time.deltaTime;
+                    }
+                }
+            }
         }
 
         public void ResetValuesAfterBattle()
@@ -340,6 +380,45 @@ namespace Behaviour
             }
         }
 
+        public bool IsWaitingForDmgFeedback
+        {
+            get
+            {
+                return isWaitingForDmgFeedback;
+            }
+
+            set
+            {
+                isWaitingForDmgFeedback = value;
+            }
+        }
+
+        public bool IsWaitingForSkillPanelToClose
+        {
+            get
+            {
+                return isWaitingForSkillPanelToClose;
+            }
+
+            set
+            {
+                isWaitingForSkillPanelToClose = value;
+            }
+        }
+
+        public int PendingDamage
+        {
+            get
+            {
+                return pendingDamage;
+            }
+
+            set
+            {
+                pendingDamage = value;
+            }
+        }
+
         #endregion
 
         // TODO: externalize this in Monster
@@ -380,7 +459,7 @@ public class SkillBattle
     [SerializeField]
     private int damage;
     [SerializeField]
-    private string name;
+    private string skillName;
     [SerializeField]
     private string description;
     [SerializeField]
@@ -418,19 +497,6 @@ public class SkillBattle
         }
     }
 
-    public string Name
-    {
-        get
-        {
-            return name;
-        }
-
-        set
-        {
-            name = value;
-        }
-    }
-
     public bool CanUseSkill(int physicalStock, int magicalStock, int defenseStock, int supportStock)
     {
         foreach (Face f in cost)
@@ -463,7 +529,11 @@ public class SkillBattle
                 _user.SupportSymbolStored -= f.Value;
         }
 
-        // TODO: Show skill name on UI
-        _target.AddFeedBackToQueue(-damage);
+        GameObject skillNameUI = GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().SkillName;
+        skillNameUI.transform.GetComponentInChildren<Text>().text = skillName;
+        skillNameUI.SetActive(true);
+        _target.GetComponent<Behaviour.Fighter>().IsWaitingForDmgFeedback = true;
+        _target.GetComponent<Behaviour.Fighter>().IsWaitingForSkillPanelToClose = true;
+        _target.GetComponent<Behaviour.Fighter>().PendingDamage = damage;
     }
 }

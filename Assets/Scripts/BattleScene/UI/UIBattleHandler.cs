@@ -17,12 +17,27 @@ public class UIBattleHandler : MonoBehaviour {
     private GameObject targetSelectionInfo;
     [SerializeField]
     private GameObject escapeBattleButton;
+    [SerializeField]
+    private GameObject skillName;
 
     [Header("Hidden in battle")]
     [SerializeField]
     private GameObject endTurnButton;
     [SerializeField]
     private GameObject shortcutButton;
+
+    public GameObject SkillName
+    {
+        get
+        {
+            return skillName;
+        }
+
+        set
+        {
+            skillName = value;
+        }
+    }
 
     void OnEnable()
     {
@@ -115,7 +130,7 @@ public class UIBattleHandler : MonoBehaviour {
 
     public void EscapeBattle()
     {
-        BattleHandler.PostBattleCommonProcess();
+        BattleHandler.HandleBattleDefeat();
         GameManager.Instance.CurrentState = GameState.Normal;
     }
 
