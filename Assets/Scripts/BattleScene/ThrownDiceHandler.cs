@@ -19,6 +19,7 @@ public class ThrownDiceHandler : MonoBehaviour {
     {
         if (!isRunning)
         {
+            diceInstance.Clear();
             for (int i = 0; i < BattleHandler.CurrentBattleKeepers.Length; i++)
             {
                 PawnInstance currentKeeper = BattleHandler.CurrentBattleKeepers[i];

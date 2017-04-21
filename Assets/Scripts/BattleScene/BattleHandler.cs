@@ -190,6 +190,21 @@ public class BattleHandler {
         currentTargetMonster.GetComponent<Mortal>().CurrentHp -= damage;
     }
 
+    public static void CheckTurnStatus()
+    {
+        bool mustShiftTurn = true;
+        for (int i = 0; i < CurrentBattleKeepers.Length; i++)
+        {
+            if (!CurrentBattleKeepers[i].GetComponent<Fighter>().HasPlayedThisTurn)
+            {
+                mustShiftTurn = false;
+            }            
+        }
+
+        if (mustShiftTurn)
+            ShiftTurn();
+    }
+
     public static void ShiftTurn()
     {
         isKeepersTurn = !isKeepersTurn;
@@ -211,10 +226,35 @@ public class BattleHandler {
             // Resolve turn for each monster then shift turn to keepers'
             for (int i = 0; i < currentBattleMonsters.Length; i++)
             {
-                // TODO: monster i plays his turn
+                MonsterTurn(currentBattleMonsters[i]);
             }
             ShiftTurn();
         }
+    }
+
+    private static void MonsterTurn(PawnInstance _currentMonster)
+    {
+        if (_currentMonster.GetComponent<Mortal>().CurrentHp <= 0)
+            return;
+
+        PawnInstance target = GetTargetForAttack();
+        Fighter monsterBattleInfo = _currentMonster.GetComponent<Fighter>();
+        SkillBattle skillUsed = monsterBattleInfo.BattleSkills[Random.Range(0, _currentMonster.GetComponent<Fighter>().BattleSkills.Count)];
+        skillUsed.UseSkill(_currentMonster.GetComponent<Fighter>(), target);
+    }
+
+    private static PawnInstance GetTargetForAttack()
+    {
+        if (isPrisonerOnTile)
+        {
+            float determineTarget = Random.Range(0, 100);
+            if (determineTarget < ((100.0f / (currentBattleKeepers.Length + 2)) * 2))
+            {
+                return GameManager.Instance.PrisonerInstance;
+            }
+        }
+
+        return currentBattleKeepers[Random.Range(0, currentBattleKeepers.Length)];
     }
 
     private static bool BattleEndConditionsReached()
@@ -421,10 +461,7 @@ public class BattleHandler {
         return target;
     }
 
-    private static PawnInstance GetTargetForAttack(List<PawnInstance> keepers)
-    {
-        return keepers[Random.Range(0, keepers.Count)];
-    }
+
 
     private static int KeeperDamageCalculation(PawnInstance attacker, PawnInstance targetMonster, AttackType attackType)
     {

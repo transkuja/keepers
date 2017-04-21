@@ -268,7 +268,10 @@ namespace Behaviour
             {
                 hasPlayedThisTurn = value;
                 if (hasPlayedThisTurn == true)
+                {
                     GameManager.Instance.ClearListKeeperSelected();
+                    BattleHandler.CheckTurnStatus();
+                }
             }
         }
 
@@ -374,9 +377,14 @@ namespace Behaviour
 [System.Serializable]
 public class SkillBattle
 {
+    [SerializeField]
     private int damage;
+    [SerializeField]
+    private string name;
+    [SerializeField]
     private string description;
-    private Dictionary<FaceType, int> cost = new Dictionary<FaceType, int>();
+    [SerializeField]
+    private List<Face> cost = new List<Face>();
 
     public int Damage
     {
@@ -397,7 +405,7 @@ public class SkillBattle
         }
     }
 
-    public Dictionary<FaceType, int> Cost
+    public List<Face> Cost
     {
         get
         {
@@ -408,5 +416,54 @@ public class SkillBattle
         {
             cost = value;
         }
+    }
+
+    public string Name
+    {
+        get
+        {
+            return name;
+        }
+
+        set
+        {
+            name = value;
+        }
+    }
+
+    public bool CanUseSkill(int physicalStock, int magicalStock, int defenseStock, int supportStock)
+    {
+        foreach (Face f in cost)
+        {
+            if (f.Type == FaceType.Physical && physicalStock < f.Value)
+                return false;
+            if (f.Type == FaceType.Magical && magicalStock < f.Value)
+                return false;
+
+            if (f.Type == FaceType.Defensive && defenseStock < f.Value)
+                return false;
+            if (f.Type == FaceType.Support && supportStock >= f.Value)
+                return false;
+        }
+        return true;
+    }
+
+    public void UseSkill(Behaviour.Fighter _user, PawnInstance _target)
+    {
+        foreach (Face f in cost)
+        {
+            if (f.Type == FaceType.Physical)
+                _user.PhysicalSymbolStored -= f.Value;
+            if (f.Type == FaceType.Magical)
+                _user.MagicalSymbolStored -= f.Value;
+
+            if (f.Type == FaceType.Defensive)
+                _user.DefensiveSymbolStored -= f.Value;
+            if (f.Type == FaceType.Support)
+                _user.SupportSymbolStored -= f.Value;
+        }
+
+        // TODO: Show skill name on UI
+        _target.AddFeedBackToQueue(-damage);
     }
 }
