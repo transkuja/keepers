@@ -3,85 +3,114 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public enum ThrowType { BeginTurn, Attack, Defense, Special }
-
 public class ThrownDiceHandler : MonoBehaviour {
 
-    Die[] diceForCurrentThrow;
+    [SerializeField]
+    private Transform dicePositions;
+
+    Dictionary<PawnInstance, Die[]> diceForCurrentThrow = new Dictionary<PawnInstance, Die[]>();
     bool isRunning = false;
     int stoppedDice = 0;
-    GameObject[] diceInstance;
-    Face[] throwResult;
-    ThrowType currentThrowType;
-    string[] animationNames;
+    Dictionary<PawnInstance, List<GameObject>> diceInstance = new Dictionary<PawnInstance, List<GameObject>>();
+    Dictionary<PawnInstance, Face[]> throwResult = new Dictionary<PawnInstance, Face[]>();
+    float timerAnimation = 0.0f;
 
-    public void InitThrow(string type)
+    public void InitThrow()
     {
         if (!isRunning)
         {
-            diceForCurrentThrow = BattleHandler.CurrentPawnTurn.GetComponent<Behaviour.Fighter>().Dice;
-            diceInstance = new GameObject[diceForCurrentThrow.Length];
-            Vector3 throwPosition = new Vector3(0.0f, 0.5f, 0.0f);
-
-            for (int i = 0; i < diceForCurrentThrow.Length; i++)
+            for (int i = 0; i < BattleHandler.CurrentBattleKeepers.Length; i++)
             {
-              //  diceInstance[i] = DieBuilder.BuildDie(diceForCurrentThrow[i], throwTile, throwPosition + (Vector3.right*i)/5.0f);
+                PawnInstance currentKeeper = BattleHandler.CurrentBattleKeepers[i];
+                diceForCurrentThrow.Add(currentKeeper, currentKeeper.GetComponent<Behaviour.Fighter>().Dice);
+
+                // Create dice visuals
+                diceInstance.Add(currentKeeper, new List<GameObject>());
+                for (int j = 0; j < currentKeeper.GetComponent<Behaviour.Fighter>().Dice.Length; j++)
+                {
+                    
+                    Transform diePosition = TileManager.Instance.DicePositionsOnTile.GetChild(i).GetChild(j);
+                    diceInstance[currentKeeper].Add(DieBuilder.BuildDie(diceForCurrentThrow[currentKeeper][j], GameManager.Instance.ActiveTile, diePosition.localPosition + diePosition.parent.localPosition));
+                }
             }
+
             isRunning = true;
 
             throwResult = ComputeNotPhysicalResult();
-            currentThrowType = (ThrowType)Enum.Parse(typeof(ThrowType), type);
-            GetComponent<UIBattleHandler>().ChangeState(UIBattleState.DiceRolling);
+            
+            //GetComponent<UIBattleHandler>().ChangeState(UIBattleState.DiceRolling);
         }
         else
         {
             Debug.LogWarning("A dice throw is already in process.");
         }
     }
+    
 
+    // Replace by Invoke with delay
     public void SendDataToBattleHandler()
     {
-        BattleHandler.ReceiveDiceThrowData(throwResult, currentThrowType);
-        diceForCurrentThrow = null;
-        throwResult = null;
-        for (int i = 0; i < diceInstance.Length; i++)
-            Destroy(diceInstance[i]);
+        BattleHandler.ReceiveDiceThrowData(throwResult, diceInstance);
+        diceForCurrentThrow.Clear();
+        throwResult.Clear();
     }
 
-    private void ShowButton(bool show)
+    private Dictionary<PawnInstance, Face[]> ComputeNotPhysicalResult()
     {
-        GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().SendDiceResultsButton.SetActive(show);
-    }
-
-    private Face[] ComputeNotPhysicalResult()
-    {
-        Face[] result = new Face[diceForCurrentThrow.Length];
-        animationNames = new string[diceForCurrentThrow.Length];
-
-        for (int i = 0; i < diceForCurrentThrow.Length; i++)
+        Dictionary<PawnInstance, Face[]> results = new Dictionary<PawnInstance, Face[]>();
+        foreach (PawnInstance piDice in diceForCurrentThrow.Keys)
         {
-            int j = Random.Range(0, 5);
-            result[i] = diceForCurrentThrow[i].Faces[j];
-            diceInstance[i].GetComponent<Animator>().SetTrigger("startFace" + (j + 1) + "Anim");
-            animationNames[i] = "FallOnFace" + (j + 1);
+            Face[] result = new Face[diceForCurrentThrow[piDice].Length];
+            for (int i = 0; i < diceForCurrentThrow[piDice].Length; i++)
+            {
+                int j = Random.Range(0, 5);
+                result[i] = diceForCurrentThrow[piDice][i].Faces[j];
+                // TODO: handle this with animations
+                //diceInstance[piDice][i].GetComponent<Animator>().SetTrigger("startFace" + (j + 1) + "Anim");
+                RotateDie(diceInstance[piDice][i], j + 1);
+            }
+            results.Add(piDice, result);
         }
-        return result;
+
+        return results;
+    }
+
+    private void RotateDie(GameObject dieToRotate, int upFace)
+    {
+        if (upFace == (int)DieFaceChildren.Back)
+        {
+            dieToRotate.transform.Rotate(transform.right, -90);
+        }
+        else if (upFace == (int)DieFaceChildren.Front)
+        {
+            dieToRotate.transform.Rotate(transform.right, 90);
+        }
+        else if (upFace == (int)DieFaceChildren.Left)
+        {
+            dieToRotate.transform.Rotate(transform.forward, -90);
+        }
+        else if (upFace == (int)DieFaceChildren.Right)
+        {
+            dieToRotate.transform.Rotate(transform.forward, 90);
+        }
+        else if (upFace == (int)DieFaceChildren.Down)
+        {
+            dieToRotate.transform.Rotate(transform.right, 180);
+        }
     }
 
     void FixedUpdate()
     {
         if (isRunning)
         {
-            int nbrOfAnimationsFinished = 0;
-            for (int i = 0; i < diceInstance.Length; i++)
+            if (timerAnimation < 5.0f)
+                timerAnimation += Time.deltaTime;
+            else
             {
-                if (!diceInstance[i].GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName(animationNames[i]))
-                    nbrOfAnimationsFinished++;
-            }
-            if (nbrOfAnimationsFinished == diceInstance.Length)
-            {
+                timerAnimation = 0.0f;
                 isRunning = false;
-                GetComponent<UIBattleHandler>().ChangeState(UIBattleState.WaitForDiceThrowValidation);
+                SendDataToBattleHandler();
+               // GetComponent<UIBattleHandler>().ChangeState(UIBattleState.);
             }
         }
     }

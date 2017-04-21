@@ -1,24 +1,11 @@
 ﻿using UnityEngine;
 
+public enum DieFaceChildren { Edge, Left, Up, Right, Front, Back, Down }
+
 [System.Serializable]
 public class Die {
     [SerializeField]
-    int nbrOfFaces;
-    [SerializeField]
     Face[] faces;
-
-    public int NbrOfFaces
-    {
-        get
-        {
-            return nbrOfFaces;
-        }
-
-        set
-        {
-            nbrOfFaces = value;
-        }
-    }
 
     public Face[] Faces
     {
@@ -33,14 +20,14 @@ public class Die {
         }
     }
 
+
     public Die()
     {
 
     }
 
-    public Die(int _nbrOfFaces, Face[] _faces)
+    public Die(Face[] _faces)
     {
-        nbrOfFaces = _nbrOfFaces;
         faces = _faces;
     }
 }

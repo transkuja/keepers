@@ -6,22 +6,31 @@ using Behaviour;
 public class BattleHandler {
 
     private enum AttackType { Physical, Magical }
+    private static bool isProcessingABattle = false;
+
     // Current battle data
-    private static Face[] lastThrowResult;
+    private static Dictionary<PawnInstance, Face[]> lastThrowResult;
     // Is the prisoner on the tile where the battle is processed
     public static bool isPrisonerOnTile = false;
     private static Text battleLogger;
     // TODO: Reset these 3 @Anthony
     private static PawnInstance[] currentBattleMonsters;
     private static PawnInstance[] currentBattleKeepers;
-    private static int turnId = 0;
+    private static int nbTurn = 0;
     private static bool isVictorious;
-    private static PawnInstance currentPawnTurn;
     private static PawnInstance currentTargetMonster;
+    private static bool isKeepersTurn = true;
+    private static Die[] currentTurnDice;
+    private static Dictionary<PawnInstance, List<GameObject>> currentTurnDiceInstance;
+    private static bool hasDiceBeenThrown = false;
 
     // Debug parameters
     private static bool isDebugModeActive = false;
 
+    public static bool IsABattleAlreadyInProcess()
+    {
+        return isProcessingABattle;
+    }
 
     /// <summary>
     /// Autoselect keepers if there are not enough for a selection
@@ -29,14 +38,9 @@ public class BattleHandler {
     /// <param name="tile"></param>
     public static void StartBattleProcess(Tile tile)
     {
+        isProcessingABattle = true;
         AudioManager.Instance.PlayOneShot(AudioManager.Instance.battleSound, 0.5f);
         GameManager.Instance.CurrentState = GameState.InPause;
-        if (currentBattleKeepers != null || currentBattleMonsters != null)
-        {
-            Debug.LogWarning("A battle is already in process.");
-            return;
-        }
-
         // Auto selection
         if (TileManager.Instance.KeepersOnTile[tile].Count <= 1)
         {
@@ -78,6 +82,33 @@ public class BattleHandler {
 
         GameManager.Instance.SetStateToInBattle(AllCurrentFighters());
 
+        // Move pawns to battle positions
+        int offsetIndex = 0;
+        if (isPrisonerOnTile)
+        {
+            Transform newTransform = TileManager.Instance.BattlePositions.GetChild(offsetIndex);
+            GameManager.Instance.PrisonerInstance.GetComponent<AnimatedPawn>().StartMoveToBattlePositionAnimation(newTransform.localPosition, newTransform.localRotation);
+            offsetIndex = 1;
+        }
+
+        int keeperIndex = 0;
+        for (int i = offsetIndex; i < offsetIndex + currentBattleKeepers.Length; i++)
+        {
+            Transform newTransform = TileManager.Instance.BattlePositions.GetChild(i);
+            currentBattleKeepers[keeperIndex].GetComponent<AnimatedPawn>().StartMoveToBattlePositionAnimation(newTransform.localPosition, newTransform.localRotation);
+            keeperIndex++;
+        }
+        
+        int monsterIndex = 0;
+        for (int i = 3; i < 3 + currentBattleMonsters.Length; i++)
+        {
+            Transform newTransform = TileManager.Instance.BattlePositions.GetChild(i);
+            currentBattleMonsters[monsterIndex].GetComponent<AnimatedPawn>().StartMoveToBattlePositionAnimation(newTransform.localPosition, newTransform.localRotation);
+            monsterIndex++;
+        }
+
+        GameManager.Instance.GetBattleUI.SetActive(true);
+
         ShiftTurn();
     }
 
@@ -90,6 +121,7 @@ public class BattleHandler {
             currentFighters[i + currentBattleKeepers.Length] = currentBattleMonsters[i];
         if (isPrisonerOnTile)
             currentFighters[currentBattleKeepers.Length + currentBattleMonsters.Length] = GameManager.Instance.PrisonerInstance;
+
         return currentFighters;
     }
     private static void HandleBattleEnding(Tile tile, List<PawnInstance> selectedKeepersForBattle)
@@ -105,59 +137,48 @@ public class BattleHandler {
         }
 
         PrintResultsScreen(isVictorious);
-        PostBattleCommonProcess(selectedKeepersForBattle, tile);
+        PostBattleCommonProcess();
     }
 
-    public static void ReceiveDiceThrowData(Face[] _result, ThrowType _throwType)
+    public static void ReceiveDiceThrowData(Dictionary<PawnInstance, Face[]> _result, Dictionary<PawnInstance, List<GameObject>> _diceInstances)
     {
         lastThrowResult = _result;
-        switch (_throwType)
+        currentTurnDiceInstance = _diceInstances;
+
+        foreach (PawnInstance pi in lastThrowResult.Keys)
         {
-            case ThrowType.Attack:
-                int attackValue = 0;
-                for (int i = 0; i < _result.Length; i++)
+            foreach (Face face in lastThrowResult[pi])
+            {
+                switch (face.Type)
                 {
-                    switch (_result[i].Type)
-                    {
-                        case FaceType.Physical:
-                            attackValue += _result[i].Value;
-                            break;
-                        case FaceType.Magical:
-                        case FaceType.Defensive:
-                        case FaceType.Support:
-                            attackValue++;
-                            break;
-                    }
-                    ResolveStandardAttack(attackValue);
+                    case FaceType.Physical:
+                        pi.GetComponent<Fighter>().PhysicalSymbolStored += face.Value;
+                        break;
+                    case FaceType.Magical:
+                        pi.GetComponent<Fighter>().MagicalSymbolStored += face.Value;
+                        break;
+                    case FaceType.Defensive:
+                        pi.GetComponent<Fighter>().DefensiveSymbolStored += face.Value;
+                        break;
+                    case FaceType.Support:
+                        pi.GetComponent<Fighter>().SupportSymbolStored += face.Value;
+                        break;
                 }
-                break;
-            case ThrowType.BeginTurn:
-                for (int i = 0; i < _result.Length; i++)
-                {
-                    switch (_result[i].Type)
-                    {
-                        case FaceType.Physical:
-                            currentPawnTurn.GetComponent<Fighter>().PhysicalSymbolStored += _result[i].Value;
-                            break;
-                        case FaceType.Magical:
-                            currentPawnTurn.GetComponent<Fighter>().MagicalSymbolStored += _result[i].Value;
-                            break;
-                        case FaceType.Defensive:
-                            currentPawnTurn.GetComponent<Fighter>().DefensiveSymbolStored += _result[i].Value;
-                            break;
-                        case FaceType.Support:
-                            currentPawnTurn.GetComponent<Fighter>().SupportSymbolStored += _result[i].Value;
-                            break;
-                    }
-                }
-                GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().ChangeState(UIBattleState.Actions);
-                break;
-            case ThrowType.Defense:
-                // TODO: GUard button press behaviour
-                break;
-            case ThrowType.Special:
-                // TODO: Attack button press behaviour
-                break;
+            }
+        }
+
+        hasDiceBeenThrown = true;
+    }
+
+    private static void ClearDiceForNextThrow()
+    {
+        if (currentTurnDiceInstance != null)
+        {
+            foreach (PawnInstance pi in currentTurnDiceInstance.Keys)
+            {
+                for (int i = 0; i < currentTurnDiceInstance[pi].Count; i++)
+                    GameObject.Destroy(currentTurnDiceInstance[pi][i]);
+            }
         }
     }
 
@@ -169,21 +190,29 @@ public class BattleHandler {
 
     public static void ShiftTurn()
     {
-        if (turnId > currentBattleKeepers.Length + currentBattleMonsters.Length)
-            turnId = 0;
+        isKeepersTurn = !isKeepersTurn;
 
-        if (turnId > currentBattleKeepers.Length)
+        if (isKeepersTurn)
         {
-            currentPawnTurn = currentBattleMonsters[turnId];
-            // TODO: resolve monster turn
+            nbTurn++;
+            hasDiceBeenThrown = false;
+
+            // Initialization for keepers turn
+            for (int i = 0; i < currentBattleKeepers.Length; i++)
+            {
+                currentBattleKeepers[i].GetComponent<Fighter>().HasPlayedThisTurn = false;
+            }
+            ClearDiceForNextThrow();
         }
         else
         {
-            currentPawnTurn = currentBattleKeepers[turnId];
-            GameManager.Instance.GetBattleUI.SetActive(true);
+            // Resolve turn for each monster then shift turn to keepers'
+            for (int i = 0; i < currentBattleMonsters.Length; i++)
+            {
+                // TODO: monster i plays his turn
+            }
+            ShiftTurn();
         }
-
-        turnId++;
     }
 
     private static bool BattleEndConditionsReached()
@@ -511,9 +540,33 @@ public class BattleHandler {
         }*/
     }
 
-    private static void PostBattleCommonProcess(List<PawnInstance> keepers, Tile tile)
+    public static void PostBattleCommonProcess()
     {
-        TileManager.Instance.RemoveDefeatedMonsters(tile);
+        TileManager.Instance.RemoveDefeatedMonsters(GameManager.Instance.ActiveTile);
+        isProcessingABattle = false;
+        for (int i = 0; i < currentBattleKeepers.Length; i++)
+        {
+            currentBattleKeepers[i].GetComponent<Fighter>().ResetValuesAfterBattle();
+            currentBattleKeepers[i].GetComponent<AnimatedPawn>().StartMoveFromBattlePositionAnimation();
+        }
+
+        if (isPrisonerOnTile)
+            GameManager.Instance.PrisonerInstance.GetComponent<AnimatedPawn>().StartMoveFromBattlePositionAnimation();
+
+        for (int i = 0; i < currentBattleMonsters.Length; i++)
+        {
+            // TODO: test death cases
+            if (currentBattleMonsters[i] != null)
+            {
+                if (currentBattleMonsters[i].GetComponent<Mortal>().CurrentHp > 0)
+                {
+                    currentBattleMonsters[i].GetComponent<Fighter>().RestAfterBattle();
+                    currentBattleMonsters[i].GetComponent<AnimatedPawn>().StartMoveFromBattlePositionAnimation();
+                }
+            }
+        }
+
+        ClearDiceForNextThrow();
     }
 
     private static void PrintResultsScreen(bool isVictorious)
@@ -542,16 +595,46 @@ public class BattleHandler {
         battleLogger.text = tmp;
     }
 
-    public static PawnInstance CurrentPawnTurn
+    public static bool IsKeepersTurn
     {
         get
         {
-            return currentPawnTurn;
+            return isKeepersTurn;
         }
 
         set
         {
-            currentPawnTurn = value;
+            isKeepersTurn = value;
+        }
+    }
+
+    public static PawnInstance[] CurrentBattleKeepers
+    {
+        get
+        {
+            return currentBattleKeepers;
+        }
+
+        set
+        {
+            currentBattleKeepers = value;
+        }
+    }
+
+    public static bool HasDiceBeenThrown
+    {
+        get
+        {
+            return hasDiceBeenThrown;
+        }
+
+    }
+
+    public static Dictionary<PawnInstance, Face[]> LastThrowResult
+    {
+        get
+        {
+            return lastThrowResult;
         }
     }
 }

@@ -1,17 +1,18 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 
 public class AggroBehaviour : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponentInParent<Behaviour.Fighter>() != null && other.GetComponentInParent<Behaviour.Fighter>().IsTargetableByMonster == true
-            && !other.GetComponentInParent<Behaviour.Fighter>().IsAMonster)
+        if (GameManager.Instance.CurrentState == GameState.Normal)
         {
-            GetComponentInParent<NavMeshAgent>().ResetPath();
-            GetComponentInParent<NavMeshAgent>().SetDestination(other.transform.position);
+            if (other.GetComponentInParent<Behaviour.Fighter>() != null && other.GetComponentInParent<Behaviour.Fighter>().IsTargetableByMonster == true
+                && !other.GetComponentInParent<Behaviour.Fighter>().IsAMonster)
+            {
+                GetComponentInParent<NavMeshAgent>().ResetPath();
+                GetComponentInParent<NavMeshAgent>().SetDestination(other.transform.position);
+            }
         }
     }
 }

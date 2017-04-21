@@ -17,6 +17,12 @@ public class PawnInstance : MonoBehaviour {
             txt = _txt;
             txtColor = _color;
         }
+
+        public AscendingFeedback(string _txt, Color _color)
+        {
+            txt = _txt;
+            txtColor = _color;
+        }
     }
 
     List<AscendingFeedback> feedBackQueue = new List<AscendingFeedback>();
@@ -82,6 +88,21 @@ public class PawnInstance : MonoBehaviour {
         Color c = (amount < 0) ? Color.red : Color.green;
 
         feedBackQueue.Add(new AscendingFeedback(sprite, str, c));
+
+        if (!bIsInFeedback)
+        {
+            StartAscendingFeedback(feedBackQueue[0]);
+        }
+    }
+
+    public void AddFeedBackToQueue(int amount)
+    {
+        string str = (amount < 0) ? "- " : "+ ";
+        str += Mathf.Abs(amount);
+
+        Color c = (amount < 0) ? Color.red : Color.green;
+
+        feedBackQueue.Add(new AscendingFeedback(str, c));
 
         if (!bIsInFeedback)
         {

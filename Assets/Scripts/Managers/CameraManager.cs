@@ -32,6 +32,7 @@ public class CameraManager : MonoBehaviour {
     float fZoomLerp = 1;
     float fZoomLerpOrigin = 1;
     float fLerpTarget = 1;
+    Vector3 newPosition;
 
     // Camera Drag
     [SerializeField] float fDragFactor = 0.1f;
@@ -63,6 +64,8 @@ public class CameraManager : MonoBehaviour {
     bool isUpdateNeeded = false;
     Vector3 oldPosition;
     float lerpParameter = 0.0f;
+
+    Vector3 referenceTClosePosition;
 
     #region Accessors
     public float FZoomLerp
@@ -109,6 +112,7 @@ public class CameraManager : MonoBehaviour {
         GameObject goCameraCloseRef = GameObject.Find("CameraCloseRef");
         tClose.rotation = goCameraCloseRef.transform.rotation;
         tClose.position = goCameraCloseRef.transform.position;
+        referenceTClosePosition = tClose.position;
         Destroy(goCameraCloseRef);
 
         GameObject goCameraFarRef = GameObject.Find("CameraFarRef");
@@ -139,6 +143,25 @@ public class CameraManager : MonoBehaviour {
         isUpdateNeeded = true;
         oldPosition = transform.position;
         activeTile = targetTile;
+    }
+
+    public void UpdateCameraPosition(Vector3 _newPosition)
+    {
+        isUpdateNeeded = true;
+        oldPosition = transform.position;
+        newPosition = _newPosition;
+        tClose.position += (tClose.position - _newPosition);
+        zoomState = eZoomState.forward;
+        fZoomLerpOrigin = fZoomLerp;
+        fLerpTarget = 1.0f;
+    }
+
+    public void UpdateCameraPositionExitBattle()
+    {
+        isUpdateNeeded = true;
+        oldPosition = transform.position;
+        newPosition = referenceTClosePosition;
+        tClose.position = referenceTClosePosition;
     }
 
     void Update()
@@ -174,6 +197,36 @@ public class CameraManager : MonoBehaviour {
             }
 
             Controls();
+
+            if (zoomState != eZoomState.idle)
+            {
+                UpdateCamZoom();
+            }
+        }
+        else if (GameManager.Instance.CurrentState == GameState.InBattle)
+        {
+            if (isUpdateNeeded)
+            {
+                lerpParameter += Time.deltaTime;
+
+                Vector3 v3NewPos = Vector3.Lerp(oldPosition, newPosition + activeTile.transform.position, Mathf.Min(lerpParameter, 1.0f));
+
+                v3NewPos.y = transform.position.y;
+                transform.localPosition = v3NewPos;
+
+                v3NewPos.y = tClose.position.y;
+                tClose.position = v3NewPos;
+
+                v3NewPos.y = tFar.position.y;
+                tFar.position = v3NewPos;
+
+                if (lerpParameter >= 1.0f)
+                {
+                    isUpdateNeeded = false;
+                    oldPosition = Vector3.zero;
+                    lerpParameter = 0.0f;
+                }
+            }
 
             if (zoomState != eZoomState.idle)
             {

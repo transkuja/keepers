@@ -38,9 +38,8 @@ public class TileManager : MonoBehaviour {
     [SerializeField]
     int levelHeight;
 
-    // Tags
-    string beginTileTag = "BeginTile";
-    string endTileTag = "EndTile";
+    [SerializeField]
+    Transform referenceTileForBattlePositions;
 
     // Called after tiles instantiation as TileManager must be on the gameobject containing all tiles
     void Start()
@@ -190,6 +189,7 @@ public class TileManager : MonoBehaviour {
             newList.Add(monster);
             MonstersOnTile.Add(tile, newList);
         }
+        monster.CurrentTile = tile;
     }
 
     public void AddMonsterOnTile(PawnInstance monster)
@@ -211,6 +211,7 @@ public class TileManager : MonoBehaviour {
             newList.Add(monster);
             MonstersOnTile.Add(tile, newList);
         }
+        monster.CurrentTile = tile;
     }
 
     public void AddKeeperOnTile(Tile tile, PawnInstance keeper)
@@ -402,6 +403,31 @@ public class TileManager : MonoBehaviour {
         set
         {
             endTile = value;
+        }
+    }
+
+    public Transform BattlePositions
+    {
+        get
+        {
+            return referenceTileForBattlePositions.GetChild(0);
+        }
+
+    }
+
+    public Transform DicePositionsOnTile
+    {
+        get
+        {
+            return referenceTileForBattlePositions.GetChild(1);
+        }
+    }
+
+    public Transform CameraPositionForBattle
+    {
+        get
+        {
+            return referenceTileForBattlePositions.GetChild(2);
         }
     }
 

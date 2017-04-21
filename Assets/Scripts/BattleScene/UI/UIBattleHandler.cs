@@ -14,13 +14,43 @@ public class UIBattleHandler : MonoBehaviour {
     [SerializeField]
     private GameObject throwDiceButton;
     [SerializeField]
-    private GameObject sendDiceResultsButton;
-    [SerializeField]
     private GameObject targetSelectionInfo;
+    [SerializeField]
+    private GameObject escapeBattleButton;
+
+    [Header("Hidden in battle")]
+    [SerializeField]
+    private GameObject endTurnButton;
+    [SerializeField]
+    private GameObject shortcutButton;
 
     void OnEnable()
     {
+        if (endTurnButton == null)
+            Debug.LogWarning("End turn button reference not set in UIBattleHandler.");
+        else
+            endTurnButton.SetActive(false);
+
+        if (shortcutButton == null)
+            Debug.LogWarning("Shortcut button reference not set in UIBattleHandler (top left button).");
+        else
+            shortcutButton.SetActive(false);
+
         ChangeState(UIBattleState.WaitForDiceThrow);
+    }
+
+    void OnDisable()
+    {
+        if (endTurnButton == null)
+            Debug.LogWarning("End turn button reference not set in UIBattleHandler.");
+        else
+            endTurnButton.SetActive(true);
+
+        if (shortcutButton == null)
+            Debug.LogWarning("Shortcut button reference not set in UIBattleHandler (top left button).");
+        else
+            shortcutButton.SetActive(true);
+
     }
 
     public void PressAttackButton()
@@ -52,13 +82,11 @@ public class UIBattleHandler : MonoBehaviour {
             case UIBattleState.Actions:
                 mainButtons.SetActive(true);
                 skillsButtons.SetActive(false);
-                sendDiceResultsButton.SetActive(false);
                 throwDiceButton.SetActive(false);
                 break;
             case UIBattleState.Disabled:
                 mainButtons.SetActive(false);
                 skillsButtons.SetActive(false);
-                sendDiceResultsButton.SetActive(false);
                 throwDiceButton.SetActive(false);
                 break;
             case UIBattleState.SkillsOpened:
@@ -68,11 +96,10 @@ public class UIBattleHandler : MonoBehaviour {
             case UIBattleState.WaitForDiceThrow:
                 mainButtons.SetActive(false);
                 skillsButtons.SetActive(false);
-                sendDiceResultsButton.SetActive(false);
                 throwDiceButton.SetActive(true);
+                escapeBattleButton.SetActive(true);
                 break;
             case UIBattleState.WaitForDiceThrowValidation:
-                sendDiceResultsButton.SetActive(true);
                 break;
             case UIBattleState.DiceRolling:
                 mainButtons.SetActive(false);
@@ -86,16 +113,10 @@ public class UIBattleHandler : MonoBehaviour {
         }
     }
 
-    public GameObject SendDiceResultsButton
+    public void EscapeBattle()
     {
-        get
-        {
-            return sendDiceResultsButton;
-        }
-
-        set
-        {
-            sendDiceResultsButton = value;
-        }
+        BattleHandler.PostBattleCommonProcess();
+        GameManager.Instance.CurrentState = GameState.Normal;
     }
+
 }
