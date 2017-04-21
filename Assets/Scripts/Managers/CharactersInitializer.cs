@@ -82,6 +82,8 @@ public class CharactersInitializer : MonoBehaviour {
                         spawnedPawn.transform.SetAsLastSibling();
                         spawnedPawn.GetComponent<PawnInstance>().CurrentTile = source.Tile;
                         spawnedPawn.GetComponent<Behaviour.QuestDealer>().questToGive = quest;
+                        spawnedPawn.GetComponent<Behaviour.QuestDealer>().Init();
+                        InitCharacterUI(spawnedPawn.GetComponent<PawnInstance>());
                         if (source.Tile.State != TileState.Discovered)
                         {
                             spawnedPawn.SetActive(false);
@@ -116,6 +118,10 @@ public class CharactersInitializer : MonoBehaviour {
         else if (newCharacter.GetComponent<Behaviour.Escortable>() != null)
         {
             newCharacter.GetComponent<Behaviour.Escortable>().InitUI();
+        }
+        else if (newCharacter.GetComponent<Behaviour.QuestDealer>() != null)
+        {
+            // Do nothing yet but has to reach init for inventory
         }
         else
         {

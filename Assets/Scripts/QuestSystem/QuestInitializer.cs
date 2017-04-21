@@ -9,7 +9,6 @@ public class QuestInitializer : MonoBehaviour {
     [SerializeField]
     string id1;
 
-
     void Start () {
 		
 	}
@@ -25,7 +24,13 @@ public class QuestInitializer : MonoBehaviour {
         Quest side1 = GameManager.Instance.QuestManager.GetQuestByID("");
         if (GameManager.Instance.QuestManager.AvailableQuests.Contains(side1))
         {
+            side1.OnQuestInit += side_quest_01_Init;
         }
 
-    }	
+    }
+
+    void side_quest_01_Init()
+    {
+        
+    }
 }

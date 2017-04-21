@@ -87,6 +87,7 @@ public class IngameUI : MonoBehaviour
     #region Action
     public void UpdateActionPanelUIQ(InteractionImplementer ic)
     {
+    
         if (GameManager.Instance == null) { return; }
         if (goActionPanelQ == null) { return; }
         if (GameManager.Instance.ListOfSelectedKeepers.Count == 0) { return; }
@@ -142,7 +143,6 @@ public class IngameUI : MonoBehaviour
                 btn.transform.GetComponentInChildren<Image>().transform.localScale = Vector3.one;
             }
         }
-
         worldSpaceCanvas.transform.SetParent(GameManager.Instance.GoTarget.GetComponent<Interactable>().Feedback);
         worldSpaceCanvas.transform.localPosition = Vector3.zero;
         worldSpaceCanvas.GetComponent<WorldspaceCanvasCameraAdapter>().RecalculateActionCanvas(Camera.main);
