@@ -103,7 +103,7 @@ public class ThrownDiceHandler : MonoBehaviour {
     {
         if (isRunning)
         {
-            if (timerAnimation < 5.0f)
+            if (timerAnimation < 1.0f)
                 timerAnimation += Time.deltaTime;
             else
             {
