@@ -23,6 +23,10 @@ public class SpriteUIUtils : MonoBehaviour {
     public Sprite spriteMoralDebuff;
     public Sprite spriteEndAction;
 
+    public Sprite spriteAttack;
+    public Sprite spriteGuard;
+    public Sprite spriteUseSkill;
+
     // for death
     public Sprite spriteSupport;
     public Sprite spriteDeath;

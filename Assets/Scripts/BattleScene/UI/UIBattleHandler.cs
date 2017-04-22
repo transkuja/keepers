@@ -1,10 +1,16 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using Behaviour;
 
-public enum BattleUIButtons { SkillsPanel, ThrowDice, EscapeButton, SkillName }
+public enum BattleUIButtons { SkillsPanel, ThrowDice, EscapeButton, SkillName, CharactersPanel }
 public enum UIBattleState { WaitForDiceThrow, DiceRolling, WaitForDiceThrowValidation, Actions, SkillsOpened, TargetSelection, Disabled }
+public enum CharactersPanelChildren { Avatar, LifeBar, Attributes }
+public enum AttributesChildren { Attack, Defense, Magic, Support }
+public enum LifeBarChildren { Remaining, Text }
 
 public class UIBattleHandler : MonoBehaviour {
+
+    private bool[] occupiedCharacterPanelIndex;
 
     [SerializeField]
     private GameObject skillsButtons;
@@ -14,6 +20,8 @@ public class UIBattleHandler : MonoBehaviour {
     private GameObject escapeBattleButton;
     [SerializeField]
     private GameObject skillName;
+    [SerializeField]
+    private GameObject charactersPanel;
 
     [Header("Hidden in battle")]
     [SerializeField]
@@ -34,6 +42,19 @@ public class UIBattleHandler : MonoBehaviour {
         }
     }
 
+    public bool[] OccupiedCharacterPanelIndex
+    {
+        get
+        {
+            return occupiedCharacterPanelIndex;
+        }
+
+        set
+        {
+            occupiedCharacterPanelIndex = value;
+        }
+    }
+
     void OnEnable()
     {
         if (endTurnButton == null)
@@ -46,6 +67,7 @@ public class UIBattleHandler : MonoBehaviour {
         else
             shortcutButton.SetActive(false);
 
+        BattleHandler.EnableMonstersLifeBars();
         ChangeState(UIBattleState.WaitForDiceThrow);
     }
 
@@ -60,6 +82,8 @@ public class UIBattleHandler : MonoBehaviour {
             Debug.LogWarning("Shortcut button reference not set in UIBattleHandler (top left button).");
         else
             shortcutButton.SetActive(true);
+
+        BattleHandler.DisableMonstersLifeBars();
         ChangeState(UIBattleState.Disabled);
     }
 
@@ -89,6 +113,7 @@ public class UIBattleHandler : MonoBehaviour {
                 escapeBattleButton.GetComponent<Button>().interactable = true;
                 throwDiceButton.SetActive(true);
                 escapeBattleButton.SetActive(true);
+                charactersPanel.SetActive(true);
                 break;
 
             case UIBattleState.Actions:
@@ -99,6 +124,7 @@ public class UIBattleHandler : MonoBehaviour {
             case UIBattleState.Disabled:
                 throwDiceButton.SetActive(false);
                 escapeBattleButton.SetActive(false);
+                charactersPanel.SetActive(false);
                 break;
 
         }
@@ -110,4 +136,39 @@ public class UIBattleHandler : MonoBehaviour {
         GameManager.Instance.CurrentState = GameState.Normal;
     }
 
+    public void CharacterPanelInit(PawnInstance _pawnInstanceForInit)
+    {
+        int initIndex = 0;
+        for (int i = 0; i < 3; i++)
+        {
+            if (_pawnInstanceForInit.GetComponent<Prisoner>())
+            {
+                initIndex = 2;
+                break;
+            }
+            if (occupiedCharacterPanelIndex[i] == false)
+            {
+                initIndex = i;
+                break;
+            }
+        }
+        Debug.Log(initIndex);
+        Debug.Log(_pawnInstanceForInit.Data.PawnId);
+
+        Transform characterPanel = charactersPanel.transform.GetChild(initIndex).GetChild(0);
+        characterPanel.GetChild((int)CharactersPanelChildren.Avatar).GetComponent<Image>().sprite = _pawnInstanceForInit.Data.AssociatedSprite;
+
+        Mortal mortalComponent = GameManager.Instance.PrisonerInstance.GetComponent<Mortal>();
+        characterPanel.GetChild((int)CharactersPanelChildren.LifeBar).GetChild((int)LifeBarChildren.Remaining).GetComponent<Image>().fillAmount = (int)((float)mortalComponent.CurrentHp / mortalComponent.Data.MaxHp);
+        characterPanel.GetChild((int)CharactersPanelChildren.LifeBar).GetChild((int)LifeBarChildren.Text).GetComponent<Text>().text = mortalComponent.CurrentHp + " / " + mortalComponent.Data.MaxHp;
+
+        Fighter fighterComponent = GameManager.Instance.PrisonerInstance.GetComponent<Fighter>();
+
+        characterPanel.GetChild((int)CharactersPanelChildren.Attributes).GetChild((int)AttributesChildren.Attack).GetComponentInChildren<Text>().text = fighterComponent.PhysicalSymbolStored.ToString();
+        characterPanel.GetChild((int)CharactersPanelChildren.Attributes).GetChild((int)AttributesChildren.Defense).GetComponentInChildren<Text>().text = fighterComponent.DefensiveSymbolStored.ToString();
+        characterPanel.GetChild((int)CharactersPanelChildren.Attributes).GetChild((int)AttributesChildren.Magic).GetComponentInChildren<Text>().text = fighterComponent.MagicalSymbolStored.ToString();
+        characterPanel.GetChild((int)CharactersPanelChildren.Attributes).GetChild((int)AttributesChildren.Support).GetComponentInChildren<Text>().text = fighterComponent.SupportSymbolStored.ToString();
+
+        occupiedCharacterPanelIndex[initIndex] = true;
+    }
 }

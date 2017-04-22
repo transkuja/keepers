@@ -48,4 +48,7 @@ public class PrefabUIUtils : MonoBehaviour {
 
     [Header("Menu")]
     public GameObject prefabMenuSelectedKeeperUI;
+
+    [Header("Battle")]
+    public GameObject prefabLifeBar;
 }
