@@ -19,6 +19,7 @@ public class ThrownDiceHandler : MonoBehaviour {
     {
         if (!isRunning)
         {
+            GetComponent<UIBattleHandler>().ChangeState(UIBattleState.Actions);
             diceInstance.Clear();
             for (int i = 0; i < BattleHandler.CurrentBattleKeepers.Length; i++)
             {

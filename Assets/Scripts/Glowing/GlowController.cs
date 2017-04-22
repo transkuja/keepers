@@ -108,11 +108,13 @@ public class GlowController : MonoBehaviour
 		for (int i = 0; i < _glowableObjects.Count; i++)
 		{
 			_commandBuffer.SetGlobalColor(_glowColorID, _glowableObjects[i].CurrentColor);
-
-			for (int j = 0; j < _glowableObjects[i].Renderers.Length; j++)
-			{
-				_commandBuffer.DrawRenderer(_glowableObjects[i].Renderers[j], _glowMat);
-			}
+            if (_glowableObjects[i].Renderers != null && _glowableObjects[i].Renderers.Length > 0)
+            {
+                for (int j = 0; j < _glowableObjects[i].Renderers.Length; j++)
+                {
+                    _commandBuffer.DrawRenderer(_glowableObjects[i].Renderers[j], _glowMat);
+                }
+            }
 		}
 
 		_commandBuffer.GetTemporaryRT(_blurPassRenderTexID, Screen.width >> 1, Screen.height >> 1, 0, FilterMode.Bilinear);

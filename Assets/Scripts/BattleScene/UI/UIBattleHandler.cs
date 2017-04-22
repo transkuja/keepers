@@ -1,6 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.UI;
 
 public enum BattleUIButtons { MainButtons, Skills, ThrowDice, ValidateThrow }
 public enum UIBattleState { WaitForDiceThrow, DiceRolling, WaitForDiceThrowValidation, Actions, SkillsOpened, TargetSelection, Disabled }
@@ -85,35 +84,33 @@ public class UIBattleHandler : MonoBehaviour {
         // Retrieve current character from CharacterManager to process guard
     }
 
-    public void PressRunButton()
-    {
-        // Run process here
-    }
-
     public void ChangeState(UIBattleState newState)
     {
         switch(newState)
         {
-            case UIBattleState.Actions:
-                mainButtons.SetActive(true);
-                skillsButtons.SetActive(false);
-                throwDiceButton.SetActive(false);
-                break;
-            case UIBattleState.Disabled:
-                mainButtons.SetActive(false);
-                skillsButtons.SetActive(false);
-                throwDiceButton.SetActive(false);
-                break;
-            case UIBattleState.SkillsOpened:
-                mainButtons.SetActive(false);
-                skillsButtons.SetActive(true);
-                break;
             case UIBattleState.WaitForDiceThrow:
                 mainButtons.SetActive(false);
                 skillsButtons.SetActive(false);
                 throwDiceButton.SetActive(true);
                 escapeBattleButton.SetActive(true);
                 break;
+
+            case UIBattleState.Actions:
+                throwDiceButton.GetComponent<Button>().interactable = false;
+                escapeBattleButton.GetComponent<Button>().interactable = false;
+                break;
+
+            case UIBattleState.Disabled:
+                mainButtons.SetActive(false);
+                skillsButtons.SetActive(false);
+                throwDiceButton.SetActive(false);
+                escapeBattleButton.SetActive(false);
+                break;
+            case UIBattleState.SkillsOpened:
+                mainButtons.SetActive(false);
+                skillsButtons.SetActive(true);
+                break;
+
             case UIBattleState.WaitForDiceThrowValidation:
                 break;
             case UIBattleState.DiceRolling:
