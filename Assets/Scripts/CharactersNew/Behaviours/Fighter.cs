@@ -161,6 +161,7 @@ namespace Behaviour
                 _attackTarget.GetComponent<PawnInstance>().AddFeedBackToQueue(-effectiveDamage);
             }
 
+            GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().UpdateLifeBar(_attackTarget);
             HasPlayedThisTurn = true;
         }
 

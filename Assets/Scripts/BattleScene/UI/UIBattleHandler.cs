@@ -152,8 +152,6 @@ public class UIBattleHandler : MonoBehaviour {
                 break;
             }
         }
-        Debug.Log(initIndex);
-        Debug.Log(_pawnInstanceForInit.Data.PawnId);
 
         Transform characterPanel = charactersPanel.transform.GetChild(initIndex).GetChild(0);
         characterPanel.GetChild((int)CharactersPanelChildren.Avatar).GetComponent<Image>().sprite = _pawnInstanceForInit.Data.AssociatedSprite;
@@ -170,5 +168,37 @@ public class UIBattleHandler : MonoBehaviour {
         characterPanel.GetChild((int)CharactersPanelChildren.Attributes).GetChild((int)AttributesChildren.Support).GetComponentInChildren<Text>().text = fighterComponent.SupportSymbolStored.ToString();
 
         occupiedCharacterPanelIndex[initIndex] = true;
+    }
+
+    public void UpdateLifeBar(Fighter _toUpdate)
+    {
+        foreach (Transform child in _toUpdate.transform)
+        {
+            if (child.CompareTag("FeedbackTransform"))
+            {
+                GameObject lifeBar = child.GetChild(0).GetChild(1).gameObject;
+                Image lifeBarImg = lifeBar.transform.GetChild((int)LifeBarChildren.Remaining).GetComponent<Image>();
+                lifeBarImg.fillAmount = _toUpdate.GetComponent<Mortal>().CurrentHp / (float)_toUpdate.GetComponent<Mortal>().MaxHp;
+                if (lifeBarImg.fillAmount < 0.33f)
+                {
+                    lifeBarImg.sprite = GameManager.Instance.SpriteUtils.spriteOrangeLifeBar;
+                }
+                else
+                {
+                    lifeBarImg.sprite = GameManager.Instance.SpriteUtils.spriteGreenLifeBar;
+                }
+                break;
+            }
+        }
+    }
+
+    public void UpdateAttributesStocks()
+    {
+
+    }
+
+    public void UpdateCharacterLifeBar()
+    {
+
     }
 }

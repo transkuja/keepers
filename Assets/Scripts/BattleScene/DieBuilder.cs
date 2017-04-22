@@ -4,6 +4,8 @@ public class DieBuilder : MonoBehaviour {
 
 	public static GameObject BuildDie(Die dieToBuild, Tile tileConcerned, Vector3 position)
     {
+        Debug.Log(dieToBuild);
+        Debug.Log(dieToBuild.Faces.Length);
         GameObject dieInstance = Instantiate(GameManager.Instance.PrefabUtils.die, tileConcerned.transform);
         float emissionColor = 0.75f;
         Transform currentFace = dieInstance.transform.GetChild(0);
@@ -22,6 +24,7 @@ public class DieBuilder : MonoBehaviour {
             currentFaceMaterial.SetColor("_EmissionColor", new Color(emissionColor, emissionColor, emissionColor));
             currentFaceMaterial.EnableKeyword("_EMISSION");
 
+            Debug.Log(i);
             currentFace.GetComponent<FaceComponent>().FaceData = dieToBuild.Faces[i - 1];
         }
 

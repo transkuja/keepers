@@ -44,5 +44,9 @@ public class SpriteUIUtils : MonoBehaviour {
     public Sprite spriteMouseRightClicked;
     public Sprite spriteMouseLeftClicked;
     public Sprite spriteMouseMiddleClicked;
+
+    // Life bars
+    public Sprite spriteGreenLifeBar;
+    public Sprite spriteOrangeLifeBar;
 }
 
