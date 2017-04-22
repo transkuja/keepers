@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using Behaviour;
+using System.Collections.Generic;
 
 public enum BattleUIButtons { SkillsPanel, ThrowDice, EscapeButton, SkillName, CharactersPanel }
 public enum UIBattleState { WaitForDiceThrow, DiceRolling, WaitForDiceThrowValidation, Actions, SkillsOpened, TargetSelection, Disabled }
@@ -28,6 +29,8 @@ public class UIBattleHandler : MonoBehaviour {
     private GameObject endTurnButton;
     [SerializeField]
     private GameObject shortcutButton;
+
+    private Dictionary<PawnInstance, Transform> associatedCharacterPanel = new Dictionary<PawnInstance, Transform>();
 
     public GameObject SkillName
     {
@@ -84,6 +87,7 @@ public class UIBattleHandler : MonoBehaviour {
             shortcutButton.SetActive(true);
 
         BattleHandler.DisableMonstersLifeBars();
+        associatedCharacterPanel.Clear();
         ChangeState(UIBattleState.Disabled);
     }
 
@@ -156,11 +160,20 @@ public class UIBattleHandler : MonoBehaviour {
         Transform characterPanel = charactersPanel.transform.GetChild(initIndex).GetChild(0);
         characterPanel.GetChild((int)CharactersPanelChildren.Avatar).GetComponent<Image>().sprite = _pawnInstanceForInit.Data.AssociatedSprite;
 
-        Mortal mortalComponent = GameManager.Instance.PrisonerInstance.GetComponent<Mortal>();
-        characterPanel.GetChild((int)CharactersPanelChildren.LifeBar).GetChild((int)LifeBarChildren.Remaining).GetComponent<Image>().fillAmount = (int)((float)mortalComponent.CurrentHp / mortalComponent.Data.MaxHp);
+        Mortal mortalComponent = _pawnInstanceForInit.GetComponent<Mortal>();
+        Image lifeBarImg = characterPanel.GetChild((int)CharactersPanelChildren.LifeBar).GetChild((int)LifeBarChildren.Remaining).GetComponent<Image>();
+        lifeBarImg.fillAmount = mortalComponent.CurrentHp / (float)mortalComponent.Data.MaxHp;
+        if (lifeBarImg.fillAmount < 0.33f)
+        {
+            lifeBarImg.sprite = GameManager.Instance.SpriteUtils.spriteOrangeLifeBar;
+        }
+        else
+        {
+            lifeBarImg.sprite = GameManager.Instance.SpriteUtils.spriteGreenLifeBar;
+        }
         characterPanel.GetChild((int)CharactersPanelChildren.LifeBar).GetChild((int)LifeBarChildren.Text).GetComponent<Text>().text = mortalComponent.CurrentHp + " / " + mortalComponent.Data.MaxHp;
 
-        Fighter fighterComponent = GameManager.Instance.PrisonerInstance.GetComponent<Fighter>();
+        Fighter fighterComponent = _pawnInstanceForInit.GetComponent<Fighter>();
 
         characterPanel.GetChild((int)CharactersPanelChildren.Attributes).GetChild((int)AttributesChildren.Attack).GetComponentInChildren<Text>().text = fighterComponent.PhysicalSymbolStored.ToString();
         characterPanel.GetChild((int)CharactersPanelChildren.Attributes).GetChild((int)AttributesChildren.Defense).GetComponentInChildren<Text>().text = fighterComponent.DefensiveSymbolStored.ToString();
@@ -168,9 +181,10 @@ public class UIBattleHandler : MonoBehaviour {
         characterPanel.GetChild((int)CharactersPanelChildren.Attributes).GetChild((int)AttributesChildren.Support).GetComponentInChildren<Text>().text = fighterComponent.SupportSymbolStored.ToString();
 
         occupiedCharacterPanelIndex[initIndex] = true;
+        associatedCharacterPanel.Add(_pawnInstanceForInit, characterPanel);
     }
 
-    public void UpdateLifeBar(Fighter _toUpdate)
+    public void UpdateLifeBar(Mortal _toUpdate)
     {
         foreach (Transform child in _toUpdate.transform)
         {
@@ -178,7 +192,7 @@ public class UIBattleHandler : MonoBehaviour {
             {
                 GameObject lifeBar = child.GetChild(0).GetChild(1).gameObject;
                 Image lifeBarImg = lifeBar.transform.GetChild((int)LifeBarChildren.Remaining).GetComponent<Image>();
-                lifeBarImg.fillAmount = _toUpdate.GetComponent<Mortal>().CurrentHp / (float)_toUpdate.GetComponent<Mortal>().MaxHp;
+                lifeBarImg.fillAmount = _toUpdate.CurrentHp / (float)_toUpdate.MaxHp;
                 if (lifeBarImg.fillAmount < 0.33f)
                 {
                     lifeBarImg.sprite = GameManager.Instance.SpriteUtils.spriteOrangeLifeBar;
@@ -192,13 +206,28 @@ public class UIBattleHandler : MonoBehaviour {
         }
     }
 
-    public void UpdateAttributesStocks()
+    public void UpdateAttributesStocks(Fighter _toUpdate)
     {
-
+        Transform attributes = associatedCharacterPanel[_toUpdate.GetComponent<PawnInstance>()].GetChild((int)CharactersPanelChildren.Attributes);
+        attributes.GetChild((int)AttributesChildren.Attack).GetComponentInChildren<Text>().text = _toUpdate.PhysicalSymbolStored.ToString();
+        attributes.GetChild((int)AttributesChildren.Defense).GetComponentInChildren<Text>().text = _toUpdate.DefensiveSymbolStored.ToString();
+        attributes.GetChild((int)AttributesChildren.Magic).GetComponentInChildren<Text>().text = _toUpdate.MagicalSymbolStored.ToString();
+        attributes.GetChild((int)AttributesChildren.Support).GetComponentInChildren<Text>().text = _toUpdate.SupportSymbolStored.ToString();
     }
 
-    public void UpdateCharacterLifeBar()
+    public void UpdateCharacterLifeBar(Mortal _toUpdate)
     {
-
+        Transform panelToUpdate = associatedCharacterPanel[_toUpdate.GetComponent<PawnInstance>()];
+        Image lifeBarImg = panelToUpdate.GetChild((int)CharactersPanelChildren.LifeBar).GetChild((int)LifeBarChildren.Remaining).GetComponent<Image>();
+        lifeBarImg.fillAmount = _toUpdate.CurrentHp / (float) _toUpdate.Data.MaxHp;
+        if (lifeBarImg.fillAmount < 0.33f)
+        {
+            lifeBarImg.sprite = GameManager.Instance.SpriteUtils.spriteOrangeLifeBar;
+        }
+        else
+        {
+            lifeBarImg.sprite = GameManager.Instance.SpriteUtils.spriteGreenLifeBar;
+        }
+        panelToUpdate.GetChild((int)CharactersPanelChildren.LifeBar).GetChild((int)LifeBarChildren.Text).GetComponent<Text>().text = _toUpdate.CurrentHp + " / " + _toUpdate.Data.MaxHp;
     }
 }

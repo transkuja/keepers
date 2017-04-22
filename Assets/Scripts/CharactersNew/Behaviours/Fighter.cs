@@ -103,6 +103,7 @@ namespace Behaviour
                     if (showFeedbackDmgTimer < 0.0f)
                     {
                         GetComponent<PawnInstance>().AddFeedBackToQueue(-pendingDamage);
+                        GetComponent<Mortal>().CurrentHp -= pendingDamage;
                         isWaitingForDmgFeedback = false;
                     }
                     else
@@ -161,7 +162,6 @@ namespace Behaviour
                 _attackTarget.GetComponent<PawnInstance>().AddFeedBackToQueue(-effectiveDamage);
             }
 
-            GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().UpdateLifeBar(_attackTarget);
             HasPlayedThisTurn = true;
         }
 
@@ -257,6 +257,7 @@ namespace Behaviour
             set
             {
                 physicalSymbolStored = value;
+                GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().UpdateAttributesStocks(this);
             }
         }
 
@@ -270,6 +271,7 @@ namespace Behaviour
             set
             {
                 magicalSymbolStored = value;
+                GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().UpdateAttributesStocks(this);
             }
         }
 
@@ -283,6 +285,7 @@ namespace Behaviour
             set
             {
                 defensiveSymbolStored = value;
+                GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().UpdateAttributesStocks(this);
             }
         }
 
@@ -296,6 +299,7 @@ namespace Behaviour
             set
             {
                 supportSymbolStored = value;
+                GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().UpdateAttributesStocks(this);
             }
         }
 

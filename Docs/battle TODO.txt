@@ -23,6 +23,8 @@ error with inventory panel when 0 items computed??
 
 remove arrow selection feedback
 
-Update monster life bar on enable
-update life barSSS
-update UI values => animation when update is processed
+Add feedback animated from dice to UI 
+
+empty loot box
+
+feedback on throw dice button
