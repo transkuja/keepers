@@ -19,4 +19,9 @@ public class WorldspaceCanvasCameraAdapter : MonoBehaviour {
             transform.localScale = v3ScaleRef + new Vector3(0.5f, 0.5f, 0.5f) * (1 - GameManager.Instance.CameraFZoomLerp);
         }
     }
+
+    private void OnDestroy()
+    {
+        GameManager.Instance.UnregisterWorldspaceCanvasCameraAdapter(this);
+    }
 }

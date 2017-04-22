@@ -68,12 +68,14 @@ namespace Behaviour
                 Debug.Log("Blaeuurgh... *dead*");
                 PawnInstance pawnInstance = GetComponent<PawnInstance>();
 
-                // Drop items
-                ItemManager.AddItemOnTheGround(pawnInstance.CurrentTile, transform, GetComponent<Inventory>().Items);
-
                 // Remove reference from tiles
                 if (keeper != null)
+                {
                     TileManager.Instance.RemoveKilledKeeper(pawnInstance);
+
+                    // Drop items
+                    ItemManager.AddItemOnTheGround(pawnInstance.CurrentTile, transform, GetComponent<Inventory>().Items);
+                }
                 else
                     TileManager.Instance.RemoveDefeatedMonster(pawnInstance);
 

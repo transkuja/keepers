@@ -32,11 +32,8 @@ public class PawnInstance : MonoBehaviour {
     [SerializeField]
     PawnData data;
 
-
     // Need to be initialized in charactersInitializer and changed in moveCharacter
     Tile currentTile;
-
-
 
     #region Accessors
     public PawnData Data
@@ -80,6 +77,7 @@ public class PawnInstance : MonoBehaviour {
     }
     #endregion
 
+    #region Ascending feedback functions
     public void AddFeedBackToQueue(Sprite sprite, int amount)
     {
         string str = (amount < 0) ? "- ": "+ ";
@@ -163,4 +161,5 @@ public class PawnInstance : MonoBehaviour {
         }
 
     }
+    #endregion
 }

@@ -5,18 +5,21 @@ public class BattleLauncher : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.GetComponent<Monster>() != null)
+        if (GameManager.Instance.CurrentState == GameState.Normal)
         {
-            if (GetComponentInParent<Fighter>() != null && GetComponentInParent<Fighter>().IsTargetableByMonster)
+            if (other.gameObject.GetComponent<Monster>() != null)
             {
-                if (BattleHandler.IsABattleAlreadyInProcess())
-                    return;
+                if (GetComponentInParent<Fighter>() != null && GetComponentInParent<Fighter>().IsTargetableByMonster)
+                {
+                    if (BattleHandler.IsABattleAlreadyInProcess())
+                        return;
 
-                Tile tile = GetComponentInParent<PawnInstance>().CurrentTile;
+                    Tile tile = GetComponentInParent<PawnInstance>().CurrentTile;
 
-                BattleHandler.StartBattleProcess(tile);
+                    BattleHandler.StartBattleProcess(tile);
 
-                GameManager.Instance.UpdateCameraPosition(GetComponentInParent<PawnInstance>());
+                    GameManager.Instance.UpdateCameraPosition(GetComponentInParent<PawnInstance>());
+                }
             }
         }
     }

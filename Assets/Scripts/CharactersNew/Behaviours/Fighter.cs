@@ -215,6 +215,8 @@ namespace Behaviour
             set
             {
                 hasRecentlyBattled = value;
+                if (GetComponent<Monster>() != null)
+                    GetComponent<Monster>().HasRecentlyBattled = value;
             }
         }
 

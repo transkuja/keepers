@@ -15,6 +15,11 @@ UI
 -- Show a sprite following the mouse (atk/skills) ==> skills must have TargetType { Friend, Foe }
 
 
-check victory conditions
 kill monster when 0 hp left (keep loot somewhere to pop it after battle)
 Monster do not attack a 0hp target
+
+error with worldspace canvas when monster destroyed
+error with inventory panel when 0 items computed??
+greyed throw dice button after throw
+greyed escape button when dice have been thrown then reactivate at the beginning of keepers turn
+reduce timer before accessing turn actions

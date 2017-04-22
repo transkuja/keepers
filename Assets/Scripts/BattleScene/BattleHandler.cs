@@ -20,6 +20,7 @@ public class BattleHandler {
     private static int nextMonsterIndex = 0;
     private static bool isVictorious;
     private static PawnInstance currentTargetMonster;
+    // Default value is false because ShiftTurn is called at the beginning of battle
     private static bool isKeepersTurn = false;
     private static Die[] currentTurnDice;
     private static Dictionary<PawnInstance, List<GameObject>> currentTurnDiceInstance;
@@ -181,6 +182,7 @@ public class BattleHandler {
         if (BattleEndConditionsReached())
         {
             HandleBattleVictory(GameManager.Instance.ActiveTile);
+            return;
         }
         
         bool mustShiftTurn = true;
@@ -227,7 +229,6 @@ public class BattleHandler {
 
     private static void MonsterTurn(int _nextMonsterIndex)
     {
-        Debug.Log("1");
         for (int i = _nextMonsterIndex; i < currentBattleMonsters.Length; i++)
         {
             if (currentBattleMonsters[_nextMonsterIndex] != null && currentBattleMonsters[_nextMonsterIndex].GetComponent<Mortal>().CurrentHp <= 0)
@@ -237,13 +238,13 @@ public class BattleHandler {
             }
         }
 
+        if (nextMonsterIndex == currentBattleMonsters.Length - 1)
+            ShiftTurn();
+
         PawnInstance target = GetTargetForAttack();
         Fighter monsterBattleInfo = currentBattleMonsters[nextMonsterIndex].GetComponent<Fighter>();
         SkillBattle skillUsed = monsterBattleInfo.BattleSkills[Random.Range(0, currentBattleMonsters[nextMonsterIndex].GetComponent<Fighter>().BattleSkills.Count)];
         skillUsed.UseSkill(currentBattleMonsters[nextMonsterIndex].GetComponent<Fighter>(), target);
-
-        if (nextMonsterIndex == currentBattleMonsters.Length - 1)
-            ShiftTurn();
     }
 
     private static PawnInstance GetTargetForAttack()
@@ -264,7 +265,7 @@ public class BattleHandler {
     {
         for (int i = 0; i < currentBattleMonsters.Length; i++)
         {
-            if (currentBattleMonsters[i] != null)
+            if (currentBattleMonsters[i] != null && currentBattleMonsters[i].GetComponent<Mortal>().CurrentHp > 0)
                 return false;
         }
 
@@ -566,8 +567,6 @@ public class BattleHandler {
 
     public static void PostBattleCommonProcess()
     {
-        TileManager.Instance.RemoveDefeatedMonsters(GameManager.Instance.ActiveTile);
-        isProcessingABattle = false;
         for (int i = 0; i < currentBattleKeepers.Length; i++)
         {
             currentBattleKeepers[i].GetComponent<Fighter>().ResetValuesAfterBattle();
@@ -585,11 +584,31 @@ public class BattleHandler {
                 if (currentBattleMonsters[i].GetComponent<Mortal>().CurrentHp > 0)
                 {
                     currentBattleMonsters[i].GetComponent<AnimatedPawn>().StartMoveFromBattlePositionAnimation();
+                    currentBattleMonsters[i].GetComponent<Fighter>().HasRecentlyBattled = true;
                 }
             }
         }
 
+        ResetBattleHandler();
+    }
+
+    private static void ResetBattleHandler()
+    {
         ClearDiceForNextThrow();
+        isProcessingABattle = false;
+        if (lastThrowResult != null)
+            lastThrowResult.Clear();
+        isPrisonerOnTile = false;
+        battleLogger.text = "";
+        currentBattleMonsters = null;
+        currentBattleKeepers = null;
+        nbTurn = 0;
+        nextMonsterIndex = 0;
+        isVictorious = false;
+        currentTargetMonster = null;
+        isKeepersTurn = false;
+        currentTurnDice = null;
+        hasDiceBeenThrown = false;
     }
 
     private static void PrintResultsScreen(bool isVictorious)
