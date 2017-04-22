@@ -97,6 +97,38 @@ public class TileManager : MonoBehaviour {
         AddMonsterOnTile(from.Neighbors[(int)direction], monster);
     }
 
+    public void RemoveDefeatedMonster(PawnInstance _deadMonster)
+    {
+        ItemContainer[] lootList;
+        Transform lastMonsterPosition = null;
+        monstersOnTile[_deadMonster.CurrentTile].Remove(_deadMonster);
+
+        lastMonsterPosition = _deadMonster.transform;
+        if (_deadMonster.GetComponent<Behaviour.Mortal>().DeathParticles != null)
+        {
+            ParticleSystem ps = Instantiate(_deadMonster.GetComponent<Behaviour.Mortal>().DeathParticles, _deadMonster.transform.parent);
+            ps.transform.position = _deadMonster.transform.position;
+            ps.Play();
+            Destroy(ps.gameObject, ps.main.duration);
+        }
+
+        _deadMonster.GetComponent<Behaviour.Inventory>().ComputeItems();
+        lootList = _deadMonster.GetComponent<Behaviour.Inventory>().Items;
+
+        if (EventManager.OnMonsterDie != null)
+            EventManager.OnMonsterDie(_deadMonster.GetComponent<Behaviour.Monster>());
+
+
+        if (lootList.Length > 0)
+        {
+            ItemManager.AddItemOnTheGround(_deadMonster.CurrentTile, lastMonsterPosition, lootList);
+        }
+
+        if (monstersOnTile[_deadMonster.CurrentTile].Count == 0)
+            monstersOnTile.Remove(_deadMonster.CurrentTile);
+
+    }
+
     /// <summary>
     /// Destroy monsters beaten in battle and remove them from dictionaries.
     /// </summary>

@@ -22,10 +22,36 @@ public class GlowController : MonoBehaviour
 	private int _blurSizeID;
 	private int _glowColorID;
 
-	/// <summary>
-	/// On Awake, we cache various values and setup our command buffer to be called Before Image Effects.
-	/// </summary>
-	private void Awake()
+    public static GlowController Instance
+    {
+        get
+        {
+            return _instance;
+        }
+
+        set
+        {
+            _instance = value;
+        }
+    }
+
+    public List<GlowObjectCmd> GlowableObjects
+    {
+        get
+        {
+            return _glowableObjects;
+        }
+
+        set
+        {
+            _glowableObjects = value;
+        }
+    }
+
+    /// <summary>
+    /// On Awake, we cache various values and setup our command buffer to be called Before Image Effects.
+    /// </summary>
+    private void Awake()
 	{
 		_instance = this;
 
@@ -50,7 +76,8 @@ public class GlowController : MonoBehaviour
 	{
 		if (_instance != null)
 		{
-			_instance._glowableObjects.Add(glowObj);
+            if (!_instance._glowableObjects.Contains(glowObj))
+                _instance._glowableObjects.Add(glowObj);
 		}
 	}
 
@@ -58,7 +85,8 @@ public class GlowController : MonoBehaviour
     {
         if (_instance != null)
         {
-            _instance._glowableObjects.Remove(glowObj);
+            if (_instance._glowableObjects.Contains(glowObj))
+                _instance._glowableObjects.Remove(glowObj);
         }
     }
 
@@ -80,11 +108,13 @@ public class GlowController : MonoBehaviour
 		for (int i = 0; i < _glowableObjects.Count; i++)
 		{
 			_commandBuffer.SetGlobalColor(_glowColorID, _glowableObjects[i].CurrentColor);
-
-			for (int j = 0; j < _glowableObjects[i].Renderers.Length; j++)
-			{
-				_commandBuffer.DrawRenderer(_glowableObjects[i].Renderers[j], _glowMat);
-			}
+            if (_glowableObjects[i].Renderers != null && _glowableObjects[i].Renderers.Length > 0)
+            {
+                for (int j = 0; j < _glowableObjects[i].Renderers.Length; j++)
+                {
+                    _commandBuffer.DrawRenderer(_glowableObjects[i].Renderers[j], _glowMat);
+                }
+            }
 		}
 
 		_commandBuffer.GetTemporaryRT(_blurPassRenderTexID, Screen.width >> 1, Screen.height >> 1, 0, FilterMode.Bilinear);

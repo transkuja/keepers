@@ -60,16 +60,24 @@ namespace Behaviour
 
         public void Die()
         {
-            if (GetComponent<Keeper>() != null)
+            if (GetComponent<Keeper>() != null || GetComponent<Monster>() != null)
             {
+                Keeper keeper = GetComponent<Keeper>();
+                Monster monster = GetComponent<Monster>();
+
                 Debug.Log("Blaeuurgh... *dead*");
                 PawnInstance pawnInstance = GetComponent<PawnInstance>();
 
-                // Drop items
-                ItemManager.AddItemOnTheGround(pawnInstance.CurrentTile, transform, GetComponent<Inventory>().Items);
-
                 // Remove reference from tiles
-                TileManager.Instance.RemoveKilledKeeper(pawnInstance);
+                if (keeper != null)
+                {
+                    TileManager.Instance.RemoveKilledKeeper(pawnInstance);
+
+                    // Drop items
+                    ItemManager.AddItemOnTheGround(pawnInstance.CurrentTile, transform, GetComponent<Inventory>().Items);
+                }
+                else
+                    TileManager.Instance.RemoveDefeatedMonster(pawnInstance);
 
                 // Death operations
                 // TODO @Rémi, il me faut de quoi mettre a jour le shortcut panel pour afficher l'icone de mort
@@ -81,17 +89,23 @@ namespace Behaviour
                 // Try to fix glow bug
                 Destroy(GetComponent<GlowObjectCmd>());
 
-                GetComponent<Keeper>().ShowSelectedPanelUI(false);
-                GameManager.Instance.CheckGameState();
-                if(EventManager.OnKeeperDie != null)
-                    EventManager.OnKeeperDie(GetComponent<Keeper>());
-                // Deactivate pawn
-                DeactivatePawn();
+                if (keeper != null)
+                {
+                    keeper.ShowSelectedPanelUI(false);
+                    if (EventManager.OnKeeperDie != null)
+                        EventManager.OnKeeperDie(GetComponent<Keeper>());
+
+                    // Deactivate pawn
+                    DeactivatePawn();
+                }
+                else
+                {
+                    Destroy(gameObject, 0.1f);
+                }
             }
-            else
+            else if (GetComponent<Prisoner>() != null)
             {
                 Debug.Log("Ashley is dead");
-
             }
             GameManager.Instance.CheckGameState();
         }
