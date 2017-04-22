@@ -139,7 +139,8 @@ namespace Behaviour
         {
             if (GameManager.Instance.CurrentState == GameState.Normal)
             {
-                NavMeshMovement();
+                if (agent != null && agent.enabled)
+                    NavMeshMovement();
             }
         }
 
@@ -172,6 +173,7 @@ namespace Behaviour
                     agent.Resume();
                     isAnimInitialized = false;
                     moveTimer = 0.0f;
+                    GetComponent<Fighter>().HasRecentlyBattled = false;
                 }
             }
         }

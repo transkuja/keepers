@@ -1,30 +1,28 @@
-{
-	"QuestDecks": [	
-		{
-			"id": "deck_01",
-			"name" : "tuto",
-			"material" : "Deck/Deck01_mat",
-			"main" : "quest_01",
-			"secondary" : [
-				{
-					"idQuest": "quest_02",
-					"idQuestDealer" : "pnj01",
-					"cardModel" : "Asset_Carte_Event_01"
-				}
-			]
-		}, 
-		{
-			"id": "deck_02",
-			"name" : "level1",
-			"material" : "Deck/Deck02_mat",
-			"main" : "main_quest_01",
-			"secondary" : [
-				{
-					"idQuest": "quest_03",
-					"idQuestDealer" : "pnj02",
-					"cardModel" : "Asset_Carte_Event_02"
-				}
-			]
-		}
-	]
-}
+{ 
+  "QuestDecks": [   
+    { 
+      "id": "deck_01", 
+      "name" : "tuto", 
+      "material" : "Deck/Deck01_mat", 
+      "main" : "quest_01", 
+      "secondary" : [ 
+        { 
+          "idQuest": "quest_02", 
+          "idQuestDealer" : "pnj01" 
+        } 
+      ] 
+    },  
+    { 
+      "id": "deck_02", 
+      "name" : "level1", 
+      "material" : "Deck/Deck02_mat", 
+      "main" : "main_quest_01", 
+      "secondary" : [ 
+        { 
+          "idQuest": "side_quest_01", 
+          "idQuestDealer" : "pnj_01" 
+        } 
+      ] 
+    } 
+  ] 
+ }

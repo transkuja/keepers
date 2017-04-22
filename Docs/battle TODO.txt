@@ -1,0 +1,25 @@
+UI
+- Base
+-- Hp bars 
+-- current dice stocks for keepers
+-- Escape button (down left corner?)
+
+- Clic on monster
+--	Open panel info monster (details on pv, skills, defense, etc.)
+
+- Clic on keeper
+-- Open actions (atk/guard/skills)
+-- Highlight his dice
+
+- Clic on action
+-- Show a sprite following the mouse (atk/skills) ==> skills must have TargetType { Friend, Foe }
+
+
+kill monster when 0 hp left (keep loot somewhere to pop it after battle)
+Monster do not attack a 0hp target
+
+error with worldspace canvas when monster destroyed
+error with inventory panel when 0 items computed??
+greyed throw dice button after throw
+greyed escape button when dice have been thrown then reactivate at the beginning of keepers turn
+reduce timer before accessing turn actions

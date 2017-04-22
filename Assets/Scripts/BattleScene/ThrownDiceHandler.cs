@@ -19,6 +19,8 @@ public class ThrownDiceHandler : MonoBehaviour {
     {
         if (!isRunning)
         {
+            GetComponent<UIBattleHandler>().ChangeState(UIBattleState.Actions);
+            diceInstance.Clear();
             for (int i = 0; i < BattleHandler.CurrentBattleKeepers.Length; i++)
             {
                 PawnInstance currentKeeper = BattleHandler.CurrentBattleKeepers[i];
@@ -103,7 +105,8 @@ public class ThrownDiceHandler : MonoBehaviour {
     {
         if (isRunning)
         {
-            if (timerAnimation < 1.0f)
+            // TODO: replace the value by the dice rolling animation duration
+            if (timerAnimation < 0.5f)
                 timerAnimation += Time.deltaTime;
             else
             {

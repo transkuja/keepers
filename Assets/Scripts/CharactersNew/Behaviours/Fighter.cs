@@ -1,6 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Behaviour
 {
@@ -49,6 +49,13 @@ namespace Behaviour
         Face[] lastThrowResult;
         List<GameObject> lastThrowDiceInstance;
 
+        // Pending variables
+        bool isWaitingForDmgFeedback = false;
+        int pendingDamage = 0;
+        bool isWaitingForSkillPanelToClose = false;
+        float showSkillPanelTimer = 3.0f;
+        float showFeedbackDmgTimer = 2.0f;
+
         void Awake()
         {
             instance = GetComponent<PawnInstance>();
@@ -72,6 +79,38 @@ namespace Behaviour
             battleInteractions.Add(new Interaction(Guard), 0, "Guard", GameManager.Instance.SpriteUtils.spriteMoral);
             battleInteractions.Add(new Interaction(OpenSkillPanel), 0, "OpenSkillPanel", GameManager.Instance.SpriteUtils.spriteMoral);
 
+        }
+
+        private void Update()
+        {
+            if (isWaitingForSkillPanelToClose)
+            {
+                if (showSkillPanelTimer < 0.0f)
+                {
+                    GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().SkillName.SetActive(false);
+                    showSkillPanelTimer = 1.5f;
+                    showFeedbackDmgTimer = 1.0f;
+                    isWaitingForSkillPanelToClose = false;
+                    BattleHandler.ShiftToNextMonsterTurn();
+                }
+                else
+                {
+                    showSkillPanelTimer -= Time.deltaTime;
+                }
+
+                if (isWaitingForDmgFeedback)
+                {
+                    if (showFeedbackDmgTimer < 0.0f)
+                    {
+                        GetComponent<PawnInstance>().AddFeedBackToQueue(-pendingDamage);
+                        isWaitingForDmgFeedback = false;
+                    }
+                    else
+                    {
+                        showFeedbackDmgTimer -= Time.deltaTime;
+                    }
+                }
+            }
         }
 
         public void ResetValuesAfterBattle()
@@ -175,6 +214,8 @@ namespace Behaviour
             set
             {
                 hasRecentlyBattled = value;
+                if (GetComponent<Monster>() != null)
+                    GetComponent<Monster>().HasRecentlyBattled = value;
             }
         }
 
@@ -268,7 +309,10 @@ namespace Behaviour
             {
                 hasPlayedThisTurn = value;
                 if (hasPlayedThisTurn == true)
+                {
                     GameManager.Instance.ClearListKeeperSelected();
+                    BattleHandler.CheckTurnStatus();
+                }
             }
         }
 
@@ -337,6 +381,45 @@ namespace Behaviour
             }
         }
 
+        public bool IsWaitingForDmgFeedback
+        {
+            get
+            {
+                return isWaitingForDmgFeedback;
+            }
+
+            set
+            {
+                isWaitingForDmgFeedback = value;
+            }
+        }
+
+        public bool IsWaitingForSkillPanelToClose
+        {
+            get
+            {
+                return isWaitingForSkillPanelToClose;
+            }
+
+            set
+            {
+                isWaitingForSkillPanelToClose = value;
+            }
+        }
+
+        public int PendingDamage
+        {
+            get
+            {
+                return pendingDamage;
+            }
+
+            set
+            {
+                pendingDamage = value;
+            }
+        }
+
         #endregion
 
         // TODO: externalize this in Monster
@@ -374,9 +457,14 @@ namespace Behaviour
 [System.Serializable]
 public class SkillBattle
 {
+    [SerializeField]
     private int damage;
+    [SerializeField]
+    private string skillName;
+    [SerializeField]
     private string description;
-    private Dictionary<FaceType, int> cost = new Dictionary<FaceType, int>();
+    [SerializeField]
+    private List<Face> cost = new List<Face>();
 
     public int Damage
     {
@@ -397,7 +485,7 @@ public class SkillBattle
         }
     }
 
-    public Dictionary<FaceType, int> Cost
+    public List<Face> Cost
     {
         get
         {
@@ -408,5 +496,45 @@ public class SkillBattle
         {
             cost = value;
         }
+    }
+
+    public bool CanUseSkill(int physicalStock, int magicalStock, int defenseStock, int supportStock)
+    {
+        foreach (Face f in cost)
+        {
+            if (f.Type == FaceType.Physical && physicalStock < f.Value)
+                return false;
+            if (f.Type == FaceType.Magical && magicalStock < f.Value)
+                return false;
+
+            if (f.Type == FaceType.Defensive && defenseStock < f.Value)
+                return false;
+            if (f.Type == FaceType.Support && supportStock >= f.Value)
+                return false;
+        }
+        return true;
+    }
+
+    public void UseSkill(Behaviour.Fighter _user, PawnInstance _target)
+    {
+        foreach (Face f in cost)
+        {
+            if (f.Type == FaceType.Physical)
+                _user.PhysicalSymbolStored -= f.Value;
+            if (f.Type == FaceType.Magical)
+                _user.MagicalSymbolStored -= f.Value;
+
+            if (f.Type == FaceType.Defensive)
+                _user.DefensiveSymbolStored -= f.Value;
+            if (f.Type == FaceType.Support)
+                _user.SupportSymbolStored -= f.Value;
+        }
+
+        GameObject skillNameUI = GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().SkillName;
+        skillNameUI.transform.GetComponentInChildren<Text>().text = skillName;
+        skillNameUI.SetActive(true);
+        _target.GetComponent<Behaviour.Fighter>().IsWaitingForDmgFeedback = true;
+        _target.GetComponent<Behaviour.Fighter>().IsWaitingForSkillPanelToClose = true;
+        _target.GetComponent<Behaviour.Fighter>().PendingDamage = damage;
     }
 }

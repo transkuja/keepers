@@ -26,6 +26,7 @@ public class QuestManager : MonoBehaviour
 
         if(CurrentQuestDeck != null)
         {
+
             //Should only be the case if we lauch from the scene
             if(!GameManager.Instance.QuestsContainer.isInitialized)
             {

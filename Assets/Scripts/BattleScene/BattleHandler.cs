@@ -17,9 +17,11 @@ public class BattleHandler {
     private static PawnInstance[] currentBattleMonsters;
     private static PawnInstance[] currentBattleKeepers;
     private static int nbTurn = 0;
+    private static int nextMonsterIndex = 0;
     private static bool isVictorious;
     private static PawnInstance currentTargetMonster;
-    private static bool isKeepersTurn = true;
+    // Default value is false because ShiftTurn is called at the beginning of battle
+    private static bool isKeepersTurn = false;
     private static Die[] currentTurnDice;
     private static Dictionary<PawnInstance, List<GameObject>> currentTurnDiceInstance;
     private static bool hasDiceBeenThrown = false;
@@ -124,21 +126,6 @@ public class BattleHandler {
 
         return currentFighters;
     }
-    private static void HandleBattleEnding(Tile tile, List<PawnInstance> selectedKeepersForBattle)
-    {
-        bool isVictorious = true;
-        if (isVictorious)
-        {
-            HandleBattleVictory(selectedKeepersForBattle, tile);
-        }
-        else
-        {
-            HandleBattleDefeat(selectedKeepersForBattle, TileManager.Instance.MonstersOnTile[tile]);
-        }
-
-        PrintResultsScreen(isVictorious);
-        PostBattleCommonProcess();
-    }
 
     public static void ReceiveDiceThrowData(Dictionary<PawnInstance, Face[]> _result, Dictionary<PawnInstance, List<GameObject>> _diceInstances)
     {
@@ -190,6 +177,27 @@ public class BattleHandler {
         currentTargetMonster.GetComponent<Mortal>().CurrentHp -= damage;
     }
 
+    public static void CheckTurnStatus()
+    {
+        if (BattleEndConditionsReached())
+        {
+            HandleBattleVictory(GameManager.Instance.ActiveTile);
+            return;
+        }
+        
+        bool mustShiftTurn = true;
+        for (int i = 0; i < CurrentBattleKeepers.Length; i++)
+        {
+            if (!CurrentBattleKeepers[i].GetComponent<Fighter>().HasPlayedThisTurn)
+            {
+                mustShiftTurn = false;
+            }            
+        }
+
+        if (mustShiftTurn)
+            ShiftTurn();
+    }
+
     public static void ShiftTurn()
     {
         isKeepersTurn = !isKeepersTurn;
@@ -209,29 +217,61 @@ public class BattleHandler {
         else
         {
             // Resolve turn for each monster then shift turn to keepers'
-            for (int i = 0; i < currentBattleMonsters.Length; i++)
-            {
-                // TODO: monster i plays his turn
-            }
-            ShiftTurn();
+            MonsterTurn(0);
         }
+    }
+
+    public static void ShiftToNextMonsterTurn()
+    {
+        if (nextMonsterIndex + 1 < currentBattleMonsters.Length)
+            MonsterTurn(nextMonsterIndex + 1);
+        else
+            GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().ChangeState(UIBattleState.WaitForDiceThrow);
+    }
+
+    private static void MonsterTurn(int _nextMonsterIndex)
+    {
+        for (int i = _nextMonsterIndex; i < currentBattleMonsters.Length; i++)
+        {
+            if (currentBattleMonsters[_nextMonsterIndex] != null && currentBattleMonsters[_nextMonsterIndex].GetComponent<Mortal>().CurrentHp <= 0)
+            {
+                nextMonsterIndex = i;
+                break;
+            }
+        }
+
+        if (nextMonsterIndex == currentBattleMonsters.Length - 1)
+            ShiftTurn();
+
+        PawnInstance target = GetTargetForAttack();
+        Fighter monsterBattleInfo = currentBattleMonsters[nextMonsterIndex].GetComponent<Fighter>();
+        SkillBattle skillUsed = monsterBattleInfo.BattleSkills[Random.Range(0, currentBattleMonsters[nextMonsterIndex].GetComponent<Fighter>().BattleSkills.Count)];
+        skillUsed.UseSkill(currentBattleMonsters[nextMonsterIndex].GetComponent<Fighter>(), target);
+    }
+
+    private static PawnInstance GetTargetForAttack()
+    {
+        if (isPrisonerOnTile)
+        {
+            float determineTarget = Random.Range(0, 100);
+            if (determineTarget < ((100.0f / (currentBattleKeepers.Length + 2)) * 2))
+            {
+                return GameManager.Instance.PrisonerInstance;
+            }
+        }
+
+        return currentBattleKeepers[Random.Range(0, currentBattleKeepers.Length)];
     }
 
     private static bool BattleEndConditionsReached()
     {
-        if (currentBattleMonsters.Length == 0)
+        for (int i = 0; i < currentBattleMonsters.Length; i++)
         {
-            isVictorious = true;
-            return true;
+            if (currentBattleMonsters[i] != null && currentBattleMonsters[i].GetComponent<Mortal>().CurrentHp > 0)
+                return false;
         }
 
-        if (currentBattleKeepers.Length == 0 || GameManager.Instance.PrisonerInstance.GetComponent<Behaviour.Mortal>().CurrentHp == 0)
-        {
-            isVictorious = false;
-            return true;
-        }
-
-        return false;
+        return true;
     }
 
     /*
@@ -421,10 +461,7 @@ public class BattleHandler {
         return target;
     }
 
-    private static PawnInstance GetTargetForAttack(List<PawnInstance> keepers)
-    {
-        return keepers[Random.Range(0, keepers.Count)];
-    }
+
 
     private static int KeeperDamageCalculation(PawnInstance attacker, PawnInstance targetMonster, AttackType attackType)
     {
@@ -485,67 +522,53 @@ public class BattleHandler {
     /*
      * Process everything that needs to be processed after a victory
      */
-    private static void HandleBattleVictory(List<PawnInstance> keepers, Tile tile)
+    private static void HandleBattleVictory(Tile tile)
     {
-        foreach (PawnInstance ki in keepers)
+        for (int i = 0; i < currentBattleKeepers.Length; i++)
         {
-            ki.GetComponent<Behaviour.MentalHealthHandler>().CurrentMentalHealth += 10;
-            ki.GetComponent<Behaviour.HungerHandler>().CurrentHunger -= 5;
-            //BattleLog(ki.Keeper.CharacterName + " won 10 mental health and lost 5 hunger due to victory.");
+            if (currentBattleKeepers[i] != null)
+            {
+                currentBattleKeepers[i].GetComponent<MentalHealthHandler>().CurrentMentalHealth += 10;
+                currentBattleKeepers[i].GetComponent<HungerHandler>().CurrentHunger -= 5;
+            }
         }
 
-        /*
         if (isPrisonerOnTile)
         {
-            GameManager.Instance.PrisonerInstanceOld.CurrentMentalHealth += 10;
-            GameManager.Instance.PrisonerInstanceOld.CurrentHunger -= 5;
+            GameManager.Instance.PrisonerInstance.GetComponent<HungerHandler>().CurrentHunger -= 5;
             //BattleLog("Prisoner won 10 mental health and lost 5 hunger due to victory.");
-        }*/
+        }
+
+        PrintResultsScreen(true);
+        PostBattleCommonProcess();
     }
 
     /*
      * Process everything that needs to be processed after a defeat
      */
-    private static void HandleBattleDefeat(List<PawnInstance> keepers, List<PawnInstance> monsters)
+    public static void HandleBattleDefeat()
     {
-        /*
-        foreach (PawnInstance ki in keepers)
+        for (int i = 0; i < currentBattleKeepers.Length; i++)
         {
-            if (ki.IsAlive)
+            if (currentBattleKeepers[i] != null)
             {
-                ki.CurrentMentalHealth -= 10;
-                ki.CurrentHunger -= 5;
-
-                ki.CurrentHp -= 10;
+                currentBattleKeepers[i].GetComponent<MentalHealthHandler>().CurrentMentalHealth -= 10;
+                currentBattleKeepers[i].GetComponent<HungerHandler>().CurrentHunger -= 5;
                 //  BattleLog(ki.Keeper.CharacterName + " lost 10 mental health, 5 hunger, 10HP due to defeat.");
             }
-            if (isPrisonerOnTile && GameManager.Instance.PrisonerInstanceOld.IsAlive)
+            if (isPrisonerOnTile)
             {
-                GameManager.Instance.PrisonerInstanceOld.CurrentMentalHealth -= 10;
-                GameManager.Instance.PrisonerInstanceOld.CurrentHunger -= 5;
-                GameManager.Instance.PrisonerInstanceOld.CurrentHp -= 10;
-               // BattleLog("Prisoner lost 10 mental health, 5 hunger, 10HP due to defeat.");
+                GameManager.Instance.PrisonerInstance.GetComponent<HungerHandler>().CurrentHunger -= 5;
+                // BattleLog("Prisoner lost 10 mental health, 5 hunger, 10HP due to defeat.");
             }
         }
 
-        foreach (PawnInstance ki in GameManager.Instance.ListOfSelectedKeepersOld)
-        {
-            if (ki.IsAlive)
-            {
-                ki.transform.position = ki.transform.position - ki.transform.forward * 0.5f;
-            }
-        }
-
-        foreach (PawnInstance mi in monsters)
-        {
-            mi.RestAfterBattle();
-        }*/
+        PrintResultsScreen(false);
+        PostBattleCommonProcess();
     }
 
     public static void PostBattleCommonProcess()
     {
-        TileManager.Instance.RemoveDefeatedMonsters(GameManager.Instance.ActiveTile);
-        isProcessingABattle = false;
         for (int i = 0; i < currentBattleKeepers.Length; i++)
         {
             currentBattleKeepers[i].GetComponent<Fighter>().ResetValuesAfterBattle();
@@ -562,13 +585,35 @@ public class BattleHandler {
             {
                 if (currentBattleMonsters[i].GetComponent<Mortal>().CurrentHp > 0)
                 {
-                    currentBattleMonsters[i].GetComponent<Fighter>().RestAfterBattle();
                     currentBattleMonsters[i].GetComponent<AnimatedPawn>().StartMoveFromBattlePositionAnimation();
+                    currentBattleMonsters[i].GetComponent<Fighter>().HasRecentlyBattled = true;
+                    currentBattleMonsters[i].transform.GetChild(1).gameObject.SetActive(true);
+                    GlowController.UnregisterObject(currentBattleMonsters[i].GetComponent<GlowObjectCmd>());
                 }
             }
         }
 
+        GameManager.Instance.GetBattleUI.gameObject.SetActive(false);
+        ResetBattleHandler();
+    }
+
+    private static void ResetBattleHandler()
+    {
         ClearDiceForNextThrow();
+        isProcessingABattle = false;
+        if (lastThrowResult != null)
+            lastThrowResult.Clear();
+        isPrisonerOnTile = false;
+        battleLogger.text = "";
+        currentBattleMonsters = null;
+        currentBattleKeepers = null;
+        nbTurn = 0;
+        nextMonsterIndex = 0;
+        isVictorious = false;
+        currentTargetMonster = null;
+        isKeepersTurn = false;
+        currentTurnDice = null;
+        hasDiceBeenThrown = false;
     }
 
     private static void PrintResultsScreen(bool isVictorious)

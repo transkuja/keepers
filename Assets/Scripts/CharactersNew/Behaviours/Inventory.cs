@@ -245,6 +245,10 @@ namespace Behaviour
 
             for (int i = 0; i < items.Length; i++)
             {
+                // TODO: error here when a monster dies (empty inventory??)
+                if (i > inventoryPanel.transform.GetChild(1).childCount)
+                    return;
+
                 GameObject currentSlot = inventoryPanel.transform.GetChild(1).GetChild(i).gameObject;
                 if (currentSlot.GetComponentInChildren<ItemInstance>() != null)
                 {

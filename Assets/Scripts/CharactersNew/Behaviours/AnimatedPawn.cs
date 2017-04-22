@@ -47,56 +47,57 @@ namespace Behaviour
             fRotateSpeed = 5.0f;
         }
 
-        void Update()
-        {
-            if (GetComponent<Keeper>() != null)
-            {
-                Keeper keeper = GetComponent<Keeper>();
-                GameObject goDestinationTemp = gameObject;
-                for (int i = 0; i < GetComponent<Keeper>().GoListCharacterFollowing.Count; i++)
-                {
-                    if (!keeper.GoListCharacterFollowing[i].GetComponent<AnimatedPawn>().IsMovingBetweenTiles)
-                    {
-                        keeper.GoListCharacterFollowing[i].GetComponentInParent<NavMeshAgent>().destination = goDestinationTemp.transform.position;
-                        goDestinationTemp = keeper.GoListCharacterFollowing[i];
-                    }
-                }
-
-                if (bIsRotating)
-                {
-                    Rotate();
-                }
+        void Update()
+        {
+            if (GameManager.Instance.CurrentState == GameState.Normal)
+            {
+                if (GetComponent<Keeper>() != null)
+                {
+                    Keeper keeper = GetComponent<Keeper>();
+                    GameObject goDestinationTemp = gameObject;
+                    for (int i = 0; i < GetComponent<Keeper>().GoListCharacterFollowing.Count; i++)
+                    {
+                        if (!keeper.GoListCharacterFollowing[i].GetComponent<AnimatedPawn>().IsMovingBetweenTiles)
+                        {
+                            keeper.GoListCharacterFollowing[i].GetComponentInParent<NavMeshAgent>().destination = goDestinationTemp.transform.position;
+                            goDestinationTemp = keeper.GoListCharacterFollowing[i];
+                        }
+                    }
+
+                    if (bIsRotating)
+                    {
+                        Rotate();
+                    }
+                }
+            }
+
+            if (IsMovingBetweenTiles)
+            {
+                lerpMoveParam += Time.deltaTime;
+                if (lerpMoveParam >= 1.0f)
+                {
+                    IsMovingBetweenTiles = false;
+                }
+
+                transform.position = Vector3.Lerp(lerpStartPosition, lerpEndPosition, Mathf.Clamp(lerpMoveParam, 0, 1));
+                transform.rotation = Quaternion.Lerp(lerpStartRotation, lerpEndRotation, Mathf.Clamp(lerpMoveParam, 0, 1));
             }
-
-            if (IsMovingBetweenTiles)
-            {
-                lerpMoveParam += Time.deltaTime;
-                if (lerpMoveParam >= 1.0f)
-                {
-                    IsMovingBetweenTiles = false;
+            if (isMovingToBattlePosition)
+            {
+                lerpMoveParam += Time.deltaTime;
+                if (lerpMoveParam >= 1.0f)
+                {
+                    IsMovingToBattlePosition = false;
                 }
-                transform.position = Vector3.Lerp(lerpStartPosition, lerpEndPosition, Mathf.Clamp(lerpMoveParam, 0, 1));
-                transform.rotation = Quaternion.Lerp(lerpStartRotation, lerpEndRotation, Mathf.Clamp(lerpMoveParam, 0, 1));
+                transform.position = Vector3.Lerp(lerpStartPosition, lerpEndPosition, Mathf.Clamp(lerpMoveParam, 0, 1));
+                transform.rotation = Quaternion.Lerp(lerpStartRotation, lerpEndRotation, Mathf.Clamp(lerpMoveParam, 0, 1));
             }
-
-            if (isMovingToBattlePosition)
-            {
-                lerpMoveParam += Time.deltaTime;
-                if (lerpMoveParam >= 1.0f)
-                {
-                    IsMovingToBattlePosition = false;
-                }
-                transform.position = Vector3.Lerp(lerpStartPosition, lerpEndPosition, Mathf.Clamp(lerpMoveParam, 0, 1));
-                transform.rotation = Quaternion.Lerp(lerpStartRotation, lerpEndRotation, Mathf.Clamp(lerpMoveParam, 0, 1));
-            }
-
-            if (anim.isActiveAndEnabled == true && agent.isActiveAndEnabled == true)
-            {
-                anim.SetFloat("velocity", agent.velocity.magnitude);
+
+            if (anim.isActiveAndEnabled == true && agent.isActiveAndEnabled == true)
+            {
+                anim.SetFloat("velocity", agent.velocity.magnitude);
             }
         }
-
-
         public void StartBetweenTilesAnimation(Vector3 newPosition)
         {
             agent.enabled = false;

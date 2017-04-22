@@ -10,8 +10,12 @@ public class AggroBehaviour : MonoBehaviour {
             if (other.GetComponentInParent<Behaviour.Fighter>() != null && other.GetComponentInParent<Behaviour.Fighter>().IsTargetableByMonster == true
                 && !other.GetComponentInParent<Behaviour.Fighter>().IsAMonster)
             {
-                GetComponentInParent<NavMeshAgent>().ResetPath();
-                GetComponentInParent<NavMeshAgent>().SetDestination(other.transform.position);
+                NavMeshAgent agent = GetComponentInParent<NavMeshAgent>();
+                if (agent != null && agent.enabled)
+                {
+                    agent.ResetPath();
+                    agent.SetDestination(other.transform.position);
+                }
             }
         }
     }
