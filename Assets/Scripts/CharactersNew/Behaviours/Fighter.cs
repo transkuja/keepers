@@ -98,7 +98,6 @@ namespace Behaviour
                     showSkillPanelTimer -= Time.deltaTime;
                 }
 
-                Debug.Log(isWaitingForDmgFeedback);
                 if (isWaitingForDmgFeedback)
                 {
                     if (showFeedbackDmgTimer < 0.0f)

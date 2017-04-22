@@ -225,6 +225,8 @@ public class BattleHandler {
     {
         if (nextMonsterIndex + 1 < currentBattleMonsters.Length)
             MonsterTurn(nextMonsterIndex + 1);
+        else
+            GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().ChangeState(UIBattleState.WaitForDiceThrow);
     }
 
     private static void MonsterTurn(int _nextMonsterIndex)
@@ -591,6 +593,7 @@ public class BattleHandler {
             }
         }
 
+        GameManager.Instance.GetBattleUI.gameObject.SetActive(false);
         ResetBattleHandler();
     }
 

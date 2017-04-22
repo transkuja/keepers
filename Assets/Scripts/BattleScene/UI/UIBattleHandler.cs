@@ -64,7 +64,7 @@ public class UIBattleHandler : MonoBehaviour {
             Debug.LogWarning("Shortcut button reference not set in UIBattleHandler (top left button).");
         else
             shortcutButton.SetActive(true);
-
+        ChangeState(UIBattleState.Disabled);
     }
 
     public void PressAttackButton()
@@ -89,8 +89,8 @@ public class UIBattleHandler : MonoBehaviour {
         switch(newState)
         {
             case UIBattleState.WaitForDiceThrow:
-                mainButtons.SetActive(false);
-                skillsButtons.SetActive(false);
+                throwDiceButton.GetComponent<Button>().interactable = true;
+                escapeBattleButton.GetComponent<Button>().interactable = true;
                 throwDiceButton.SetActive(true);
                 escapeBattleButton.SetActive(true);
                 break;
@@ -101,25 +101,8 @@ public class UIBattleHandler : MonoBehaviour {
                 break;
 
             case UIBattleState.Disabled:
-                mainButtons.SetActive(false);
-                skillsButtons.SetActive(false);
                 throwDiceButton.SetActive(false);
                 escapeBattleButton.SetActive(false);
-                break;
-            case UIBattleState.SkillsOpened:
-                mainButtons.SetActive(false);
-                skillsButtons.SetActive(true);
-                break;
-
-            case UIBattleState.WaitForDiceThrowValidation:
-                break;
-            case UIBattleState.DiceRolling:
-                mainButtons.SetActive(false);
-                skillsButtons.SetActive(false);
-                throwDiceButton.SetActive(false);
-                break;
-            case UIBattleState.TargetSelection:
-                targetSelectionInfo.SetActive(true);
                 break;
 
         }
