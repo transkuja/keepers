@@ -585,6 +585,8 @@ public class BattleHandler {
                 {
                     currentBattleMonsters[i].GetComponent<AnimatedPawn>().StartMoveFromBattlePositionAnimation();
                     currentBattleMonsters[i].GetComponent<Fighter>().HasRecentlyBattled = true;
+                    currentBattleMonsters[i].transform.GetChild(1).gameObject.SetActive(true);
+                    GlowController.UnregisterObject(currentBattleMonsters[i].GetComponent<GlowObjectCmd>());
                 }
             }
         }

@@ -23,7 +23,8 @@ public class GlowObjectCmd : MonoBehaviour
 	void Start()
 	{
 		Renderers = GetComponentsInChildren<Renderer>();
-		GlowController.RegisterObject(this);
+        if (GetComponent<Behaviour.Monster>() == null)
+		    GlowController.RegisterObject(this);
 	}
 
 	private void OnMouseEnter()
@@ -54,6 +55,10 @@ public class GlowObjectCmd : MonoBehaviour
     private void OnDestroy()
     {
         GlowController.UnregisterObject(this);
-
     }
+
+    //private void OnDisable()
+    //{
+    //    GlowController.UnregisterObject(this);
+    //}
 }

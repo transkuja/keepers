@@ -26,22 +26,20 @@ public class GameManager : MonoBehaviour{    private static GameManager instan
     private Database itemDataBase = new Database();    private PawnDatabase pawnDataBase = new PawnDatabase();    private QuestDeckDatabase questDeckDataBase = new QuestDeckDatabase();
 
     //Not used for now
-    private QuestDatabase questDataBase = new QuestDatabase();    private QuestsContainer questsContainer = new QuestsContainer();    private QuestSourceContainer questSources;    private TileManager tileManagerReference;
-    private CameraManager cameraManagerReference;
-    private IngameScreens gameScreens;
-    private List<PawnInstance> allKeepersList = new List<PawnInstance>();
-    private List<PawnInstance> listOfSelectedKeepers = new List<PawnInstance>();
-    private Interactable goTarget;
-    private PawnInstance prisonerInstance;
-
+    private QuestDatabase questDataBase = new QuestDatabase();    private QuestsContainer questsContainer = new QuestsContainer();    private QuestSourceContainer questSources;    private TileManager tileManagerReference;
+    private CameraManager cameraManagerReference;
+    private IngameScreens gameScreens;
+    private List<PawnInstance> allKeepersList = new List<PawnInstance>();
+    private List<PawnInstance> listOfSelectedKeepers = new List<PawnInstance>();
+    private Interactable goTarget;
+    private PawnInstance prisonerInstance;
     private int nbTurn = 1;
-
-    // Change game state variables
-    private List<NavMeshAgent> pausedAgents = new List<NavMeshAgent>();
-    private List<NavMeshAgent> disabledAgents = new List<NavMeshAgent>();
-    private List<GameObject> disabledModels = new List<GameObject>();
+    // Change game state variables
+    private List<NavMeshAgent> pausedAgents = new List<NavMeshAgent>();
+    private List<NavMeshAgent> disabledAgents = new List<NavMeshAgent>();
+    private List<GameObject> disabledModels = new List<GameObject>();
+    private List<GlowObjectCmd> unregisteredGlows = new List<GlowObjectCmd>();
     private PawnInstance[] currentFighters;
-
     void Awake()
     {
         if (instance == null)
@@ -533,18 +531,15 @@ public class GameManager : MonoBehaviour{    private static GameManager instan
         cameraManagerReference.worldspaceCanvasCameraAdapters.Remove(_cameraAdapter);
     }
     #endregion
-
     #region TileManager facade
-    public void RegisterMonsterPosition(PawnInstance _monster)
-    {
-        tileManagerReference.AddMonsterOnTile(_monster);
+    public void RegisterMonsterPosition(PawnInstance _monster)
+    {
+        tileManagerReference.AddMonsterOnTile(_monster);
     }
-
-    public void RegisterKeeperPosition(PawnInstance _keeper)
-    {
-        tileManagerReference.AddKeeperOnTile(tileManagerReference.BeginTile, _keeper);
+    public void RegisterKeeperPosition(PawnInstance _keeper)
+    {
+        tileManagerReference.AddKeeperOnTile(tileManagerReference.BeginTile, _keeper);
     }
-
     public void RegisterPrisoner(PawnInstance _prisoner)
     {
         prisonerInstance = _prisoner;
@@ -655,6 +650,11 @@ public class GameManager : MonoBehaviour{    private static GameManager instan
                     pausedAgents.Add(currentAgent);
                     pi.transform.GetChild(0).gameObject.SetActive(false);
                     disabledModels.Add(pi.transform.GetChild(0).gameObject);
+                    if (pi.GetComponent<GlowObjectCmd>() != null)
+                    {
+                        GlowController.UnregisterObject(pi.GetComponent<GlowObjectCmd>());
+                        unregisteredGlows.Add(pi.GetComponent<GlowObjectCmd>());
+                    }
                 }
             }
             pi.GetComponent<Keeper>().ShowSelectedPanelUI(false);
@@ -712,6 +712,13 @@ public class GameManager : MonoBehaviour{    private static GameManager instan
                         disabledAgents.Add(currentAgent);
                         currentAgent.enabled = false;
                     }
+
+                    if (pi.GetComponent<GlowObjectCmd>() != null)
+                    {
+                        GlowController.RegisterObject(pi.GetComponent<GlowObjectCmd>());
+                    }
+
+                    pi.GetComponentInChildren<AggroBehaviour>().gameObject.SetActive(false);
                 }
             }
         }    }
@@ -726,6 +733,10 @@ public class GameManager : MonoBehaviour{    private static GameManager instan
         foreach (GameObject go in disabledModels)
             go.SetActive(true);
         disabledModels.Clear();
+
+        foreach (GlowObjectCmd goc in unregisteredGlows)
+            GlowController.RegisterObject(goc);
+        unregisteredGlows.Clear();
 
         // Prevents monster agression when returning to normal state
         foreach (PawnInstance pi in tileManagerReference.KeepersOnTile[ActiveTile])        {
