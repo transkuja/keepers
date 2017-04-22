@@ -45,7 +45,7 @@ public class MenuManagerQ : MonoBehaviour {
             {
                 deckOfCards.idQuestDeck = qdd.idQuestDeck;
                 goDeck.layer = LayerMask.NameToLayer("DeckOfCards");
-                goDeck.GetComponent<MeshFilter>().mesh = GetDeckModel(qdd.deckModelName).GetComponent<MeshFilter>().sharedMesh;
+                //goDeck.GetComponent<MeshFilter>().mesh = GetDeckModel(qdd.deckModelName).GetComponent<MeshFilter>().sharedMesh;
             }
             else
                 Debug.Log("Deck with no id to set on the prefab");
@@ -53,7 +53,7 @@ public class MenuManagerQ : MonoBehaviour {
             for (int j = 0; j < qdd.secondaryQuests.Count; j++)
             {
                 GameObject goTemp = Instantiate(GoPrefabCard, goDeck.transform);
-                goTemp.GetComponent<MeshFilter>().mesh = GetCardModel(qdd.secondaryQuests[j].cardModelname).GetComponent<MeshFilter>().sharedMesh;
+                //goTemp.GetComponent<MeshFilter>().mesh = GetCardModel(qdd.secondaryQuests[j].cardModelname).GetComponent<MeshFilter>().sharedMesh;
                 goTemp.tag = "OpenerContent";
                 goTemp.SetActive(false);
             }

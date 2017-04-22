@@ -1,19 +1,15 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public enum BattleUIButtons { MainButtons, Skills, ThrowDice, ValidateThrow }
+public enum BattleUIButtons { SkillsPanel, ThrowDice, EscapeButton, SkillName }
 public enum UIBattleState { WaitForDiceThrow, DiceRolling, WaitForDiceThrowValidation, Actions, SkillsOpened, TargetSelection, Disabled }
 
 public class UIBattleHandler : MonoBehaviour {
 
     [SerializeField]
-    private GameObject mainButtons;
-    [SerializeField]
     private GameObject skillsButtons;
     [SerializeField]
     private GameObject throwDiceButton;
-    [SerializeField]
-    private GameObject targetSelectionInfo;
     [SerializeField]
     private GameObject escapeBattleButton;
     [SerializeField]
