@@ -48,5 +48,11 @@ public class SpriteUIUtils : MonoBehaviour {
     // Life bars
     public Sprite spriteGreenLifeBar;
     public Sprite spriteOrangeLifeBar;
+
+    // Face type symbols
+    public Sprite spriteAttackSymbol;
+    public Sprite spriteDefenseSymbol;
+    public Sprite spriteMagicSymbol;
+    public Sprite spriteSupportSymbol;
 }
 

@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using Behaviour;
 using System.Collections.Generic;
 
-public enum BattleUIButtons { SkillsPanel, ThrowDice, EscapeButton, SkillName, CharactersPanel }
+public enum BattleUIChildren { SkillsPanel, ThrowDice, EscapeButton, SkillName, CharactersPanel }
 public enum UIBattleState { WaitForDiceThrow, DiceRolling, WaitForDiceThrowValidation, Actions, SkillsOpened, TargetSelection, Disabled }
 public enum CharactersPanelChildren { Avatar, LifeBar, Attributes }
 public enum AttributesChildren { Attack, Defense, Magic, Support }
@@ -56,6 +56,11 @@ public class UIBattleHandler : MonoBehaviour {
         {
             occupiedCharacterPanelIndex = value;
         }
+    }
+
+    public Transform GetCharacterPanelIndex(PawnInstance _fromPawn)
+    {
+        return associatedCharacterPanel[_fromPawn];
     }
 
     void OnEnable()
@@ -163,7 +168,7 @@ public class UIBattleHandler : MonoBehaviour {
         }
 
         Transform characterPanel = charactersPanel.transform.GetChild(initIndex).GetChild(0);
-        characterPanel.GetChild((int)CharactersPanelChildren.Avatar).GetComponent<Image>().sprite = _pawnInstanceForInit.Data.AssociatedSprite;
+        characterPanel.GetChild((int)CharactersPanelChildren.Avatar).GetChild(0).GetComponent<Image>().sprite = _pawnInstanceForInit.Data.AssociatedSprite;
 
         Mortal mortalComponent = _pawnInstanceForInit.GetComponent<Mortal>();
         Image lifeBarImg = characterPanel.GetChild((int)CharactersPanelChildren.LifeBar).GetChild((int)LifeBarChildren.Remaining).GetComponent<Image>();
@@ -209,6 +214,23 @@ public class UIBattleHandler : MonoBehaviour {
                 break;
             }
         }
+    }
+
+    public void UpdateAvatar(PawnInstance _toUpdate, bool _enableHighlightFeedback)
+    {
+        if (!associatedCharacterPanel.ContainsKey(_toUpdate))
+            return;
+
+        if (_toUpdate.GetComponent<Fighter>().HasPlayedThisTurn)
+        {
+                        
+        }
+        else
+        {
+            associatedCharacterPanel[_toUpdate].GetChild((int)CharactersPanelChildren.Avatar).GetChild(0).GetComponent<Image>().sprite = _toUpdate.Data.AssociatedSprite;
+        }
+
+        associatedCharacterPanel[_toUpdate].GetChild((int)CharactersPanelChildren.Avatar).GetComponent<Image>().enabled = _enableHighlightFeedback;
     }
 
     public void UpdateAttributesStocks(Fighter _toUpdate)

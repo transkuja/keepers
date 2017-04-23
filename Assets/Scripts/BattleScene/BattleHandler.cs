@@ -141,21 +141,21 @@ public class BattleHandler {
 
         foreach (PawnInstance pi in lastThrowResult.Keys)
         {
-            foreach (Face face in lastThrowResult[pi])
+            for (int i = 0; i < lastThrowResult[pi].Length; i++)
             {
-                switch (face.Type)
+                switch (lastThrowResult[pi][i].Type)
                 {
                     case FaceType.Physical:
-                        pi.GetComponent<Fighter>().PhysicalSymbolStored += face.Value;
+                        pi.GetComponent<Fighter>().PhysicalSymbolStored += lastThrowResult[pi][i].Value;
                         break;
                     case FaceType.Magical:
-                        pi.GetComponent<Fighter>().MagicalSymbolStored += face.Value;
+                        pi.GetComponent<Fighter>().MagicalSymbolStored += lastThrowResult[pi][i].Value;
                         break;
                     case FaceType.Defensive:
-                        pi.GetComponent<Fighter>().DefensiveSymbolStored += face.Value;
+                        pi.GetComponent<Fighter>().DefensiveSymbolStored += lastThrowResult[pi][i].Value;
                         break;
                     case FaceType.Support:
-                        pi.GetComponent<Fighter>().SupportSymbolStored += face.Value;
+                        pi.GetComponent<Fighter>().SupportSymbolStored += lastThrowResult[pi][i].Value;
                         break;
                 }
             }
@@ -706,9 +706,15 @@ public class BattleHandler {
                 if (currentBattleKeepers[i] != null && currentBattleKeepers[i].GetComponent<Mortal>().CurrentHp > 0)
                 {
                     if (!currentBattleKeepers[i].GetComponent<Fighter>().HasPlayedThisTurn)
+                    {
                         currentBattleKeepers[i].GetComponent<Keeper>().FeedbackSelection.SetActive(true);
+                        GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().UpdateAvatar(currentBattleKeepers[i], true);
+                    }
                     else
+                    {
                         currentBattleKeepers[i].GetComponent<Keeper>().FeedbackSelection.SetActive(false);
+                        GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().UpdateAvatar(currentBattleKeepers[i], false);
+                    }
                 }
             }
 
@@ -744,6 +750,7 @@ public class BattleHandler {
                 if (currentBattleKeepers[i] != null && currentBattleKeepers[i].GetComponent<Mortal>().CurrentHp > 0)
                 {
                     currentBattleKeepers[i].GetComponent<Keeper>().FeedbackSelection.SetActive(false);
+                    GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().UpdateAvatar(currentBattleKeepers[i], false);
                 }
             }
         }

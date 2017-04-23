@@ -14,12 +14,14 @@ public class ThrownDiceHandler : MonoBehaviour {
     Dictionary<PawnInstance, List<GameObject>> diceInstance = new Dictionary<PawnInstance, List<GameObject>>();
     Dictionary<PawnInstance, Face[]> throwResult = new Dictionary<PawnInstance, Face[]>();
     float timerAnimation = 0.0f;
+    bool areDiceFeedbacksInitialized = false;
 
     public void InitThrow()
     {
         if (!isRunning)
         {
             GetComponent<UIBattleHandler>().ChangeState(UIBattleState.Actions);
+            areDiceFeedbacksInitialized = false;
             diceInstance.Clear();
             for (int i = 0; i < BattleHandler.CurrentBattleKeepers.Length; i++)
             {
@@ -106,16 +108,34 @@ public class ThrownDiceHandler : MonoBehaviour {
         if (isRunning)
         {
             // TODO: replace the value by the dice rolling animation duration
-            if (timerAnimation < 1.0f)
+            if (timerAnimation < 2.0f)
+            {
+                PopDiceFeedbacks();
                 timerAnimation += Time.deltaTime;
+            }
             else
             {
                 timerAnimation = 0.0f;
                 isRunning = false;
                 SendDataToBattleHandler();
-               // GetComponent<UIBattleHandler>().ChangeState(UIBattleState.);
+                // GetComponent<UIBattleHandler>().ChangeState(UIBattleState.);
             }
         }
+    }
+
+    void PopDiceFeedbacks()
+    {
+        if (areDiceFeedbacksInitialized)
+            return;
+
+        foreach (PawnInstance pi in throwResult.Keys)
+        {
+            for (int i = 0; i < throwResult[pi].Length; i++)
+            {
+                diceInstance[pi][i].GetComponent<DieFeedback>().PopFeedback(throwResult[pi][i], pi);
+            }
+        }
+        areDiceFeedbacksInitialized = true;
     }
 
     #region Physical Throw
