@@ -41,7 +41,7 @@ public class ControlsManager : MonoBehaviour
             if (!EventSystem.current.IsPointerOverGameObject())
             {
                 RaycastHit hitInfo;
-                if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo) == true)
+                if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo, Mathf.Infinity, ~layerMask) == true)
                 {
                     GameManager.Instance.Ui.ClearActionPanel();
                     if (hitInfo.transform.gameObject.GetComponentInParent<Keeper>() != null)
