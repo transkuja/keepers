@@ -27,6 +27,7 @@ public class BattleHandler {
     private static bool hasDiceBeenThrown = false;
 
     private static List<GameObject> enabledLifeBars = new List<GameObject>();
+    private static bool wasTheLastToPlay = false;
 
     // Debug parameters
     private static bool isDebugModeActive = false;
@@ -162,7 +163,7 @@ public class BattleHandler {
             pi.GetComponent<Fighter>().LastThrowDiceInstance = currentTurnDiceInstance[pi];
         }
 
-        hasDiceBeenThrown = true;
+        HasDiceBeenThrown = true;
     }
 
     private static void ClearDiceForNextThrow()
@@ -199,9 +200,12 @@ public class BattleHandler {
                 mustShiftTurn = false;
             }            
         }
+        wasTheLastToPlay = mustShiftTurn;
 
         if (mustShiftTurn)
+        {
             ShiftTurn();
+        }
     }
 
     public static void ShiftTurn()
@@ -620,6 +624,7 @@ public class BattleHandler {
         isKeepersTurn = false;
         currentTurnDice = null;
         hasDiceBeenThrown = false;
+        wasTheLastToPlay = false;
     }
 
     private static void PrintResultsScreen(bool isVictorious)
@@ -687,6 +692,75 @@ public class BattleHandler {
         enabledLifeBars.Clear();
     }
 
+    public static void ActivateFeedbackSelection(bool _activateOnKeepers, bool _activateOnMonsters)
+    {
+        if (currentBattleKeepers == null || currentBattleMonsters == null)
+        {
+            return;
+        }
+
+        if (_activateOnKeepers)
+        {
+            for (int i = 0; i < currentBattleKeepers.Length; i++)
+            {
+                if (currentBattleKeepers[i] != null && currentBattleKeepers[i].GetComponent<Mortal>().CurrentHp > 0)
+                {
+                    if (!currentBattleKeepers[i].GetComponent<Fighter>().HasPlayedThisTurn)
+                        currentBattleKeepers[i].GetComponent<Keeper>().FeedbackSelection.SetActive(true);
+                    else
+                        currentBattleKeepers[i].GetComponent<Keeper>().FeedbackSelection.SetActive(false);
+                }
+            }
+
+        }
+        // Activate on monsters
+        if (_activateOnMonsters)
+        {
+            for (int i = 0; i < currentBattleMonsters.Length; i++)
+            {
+                if (currentBattleMonsters[i] != null && currentBattleMonsters[i].GetComponent<Mortal>().CurrentHp > 0)
+                {
+                    currentBattleMonsters[i].GetComponent<Monster>().PointerFeedback.SetActive(true);
+                }
+                else if (currentBattleMonsters[i] != null)
+                {
+                    currentBattleMonsters[i].GetComponent<Monster>().PointerFeedback.SetActive(false);
+                }
+            }
+        }
+    }
+
+    public static void DeactivateFeedbackSelection(bool _deactivateOnKeepers, bool _deactivateOnMonsters)
+    {
+        if (currentBattleKeepers == null || currentBattleMonsters == null)
+        {
+            return;
+        }
+
+        if (_deactivateOnKeepers)
+        {
+            for (int i = 0; i < currentBattleKeepers.Length; i++)
+            {
+                if (currentBattleKeepers[i] != null && currentBattleKeepers[i].GetComponent<Mortal>().CurrentHp > 0)
+                {
+                    currentBattleKeepers[i].GetComponent<Keeper>().FeedbackSelection.SetActive(false);
+                }
+            }
+        }
+
+        // Deactivate on monsters
+        if (_deactivateOnMonsters)
+        {
+            for (int i = 0; i < currentBattleMonsters.Length; i++)
+            {
+                if (currentBattleMonsters[i] != null && currentBattleMonsters[i].GetComponent<Mortal>().CurrentHp > 0)
+                {
+                    currentBattleMonsters[i].GetComponent<Monster>().PointerFeedback.SetActive(false);
+                }
+            }
+        }
+    }
+
     public static bool IsKeepersTurn
     {
         get
@@ -720,6 +794,18 @@ public class BattleHandler {
             return hasDiceBeenThrown;
         }
 
+        private set
+        {
+            hasDiceBeenThrown = value;
+            if (hasDiceBeenThrown == true)
+            {
+                for (int i = 0; i < currentBattleKeepers.Length; i++)
+                {
+                    ActivateFeedbackSelection(true, false);
+                }
+            }
+        }
+
     }
 
     public static Dictionary<PawnInstance, Face[]> LastThrowResult
@@ -727,6 +813,19 @@ public class BattleHandler {
         get
         {
             return lastThrowResult;
+        }
+    }
+
+    public static bool WasTheLastToPlay
+    {
+        get
+        {
+            return wasTheLastToPlay;
+        }
+
+        set
+        {
+            wasTheLastToPlay = value;
         }
     }
 }

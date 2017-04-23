@@ -353,7 +353,7 @@ namespace Behaviour
                 else if (GameManager.Instance.CurrentState == GameState.InBattle)
                 {
                     feedbackSelection.SetActive(false);
-                    // TODO: show/unshow battle possible actions
+                    BattleHandler.DeactivateFeedbackSelection(true, false);
                 }
 
                 GameManager.Instance.Ui.ClearActionPanel();
@@ -461,6 +461,14 @@ namespace Behaviour
             set
             {
                 selectedEquipementUI = value;
+            }
+        }
+
+        public GameObject FeedbackSelection
+        {
+            get
+            {
+                return feedbackSelection;
             }
         }
         #endregion

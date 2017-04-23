@@ -357,6 +357,10 @@ namespace Behaviour
             set
             {
                 hasClickedOnAttack = value;
+                if (hasClickedOnAttack == true)
+                {
+                    BattleHandler.ActivateFeedbackSelection(false, true);
+                }
             }
         }
 

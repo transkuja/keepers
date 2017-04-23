@@ -22,6 +22,7 @@ namespace Behaviour
         int bonusDefense;
         // TODO: fix this behaviour
         bool hasRecentlyBattled = false;
+        GameObject pointerFeedback;
 
         public PawnInstance getPawnInstance
         {
@@ -120,6 +121,19 @@ namespace Behaviour
             }
         }
 
+        public GameObject PointerFeedback
+        {
+            get
+            {
+                if (pointerFeedback == null)
+                {
+                    pointerFeedback = Instantiate(GameManager.Instance.PrefabUtils.selectionPointer, transform);
+                    pointerFeedback.transform.localPosition = Vector3.zero + GameManager.Instance.PrefabUtils.selectionPointer.transform.localPosition;
+                }
+                return pointerFeedback;
+            }
+        }
+
         void Awake()
         {
             agent = GetComponent<NavMeshAgent>();
@@ -177,6 +191,5 @@ namespace Behaviour
                 }
             }
         }
-
     }
 }

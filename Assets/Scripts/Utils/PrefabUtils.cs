@@ -28,6 +28,7 @@ public class PrefabUtils : MonoBehaviour {
 
     [Header("Battle")]
     public GameObject die;
+    public GameObject selectionPointer;
 
     public GameObject getPawnPrefabById(string id)
     {
