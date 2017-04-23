@@ -7,7 +7,7 @@ public class QuestManager : MonoBehaviour
 {
     public QuestDeck CurrentQuestDeck;
 
-    public List<Quest> AvailableQuests;
+    public List<Quest> Quests;
     public List<Quest> ActiveQuests;
     public Quest MainQuest;
 
@@ -22,7 +22,7 @@ public class QuestManager : MonoBehaviour
         CurrentQuestDeck = GameManager.Instance.QuestDeckDataBase.GetDeckByID("deck_02");
 
         ActiveQuests = new List<Quest>();
-        AvailableQuests = new List<Quest>();
+        Quests = new List<Quest>();
 
         if(CurrentQuestDeck != null)
         {
@@ -37,7 +37,7 @@ public class QuestManager : MonoBehaviour
 
             foreach (string questID in CurrentQuestDeck.SideQuests)
             {
-                AvailableQuests.Add(GameManager.Instance.QuestsContainer.FindQuestByID(questID));
+                Quests.Add(GameManager.Instance.QuestsContainer.FindQuestByID(questID));
             }
         }
         else
@@ -49,7 +49,7 @@ public class QuestManager : MonoBehaviour
 
     public Quest GetQuestByID(string id)
     {
-        Quest _quest = AvailableQuests.Find(x => x.Identifier.ID == id);
+        Quest _quest = Quests.Find(x => x.Identifier.ID == id);
         if (_quest != null)
             return _quest;
 

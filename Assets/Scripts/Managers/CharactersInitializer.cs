@@ -59,7 +59,7 @@ public class CharactersInitializer : MonoBehaviour {
 
     private void InitNPCs()
     {
-        foreach (Quest quest in GameManager.Instance.QuestManager.AvailableQuests)
+        foreach (Quest quest in GameManager.Instance.QuestManager.Quests)
         {
             if (quest.Identifier.SourceID != string.Empty && 
                 quest.Identifier.SourceID.Contains("pnj"))

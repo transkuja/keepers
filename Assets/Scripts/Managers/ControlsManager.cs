@@ -160,7 +160,7 @@ public class ControlsManager : MonoBehaviour
                         else
                         {
                             ui.ClearActionPanel();
-                            if (tileHit != null)                            {                                Debug.Log("reset values to true");                                Tile currentKeeperTile = GameManager.Instance.GetFirstSelectedKeeper().CurrentTile;                                foreach (PawnInstance pi in GameManager.Instance.GetKeepersOnTile(currentKeeperTile))                                    pi.GetComponent<Fighter>().IsTargetableByMonster = true;                                if (GameManager.Instance.PrisonerInstance.CurrentTile == currentKeeperTile)
+                            if (tileHit != null)                            {                                Tile currentKeeperTile = GameManager.Instance.GetFirstSelectedKeeper().CurrentTile;                                foreach (PawnInstance pi in GameManager.Instance.GetKeepersOnTile(currentKeeperTile))                                    pi.GetComponent<Fighter>().IsTargetableByMonster = true;                                if (GameManager.Instance.PrisonerInstance.CurrentTile == currentKeeperTile)
                                 {
                                     if (GameManager.Instance.PrisonerInstance.GetComponent<Fighter>() != null)
                                         GameManager.Instance.PrisonerInstance.GetComponent<Fighter>().IsTargetableByMonster = true;                                    else

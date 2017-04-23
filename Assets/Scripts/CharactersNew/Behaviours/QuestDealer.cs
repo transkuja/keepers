@@ -32,7 +32,6 @@ namespace Behaviour
             goQuest = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabContentQuestUI, GameManager.Instance.Ui.goContentQuestParent.transform);
             goQuest.transform.localPosition = Vector3.zero;
             goQuest.transform.localScale = Vector3.one;
-            Debug.Log(instance.CurrentTile);
 
             GetComponent<Interactable>().Interactions.Add(new Interaction(Quest), 0, "Quest", GameManager.Instance.SpriteUtils.spriteQuest);
 
@@ -52,7 +51,7 @@ namespace Behaviour
         {
             //questToGive.Reset(new QuestIdentifier(questToGive.Identifier.ID, instance.Data.PawnId), questToGive.Information, questToGive.Objectives);
             questToGive.Init();
-           
+
         }
 
         void BuildQuestPanel()
@@ -136,6 +135,7 @@ namespace Behaviour
 
         void AcceptQuest()
         {
+            questToGive.Init();
             GameManager.Instance.QuestManager.ActiveQuests.Add(questToGive);
             GameManager.Instance.Ui.goContentQuestParent.SetActive(false);
             goQuest.SetActive(false);

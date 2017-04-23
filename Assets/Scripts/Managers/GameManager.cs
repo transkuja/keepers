@@ -712,6 +712,19 @@ public class GameManager : MonoBehaviour
 
     }
 
+    public CharactersInitializer CharacterInitializer
+    {
+        get
+        {
+            return characterInitializer;
+        }
+
+        set
+        {
+            characterInitializer = value;
+        }
+    }
+
     #endregion
 
 
@@ -946,9 +959,7 @@ public class GameManager : MonoBehaviour
 
         }
 
-    }
-
-
+    } 
 
     public void RegisterGreyTileCameraAdapter(GreyTileCameraAdapter _cameraAdapter)
 

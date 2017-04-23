@@ -7,10 +7,10 @@ public class QuestInitializer : MonoBehaviour {
     // Here will be all the functions or things we need to do specific to a certain quest (activating a tile ...)
     [Header("Quest 1")]
     [SerializeField]
-    string id1;
+    Tile tileToActivate;
 
     void Start () {
-		
+        tileToActivate.gameObject.SetActive(false);
 	}
 
     public void InitializeQuests()
@@ -21,8 +21,8 @@ public class QuestInitializer : MonoBehaviour {
             ((PrisonerEscortObjective)main1.Objectives[0]).prisoner = GameManager.Instance.PrisonerInstance.gameObject;
             ((PrisonerEscortObjective)main1.Objectives[0]).destination = TileManager.Instance.EndTile;
         }
-        Quest side1 = GameManager.Instance.QuestManager.GetQuestByID("");
-        if (GameManager.Instance.QuestManager.AvailableQuests.Contains(side1))
+        Quest side1 = GameManager.Instance.QuestManager.GetQuestByID("side_quest_01");
+        if (GameManager.Instance.QuestManager.Quests.Contains(side1))
         {
             side1.OnQuestInit += side_quest_01_Init;
         }
@@ -31,6 +31,7 @@ public class QuestInitializer : MonoBehaviour {
 
     void side_quest_01_Init()
     {
-        
+        tileToActivate.gameObject.SetActive(true);
+        tileToActivate.South.North = tileToActivate;
     }
 }
