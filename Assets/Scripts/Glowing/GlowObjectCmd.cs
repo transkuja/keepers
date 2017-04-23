@@ -45,10 +45,18 @@ public class GlowObjectCmd : MonoBehaviour
         }
 	}
 
-	/// <summary>
-	/// Update color, disable self if we reach our target color.
-	/// </summary>
-	private void Update()
+    public void UpdateColor(bool _enable)
+    {
+        if (_enable)
+            _targetColor = GlowColor;
+        else
+            _targetColor = Color.black;
+    }
+
+    /// <summary>
+    /// Update color, disable self if we reach our target color.
+    /// </summary>
+    private void Update()
 	{
 		_currentColor = Color.Lerp(_currentColor, _targetColor, Time.deltaTime * LerpFactor);
 

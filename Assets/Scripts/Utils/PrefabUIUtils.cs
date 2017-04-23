@@ -52,4 +52,6 @@ public class PrefabUIUtils : MonoBehaviour {
     [Header("Battle")]
     public GameObject prefabLifeBar;
     public GameObject diceFeedback;
+    public GameObject diceFeedbackOnPointerEnter;
+
 }

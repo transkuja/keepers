@@ -167,6 +167,7 @@ public class IngameUI : MonoBehaviour
 
             goAction.GetComponent<RectTransform>().localPosition = Vector3.zero;
             goAction.GetComponent<RectTransform>().localRotation = Quaternion.identity;
+            goAction.AddComponent<ShowAssociatedDice>();
 
             Button btn = goAction.GetComponent<Button>();
 
