@@ -51,6 +51,7 @@ public class IngameUI : MonoBehaviour
     // Battle ui
     public GameObject battleUI;
 
+    public GameObject mouseFollower;
     #region Accessors
     public UIIconFeedback UiIconFeedBack
     {

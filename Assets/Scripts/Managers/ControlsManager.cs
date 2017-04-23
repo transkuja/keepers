@@ -244,13 +244,17 @@ public class ControlsManager : MonoBehaviour
                         else
                         {
                             GameManager.Instance.ClearListKeeperSelected();
+                            GameManager.Instance.Ui.mouseFollower.SetActive(false);
                             BattleHandler.ActivateFeedbackSelection(true, false);
+                            BattleHandler.DeactivateFeedbackSelection(false, true);
                         }
                     }
                     else
                     {
                         GameManager.Instance.ClearListKeeperSelected();
+                        GameManager.Instance.Ui.mouseFollower.SetActive(false);
                         BattleHandler.ActivateFeedbackSelection(true, false);
+                        BattleHandler.DeactivateFeedbackSelection(false, true);
                     }
                 }
             }
@@ -260,6 +264,9 @@ public class ControlsManager : MonoBehaviour
                 {
                     if (GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Fighter>().HasClickedOnAttack)
                     {
+                        GameManager.Instance.Ui.mouseFollower.SetActive(false);
+                        BattleHandler.DeactivateFeedbackSelection(false, true);
+
                         if (!EventSystem.current.IsPointerOverGameObject())
                         {
                             RaycastHit hitInfo;
@@ -269,11 +276,6 @@ public class ControlsManager : MonoBehaviour
                                 if (clickTarget.GetComponentInParent<PawnInstance>() != null)
                                 {
                                     GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Fighter>().AttackProcess(clickTarget.GetComponentInParent<Fighter>());
-                                    
-                                    if (!BattleHandler.WasTheLastToPlay)
-                                        BattleHandler.ActivateFeedbackSelection(true, false);
-
-                                    BattleHandler.DeactivateFeedbackSelection(false, true);
                                 }
                                 else
                                 {
@@ -287,6 +289,9 @@ public class ControlsManager : MonoBehaviour
                                 GameManager.Instance.ClearListKeeperSelected();
                             }
                         }
+
+                        if (!BattleHandler.WasTheLastToPlay)
+                            BattleHandler.ActivateFeedbackSelection(true, false);
                     }
                 }
                 else

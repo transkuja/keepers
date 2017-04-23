@@ -21,14 +21,11 @@ Monster do not attack a 0hp target
 error with worldspace canvas when monster destroyed
 error with inventory panel when 0 items computed??
 
-remove arrow selection feedback
-
-Add feedback animated from dice to UI 
-
 empty loot box
 
 
-feedback: highlight on avatars, grey avatars when turned has been played
-feedback: arrow selected: show keepers who can play, clic on one, mask all arrows, reshow when appropriate
-
 skills?
+
+feedback: onpointerenter attafck button: highlight dice avec UI dmg + épée sprite
+feedback: onpointerenter defense button: highlight dice avec UI defense + bouclier sprite
+feedback: onpointerenter skills button: highlight UI VALUES

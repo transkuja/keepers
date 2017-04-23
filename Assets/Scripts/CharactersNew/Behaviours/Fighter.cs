@@ -359,6 +359,8 @@ namespace Behaviour
                 hasClickedOnAttack = value;
                 if (hasClickedOnAttack == true)
                 {
+                    GameManager.Instance.Ui.mouseFollower.SetActive(true);
+                    GameManager.Instance.Ui.mouseFollower.GetComponent<MouseFollower>().ExpectedTarget(TargetType.Foe);
                     BattleHandler.ActivateFeedbackSelection(false, true);
                 }
             }
@@ -460,6 +462,8 @@ namespace Behaviour
     }
 }
 
+public enum TargetType { Friend, Foe}
+
 /*
  * Contains definition of battle skills 
  */
@@ -474,6 +478,7 @@ public class SkillBattle
     private string description;
     [SerializeField]
     private List<Face> cost = new List<Face>();
+    TargetType targetType;
 
     public int Damage
     {
