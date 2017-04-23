@@ -650,6 +650,11 @@ public class BattleHandler {
 
     public static void EnableMonstersLifeBars()
     {
+        if (currentBattleMonsters == null)
+        {
+            Debug.LogWarning("No monsters for current battle.");
+            return;
+        }
         for (int i = 0; i < currentBattleMonsters.Length; i++)
         {
             foreach (Transform child in currentBattleMonsters[i].transform)

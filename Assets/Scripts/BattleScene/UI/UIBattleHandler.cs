@@ -114,6 +114,9 @@ public class UIBattleHandler : MonoBehaviour {
         {
             case UIBattleState.WaitForDiceThrow:
                 throwDiceButton.GetComponent<Button>().interactable = true;
+                throwDiceButton.GetComponent<ThrowDiceButtonFeedback>().enabled = true;
+                throwDiceButton.transform.parent.GetComponent<Image>().enabled = true;
+
                 escapeBattleButton.GetComponent<Button>().interactable = true;
                 throwDiceButton.SetActive(true);
                 escapeBattleButton.SetActive(true);
@@ -122,6 +125,8 @@ public class UIBattleHandler : MonoBehaviour {
 
             case UIBattleState.Actions:
                 throwDiceButton.GetComponent<Button>().interactable = false;
+                throwDiceButton.GetComponent<ThrowDiceButtonFeedback>().enabled = false;
+                throwDiceButton.transform.parent.GetComponent<Image>().enabled = false;
                 escapeBattleButton.GetComponent<Button>().interactable = false;
                 break;
 
