@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public enum DieFaceChildren { Edge, Left, Up, Right, Front, Back, Down }
+public enum DieFaceChildren { Edge, Back, Down, Front, Left, Right, Up }
 
 [System.Serializable]
 public class Die {

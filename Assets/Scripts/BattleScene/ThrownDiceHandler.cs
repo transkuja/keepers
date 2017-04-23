@@ -31,8 +31,7 @@ public class ThrownDiceHandler : MonoBehaviour {
                 // Create dice visuals
                 diceInstance.Add(currentKeeper, new List<GameObject>());
                 for (int j = 0; j < currentKeeper.GetComponent<Behaviour.Fighter>().Dice.Length; j++)
-                {
-                    
+                {                  
                     Transform diePosition = TileManager.Instance.DicePositionsOnTile.GetChild(i).GetChild(j);
                     diceInstance[currentKeeper].Add(DieBuilder.BuildDie(diceForCurrentThrow[currentKeeper][j], GameManager.Instance.ActiveTile, diePosition.localPosition + diePosition.parent.localPosition));
                 }
@@ -83,19 +82,19 @@ public class ThrownDiceHandler : MonoBehaviour {
     {
         if (upFace == (int)DieFaceChildren.Back)
         {
-            dieToRotate.transform.Rotate(transform.right, -90);
+            dieToRotate.transform.Rotate(transform.forward, -90);
         }
         else if (upFace == (int)DieFaceChildren.Front)
         {
-            dieToRotate.transform.Rotate(transform.right, 90);
+            dieToRotate.transform.Rotate(transform.forward, 90);
         }
         else if (upFace == (int)DieFaceChildren.Left)
         {
-            dieToRotate.transform.Rotate(transform.forward, -90);
+            dieToRotate.transform.Rotate(transform.right, -90);
         }
         else if (upFace == (int)DieFaceChildren.Right)
         {
-            dieToRotate.transform.Rotate(transform.forward, 90);
+            dieToRotate.transform.Rotate(transform.right, 90);
         }
         else if (upFace == (int)DieFaceChildren.Down)
         {
