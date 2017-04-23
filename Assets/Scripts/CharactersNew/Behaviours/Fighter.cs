@@ -580,18 +580,18 @@ public class SkillBattle
         }
     }
 
-    public bool CanUseSkill(int physicalStock, int magicalStock, int defenseStock, int supportStock)
+    public bool CanUseSkill(Behaviour.Fighter _user)
     {
         foreach (Face f in cost)
         {
-            if (f.Type == FaceType.Physical && physicalStock < f.Value)
+            if (f.Type == FaceType.Physical && _user.PhysicalSymbolStored < f.Value)
                 return false;
-            if (f.Type == FaceType.Magical && magicalStock < f.Value)
+            if (f.Type == FaceType.Magical && _user.MagicalSymbolStored < f.Value)
                 return false;
 
-            if (f.Type == FaceType.Defensive && defenseStock < f.Value)
+            if (f.Type == FaceType.Defensive && _user.DefensiveSymbolStored < f.Value)
                 return false;
-            if (f.Type == FaceType.Support && supportStock >= f.Value)
+            if (f.Type == FaceType.Support && _user.SupportSymbolStored < f.Value)
                 return false;
         }
         return true;
