@@ -616,18 +616,11 @@ public class GameManager : MonoBehaviour
 
 
     public void OpenSelectBattleCharactersScreen(Tile tile)
-
     {
-
         Transform screen = SelectBattleCharactersScreen;
-
         screen.GetComponent<SelectBattleCharactersPanelHandler>().ActiveTile = tile;
-
         screen.gameObject.SetActive(true);
-
     }
-
-
 
     public PawnInstance PrisonerInstance
 
@@ -1124,8 +1117,8 @@ public class GameManager : MonoBehaviour
     public void SetStateToInBattle(PawnInstance[] _fighters)
     {
         currentFighters = _fighters;
-        ClearListKeeperSelected();
         CurrentState = GameState.InBattle;
+        ClearListKeeperSelected();
         cameraManagerReference.UpdateCameraPosition(tileManagerReference.CameraPositionForBattle.localPosition);
     }
 
