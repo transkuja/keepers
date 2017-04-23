@@ -1,35 +1,36 @@
 fileFormatVersion: 2
-guid: c2df48dadb56e8343b076847afeecc9c
-timeCreated: 1492764849
+guid: 2e7421239094e6043b2e95cef50b83a5
+timeCreated: 1492940436
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
     100000: //RootNode
-    100002: nana_body
-    100004: Nana_stand
-    100006: Nana_stand1
-    100008: nana_sword
+    100002: Lupus_Stand
+    100004: LupusHat
+    100006: STP_Dog_bag
+    100008: STP_dog_body
     400000: //RootNode
-    400002: nana_body
-    400004: Nana_stand
-    400006: Nana_stand1
-    400008: nana_sword
-    2300000: nana_body
-    2300002: Nana_stand
-    2300004: Nana_stand1
-    2300006: nana_sword
-    3300000: nana_body
-    3300002: Nana_stand
-    3300004: Nana_stand1
-    3300006: nana_sword
-    4300000: nana_body
-    4300002: nana_sword
-    4300004: Nana_stand
-    4300006: Nana_stand1
-    6400000: nana_body
-    6400002: Nana_stand
-    6400004: nana_sword
+    400002: Lupus_Stand
+    400004: LupusHat
+    400006: STP_Dog_bag
+    400008: STP_dog_body
+    2300000: Lupus_Stand
+    2300002: LupusHat
+    2300004: STP_Dog_bag
+    2300006: STP_dog_body
+    3300000: Lupus_Stand
+    3300002: LupusHat
+    3300004: STP_Dog_bag
+    3300006: STP_dog_body
+    4300000: STP_dog_body
+    4300002: STP_Dog_bag
+    4300004: LupusHat
+    4300006: Lupus_Stand
+    6400000: Lupus_Stand
+    6400002: LupusHat
+    6400004: STP_Dog_bag
+    6400006: STP_dog_body
     9500000: //RootNode
   materials:
     importMaterials: 1

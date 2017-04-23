@@ -17,6 +17,8 @@ ModelImporter:
     3300002: Pipou_stand
     4300000: Pipou_Body
     4300002: Pipou_stand
+    6400000: Pipou_Body
+    6400002: Pipou_stand
     9500000: //RootNode
   materials:
     importMaterials: 1
@@ -44,7 +46,7 @@ ModelImporter:
     lODScreenPercentages: []
     globalScale: 1
     meshCompression: 0
-    addColliders: 0
+    addColliders: 1
     importBlendShapes: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
