@@ -75,9 +75,9 @@ namespace Behaviour
             if (GetComponent<Monster>() != null) IsAMonster = true;
             else IsAMonster = false;
 
-            battleInteractions.Add(new Interaction(Attack), 0, "Attack", GameManager.Instance.SpriteUtils.spriteMoral);
-            battleInteractions.Add(new Interaction(Guard), 0, "Guard", GameManager.Instance.SpriteUtils.spriteMoral);
-            battleInteractions.Add(new Interaction(OpenSkillPanel), 0, "OpenSkillPanel", GameManager.Instance.SpriteUtils.spriteMoral);
+            battleInteractions.Add(new Interaction(Attack), 0, "Attack", GameManager.Instance.SpriteUtils.spriteAttack);
+            battleInteractions.Add(new Interaction(Guard), 0, "Guard", GameManager.Instance.SpriteUtils.spriteGuard);
+            battleInteractions.Add(new Interaction(OpenSkillPanel), 0, "OpenSkillPanel", GameManager.Instance.SpriteUtils.spriteUseSkill);
 
         }
 
@@ -103,6 +103,7 @@ namespace Behaviour
                     if (showFeedbackDmgTimer < 0.0f)
                     {
                         GetComponent<PawnInstance>().AddFeedBackToQueue(-pendingDamage);
+                        GetComponent<Mortal>().CurrentHp -= pendingDamage;
                         isWaitingForDmgFeedback = false;
                     }
                     else
@@ -256,6 +257,7 @@ namespace Behaviour
             set
             {
                 physicalSymbolStored = value;
+                GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().UpdateAttributesStocks(this);
             }
         }
 
@@ -269,6 +271,7 @@ namespace Behaviour
             set
             {
                 magicalSymbolStored = value;
+                GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().UpdateAttributesStocks(this);
             }
         }
 
@@ -282,6 +285,7 @@ namespace Behaviour
             set
             {
                 defensiveSymbolStored = value;
+                GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().UpdateAttributesStocks(this);
             }
         }
 
@@ -295,6 +299,7 @@ namespace Behaviour
             set
             {
                 supportSymbolStored = value;
+                GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().UpdateAttributesStocks(this);
             }
         }
 

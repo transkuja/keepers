@@ -37,6 +37,7 @@ namespace Behaviour
         [SerializeField]
         private MortalData data;
 
+        [SerializeField]
         int currentHp;
         bool isAlive;
 
@@ -214,6 +215,17 @@ namespace Behaviour
                 {
                     IsAlive = true;
                     UpdateHPPanel(currentHp);
+                }
+                if (GameManager.Instance.CurrentState == GameState.InBattle)
+                {
+                    if (GetComponent<Keeper>() != null || GetComponent<Escortable>())
+                    {
+                        GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().UpdateCharacterLifeBar(this);
+                    }
+                    else if (GetComponent<Monster>())
+                    {
+                        GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().UpdateLifeBar(this);
+                    }
                 }
             }
         }

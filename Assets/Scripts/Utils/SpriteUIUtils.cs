@@ -23,6 +23,10 @@ public class SpriteUIUtils : MonoBehaviour {
     public Sprite spriteMoralDebuff;
     public Sprite spriteEndAction;
 
+    public Sprite spriteAttack;
+    public Sprite spriteGuard;
+    public Sprite spriteUseSkill;
+
     // for death
     public Sprite spriteSupport;
     public Sprite spriteDeath;
@@ -40,5 +44,9 @@ public class SpriteUIUtils : MonoBehaviour {
     public Sprite spriteMouseRightClicked;
     public Sprite spriteMouseLeftClicked;
     public Sprite spriteMouseMiddleClicked;
+
+    // Life bars
+    public Sprite spriteGreenLifeBar;
+    public Sprite spriteOrangeLifeBar;
 }
 

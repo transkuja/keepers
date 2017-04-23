@@ -20,6 +20,14 @@ Monster do not attack a 0hp target
 
 error with worldspace canvas when monster destroyed
 error with inventory panel when 0 items computed??
-greyed throw dice button after throw
-greyed escape button when dice have been thrown then reactivate at the beginning of keepers turn
-reduce timer before accessing turn actions
+
+remove arrow selection feedback
+
+Add feedback animated from dice to UI 
+
+empty loot box
+
+feedback on throw dice button
+
+feedback: highlight on avatars, grey avatars when turned has been played
+feedback: arrow selected: show keepers who can play, clic on one, mask all arrows, reshow when appropriate

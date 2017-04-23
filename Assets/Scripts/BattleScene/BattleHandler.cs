@@ -26,6 +26,8 @@ public class BattleHandler {
     private static Dictionary<PawnInstance, List<GameObject>> currentTurnDiceInstance;
     private static bool hasDiceBeenThrown = false;
 
+    private static List<GameObject> enabledLifeBars = new List<GameObject>();
+
     // Debug parameters
     private static bool isDebugModeActive = false;
 
@@ -84,13 +86,16 @@ public class BattleHandler {
 
         GameManager.Instance.SetStateToInBattle(AllCurrentFighters());
 
-        // Move pawns to battle positions
+        // Move pawns to battle positions and initialize ui info panel
         int offsetIndex = 0;
+        GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().OccupiedCharacterPanelIndex = new bool[3];
+
         if (isPrisonerOnTile)
         {
             Transform newTransform = TileManager.Instance.BattlePositions.GetChild(offsetIndex);
             GameManager.Instance.PrisonerInstance.GetComponent<AnimatedPawn>().StartMoveToBattlePositionAnimation(newTransform.localPosition, newTransform.localRotation);
             offsetIndex = 1;
+            GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().CharacterPanelInit(GameManager.Instance.PrisonerInstance);
         }
 
         int keeperIndex = 0;
@@ -98,9 +103,10 @@ public class BattleHandler {
         {
             Transform newTransform = TileManager.Instance.BattlePositions.GetChild(i);
             currentBattleKeepers[keeperIndex].GetComponent<AnimatedPawn>().StartMoveToBattlePositionAnimation(newTransform.localPosition, newTransform.localRotation);
+            GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().CharacterPanelInit(currentBattleKeepers[keeperIndex]);
             keeperIndex++;
         }
-        
+
         int monsterIndex = 0;
         for (int i = 3; i < 3 + currentBattleMonsters.Length; i++)
         {
@@ -640,6 +646,40 @@ public class BattleHandler {
         }
         tmp += log + '\n';
         battleLogger.text = tmp;
+    }
+
+    public static void EnableMonstersLifeBars()
+    {
+        for (int i = 0; i < currentBattleMonsters.Length; i++)
+        {
+            foreach (Transform child in currentBattleMonsters[i].transform)
+            {
+                if (child.CompareTag("FeedbackTransform"))
+                {
+                    GameObject lifeBar = child.GetChild(0).GetChild(1).gameObject;
+                    Image lifeBarImg = lifeBar.transform.GetChild((int)LifeBarChildren.Remaining).GetComponent<Image>();
+                    lifeBarImg.fillAmount = currentBattleMonsters[i].GetComponent<Mortal>().CurrentHp / (float)currentBattleMonsters[i].GetComponent<Mortal>().MaxHp;
+                    if (lifeBarImg.fillAmount < 0.33f)
+                    {
+                        lifeBarImg.sprite = GameManager.Instance.SpriteUtils.spriteOrangeLifeBar;
+                    }
+                    else
+                    {
+                        lifeBarImg.sprite = GameManager.Instance.SpriteUtils.spriteGreenLifeBar;
+                    }
+                    lifeBar.SetActive(true);
+                    enabledLifeBars.Add(lifeBar);
+                    break;
+                }
+            }
+        }
+    }
+
+    public static void DisableMonstersLifeBars()
+    {
+        foreach (GameObject lifeBar in enabledLifeBars)
+            lifeBar.SetActive(false);
+        enabledLifeBars.Clear();
     }
 
     public static bool IsKeepersTurn

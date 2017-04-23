@@ -336,9 +336,10 @@ namespace Behaviour
             {
                 isSelected = value;
 
-                feedbackSelection.SetActive(value);
                 if (GameManager.Instance.CurrentState == GameState.Normal)
                 {
+                    feedbackSelection.SetActive(value);
+
                     if (agent != null)
                         agent.avoidancePriority = value == true ? 80 : 50;
 
@@ -349,10 +350,12 @@ namespace Behaviour
                     ShowSelectedPanelUI(isSelected);
                     GameManager.Instance.Ui.HideInventoryPanels();
                 }
-                if (GameManager.Instance.CurrentState == GameState.InBattle)
+                else if (GameManager.Instance.CurrentState == GameState.InBattle)
                 {
+                    feedbackSelection.SetActive(false);
                     // TODO: show/unshow battle possible actions
                 }
+
                 GameManager.Instance.Ui.ClearActionPanel();
             }
 
