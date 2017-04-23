@@ -28,6 +28,8 @@ public class BattleHandler {
 
     private static List<GameObject> enabledLifeBars = new List<GameObject>();
     private static bool wasTheLastToPlay = false;
+    private static SkillBattle pendingSkill;
+    private static bool isWaitingForSkillEnd = false;
 
     // Debug parameters
     private static bool isDebugModeActive = false;
@@ -204,7 +206,13 @@ public class BattleHandler {
 
         if (mustShiftTurn)
         {
+            DeactivateFeedbackSelection(true, false);
             ShiftTurn();
+        }
+        else
+        {
+            ActivateFeedbackSelection(true, false);
+            DeactivateFeedbackSelection(false, true);
         }
     }
 
@@ -233,10 +241,16 @@ public class BattleHandler {
 
     public static void ShiftToNextMonsterTurn()
     {
+        Debug.Log("here");
+        Debug.Log(nextMonsterIndex);
         if (nextMonsterIndex + 1 < currentBattleMonsters.Length)
             MonsterTurn(nextMonsterIndex + 1);
         else
+        {
+            Debug.Log("??");
             GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().ChangeState(UIBattleState.WaitForDiceThrow);
+        }
+            
     }
 
     private static void MonsterTurn(int _nextMonsterIndex)
@@ -625,6 +639,8 @@ public class BattleHandler {
         currentTurnDice = null;
         hasDiceBeenThrown = false;
         wasTheLastToPlay = false;
+        pendingSkill = null;
+        isWaitingForSkillEnd = false;
     }
 
     private static void PrintResultsScreen(bool isVictorious)
@@ -768,6 +784,11 @@ public class BattleHandler {
         }
     }
 
+    public static void WaitForSkillConfirmation(SkillBattle _skillData)
+    {
+        pendingSkill = _skillData;
+    }
+
     public static bool IsKeepersTurn
     {
         get
@@ -833,6 +854,40 @@ public class BattleHandler {
         set
         {
             wasTheLastToPlay = value;
+        }
+    }
+
+    public static SkillBattle PendingSkill
+    {
+        get
+        {
+            return pendingSkill;
+        }
+
+        set
+        {
+            pendingSkill = value;
+        }
+    }
+
+    public static bool IsWaitingForSkillEnd
+    {
+        get
+        {
+            return isWaitingForSkillEnd;
+        }
+
+        set
+        {
+            isWaitingForSkillEnd = value;
+            if (isWaitingForSkillEnd == false)
+            {
+                ActivateFeedbackSelection(true, false);
+            }
+            else
+            {
+                DeactivateFeedbackSelection(true, true);
+            }
         }
     }
 }

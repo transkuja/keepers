@@ -8,13 +8,14 @@ public enum UIBattleState { WaitForDiceThrow, DiceRolling, WaitForDiceThrowValid
 public enum CharactersPanelChildren { Avatar, LifeBar, Attributes }
 public enum AttributesChildren { Attack, Defense, Magic, Support }
 public enum LifeBarChildren { Remaining, Text }
+public enum SkillButtonChildren { SkillName, Atk, Def, Mag, Support }
 
 public class UIBattleHandler : MonoBehaviour {
 
     private bool[] occupiedCharacterPanelIndex;
 
     [SerializeField]
-    private GameObject skillsButtons;
+    private GameObject skillsPanels;
     [SerializeField]
     private GameObject throwDiceButton;
     [SerializeField]
@@ -31,6 +32,7 @@ public class UIBattleHandler : MonoBehaviour {
     private GameObject shortcutButton;
 
     private Dictionary<PawnInstance, Transform> associatedCharacterPanel = new Dictionary<PawnInstance, Transform>();
+    private Dictionary<PawnInstance, Transform> associatedSkillsPanel = new Dictionary<PawnInstance, Transform>();
 
     public GameObject SkillName
     {
@@ -63,6 +65,11 @@ public class UIBattleHandler : MonoBehaviour {
         return associatedCharacterPanel[_fromPawn];
     }
 
+    public Transform GetSkillsPanelIndex(PawnInstance _fromPawn)
+    {
+        return associatedSkillsPanel[_fromPawn];
+    }
+
     void OnEnable()
     {
         if (endTurnButton == null)
@@ -93,6 +100,7 @@ public class UIBattleHandler : MonoBehaviour {
 
         BattleHandler.DisableMonstersLifeBars();
         associatedCharacterPanel.Clear();
+        associatedSkillsPanel.Clear();
         ChangeState(UIBattleState.Disabled);
     }
 
@@ -192,6 +200,40 @@ public class UIBattleHandler : MonoBehaviour {
 
         occupiedCharacterPanelIndex[initIndex] = true;
         associatedCharacterPanel.Add(_pawnInstanceForInit, characterPanel);
+        SkillsPanelInit(_pawnInstanceForInit, initIndex);
+    }
+
+    private void SkillsPanelInit(PawnInstance _pawnInstanceForInit, int _index)
+    {
+        Transform skillsPanel = skillsPanels.transform.GetChild(_index);
+        Fighter fighterComponent = _pawnInstanceForInit.GetComponent<Fighter>();
+
+        if (fighterComponent.BattleSkills != null && fighterComponent.BattleSkills.Count > 0)
+        {
+            for (int i = 0; i < fighterComponent.BattleSkills.Count && i < 4; i++)
+            {
+                Transform currentSkill = skillsPanel.GetChild(i);
+                currentSkill.GetChild((int)SkillButtonChildren.SkillName).GetComponent<SkillContainer>().SkillData = fighterComponent.BattleSkills[i];
+                currentSkill.GetChild((int)SkillButtonChildren.SkillName).GetComponent<Text>().text = fighterComponent.BattleSkills[i].SkillName;
+                currentSkill.GetComponent<SkillDescriptionUI>().SkillDescription = fighterComponent.BattleSkills[i].Description;
+                foreach (Face face in fighterComponent.BattleSkills[i].Cost)
+                {
+                    if (face.Type == FaceType.Physical)
+                        currentSkill.GetChild((int)SkillButtonChildren.Atk).GetComponentInChildren<Text>().text = face.Value.ToString();
+
+                    if (face.Type == FaceType.Defensive)
+                        currentSkill.GetChild((int)SkillButtonChildren.Def).GetComponentInChildren<Text>().text = face.Value.ToString();
+
+                    if (face.Type == FaceType.Magical)
+                        currentSkill.GetChild((int)SkillButtonChildren.Mag).GetComponentInChildren<Text>().text = face.Value.ToString();
+
+                    if (face.Type == FaceType.Support)
+                        currentSkill.GetChild((int)SkillButtonChildren.Support).GetComponentInChildren<Text>().text = face.Value.ToString();
+                }
+                currentSkill.gameObject.SetActive(true);
+            }
+        }
+        associatedSkillsPanel.Add(_pawnInstanceForInit, skillsPanel);
     }
 
     public void UpdateLifeBar(Mortal _toUpdate)
@@ -257,4 +299,5 @@ public class UIBattleHandler : MonoBehaviour {
         }
         panelToUpdate.GetChild((int)CharactersPanelChildren.LifeBar).GetChild((int)LifeBarChildren.Text).GetComponent<Text>().text = _toUpdate.CurrentHp + " / " + _toUpdate.Data.MaxHp;
     }
+
 }

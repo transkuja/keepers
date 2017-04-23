@@ -118,7 +118,9 @@ namespace Behaviour
                     showSkillPanelTimer = 1.5f;
                     showFeedbackDmgTimer = 1.0f;
                     isWaitingForSkillPanelToClose = false;
-                    BattleHandler.ShiftToNextMonsterTurn();
+                    //BattleHandler.IsWaitingForSkillEnd = false;
+                    //if (!BattleHandler.IsKeepersTurn)
+                        BattleHandler.ShiftToNextMonsterTurn();
                 }
                 else
                 {
@@ -184,7 +186,7 @@ namespace Behaviour
                 _attackTarget.GetComponent<Mortal>().CurrentHp -= effectiveDamage;
                 _attackTarget.GetComponent<PawnInstance>().AddFeedBackToQueue(-effectiveDamage);
             }
-
+            
             HasPlayedThisTurn = true;
         }
 
@@ -201,12 +203,14 @@ namespace Behaviour
 
             }
             GetComponent<PawnInstance>().AddFeedBackToQueue(GameManager.Instance.SpriteUtils.spriteDefenseSymbol, temporaryDefense);
+            BattleHandler.ActivateFeedbackSelection(true, false);
             HasPlayedThisTurn = true;
         }
 
         public void OpenSkillPanel(int _i = 0)
         {
             Debug.Log("openskillpanel");
+            GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().GetSkillsPanelIndex(GetComponent<PawnInstance>()).gameObject.SetActive(true);
         }
         #endregion
 
@@ -515,6 +519,7 @@ public class SkillBattle
     private string description;
     [SerializeField]
     private List<Face> cost = new List<Face>();
+    [SerializeField]
     TargetType targetType;
 
     public int Damage
@@ -546,6 +551,32 @@ public class SkillBattle
         set
         {
             cost = value;
+        }
+    }
+
+    public TargetType TargetType
+    {
+        get
+        {
+            return targetType;
+        }
+
+        set
+        {
+            targetType = value;
+        }
+    }
+
+    public string SkillName
+    {
+        get
+        {
+            return skillName;
+        }
+
+        set
+        {
+            skillName = value;
         }
     }
 
@@ -587,5 +618,10 @@ public class SkillBattle
         _target.GetComponent<Behaviour.Fighter>().IsWaitingForDmgFeedback = true;
         _target.GetComponent<Behaviour.Fighter>().IsWaitingForSkillPanelToClose = true;
         _target.GetComponent<Behaviour.Fighter>().PendingDamage = damage;
+        if (_user.GetComponent<Behaviour.Keeper>() != null)
+        {
+            BattleHandler.IsWaitingForSkillEnd = true;
+            _user.HasPlayedThisTurn = true;
+        }
     }
 }

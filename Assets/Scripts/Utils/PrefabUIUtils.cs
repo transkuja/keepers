@@ -53,5 +53,6 @@ public class PrefabUIUtils : MonoBehaviour {
     public GameObject prefabLifeBar;
     public GameObject diceFeedback;
     public GameObject diceFeedbackOnPointerEnter;
+    public GameObject skillDescriptionPanel;
 
 }

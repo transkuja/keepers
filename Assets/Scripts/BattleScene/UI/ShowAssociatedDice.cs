@@ -31,6 +31,27 @@ public class ShowAssociatedDice : MonoBehaviour, IPointerEnterHandler, IPointerE
 
     private void OnDisable()
     {
+        if (name == "OpenSkillPanel")
+        {
+            Transform characterPanel = GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().GetCharacterPanelIndex(pawn);
+            foreach (Image im in characterPanel.GetChild((int)CharactersPanelChildren.Attributes).GetComponentsInChildren<Image>())
+            {
+                im.color = Color.white;
+            }
+            foreach (Text txt in characterPanel.GetChild((int)CharactersPanelChildren.Attributes).GetComponentsInChildren<Text>())
+            {
+                txt.color = Color.white;
+            }
+        }
+        else
+        {
+            feedbackAboveDice.SetActive(false);
+            foreach (GameObject die in pawn.GetComponent<Behaviour.Fighter>().LastThrowDiceInstance)
+            {
+                die.GetComponent<GlowObjectCmd>().UpdateColor(false);
+                die.GetComponent<GlowObjectCmd>().enabled = true;
+            }
+        }
         Destroy(feedbackAboveDice);
     }
 
