@@ -42,6 +42,13 @@ ModelImporter:
     4300008: Face_Front
     4300010: Face_Back
     4300012: Face_Up
+    6400000: Bordure_De
+    6400002: Face_Back
+    6400004: Face_Down
+    6400006: Face_Front
+    6400008: Face_Left
+    6400010: Face_Right
+    6400012: Face_Up
     9500000: //RootNode
   materials:
     importMaterials: 1
@@ -69,7 +76,7 @@ ModelImporter:
     lODScreenPercentages: []
     globalScale: 1
     meshCompression: 0
-    addColliders: 0
+    addColliders: 1
     importBlendShapes: 1
     swapUVChannels: 0
     generateSecondaryUV: 0

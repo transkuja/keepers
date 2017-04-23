@@ -29,14 +29,20 @@ public class GlowObjectCmd : MonoBehaviour
 
 	private void OnMouseEnter()
 	{
-        _targetColor = GlowColor;
-		enabled = true;
+        if (GetComponent<DieFeedback>() == null)
+        {
+            _targetColor = GlowColor;
+            enabled = true;
+        }     
 	}
 
 	private void OnMouseExit()
 	{
-        _targetColor = Color.black;
-		enabled = true;
+        if (GetComponent<DieFeedback>() == null)
+        {
+            _targetColor = Color.black;
+            enabled = true;
+        }
 	}
 
 	/// <summary>
