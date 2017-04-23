@@ -260,47 +260,54 @@ public class ControlsManager : MonoBehaviour
             }
             else if (Input.GetMouseButtonDown(1))
             {
-                if (GameManager.Instance.ListOfSelectedKeepers != null && GameManager.Instance.ListOfSelectedKeepers.Count > 0)
-                {
-                    if (GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Fighter>().HasClickedOnAttack)
-                    {
-                        GameManager.Instance.Ui.mouseFollower.SetActive(false);
-                        BattleHandler.DeactivateFeedbackSelection(false, true);
-
-                        if (!EventSystem.current.IsPointerOverGameObject())
-                        {
-                            RaycastHit hitInfo;
-                            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo) == true)
-                            {
-                                GameObject clickTarget = hitInfo.collider.gameObject;
-                                if (clickTarget.GetComponentInParent<PawnInstance>() != null)
-                                {
-                                    GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Fighter>().AttackProcess(clickTarget.GetComponentInParent<Fighter>());
-                                }
-                                else
-                                {
-                                    GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Fighter>().HasClickedOnAttack = false;
-                                    GameManager.Instance.ClearListKeeperSelected();
-                                }
-                            }
-                            else
-                            {
-                                GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Fighter>().HasClickedOnAttack = false;
-                                GameManager.Instance.ClearListKeeperSelected();
-                            }
-                        }
-
-                        if (!BattleHandler.WasTheLastToPlay)
-                            BattleHandler.ActivateFeedbackSelection(true, false);
-                    }
-                }
-                else
-                {
-                    BattleHandler.ActivateFeedbackSelection(true, false);
-                }
+                HandleActionValidationDuringBattle();
             }
         }
     }
+
+    // TODO: some things are in double for left click
+    private void HandleActionValidationDuringBattle()
+    {
+        if (GameManager.Instance.ListOfSelectedKeepers != null && GameManager.Instance.ListOfSelectedKeepers.Count > 0)
+        {
+            if (GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Fighter>().HasClickedOnAttack)
+            {
+                GameManager.Instance.Ui.mouseFollower.SetActive(false);
+                BattleHandler.DeactivateFeedbackSelection(false, true);
+
+                if (!EventSystem.current.IsPointerOverGameObject())
+                {
+                    RaycastHit hitInfo;
+                    if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo) == true)
+                    {
+                        GameObject clickTarget = hitInfo.collider.gameObject;
+                        if (clickTarget.GetComponentInParent<PawnInstance>() != null)
+                        {
+                            GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Fighter>().AttackProcess(clickTarget.GetComponentInParent<Fighter>());
+                        }
+                        else
+                        {
+                            GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Fighter>().HasClickedOnAttack = false;
+                            GameManager.Instance.ClearListKeeperSelected();
+                        }
+                    }
+                    else
+                    {
+                        GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Fighter>().HasClickedOnAttack = false;
+                        GameManager.Instance.ClearListKeeperSelected();
+                    }
+                }
+
+                if (!BattleHandler.WasTheLastToPlay)
+                    BattleHandler.ActivateFeedbackSelection(true, false);
+            }
+        }
+        else
+        {
+            BattleHandler.ActivateFeedbackSelection(true, false);
+        }
+    }
+
     private void ChangeSelectedKeeper()
     {
         if (Input.GetKeyDown(KeyCode.Tab))
