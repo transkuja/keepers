@@ -24,7 +24,7 @@ public class JoinTeamOnQuestComplete : MonoBehaviour {
         GameManager.Instance.CharacterInitializer.InitCharacterUI(pawn);
         TileManager.Instance.AddKeeperOnTile(GetComponentInParent<Tile>(), pawn);
         GameManager.Instance.ClearListKeeperSelected();
-        //GameManager.Instance.AllKeepersList.Add(pawn);
+        GameManager.Instance.AllKeepersList.Add(pawn);
         GlowController.RegisterObject(pawn.GetComponent<GlowObjectCmd>());
         pawn.GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = true;
         Transform feed = GetComponent<Interactable>().Feedback;

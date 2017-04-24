@@ -991,7 +991,10 @@ public class GameManager : MonoBehaviour
     private void ExitBattleStateProcess()
     {
         foreach (NavMeshAgent agent in pausedAgents)
-            agent.Resume();
+        {
+            if (agent != null)
+                agent.Resume();
+        }
         pausedAgents.Clear();
 
         foreach (NavMeshAgent agent in disabledAgents)
