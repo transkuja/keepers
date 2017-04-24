@@ -58,10 +58,10 @@ public class DieFeedback : MonoBehaviour {
         {
             if (isRising)
             {
-                if (timer < 1.0f)
+                if (timer < 0.5f)
                 {
                     timer += Time.deltaTime;
-                    feedback.transform.localPosition += (Time.deltaTime * 100) * Vector3.up;
+                    feedback.transform.localPosition += (Time.deltaTime * 200) * Vector3.up;
                 }
                 else
                 {
@@ -76,9 +76,9 @@ public class DieFeedback : MonoBehaviour {
             {
                 if (isMovingToPanel)
                 {
-                    feedback.transform.position = Vector3.Lerp(lerpStartPosition, lerpEndPosition, lerpParam);
+                    feedback.transform.position = Vector3.Lerp(lerpStartPosition, lerpEndPosition, lerpParam*2);
                     lerpParam += Time.deltaTime;
-                    if (lerpParam >= 1.0f)
+                    if (lerpParam >= 0.5f)
                     {
                         isMovingToPanel = false;
                         Destroy(feedback);

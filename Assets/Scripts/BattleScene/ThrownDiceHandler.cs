@@ -107,7 +107,7 @@ public class ThrownDiceHandler : MonoBehaviour {
         if (isRunning)
         {
             // TODO: replace the value by the dice rolling animation duration
-            if (timerAnimation < 2.0f)
+            if (timerAnimation < 1.0f)
             {
                 PopDiceFeedbacks();
                 timerAnimation += Time.deltaTime;

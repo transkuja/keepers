@@ -58,8 +58,8 @@ namespace Behaviour
         bool isWaitingForDmgFeedback = false;
         int pendingDamage = 0;
         bool isWaitingForSkillPanelToClose = false;
-        float showSkillPanelTimer = 3.0f;
-        float showFeedbackDmgTimer = 2.0f;
+        float showSkillPanelTimer = 1.5f;
+        float showFeedbackDmgTimer = 1.0f;
 
         void Awake()
         {
@@ -109,9 +109,7 @@ namespace Behaviour
                     baseDefense += minDefenseForThisDice;
                 }
             }
-            Debug.Log(name);
-            Debug.Log(baseAttack);
-            Debug.Log(baseDefense);
+
         }
 
         private void Update()
@@ -198,7 +196,8 @@ namespace Behaviour
         // Compute effective damage when hitting a monster
         private int ComputeEffectiveDamage(Fighter _target, int _attackDmg)
         {
-            return Mathf.Max((int)(_attackDmg / (Mathf.Sqrt(_target.GetComponent<Monster>().EffectiveDefense + 1))), (int)(_attackDmg / 10.0f));
+            return _attackDmg;
+            //return Mathf.Max((int)(_attackDmg / (Mathf.Sqrt(_target.GetComponent<Monster>().EffectiveDefense + 1))), (int)(_attackDmg / 10.0f));
         }
 
         public void Guard(int _i = 0)
