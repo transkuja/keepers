@@ -196,7 +196,7 @@ namespace Behaviour
                 _attackTarget.GetComponent<Mortal>().CurrentHp -= effectiveDamage;
                 _attackTarget.GetComponent<PawnInstance>().AddFeedBackToQueue(-effectiveDamage);
             }
-            
+            hasClickedOnAttack = false;
             HasPlayedThisTurn = true;
         }
 
