@@ -34,6 +34,7 @@ public class PrefabUIUtils : MonoBehaviour {
     [Header("Shortcut UI")]
     public GameObject PrefabShorcutCharacter;
     public Sprite tmpShortcutForAshley;
+    public Sprite tmpShortcutForSwag;
 
     // Utils 
     [Header("Utils UI")]
@@ -56,6 +57,5 @@ public class PrefabUIUtils : MonoBehaviour {
     public GameObject diceFeedbackOnPointerEnter;
     public GameObject skillDescriptionPanel;
     public GameObject attributesAscFeedback;
-
 
 }

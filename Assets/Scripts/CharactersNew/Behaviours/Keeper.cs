@@ -162,6 +162,7 @@ namespace Behaviour
         public void CreateShortcutKeeperUI()
         {
             Sprite associatedSprite = instance.Data.AssociatedSpriteForShortcut;
+            if (associatedSprite == null) associatedSprite = GameManager.Instance.PrefabUIUtils.tmpShortcutForSwag; // ashley est crée à partir du json est il n'y a pas dans les donnée le lien sur le shortcut panel -> a corriger @Rémi
             ShorcutUI = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabShorcutCharacter, GameManager.Instance.Ui.goShortcutKeepersPanel.transform);
 
             ShorcutUI.name = "Panel_Shortcut_" + instance.Data.PawnName;
