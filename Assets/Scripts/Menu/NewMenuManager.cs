@@ -39,10 +39,10 @@ public class NewMenuManager : MonoBehaviour {
             {
                 deckOfCards.idQuestDeck = qdd.idQuestDeck;
                 goDeck.layer = LayerMask.NameToLayer("DeckOfCards");
-                if (qdd.materialQuestDeck != null)
+                /*if (qdd.materialQuestDeck != null)
                     goDeck.GetComponent<MeshRenderer>().material = qdd.materialQuestDeck;
                 else
-                    Debug.Log("No material found.");
+                    Debug.Log("No material found.");*/
             }
             else
                 Debug.Log("Deck with no id to set on the prefab");

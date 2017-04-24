@@ -10,6 +10,7 @@ namespace QuestDeckLoader
     {
         public string idQuest;
         public string idQuestDealer;
+        public string cardModelname;
 
         public QuestAssociationDealer()
         {
@@ -23,7 +24,7 @@ namespace QuestDeckLoader
     {
         public string idQuestDeck;
         public string nameQuestDeck;
-        public Material materialQuestDeck;
+        public string deckModelName;
         public string idMainQuest;
         public List<QuestAssociationDealer> secondaryQuests;
 
@@ -32,7 +33,7 @@ namespace QuestDeckLoader
             // For tests
             idQuestDeck = "defaultId";
             nameQuestDeck = "defaultQuestDeckName";
-            materialQuestDeck = null;
+            deckModelName = "";
             idMainQuest = "defaultIdMainQuest";
 
             // Not for tests
@@ -79,9 +80,9 @@ namespace QuestDeckLoader
                             newQuestDeckDataContainer.nameQuestDeck = deckQuestEntry.Value.Str;
                             newDeck.DeckName = deckQuestEntry.Value.Str;
                             break;
-                        case "material":
+                        case "deckModelName":
                             // if null -> didn't the corresponding material
-                            newQuestDeckDataContainer.materialQuestDeck = Resources.Load(deckQuestEntry.Value.Str) as Material;
+                            newQuestDeckDataContainer.deckModelName = deckQuestEntry.Value.Str;
                             break;
                         case "main":
                             newQuestDeckDataContainer.idMainQuest = deckQuestEntry.Value.Str;
@@ -102,6 +103,9 @@ namespace QuestDeckLoader
                                             break;
                                         case "idQuestDealer":
                                             association.idQuestDealer = secondaryQuestId.Value.Str;
+                                            break;
+                                        case "cardModelname":
+                                            association.cardModelname = secondaryQuestId.Value.Str;
                                             break;
                                     }
                                 }
