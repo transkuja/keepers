@@ -690,7 +690,8 @@ public class BattleHandler {
     public static void DisableMonstersLifeBars()
     {
         foreach (GameObject lifeBar in enabledLifeBars)
-            lifeBar.SetActive(false);
+            if(lifeBar != null)
+                lifeBar.SetActive(false);
         enabledLifeBars.Clear();
     }
 

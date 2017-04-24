@@ -233,6 +233,14 @@ public class CameraManager : MonoBehaviour {
                 UpdateCamZoom();
             }
         }
+        foreach (GreyTileCameraAdapter ca in greyTileCameraAdapters)
+            ca.RecalculateOrientation(Camera.main);
+
+        foreach (SelectionPointerCameraAdapter ca in selectionPointerCameraAdapters)
+            ca.RecalculateOrientationAndScale();
+
+        foreach (WorldspaceCanvasCameraAdapter ca in worldspaceCanvasCameraAdapters)
+            ca.RecalculateActionCanvas(Camera.main);
     }
     private void Controls()
     {

@@ -16,9 +16,13 @@ namespace Behaviour
         // Battle variables
         Vector3 originPosition;
         Quaternion originRotation;
+        [SerializeField]
         int baseAttack;
+        [SerializeField]
         int baseDefense;
+        [SerializeField]
         int bonusAttack;
+        [SerializeField]
         int bonusDefense;
         // TODO: fix this behaviour
         bool hasRecentlyBattled = false;

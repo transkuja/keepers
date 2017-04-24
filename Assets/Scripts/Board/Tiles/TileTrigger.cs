@@ -77,7 +77,6 @@ public class TileTrigger : MonoBehaviour {
                         GetComponent<Interactable>().Interactions.Add(new Interaction(Explore), actionCostExplore, "Explore", GameManager.Instance.SpriteUtils.spriteExplore, true, (int)eTrigger);
                         GameManager.Instance.Ui.UpdateActionPanelUIQ(GetComponent<Interactable>().Interactions);
                     }
-
                 }
                 else
                 {
