@@ -259,7 +259,7 @@ public class SeqIntro : Sequence {
         CurrentState = SequenceState.Idle;
         pawnMrResetti = SpawnMmeResetti();
         pointer = SpawnPointer();
-        pointer2 = SpawnPointer2();
+        //pointer2 = SpawnPointer2();
         Etapes = new List<Etape>();
         // First
         Etapes.Add(new Spawn(pawnMrResetti, jumpAnimationClip));
@@ -271,10 +271,10 @@ public class SeqIntro : Sequence {
         Etapes.Add(new LootAt(pawnMrResetti, pointer, shortcutBtn, turnLeftAnimationClip));
         Etapes.Add(new UnLookAt(pawnMrResetti, pointer, shortcutBtn, jumpAnimationClip));
         Etapes.Add(new Message(pawnMrResetti, "Ceci est le bouton de gestion des \"Keepers\". Vous pouvez voir les stats."));
-        Etapes.Add(new LootAt(pawnMrResetti, pointer2, endTurnBtn, turnLeftAnimationClip));
-        Etapes.Add(new UnLookAt(pawnMrResetti, pointer2, endTurnBtn, jumpAnimationClip));
-        Etapes.Add(new Message(pawnMrResetti, "Ceci est le boutton de fin de tour. Il permet de passer les jours pour récupérer des points d'action."));
-        Etapes.Add(new Message(pawnMrResetti, "Attention vos \"Keepers\" perdront du moral et de la faim à chaque tour."));
+        //Etapes.Add(new LootAt(pawnMrResetti, pointer2, endTurnBtn, turnLeftAnimationClip));
+        //Etapes.Add(new UnLookAt(pawnMrResetti, pointer2, endTurnBtn, jumpAnimationClip));
+        //Etapes.Add(new Message(pawnMrResetti, "Ceci est le boutton de fin de tour. Il permet de passer les jours pour récupérer des points d'action."));
+        //Etapes.Add(new Message(pawnMrResetti, "Attention vos \"Keepers\" perdront du moral et de la faim à chaque tour."));
 
         // Last
         Etapes.Add(new UnSpawn(pawnMrResetti));
@@ -286,13 +286,13 @@ public class SeqIntro : Sequence {
     {
         DissapearMrResetti();
         pointer.SetActive(false);
-        pointer2.SetActive(false);
+        //pointer2.SetActive(false);
         Destroy(pointer);
-        Destroy(pointer2);
+        //Destroy(pointer2);
         shortcutBtn.gameObject.GetComponent<MouseClickExpected>().enabled = false;
-        endTurnBtn.gameObject.GetComponent<MouseClickExpected>().enabled = false;
+        //endTurnBtn.gameObject.GetComponent<MouseClickExpected>().enabled = false;
         shortcutBtn.transform.localScale = Vector3.one;
-        endTurnBtn.transform.localScale = Vector3.one;
+        //endTurnBtn.transform.localScale = Vector3.one;
         TutoManager.s_instance.StartCoroutine(this.Etapes[Etapes.Count - 1].step);
     }
 }

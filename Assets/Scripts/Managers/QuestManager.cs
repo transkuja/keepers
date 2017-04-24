@@ -19,8 +19,20 @@ public class QuestManager : MonoBehaviour
     public void Init()
     {
         //TODO: Should be set according to what has been selected in the menu
-        CurrentQuestDeck = GameManager.Instance.QuestDeckDataBase.GetDeckByID("deck_02");
+        if (TutoManager.s_instance != null)
+        {
+            TutoManager.s_instance.Init();
+            if (TutoManager.s_instance.enableTuto == true)
+            {
+                CurrentQuestDeck = GameManager.Instance.QuestDeckDataBase.GetDeckByID("deck_01");
 
+            }
+        }
+        else
+        {
+            CurrentQuestDeck = GameManager.Instance.QuestDeckDataBase.GetDeckByID("deck_02");
+        }
+    
         ActiveQuests = new List<Quest>();
         Quests = new List<Quest>();
 

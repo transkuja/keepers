@@ -4,12 +4,8 @@
       "id": "deck_01", 
       "name" : "tuto", 
       "material" : "Deck/Deck01_mat", 
-      "main" : "quest_01", 
+      "main" : "main_quest_01", 
       "secondary" : [ 
-        { 
-          "idQuest": "quest_02", 
-          "idQuestDealer" : "pnj01" 
-        } 
       ] 
     },  
     { 

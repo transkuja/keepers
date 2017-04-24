@@ -35,7 +35,6 @@ public class PawnInstance : MonoBehaviour {
     // Need to be initialized in charactersInitializer and changed in moveCharacter
     Tile currentTile;
 
-
     #region Accessors
     public PawnData Data
     {

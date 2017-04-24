@@ -69,6 +69,14 @@ public class IngameScreens : MonoBehaviour {
         GameManager.Instance.ResetInstance();
         SceneManager.LoadScene(0);
     }
+
+
+    public void GoToTuto()
+    {
+        GameManager.Instance.CurrentState = GameState.Normal;
+        GameManager.Instance.ResetInstance();
+        SceneManager.LoadScene(3);
+    }
 }
 
 public enum IngameScreensEnum

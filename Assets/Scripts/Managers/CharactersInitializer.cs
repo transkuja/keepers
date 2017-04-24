@@ -7,32 +7,6 @@ using QuestSystem;
 
 public class CharactersInitializer : MonoBehaviour {
 
-    public void Init(Transform[] beginPositionsKeepers, GameObject beginPositionPrisonnier)
-    {
-        for (int i = 0; i < GameManager.Instance.AllKeepersList.Count; i++)
-        {
-            GameManager.Instance.AllKeepersList[i].transform.position = beginPositionsKeepers[i].position;
-            GameManager.Instance.AllKeepersList[i].transform.SetParent(null);
-            GameManager.Instance.AllKeepersList[i].transform.rotation = Quaternion.identity;
-            GameManager.Instance.AllKeepersList[i].transform.localScale = Vector3.one;
-            GameManager.Instance.AllKeepersList[i].transform.GetComponent<NavMeshAgent>().enabled = true;
-
-            //GlowController.RegisterObject(GameManager.Instance.AllKeepersList[i].GetComponent<GlowObjectCmd>());
-        }
-
-        /*
-        GameManager.Instance.PrisonerInstance.transform.position = beginPositionPrisonnier.transform.position;
-        GameManager.Instance.PrisonerInstance.transform.SetParent(null);
-        GameManager.Instance.PrisonerInstance.transform.rotation = Quaternion.identity;
-        GameManager.Instance.PrisonerInstance.transform.localScale = Vector3.one;
-        GameManager.Instance.PrisonerInstance.transform.GetComponent<NavMeshAgent>().enabled = true;
-        */
-        // TODO : faire une meilleure caméra d'entrée de niveau
-
-        // Pour que ça marche il me faut l'instanciation du tile Manager
-        //GameManager.Instance.CameraManager.UpdateCameraPosition();
-    }
-
     // Init keepers and call next initialization
     public void InitKeepers(Transform[] beginPositionsKeepers)
     {
@@ -61,15 +35,15 @@ public class CharactersInitializer : MonoBehaviour {
     {
         foreach (Quest quest in GameManager.Instance.QuestManager.Quests)
         {
-            if (quest.Identifier.SourceID != string.Empty && 
-                quest.Identifier.SourceID.Contains("pnj"))
+            if (quest.Identifier.SourceID != string.Empty &&
+            quest.Identifier.SourceID.Contains("pnj"))
             {
-                if(GameManager.Instance.QuestSources == null)
+                if (GameManager.Instance.QuestSources == null)
                 {
 
                 }
                 QuestSource source = GameManager.Instance.QuestSources.FindSourceByID(quest.Identifier.SourceID);
-                if(source == null)
+                if (source == null)
                 {
                     Debug.Log("Can't spawn NPC \"" + quest.Identifier.SourceID + "\". No QuestSource with this ID found in the scene.");
                 }
@@ -92,10 +66,11 @@ public class CharactersInitializer : MonoBehaviour {
                     }
                 }
             }
+           
         }
         // TODO this should not be handled like, especially if there is more prisoner in scene
         GameObject prisoner = GameManager.Instance.PawnDataBase.CreatePawn("ashley", TileManager.Instance.BeginTile.transform.position, Quaternion.identity, GameManager.Instance.transform);
-        GlowController.RegisterObject(prisoner.GetComponent<GlowObjectCmd>());
+        GlowController.RegisterObject(prisoner.GetComponent<GlowObjectCmd>()); // TODO: Inutile maintenant ? 
 
         InitCharacterUI(prisoner.GetComponent<PawnInstance>());
         GameManager.Instance.PrisonerInstance = prisoner.GetComponent<PawnInstance>();

@@ -10,6 +10,7 @@ public class QuestInitializer : MonoBehaviour {
     Tile tileToActivate;
 
     void Start () {
+        if (tileToActivate != null)
         tileToActivate.gameObject.SetActive(false);
 	}
 

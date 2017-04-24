@@ -1,5 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;using UnityEngine;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.EventSystems;
 using Behaviour;
@@ -160,10 +161,16 @@ public class ControlsManager : MonoBehaviour
                         else
                         {
                             ui.ClearActionPanel();
-                            if (tileHit != null)                            {                                Tile currentKeeperTile = GameManager.Instance.GetFirstSelectedKeeper().CurrentTile;                                foreach (PawnInstance pi in GameManager.Instance.GetKeepersOnTile(currentKeeperTile))                                    pi.GetComponent<Fighter>().IsTargetableByMonster = true;                                if (GameManager.Instance.PrisonerInstance.CurrentTile == currentKeeperTile)
+                            if (tileHit != null)
+                            {
+                                Tile currentKeeperTile = GameManager.Instance.GetFirstSelectedKeeper().CurrentTile;
+                                foreach (PawnInstance pi in GameManager.Instance.GetKeepersOnTile(currentKeeperTile))
+                                    pi.GetComponent<Fighter>().IsTargetableByMonster = true;
+                                if (GameManager.Instance.PrisonerInstance.CurrentTile == currentKeeperTile)
                                 {
                                     if (GameManager.Instance.PrisonerInstance.GetComponent<Fighter>() != null)
-                                        GameManager.Instance.PrisonerInstance.GetComponent<Fighter>().IsTargetableByMonster = true;                                    else
+                                        GameManager.Instance.PrisonerInstance.GetComponent<Fighter>().IsTargetableByMonster = true;
+                                    else
                                         Debug.LogWarning("Missing Fighter component on Prisoner.");
                                 }
                             }

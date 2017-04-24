@@ -78,29 +78,17 @@ public class GameManager : MonoBehaviour
     private PawnInstance[] currentFighters;
 
     void Awake()
-
     {
-
         if (instance == null)
-
         {
-
             instance = this;
 
-
-
             // InitAllDatabase
-
             itemDataBase.Init();
-
             pawnDataBase.Init();
-
             questDeckDataBase.Init();
-
             //questDataBase.Init();
-
             questsContainer.Init();
-
         }
 
         else if (instance != this)
@@ -111,31 +99,17 @@ public class GameManager : MonoBehaviour
 
         }
 
-
-
         ResetInstance();
-
         if (isDebugGameManager)
-
         {
-
             foreach (Keeper k in GetComponentsInChildren<Keeper>())
-
             {
-
                 AllKeepersList.Add(k.GetComponent<PawnInstance>());
-
             }
-
         }
-
-
-
         DontDestroyOnLoad(gameObject);
 
     }
-
-
 
     public void CheckGameState()
     {
@@ -168,62 +142,34 @@ public class GameManager : MonoBehaviour
             Debug.Log("GameOver - The prisoner is dead");
             Lose();
         }
-
     }
-
-
 
     public void Win()
-
     {
-
         AudioManager.Instance.PlayOneShot(AudioManager.Instance.winningSound);
-
         WinScreen.gameObject.SetActive(true);
-
         currentState = GameState.InPause;
-
     }
-
-
 
     public void Lose()
-
     {
-
         LoseScreen.gameObject.SetActive(true);
-
         currentState = GameState.InPause;
-
     }
-
-
 
     public void ResetInstance()
-
     {
-
         allKeepersList.Clear();
-
         listOfSelectedKeepers.Clear();
-
         nbTurn = 1;
-
         currentState = GameState.Normal;
-
     }
-
 
 
     public PawnInstance GetFirstSelectedKeeper()
-
     {
-
         return listOfSelectedKeepers[0];
-
     }
-
-
 
     #region Accessors
 
@@ -727,83 +673,42 @@ public class GameManager : MonoBehaviour
 
     #endregion
 
-
-
     #region Registrations
-
     // Called once during initialization, launch next step
-
     public void RegisterTileManager(TileManager _tileManager)
-
     {
-
         tileManagerReference = _tileManager;
-
         ui.gameObject.SetActive(true);
-
         // Next step, init quests     
-
         RegisterQuestSourceContainer(tileManagerReference.GetComponent<QuestSourceContainer>());
-
         InitQuests();
-
-
-
     }
-
-
 
     void InitQuests()
-
     {
-
         questManagerReference.Init();
 
-
-
         // Next step, init keepers 
-
         characterInitializer.InitKeepers(tileManagerReference.GetBeginPositions);
-
     }
-
-
 
     public void RegisterCameraManager(CameraManager _cameraManager)
-
     {
-
         cameraManagerReference = _cameraManager;
-
         UpdateCameraPosition(tileManagerReference.BeginTile);
-
     }
-
-
 
     public void RegisterGameScreens(IngameScreens _gameScreens)
-
     {
-
         gameScreens = _gameScreens;
-
     }
-
-
 
     public void RegisterQuestSourceContainer(QuestSourceContainer container)
-
     {
-
         questSources = container;
-
     }
 
-
-
     #endregion
-
-
 
     #region Camera facade
 
@@ -989,7 +894,6 @@ public class GameManager : MonoBehaviour
     #endregion
 
 
-
     #region TileManager facade
     public void RegisterMonsterPosition(PawnInstance _monster)
     {
@@ -1013,38 +917,22 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
-
-
     public void ClearListKeeperSelected()
-
     {
-
         for (int i = 0; i < listOfSelectedKeepers.Count; i++)
-
         {
-
             listOfSelectedKeepers[i].GetComponent<Keeper>().IsSelected = false;
-
         }
-
         listOfSelectedKeepers.Clear();
-
     }
-
-
 
     public void AddKeeperToSelectedList(PawnInstance pawn)
 
     {
-
         if (pawn.GetComponent<Behaviour.Keeper>() != null)
-
             ListOfSelectedKeepers.Add(pawn);
-
         else
-
             Debug.Log("Can't add a pawn to selected keepers list without the Keeper component.");
-
     }
 
 
@@ -1280,5 +1168,6 @@ public enum GameState
 {
     Normal,
     InBattle,
-    InPause
+    InPause,
+    InTuto
 }

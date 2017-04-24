@@ -78,11 +78,12 @@ namespace Behaviour
 
         public void CreateShortcutEscortUI()
         {
-            Sprite associatedSprite = instance.Data.AssociatedSprite;
+            Sprite associatedSprite = instance.Data.AssociatedSpriteForShortcut;
+            if (associatedSprite == null) associatedSprite = GameManager.Instance.PrefabUIUtils.tmpShortcutForAshley; // ashley est crée à partir du json est il n'y a pas dans les donnée le lien sur le shortcut panel -> a corriger @Rémi
             ShorcutUI = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabShorcutCharacter, GameManager.Instance.Ui.goShortcutKeepersPanel.transform);
             ShorcutUI.transform.localScale = Vector3.one;
             ShorcutUI.transform.localPosition = Vector3.zero;
-            ShorcutUI.transform.GetChild((int)PanelShortcutChildren.Image).GetComponent<Image>().sprite = associatedSprite;
+            ShorcutUI.transform.GetComponent<Image>().sprite = associatedSprite;
 
             // ? ? 
             ShorcutUI.transform.SetAsFirstSibling();

@@ -232,9 +232,12 @@ public class IngameUI : MonoBehaviour
     #region Turn
     public void EndTurn()
     {
-        if (!isTurnEnding)
+        if (!(GameManager.Instance.CurrentState == GameState.InPause))
         {
-            AnimateButtonOnClick();
+            if (!isTurnEnding)
+            {
+                AnimateButtonOnClick();
+            }
         }
     }
     

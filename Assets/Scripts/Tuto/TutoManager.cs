@@ -22,61 +22,6 @@ public abstract class Etape
     public abstract void overstep();
 
 }
-//public abstract class Sequence : MonoBehaviour
-//{
-//    public bool alreadyPlayed = false;
-//    public SequenceState currentState;
-//    public List<Etape> _etapes;
-
-//    // Enumerators are positioned before the first element
-//    // until the first MoveNext() call.
-//    int position = -1;
-
-//    public bool MoveNext()
-//    {
-//        position++;
-//        return (position < _etapes.Count);
-//    }
-
-//    public void Reset()
-//    {
-//        TutoManager.s_instance.StopAllCoroutines();
-//        foreach ( Etape etape in _etapes)
-//        {
-//            if (!etape.alreadyPlayed) // Juste pour gagner un peu de temps sur certains traitement
-//                etape.overstep(); // Potentiellement on pourait distingué les etapes avec des types entre elles pour ne pas faire certain traitement
-//        }
-//        position = -1;
-//    }
-
-//    public Etape Current
-//    {
-//        get
-//        {
-//            try
-//            {
-//                return _etapes[position];
-//            }
-//            catch (IndexOutOfRangeException)
-//            {
-//                throw new InvalidOperationException();
-//            }
-//        }
-//    }
-
-//    public void Play()
-//    {
-//        TutoManager.s_instance.StartCoroutine(this.Current.step);
-//    }
-
-//    public abstract void Init();
-//    public abstract void End();
-
-//    public bool isLastSequence()
-//    {
-//        return (position == _etapes.Count - 1);
-//    }
-//}
 
 public class TutoManager : MonoBehaviour {
 
@@ -87,48 +32,21 @@ public class TutoManager : MonoBehaviour {
 
     private static bool mouseCLicked;
 
-    public Sequence PlayingSequence
+    private void Awake()
     {
-        get
-        {
-            return playingSequence;
-        }
-
-        set
-        {
-            playingSequence = value;
-        }
-    }
-
-    public static bool MouseCLicked
-    {
-        get
-        {
-            return mouseCLicked;
-        }
-
-        set
-        {
-            mouseCLicked = value;
-        }
-    }
-
-    public void playSequence(Sequence seq)
-    {
-        s_instance.playingSequence = seq;
-        s_instance.playingSequence.Init();
-        s_instance.playingSequence.Play();
-    }
-
-    void Start () {
         s_instance = this;
-        if (enableTuto)
+    }
+
+    void Start()
+    {
+        if (s_instance.enableTuto)
         {
             playSequence(GetComponent<SeqIntro>());
         }
     }
 
-	void Update () {
+    void Update()
+    {
         if (playingSequence != null)
         {
             if (playingSequence.CurrentState == SequenceState.WaitingForClickUI)
@@ -171,7 +89,8 @@ public class TutoManager : MonoBehaviour {
                 playingSequence.End();
                 playingSequence.AlreadyPlayed = true;
                 playingSequence = null;
-            } else if (playingSequence.CurrentState == SequenceState.ReadyForNext)
+            }
+            else if (playingSequence.CurrentState == SequenceState.ReadyForNext)
             {
                 playingSequence.MoveNext();
                 if (playingSequence.isLastSequence())
@@ -186,6 +105,46 @@ public class TutoManager : MonoBehaviour {
             }
         }
     }
+
+    public Sequence PlayingSequence
+    {
+        get
+        {
+            return playingSequence;
+        }
+
+        set
+        {
+            playingSequence = value;
+        }
+    }
+
+    public static bool MouseCLicked
+    {
+        get
+        {
+            return mouseCLicked;
+        }
+
+        set
+        {
+            mouseCLicked = value;
+        }
+    }
+
+    public void playSequence(Sequence seq)
+    {
+        s_instance.playingSequence = seq;
+        s_instance.playingSequence.Init();
+        s_instance.playingSequence.Play();
+    }
+
+    public void Init()
+    {
+
+        s_instance.enableTuto = true;
+    }
+
 
 
     public static IEnumerator EcrireMessage(Transform feedback, string str, float delayTime)

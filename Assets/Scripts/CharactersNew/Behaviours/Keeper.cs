@@ -161,11 +161,11 @@ namespace Behaviour
 
         public void CreateShortcutKeeperUI()
         {
-            Sprite associatedSprite = instance.Data.AssociatedSprite;
+            Sprite associatedSprite = instance.Data.AssociatedSpriteForShortcut;
             ShorcutUI = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabShorcutCharacter, GameManager.Instance.Ui.goShortcutKeepersPanel.transform);
 
             ShorcutUI.name = "Panel_Shortcut_" + instance.Data.PawnName;
-            ShorcutUI.transform.GetChild((int)PanelShortcutChildren.Image).GetComponent<Image>().sprite = associatedSprite;
+            ShorcutUI.transform.GetComponent<Image>().sprite = associatedSprite;
             ShorcutUI.transform.localScale = Vector3.one;
             ShorcutUI.GetComponent<Button>().onClick.AddListener(() => GoToKeeper());
         }

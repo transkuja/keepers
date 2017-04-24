@@ -28,6 +28,8 @@ public class PawnData {
     [Header("UI")]
     [SerializeField]
     private Sprite associatedSprite;
+    [SerializeField]
+    private Sprite associatedSpriteForShortcut;
 
     #region Ideas
     // int specialDicesUse = 3;
@@ -37,7 +39,7 @@ public class PawnData {
     // DiceType diceType;
     // enum DiceType = { Offensive, Defensive, Support } => define DiceTypes + what they are used for
     #endregion
-    
+
     public PawnData()
     {
         behaviours = new bool[(int)BehavioursEnum.Size];
@@ -92,6 +94,19 @@ public class PawnData {
         set
         {
             associatedSprite = value;
+        }
+    }
+
+    public Sprite AssociatedSpriteForShortcut
+    {
+        get
+        {
+            return associatedSpriteForShortcut;
+        }
+
+        set
+        {
+            associatedSpriteForShortcut = value;
         }
     }
 
