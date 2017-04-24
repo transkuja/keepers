@@ -1,28 +1,14 @@
 UI
-- Base
--- Hp bars 
--- current dice stocks for keepers
--- Escape button (down left corner?)
-
 - Clic on monster
 --	Open panel info monster (details on pv, skills, defense, etc.)
 
-- Clic on keeper
--- Open actions (atk/guard/skills)
--- Highlight his dice
-
-
-kill monster when 0 hp left (keep loot somewhere to pop it after battle)
 Monster do not attack a 0hp target
 
-error with worldspace canvas when monster destroyed
 error with inventory panel when 0 items computed??
 
 empty loot box
 
 
-skills?
-
-feedback: onpointerenter attafck button: highlight dice avec UI dmg + épée sprite
-feedback: onpointerenter defense button: highlight dice avec UI defense + bouclier sprite
-feedback: onpointerenter skills button: highlight UI VALUES in panel
+bug sur le friendly feedback
+friend should feedback on everyone
+feedback au niveau des jauges en bas quand on utilise un skill 
