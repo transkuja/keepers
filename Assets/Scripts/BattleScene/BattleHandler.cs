@@ -30,6 +30,7 @@ public class BattleHandler {
     private static bool wasTheLastToPlay = false;
     private static SkillBattle pendingSkill;
     private static bool isWaitingForSkillEnd = false;
+    private static bool wasLaunchedDuringKeepersTurn;
 
     // Debug parameters
     private static bool isDebugModeActive = false;
@@ -203,7 +204,7 @@ public class BattleHandler {
             }            
         }
         wasTheLastToPlay = mustShiftTurn;
-
+        Debug.Log(mustShiftTurn);
         if (mustShiftTurn)
         {
             DeactivateFeedbackSelection(true, false);
@@ -231,46 +232,31 @@ public class BattleHandler {
                 currentBattleKeepers[i].GetComponent<Fighter>().HasPlayedThisTurn = false;
             }
             ClearDiceForNextThrow();
+            GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().ChangeState(UIBattleState.WaitForDiceThrow);
         }
         else
         {
             // Resolve turn for each monster then shift turn to keepers'
-            MonsterTurn(0);
+            nextMonsterIndex = 0;
+            ShiftToNextMonsterTurn();
         }
     }
 
-    public static void ShiftToNextMonsterTurn()
-    {
-        Debug.Log("here");
+    private static void ShiftToNextMonsterTurn()
+{
+        if (currentBattleMonsters[nextMonsterIndex] == null)
+        {
+            nextMonsterIndex++;
+            ShiftToNextMonsterTurn();
+            return;
+        }
+
         Debug.Log(nextMonsterIndex);
-        if (nextMonsterIndex + 1 < currentBattleMonsters.Length)
-            MonsterTurn(nextMonsterIndex + 1);
-        else
-        {
-            Debug.Log("??");
-            GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().ChangeState(UIBattleState.WaitForDiceThrow);
-        }
-            
-    }
-
-    private static void MonsterTurn(int _nextMonsterIndex)
-    {
-        for (int i = _nextMonsterIndex; i < currentBattleMonsters.Length; i++)
-        {
-            if (currentBattleMonsters[_nextMonsterIndex] != null && currentBattleMonsters[_nextMonsterIndex].GetComponent<Mortal>().CurrentHp <= 0)
-            {
-                nextMonsterIndex = i;
-                break;
-            }
-        }
-
-        if (nextMonsterIndex == currentBattleMonsters.Length - 1)
-            ShiftTurn();
-
         PawnInstance target = GetTargetForAttack();
         Fighter monsterBattleInfo = currentBattleMonsters[nextMonsterIndex].GetComponent<Fighter>();
         SkillBattle skillUsed = monsterBattleInfo.BattleSkills[Random.Range(0, currentBattleMonsters[nextMonsterIndex].GetComponent<Fighter>().BattleSkills.Count)];
         skillUsed.UseSkill(currentBattleMonsters[nextMonsterIndex].GetComponent<Fighter>(), target);
+        nextMonsterIndex++;
     }
 
     private static PawnInstance GetTargetForAttack()
@@ -882,10 +868,23 @@ public class BattleHandler {
             isWaitingForSkillEnd = value;
             if (isWaitingForSkillEnd == false)
             {
-                ActivateFeedbackSelection(true, false);
+                if (wasLaunchedDuringKeepersTurn)
+                    ActivateFeedbackSelection(true, false);
+                else
+                {
+                    if (nextMonsterIndex == currentBattleMonsters.Length)
+                    {
+                        ShiftTurn();
+                    }
+                    else
+                    {
+                        ShiftToNextMonsterTurn();
+                    }
+                }
             }
             else
             {
+                wasLaunchedDuringKeepersTurn = IsKeepersTurn;
                 DeactivateFeedbackSelection(true, true);
             }
         }

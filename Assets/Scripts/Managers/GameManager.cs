@@ -1245,7 +1245,10 @@ public class GameManager : MonoBehaviour
         pausedAgents.Clear();
 
         foreach (NavMeshAgent agent in disabledAgents)
-            agent.enabled = true;
+        {
+            if (agent != null)
+                agent.enabled = true;
+        }
         disabledAgents.Clear();
 
         foreach (GameObject go in disabledModels)

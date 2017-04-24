@@ -118,9 +118,13 @@ namespace Behaviour
                     showSkillPanelTimer = 1.5f;
                     showFeedbackDmgTimer = 1.0f;
                     isWaitingForSkillPanelToClose = false;
-                    //BattleHandler.IsWaitingForSkillEnd = false;
+                    BattleHandler.IsWaitingForSkillEnd = false;
                     //if (!BattleHandler.IsKeepersTurn)
-                        BattleHandler.ShiftToNextMonsterTurn();
+                    //if (BattleHandler.IsKeepersTurn)
+                    //    BattleHandler.CheckTurnStatus();
+                    //else
+                    //    BattleHandler.ShiftToNextMonsterTurn();
+                    
                 }
                 else
                 {
@@ -618,9 +622,9 @@ public class SkillBattle
         _target.GetComponent<Behaviour.Fighter>().IsWaitingForDmgFeedback = true;
         _target.GetComponent<Behaviour.Fighter>().IsWaitingForSkillPanelToClose = true;
         _target.GetComponent<Behaviour.Fighter>().PendingDamage = damage;
+        BattleHandler.IsWaitingForSkillEnd = true;
         if (_user.GetComponent<Behaviour.Keeper>() != null)
         {
-            BattleHandler.IsWaitingForSkillEnd = true;
             _user.HasPlayedThisTurn = true;
         }
     }
