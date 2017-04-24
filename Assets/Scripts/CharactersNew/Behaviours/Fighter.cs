@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 namespace Behaviour
 {
@@ -149,7 +150,8 @@ namespace Behaviour
 
         void OnDestroy()
         {
-            BattleHandler.IsWaitingForSkillEnd = false;
+            if (SceneManager.GetActiveScene().buildIndex == 1)
+                BattleHandler.IsWaitingForSkillEnd = false;
         }
 
         public void ResetValuesAfterBattle()
