@@ -378,23 +378,19 @@ public class SeqIntro : Sequence {
         Etapes.Add(new Spawn(pawnMrResetti, jumpAnimationClip));
 
         // Content
-        Etapes.Add(new Message(pawnMrResetti, "Salut c'est moi Mme Resetti. Bienvenue dans le tutoriel de \"Keepers\" !"));
-        Etapes.Add(new Message(pawnMrResetti, "C'est votre première fois ici ?!"));
         Etapes.Add(new Message(pawnMrResetti, "Je vais vous apprendre les règles de bases pour jouer."));
-        Etapes.Add(new Message(pawnMrResetti, "J'ai réactivé la caméra"));
         Etapes.Add(new ReActivationCamera(pawnMrResetti));
         Etapes.Add(new Activation(pawnMrResetti.GetComponent<Interactable>().Feedback.GetChild(0).GetChild(1).gameObject, GameManager.Instance.SpriteUtils.spriteMouseMiddleClicked, true));
         Etapes.Add(new Message(pawnMrResetti, "Allez y visitez un peu."));
         Etapes.Add(new Activation(pawnMrResetti.GetComponent<Interactable>().Feedback.GetChild(0).GetChild(1).gameObject, GameManager.Instance.SpriteUtils.spriteMouseMiddleClicked, false));
         Etapes.Add(new Message(pawnMrResetti, "Le but du jeu est d'accompagner \"Ashley\" en vie a l'arrivée."));
-        Etapes.Add(new Message(pawnMrResetti, "Je suis gentile, je vous montre où elle se trouve."));
+        Etapes.Add(new Message(pawnMrResetti, "Je suis gentille, je vous montre où elle se trouve."));
         Etapes.Add(new DeplacerCamera(pawnMrResetti, TileManager.Instance.EndTile));
         Etapes.Add(new DeplacerCamera(pawnMrResetti, TileManager.Instance.BeginTile));
         Etapes.Add(new Message(pawnMrResetti, "Mais pour ça il va falloir selectionner votre \"Keepers\"."));
         Etapes.Add(new Activation(pawnMrResetti.GetComponent<Interactable>().Feedback.GetChild(0).GetChild(1).gameObject, GameManager.Instance.SpriteUtils.spriteMouseLeftClicked, true));
-        Etapes.Add(new Message(pawnMrResetti, "J'ai réactivé la sélection du \"Keeper\"."));
         Etapes.Add(new Activation(pawnMrResetti.GetComponent<Interactable>().Feedback.GetChild(0).GetChild(1).gameObject, GameManager.Instance.SpriteUtils.spriteMouseLeftClicked, false));
-        Etapes.Add(new Message(pawnMrResetti, "Bonne chance"));
+        Etapes.Add(new Message(pawnMrResetti, "Bonne chance."));
 
         Etapes.Add(new ReActivationControls(pawnMrResetti));
         // Last
