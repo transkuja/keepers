@@ -31,6 +31,7 @@ public class TutoManager : MonoBehaviour {
     private List<Sequence> sequences;
 
     private static bool mouseCLicked;
+    internal bool desactivateCamera;
 
     private void Awake()
     {
@@ -42,6 +43,7 @@ public class TutoManager : MonoBehaviour {
         if (s_instance.enableTuto)
         {
             playSequence(GetComponent<SeqIntro>());
+            desactivateCamera = true;
         }
     }
 

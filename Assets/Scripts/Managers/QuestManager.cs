@@ -25,7 +25,7 @@ public class QuestManager : MonoBehaviour
             if (TutoManager.s_instance.enableTuto == true)
             {
                 CurrentQuestDeck = GameManager.Instance.QuestDeckDataBase.GetDeckByID("deck_01");
-
+                GameManager.Instance.CurrentState = GameState.InTuto;
             }
         }
         else

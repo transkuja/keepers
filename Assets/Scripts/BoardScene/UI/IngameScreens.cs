@@ -41,7 +41,7 @@ public class IngameScreens : MonoBehaviour {
 
     public void OpenCloseEscapeMenu()
     {
-        if (GameManager.Instance.CurrentState == GameState.Normal)
+        if (GameManager.Instance.CurrentState == GameState.Normal || GameManager.Instance.CurrentState == GameState.InTuto)
         {
             transform.GetChild(0).GetChild((int)IngameScreensEnum.EscapeMenu).gameObject.SetActive(true);
             GameManager.Instance.CurrentState = GameState.InPause;
@@ -52,7 +52,17 @@ public class IngameScreens : MonoBehaviour {
             {
                 transform.GetChild(0).GetChild((int)IngameScreensEnum.EscapeMenu).gameObject.SetActive(false);
                 transform.GetChild(0).GetChild((int)IngameScreensEnum.BattleResultScreens).gameObject.SetActive(false);
-                GameManager.Instance.CurrentState = GameState.Normal;
+                if (TutoManager.s_instance != null) // TMP
+                {
+                    if (TutoManager.s_instance.enableTuto == true)
+                    {
+                        GameManager.Instance.CurrentState = GameState.InTuto;
+                    }
+                } else
+                {
+                    GameManager.Instance.CurrentState = GameState.Normal;
+                }
+
             }
         }
     }

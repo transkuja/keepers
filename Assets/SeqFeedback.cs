@@ -5,7 +5,8 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
 
-public class SeqIntro : Sequence {
+public class SeqFeedback : Sequence
+{
     private GameObject pawnMrResetti;
     public AnimationClip jumpAnimationClip;
 
@@ -139,6 +140,7 @@ public class SeqIntro : Sequence {
         {
             yield return new WaitForSeconds(delayTime);
             TutoManager.s_instance.desactivateCamera = false;
+            mrresetti.GetComponent<Interactable>().Feedback.GetChild(0).GetChild(1).gameObject.SetActive(true);
             TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.ReadyForNext;
             alreadyPlayed = true;
         }
@@ -308,28 +310,23 @@ public class SeqIntro : Sequence {
     public class DeplacerCamera : Etape
     {
         GameObject mrresetti;
-        Tile where;
-        public DeplacerCamera(GameObject _mrresetti, Tile _where)
+        public DeplacerCamera(GameObject _mrresetti)
         {
             mrresetti = _mrresetti;
-            where = _where;
             step = DeplacerCamera_fct(0.5f);
         }
 
         public IEnumerator DeplacerCamera_fct(float delayTime)
         {
             yield return new WaitForSeconds(delayTime);
-            GameManager.Instance.CameraManagerReference.UpdateCameraPosition(where);
+            GameManager.Instance.CameraManagerReference.UpdateCameraPosition(TileManager.Instance.EndTile);
             yield return new WaitForSeconds(delayTime);
-            TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.WaitingForInput;
             alreadyPlayed = true;
         }
 
         public override void overstep()
         {
             alreadyPlayed = true;
-            GameManager.Instance.CameraManagerReference.UpdateCameraPosition(where);
-            TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.WaitingForInput;
         }
     }
 
@@ -344,28 +341,30 @@ public class SeqIntro : Sequence {
         endTurnBtn.SetActive(false);
         shortcutBtn.SetActive(false);
 
+
+
         //pointer2 = SpawnPointer2();
         Etapes = new List<Etape>();
         // First
         Etapes.Add(new Spawn(pawnMrResetti, jumpAnimationClip));
 
         // Content
-        Etapes.Add(new Message(pawnMrResetti, "Salut c'est moi Mme Resetti. Bienvenue dans le tutoriel de \"Keepers\" !"));
-        Etapes.Add(new Message(pawnMrResetti, "C'est votre première fois ici ?!"));
-        Etapes.Add(new Message(pawnMrResetti, "Je vais vous apprendre les règles de bases pour jouer."));
-        Etapes.Add(new Message(pawnMrResetti, "J'ai activé la caméra"));
-        Etapes.Add(new ReActivationCamera(pawnMrResetti));
-        Etapes.Add(new Activation(pawnMrResetti.GetComponent<Interactable>().Feedback.GetChild(0).GetChild(1).gameObject, true));
-        Etapes.Add(new Message(pawnMrResetti, "Allez y visitez un peu."));
-        Etapes.Add(new Activation(pawnMrResetti.GetComponent<Interactable>().Feedback.GetChild(0).GetChild(1).gameObject, false));
-        Etapes.Add(new Message(pawnMrResetti, "Le but du jeu est d'accompagner \"Ashley\" en vie a l'arrivée."));
-        Etapes.Add(new Message(pawnMrResetti, "Je suis gentile, je vous montre où elle se trouve."));
-        Etapes.Add(new DeplacerCamera(pawnMrResetti, TileManager.Instance.EndTile));
-        Etapes.Add(new DeplacerCamera(pawnMrResetti, TileManager.Instance.BeginTile));
-        Etapes.Add(new Message(pawnMrResetti, "Je suis gentile, je vous montre où elle se trouve."));
+
+        //
+        Etapes.Add(new Message(pawnMrResetti, "Ouille il me semble que votre keeper a perdu des stats"));
+        Etapes.Add(new Activation(shortcutBtn, true));
+        Etapes.Add(new LootAt(pawnMrResetti, pointer, shortcutBtn, turnLeftAnimationClip));
+        Etapes.Add(new UnLookAt(pawnMrResetti, pointer, shortcutBtn, jumpAnimationClip));
+        Etapes.Add(new Message(pawnMrResetti, "Ceci est le bouton de gestion des \"Keepers\". Vous pourrez garder un oeil sur les stats."));
+        //Etapes.Add(new LootAt(pawnMrResetti, pointer2, endTurnBtn, turnLeftAnimationClip));
+        //Etapes.Add(new UnLookAt(pawnMrResetti, pointer2, endTurnBtn, jumpAnimationClip));
+        //Etapes.Add(new Message(pawnMrResetti, "Ceci est le boutton de fin de tour. Il permet de passer les jours pour récupérer des points d'action."));
+        //Etapes.Add(new Message(pawnMrResetti, "Attention vos \"Keepers\" perdront du moral et de la faim à chaque tour."));
 
         // Last
         Etapes.Add(new UnSpawn(pawnMrResetti));
+
+
 
         MoveNext();
     }
@@ -373,12 +372,13 @@ public class SeqIntro : Sequence {
     public override void End()
     {
         DissapearMrResetti();
-        if ( pointer != null ) pointer.SetActive(false);
+        //pointer.SetActive(false);
         //pointer2.SetActive(false);
-        Destroy(pointer);
+        //Destroy(pointer);
         //Destroy(pointer2);
+        shortcutBtn.gameObject.GetComponent<MouseClickExpected>().enabled = false;
         //endTurnBtn.gameObject.GetComponent<MouseClickExpected>().enabled = false;
-        //shortcutBtn.transform.localScale = Vector3.one;
+        shortcutBtn.transform.localScale = Vector3.one;
         //endTurnBtn.transform.localScale = Vector3.one;
         TutoManager.s_instance.StartCoroutine(this.Etapes[Etapes.Count - 1].step);
     }

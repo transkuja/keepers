@@ -166,7 +166,7 @@ public class CameraManager : MonoBehaviour {
 
     void Update()
     {
-        if (GameManager.Instance.CurrentState == GameState.Normal)
+        if (GameManager.Instance.CurrentState == GameState.Normal || GameManager.Instance.CurrentState == GameState.InTuto)
         {
             if (isUpdateNeeded)
             {
@@ -209,7 +209,7 @@ public class CameraManager : MonoBehaviour {
             {
                 lerpParameter += Time.deltaTime;
 
-                Vector3 v3NewPos = Vector3.Lerp(oldPosition, newPosition + activeTile.transform.position, Mathf.Min(lerpParameter, 1.0f));
+                Vector3 v3NewPos = Vector3.Lerp(oldPosition, positionFromATileClose + activeTile.transform.position + Vector3.back, Mathf.Min(lerpParameter, 1.0f));
 
                 v3NewPos.y = transform.position.y;
                 transform.localPosition = v3NewPos;
@@ -234,9 +234,12 @@ public class CameraManager : MonoBehaviour {
             }
         }
     }
-
     private void Controls()
     {
+        if (GameManager.Instance.CurrentState == GameState.InTuto)
+        {
+            if (TutoManager.s_instance.desactivateCamera) return;
+        }
         ControlZoom();
 
         ControlDrag();
