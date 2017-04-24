@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using Behaviour;
 using System.Collections.Generic;
+using System;
 
 public enum BattleUIChildren { SkillsPanel, ThrowDice, EscapeButton, SkillName, CharactersPanel }
 public enum UIBattleState { WaitForDiceThrow, DiceRolling, WaitForDiceThrowValidation, Actions, SkillsOpened, TargetSelection, Disabled }
@@ -278,10 +279,47 @@ public class UIBattleHandler : MonoBehaviour {
     public void UpdateAttributesStocks(Fighter _toUpdate)
     {
         Transform attributes = associatedCharacterPanel[_toUpdate.GetComponent<PawnInstance>()].GetChild((int)CharactersPanelChildren.Attributes);
-        attributes.GetChild((int)AttributesChildren.Attack).GetComponentInChildren<Text>().text = _toUpdate.PhysicalSymbolStored.ToString();
-        attributes.GetChild((int)AttributesChildren.Defense).GetComponentInChildren<Text>().text = _toUpdate.DefensiveSymbolStored.ToString();
-        attributes.GetChild((int)AttributesChildren.Magic).GetComponentInChildren<Text>().text = _toUpdate.MagicalSymbolStored.ToString();
-        attributes.GetChild((int)AttributesChildren.Support).GetComponentInChildren<Text>().text = _toUpdate.SupportSymbolStored.ToString();
+        Transform atkAttribute = attributes.GetChild((int)AttributesChildren.Attack);
+        Transform defAttribute = attributes.GetChild((int)AttributesChildren.Defense);
+        Transform magAttribute = attributes.GetChild((int)AttributesChildren.Magic);
+        Transform supAttribute = attributes.GetChild((int)AttributesChildren.Support);
+
+        int diffAtk = _toUpdate.PhysicalSymbolStored - Int32.Parse(atkAttribute.GetComponentInChildren<Text>().text);
+        if (diffAtk < 0)
+        {
+            GameObject atkAscFeedback = Instantiate(GameManager.Instance.PrefabUIUtils.attributesAscFeedback, atkAttribute);
+            atkAscFeedback.transform.localPosition = Vector3.zero;
+            atkAscFeedback.GetComponent<AttributesAscFeedback>().FeedbackValue(diffAtk);
+        }
+
+        int diffDef = _toUpdate.DefensiveSymbolStored - Int32.Parse(defAttribute.GetComponentInChildren<Text>().text);
+        if (diffDef < 0)
+        {
+            GameObject defAscFeedback = Instantiate(GameManager.Instance.PrefabUIUtils.attributesAscFeedback, defAttribute);
+            defAscFeedback.transform.localPosition = Vector3.zero;
+            defAscFeedback.GetComponent<AttributesAscFeedback>().FeedbackValue(diffDef);
+        }
+
+        int diffMag = _toUpdate.MagicalSymbolStored - Int32.Parse(magAttribute.GetComponentInChildren<Text>().text);
+        if (diffMag < 0)
+        {
+            GameObject magAscFeedback = Instantiate(GameManager.Instance.PrefabUIUtils.attributesAscFeedback, magAttribute);
+            magAscFeedback.transform.localPosition = Vector3.zero;
+            magAscFeedback.GetComponent<AttributesAscFeedback>().FeedbackValue(diffMag);
+        }
+
+        int diffSup = _toUpdate.SupportSymbolStored - Int32.Parse(supAttribute.GetComponentInChildren<Text>().text);
+        if (diffSup < 0)
+        {
+            GameObject supAscFeedback = Instantiate(GameManager.Instance.PrefabUIUtils.attributesAscFeedback, supAttribute);
+            supAscFeedback.transform.localPosition = Vector3.zero;
+            supAscFeedback.GetComponent<AttributesAscFeedback>().FeedbackValue(diffSup);
+        }
+
+        atkAttribute.GetComponentInChildren<Text>().text = _toUpdate.PhysicalSymbolStored.ToString();
+        defAttribute.GetComponentInChildren<Text>().text = _toUpdate.DefensiveSymbolStored.ToString();
+        magAttribute.GetComponentInChildren<Text>().text = _toUpdate.MagicalSymbolStored.ToString();
+        supAttribute.GetComponentInChildren<Text>().text = _toUpdate.SupportSymbolStored.ToString();
     }
 
     public void UpdateCharacterLifeBar(Mortal _toUpdate)

@@ -11,4 +11,3 @@ empty loot box
 
 bug sur le friendly feedback
 friend should feedback on everyone
-feedback au niveau des jauges en bas quand on utilise un skill 

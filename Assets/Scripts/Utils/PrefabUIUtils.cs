@@ -54,5 +54,6 @@ public class PrefabUIUtils : MonoBehaviour {
     public GameObject diceFeedback;
     public GameObject diceFeedbackOnPointerEnter;
     public GameObject skillDescriptionPanel;
+    public GameObject attributesAscFeedback;
 
 }

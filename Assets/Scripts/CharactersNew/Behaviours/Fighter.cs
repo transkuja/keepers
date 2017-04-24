@@ -9,6 +9,7 @@ namespace Behaviour
         // Balance variables
         private int effectiveAttackValue = 5;
         private int effectiveDefenseValue = 5;
+        private int stockMaxValue = 20;
 
         PawnInstance instance;
         private InteractionImplementer battleInteractions;
@@ -298,6 +299,8 @@ namespace Behaviour
             set
             {
                 physicalSymbolStored = value;
+                if (physicalSymbolStored > stockMaxValue)
+                    physicalSymbolStored = stockMaxValue;
                 GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().UpdateAttributesStocks(this);
             }
         }
@@ -312,6 +315,8 @@ namespace Behaviour
             set
             {
                 magicalSymbolStored = value;
+                if (magicalSymbolStored > stockMaxValue)
+                    magicalSymbolStored = stockMaxValue;
                 GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().UpdateAttributesStocks(this);
             }
         }
@@ -326,6 +331,8 @@ namespace Behaviour
             set
             {
                 defensiveSymbolStored = value;
+                if (defensiveSymbolStored > stockMaxValue)
+                    defensiveSymbolStored = stockMaxValue;
                 GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().UpdateAttributesStocks(this);
             }
         }
@@ -340,6 +347,8 @@ namespace Behaviour
             set
             {
                 supportSymbolStored = value;
+                if (supportSymbolStored > stockMaxValue)
+                    supportSymbolStored = stockMaxValue;
                 GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().UpdateAttributesStocks(this);
             }
         }
