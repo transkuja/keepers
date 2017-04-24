@@ -166,7 +166,7 @@ public class CameraManager : MonoBehaviour {
 
     void Update()
     {
-        if (GameManager.Instance.CurrentState == GameState.Normal || GameManager.Instance.CurrentState == GameState.InTuto)
+        if (GameManager.Instance != null && (GameManager.Instance.CurrentState == GameState.Normal || GameManager.Instance.CurrentState == GameState.InTuto))
         {
             if (isUpdateNeeded)
             {

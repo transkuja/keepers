@@ -336,7 +336,7 @@ namespace Behaviour
             {
                 isSelected = value;
 
-                if (GameManager.Instance.CurrentState == GameState.Normal)
+                if (GameManager.Instance.CurrentState == GameState.Normal || GameManager.Instance.CurrentState == GameState.InTuto)
                 {
                     feedbackSelection.SetActive(value);
 

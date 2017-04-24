@@ -106,22 +106,26 @@ public class SeqIntro : Sequence {
     {
         GameObject goActivable;
         bool active;
-        public Activation(GameObject _goActivable, bool _active)
+        Sprite sprite;
+        public Activation(GameObject _goActivable, Sprite _sprite, bool _active)
         {
             goActivable = _goActivable;
             active = _active;
-            step = Activation_fct(0.5f);
+            sprite = _sprite;
+            step = Activation_fct(0.0f);
         }
         public IEnumerator Activation_fct(float delayTime)
         {
             yield return new WaitForSeconds(delayTime);
             goActivable.SetActive(active);
+            goActivable.GetComponent<Image>().sprite = sprite;
             TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.ReadyForNext;
             alreadyPlayed = true;
         }
         public override void overstep()
         {
             goActivable.SetActive(active);
+            goActivable.GetComponent<Image>().sprite = sprite;
             TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.ReadyForNext;
             alreadyPlayed = true;
         }
@@ -145,6 +149,29 @@ public class SeqIntro : Sequence {
         public override void overstep()
         {
             TutoManager.s_instance.desactivateCamera = false;
+            TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.ReadyForNext;
+            alreadyPlayed = true;
+        }
+    }
+
+    public class ReActivationControls : Etape
+    {
+        GameObject mrresetti;
+        public ReActivationControls(GameObject _mrresetti)
+        {
+            mrresetti = _mrresetti;
+            step = Activation_fct(0.5f);
+        }
+        public IEnumerator Activation_fct(float delayTime)
+        {
+            yield return new WaitForSeconds(delayTime);
+            TutoManager.s_instance.desactivateControls = false;
+            TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.ReadyForNext;
+            alreadyPlayed = true;
+        }
+        public override void overstep()
+        {
+            TutoManager.s_instance.desactivateControls = false;
             TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.ReadyForNext;
             alreadyPlayed = true;
         }
@@ -340,6 +367,7 @@ public class SeqIntro : Sequence {
         pawnMrResetti = SpawnMmeResetti();
         pointer = SpawnPointer();
         // hide
+        pawnMrResetti.GetComponent<Interactable>().Feedback.gameObject.SetActive(false);
         selectedKeeper.SetActive(false);
         endTurnBtn.SetActive(false);
         shortcutBtn.SetActive(false);
@@ -353,17 +381,22 @@ public class SeqIntro : Sequence {
         Etapes.Add(new Message(pawnMrResetti, "Salut c'est moi Mme Resetti. Bienvenue dans le tutoriel de \"Keepers\" !"));
         Etapes.Add(new Message(pawnMrResetti, "C'est votre première fois ici ?!"));
         Etapes.Add(new Message(pawnMrResetti, "Je vais vous apprendre les règles de bases pour jouer."));
-        Etapes.Add(new Message(pawnMrResetti, "J'ai activé la caméra"));
+        Etapes.Add(new Message(pawnMrResetti, "J'ai réactivé la caméra"));
         Etapes.Add(new ReActivationCamera(pawnMrResetti));
-        Etapes.Add(new Activation(pawnMrResetti.GetComponent<Interactable>().Feedback.GetChild(0).GetChild(1).gameObject, true));
+        Etapes.Add(new Activation(pawnMrResetti.GetComponent<Interactable>().Feedback.GetChild(0).GetChild(1).gameObject, GameManager.Instance.SpriteUtils.spriteMouseMiddleClicked, true));
         Etapes.Add(new Message(pawnMrResetti, "Allez y visitez un peu."));
-        Etapes.Add(new Activation(pawnMrResetti.GetComponent<Interactable>().Feedback.GetChild(0).GetChild(1).gameObject, false));
+        Etapes.Add(new Activation(pawnMrResetti.GetComponent<Interactable>().Feedback.GetChild(0).GetChild(1).gameObject, GameManager.Instance.SpriteUtils.spriteMouseMiddleClicked, false));
         Etapes.Add(new Message(pawnMrResetti, "Le but du jeu est d'accompagner \"Ashley\" en vie a l'arrivée."));
         Etapes.Add(new Message(pawnMrResetti, "Je suis gentile, je vous montre où elle se trouve."));
         Etapes.Add(new DeplacerCamera(pawnMrResetti, TileManager.Instance.EndTile));
         Etapes.Add(new DeplacerCamera(pawnMrResetti, TileManager.Instance.BeginTile));
-        Etapes.Add(new Message(pawnMrResetti, "Je suis gentile, je vous montre où elle se trouve."));
+        Etapes.Add(new Message(pawnMrResetti, "Mais pour ça il va falloir selectionner votre \"Keepers\"."));
+        Etapes.Add(new Activation(pawnMrResetti.GetComponent<Interactable>().Feedback.GetChild(0).GetChild(1).gameObject, GameManager.Instance.SpriteUtils.spriteMouseLeftClicked, true));
+        Etapes.Add(new Message(pawnMrResetti, "J'ai réactivé la sélection du \"Keeper\"."));
+        Etapes.Add(new Activation(pawnMrResetti.GetComponent<Interactable>().Feedback.GetChild(0).GetChild(1).gameObject, GameManager.Instance.SpriteUtils.spriteMouseLeftClicked, false));
+        Etapes.Add(new Message(pawnMrResetti, "Bonne chance"));
 
+        Etapes.Add(new ReActivationControls(pawnMrResetti));
         // Last
         Etapes.Add(new UnSpawn(pawnMrResetti));
 
@@ -375,7 +408,9 @@ public class SeqIntro : Sequence {
         DissapearMrResetti();
         if ( pointer != null ) pointer.SetActive(false);
         //pointer2.SetActive(false);
+        selectedKeeper.SetActive(true);
         Destroy(pointer);
+        Destroy(pawnMrResetti);
         //Destroy(pointer2);
         //endTurnBtn.gameObject.GetComponent<MouseClickExpected>().enabled = false;
         //shortcutBtn.transform.localScale = Vector3.one;

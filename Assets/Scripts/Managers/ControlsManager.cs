@@ -25,11 +25,20 @@ public class ControlsManager : MonoBehaviour
     }
     private void SelectionControls()
     {
-        if (GameManager.Instance.CurrentState == GameState.Normal)
+        if (GameManager.Instance.CurrentState == GameState.Normal || GameManager.Instance.CurrentState == GameState.InTuto)
         {
-            NormalStateControls();
+            if (TutoManager.s_instance != null) // TMP
+            {
+                if (TutoManager.s_instance.enableTuto == true && TutoManager.s_instance.desactivateControls != true)
+                {
+                    NormalStateControls();
+                }
+            } else
+            {
+                NormalStateControls();
+            }
         }
-                else if (GameManager.Instance.CurrentState == GameState.InBattle)
+        else if (GameManager.Instance.CurrentState == GameState.InBattle)
         {
             InBattleControls();
         }
@@ -341,7 +350,7 @@ public class ControlsManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            if (GameManager.Instance.CurrentState == GameState.Normal)
+            if (GameManager.Instance.CurrentState == GameState.Normal || GameManager.Instance.CurrentState == GameState.InTuto)
             {
                 if (GameManager.Instance.ListOfSelectedKeepers != null && GameManager.Instance.ListOfSelectedKeepers.Count > 0)
                 {
@@ -406,7 +415,7 @@ public class ControlsManager : MonoBehaviour
     }
     private void ShortcutMenuControls()
     {
-        if (GameManager.Instance.CurrentState == GameState.Normal)
+        if (GameManager.Instance.CurrentState == GameState.Normal || GameManager.Instance.CurrentState == GameState.InTuto)
         {
             if (Input.GetKeyDown(KeyCode.A))
             {

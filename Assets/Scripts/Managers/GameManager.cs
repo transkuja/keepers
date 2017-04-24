@@ -331,235 +331,120 @@ public class GameManager : MonoBehaviour
 
     }
 
-
-
     public PrefabUIUtils PrefabUIUtils
-
     {
-
         get
-
         {
-
             return prefabUIUtils;
-
         }
-
     }
 
-
-
     public PrefabUtils PrefabUtils
-
     {
-
         get
-
         {
-
             return prefabUtils;
-
         }
-
     }
 
     public int NbTurn
-
     {
-
         get
-
         {
-
             return nbTurn;
-
         }
-
-
 
         set
-
         {
-
             nbTurn = value;
-
         }
-
     }
 
-
-
     public List<PawnInstance> AllKeepersList
-
     {
-
         get
-
         {
-
             return allKeepersList;
-
         }
-
-
-
         set
-
         {
-
             allKeepersList = value;
-
         }
-
     }
 
     public List<PawnInstance> ListOfSelectedKeepers
-
     {
-
         get
-
         {
-
             return listOfSelectedKeepers;
-
         }
-
-
 
         set
-
         {
-
             listOfSelectedKeepers = value;
-
         }
-
     }
-
-
 
     public Interactable GoTarget
-
     {
-
         get
-
         {
-
             return goTarget;
-
         }
-
-
 
         set
-
         {
-
             goTarget = value;
-
         }
-
     }
-
-
 
     public IngameUI Ui
-
     {
-
         get
-
         {
-
             return ui;
-
         }
-
     }
-
-
 
     public IngameScreens GameScreens
-
     {
-
         get
-
         {
-
             return gameScreens;
-
         }
-
     }
-
-
 
     public Transform BattleResultScreen
-
     {
-
         get
-
         {
-
             return gameScreens.transform.GetChild(0).GetChild((int)IngameScreensEnum.BattleResultScreens);
-
         }
-
     }
-
-
 
     public Transform SelectBattleCharactersScreen
-
     {
-
         get
-
         {
-
             return gameScreens.transform.GetChild(0).GetChild((int)IngameScreensEnum.SelectBattleCharactersScreen);
-
         }
-
     }
-
-
 
     public Transform WinScreen
-
     {
-
         get
-
         {
-
             return gameScreens.transform.GetChild(0).GetChild((int)IngameScreensEnum.WinScreen);
-
         }
-
     }
-
-
 
     public Transform LoseScreen
-
     {
-
         get
-
         {
-
             return gameScreens.transform.GetChild(0).GetChild((int)IngameScreensEnum.LoseScreen);
-
         }
-
     }
-
-
 
     public void OpenSelectBattleCharactersScreen(Tile tile)
     {
@@ -593,17 +478,11 @@ public class GameManager : MonoBehaviour
     }
 
     public GameState CurrentState
-
     {
-
         get
-
         {
-
             return currentState;
-
         }
-
         set
         {
             // Exit pause state
@@ -623,39 +502,22 @@ public class GameManager : MonoBehaviour
 
             currentState = value;
         }
-
     }
-
-
 
     public GameObject GetBattleUI
-
     {
-
         get
-
         {
-
             return ui.battleUI;
-
         }
-
     }
 
-
-
     public Tile ActiveTile
-
     {
-
         get
-
         {
-
             return cameraManagerReference.ActiveTile;
-
         }
-
     }
 
     public CharactersInitializer CharacterInitializer

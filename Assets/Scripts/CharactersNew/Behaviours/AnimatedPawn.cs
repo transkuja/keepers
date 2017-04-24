@@ -98,7 +98,7 @@ namespace Behaviour
 
         void Update()
         {
-            if (GameManager.Instance!= null && GameManager.Instance.CurrentState == GameState.Normal)
+            if (GameManager.Instance!= null && (GameManager.Instance.CurrentState == GameState.Normal || GameManager.Instance.CurrentState == GameState.InTuto))
             {
                 if (GetComponent<Keeper>() != null)
                 {
@@ -155,10 +155,7 @@ namespace Behaviour
         public void StartBetweenTilesAnimation(Vector3 newPosition)
 
         {
-
             agent.enabled = false;
-
-
 
             lerpMoveParam = 0.0f;
 
@@ -172,139 +169,75 @@ namespace Behaviour
 
             lerpEndRotation = Quaternion.LookRotation(direction);
 
-
-
             anim.SetTrigger("moveBetweenTiles");
-
-
 
             IsMovingBetweenTiles = true;
 
         }
 
 
-
         // TODO: merge with the above function
-
         public void StartMoveToBattlePositionAnimation(Vector3 newPosition, Quaternion newRotation)
-
         {
-
             lerpMoveParam = 0.0f;
 
             lerpStartPosition = transform.position;
 
             lerpEndPosition = GetComponent<PawnInstance>().CurrentTile.transform.position + newPosition;
 
-
-
             lerpStartRotation = Quaternion.LookRotation(transform.forward);
 
             lerpEndRotation = newRotation;
-
-
 
             beforeBattlePosition = lerpStartPosition;
 
             beforeBattleRotation = lerpStartRotation;
 
-
-
             anim.SetTrigger("moveToBattlePosition");
 
-
-
             isMovingToBattlePosition = true;
-
         }
 
-
-
         public void StartMoveFromBattlePositionAnimation()
-
         {
-
             lerpMoveParam = 0.0f;
 
             lerpStartPosition = transform.position;
 
             lerpEndPosition = beforeBattlePosition;
 
-
-
             lerpStartRotation = Quaternion.LookRotation(transform.forward);
 
             lerpEndRotation = beforeBattleRotation;
 
-
-
             anim.SetTrigger("moveToBattlePosition");
 
-
-
             isMovingToBattlePosition = true;
-
         }
-
-
 
         public void TriggerRotation(Vector3 v3Direction)
-
         {
-
             if (agent.enabled == false)
-
             {
-
                 Debug.Log("Agent is not active!");
-
                 return;
-
             }
-
             agent.angularSpeed = 0.0f;
-
-
-
             quatPreviousRotation = transform.rotation;
-
-
-
             Vector3 v3PosTemp = transform.position;
-
             v3PosTemp.y = 0;
-
             v3Direction.y = 0.0f;
-
-
-
             quatTargetRotation.SetLookRotation(v3Direction - v3PosTemp);
 
-
-
             if(Quaternion.Angle(quatPreviousRotation, quatTargetRotation) > 10.0f)
-
             {
-
                 bIsRotating = true;
-
-
-
                 agent.Stop();
 
-
-
-
-
                 fLerpRotation = 0.0f;
-
             }
-
             v3AgentDirectionTemp = v3Direction;
-
         }
-
-
 
         void Rotate()
 
