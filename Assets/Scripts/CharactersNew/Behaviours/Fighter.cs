@@ -103,10 +103,15 @@ namespace Behaviour
                                 minDefenseForThisDice = dice[i].Faces[j].Value;
                         }
                     }
+                    if (minAttackForThisDice == 7) minAttackForThisDice = 0;
+                    if (minDefenseForThisDice == 7) minDefenseForThisDice = 0;
                     baseAttack += minAttackForThisDice;
                     baseDefense += minDefenseForThisDice;
                 }
             }
+            Debug.Log(name);
+            Debug.Log(baseAttack);
+            Debug.Log(baseDefense);
         }
 
         private void Update()
@@ -119,13 +124,7 @@ namespace Behaviour
                     showSkillPanelTimer = 1.5f;
                     showFeedbackDmgTimer = 1.0f;
                     isWaitingForSkillPanelToClose = false;
-                    BattleHandler.IsWaitingForSkillEnd = false;
-                    //if (!BattleHandler.IsKeepersTurn)
-                    //if (BattleHandler.IsKeepersTurn)
-                    //    BattleHandler.CheckTurnStatus();
-                    //else
-                    //    BattleHandler.ShiftToNextMonsterTurn();
-                    
+                    BattleHandler.IsWaitingForSkillEnd = false;                    
                 }
                 else
                 {
@@ -187,12 +186,19 @@ namespace Behaviour
             {
                 // max defense => 10% dmg taken
                 // 0 defense => 100% dmg taken
-                int effectiveDamage = Mathf.Max((int)(attackDamage/(Mathf.Sqrt(_attackTarget.GetComponent<Monster>().EffectiveDefense + 1))), (int)(attackDamage/10.0f));
+                
+                int effectiveDamage = ComputeEffectiveDamage(_attackTarget, attackDamage);
                 _attackTarget.GetComponent<Mortal>().CurrentHp -= effectiveDamage;
                 _attackTarget.GetComponent<PawnInstance>().AddFeedBackToQueue(-effectiveDamage);
             }
             
             HasPlayedThisTurn = true;
+        }
+
+        // Compute effective damage when hitting a monster
+        private int ComputeEffectiveDamage(Fighter _target, int _attackDmg)
+        {
+            return Mathf.Max((int)(_attackDmg / (Mathf.Sqrt(_target.GetComponent<Monster>().EffectiveDefense + 1))), (int)(_attackDmg / 10.0f));
         }
 
         public void Guard(int _i = 0)
@@ -481,7 +487,10 @@ namespace Behaviour
 
             set
             {
-                pendingDamage = value;
+                if (GetComponent<Keeper>() != null || GetComponent<Escortable>() != null)
+                    pendingDamage = Mathf.Max(value - baseDefense - temporaryDefense, 0);
+                else
+                    pendingDamage = ComputeEffectiveDamage(this, value);
             }
         }
 
