@@ -58,8 +58,8 @@ namespace Behaviour
         bool isWaitingForDmgFeedback = false;
         int pendingDamage = 0;
         bool isWaitingForSkillPanelToClose = false;
-        float showSkillPanelTimer = 1.5f;
-        float showFeedbackDmgTimer = 1.0f;
+        float showSkillPanelTimer = 2.2f;
+        float showFeedbackDmgTimer = 1.7f;
 
         void Awake()
         {
@@ -110,6 +110,8 @@ namespace Behaviour
                 }
             }
 
+            showSkillPanelTimer = 2.2f;
+            showFeedbackDmgTimer = 1.7f;
         }
 
         private void Update()
@@ -119,10 +121,10 @@ namespace Behaviour
                 if (showSkillPanelTimer < 0.0f)
                 {
                     GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().SkillName.SetActive(false);
-                    showSkillPanelTimer = 1.5f;
-                    showFeedbackDmgTimer = 1.0f;
+                    showSkillPanelTimer = 2.2f;
+                    showFeedbackDmgTimer = 1.7f;
                     isWaitingForSkillPanelToClose = false;
-                    BattleHandler.IsWaitingForSkillEnd = false;                    
+                    BattleHandler.IsWaitingForSkillEnd = false;
                 }
                 else
                 {
@@ -143,6 +145,11 @@ namespace Behaviour
                     }
                 }
             }
+        }
+
+        void OnDestroy()
+        {
+            BattleHandler.IsWaitingForSkillEnd = false;
         }
 
         public void ResetValuesAfterBattle()
@@ -639,10 +646,7 @@ public class SkillBattle
         _target.GetComponent<Behaviour.Fighter>().IsWaitingForDmgFeedback = true;
         _target.GetComponent<Behaviour.Fighter>().IsWaitingForSkillPanelToClose = true;
         _target.GetComponent<Behaviour.Fighter>().PendingDamage = damage;
+
         BattleHandler.IsWaitingForSkillEnd = true;
-        if (_user.GetComponent<Behaviour.Keeper>() != null)
-        {
-            _user.HasPlayedThisTurn = true;
-        }
     }
 }

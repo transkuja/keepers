@@ -319,7 +319,9 @@ public class ControlsManager : MonoBehaviour
                             if (GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Fighter>().HasClickedOnAttack)
                                 GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Fighter>().AttackProcess(clickTarget.GetComponentInParent<Fighter>());
                             else
+                            {
                                 BattleHandler.PendingSkill.UseSkill(GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Fighter>(), clickTarget.GetComponentInParent<PawnInstance>());
+                            }
                         }
                         else
                         {

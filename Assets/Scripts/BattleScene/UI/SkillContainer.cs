@@ -104,6 +104,6 @@ public class SkillContainer : MonoBehaviour {
         }
         // TODO: find an other way
         GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().GetSkillsPanelIndex(GameManager.Instance.GetFirstSelectedKeeper()).gameObject.SetActive(false);
-        BattleHandler.WaitForSkillConfirmation(skillData);
+        BattleHandler.WaitForSkillConfirmation(skillData, GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Fighter>());
     }
 }

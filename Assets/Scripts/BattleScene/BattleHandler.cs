@@ -31,6 +31,8 @@ public class BattleHandler {
     private static SkillBattle pendingSkill;
     private static bool isWaitingForSkillEnd = false;
     private static bool wasLaunchedDuringKeepersTurn;
+    // TODO: fix by setting the user in the skill
+    private static Fighter pendingSkillUser;
 
     // Debug parameters
     private static bool isDebugModeActive = false;
@@ -204,7 +206,7 @@ public class BattleHandler {
             }            
         }
         wasTheLastToPlay = mustShiftTurn;
-        Debug.Log(mustShiftTurn);
+
         if (mustShiftTurn)
         {
             DeactivateFeedbackSelection(true, false);
@@ -627,6 +629,7 @@ public class BattleHandler {
         wasTheLastToPlay = false;
         pendingSkill = null;
         isWaitingForSkillEnd = false;
+        pendingSkillUser = null;
     }
 
     private static void PrintResultsScreen(bool isVictorious)
@@ -771,9 +774,10 @@ public class BattleHandler {
         }
     }
 
-    public static void WaitForSkillConfirmation(SkillBattle _skillData)
+    public static void WaitForSkillConfirmation(SkillBattle _skillData, Fighter _user)
     {
         pendingSkill = _skillData;
+        pendingSkillUser = _user;
     }
 
     public static bool IsKeepersTurn
@@ -869,6 +873,13 @@ public class BattleHandler {
             isWaitingForSkillEnd = value;
             if (isWaitingForSkillEnd == false)
             {
+                if (pendingSkillUser != null && pendingSkillUser.GetComponent<Keeper>() != null)
+                {
+                    pendingSkillUser.HasPlayedThisTurn = true;
+                    pendingSkillUser = null;
+                    return;
+                }
+
                 if (wasLaunchedDuringKeepersTurn)
                     ActivateFeedbackSelection(true, false);
                 else
@@ -888,6 +899,19 @@ public class BattleHandler {
                 wasLaunchedDuringKeepersTurn = IsKeepersTurn;
                 DeactivateFeedbackSelection(true, true);
             }
+        }
+    }
+
+    public static Fighter PendingSkillUser
+    {
+        get
+        {
+            return pendingSkillUser;
+        }
+
+        set
+        {
+            pendingSkillUser = value;
         }
     }
 }
