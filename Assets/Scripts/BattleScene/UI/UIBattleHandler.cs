@@ -102,6 +102,10 @@ public class UIBattleHandler : MonoBehaviour {
         BattleHandler.DisableMonstersLifeBars();
         associatedCharacterPanel.Clear();
         associatedSkillsPanel.Clear();
+        foreach (Transform characterPan in associatedCharacterPanel.Values)
+        {
+            characterPan.gameObject.SetActive(false);
+        }
         ChangeState(UIBattleState.Disabled);
     }
 
@@ -200,6 +204,7 @@ public class UIBattleHandler : MonoBehaviour {
         characterPanel.GetChild((int)CharactersPanelChildren.Attributes).GetChild((int)AttributesChildren.Support).GetComponentInChildren<Text>().text = fighterComponent.SupportSymbolStored.ToString();
 
         occupiedCharacterPanelIndex[initIndex] = true;
+        characterPanel.gameObject.SetActive(true);
         associatedCharacterPanel.Add(_pawnInstanceForInit, characterPanel);
         SkillsPanelInit(_pawnInstanceForInit, initIndex);
     }
