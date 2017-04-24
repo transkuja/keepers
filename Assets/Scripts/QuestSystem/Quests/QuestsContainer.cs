@@ -48,7 +48,7 @@ public class QuestsContainer {
                                                         //"Oh hey fellow adventurer! You seem tough, and I really think you could help me. You see, a really scary monster is coming closer to the village and the inhabitants are getting stressed out. I can't fix the problem alone, and if we do nothing, I can't imagine what will happen to these people. Please, go to the north east and kill this beast! You will be rewarded, don't worry.", 
                                                         "Hey you! Kill that big thing over there! *points at a hidden passage between two bushes*",
                                                         "Great job! You know what, I have been wishing to get on an adventure for some time now... I'm coming with you!",
-                                                        "Hint: The target should be on a surrounding tile. Don't go alone."),
+                                                        "Go to the north, but be careful, this thing is one powerful being."),
                                          objectives));
         isInitialized = true;
     }
