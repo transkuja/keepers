@@ -14,12 +14,18 @@ public class MenuManagerQ : MonoBehaviour {
     public Transform[] keepersPosition;
     public Transform[] cardlevelPosition;
 
-    public GameObject GoPrefabCard;
+    public GameObject GoPrefabLevelCard;
+    public GameObject GoPrefabEventCard;
+    public GameObject GoPrefabDeck;
+
 
     [SerializeField] public List<GameObject> listCardModels = new List<GameObject>();
     [SerializeField] public List<GameObject> listDeckModels = new List<GameObject>();
 
+    [SerializeField] public List<GameObject> listLevelCards = new List<GameObject>();
+
     public Material matBox;
+    public Material matBox2;
 
     void Start()
     {
@@ -37,7 +43,8 @@ public class MenuManagerQ : MonoBehaviour {
             QuestDeckData qdd = GameManager.Instance.QuestDeckDataBase.ListQuestDeck[i];
 
             // Instanciation du deck
-            GameObject goDeck = Instantiate(GameManager.Instance.PrefabUtils.prefabQuestDeck);
+            //GameObject goDeck = Instantiate(GameManager.Instance.PrefabUtils.prefabQuestDeck);
+            GameObject goDeck = Instantiate(GoPrefabDeck);
             goDeck.transform.SetParent(questDecksPosition[i].parent, false);
             GameObject.Destroy(questDecksPosition[i].gameObject);
 
@@ -55,7 +62,7 @@ public class MenuManagerQ : MonoBehaviour {
 
             for (int j = 0; j < qdd.secondaryQuests.Count; j++)
             {
-                GameObject goTemp = Instantiate(GoPrefabCard, goDeck.transform);
+                GameObject goTemp = Instantiate(GoPrefabEventCard, goDeck.transform);
                 goTemp.GetComponent<MeshFilter>().mesh = GetCardModel(qdd.secondaryQuests[j].cardModelname).GetComponent<MeshFilter>().sharedMesh;
                 goTemp.tag = "OpenerContent";
                 goTemp.SetActive(false);
@@ -70,7 +77,7 @@ public class MenuManagerQ : MonoBehaviour {
         for (int i = 1; i <= 2; i++)
         {
             // Instanciation du deck
-            GameObject goCardLevel = Instantiate(GameManager.Instance.PrefabUtils.prefabLevelCard);
+            GameObject goCardLevel = Instantiate(GoPrefabLevelCard);
             goCardLevel.transform.SetParent(cardlevelPosition[i-1].parent, false);
 
             GameObject.Destroy(cardlevelPosition[i - 1].gameObject);
@@ -79,6 +86,8 @@ public class MenuManagerQ : MonoBehaviour {
             CardLevel cardLevel = goCardLevel.GetComponentInChildren<CardLevel>();
             if (cardLevel != null)
             {
+                cardLevel.GetComponent<MeshFilter>().mesh = listLevelCards[i-1].GetComponent<MeshFilter>().sharedMesh;
+                cardLevel.GetComponent<MeshRenderer>().material = matBox2;
                 cardLevel.levelIndex = i;
             }
             else
@@ -154,6 +163,19 @@ public class MenuManagerQ : MonoBehaviour {
     public bool ContainsSelectedKeepers(PawnInstance pi)
     {
         return listeSelectedKeepers.Contains(pi);
+    }
+
+    public GameObject GetLevelCardModel(string strName)
+    {
+        foreach (GameObject goCardModel in listLevelCards)
+        {
+            if (strName == goCardModel.name)
+            {
+                return goCardModel;
+            }
+        }
+        Debug.Log("Modele de carte \"" + strName + "\" introuvable");
+        return null;
     }
 
     public GameObject GetCardModel(string strName)
