@@ -106,6 +106,8 @@ public class UIBattleHandler : MonoBehaviour {
         {
             characterPan.gameObject.SetActive(false);
         }
+        for (int i = 0; i < charactersPanel.transform.childCount; i++)
+            charactersPanel.transform.GetChild(i).GetChild(0).gameObject.SetActive(false);
         ChangeState(UIBattleState.Disabled);
     }
 
