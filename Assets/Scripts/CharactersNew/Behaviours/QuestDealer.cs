@@ -43,16 +43,16 @@ namespace Behaviour
             {
                 Debug.Log("Quest Not Found");
             }
-            else
-                InitializeQuest();
+            //else
+                //InitializeQuest();
         }
 
-        public void InitializeQuest()
-        {
-            //questToGive.Reset(new QuestIdentifier(questToGive.Identifier.ID, instance.Data.PawnId), questToGive.Information, questToGive.Objectives);
-            questToGive.Init();
+        //public void InitializeQuest()
+        //{
+        //    //questToGive.Reset(new QuestIdentifier(questToGive.Identifier.ID, instance.Data.PawnId), questToGive.Information, questToGive.Objectives);
+        //    questToGive.Init();
 
-        }
+        //}
 
         void BuildQuestPanel()
         {
