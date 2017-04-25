@@ -100,7 +100,6 @@ namespace Behaviour
             if (items == null)
                 items = new ItemContainer[data.NbSlot];
 
-            Debug.Log(items.Length);
             CreateInventoryUI();
             InitInventoryPanel();
 

@@ -35,7 +35,6 @@ public class Climat : MonoBehaviour {
                     case TypeClimat.None:
                         break;
                     case TypeClimat.Snow:
-                        Debug.Log("test");
                         refSnowParticleSystem.SetActive(true);
                         break;
                 }
