@@ -253,7 +253,6 @@ public class BattleHandler {
             return;
         }
 
-        Debug.Log(nextMonsterIndex);
         PawnInstance target = GetTargetForAttack();
         Fighter monsterBattleInfo = currentBattleMonsters[nextMonsterIndex].GetComponent<Fighter>();
         SkillBattle skillUsed = monsterBattleInfo.BattleSkills[Random.Range(0, currentBattleMonsters[nextMonsterIndex].GetComponent<Fighter>().BattleSkills.Count)];

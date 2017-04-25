@@ -99,7 +99,7 @@ public class TileManager : MonoBehaviour {
 
     public void RemoveDefeatedMonster(PawnInstance _deadMonster)
     {
-        ItemContainer[] lootList;
+        List<ItemContainer> lootList = new List<ItemContainer>();
         Transform lastMonsterPosition = null;
         monstersOnTile[_deadMonster.CurrentTile].Remove(_deadMonster);
 
@@ -113,15 +113,15 @@ public class TileManager : MonoBehaviour {
         }
 
         _deadMonster.GetComponent<Behaviour.Inventory>().ComputeItems();
-        lootList = _deadMonster.GetComponent<Behaviour.Inventory>().Items;
+        lootList.AddRange(_deadMonster.GetComponent<Behaviour.Inventory>().Items);
 
         if (EventManager.OnMonsterDie != null)
             EventManager.OnMonsterDie(_deadMonster.GetComponent<Behaviour.Monster>());
 
-
-        if (lootList.Length > 0)
+        Debug.Log(lootList.Count);
+        if (lootList.Count > 0)
         {
-            ItemManager.AddItemOnTheGround(_deadMonster.CurrentTile, lastMonsterPosition, lootList);
+            ItemManager.AddItemOnTheGround(_deadMonster.CurrentTile, lastMonsterPosition, lootList.ToArray());
         }
 
         if (monstersOnTile[_deadMonster.CurrentTile].Count == 0)

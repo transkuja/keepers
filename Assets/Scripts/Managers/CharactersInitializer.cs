@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using QuestSystem;
+using Behaviour;
 
 public class CharactersInitializer : MonoBehaviour {
 
@@ -52,6 +53,12 @@ public class CharactersInitializer : MonoBehaviour {
                     if (source.needsToBeSpawned)
                     {
                         GameObject spawnedPawn = GameManager.Instance.PawnDataBase.CreatePawn(source.ID, source.Transform.position, source.Transform.rotation, null);
+                        // TODO: NPCs must be registered in Tile Manager and ComputeItems called in character initializer
+                        if (spawnedPawn.GetComponent<PawnInstance>() != null && spawnedPawn.GetComponent<Keeper>() == null)
+                        {
+                            if (spawnedPawn.GetComponent<Inventory>().PossibleItems != null && spawnedPawn.GetComponent<Inventory>().PossibleItems.Count > 0)
+                                spawnedPawn.GetComponent<Inventory>().ComputeItems();
+                        }
                         spawnedPawn.transform.SetParent(source.Tile.transform);
                         spawnedPawn.transform.SetAsLastSibling();
                         spawnedPawn.GetComponent<PawnInstance>().CurrentTile = source.Tile;

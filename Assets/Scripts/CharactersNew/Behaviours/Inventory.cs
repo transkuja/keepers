@@ -71,20 +71,20 @@ namespace Behaviour
 
         public void ComputeItems()
         {
-            items = new ItemContainer[data.NbSlot];
+            List<ItemContainer> tmpItems = new List<ItemContainer>();
             Item it = null;
-            int i = 0;
+            int computedNbSlots = 0;
             foreach (string _IdItem in possibleItems)
             {
                 it = GameManager.Instance.ItemDataBase.getItemById(_IdItem);
-                if (Random.Range(0, 10) > it.Rarity)
+                if (Random.Range(1, 10) > it.Rarity)
                 {
-                    items[i++] = new ItemContainer(it, 1);
+                    tmpItems.Add(new ItemContainer(it, 1));
+                    computedNbSlots++;
                 }
-                if (i >= data.NbSlot)
-                    break;
             }
-
+            items = tmpItems.ToArray();
+            data.NbSlot = computedNbSlots;
         }
 
         public void Trade(int _i = 0)
@@ -97,8 +97,10 @@ namespace Behaviour
         #region UI
         public void InitUI()
         {
-            items = new ItemContainer[data.NbSlot];
+            if (items == null)
+                items = new ItemContainer[data.NbSlot];
 
+            Debug.Log(items.Length);
             CreateInventoryUI();
             InitInventoryPanel();
 
@@ -170,7 +172,7 @@ namespace Behaviour
                 associatedSprite = GameManager.Instance.SpriteUtils.spriteLoot;
                 inventoryPanel.transform.GetChild(0).gameObject.SetActive(false);
                 owner = lootInstance.gameObject;
-                nbSlot = lootInstance.nbSlot;
+                nbSlot = data.NbSlot;
             }
             else
             {
@@ -248,12 +250,9 @@ namespace Behaviour
                 return;
             }
 
+            Debug.Log(items.Length);
             for (int i = 0; i < items.Length; i++)
             {
-                // TODO: error here when a monster dies (empty inventory??)
-                if (i >= inventoryPanel.transform.GetChild(1).childCount)
-                    return;
-
                 GameObject currentSlot = inventoryPanel.transform.GetChild(1).GetChild(i).gameObject;
                 if (currentSlot.GetComponentInChildren<ItemInstance>() != null)
                 {
@@ -399,6 +398,19 @@ namespace Behaviour
             set
             {
                 selectedInventoryPanel = value;
+            }
+        }
+
+        public List<string> PossibleItems
+        {
+            get
+            {
+                return possibleItems;
+            }
+
+            set
+            {
+                possibleItems = value;
             }
         }
 
