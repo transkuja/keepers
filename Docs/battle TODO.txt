@@ -11,3 +11,13 @@ empty loot box
 
 bug sur le friendly feedback
 friend should feedback on everyone
+
+
+Bugs
+private static void ShiftToNextMonsterTurn()
+{
+        if (currentBattleMonsters[nextMonsterIndex] == null)
+        {
+====> IndexOutOfRangeException (kill 1st and 3rd monster)
+
+==> Bug sur resume d'agent??
