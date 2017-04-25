@@ -18,6 +18,8 @@ namespace QuestSystem
         void UpdateProgress();
         void CheckProgress();
 
+        IQuestObjective GetCopy();
+
         //Needs to be called to link to the Event Manager
         void Init();
     }

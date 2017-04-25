@@ -38,12 +38,29 @@ namespace QuestSystem
         public Quest()
         { }
 
+        public Quest(Quest quest)
+        {
+            identifier = quest.identifier;
+            information = quest.information;
+            objectives = new List<IQuestObjective>();
+            foreach(IQuestObjective obj in quest.objectives)
+            {
+                objectives.Add(obj.GetCopy());
+            }
+            reward = quest.reward;
+        }
+
         public void Reset(QuestIdentifier ident, QuestText info, List<IQuestObjective> obj, QuestReward _reward = null)
         {
             identifier = ident;
             information = info;
             objectives = obj;
             reward = _reward;
+        }
+
+        public void Reset()
+        {
+
         }
 
         public void Init()

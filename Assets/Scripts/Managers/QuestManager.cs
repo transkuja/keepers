@@ -54,11 +54,11 @@ public class QuestManager : MonoBehaviour
                 GameManager.Instance.QuestsContainer.Init();
             }
             
-            MainQuest = GameManager.Instance.QuestsContainer.FindQuestByID(CurrentQuestDeck.MainQuest);
+            MainQuest = new Quest(GameManager.Instance.QuestsContainer.FindQuestByID(CurrentQuestDeck.MainQuest));
 
             foreach (string questID in CurrentQuestDeck.SideQuests)
             {
-                Quests.Add(GameManager.Instance.QuestsContainer.FindQuestByID(questID));
+                Quests.Add(new Quest(GameManager.Instance.QuestsContainer.FindQuestByID(questID)));
             }
         }
         else

@@ -96,4 +96,9 @@ public class PrisonerEscortObjective : IQuestObjective
             onInit();
         }
     }
+
+    public IQuestObjective GetCopy()
+    {
+        return new PrisonerEscortObjective(title, description, prisoner, destination, isComplete);
+    }
 }

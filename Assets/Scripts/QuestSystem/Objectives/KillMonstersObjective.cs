@@ -93,7 +93,7 @@ public class KillMonstersObjective : IQuestObjective
 
     public void UpdateProgress(Monster m)
     {
-        if(m.MonsterTypeID == monsterTypeID)
+        if(m.getPawnInstance.Data.PawnId == monsterTypeID)
         {
             amountKilled++;
             if (amountKilled >= amountToKill)
@@ -113,5 +113,10 @@ public class KillMonstersObjective : IQuestObjective
     public void Unregister()
     {
         EventManager.OnMonsterDie -= UpdateProgress;
+    }
+
+    public IQuestObjective GetCopy()
+    {
+        return new KillMonstersObjective(title, description, monsterTypeID, amountToKill);
     }
 }

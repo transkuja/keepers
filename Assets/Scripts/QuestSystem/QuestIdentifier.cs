@@ -42,5 +42,11 @@ namespace QuestSystem
             id = _id;
             sourceID = _sourceID;
         }
+
+        public QuestIdentifier(QuestIdentifier qi)
+        {
+            id = qi.id;
+            sourceID = qi.sourceID;
+        }
     }
 }

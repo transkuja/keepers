@@ -111,4 +111,9 @@ public class KillMonsterObjective : IQuestObjective
     {
         EventManager.OnMonsterDie -= UpdateProgress;
     }
+
+    public IQuestObjective GetCopy()
+    {
+        return new KillMonsterObjective(title, description, monsterID, isComplete);
+    }
 }

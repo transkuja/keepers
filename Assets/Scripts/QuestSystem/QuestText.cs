@@ -65,6 +65,15 @@ namespace QuestSystem
             endDialog = _endDialog;
             hint = _hint;
         }
+
+        public QuestText(QuestText qt)
+        {
+            title = qt.title;
+            descriptionSummary = qt.descriptionSummary;
+            dialog = qt.dialog;
+            endDialog = qt.endDialog;
+            hint = qt.hint;
+        }
     }
 
 }
