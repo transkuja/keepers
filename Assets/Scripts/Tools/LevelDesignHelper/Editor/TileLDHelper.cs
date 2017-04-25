@@ -15,6 +15,7 @@ public class TileLDHelper : EditorWindow {
     GameObject HelperObject = null;
     HelperRoot helperRoot = null;
     GameObject selectedObject = null;
+    GameObject emptyTilePrefab = null;
     GameObject[] selectedObjects = null;
     TileType selectedType = TileType.None; //The type selected by the user
     TileType currentType = TileType.None; //The current loaded type (update when selectedType is changed)
@@ -157,18 +158,10 @@ public class TileLDHelper : EditorWindow {
             {
                 foreach (GameObject go in selectedObjects)
                 {
-                    Tile t = go.GetComponent<Tile>();
+                    Tile t = go.GetComponentInParent<Tile>();
                     if (t == null)
                     {
-                        if(go.transform.parent != null)
-                            t = go.transform.parent.GetComponent<Tile>();
-                        if (t == null)
-                        {
-                            if (go.transform.parent != null && go.transform.parent.parent != null)
-                                t = go.transform.parent.parent.GetComponent<Tile>();
-                            if (t == null)
-                                validSelection = false;
-                        }
+                        validSelection = false;
                     }
                 }
                 if (!validSelection)
@@ -199,19 +192,26 @@ public class TileLDHelper : EditorWindow {
 
             if(GUILayout.Button("Apply"))
             {
-                for(int i = 0; i < selectedObjects.Length; i++)
+                if(selectedModelIndex == 0 && selectedType == TileType.None)
                 {
-                    if(selectedObjects[i].GetComponent<Tile>() != null)
+                    if (emptyTilePrefab == null)
+                        LoadEmptyTilePrefab();
+                    for (int i = 0; i < selectedObjects.Length; i++)
                     {
-                        UpdateTile(selectedObjects[i].GetComponent<Tile>(), currentType, (selectedModelIndex -1 >= 0)?models[selectedModelIndex - 1]:null);
+                        if (selectedObjects[i].GetComponentInParent<Tile>() != null)
+                        {
+                            UpdateTile(selectedObjects[i].GetComponentInParent<Tile>(), currentType, emptyTilePrefab);
+                        }
                     }
-                    else if(selectedObjects[i].transform.parent != null && selectedObjects[i].transform.parent.GetComponent<Tile>() != null)
+                }
+                else
+                {
+                    for (int i = 0; i < selectedObjects.Length; i++)
                     {
-                        UpdateTile(selectedObjects[i].transform.parent.GetComponent<Tile>(), currentType, (selectedModelIndex - 1 >= 0) ? models[selectedModelIndex - 1] : null);
-                    }
-                    else if (selectedObjects[i].transform.parent != null && selectedObjects[i].transform.parent.parent != null && selectedObjects[i].transform.parent.parent.GetComponent<Tile>() != null)
-                    {
-                        UpdateTile(selectedObjects[i].transform.parent.parent.GetComponent<Tile>(), currentType, (selectedModelIndex - 1 >= 0) ? models[selectedModelIndex - 1] : null);
+                        if (selectedObjects[i].GetComponentInParent<Tile>() != null)
+                        {
+                            UpdateTile(selectedObjects[i].GetComponentInParent<Tile>(), currentType, (selectedModelIndex - 1 >= 0) ? models[selectedModelIndex - 1] : null);
+                        }
                     }
                 }
             }
@@ -247,6 +247,12 @@ public class TileLDHelper : EditorWindow {
         EditorGUILayout.HelpBox("Information Warning: the \"TilePrefab\" object must stay the first child of its parent (a Tile). Same goes for the model object, which must stay the first child of the \"TilePrefab\" object.", MessageType.Info);
     }
 
+    void LoadEmptyTilePrefab()
+    {
+        string tilePath = "Assets/Prefabs/Tiles/TilePrefab.prefab";
+        emptyTilePrefab = AssetDatabase.LoadAssetAtPath<GameObject>(tilePath);
+    }
+
     void LoadHelper()
     {
         HelperObject = selectedObject;
@@ -265,21 +271,28 @@ public class TileLDHelper : EditorWindow {
         Vector3 prevPos = tile.transform.position;
         if(model != null)
         {
-            for (int i = 0; i < tile.transform.GetChild(0).childCount; i++)
+            if(model == emptyTilePrefab)
             {
-                Transform child = tile.transform.GetChild(0).GetChild(i);
-                if (child.name == "TileModel" || child.name == "Model")
-                {
-                    prevPos = child.position;
-                    Undo.DestroyObjectImmediate(child.gameObject);
-                }
+
             }
-            GameObject go = PrefabUtility.InstantiatePrefab(model) as GameObject;
-            go.name = "TileModel";
-            go.transform.parent = tile.transform.GetChild(0);
-            go.transform.SetAsFirstSibling();
-            go.transform.position = prevPos;
-            Undo.RegisterCreatedObjectUndo(go, "Created Model " + tile.name);
+            else
+            {
+                for (int i = 0; i < tile.transform.GetChild(0).childCount; i++)
+                {
+                    Transform child = tile.transform.GetChild(0).GetChild(i);
+                    if (child.name == "TileModel" || child.name == "Model")
+                    {
+                        prevPos = child.position;
+                        Undo.DestroyObjectImmediate(child.gameObject);
+                    }
+                }
+                GameObject go = PrefabUtility.InstantiatePrefab(model) as GameObject;
+                go.name = "TileModel";
+                go.transform.parent = tile.transform.GetChild(0);
+                go.transform.SetAsFirstSibling();
+                go.transform.position = prevPos;
+                Undo.RegisterCreatedObjectUndo(go, "Created Model " + tile.name);
+            }
         }
     }
 
@@ -312,8 +325,9 @@ public class TileLDHelper : EditorWindow {
         HelperRoot hr = root.GetComponent<HelperRoot>();
         hr.Width = width;
         hr.Height = height;
-        string tilePath = "Assets/Prefabs/Tiles/TilePrefab.prefab";
-        GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(tilePath);
+        if (emptyTilePrefab == null)
+            LoadEmptyTilePrefab();
+        GameObject prefab = emptyTilePrefab;
         Vector3 size = prefab.GetComponentInChildren<MeshFilter>().sharedMesh.bounds.size;
         float baseSpaceX = spaceX;
         float baseSpaceZ = spaceZ;
@@ -385,6 +399,7 @@ public class TileLDHelper : EditorWindow {
         spaceZ = baseSpaceZ;
 
         EditorUtility.ClearProgressBar();
+        DestroyImmediate(emptyTilePrefab);
         helperRoot = null;
         HelperObject = null;
         tiles = null;
