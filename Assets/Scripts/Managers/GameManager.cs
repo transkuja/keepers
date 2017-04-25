@@ -155,6 +155,8 @@ public class GameManager : MonoBehaviour
         listOfSelectedKeepers.Clear();
         nbTurn = 1;
         currentState = GameState.Normal;
+        ui.gameObject.SetActive(false);
+        ui.ResetIngameUI();
     }
 
 

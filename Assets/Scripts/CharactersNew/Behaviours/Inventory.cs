@@ -52,6 +52,11 @@ namespace Behaviour
             instance = GetComponent<PawnInstance>();
         }
 
+        void OnDestroy()
+        {
+            Destroy(inventoryPanel);
+        }
+
         public void Add(ItemContainer item)
         {
             ItemContainer[] temp = items;

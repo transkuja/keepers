@@ -32,7 +32,7 @@ public class EventManager : MonoBehaviour {
         ApplyEndTurnMentalHealthPenalty();
 
         ResetActionPointsForNextTurn();
-        GameManager.Instance.Ui.ResetIngameUI();
+        GameManager.Instance.Ui.ClearUiOnTurnEnding();
         HandleWeather();
     }
 

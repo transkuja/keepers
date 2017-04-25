@@ -112,6 +112,12 @@ namespace Behaviour
             actionPoints = MaxActionPoints;
         }
 
+        void OnDestroy()
+        {
+            Destroy(shorcutUI);
+            Destroy(selectedPanelUI);
+        }
+
         public bool IsTheLastKeeperOnTheTile()
         {
             bool isTheLastOnTile = true;

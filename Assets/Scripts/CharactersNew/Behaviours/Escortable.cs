@@ -35,6 +35,11 @@ namespace Behaviour
             instance.Interactions.Add(new Interaction(Escort), 0, "Escort", GameManager.Instance.SpriteUtils.spriteEscort);
         }
 
+        void OnDestroy()
+        {
+            Destroy(shorcutUI);
+        }
+
         #region Interactions
         public void Escort(int _i = 0)
         {
