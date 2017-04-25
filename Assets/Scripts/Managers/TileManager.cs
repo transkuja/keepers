@@ -64,7 +64,6 @@ public class TileManager : MonoBehaviour {
             return;
         }
 
-
         RemoveKeeperFromTile(from, keeper);
         AddKeeperOnTile(destination, keeper);
         Transform[] spawnPoints = GetSpawnPositions(destination, direction);
@@ -74,7 +73,7 @@ public class TileManager : MonoBehaviour {
 
         Behaviour.Keeper keeperComponent = keeper.GetComponent<Behaviour.Keeper>();
         keeperComponent.ActionPoints -= (short)costAction;
-        keeperComponent.getPawnInstance.CurrentTile = destination;
+      //  keeperComponent.getPawnInstance.CurrentTile = destination;
 
         GameObject goCurrentCharacter;
 
@@ -281,7 +280,7 @@ public class TileManager : MonoBehaviour {
             Debug.Log("Could not add monster because Monster component missing.");
     }
 
-    private void RemoveKeeperFromTile(Tile tile, PawnInstance keeper)
+    public void RemoveKeeperFromTile(Tile tile, PawnInstance keeper)
     {
         if (keeper.GetComponent<Behaviour.Keeper>() != null)
             KeepersOnTile[tile].Remove(keeper);

@@ -37,6 +37,37 @@ public class DebugControls : MonoBehaviour {
                 debugCanvas.SetActive(!debugCanvas.activeInHierarchy);
             }
 
+            // Unlimited action points
+            if (Input.GetKeyDown(KeyCode.Alpha6))
+            {
+                if (isUnlimitedActionPointsModeActive)
+                {
+                    Debug.Log("Deactivate unlimited action points mode.");
+                    foreach (PawnInstance pi in GameManager.Instance.AllKeepersList)
+                    {
+                        pi.GetComponent<Keeper>().MaxActionPoints = 3;
+                        pi.GetComponent<Keeper>().ActionPoints = 3;
+                    }
+                }
+                else
+                {
+                    Debug.Log("Activate unlimited action points mode.");
+                    foreach (PawnInstance pi in GameManager.Instance.AllKeepersList)
+                    {
+                        pi.GetComponent<Keeper>().MaxActionPoints = 99;
+                        pi.GetComponent<Keeper>().ActionPoints = 99;
+                    }
+                }
+                isUnlimitedActionPointsModeActive = !isUnlimitedActionPointsModeActive;
+            }
+
+            // Discover all tiles
+            if (Input.GetKeyDown(KeyCode.Alpha9))
+            {
+                foreach (Tile tile in TileManager.Instance.Tiles.GetComponentsInChildren<Tile>())
+                    tile.State = TileState.Discovered;
+            }
+
             if (GameManager.Instance.ListOfSelectedKeepers == null || GameManager.Instance.ListOfSelectedKeepers.Count == 0)
             {
                 return;
@@ -72,30 +103,6 @@ public class DebugControls : MonoBehaviour {
                 GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Keeper>().ActionPoints--;
             }
 
-            // Unlimited action points
-            if (Input.GetKeyDown(KeyCode.Alpha6))
-            {
-                if (isUnlimitedActionPointsModeActive)
-                {
-                    Debug.Log("Deactivate unlimited action points mode.");
-                    foreach (PawnInstance pi in GameManager.Instance.AllKeepersList)
-                    {
-                        pi.GetComponent<Keeper>().MaxActionPoints = 3;
-                        pi.GetComponent<Keeper>().ActionPoints = 3;
-                    }
-                }
-                else
-                {
-                    Debug.Log("Activate unlimited action points mode.");
-                    foreach (PawnInstance pi in GameManager.Instance.AllKeepersList)
-                    {
-                        pi.GetComponent<Keeper>().MaxActionPoints = 99;
-                        pi.GetComponent<Keeper>().ActionPoints = 99;
-                    }
-                }
-                isUnlimitedActionPointsModeActive = !isUnlimitedActionPointsModeActive;
-            }
-
             // Pop a monster
             if (Input.GetKeyDown(KeyCode.Alpha7))
             {
@@ -113,6 +120,42 @@ public class DebugControls : MonoBehaviour {
                 ItemManager.AddItemOnTheGround(GameManager.Instance.GetFirstSelectedKeeper().CurrentTile, GameManager.Instance.GetFirstSelectedKeeper().CurrentTile.transform, itemToSpawn);
             }
 
+            // TP selected keeper
+            if (Input.GetKey(KeyCode.T))
+            {
+                if (Input.GetKeyDown(KeyCode.P))
+                {
+                    RaycastHit hitInfo;
+                    if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo) == true)
+                    {
+                        if (hitInfo.transform.GetComponentInParent<Tile>() != null)
+                        {
+                            Tile destinationTile = hitInfo.transform.GetComponentInParent<Tile>();
+                            PawnInstance selectedKeeper = GameManager.Instance.GetFirstSelectedKeeper();
+                            TileManager.Instance.RemoveKeeperFromTile(selectedKeeper.CurrentTile, selectedKeeper);
+                            TileManager.Instance.AddKeeperOnTile(destinationTile, selectedKeeper);
+
+                            // Physical movement
+                            selectedKeeper.GetComponent<AnimatedPawn>().StartBetweenTilesAnimation(destinationTile.transform.position);
+
+                            //selectedKeeper.transform.position = destinationTile.transform.position;
+                            GameObject currentCharacter;
+                            Keeper keeperComponent = selectedKeeper.GetComponent<Keeper>();
+                            for (int i = 0; i < keeperComponent.GoListCharacterFollowing.Count; i++)
+                            {
+                                currentCharacter = keeperComponent.GoListCharacterFollowing[i];
+
+                                if (currentCharacter.GetComponent<Escortable>() != null)
+                                {
+                                    currentCharacter.GetComponent<PawnInstance>().CurrentTile = destinationTile;
+                                    currentCharacter.GetComponent<AnimatedPawn>().StartBetweenTilesAnimation(destinationTile.transform.position + Vector3.right * 0.2f);
+                                }
+
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
