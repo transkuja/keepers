@@ -121,11 +121,7 @@ namespace Behaviour
             {
                 if (showSkillPanelTimer < 0.0f)
                 {
-                    GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().SkillName.SetActive(false);
-                    showSkillPanelTimer = 2.2f;
-                    showFeedbackDmgTimer = 1.7f;
-                    isWaitingForSkillPanelToClose = false;
-                    BattleHandler.IsWaitingForSkillEnd = false;
+                    EndSkillProcess();
                 }
                 else
                 {
@@ -150,6 +146,18 @@ namespace Behaviour
 
         void OnDestroy()
         {
+            if (BattleHandler.IsABattleAlreadyInProcess() && BattleHandler.IsWaitingForSkillEnd)
+            {
+                EndSkillProcess();
+            }
+        }
+
+        private void EndSkillProcess()
+        {
+            GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().SkillName.SetActive(false);
+            showSkillPanelTimer = 2.2f;
+            showFeedbackDmgTimer = 1.7f;
+            isWaitingForSkillPanelToClose = false;
             BattleHandler.IsWaitingForSkillEnd = false;
         }
 
