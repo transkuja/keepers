@@ -105,7 +105,7 @@ namespace Behaviour
                     if(GameManager.Instance.QuestManager.ActiveQuests.Contains(questToGive))
                     {
                         
-                        if(questToGive.CheckAndComplete())
+                        if(questToGive.CheckIfComplete())
                         {
                             //Si la quête a été complétée
                             BuildEndQuestPanel();
@@ -135,8 +135,7 @@ namespace Behaviour
 
         void AcceptQuest()
         {
-            questToGive.Init();
-            GameManager.Instance.QuestManager.ActiveQuests.Add(questToGive);
+            QuestUtility.AcceptQuest(questToGive);
             GameManager.Instance.Ui.goContentQuestParent.SetActive(false);
             goQuest.SetActive(false);
         }
@@ -148,7 +147,9 @@ namespace Behaviour
 
         void EndQuest()
         {
-            goQuest.SetActive(false);
+
+            QuestUtility.CompleteQuest(questToGive);
+            goQuest.SetActive(false);  
             // Do things?
         }
 

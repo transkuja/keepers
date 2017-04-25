@@ -107,7 +107,7 @@ namespace QuestSystem
         // Rewards
 
         // Check objectives and completion
-        public bool CheckAndComplete()
+        public bool CheckAndComplete() // Check
         {
             for (int i = 0; i < objectives.Count; i++)
             {
@@ -122,8 +122,20 @@ namespace QuestSystem
             return true;
         }
 
-        // Check Completion
-        private bool IsComplete()
+        public bool CheckIfComplete() //Check, pas d'event fire
+        {
+            for (int i = 0; i < objectives.Count; i++)
+            {
+                objectives[i].CheckProgress();
+                if (!objectives[i].IsComplete)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public bool Complete() //Pas de check
         {
             for (int i = 0; i < objectives.Count; i++)
             {
@@ -134,6 +146,19 @@ namespace QuestSystem
             }
             if (OnQuestComplete != null)
                 OnQuestComplete();
+            return true;
+        }
+
+        // Check Completion
+        public bool IsComplete() //Pas de check, pas d'event fire
+        {
+            for (int i = 0; i < objectives.Count; i++)
+            {
+                if (!objectives[i].IsComplete)
+                {
+                    return false;
+                }
+            }
             return true;
         }
     }

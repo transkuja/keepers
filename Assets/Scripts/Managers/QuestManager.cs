@@ -5,10 +5,15 @@ using QuestSystem;
 
 public class QuestManager : MonoBehaviour
 {
+    public bool isDebugQuestManager;
+    [SerializeField]
+    private string questDeckToLoadDebug;
+
     public QuestDeck CurrentQuestDeck;
 
     public List<Quest> Quests;
     public List<Quest> ActiveQuests;
+    public List<Quest> CompletedQuests;
     public Quest MainQuest;
 
     void Start()
@@ -16,9 +21,8 @@ public class QuestManager : MonoBehaviour
 
     }
 
-    public void Init()
+    public void Init(string questDeckID)
     {
-        //TODO: Should be set according to what has been selected in the menu
         if (TutoManager.s_instance != null)
         {
             TutoManager.s_instance.Init();
@@ -31,16 +35,20 @@ public class QuestManager : MonoBehaviour
         }
         else
         {
-            CurrentQuestDeck = GameManager.Instance.QuestDeckDataBase.GetDeckByID("deck_02");
+
+            CurrentQuestDeck = GameManager.Instance.QuestDeckDataBase.GetDeckByID(questDeckID);
+            if(isDebugQuestManager)
+                CurrentQuestDeck = GameManager.Instance.QuestDeckDataBase.GetDeckByID(questDeckToLoadDebug);
         }
     
         ActiveQuests = new List<Quest>();
+        CompletedQuests = new List<Quest>();
         Quests = new List<Quest>();
 
         if(CurrentQuestDeck != null)
         {
 
-            //Should only be the case if we lauch from the scene
+            //Should only be the case if we launch from the scene
             if(!GameManager.Instance.QuestsContainer.isInitialized)
             {
                 GameManager.Instance.QuestsContainer.Init();

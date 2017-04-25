@@ -16,38 +16,30 @@ public class GameManager : MonoBehaviour
     #region GameManager children
 
     [SerializeField]
-
     private PrefabUIUtils prefabUIUtils;
 
     [SerializeField]
-
     private PrefabUtils prefabUtils;
 
     [SerializeField]
-
     private SpriteUIUtils spriteUtils;
 
     [SerializeField]
-
     private Texture2DUtils texture2DUtils;
 
     [SerializeField]
-
     private CharactersInitializer characterInitializer;
 
     [SerializeField]
-
     private IngameUI ui;
 
     [SerializeField]
-
     private QuestManager questManagerReference;
 
     #endregion
     #region Debug Variables
 
     [SerializeField]
-
     private bool isDebugGameManager;
 
     #endregion
@@ -548,7 +540,8 @@ public class GameManager : MonoBehaviour
 
     void InitQuests()
     {
-        questManagerReference.Init();
+        // Give choosen deck ID here
+        questManagerReference.Init("deck_02");
 
         // Next step, init keepers 
         characterInitializer.InitKeepers(tileManagerReference.GetBeginPositions);
