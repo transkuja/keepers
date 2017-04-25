@@ -69,7 +69,7 @@ public class CharactersInitializer : MonoBehaviour {
            
         }
         // TODO this should not be handled like, especially if there is more prisoner in scene
-        GameObject prisoner = GameManager.Instance.PawnDataBase.CreatePawn("ashley", TileManager.Instance.BeginTile.transform.position, Quaternion.identity, GameManager.Instance.transform);
+        GameObject prisoner = GameManager.Instance.PawnDataBase.CreatePawn("ashley", TileManager.Instance.BeginTile.transform.position, Quaternion.identity, null);
         GlowController.RegisterObject(prisoner.GetComponent<GlowObjectCmd>()); // TODO: Inutile maintenant ? 
 
         InitCharacterUI(prisoner.GetComponent<PawnInstance>());
