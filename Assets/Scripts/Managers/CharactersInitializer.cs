@@ -116,5 +116,9 @@ public class CharactersInitializer : MonoBehaviour {
         if (newCharacter.GetComponent<Behaviour.Inventory>() != null)
             newCharacter.GetComponent<Behaviour.Inventory>().InitUI();
 
+        if (newCharacter.GetComponent<Interactable>() != null)
+            newCharacter.GetComponent<Interactable>().InitUI();
+
+
     }
 }

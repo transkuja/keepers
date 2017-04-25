@@ -37,8 +37,14 @@ public class Interactable : MonoBehaviour {
                 msgDebug += GetComponent<ItemInstance>().name;
             else
                 msgDebug += transform.name;
-            Debug.Log(msgDebug);
+            Debug.LogWarning(msgDebug);
         }
+    }
+    
+    public void InitUI()
+    {
+        if (feedback.childCount > 0 && feedback.GetChild(0).GetComponent<WorldspaceCanvasCameraAdapter>() != null)
+            feedback.GetChild(0).gameObject.SetActive(true);
     }
 
     #region Accessors
