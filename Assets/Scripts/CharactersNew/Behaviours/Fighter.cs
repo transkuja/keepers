@@ -150,8 +150,7 @@ namespace Behaviour
 
         void OnDestroy()
         {
-            if (SceneManager.GetActiveScene().buildIndex == 1)
-                BattleHandler.IsWaitingForSkillEnd = false;
+            BattleHandler.IsWaitingForSkillEnd = false;
         }
 
         public void ResetValuesAfterBattle()
