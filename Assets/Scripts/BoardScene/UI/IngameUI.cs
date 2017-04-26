@@ -70,8 +70,8 @@ public class IngameUI : MonoBehaviour
     {
         GameManager.Instance.Ui.ClearActionPanel();
         GameManager.Instance.Ui.HideInventoryPanels();
-
-        // A caracter is selected
+        ResetActionPanelPosition();
+        // A character is selected
         //if (GameManager.Instance.ListOfSelectedKeepersOld[0] != null)
         //{
         //    if (!GameManager.Instance.ListOfSelectedKeepersOld[0].IsAlive)
@@ -84,6 +84,11 @@ public class IngameUI : MonoBehaviour
         //}
     }
 
+    public void ResetActionPanelPosition()
+    {
+        goActionPanelQ.transform.parent.SetParent(transform);
+    }
+
     public void ResetIngameUI()
     {
         for (int i = 0; i < goContentQuestParent.transform.childCount; i++)
@@ -94,7 +99,7 @@ public class IngameUI : MonoBehaviour
         {
             Destroy(goContentPanneauParent.transform.GetChild(i).gameObject);
         }
-
+        ResetActionPanelPosition();
     }
 
     #region Action
