@@ -25,7 +25,6 @@ public class MenuManagerQ : MonoBehaviour {
     [SerializeField] public List<GameObject> listLevelCards = new List<GameObject>();
 
     public Material matBox;
-    public Material matBox2;
 
     void Start()
     {
@@ -87,7 +86,7 @@ public class MenuManagerQ : MonoBehaviour {
             if (cardLevel != null)
             {
                 cardLevel.GetComponent<MeshFilter>().mesh = listLevelCards[i-1].GetComponent<MeshFilter>().sharedMesh;
-                cardLevel.GetComponent<MeshRenderer>().material = matBox2;
+                cardLevel.GetComponent<MeshRenderer>().material = matBox;
                 cardLevel.levelIndex = i;
             }
             else

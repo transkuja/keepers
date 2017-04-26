@@ -4,6 +4,25 @@ using UnityEngine;
 
 public class Opener : MonoBehaviour {
 
+    enum ContentNature
+    {
+        Deck,
+        Card
+    }
+
+    enum AnimationState
+    {
+        idle,
+        transition,
+        ended
+    }
+
+    [SerializeField] Animator animatorDeck;
+    [SerializeField] Animator animatorCard;
+    [SerializeField] ContentNature contentNature;
+
+    AnimationState animationState = AnimationState.idle;
+
     public bool bOverMode = false;
     public bool bAlwaysAllowed = true;
     public Transform trOffset = null;
@@ -21,6 +40,11 @@ public class Opener : MonoBehaviour {
 
 	void Start () {
         Init();
+    }
+
+    void Update()
+    {
+        
     }
 
     #region OverMode
@@ -109,11 +133,17 @@ public class Opener : MonoBehaviour {
     {
         for (int i = 0; i < listGoCards.Count; i++)
         {
-            float x = -((listGoCards.Count / 2.0f) * (v3Size.x + fOffsetX)) + ((listGoCards.Count % 2 == 0)? v3Size.x / 2.0f : v3Size.x) + i * (v3Size.x + fOffsetX);
 
-            listGoCards[i].transform.localPosition = new Vector3(x, 0, (trOffset == null ? (v3Size.z + fOffsetZ) : v3Size.z / 2.0f)) + v3Offset;
+            //float x = -((listGoCards.Count / 2.0f) * (v3Size.x + fOffsetX)) + ((listGoCards.Count % 2 == 0)? v3Size.x / 2.0f : v3Size.x) + i * (v3Size.x + fOffsetX);
+
+            //listGoCards[i].transform.localPosition = new Vector3(x, 0, (trOffset == null ? (v3Size.z + fOffsetZ) : v3Size.z / 2.0f)) + v3Offset;
 
             listGoCards[i].SetActive(true);
+            if (listGoCards[i].GetComponent<Opener>() != null)
+            {
+                listGoCards[i].GetComponent<Opener>().animationState = AnimationState.transition;
+            }
+            listGoCards[i].GetComponent<Animator>().SetBool("bIsOpen", true);
         }
         bIsOpen = true;
         for (int i = 0; !bAlwaysAllowed && listOpenerSiblings != null && i < listOpenerSiblings.Count; i++)
@@ -126,13 +156,22 @@ public class Opener : MonoBehaviour {
     {
         for (int i = 0; i < listGoCards.Count; i++)
         {
-            listGoCards[i].transform.localPosition = Vector3.zero;
-            listGoCards[i].SetActive(false);
+            listGoCards[i].GetComponent<Animator>().SetBool("bIsOpen", false);
+            //listGoCards[i].transform.localPosition = Vector3.zero;
+            //listGoCards[i].SetActive(false);
         }
         bIsOpen = false;
-        for (int i = 0; listOpenerSiblings != null && i < listOpenerSiblings.Count; i++)
+        for (int i = 0; /*!bAlwaysAllowed &&*/ listOpenerSiblings != null && i < listOpenerSiblings.Count; i++)
         {
             listOpenerSiblings[i].bAllowed = true;
+        }
+    }
+
+    public void UpdateState()
+    {
+        if(animationState != AnimationState.idle)
+        {
+
         }
     }
 }
