@@ -356,20 +356,39 @@ public class ControlsManager : MonoBehaviour
             {
                 if (GameManager.Instance.ListOfSelectedKeepers != null && GameManager.Instance.ListOfSelectedKeepers.Count > 0)
                 {
-                    // Get first selected
-                    PawnInstance currentKeeperSelected = GameManager.Instance.ListOfSelectedKeepers[0];
-                    // Get his tile
-                    Tile currentKeeperTile = TileManager.Instance.GetTileFromKeeper[currentKeeperSelected];
-                    // Get next on tile
-                    List<PawnInstance> keepersOnTile = TileManager.Instance.KeepersOnTile[currentKeeperTile];
-                    int currentKeeperSelectedIndex = keepersOnTile.FindIndex(x => x == currentKeeperSelected);
-                    // Next keeper on the same tile is now active
-                    GameManager.Instance.ClearListKeeperSelected();
-                    PawnInstance nextKeeper = keepersOnTile[(currentKeeperSelectedIndex + 1) % keepersOnTile.Count];
-                    GameManager.Instance.AddKeeperToSelectedList(nextKeeper);
-                    nextKeeper.GetComponent<Keeper>().IsSelected = true;
-                    //GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
-                    GameManager.Instance.Ui.HideInventoryPanels();
+                    if(GameManager.Instance.CameraManagerReference.state == CameraManager.CameraState.far)
+                    {
+                        // Get first selected
+                        PawnInstance currentKeeperSelected = GameManager.Instance.ListOfSelectedKeepers[0];
+                        // Get next on tile
+                        List<PawnInstance> keepers = GameManager.Instance.AllKeepersList;
+                        int currentKeeperSelectedIndex = keepers.FindIndex(x => x == currentKeeperSelected);
+                        // Next keeper on the same tile is now active
+                        GameManager.Instance.ClearListKeeperSelected();
+                        PawnInstance nextKeeper = keepers[(currentKeeperSelectedIndex + 1) % keepers.Count];
+                        GameManager.Instance.AddKeeperToSelectedList(nextKeeper);
+                        Vector3 pos = GameManager.Instance.CameraManagerReference.transform.position;
+                        nextKeeper.GetComponent<Keeper>().IsSelected = true;
+                        //GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
+                        GameManager.Instance.Ui.HideInventoryPanels();
+                    }
+                    else
+                    {
+                        // Get first selected
+                        PawnInstance currentKeeperSelected = GameManager.Instance.ListOfSelectedKeepers[0];
+                        // Get his tile
+                        Tile currentKeeperTile = TileManager.Instance.GetTileFromKeeper[currentKeeperSelected];
+                        // Get next on tile
+                        List<PawnInstance> keepersOnTile = TileManager.Instance.KeepersOnTile[currentKeeperTile];
+                        int currentKeeperSelectedIndex = keepersOnTile.FindIndex(x => x == currentKeeperSelected);
+                        // Next keeper on the same tile is now active
+                        GameManager.Instance.ClearListKeeperSelected();
+                        PawnInstance nextKeeper = keepersOnTile[(currentKeeperSelectedIndex + 1) % keepersOnTile.Count];
+                        GameManager.Instance.AddKeeperToSelectedList(nextKeeper);
+                        nextKeeper.GetComponent<Keeper>().IsSelected = true;
+                        //GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
+                        GameManager.Instance.Ui.HideInventoryPanels();
+                    }
                 }
             }
             if (GameManager.Instance.CurrentState == GameState.InBattle)
