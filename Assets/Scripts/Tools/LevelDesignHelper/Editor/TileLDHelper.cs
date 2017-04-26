@@ -273,7 +273,25 @@ public class TileLDHelper : EditorWindow {
         {
             if(model == emptyTilePrefab)
             {
+                for (int i = 0; i < tile.transform.GetChild(0).childCount; i++)
+                {
+                    Transform child = tile.transform.GetChild(0).GetChild(i);
+                    if (child.name == "TileModel" || child.name == "Model")
+                    {
+                        prevPos = child.position;
+                        Undo.DestroyObjectImmediate(child.gameObject);
+                    }
+                }
+                GameObject go = PrefabUtility.InstantiatePrefab(model) as GameObject;
+                GameObject go2 = go.transform.GetChild(0).gameObject;
 
+                go2.name = "Model";
+                go.transform.parent = tile.transform.GetChild(0);
+                go2.transform.parent = go.transform.parent;
+                go2.transform.SetAsFirstSibling();
+                DestroyImmediate(go);
+                go2.transform.position = prevPos;
+                Undo.RegisterCreatedObjectUndo(go2, "Created Model " + tile.name);
             }
             else
             {
