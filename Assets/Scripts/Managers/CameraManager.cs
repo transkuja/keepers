@@ -14,6 +14,12 @@ public class CameraManager : MonoBehaviour {
         backward = -1
     }
 
+    public enum CameraState
+    {
+        close,
+        far
+    }
+
     struct Transformation
     {
         public Quaternion rotation;
@@ -33,6 +39,7 @@ public class CameraManager : MonoBehaviour {
     float fZoomLerpOrigin = 1;
     float fLerpTarget = 1;
     Vector3 newPosition;
+    public CameraState state = CameraState.close;
 
     // Camera Drag
     [SerializeField] float fDragFactor = 0.1f;
@@ -40,6 +47,7 @@ public class CameraManager : MonoBehaviour {
     float fKeySpeed = 5.0f;
     bool bIsDraging = false;
     Vector3 v3DragOrigin;
+    Vector3 closeToFar;
 
     // Camera adapters
     public List<GreyTileCameraAdapter> greyTileCameraAdapters = new List<GreyTileCameraAdapter>();
@@ -105,8 +113,6 @@ public class CameraManager : MonoBehaviour {
 
     public void Start()
     {
-        FZoomLerp = 0;
-
         positionFromATileClose = transform.position;
 
         GameObject goCameraCloseRef = GameObject.Find("CameraCloseRef");
@@ -120,20 +126,21 @@ public class CameraManager : MonoBehaviour {
         tFar.position = goCameraFarRef.transform.position;
         Destroy(goCameraFarRef);
 
-        transform.position = tClose.position;
-        transform.rotation = tClose.rotation;
+        closeToFar = tFar.position - tClose.position;
 
-        zoomState = eZoomState.idle;
-        FZoomLerp = 1;
-        fLerpTarget = 1;
-        fZoomLerpOrigin = 1;
+        zoomState = eZoomState.forward;
+        state = CameraState.close;
+        FZoomLerp = .85f;
+        fLerpTarget = .85f;
+        fZoomLerpOrigin = .85f;
+        isUpdateNeeded = true;
 
         GameManager.Instance.RegisterCameraManager(this);
     }
     public void UpdateCameraPosition(PawnInstance pi)
     {
         isUpdateNeeded = true;
-        oldPosition = transform.position;
+        oldPosition = tClose.position;
 
         activeTile = pi.CurrentTile;
     }
@@ -141,14 +148,14 @@ public class CameraManager : MonoBehaviour {
     public void UpdateCameraPosition(Tile targetTile)
     {
         isUpdateNeeded = true;
-        oldPosition = transform.position;
+        oldPosition = tClose.position;
         activeTile = targetTile;
     }
 
     public void UpdateCameraPosition(Vector3 _newPosition)
     {
         isUpdateNeeded = true;
-        oldPosition = transform.position;
+        oldPosition = tClose.position;
         newPosition = _newPosition;
         tClose.position += (tClose.position - _newPosition);
         zoomState = eZoomState.forward;
@@ -159,7 +166,7 @@ public class CameraManager : MonoBehaviour {
     public void UpdateCameraPositionExitBattle()
     {
         isUpdateNeeded = true;
-        oldPosition = transform.position;
+        oldPosition = tClose.position;
         newPosition = referenceTClosePosition;
         tClose.position = referenceTClosePosition;
     }
@@ -174,20 +181,21 @@ public class CameraManager : MonoBehaviour {
 
                 Vector3 v3NewPos = Vector3.Lerp(oldPosition, positionFromATileClose + activeTile.transform.position + Vector3.back, Mathf.Min(lerpParameter, 1.0f));
 
-                v3NewPos.y = transform.position.y;
-                transform.localPosition = v3NewPos;
+                
 
                 v3NewPos.y = tClose.position.y;
                 tClose.position = v3NewPos;
 
-                v3NewPos.y = tFar.position.y;
-                tFar.position = v3NewPos;
+                tFar.position = tClose.position + closeToFar;
+
+                transform.position = Vector3.Lerp(tFar.position, tClose.position, fZoomLerp);
+                transform.rotation = Quaternion.Lerp(tFar.rotation, tClose.rotation, fZoomLerp);
 
                 if (lerpParameter >= 1.0f)
                 {
                     isUpdateNeeded = false;
                     oldPosition = Vector3.zero;
-                    lerpParameter = 0.0f;
+                    lerpParameter -= 1.0f;
                 }
 
                 //Vector3 pos = transform.position;
@@ -211,14 +219,13 @@ public class CameraManager : MonoBehaviour {
 
                 Vector3 v3NewPos = Vector3.Lerp(oldPosition, newPosition + activeTile.transform.position, Mathf.Min(lerpParameter, 1.0f));
 
-                v3NewPos.y = transform.position.y;
-                transform.localPosition = v3NewPos;
-
                 v3NewPos.y = tClose.position.y;
                 tClose.position = v3NewPos;
 
-                v3NewPos.y = tFar.position.y;
-                tFar.position = v3NewPos;
+                tFar.position = tClose.position + closeToFar;
+
+                transform.position = Vector3.Lerp(tFar.position, tClose.position, fZoomLerp);
+                transform.rotation = Quaternion.Lerp(tFar.rotation, tClose.rotation, fZoomLerp);
 
                 if (lerpParameter >= 1.0f)
                 {
@@ -241,6 +248,15 @@ public class CameraManager : MonoBehaviour {
 
         foreach (WorldspaceCanvasCameraAdapter ca in worldspaceCanvasCameraAdapters)
             ca.RecalculateActionCanvas(Camera.main);
+
+        if (fZoomLerp < 0.6f)
+        {
+            state = CameraState.far;
+        }
+        else
+        {
+            state = CameraState.close;
+        }
     }
     private void Controls()
     {
@@ -306,8 +322,6 @@ public class CameraManager : MonoBehaviour {
                 {
                     zoomState = eZoomState.backward;
                 }
-
-
             }
         }
     }
@@ -331,7 +345,8 @@ public class CameraManager : MonoBehaviour {
     {
         if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
         {
-            Vector3 v3IncrementPos = new Vector3( Input.GetAxisRaw("Horizontal")* fKeySpeed * Time.deltaTime, 0, Input.GetAxisRaw("Vertical") * fKeySpeed * Time.deltaTime);
+            Vector3 v3IncrementPos = new Vector3( Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+            v3IncrementPos = v3IncrementPos.normalized * fKeySpeed * Time.deltaTime;
             if (!((tClose.position + v3IncrementPos).z > cameraBounds.GetChild((int)CameraBound.South).position.z &&
                (tClose.position + v3IncrementPos).z < cameraBounds.GetChild((int)CameraBound.North).position.z))
             {
