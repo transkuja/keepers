@@ -249,7 +249,6 @@ namespace Behaviour
                 return;
             }
 
-            Debug.Log(items.Length);
             for (int i = 0; i < items.Length; i++)
             {
                 GameObject currentSlot = inventoryPanel.transform.GetChild(1).GetChild(i).gameObject;

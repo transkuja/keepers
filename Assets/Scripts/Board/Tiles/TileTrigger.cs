@@ -9,14 +9,18 @@ public class TileTrigger : MonoBehaviour {
 
     int actionCostExplore = 3;
     int actionCostMove = 2;
-
+    
     public void OnTriggerEnter(Collider other)
     {
         if (other.GetComponentInParent<Keeper>() != null && other.isTrigger)
         {
             HandleTrigger(other.GetComponentInParent<PawnInstance>());
+            if (TutoManager.s_instance.enableTuto && TutoManager.s_instance.GetComponent<SeqIntro>().AlreadyPlayed == false)
+            {
+                if (tag == "NorthEastTrigger")
+                    TutoManager.s_instance.playSequence(TutoManager.s_instance.GetComponent<SeqIntro>());
+            }
         }
-   
     }
 
     public void HandleTrigger(PawnInstance k)

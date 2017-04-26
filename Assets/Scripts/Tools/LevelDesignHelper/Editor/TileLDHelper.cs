@@ -417,7 +417,6 @@ public class TileLDHelper : EditorWindow {
         spaceZ = baseSpaceZ;
 
         EditorUtility.ClearProgressBar();
-        DestroyImmediate(emptyTilePrefab);
         helperRoot = null;
         HelperObject = null;
         tiles = null;

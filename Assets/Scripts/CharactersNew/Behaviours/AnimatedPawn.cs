@@ -98,7 +98,7 @@ namespace Behaviour
 
         void Update()
         {
-            if (GameManager.Instance!= null && (GameManager.Instance.CurrentState == GameState.Normal || GameManager.Instance.CurrentState == GameState.InTuto))
+            if (GameManager.Instance != null && (GameManager.Instance.CurrentState == GameState.Normal || GameManager.Instance.CurrentState == GameState.InTuto))
             {
                 if (GetComponent<Keeper>() != null)
                 {

@@ -94,13 +94,6 @@ public class SeqFeedback : Sequence
             TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.ReadyForNext;
             alreadyPlayed = true;
         }
-        public override void overstep()
-        {
-            mrresetti.SetActive(true);
-
-            TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.ReadyForNext;
-            alreadyPlayed = true;
-        }
     }
 
     public class Activation : Etape
@@ -120,36 +113,6 @@ public class SeqFeedback : Sequence
             TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.ReadyForNext;
             alreadyPlayed = true;
         }
-        public override void overstep()
-        {
-            goActivable.SetActive(active);
-            TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.ReadyForNext;
-            alreadyPlayed = true;
-        }
-    }
-
-    public class ReActivationCamera : Etape
-    {
-        GameObject mrresetti;
-        public ReActivationCamera(GameObject _mrresetti)
-        {
-            mrresetti = _mrresetti;
-            step = Activation_fct(0.5f);
-        }
-        public IEnumerator Activation_fct(float delayTime)
-        {
-            yield return new WaitForSeconds(delayTime);
-            TutoManager.s_instance.desactivateCamera = false;
-            mrresetti.GetComponent<Interactable>().Feedback.GetChild(0).GetChild(1).gameObject.SetActive(true);
-            TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.ReadyForNext;
-            alreadyPlayed = true;
-        }
-        public override void overstep()
-        {
-            TutoManager.s_instance.desactivateCamera = false;
-            TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.ReadyForNext;
-            alreadyPlayed = true;
-        }
     }
 
     public class Message : Etape
@@ -164,13 +127,7 @@ public class SeqFeedback : Sequence
         }
         public IEnumerator Message_fct(float delayTime)
         {
-            yield return TutoManager.EcrireMessage(mrresetti.GetComponent<Interactable>().Feedback, str, delayTime);
-            TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.WaitingForInput;
-            alreadyPlayed = true;
-        }
-        public override void overstep()
-        {
-            mrresetti.GetComponent<Interactable>().Feedback.GetComponentInChildren<Text>().text = str;
+            yield return TutoManager.s_instance.EcrireMessage(str);
             TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.WaitingForInput;
             alreadyPlayed = true;
         }
@@ -207,7 +164,7 @@ public class SeqFeedback : Sequence
             pointer.SetActive(true);
             mrresetti.GetComponentInChildren<Animator>().SetTrigger("turnLeft");
             yield return new WaitForSeconds(turnLeft.length);
-            yield return TutoManager.EcrireMessage(mrresetti.GetComponent<Interactable>().Feedback, str, 0.0f);
+            yield return TutoManager.s_instance.EcrireMessage(str);
             gobtn.gameObject.AddComponent<MouseClickExpected>();
             TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.WaitingForClickUI;
 
@@ -216,21 +173,6 @@ public class SeqFeedback : Sequence
             //pointer.SetActive(false);
             //gobtn.transform.localScale = Vector3.one;
             //Destroy(pointer);
-            alreadyPlayed = true;
-        }
-        public override void overstep()
-        {
-            pointer.SetActive(true);
-
-            //mrresetti.GetComponentInChildren<Animator>().SetTrigger("turnLeft");
-            mrresetti.GetComponent<Interactable>().Feedback.GetComponentInChildren<Text>().text = str;
-            gobtn.gameObject.AddComponent<MouseClickExpected>();
-            TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.WaitingForClickUI;
-
-            // Clean
-            //Destroy(pointer);
-            //gobtn.transform.localScale = Vector3.one;
-            //pointer.SetActive(false);
             alreadyPlayed = true;
         }
     }
@@ -266,20 +208,6 @@ public class SeqFeedback : Sequence
             //Destroy(pointer);
             alreadyPlayed = true;
         }
-        public override void overstep()
-        {
-            pointer.SetActive(false);
-
-            //mrresetti.GetComponentInChildren<Animator>().SetTrigger("jumpArround");
-            btnToUnHightlight.gameObject.GetComponent<MouseClickExpected>().enabled = false;
-            TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.ReadyForNext;
-
-            // Clean
-            //Destroy(pointer);
-            //gobtn.transform.localScale = Vector3.one;
-            //pointer.SetActive(false);
-            alreadyPlayed = true;
-        }
     }
 
     public class UnSpawn : Etape
@@ -294,13 +222,6 @@ public class SeqFeedback : Sequence
         public IEnumerator UnSpawn_fct(float delayTime)
         {
             yield return new WaitForSeconds(delayTime);
-            if (mrresetti != null) mrresetti.SetActive(false);
-            //Destroy(mrresetti);
-            alreadyPlayed = true;
-        }
-
-        public override void overstep()
-        {
             if (mrresetti != null) mrresetti.SetActive(false);
             //Destroy(mrresetti);
             alreadyPlayed = true;
@@ -321,11 +242,6 @@ public class SeqFeedback : Sequence
             yield return new WaitForSeconds(delayTime);
             GameManager.Instance.CameraManagerReference.UpdateCameraPosition(TileManager.Instance.EndTile);
             yield return new WaitForSeconds(delayTime);
-            alreadyPlayed = true;
-        }
-
-        public override void overstep()
-        {
             alreadyPlayed = true;
         }
     }
@@ -351,11 +267,11 @@ public class SeqFeedback : Sequence
         // Content
 
         //
-        Etapes.Add(new Message(pawnMrResetti, "Ouille il me semble que votre keeper a perdu des stats"));
-        Etapes.Add(new Activation(shortcutBtn, true));
-        Etapes.Add(new LootAt(pawnMrResetti, pointer, shortcutBtn, turnLeftAnimationClip));
-        Etapes.Add(new UnLookAt(pawnMrResetti, pointer, shortcutBtn, jumpAnimationClip));
-        Etapes.Add(new Message(pawnMrResetti, "Ceci est le bouton de gestion des \"Keepers\". Vous pourrez garder un oeil sur les stats."));
+        //Etapes.Add(new Message(pawnMrResetti, "Ouille il me semble que votre keeper a perdu des stats"));
+        //Etapes.Add(new Activation(shortcutBtn, true));
+        //Etapes.Add(new LootAt(pawnMrResetti, pointer, shortcutBtn, turnLeftAnimationClip));
+        //Etapes.Add(new UnLookAt(pawnMrResetti, pointer, shortcutBtn, jumpAnimationClip));
+        //Etapes.Add(new Message(pawnMrResetti, "Ceci est le bouton de gestion des \"Keepers\". Vous pourrez garder un oeil sur les stats."));
         //Etapes.Add(new LootAt(pawnMrResetti, pointer2, endTurnBtn, turnLeftAnimationClip));
         //Etapes.Add(new UnLookAt(pawnMrResetti, pointer2, endTurnBtn, jumpAnimationClip));
         //Etapes.Add(new Message(pawnMrResetti, "Ceci est le boutton de fin de tour. Il permet de passer les jours pour récupérer des points d'action."));

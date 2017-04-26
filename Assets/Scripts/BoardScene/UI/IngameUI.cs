@@ -64,6 +64,19 @@ public class IngameUI : MonoBehaviour
             uiIconFeedBack = value;
         }
     }
+
+    public GameObject GoActionPanelQ
+    {
+        get
+        {
+            return goActionPanelQ;
+        }
+
+        set
+        {
+            goActionPanelQ = value;
+        }
+    }
     #endregion
 
     public void ClearUiOnTurnEnding()

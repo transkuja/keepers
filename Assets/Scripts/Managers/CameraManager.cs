@@ -259,10 +259,6 @@ public class CameraManager : MonoBehaviour {
     }
     private void Controls()
     {
-        if (GameManager.Instance.CurrentState == GameState.InTuto)
-        {
-            if (TutoManager.s_instance.desactivateCamera) return;
-        }
         ControlZoom();
 
         ControlDrag();

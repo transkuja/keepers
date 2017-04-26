@@ -27,16 +27,7 @@ public class ControlsManager : MonoBehaviour
     {
         if (GameManager.Instance.CurrentState == GameState.Normal || GameManager.Instance.CurrentState == GameState.InTuto)
         {
-            if (TutoManager.s_instance != null) // TMP
-            {
-                if (TutoManager.s_instance.enableTuto == true && TutoManager.s_instance.desactivateControls != true)
-                {
-                    NormalStateControls();
-                }
-            } else
-            {
-                NormalStateControls();
-            }
+            NormalStateControls();
         }
         else if (GameManager.Instance.CurrentState == GameState.InBattle)
         {

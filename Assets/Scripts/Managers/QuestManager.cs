@@ -30,7 +30,6 @@ public class QuestManager : MonoBehaviour
             {
                 CurrentQuestDeck = GameManager.Instance.QuestDeckDataBase.GetDeckByID("deck_01");
                 CurrentQuestDeck.SideQuests.Clear();
-                GameManager.Instance.CurrentState = GameState.InTuto;
             }
         }
         else

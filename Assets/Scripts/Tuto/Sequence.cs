@@ -8,7 +8,7 @@ public abstract class Sequence : MonoBehaviour
     private SequenceState currentState;
     private List<Etape> etapes;
 
-    int position = -1;
+    public int position = -1;
 
     public bool MoveNext()
     {
@@ -16,14 +16,16 @@ public abstract class Sequence : MonoBehaviour
         return (position < etapes.Count);
     }
 
+    public bool MovePrevious()
+    {
+        position--;
+
+        return (position > 0);
+    }
+
     public void Reset()
     {
         TutoManager.s_instance.StopAllCoroutines();
-        foreach (Etape etape in etapes)
-        {
-            if (!etape.alreadyPlayed) // Juste pour gagner un peu de temps sur certains traitement
-                etape.overstep(); // Potentiellement on pourait distingué les etapes avec des types entre elles pour ne pas faire certain traitement
-        }
         position = -1;
     }
 
@@ -31,7 +33,11 @@ public abstract class Sequence : MonoBehaviour
     {
         get
         {
-           return etapes[position];
+            return etapes[position];
+        }
+        set
+        {
+            etapes[position] = value;
         }
     }
 
@@ -86,5 +92,38 @@ public abstract class Sequence : MonoBehaviour
     {
         return (position == etapes.Count - 1);
     }
+    public bool isLastMessage()
+    {
+        int nbrMsg = 0;
+        foreach (Etape e in etapes)
+        {
+            if (e.GetType() == typeof(TutoManager.Message))
+                nbrMsg++;
 
+        }
+        
+        return (position == nbrMsg);
+    }
+    public bool isFirstMessage()
+    {
+        int indiceFirstMessage = 0;
+        for (int indiceMsg = 0; indiceMsg < etapes.Count; indiceMsg++)
+        {
+            Etape e = etapes[indiceMsg];
+            if (e.GetType() == typeof(TutoManager.Message))
+            {
+                indiceFirstMessage = indiceMsg;
+                break;
+            }
+    
+
+        }
+
+        if (indiceFirstMessage > 0)
+        {
+            return (position == indiceFirstMessage);
+        }
+        // pas de message
+        return false;
+    }
 }

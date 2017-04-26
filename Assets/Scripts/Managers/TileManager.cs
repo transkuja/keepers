@@ -73,7 +73,7 @@ public class TileManager : MonoBehaviour {
 
         Behaviour.Keeper keeperComponent = keeper.GetComponent<Behaviour.Keeper>();
         keeperComponent.ActionPoints -= (short)costAction;
-      //  keeperComponent.getPawnInstance.CurrentTile = destination;
+        keeperComponent.getPawnInstance.CurrentTile = destination;
 
         GameObject goCurrentCharacter;
 
