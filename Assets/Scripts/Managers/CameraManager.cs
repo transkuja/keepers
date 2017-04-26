@@ -157,7 +157,6 @@ public class CameraManager : MonoBehaviour {
         isUpdateNeeded = true;
         oldPosition = tClose.position;
         newPosition = _newPosition;
-        tClose.position += (tClose.position - _newPosition);
         zoomState = eZoomState.forward;
         fZoomLerpOrigin = fZoomLerp;
         fLerpTarget = 1.0f;
