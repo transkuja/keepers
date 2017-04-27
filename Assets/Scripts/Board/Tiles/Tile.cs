@@ -25,6 +25,14 @@ public enum Direction
     None
 }
 
+public enum TileFriendliness
+{
+    Scary,      // Bad impact on Moral
+    Scarce,     // Bad impact on Food
+    Normal,     // No specific impact
+    Calming,    // Good impact on Moral
+    Abundant    // Good impact on Food
+}
 public enum TileState
 {
     Hidden,
