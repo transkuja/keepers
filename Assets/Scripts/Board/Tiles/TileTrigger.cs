@@ -15,10 +15,10 @@ public class TileTrigger : MonoBehaviour {
         if (other.GetComponentInParent<Keeper>() != null && other.isTrigger)
         {
             HandleTrigger(other.GetComponentInParent<PawnInstance>());
-            if (TutoManager.s_instance.enableTuto && TutoManager.s_instance.GetComponent<SeqIntro>().AlreadyPlayed == false)
+            if (TutoManager.s_instance != null && TutoManager.s_instance.enableTuto && TutoManager.s_instance.GetComponent<SeqFirstMove>().AlreadyPlayed == false)
             {
                 if (tag == "NorthEastTrigger")
-                    TutoManager.s_instance.playSequence(TutoManager.s_instance.GetComponent<SeqIntro>());
+                    TutoManager.s_instance.playSequence(TutoManager.s_instance.GetComponent<SeqFirstMove>());
             }
         }
     }

@@ -6,30 +6,34 @@ public abstract class Sequence : MonoBehaviour
 {
     private bool alreadyPlayed = false;
     private SequenceState currentState;
-    private List<Etape> etapes;
+    private List<Step> etapes;
 
     public int position = -1;
 
     public bool MoveNext()
     {
+        if (position >= 0)
+        {
+            CurrentStep.Reverse();
+            CurrentStep.alreadyPlayed = true;
+        }
         position++;
         return (position < etapes.Count);
     }
 
     public bool MovePrevious()
     {
+        CurrentStep.Reverse();
         position--;
-
         return (position > 0);
     }
 
     public void Reset()
     {
-        TutoManager.s_instance.StopAllCoroutines();
         position = -1;
     }
 
-    public Etape Current
+    public Step CurrentStep
     {
         get
         {
@@ -64,10 +68,12 @@ public abstract class Sequence : MonoBehaviour
         set
         {
             currentState = value;
+            if (value == SequenceState.WaitingForClickUI)
+                TutoManager.s_instance.PlayingSequence.CurrentStep.isReachableByClickOnPrevious = false;
         }
     }
 
-    public List<Etape> Etapes
+    public List<Step> Etapes
     {
         get
         {
@@ -82,10 +88,13 @@ public abstract class Sequence : MonoBehaviour
 
     public void Play()
     {
-        TutoManager.s_instance.StartCoroutine(this.Current.step);
+        CurrentStep.stepFunction.Invoke();
     }
 
-    public abstract void Init();
+    public virtual void Init()
+    {
+        currentState = SequenceState.Idle;
+    }
     public abstract void End();
 
     public bool isLastSequence()
@@ -95,7 +104,7 @@ public abstract class Sequence : MonoBehaviour
     public bool isLastMessage()
     {
         int nbrMsg = 0;
-        foreach (Etape e in etapes)
+        foreach (Step e in etapes)
         {
             if (e.GetType() == typeof(TutoManager.Message))
                 nbrMsg++;
@@ -104,25 +113,13 @@ public abstract class Sequence : MonoBehaviour
         
         return (position == nbrMsg);
     }
-    public bool isFirstMessage()
+    public bool isPreviousStepReachable()
     {
-        int indiceFirstMessage = 0;
-        for (int indiceMsg = 0; indiceMsg < etapes.Count; indiceMsg++)
+        if (position > 0)
         {
-            Etape e = etapes[indiceMsg];
-            if (e.GetType() == typeof(TutoManager.Message))
-            {
-                indiceFirstMessage = indiceMsg;
-                break;
-            }
-    
-
+            return etapes[position - 1].isReachableByClickOnPrevious;
         }
 
-        if (indiceFirstMessage > 0)
-        {
-            return (position == indiceFirstMessage);
-        }
         // pas de message
         return false;
     }

@@ -6,12 +6,21 @@ using UnityEngine.AI;
 using UnityEngine.UI;
 using Behaviour;
 
-public enum SequenceState { Idle, ReadyForNext, WaitingForInput, WaitingForClickUI, End };
+//public enum SequenceState { Idle, ReadyForNext, WaitingForInput, WaitingForClickUI, End };
 
-public abstract class Etape
+public enum SequenceState { Idle, ReadyForNext, WaitingForClickUI };
+public delegate void StepFunction();
+
+public abstract class Step
 {
     public bool alreadyPlayed = false;
-    public IEnumerator step;
+    public StepFunction stepFunction;
+    public bool isReachableByClickOnPrevious = true;
+
+    public virtual void Reverse()
+    {
+
+    }
 }
 
 public class TutoManager : MonoBehaviour {
@@ -21,8 +30,9 @@ public class TutoManager : MonoBehaviour {
     private Sequence playingSequence;
     private List<Sequence> sequences;
 
-    private static bool mouseCLicked;
+    private static bool mouseClicked;
     public GameObject tutoPanel;
+    public GameObject uiPointer;
 
     private GameObject tutoPanelInstance;
 
@@ -33,7 +43,7 @@ public class TutoManager : MonoBehaviour {
 
     void Start()
     {
-        if (s_instance.enableTuto && s_instance.GetComponent<SeqIntro>().AlreadyPlayed == false)
+        if (s_instance.enableTuto && s_instance.GetComponent<SeqFirstMove>().AlreadyPlayed == false)
         {
             InitTutoScene();
         }
@@ -41,12 +51,12 @@ public class TutoManager : MonoBehaviour {
 
     void InitTutoScene()
     {
-        SeqIntro seqIntro = s_instance.GetComponent<SeqIntro>();
-        seqIntro.selectedKeeper.SetActive(false);
+        SeqFirstMove seqIntro = s_instance.GetComponent<SeqFirstMove>();
+        seqIntro.selectedKeepersPanel.SetActive(true);
         seqIntro.endTurnBtn.SetActive(false);
         seqIntro.shortcutBtn.SetActive(false);
 
-        Transform selectedKeepersFirstCharUI = seqIntro.selectedKeeper.transform.GetChild(0);
+        Transform selectedKeepersFirstCharUI = seqIntro.selectedKeepersPanel.transform.GetChild(0);
         selectedKeepersFirstCharUI.GetChild(0).GetChild((int)PanelSelectedKeeperStatChildren.ButtonCycleLeft).gameObject.SetActive(false);
         selectedKeepersFirstCharUI.GetChild(0).GetChild((int)PanelSelectedKeeperStatChildren.ButtonCycleRight).gameObject.SetActive(false);
         selectedKeepersFirstCharUI.GetChild(0).GetChild((int)PanelSelectedKeeperStatChildren.Mortal).gameObject.SetActive(false);
@@ -65,62 +75,77 @@ public class TutoManager : MonoBehaviour {
     {
         if (playingSequence != null)
         {
-            if (playingSequence.CurrentState == SequenceState.WaitingForClickUI)
+            switch (playingSequence.CurrentState)
             {
-                if (MouseCLicked == true)
-                {
-                    MouseCLicked = false;
-                    playingSequence.CurrentState = SequenceState.Idle;
-                    s_instance.playNextSeq();
-                }
+                case SequenceState.Idle:
+                    break;
+                case SequenceState.ReadyForNext:
+                    s_instance.PlayNextStep();
+                    break;
+                case SequenceState.WaitingForClickUI:
+                    if (mouseClicked)
+                    {
+                        mouseClicked = false;
+                        s_instance.PlayNextStep();
+                    }
+                    break;
             }
-            else if (Input.GetKeyDown(KeyCode.Space))
-            {
-                switch (playingSequence.CurrentState)
-                {
-                    case SequenceState.Idle:
-                        break;
-                    case SequenceState.WaitingForInput:
-             
-                        if (playingSequence.isLastSequence())
-                        {
-                            playingSequence.MoveNext();
-                            playingSequence.CurrentState = SequenceState.End;
-                        }
-                        else
-                        {
-                            s_instance.playNextSeq();
-                            playingSequence.CurrentState = SequenceState.Idle;
-                        }
-                        break;
-                }
-            }
-            else if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                playingSequence.Reset();
-            }
-            else if (playingSequence.CurrentState == SequenceState.End)
-            {
-                playingSequence.End();
-                if (tutoPanelInstance != null && tutoPanelInstance.activeSelf == true)
-                    Destroy(tutoPanelInstance);
-                Debug.Log("prout");
-                playingSequence.AlreadyPlayed = true;
-                PlayingSequence = null;
-            }
-            else if (playingSequence.CurrentState == SequenceState.ReadyForNext)
-            {
-                if (playingSequence.isLastSequence())
-                {
-                    playingSequence.MoveNext();
-                    playingSequence.CurrentState = SequenceState.End;
-                }
-                else
-                {
-                    s_instance.playNextSeq();
-                    playingSequence.CurrentState = SequenceState.Idle;
-                }
-            }
+            //    if (playingSequence.CurrentState == SequenceState.WaitingForClickUI)
+            //    {
+            //        if (MouseCLicked == true)
+            //        {
+            //            MouseCLicked = false;
+            //            playingSequence.CurrentState = SequenceState.Idle;
+            //            s_instance.playNextSeq();
+            //        }
+            //    }
+            //    else if (Input.GetKeyDown(KeyCode.Space))
+            //    {
+            //        switch (playingSequence.CurrentState)
+            //        {
+            //            case SequenceState.Idle:
+            //                break;
+            //            case SequenceState.WaitingForInput:
+
+            //                if (playingSequence.isLastSequence())
+            //                {
+            //                    playingSequence.MoveNext();
+            //                    playingSequence.CurrentState = SequenceState.End;
+            //                }
+            //                else
+            //                {
+            //                    s_instance.playNextSeq();
+            //                    playingSequence.CurrentState = SequenceState.Idle;
+            //                }
+            //                break;
+            //        }
+            //    }
+            //    else if (Input.GetKeyDown(KeyCode.Escape))
+            //    {
+            //        playingSequence.Reset();
+            //    }
+            //    else if (playingSequence.CurrentState == SequenceState.End)
+            //    {
+            //        playingSequence.End();
+            //        if (tutoPanelInstance != null && tutoPanelInstance.activeSelf == true)
+            //            Destroy(tutoPanelInstance);
+            //        playingSequence.AlreadyPlayed = true;
+            //        PlayingSequence = null;
+            //    }
+            //    else if (playingSequence.CurrentState == SequenceState.ReadyForNext)
+            //    {
+            //        if (playingSequence.isLastSequence())
+            //        {
+            //            playingSequence.MoveNext();
+            //            playingSequence.CurrentState = SequenceState.End;
+            //        }
+            //        else
+            //        {
+            //            s_instance.playNextSeq();
+            //            playingSequence.CurrentState = SequenceState.Idle;
+            //        }
+            //    }
+            //}
         }
     }
 
@@ -140,21 +165,21 @@ public class TutoManager : MonoBehaviour {
             } else
             {
                 GameManager.Instance.CurrentState = GameState.Normal;
-                TutoManager.s_instance.StopAllCoroutines();
+                //TutoManager.s_instance.StopAllCoroutines();
             }
         }
     }
 
-    public static bool MouseCLicked
+    public static bool MouseClicked
     {
         get
         {
-            return mouseCLicked;
+            return mouseClicked;
         }
 
         set
         {
-            mouseCLicked = value;
+            mouseClicked = value;
         }
     }
 
@@ -175,6 +200,7 @@ public class TutoManager : MonoBehaviour {
     {
         s_instance.PlayingSequence = seq;
         s_instance.playingSequence.Init();
+        s_instance.playingSequence.MoveNext();
         s_instance.playingSequence.Play();
     }
 
@@ -183,7 +209,7 @@ public class TutoManager : MonoBehaviour {
         s_instance.enableTuto = true;
     }
 
-    public IEnumerator EcrireMessage(string str)
+    public void EcrireMessage(string str)
     {
         if (tutoPanelInstance == null)
         {
@@ -192,90 +218,90 @@ public class TutoManager : MonoBehaviour {
         }
 
         tutoPanelInstance.SetActive(false);
-        yield return new WaitForSeconds(0.5f);
+        //yield return new WaitForSeconds(0.5f);
         tutoPanelInstance.GetComponentInChildren<Text>().text = str;
         tutoPanelInstance.SetActive(true);
-        yield return null;
+        return;
     }
 
-    public class Message : Etape
+    public class Message : Step
     {
         GameObject mrresetti;
         string str;
         public Message(GameObject _mrresetti, string _str)
         {
             mrresetti = _mrresetti;
-            step = Message_fct(0.5f);
+            stepFunction += Message_fct;
             str = _str;
         }
 
-        public Message(Message _origin)
+        public void Message_fct()
         {
-            mrresetti = _origin.mrresetti;
-            str = _origin.str;
-            step = Message_fct(0.5f);
-        }
-        public IEnumerator Message_fct(float delayTime)
-        {
-            yield return TutoManager.s_instance.EcrireMessage(str);
-            s_instance.tutoPanelInstance.transform.GetChild(3).gameObject.SetActive(true);
-            s_instance.tutoPanelInstance.transform.GetChild(3).GetComponent<Button>().onClick.RemoveAllListeners();
-            s_instance.tutoPanelInstance.transform.GetChild(3).GetComponent<Button>().onClick.AddListener(() => TutoManager.s_instance.playNextSeq());
-  
-            if (!s_instance.PlayingSequence.isFirstMessage())
+            s_instance.EcrireMessage(str);
+
+            EnableNextButton();
+            if (s_instance.PlayingSequence.isPreviousStepReachable())
             {
-                s_instance.tutoPanelInstance.transform.GetChild(2).gameObject.SetActive(true);
-                s_instance.tutoPanelInstance.transform.GetChild(2).GetComponent<Button>().onClick.RemoveAllListeners();
-                s_instance.tutoPanelInstance.transform.GetChild(2).GetComponent<Button>().onClick.AddListener(() => TutoManager.s_instance.playPreviousSeq());
+                EnablePreviousButton();
             }
             else
             {
-                s_instance.tutoPanelInstance.transform.GetChild(2).gameObject.SetActive(false);
+                EnablePreviousButton(false);
             }
-            s_instance.PlayingSequence.CurrentState = SequenceState.WaitingForInput;
-            alreadyPlayed = true;
-            yield return null;
+            s_instance.PlayingSequence.CurrentState = SequenceState.Idle;
+            return;
         }
     }
 
-    public void playNextSeq()
+    public static void EnablePreviousButton(bool _enable = true)
+    {
+        s_instance.tutoPanelInstance.transform.GetChild(2).gameObject.SetActive(_enable);
+        if (_enable)
+        {
+            s_instance.tutoPanelInstance.transform.GetChild(2).GetComponent<Button>().onClick.RemoveAllListeners();
+            s_instance.tutoPanelInstance.transform.GetChild(2).GetComponent<Button>().onClick.AddListener(() => s_instance.PlayPreviousStep());
+        }
+    }
+
+    public static void EnableNextButton(bool _enable = true)
+    {
+        s_instance.tutoPanelInstance.transform.GetChild(3).gameObject.SetActive(_enable);
+        if (_enable)
+        {
+            s_instance.tutoPanelInstance.transform.GetChild(3).GetComponent<Button>().onClick.RemoveAllListeners();
+            s_instance.tutoPanelInstance.transform.GetChild(3).GetComponent<Button>().onClick.AddListener(() => s_instance.PlayNextStep());
+        }
+    }
+
+    public void PlayNextStep()
     {
         if(s_instance.playingSequence != null)
         {
             if (s_instance.playingSequence.MoveNext())
             {
-                if (!s_instance.playingSequence.isLastSequence())
-                {
-                    if (s_instance.playingSequence.Current.alreadyPlayed)
-                    {
-                        s_instance.playingSequence.Current = new Message((Message)s_instance.playingSequence.Current);
-                    }
-                    s_instance.playingSequence.Play();
-                }
-                else
-                {
-                    s_instance.playingSequence.CurrentState = SequenceState.End;
-                    s_instance.playingSequence.Play();
-                }
-
+                s_instance.playingSequence.Play();
+            }
+            // End sequence
+            else
+            {
+                s_instance.playingSequence.End();
             }
         }
     }
 
-    public void playPreviousSeq()
+    public void PlayPreviousStep()
     {
         if (s_instance.playingSequence != null)
         {
             if (s_instance.playingSequence.MovePrevious())
             {
-                s_instance.playingSequence.Current = new Message((Message)s_instance.playingSequence.Current);
                 s_instance.playingSequence.Play();
             }
         }
     }
 
     #region MmeResetti
-    public class Spawn : Etape
+    public class Spawn : Step
     {
         GameObject mrresetti;
         AnimationClip jump;
@@ -284,42 +310,28 @@ public class TutoManager : MonoBehaviour {
         {
             mrresetti = _mrresetti;
             jump = _jump;
-            step = Spawn_fct(0.5f);
+            stepFunction += Spawn_fct;
+            isReachableByClickOnPrevious = false;
         }
-        public IEnumerator Spawn_fct(float delayTime)
+        public void Spawn_fct()
         {
             s_instance.playAppearenceFeedback(mrresetti.GetComponent<PawnInstance>());
-            yield return new WaitForSeconds(delayTime);
+            //yield return new WaitForSeconds(delayTime);
             mrresetti.SetActive(true);
             mrresetti.GetComponentInChildren<Animator>().SetTrigger("jumpArround");
 
             // TODO ? 
-            yield return new WaitForSeconds(jump.length);
-            TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.ReadyForNext;
+            //yield return new WaitForSeconds(jump.length);
+            s_instance.PlayingSequence.CurrentState = SequenceState.ReadyForNext;
             alreadyPlayed = true;
-            yield return null;
+            return;
         }
     }
  
-    public class UnSpawn : Etape
+    public static void UnSpawn(GameObject pawnMrResetti)
     {
-        GameObject mrresetti;
-        public UnSpawn(GameObject _mrresetti)
-        {
-            mrresetti = _mrresetti;
-            step = UnSpawn_fct(0.5f);
-        }
-
-        public IEnumerator UnSpawn_fct(float delayTime)
-        {
-            s_instance.playAppearenceFeedback(mrresetti.GetComponent<PawnInstance>());
-            yield return new WaitForSeconds(delayTime);
-            if (mrresetti != null) mrresetti.SetActive(false);
-            Destroy(mrresetti);
-            TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.Idle;
-            alreadyPlayed = true;
-            yield return null;
-        }
+        s_instance.playAppearenceFeedback(pawnMrResetti.GetComponent<PawnInstance>());
+        Destroy(pawnMrResetti, 0.2f);
     }
 
     public void playAppearenceFeedback(PawnInstance pi)

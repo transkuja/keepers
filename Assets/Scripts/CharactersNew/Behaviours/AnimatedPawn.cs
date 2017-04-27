@@ -1,100 +1,56 @@
 ﻿using UnityEngine;
-
 using UnityEngine.AI;
 
-
-
 namespace Behaviour
-
 {
-
     [RequireComponent(typeof(NavMeshAgent))]
 
     public class AnimatedPawn : MonoBehaviour
 
     {
-
         PawnInstance instance;
-
         NavMeshAgent agent;
 
-
-
         // Movement between tile
-
         // Prevents action poping when arriving on a tile
 
         Direction arrivingTrigger = Direction.None;
 
         bool isMovingBetweenTiles = false;
-
         bool isMovingToBattlePosition = false;
-
         float lerpMoveParam = 0.0f;
-
         Vector3 lerpStartPosition;
-
         Vector3 lerpEndPosition;
-
         Quaternion lerpStartRotation;
-
         Quaternion lerpEndRotation;
 
-
-
         Animator anim;
-
         Vector3 v3AgentDirectionTemp;
 
-
-
         // Rotations
-
         float fLerpRotation = 0.666f;
-
         Quaternion quatTargetRotation;
-
         Quaternion quatPreviousRotation;
-
         bool bIsRotating = false;
 
         [SerializeField]
-
         float fRotateSpeed = 1.0f;
 
-
-
         Vector3 beforeBattlePosition;
-
         Quaternion beforeBattleRotation;
 
-
-
         void Awake()
-
         {
-
             instance = GetComponent<PawnInstance>();
-
             agent = GetComponent<NavMeshAgent>();
-
             anim = GetComponentInChildren<Animator>();
-
         }
-
-
 
         void Start()
-
         {
-
             arrivingTrigger = Direction.None;
-
             fRotateSpeed = 5.0f;
-
         }
-
-
 
         void Update()
         {

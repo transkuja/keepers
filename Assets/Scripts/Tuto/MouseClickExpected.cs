@@ -8,7 +8,7 @@ public class MouseClickExpected : MonoBehaviour, IPointerClickHandler {
 
     void Start()
     {
-        TutoManager.MouseCLicked = false;
+        TutoManager.MouseClicked = false;
     }
 
 
@@ -16,7 +16,7 @@ public class MouseClickExpected : MonoBehaviour, IPointerClickHandler {
     {
         if (eventData.button == PointerEventData.InputButton.Left)
         {
-            TutoManager.MouseCLicked = true;
+            TutoManager.MouseClicked = true;
         }
 
     }
