@@ -126,6 +126,7 @@ namespace Behaviour
                 {
                     IsStarving = false;
                 }
+                instance.AddFeedBackToQueue(GameManager.Instance.SpriteUtils.spriteHunger, -10);
                 UpdateHungerPanel(currentHunger);
             }
         }

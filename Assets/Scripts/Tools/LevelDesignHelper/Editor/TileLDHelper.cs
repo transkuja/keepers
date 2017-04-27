@@ -158,10 +158,13 @@ public class TileLDHelper : EditorWindow {
             {
                 foreach (GameObject go in selectedObjects)
                 {
-                    Tile t = go.GetComponentInParent<Tile>();
-                    if (t == null)
+                    if(go != null)
                     {
-                        validSelection = false;
+                        Tile t = go.GetComponentInParent<Tile>();
+                        if (t == null)
+                        {
+                            validSelection = false;
+                        }
                     }
                 }
                 if (!validSelection)

@@ -27,11 +27,9 @@ public enum Direction
 
 public enum TileFriendliness
 {
-    Scary,      // Bad impact on Moral
-    Scarce,     // Bad impact on Food
     Normal,     // No specific impact
-    Calming,    // Good impact on Moral
-    Abundant    // Good impact on Food
+    Scary,      // Bad impact on Moral
+    Friendly,    // Good impact on Moral
 }
 public enum TileState
 {
@@ -45,6 +43,8 @@ public class Tile : MonoBehaviour{
     private TileType type;
     [SerializeField]
     private TileState state;
+    [SerializeField]
+    private TileFriendliness friendliness;
     private static bool showLinks;
     public delegate void TileEvent();
     public TileEvent StateChanged;
@@ -228,6 +228,19 @@ public class Tile : MonoBehaviour{
         {
             state = value;
             UpdateTileVisual();
+        }
+    }
+
+    public TileFriendliness Friendliness
+    {
+        get
+        {
+            return friendliness;
+        }
+
+        set
+        {
+            friendliness = value;
         }
     }
 

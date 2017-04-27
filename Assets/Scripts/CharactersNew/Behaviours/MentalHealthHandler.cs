@@ -128,6 +128,7 @@ namespace Behaviour
                 {
                     isDepressed = false;
                 }
+                instance.AddFeedBackToQueue(GameManager.Instance.SpriteUtils.spriteMoralDebuff, -10);
                 UpdateMentalHealthPanel(currentMentalHealth);
             }
         }
