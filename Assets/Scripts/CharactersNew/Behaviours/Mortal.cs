@@ -168,7 +168,7 @@ namespace Behaviour
 
         public void CreateShortcutHPPanel()
         {
-            ShortcutHPUI = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabHPUI);
+            ShortcutHPUI = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabShortcutHPUI);
         }
 
         public void UpdateHPPanel(int currentHp)

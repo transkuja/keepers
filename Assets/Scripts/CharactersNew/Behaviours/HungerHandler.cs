@@ -89,7 +89,7 @@ namespace Behaviour
 
         public void CreateShortcutHungerPanel()
         {
-            ShortcutHungerUI = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabHungerUI);
+            ShortcutHungerUI = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabShortcutHungerUI);
         }
 
         public void UpdateHungerPanel(int hunger)

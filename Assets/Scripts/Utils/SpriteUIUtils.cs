@@ -8,7 +8,9 @@ using UnityEngine;
 
 public class SpriteUIUtils : MonoBehaviour {
 
-    // Actions    public Sprite spriteMove;
+    // Actions
+    [Header("Actions")]
+    public Sprite spriteMove;
     public Sprite spriteExplore;
     public Sprite spriteHarvest;
     public Sprite spritePick;
@@ -27,17 +29,28 @@ public class SpriteUIUtils : MonoBehaviour {
     public Sprite spriteGuard;
     public Sprite spriteUseSkill;
 
+    public Sprite spriteTokenAction;
+    public Sprite spriteNoAction;
+
     // for death
+    [Header("Death")]
     public Sprite spriteSupport;
     public Sprite spriteDeath;
 
     // Feedback ui
+    [Header("UI")]
     public Sprite spriteHunger;
+    public Sprite spriteLove; // HP 
+    public Sprite spriteMentalDown;
+    public Sprite spriteMentalNormal;
+    public Sprite spriteMentalUp;
 
     // Objectif
+    [Header("Objectif")]
     public Sprite spriteOrientation;
 
     // Tuto
+    [Header("Tuto")]
     public Sprite spriteTutoHighlightCercle;
     public Sprite spriteTutoHighlightSquare;
     public Sprite spriteMouse;
@@ -46,6 +59,7 @@ public class SpriteUIUtils : MonoBehaviour {
     public Sprite spriteMouseMiddleClicked;
 
     // Life bars
+    [Header("Battle")]
     public Sprite spriteGreenLifeBar;
     public Sprite spriteOrangeLifeBar;
 

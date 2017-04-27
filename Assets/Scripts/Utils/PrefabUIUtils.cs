@@ -33,8 +33,10 @@ public class PrefabUIUtils : MonoBehaviour {
     // ShortcutPanel
     [Header("Shortcut UI")]
     public GameObject PrefabShorcutCharacter;
-    public Sprite tmpShortcutForAshley;
-    public Sprite tmpShortcutForSwag;
+
+    public GameObject PrefabShortcutMentalHealthUI;
+    public GameObject PrefabShortcutHungerUI;
+    public GameObject PrefabShortcutHPUI;
 
     // Utils 
     [Header("Utils UI")]
