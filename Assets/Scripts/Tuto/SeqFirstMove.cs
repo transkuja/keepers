@@ -92,6 +92,42 @@ public class SeqFirstMove : Sequence {
         }
     }
 
+    public class SelectCharacterStep : Step
+    {
+        string str;
+        public SelectCharacterStep(string _str)
+        {
+            stepFunction = Message_fct;
+            str = _str;
+        }
+
+        public void Message_fct()
+        {
+            // Feedback sur les points d'action
+            // show text
+
+            TutoManager.s_instance.EcrireMessage(str);
+            TutoManager.EnableNextButton();
+
+            if (TutoManager.s_instance.PlayingSequence.isPreviousStepReachable())
+            {
+                TutoManager.EnablePreviousButton();
+            }
+            else
+            {
+                TutoManager.EnablePreviousButton(false);
+            }
+            TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.WaitingForClickInGame;
+        }
+
+        public override void Reverse()
+        {
+            // Desactive le feedback sur les points d'action
+
+            alreadyPlayed = false;
+        }
+    }
+
     public class ActionPointsExplanationStep : Step
     {
         string str;
@@ -141,7 +177,7 @@ public class SeqFirstMove : Sequence {
 
         public void Message_fct()
         {
-            // Pointer sur le bouton de fin de tou
+            // Pointer sur le bouton de fin de tour
             // show text
             GameObject endTurnButton = ((SeqFirstMove)TutoManager.s_instance.PlayingSequence).endTurnBtn;
             endTurnButton.SetActive(true);
@@ -149,9 +185,11 @@ public class SeqFirstMove : Sequence {
                 endTurnButton.GetComponentInChildren<Button>().gameObject.AddComponent<MouseClickExpected>();
             if (feedback == null)
             {
-                feedback = Instantiate(TutoManager.s_instance.uiPointer, endTurnButton.transform); // Fix: reference to end turn button may need to be stocked somewhere
-                feedback.transform.localPosition = new Vector3(-200, 500, 0);
-                feedback.transform.localEulerAngles = new Vector3(0, 0, -350);
+                feedback = Instantiate(TutoManager.s_instance.uiPointer, GameManager.Instance.Ui.transform.GetChild(0)); // Fix: reference to end turn button may need to be stocked somewhere
+                feedback.GetComponent<FlecheQuiBouge>().PointToPoint = endTurnButton.transform.GetChild(1).position;
+                feedback.GetComponent<FlecheQuiBouge>().distanceOffset = 75.0f;
+
+                feedback.transform.localEulerAngles = new Vector3(0, 0, 20);
             }
 
             TutoManager.s_instance.EcrireMessage(str);
@@ -292,11 +330,11 @@ public class SeqFirstMove : Sequence {
 
         // Content
         Etapes.Add(new TutoManager.Message(pawnMrResetti, "Hi, I'm here to teach you how to play"));
+        Etapes.Add(new SelectCharacterStep("First select the girl by clicking on her."));
         Etapes.Add(new ExploreStep("First, click on the Explore button to explore the next area."));
         Etapes.Add(new TutoManager.Message(pawnMrResetti, "Well done you genius, here's your cookie!"));
         Etapes.Add(new ActionPointsExplanationStep("This action cost you 3 action points. Always keep an eye on them.")); // ==> feedback sur les points d'action
-        Etapes.Add(new TutoManager.Message(pawnMrResetti, "You can restore your action points by clicking on the end turn button."));
-        Etapes.Add(new FirstEndTurnStep("Try it")); // =+> pointer
+        Etapes.Add(new FirstEndTurnStep("You can restore your action points by clicking on the end turn button."));
         Etapes.Add(new TutoManager.Message(pawnMrResetti, "Well done. Now finish the level."));
     }
 
@@ -312,6 +350,7 @@ public class SeqFirstMove : Sequence {
             TutoManager.UnSpawn(pawnMrResetti);
         if (TutoManager.s_instance.TutoPanelInstance != null)
             Destroy(TutoManager.s_instance.TutoPanelInstance);
+        TutoManager.s_instance.PlayingSequence = null;
         //endTurnBtn.SetActive(true);
         //shortcutBtn.SetActive(true);
 

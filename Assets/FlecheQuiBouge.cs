@@ -10,7 +10,6 @@ public class FlecheQuiBouge : MonoBehaviour {
     public float distanceOffset = 20.0f;
 	// Use this for initialization
 	void Start () {
-        PointToPoint = transform.position;
         timer = 0.0f;
 	}
 	

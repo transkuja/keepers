@@ -8,7 +8,7 @@ using Behaviour;
 
 //public enum SequenceState { Idle, ReadyForNext, WaitingForInput, WaitingForClickUI, End };
 
-public enum SequenceState { Idle, ReadyForNext, WaitingForClickUI };
+public enum SequenceState { Idle, ReadyForNext, WaitingForClickUI, WaitingForClickInGame };
 public delegate void StepFunction();
 
 public abstract class Step
