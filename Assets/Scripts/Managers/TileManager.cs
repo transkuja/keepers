@@ -117,7 +117,6 @@ public class TileManager : MonoBehaviour {
         if (EventManager.OnMonsterDie != null)
             EventManager.OnMonsterDie(_deadMonster.GetComponent<Behaviour.Monster>());
 
-        Debug.Log(lootList.Count);
         if (lootList.Count > 0)
         {
             ItemManager.AddItemOnTheGround(_deadMonster.CurrentTile, lastMonsterPosition, lootList.ToArray());

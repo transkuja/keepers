@@ -200,7 +200,7 @@ public class BattleHandler {
         bool mustShiftTurn = true;
         for (int i = 0; i < CurrentBattleKeepers.Length; i++)
         {
-            if (!CurrentBattleKeepers[i].GetComponent<Fighter>().HasPlayedThisTurn)
+            if (!CurrentBattleKeepers[i].GetComponent<Fighter>().HasPlayedThisTurn && CurrentBattleKeepers[i].GetComponent<Mortal>().CurrentHp > 0)
             {
                 mustShiftTurn = false;
             }            
@@ -245,11 +245,17 @@ public class BattleHandler {
     }
 
     private static void ShiftToNextMonsterTurn()
-{
-        if (currentBattleMonsters[nextMonsterIndex] == null)
+    {
+        while (currentBattleMonsters[nextMonsterIndex].GetComponent<Mortal>().CurrentHp <= 0)
         {
             nextMonsterIndex++;
-            ShiftToNextMonsterTurn();
+            if (nextMonsterIndex >= currentBattleMonsters.Length)
+                break;
+        }
+
+        if (nextMonsterIndex >= currentBattleMonsters.Length)
+        {
+            ShiftTurn();
             return;
         }
 
@@ -259,6 +265,32 @@ public class BattleHandler {
         skillUsed.UseSkill(currentBattleMonsters[nextMonsterIndex].GetComponent<Fighter>(), target);
         nextMonsterIndex++;
     }
+
+    public static void ResetCurrentBattleMonsters()
+    {
+        if (currentBattleMonsters.Length <= 1)
+            return;
+
+        int deathNbr = 0;
+        for (int i = 0; i < currentBattleMonsters.Length; i++)
+        {
+            if (currentBattleMonsters[i] == null)
+                deathNbr++;
+        }
+        PawnInstance[] newCurrentMonsters = new PawnInstance[currentBattleMonsters.Length - deathNbr];
+
+        int j = 0;
+        for (int i = 0; i < currentBattleMonsters.Length - deathNbr; i++)
+        {
+            if (currentBattleMonsters[i + j] == null)
+                j++;
+            newCurrentMonsters[i] = currentBattleMonsters[i + j];
+        }
+
+        currentBattleMonsters = null;
+        currentBattleMonsters = newCurrentMonsters;
+    }
+
 
     private static PawnInstance GetTargetForAttack()
     {
@@ -271,7 +303,55 @@ public class BattleHandler {
             }
         }
 
-        return currentBattleKeepers[Random.Range(0, currentBattleKeepers.Length)];
+        int deathNbr = 0;
+        for (int i = 0; i < currentBattleKeepers.Length; i++)
+        {
+            if (currentBattleKeepers[i].GetComponent<Mortal>().CurrentHp <= 0)
+                deathNbr++;
+        }
+
+        if (deathNbr == currentBattleKeepers.Length)
+            return GameManager.Instance.PrisonerInstance;
+
+        int[] alreadyPickedIndex = new int[currentBattleKeepers.Length];
+        for (int i = 0; i < alreadyPickedIndex.Length; i++)
+            alreadyPickedIndex[i] = -1;
+
+        PawnInstance target = null;
+        int drawIndex = 0;
+
+        int newIndex = 0;
+        bool newIndexHasAlreadyBeenPicked = true;
+        while (target == null)
+        {
+            while (newIndexHasAlreadyBeenPicked)
+            {
+                newIndex = Random.Range(0, currentBattleKeepers.Length);
+                for (int i = 0; i < alreadyPickedIndex.Length; i++)
+                {
+                    if (newIndex == alreadyPickedIndex[i])
+                    {
+                        newIndexHasAlreadyBeenPicked = true;
+                        break;
+                    }
+                    newIndexHasAlreadyBeenPicked = false;
+                }
+            }
+
+            Debug.Log(newIndex);
+            Debug.Log(currentBattleKeepers.Length);
+            if (currentBattleKeepers[newIndex].GetComponent<Mortal>().CurrentHp <= 0)
+            {
+                alreadyPickedIndex[drawIndex] = newIndex;
+                drawIndex++;
+            }
+            else
+            {
+                target = currentBattleKeepers[newIndex];
+            }
+        }
+
+        return target;
     }
 
     private static bool BattleEndConditionsReached()
@@ -285,251 +365,6 @@ public class BattleHandler {
         return true;
     }
 
-    /*
-     * Auto resolve battle. Will later be replaced by EngageBattle. Returns true if the battle is won, else false. 
-     */
-    private static bool ResolveBattle(List<PawnInstance> keepers, Tile tile)
-    { 
-        List<PawnInstance> monsters = new List<PawnInstance>();
-        monsters.AddRange(TileManager.Instance.MonstersOnTile[tile]);
-
-        // TODO @Anthony temporary
-        foreach (PawnInstance m in monsters)
-            m.GetComponent<Behaviour.Mortal>().CurrentHp = 0;
-
-
-        // Battle loop
-        // -- Keepers turn
-        // -- -- Keeper turn
-        // -- -- -- Throw dices for special skills
-        // -- -- -- -- Attack/Defend/Use special skill
-        // -- -- -- -- -- if attack or defend -> throw dices again
-        // -- -- -- -- -- for attack, apply result directly for offensive strike
-        // -- -- -- -- -- for defense, add result to current defense stock, consumed first
-        // -- -- -- -- -- if special skill, just resolve the special skill
-        // -- Monsters turn
-        // -- -- Monster turn
-        // -- -- -- Same pattern? Fix set of skill battles with algorithm to determine which skill use?
-
-        // General melee!
-        //while (monsters.Count > 0 && keepers.Count > 0)
-        //{
-        //    // Keepers turn
-        //    foreach (PawnInstance currentKeeper in keepers)
-        //    {
-        //        PawnInstance target;
-        //        AttackType attackType = currentKeeper.Keeper.GetEffectiveStrength() > currentKeeper.Keeper.GetEffectiveIntelligence() ? AttackType.Physical : AttackType.Magical;
-
-        //        target = GetTargetForAttack(monsters, attackType);
-        //        int monsterIndexForDmgCalculation = 0;
-        //        for (int i = 0; i < monsterNames.Length; i++)
-        //        {
-        //            if (target.Monster.CharacterName == monsterNames[i])
-        //                monsterIndexForDmgCalculation = i;
-        //        }
-        //        // Inflict damage to target
-        //        damageTakenByMonsters[monsterIndexForDmgCalculation] += KeeperDamageCalculation(currentKeeper, target, attackType);
-        //        if (damageTakenByMonsters[monsterIndexForDmgCalculation] > monstersInitialHp[monsterIndexForDmgCalculation])
-        //            damageTakenByMonsters[monsterIndexForDmgCalculation] = monstersInitialHp[monsterIndexForDmgCalculation];
-        //        // Remove monster from list if dead
-        //        if (target.CurrentHp <= 0)
-        //        {
-        //            BattleLog(target.Monster.CharacterName + " died.");
-        //            monsters.Remove(target);
-        //        }
-
-        //        if (monsters.Count == 0)
-        //            break;
-        //    }
-
-        //    // Monsters turn
-        //    foreach (PawnInstance currentMonster in monsters)
-        //    {
-        //        bool isPrisonerTargeted = false;
-        //        AttackType attackType = currentMonster.Monster.GetEffectiveStrength() > currentMonster.Monster.GetEffectiveIntelligence() ? AttackType.Physical : AttackType.Magical;
-
-        //        if (isPrisonerOnTile)
-        //        {
-        //            float determineTarget = Random.Range(0, 100);
-        //            if (determineTarget < ((100.0f / (keepers.Count + 2)) * 2))
-        //            {
-        //                isPrisonerTargeted = true;
-        //            }
-        //        }
-
-        //        if (isPrisonerTargeted)
-        //        {
-        //            damageTaken[damageTaken.Length - 1] += MonsterDamageCalculation(currentMonster, null, attackType, true);
-        //        }
-        //        else
-        //        {
-        //            if (keepers.Count == 0)
-        //            {
-        //                break;
-        //            }
-        //            PawnInstance target = GetTargetForAttack(keepers);
-        //            int keeperIndexForDmgCalculation = 0;
-        //            for (int i = 0; i < keeperNames.Length; i++)
-        //            {
-        //                if (target.Keeper.CharacterName == keeperNames[i])
-        //                    keeperIndexForDmgCalculation = i;
-        //            }
-        //            damageTaken[keeperIndexForDmgCalculation] += MonsterDamageCalculation(currentMonster, target, attackType);
-
-        //            if (target.CurrentHp <= 0)
-        //            {
-        //                BattleLog(target.Keeper.CharacterName + " died.");
-        //                keepers.Remove(target);
-        //            }
-
-        //        }
-        //    }
-
-        //    totalDamageTaken = damageTaken[0];
-        //    for (int i = 1; i < damageTaken.Length; i++)
-        //        totalDamageTaken += damageTaken[i];
-
-        //    if (totalDamageTaken >= 50)
-        //    {
-        //        BattleLog("Over 50hp lost. Battle ends.");
-        //        break;
-        //    }
-        //    else if (GameManager.Instance.PrisonerInstanceOld.CurrentHp <= 0)
-        //    {
-        //        BattleLog("Prisoner died. Battle ends.");
-        //        break;
-        //    }
-        //    else if (keepers.Count == 0)
-        //    {
-        //        BattleLog("All keepers died. Battle ends.");
-        //        break;
-        //    }
-        //}      
-
-        //for (int i = 0; i < damageTaken.Length - 1; i++)
-        //    BattleLog(keeperNames[i] + " lost " + damageTaken[i] + " health.");
-        //if (isPrisonerOnTile)
-        //    BattleLog("Prisoner lost " + damageTaken[damageTaken.Length - 1] + " health.");
-        //for (int i = 0; i < damageTakenByMonsters.Length; i++)
-        //{
-        //    if (damageTakenByMonsters[i] > 0)
-        //        BattleLog(monsterNames[i] + " lost " + damageTakenByMonsters[i] + " health.");
-        //    BattleLog(monsterNames[i] + " has " + (monstersInitialHp[i] - damageTakenByMonsters[i]) + " health left.");
-        //}
-        
-        //// Battle result
-        //if (monsters.Count == 0)
-        //{
-        //    BattleLog("All monsters defeated.");
-        //    return true;
-        //}
-        //else
-        //{
-        //    return false;
-        //}*/
-        return true;
-    }
-    /*
-    private static PawnInstance GetTargetForAttack(List<PawnInstance> monsters, AttackType attackType)
-    {
-        List<PawnInstance> subMonstersList = new List<PawnInstance>();
-        foreach (PawnInstance mi in monsters)
-        {
-            if (mi.CurrentHp == 0)
-            {
-                continue;
-            }
-
-            if (attackType == AttackType.Physical)
-            {
-                if (mi.Monster.GetEffectiveSpirit() > mi.Monster.GetEffectiveDefense())
-                    subMonstersList.Add(mi);
-            }
-            else
-            {
-                if (mi.Monster.GetEffectiveSpirit() < mi.Monster.GetEffectiveDefense())
-                    subMonstersList.Add(mi);
-            }
-        }
-
-        if (subMonstersList.Count == 0)
-        {
-            subMonstersList.AddRange(monsters);
-        }
-
-        PawnInstance target = null;
-        int tmpHp = 100;
-
-        foreach (PawnInstance mi in subMonstersList)
-        {
-            if (mi.CurrentHp <= tmpHp)
-            {
-                target = mi;
-                tmpHp = mi.CurrentHp;
-            }
-        }
-
-        return target;
-    }
-
-
-
-    private static int KeeperDamageCalculation(PawnInstance attacker, PawnInstance targetMonster, AttackType attackType)
-    {
-        int damage = 0;
-        if (attackType == AttackType.Physical)
-        {
-            damage = Mathf.RoundToInt(Mathf.Pow(attacker.Keeper.GetEffectiveStrength(), 2) / targetMonster.Monster.GetEffectiveDefense());
-        }
-        else
-        {
-            damage = Mathf.RoundToInt(Mathf.Pow(attacker.Keeper.GetEffectiveIntelligence(), 2) / targetMonster.Monster.GetEffectiveSpirit());
-        }
-
-        damage = Mathf.RoundToInt(damage * Random.Range(0.75f, 1.25f));
-
-        targetMonster.CurrentHp -= damage;
-        //Debug.Log(attacker.Keeper.CharacterName + " deals " + damage + " damage to " + targetMonster.Monster.CharacterName + ".\n");
-        //Debug.Log(targetMonster.Monster.CharacterName + " has " + targetMonster.CurrentHp + " left.\n");
-        return damage;
-    }
-
-    private static int MonsterDamageCalculation(PawnInstance attacker, PawnInstance targetKeeper, AttackType attackType, bool prisonerTargeted = false)
-    {
-        int damage = 0;
-        if (attackType == AttackType.Physical)
-        {
-            if (!prisonerTargeted)
-                damage = Mathf.RoundToInt(attacker.Monster.GetEffectiveStrength() / targetKeeper.Keeper.GetEffectiveDefense());
-            else
-                damage = Mathf.RoundToInt(attacker.Monster.GetEffectiveStrength() / GameManager.Instance.PrisonerInstanceOld.Prisoner.GetEffectiveDefense());
-        }
-        else
-        {
-            if (!prisonerTargeted)
-                damage = Mathf.RoundToInt(attacker.Monster.GetEffectiveIntelligence() / targetKeeper.Keeper.GetEffectiveSpirit());
-            else
-                damage = Mathf.RoundToInt(attacker.Monster.GetEffectiveIntelligence() / GameManager.Instance.PrisonerInstanceOld.Prisoner.GetEffectiveSpirit());
-        }
-
-        damage = Mathf.RoundToInt(damage * Random.Range(0.75f, 1.25f));
-
-        if (prisonerTargeted)
-        {
-            GameManager.Instance.PrisonerInstanceOld.CurrentHp -= damage;
-            //Debug.Log(attacker.Monster.CharacterName + " deals " + damage + " damage to prisoner.\n");
-            //Debug.Log("Prisoner has " + GameManager.Instance.PrisonerInstance.CurrentHp + " left.\n");
-        }
-        else
-        {
-            targetKeeper.CurrentHp -= damage;
-            //Debug.Log(attacker.Monster.CharacterName + " deals " + damage + " damage to " + targetKeeper.Keeper.CharacterName + ".\n");
-            //Debug.Log(targetKeeper.Keeper.CharacterName + " has " + targetKeeper.CurrentHp + " left.\n");
-        }
-
-        return damage;
-    }
-    */
     /*
      * Process everything that needs to be processed after a victory
      */
@@ -883,6 +718,7 @@ public class BattleHandler {
                     ActivateFeedbackSelection(true, false);
                 else
                 {
+
                     if (nextMonsterIndex == currentBattleMonsters.Length)
                     {
                         ShiftTurn();

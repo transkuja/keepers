@@ -101,7 +101,9 @@ namespace Behaviour
                 }
                 else
                 {
-                    Destroy(gameObject, 0.1f);
+                    if (GameManager.Instance.CurrentState != GameState.InBattle)
+                        Destroy(gameObject, 0.1f);
+
                 }
             }
             else if (GetComponent<Prisoner>() != null)

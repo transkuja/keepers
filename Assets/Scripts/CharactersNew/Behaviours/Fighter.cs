@@ -159,6 +159,10 @@ namespace Behaviour
             showFeedbackDmgTimer = 1.7f;
             isWaitingForSkillPanelToClose = false;
             BattleHandler.IsWaitingForSkillEnd = false;
+            if (GetComponent<Mortal>().CurrentHp <= 0)
+            {
+                gameObject.SetActive(false);
+            }
         }
 
         public void ResetValuesAfterBattle()
@@ -205,6 +209,10 @@ namespace Behaviour
                 _attackTarget.GetComponent<Mortal>().CurrentHp -= effectiveDamage;
                 _attackTarget.GetComponent<PawnInstance>().AddFeedBackToQueue(-effectiveDamage);
             }
+
+            if (_attackTarget.GetComponent<Mortal>().CurrentHp <= 0)
+                _attackTarget.gameObject.SetActive(false);
+
             hasClickedOnAttack = false;
             HasPlayedThisTurn = true;
         }
