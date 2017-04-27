@@ -34,10 +34,6 @@ namespace Behaviour
         [SerializeField]
         Die[] dice;
 
-        int baseAttack = 0;
-        int baseDefense = 0;
-        int temporaryDefense = 0;
-
         // Instance variables
         [SerializeField]
         int physicalSymbolStored = 0;
@@ -82,34 +78,7 @@ namespace Behaviour
             else IsAMonster = false;
 
             battleInteractions.Add(new Interaction(Attack), 0, "Attack", GameManager.Instance.SpriteUtils.spriteAttack);
-            battleInteractions.Add(new Interaction(Guard), 0, "Guard", GameManager.Instance.SpriteUtils.spriteGuard);
             battleInteractions.Add(new Interaction(OpenSkillPanel), 0, "OpenSkillPanel", GameManager.Instance.SpriteUtils.spriteUseSkill);
-
-            if (dice != null)
-            {
-                for (int i = 0; i < dice.Length; i++)
-                {
-                    int minDefenseForThisDice = 7;
-                    int minAttackForThisDice = 7;
-                    for (int j = 0; j < 6; j++)
-                    {
-                        if (dice[i].Faces[j].Type == FaceType.Physical)
-                        {
-                            if (dice[i].Faces[j].Value < minAttackForThisDice)
-                                minAttackForThisDice = dice[i].Faces[j].Value;
-                        }
-                        if (dice[i].Faces[j].Type == FaceType.Defensive)
-                        {
-                            if (dice[i].Faces[j].Value < minDefenseForThisDice)
-                                minDefenseForThisDice = dice[i].Faces[j].Value;
-                        }
-                    }
-                    if (minAttackForThisDice == 7) minAttackForThisDice = 0;
-                    if (minDefenseForThisDice == 7) minDefenseForThisDice = 0;
-                    baseAttack += minAttackForThisDice;
-                    baseDefense += minDefenseForThisDice;
-                }
-            }
 
             showSkillPanelTimer = 2.2f;
             showFeedbackDmgTimer = 1.7f;
@@ -185,7 +154,7 @@ namespace Behaviour
         {
             Debug.Log("attackProcess lunched");
 
-            int attackDamage = baseAttack * effectiveAttackValue;
+            int attackDamage = 0;
             for (int i = 0; i < lastThrowResult.Length; i++)
             {
                 // Apply attack calculation
@@ -193,11 +162,15 @@ namespace Behaviour
                 {
                     attackDamage += (effectiveAttackValue * lastThrowResult[i].Value);
                 }
+                else
+                {
+                    attackDamage += 1;
+                }
 
             }
             if (_attackTarget.GetComponent<Keeper>() != null || _attackTarget.GetComponent<Escortable>() != null)
             {
-                int effectiveDamage = (int)((attackDamage * (baseDefense + temporaryDefense))/100.0f);
+                int effectiveDamage = (int)((attackDamage / (float)effectiveAttackValue));
                 _attackTarget.GetComponent<Mortal>().CurrentHp -= effectiveDamage;
             }
             else if (_attackTarget.GetComponent<Monster>() != null)
@@ -222,23 +195,6 @@ namespace Behaviour
         {
             return _attackDmg;
             //return Mathf.Max((int)(_attackDmg / (Mathf.Sqrt(_target.GetComponent<Monster>().EffectiveDefense + 1))), (int)(_attackDmg / 10.0f));
-        }
-
-        public void Guard(int _i = 0)
-        {
-            Debug.Log("guard");
-            for (int i = 0; i < lastThrowResult.Length; i++)
-            {
-                // Apply attack calculation
-                if (lastThrowResult[i].Type == FaceType.Defensive)
-                {
-                    temporaryDefense += lastThrowResult[i].Value;
-                }
-
-            }
-            GetComponent<PawnInstance>().AddFeedBackToQueue(GameManager.Instance.SpriteUtils.spriteDefenseSymbol, temporaryDefense);
-            BattleHandler.ActivateFeedbackSelection(true, false);
-            HasPlayedThisTurn = true;
         }
 
         public void OpenSkillPanel(int _i = 0)
@@ -397,10 +353,6 @@ namespace Behaviour
                     GameManager.Instance.ClearListKeeperSelected();
                     BattleHandler.CheckTurnStatus();
                 }
-                else
-                {
-                    temporaryDefense = 0;
-                }
             }
         }
 
@@ -511,7 +463,7 @@ namespace Behaviour
             set
             {
                 if (GetComponent<Keeper>() != null || GetComponent<Escortable>() != null)
-                    pendingDamage = Mathf.Max(value - baseDefense - temporaryDefense, 0);
+                    pendingDamage = value;
                 else
                     pendingDamage = ComputeEffectiveDamage(this, value);
             }
