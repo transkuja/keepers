@@ -10,6 +10,16 @@
 			"idQuest": "side_quest_01", 
 			"idQuestDealer" : "pnj_01",
 			"cardModelname" : "Asset_Carte_Event_01"
+		},
+		{
+			"idQuest": "side_quest_01", 
+			"idQuestDealer" : "pnj_01",
+			"cardModelname" : "Asset_Carte_Event_01"
+		},
+		{
+			"idQuest": "side_quest_01", 
+			"idQuestDealer" : "pnj_01",
+			"cardModelname" : "Asset_Carte_Event_01"
 		}
       ] 
     },  

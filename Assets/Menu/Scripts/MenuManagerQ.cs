@@ -10,7 +10,7 @@ public class MenuManagerQ : MonoBehaviour {
     private string deckOfCardsSelected = string.Empty;
     private List<PawnInstance> listeSelectedKeepers;
 
-    public Transform[] questDecksPosition;
+    public Transform questDecksPosition;
     public Transform[] keepersPosition;
     public Transform[] cardlevelPosition;
 
@@ -44,8 +44,9 @@ public class MenuManagerQ : MonoBehaviour {
             // Instanciation du deck
             //GameObject goDeck = Instantiate(GameManager.Instance.PrefabUtils.prefabQuestDeck);
             GameObject goDeck = Instantiate(GoPrefabDeck);
-            goDeck.transform.SetParent(questDecksPosition[i].parent, false);
-            GameObject.Destroy(questDecksPosition[i].gameObject);
+            goDeck.tag = "OpenerContent";
+            goDeck.transform.SetParent(questDecksPosition, false);
+            //GameObject.Destroy(questDecksPosition[i].gameObject);
 
             // Recuperation du component deck of cards for selection in menu
             DeckOfCards deckOfCards = goDeck.GetComponent<DeckOfCards>();
@@ -67,7 +68,8 @@ public class MenuManagerQ : MonoBehaviour {
                 goTemp.SetActive(false);
             }
 
-            goDeck.AddComponent<Opener>().bOverMode = true;
+            goDeck.GetComponent<Opener>().bOverMode = true;
+            goDeck.GetComponent<Opener>().bIsLast = false;
         }
     }
 

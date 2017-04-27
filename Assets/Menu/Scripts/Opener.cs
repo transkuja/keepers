@@ -10,18 +10,19 @@ public class Opener : MonoBehaviour {
         Card
     }
 
-    enum AnimationState
+    enum eState
     {
-        idle,
-        transition,
-        ended
+        closed,     // tout est bien rangé
+        going,      // le conteneur se déplace
+        unfolding,  // on déplie le contenu
+        open,       // tout est bien ouvert
+        folding,    // on replie le contenu
+        coming,     // le conteneur revien à sa place
     }
 
-    [SerializeField] Animator animatorDeck;
-    [SerializeField] Animator animatorCard;
-    [SerializeField] ContentNature contentNature;
+    eState state = eState.closed;
+    public bool bIsLast;
 
-    AnimationState animationState = AnimationState.idle;
 
     public bool bOverMode = false;
     public bool bAlwaysAllowed = true;
@@ -30,21 +31,67 @@ public class Opener : MonoBehaviour {
     public float fOffsetZ = .1f;
 
     bool bAllowed = true;
-    bool bIsOpen = false;
 
     Vector3 v3Size;
     Vector3 v3Offset = Vector3.zero;
 
-    public List<GameObject> listGoCards = new List<GameObject>();
+    public List<OpenerContent> listChilds = new List<OpenerContent>();
     List<Opener> listOpenerSiblings;
 
 	void Start () {
         Init();
     }
 
+    void Init()
+    {
+
+        if (transform.parent != null)   // Récupération des Opener au même niveau de hierarchie
+        {
+            Opener openerTemp;
+            for (int i = 0; i < transform.parent.childCount; i++)
+            {
+                openerTemp = transform.parent.GetChild(i).gameObject.GetComponent<Opener>();
+                if (openerTemp != null && openerTemp != this)
+                {
+                    if (listOpenerSiblings == null)
+                    {
+                        listOpenerSiblings = new List<Opener>();
+                    }
+                    listOpenerSiblings.Add(openerTemp);
+                    openerTemp.enabled = false;
+                }
+            }
+        }
+
+        if (trOffset != null)
+        {
+            v3Offset = trOffset.position - transform.position;
+        }
+
+        v3Size = GetComponentInChildren<MeshRenderer>().bounds.size;
+
+        for (int i = 0; i < transform.childCount; i++)  // Récupération du contenu de l'Opener
+        {
+            if (transform.GetChild(i).tag == "OpenerContent")
+            {
+                listChilds.Add(transform.GetChild(i).gameObject.GetComponent<OpenerContent>());
+
+                listChilds[listChilds.Count - 1].trStart.v3Pos = Vector3.zero;
+
+                float x = -((listChilds.Count / 2.0f) * (v3Size.x + v3Offset.x)) + i * (v3Size.x + v3Offset.x);
+                listChilds[listChilds.Count - 1].trEnd.v3Pos = new Vector3(x, 0, 0);
+
+
+
+                //listChilds[listChilds.Count - 1].GetComponent<MeshCollider>().enabled = false;
+                //transform.GetChild(i).gameObject.SetActive(false);
+            }
+        }
+    }
+
     void Update()
     {
-        
+        UpdateState();
     }
 
     #region OverMode
@@ -75,17 +122,28 @@ public class Opener : MonoBehaviour {
         {
             if (bAllowed || bAlwaysAllowed)
             {
-                if (!bIsOpen)
+                switch (state)
                 {
-                    for(int i =0; i < listOpenerSiblings.Count; i++)
-                    {
-                        listOpenerSiblings[i].Close();
-                    }
-                    Open();
-                }
-                else
-                {
-                    Close();
+                    case eState.closed:
+                        for(int i =0; listOpenerSiblings != null && i < listOpenerSiblings.Count; i++)
+                        {
+                            listOpenerSiblings[i].Close();
+                        }
+                        Open();
+                        break;
+                    case eState.going:
+                        Close();
+                        break;
+                    case eState.unfolding:
+                        break;
+                    case eState.open:
+                        break;
+                    case eState.folding:
+                        break;
+                    case eState.coming:
+                        break;
+                    default:
+                        break;
                 }
             }
         }
@@ -93,85 +151,85 @@ public class Opener : MonoBehaviour {
 
     #endregion
 
-    void Init()
-    {
-        for (int i = 0; i < transform.childCount; i++)
-        {
-            if (transform.GetChild(i).tag == "OpenerContent")
-            {
-                listGoCards.Add(transform.GetChild(i).gameObject);
-                transform.GetChild(i).gameObject.SetActive(false);
-            }
-        }
-
-        if (transform.parent != null)
-        {
-            Opener openerTemp;
-            for (int i = 0; i < transform.parent.childCount; i++)
-            {
-                openerTemp = transform.parent.GetChild(i).gameObject.GetComponent<Opener>();
-                if (openerTemp != null && openerTemp != this)
-                {
-                    if (listOpenerSiblings == null)
-                    {
-                        listOpenerSiblings = new List<Opener>();
-                    }
-                    listOpenerSiblings.Add(openerTemp);
-                }
-            }
-        }
-
-        if (trOffset != null)
-        {
-            v3Offset = trOffset.position - transform.position;
-        }
-
-        v3Size = GetComponentInChildren<MeshRenderer>().bounds.size;
-    }
 
     void Open()
     {
-        for (int i = 0; i < listGoCards.Count; i++)
+        for (int i = 0; i < listChilds.Count; i++)
         {
 
             //float x = -((listGoCards.Count / 2.0f) * (v3Size.x + fOffsetX)) + ((listGoCards.Count % 2 == 0)? v3Size.x / 2.0f : v3Size.x) + i * (v3Size.x + fOffsetX);
 
             //listGoCards[i].transform.localPosition = new Vector3(x, 0, (trOffset == null ? (v3Size.z + fOffsetZ) : v3Size.z / 2.0f)) + v3Offset;
 
-            listGoCards[i].SetActive(true);
-            if (listGoCards[i].GetComponent<Opener>() != null)
-            {
-                listGoCards[i].GetComponent<Opener>().animationState = AnimationState.transition;
-            }
-            listGoCards[i].GetComponent<Animator>().SetBool("bIsOpen", true);
+            listChilds[i].gameObject.SetActive(true);
+
+
+            listChilds[i].GetComponent<Animator>().SetBool("bIsOpen", true);
         }
-        bIsOpen = true;
+
         for (int i = 0; !bAlwaysAllowed && listOpenerSiblings != null && i < listOpenerSiblings.Count; i++)
         {
             listOpenerSiblings[i].bAllowed = false;
         }
+
+        state = eState.going;
     }
 
     void Close()
     {
-        for (int i = 0; i < listGoCards.Count; i++)
+        Fold();
+        for (int i = 0; i < listChilds.Count; i++)
         {
-            listGoCards[i].GetComponent<Animator>().SetBool("bIsOpen", false);
+            //listChilds[i].GetComponent<Animator>().SetBool("bIsOpen", false);
             //listGoCards[i].transform.localPosition = Vector3.zero;
-            //listGoCards[i].SetActive(false);
+            listChilds[i].GetComponent<MeshCollider>().enabled = false;
         }
-        bIsOpen = false;
         for (int i = 0; /*!bAlwaysAllowed &&*/ listOpenerSiblings != null && i < listOpenerSiblings.Count; i++)
         {
             listOpenerSiblings[i].bAllowed = true;
         }
     }
 
+    void Unfold()
+    {
+        for (int i = 0; i < listChilds.Count; i++)
+        {
+            listChilds[i].Toogle();
+        }
+    }
+
+    void Fold()
+    {
+        for (int i = 0; i < listChilds.Count; i++)
+        {
+            listChilds[i].Toogle();
+        }
+    }
+
     public void UpdateState()
     {
-        if(animationState != AnimationState.idle)
-        {
 
+        switch (state)
+        {
+            case eState.closed:
+                break;
+            case eState.going:
+                if (listChilds[0].GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Idle_02"))
+                {
+                    Unfold();
+                    state = eState.unfolding;
+                }
+                break;
+            case eState.unfolding:
+                break;
+            case eState.open:
+                break;
+            case eState.folding:
+                break;
+            case eState.coming:
+                break;
+            default:
+                break;
         }
     }
 }
