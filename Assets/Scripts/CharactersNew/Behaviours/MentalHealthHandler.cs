@@ -120,17 +120,20 @@ namespace Behaviour
                 {
                     ShortcutMentalHealthUI.transform.GetChild(0).gameObject.GetComponent<Image>().color = red;
                     selectedMentalHealthUI.transform.GetChild(0).gameObject.GetComponent<Image>().color = red;
+                    selectedMentalHealthUI.transform.GetChild(1).gameObject.GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteMentalDown;
                 }
                 else if (mentalHealth < (2*Data.MaxMentalHealth / 3.0f))
                 {
                     ShortcutMentalHealthUI.transform.GetChild(0).gameObject.GetComponent<Image>().color = yellow;
                     selectedMentalHealthUI.transform.GetChild(0).gameObject.GetComponent<Image>().color = yellow;
+                    selectedMentalHealthUI.transform.GetChild(1).gameObject.GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteMentalNormal;
                 }
 
                 else
                 {
                     ShortcutMentalHealthUI.transform.GetChild(0).gameObject.GetComponent<Image>().color = green;
                     selectedMentalHealthUI.transform.GetChild(0).gameObject.GetComponent<Image>().color = green;
+                    selectedMentalHealthUI.transform.GetChild(1).gameObject.GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteMentalUp;
                 }
                 selectedMentalHealthUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)mentalHealth / (float)data.MaxMentalHealth;
                 ShortcutMentalHealthUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)mentalHealth / (float)data.MaxMentalHealth;
