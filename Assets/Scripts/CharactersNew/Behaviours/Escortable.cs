@@ -174,8 +174,11 @@ namespace Behaviour
 
         private void ActivateUnescortAction()
         {
-            instance.Interactions.Add(new Interaction(UnEscort), 0, "Unescort", GameManager.Instance.SpriteUtils.spriteUnescort, false);
-            instance.Interactions.Remove("Escort");
+            if (instance.Interactions.Get("Unescort") == null)
+            {
+                instance.Interactions.Add(new Interaction(UnEscort), 0, "Unescort", GameManager.Instance.SpriteUtils.spriteUnescort, false);
+                instance.Interactions.Remove("Escort");
+            }
         }
 
 
