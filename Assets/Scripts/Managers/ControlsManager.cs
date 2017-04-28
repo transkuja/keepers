@@ -165,6 +165,7 @@ public class ControlsManager : MonoBehaviour
                         }
                         else if (hitInfo.collider.gameObject.GetComponent<TilePassage>() != null)
                         {
+                            ui.ClearActionPanel();
                             TilePassage tp = hitInfo.collider.gameObject.GetComponent<TilePassage>();
                             if(GameManager.Instance.ListOfSelectedKeepers.Count > 0)
                             {
