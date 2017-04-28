@@ -48,6 +48,18 @@
 				"use": "DecreaseHunger",
 				"value": 5
 			}
+		},
+		{
+			"type": "Ressource",
+			"item" : { 
+				"id": "thecookie",
+				"itemName": "Cookie",
+				"description": "Prevents starving",
+				"inventorySprite": "Items_3",
+				"ingameVisual": "",
+				"use": "DecreaseHunger",
+				"value": 50
+			}
 		}
 	]
 }

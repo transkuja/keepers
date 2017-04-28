@@ -49,6 +49,35 @@ public class SeqFirstMove : Sequence {
     //        alreadyPlayed = true;
     //    }
     //}
+    public class ExploreActionPointsExplanation : Step
+    {
+        string str;
+        public ExploreActionPointsExplanation(string _str)
+        {
+            stepFunction = Message_fct;
+            str = _str;
+        }
+
+        public void Message_fct()
+        {
+            if (GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().transform.GetChild(0).gameObject.GetComponent<ThrowDiceButtonFeedback>() == null)
+                GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().transform.GetChild(0).gameObject.AddComponent<ThrowDiceButtonFeedback>();
+
+            GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().interactable = false;
+
+            TutoManager.s_instance.EcrireMessage(str);
+            TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.Idle;
+        }
+
+        public override void Reverse()
+        {
+            if (GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().transform.GetChild(0).gameObject.GetComponent<ThrowDiceButtonFeedback>() != null)
+                Destroy(GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().transform.GetChild(0).gameObject.GetComponent<ThrowDiceButtonFeedback>());
+
+            GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().interactable = true;
+            alreadyPlayed = false;
+        }
+    }
 
     public class ExploreStep : Step
     {
@@ -163,6 +192,7 @@ public class SeqFirstMove : Sequence {
     public class ActionPointsExplanationStep : Step
     {
         string str;
+        GameObject feedbackPointer;
         public ActionPointsExplanationStep(string _str)
         {
             stepFunction = Message_fct;
@@ -173,6 +203,16 @@ public class SeqFirstMove : Sequence {
         {
             // Feedback sur les points d'action
             // show text
+            GameObject actionPoints = ((SeqFirstMove)TutoManager.s_instance.PlayingSequence).selectedKeepersPanel.transform.GetChild(0).GetChild(0).GetChild((int)PanelSelectedKeeperStatChildren.ActionPoints).gameObject;
+
+            if (feedbackPointer == null)
+            {
+                feedbackPointer = Instantiate(TutoManager.s_instance.uiPointer, GameManager.Instance.Ui.transform.GetChild(0));
+                feedbackPointer.GetComponent<FlecheQuiBouge>().PointToPoint = actionPoints.transform.GetChild(2).position;
+                feedbackPointer.GetComponent<FlecheQuiBouge>().distanceOffset = 30.0f;
+
+                feedbackPointer.transform.localEulerAngles = new Vector3(0, 0, -80);
+            }
 
             TutoManager.s_instance.EcrireMessage(str);
             TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.Idle;
@@ -181,8 +221,7 @@ public class SeqFirstMove : Sequence {
         public override void Reverse()
         {
             // Desactive le feedback sur les points d'action
-
-            //TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.WaitingForClickUI;
+            Destroy(feedbackPointer);
             alreadyPlayed = false;
         }
     }
@@ -224,6 +263,74 @@ public class SeqFirstMove : Sequence {
         public override void Reverse()
         {
             Destroy(((SeqFirstMove)TutoManager.s_instance.PlayingSequence).endTurnBtn.GetComponentInChildren<Button>().gameObject.GetComponent<MouseClickExpected>());
+            Destroy(feedback);
+            alreadyPlayed = false;
+        }
+    }
+
+    public class AddHungerStep : Step
+    {
+        string str;
+        GameObject feedback;
+        public AddHungerStep(string _str)
+        {
+            stepFunction = Message_fct;
+            str = _str;
+        }
+
+        public void Message_fct()
+        {
+            GameObject hungerPanel = ((SeqFirstMove)TutoManager.s_instance.PlayingSequence).selectedKeepersPanel.transform.GetChild(0).GetChild(0).GetChild((int)PanelSelectedKeeperStatChildren.Hunger).gameObject;
+            hungerPanel.SetActive(true);
+
+            if (feedback == null)
+            {
+                feedback = Instantiate(TutoManager.s_instance.uiPointer, GameManager.Instance.Ui.transform.GetChild(0)); // Fix: reference to end turn button may need to be stocked somewhere
+                feedback.GetComponent<FlecheQuiBouge>().PointToPoint = hungerPanel.transform.position;
+                feedback.GetComponent<FlecheQuiBouge>().distanceOffset = 150.0f;
+
+                feedback.transform.localEulerAngles = new Vector3(0, 0, -45);
+            }
+
+            TutoManager.s_instance.EcrireMessage(str);
+            TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.Idle;
+        }
+
+        public override void Reverse()
+        {
+            Destroy(feedback);
+            alreadyPlayed = false;
+        }
+    }
+
+    public class UseAnObjectStep : Step
+    {
+        string str;
+        GameObject feedback;
+        public UseAnObjectStep(string _str)
+        {
+            stepFunction = Message_fct;
+            str = _str;
+        }
+
+        public void Message_fct()
+        {
+            // Add a cookie in inventory with highlight sprite
+            // show inventory
+            // highlight the cookie
+            // Insantiate ItemUI, sprite cookie, 
+            ItemContainer cookie = new ItemContainer(GameManager.Instance.ItemDataBase.getItemById("thecookie"), 1);
+            // Build the cookie item
+            InventoryManager.AddItemToInventory(GameManager.Instance.AllKeepersList[0].GetComponent<Inventory>().Items, cookie);
+            GameManager.Instance.AllKeepersList[0].GetComponent<Inventory>().UpdateInventories();
+            GameManager.Instance.AllKeepersList[0].GetComponent<Inventory>().SelectedInventoryPanel.gameObject.SetActive(true); // Inventory
+
+            TutoManager.s_instance.EcrireMessage(str);
+            TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.Idle;
+        }
+
+        public override void Reverse()
+        {
             Destroy(feedback);
             alreadyPlayed = false;
         }
@@ -346,15 +453,18 @@ public class SeqFirstMove : Sequence {
         Etapes.Add(new SelectCharacterStep("First select the girl by clicking on her."));
         Etapes.Add(new MovePawnOnTileStep("To interact with the world, you have to use the right click. Try to move the girl."));
         Etapes.Add(new TutoManager.Message(pawnMrResetti, "You can also interact with everything glowing in the world, like this bridge over here.")); // => click expected on bridge
-        Etapes.Add(new TutoManager.Message(pawnMrResetti, "Good,")); // => click expected on bridge
+        Etapes.Add(new ExploreActionPointsExplanation("Good, you can see the cost of the action here."));
         Etapes.Add(new ExploreStep("Now click on the Explore button to explore the next area. And get a cookie."));
 
         Etapes.Add(new TutoManager.Message(pawnMrResetti, "Well done you genius, here's your cookie!"));
         Etapes.Add(new ActionPointsExplanationStep("This action cost you 3 action points. Always keep an eye on them.")); // ==> feedback sur les points d'action
         Etapes.Add(new FirstEndTurnStep("You can restore your action points by clicking on the end turn button."));
 
-        Etapes.Add(new TutoManager.Message(pawnMrResetti, "End your turn starves your characters, so be careful!")); // Activate hunger panel + feedback
-        Etapes.Add(new TutoManager.Message(pawnMrResetti, "You should be able to finish this level now. Good luck!"));
+        Etapes.Add(new AddHungerStep("Ending your turn starves your characters, so be careful!")); // Activate hunger panel + feedback pointer
+        Etapes.Add(new TutoManager.Message(pawnMrResetti, "Remember the cookie?"));
+        Etapes.Add(new UseAnObjectStep("Eat it by double clicking on it to restore your selected character's hunger.")); // Activate inventory and add a cookie in to be used
+
+        Etapes.Add(new TutoManager.Message(pawnMrResetti, "Great! You should be able to finish this level now. Good luck!"));
     }
 
     public override void End()

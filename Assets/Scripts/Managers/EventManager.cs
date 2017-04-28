@@ -55,7 +55,7 @@ public class EventManager : MonoBehaviour {
                 //ki.AddFeedBackToQueue(GameManager.Instance.SpriteUtils.spriteHunger, -10);
         }
 
-        if (GameManager.Instance.PrisonerInstance.GetComponent<Mortal>().IsAlive)
+        if (GameManager.Instance.PrisonerInstance.GetComponent<Mortal>().IsAlive && GameManager.Instance.PrisonerInstance.GetComponent<HungerHandler>() != null)
             GameManager.Instance.PrisonerInstance.GetComponent<HungerHandler>().CurrentHunger -= 10;
     }
 
@@ -76,7 +76,7 @@ public class EventManager : MonoBehaviour {
                 ki.GetComponent<Mortal>().CurrentHp -= 20;
         }
 
-        if (GameManager.Instance.PrisonerInstance.GetComponent<Mortal>().IsAlive && GameManager.Instance.PrisonerInstance.GetComponent<HungerHandler>().IsStarving)
+        if (GameManager.Instance.PrisonerInstance.GetComponent<Mortal>().IsAlive && GameManager.Instance.PrisonerInstance.GetComponent<HungerHandler>() != null && GameManager.Instance.PrisonerInstance.GetComponent<HungerHandler>().IsStarving)
             GameManager.Instance.PrisonerInstance.GetComponent<Mortal>().CurrentHp -= 20;
     }
 

@@ -70,6 +70,8 @@ public class TutoManager : MonoBehaviour {
         GameManager.Instance.AllKeepersList[0].GetComponent<Keeper>().GoListCharacterFollowing.Add(GameManager.Instance.PrisonerInstance.gameObject);
         // No mental health for first sequence
         Destroy(GameManager.Instance.AllKeepersList[0].GetComponent<MentalHealthHandler>());
+        // No hunger for Ashley on first sequence
+        Destroy(GameManager.Instance.PrisonerInstance.GetComponent<HungerHandler>());
 
         // Deactivate feedback above head at start, reactivate at the end turn button step
         GameManager.Instance.AllKeepersList[0].transform.GetChild(2).GetChild(0).gameObject.SetActive(false);
