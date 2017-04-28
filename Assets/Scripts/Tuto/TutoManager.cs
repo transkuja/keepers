@@ -33,8 +33,6 @@ public class TutoManager : MonoBehaviour {
     private static bool mouseClicked;
     public GameObject tutoPanel;
     public GameObject uiPointer;
-    public GameObject mouseClickIngameCollider;
-
 
     private GameObject tutoPanelInstance;
 

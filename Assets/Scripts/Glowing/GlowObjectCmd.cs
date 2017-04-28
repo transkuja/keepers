@@ -29,7 +29,7 @@ public class GlowObjectCmd : MonoBehaviour
 
 	private void OnMouseEnter()
 	{
-        if (GetComponent<DieFeedback>() == null)
+        if (GetComponent<DieFeedback>() == null && GetComponent<RightMouseClickExpected>() == null)
         {
             _targetColor = GlowColor;
             enabled = true;
@@ -38,7 +38,7 @@ public class GlowObjectCmd : MonoBehaviour
 
 	private void OnMouseExit()
 	{
-        if (GetComponent<DieFeedback>() == null)
+        if (GetComponent<DieFeedback>() == null && GetComponent<RightMouseClickExpected>() == null)
         {
             _targetColor = Color.black;
             enabled = true;

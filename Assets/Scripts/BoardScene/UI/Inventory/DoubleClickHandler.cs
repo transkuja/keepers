@@ -11,6 +11,10 @@ public class DoubleClickHandler : MonoBehaviour, IPointerClickHandler
     public void Start()
     {
         ii = GetComponent<ItemInstance>();
+        if (GameManager.Instance.CurrentState == GameState.InTuto)
+        {
+            TutoManager.MouseClicked = false;
+        }
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -69,6 +73,10 @@ public class DoubleClickHandler : MonoBehaviour, IPointerClickHandler
             if (ii.ItemContainer.Quantity <= 0)
             {
                 InventoryManager.RemoveItem(owner.GetComponent<Behaviour.Inventory>().Items, ii.ItemContainer);
+                if (GameManager.Instance.CurrentState == GameState.InTuto)
+                {
+                    TutoManager.MouseClicked = true;
+                }
             }
 
             owner.GetComponent<Behaviour.Inventory>().UpdateInventories();

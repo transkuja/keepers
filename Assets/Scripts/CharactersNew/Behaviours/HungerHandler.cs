@@ -140,6 +140,7 @@ namespace Behaviour
             get { return currentHunger; }
             set
             {
+                instance.AddFeedBackToQueue(GameManager.Instance.SpriteUtils.spriteHunger, value - currentHunger);
                 currentHunger = value;
                 if (currentHunger < 0)
                 {
@@ -155,7 +156,6 @@ namespace Behaviour
                 {
                     IsStarving = false;
                 }
-                instance.AddFeedBackToQueue(GameManager.Instance.SpriteUtils.spriteHunger, -10);
                 UpdateHungerPanel(currentHunger);
             }
         }

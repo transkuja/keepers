@@ -58,7 +58,7 @@
 				"inventorySprite": "Items_3",
 				"ingameVisual": "",
 				"use": "DecreaseHunger",
-				"value": 50
+				"value": 9999
 			}
 		}
 	]

@@ -73,7 +73,31 @@ public class SeqFirstMove : Sequence {
         {
             if (GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().transform.GetChild(0).gameObject.GetComponent<ThrowDiceButtonFeedback>() != null)
                 Destroy(GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().transform.GetChild(0).gameObject.GetComponent<ThrowDiceButtonFeedback>());
+            GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().interactable = true;
 
+            alreadyPlayed = false;
+        }
+    }
+
+    public class RightClickOnBridgeValidated : Step
+    {
+        string str;
+        public RightClickOnBridgeValidated(string _str)
+        {
+            stepFunction = Message_fct;
+            str = _str;
+        }
+
+        public void Message_fct()
+        {
+            GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().interactable = false;
+
+            TutoManager.s_instance.EcrireMessage(str);
+            TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.Idle;
+        }
+
+        public override void Reverse()
+        {
             GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().interactable = true;
             alreadyPlayed = false;
         }
@@ -106,7 +130,6 @@ public class SeqFirstMove : Sequence {
             if (GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().gameObject.GetComponent<MouseClickExpected>() != null)
                 Destroy(GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().gameObject.GetComponent<MouseClickExpected>());
 
-            //TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.WaitingForClickUI;
             alreadyPlayed = false;
         }
     }
@@ -151,6 +174,7 @@ public class SeqFirstMove : Sequence {
             // show text
             if (GameManager.Instance.AllKeepersList[0].CurrentTile.gameObject.GetComponent<RightMouseClickExpected>() == null)
                 GameManager.Instance.AllKeepersList[0].CurrentTile.gameObject.AddComponent<RightMouseClickExpected>();
+            GameManager.Instance.AllKeepersList[0].CurrentTile.gameObject.GetComponent<RightMouseClickExpected>().TargetExpected = "Tile";
 
             TutoManager.s_instance.EcrireMessage(str);
             TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.WaitingForClickInGame;
@@ -175,8 +199,17 @@ public class SeqFirstMove : Sequence {
         public void Message_fct()
         {
             // show text
-            if (GameManager.Instance.AllKeepersList[0].CurrentTile.gameObject.GetComponent<RightMouseClickExpected>() == null)
-                GameManager.Instance.AllKeepersList[0].CurrentTile.gameObject.AddComponent<RightMouseClickExpected>();
+            GameObject portal = GameManager.Instance.AllKeepersList[0].CurrentTile.transform.GetChild(0).GetChild(1).GetChild(0).gameObject;
+            if (portal.GetComponent<RightMouseClickExpected>() == null)
+                portal.AddComponent<RightMouseClickExpected>();
+            portal.GetComponent<RightMouseClickExpected>().TargetExpected = "Portal";
+
+            if (portal.GetComponent<GlowObjectCmd>() == null)
+                portal.AddComponent<GlowObjectCmd>();
+            portal.AddComponent<Rigidbody>();
+            portal.GetComponent<Rigidbody>().useGravity = false;
+            portal.transform.parent.gameObject.SetActive(true);
+            portal.GetComponent<GlowObjectCmd>().UpdateColor(true);
 
             TutoManager.s_instance.EcrireMessage(str);
             TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.WaitingForClickInGame;
@@ -184,7 +217,13 @@ public class SeqFirstMove : Sequence {
 
         public override void Reverse()
         {
-            Destroy(GameManager.Instance.AllKeepersList[0].CurrentTile.gameObject.GetComponent<RightMouseClickExpected>());
+            GameObject portal = GameManager.Instance.AllKeepersList[0].CurrentTile.transform.GetChild(0).GetChild(1).GetChild(0).gameObject;
+            portal.GetComponent<GlowObjectCmd>().UpdateColor(false);
+            if (portal.GetComponent<RightMouseClickExpected>() != null)
+                Destroy(portal.GetComponent<RightMouseClickExpected>());
+            if (portal.GetComponent<GlowObjectCmd>() != null)
+                Destroy(portal.GetComponent<GlowObjectCmd>());
+
             alreadyPlayed = false;
         }
     }
@@ -306,7 +345,6 @@ public class SeqFirstMove : Sequence {
     public class UseAnObjectStep : Step
     {
         string str;
-        GameObject feedback;
         public UseAnObjectStep(string _str)
         {
             stepFunction = Message_fct;
@@ -320,18 +358,16 @@ public class SeqFirstMove : Sequence {
             // highlight the cookie
             // Insantiate ItemUI, sprite cookie, 
             ItemContainer cookie = new ItemContainer(GameManager.Instance.ItemDataBase.getItemById("thecookie"), 1);
-            // Build the cookie item
             InventoryManager.AddItemToInventory(GameManager.Instance.AllKeepersList[0].GetComponent<Inventory>().Items, cookie);
             GameManager.Instance.AllKeepersList[0].GetComponent<Inventory>().UpdateInventories();
             GameManager.Instance.AllKeepersList[0].GetComponent<Inventory>().SelectedInventoryPanel.gameObject.SetActive(true); // Inventory
 
             TutoManager.s_instance.EcrireMessage(str);
-            TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.Idle;
+            TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.WaitingForClickUI;
         }
 
         public override void Reverse()
         {
-            Destroy(feedback);
             alreadyPlayed = false;
         }
     }
@@ -452,8 +488,9 @@ public class SeqFirstMove : Sequence {
         Etapes.Add(new TutoManager.Message(pawnMrResetti, "Hi, I'm here to teach you how to play"));
         Etapes.Add(new SelectCharacterStep("First select the girl by clicking on her."));
         Etapes.Add(new MovePawnOnTileStep("To interact with the world, you have to use the right click. Try to move the girl."));
-        Etapes.Add(new TutoManager.Message(pawnMrResetti, "You can also interact with everything glowing in the world, like this bridge over here.")); // => click expected on bridge
-        Etapes.Add(new ExploreActionPointsExplanation("Good, you can see the cost of the action here."));
+        Etapes.Add(new MovePawnToAnotherTileExplanation("You can also interact with everything glowing in the world. Try a right click on this portal.")); // => click expected on bridge
+        Etapes.Add(new RightClickOnBridgeValidated("Good,"));
+        Etapes.Add(new ExploreActionPointsExplanation("you can see the cost of the action here."));
         Etapes.Add(new ExploreStep("Now click on the Explore button to explore the next area. And get a cookie."));
 
         Etapes.Add(new TutoManager.Message(pawnMrResetti, "Well done you genius, here's your cookie!"));
