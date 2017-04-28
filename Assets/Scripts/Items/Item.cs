@@ -291,14 +291,12 @@ public class Ressource : Item
     private bool UpMentalHealth(int _value, PawnInstance owner)
     {
         owner.GetComponent<Behaviour.MentalHealthHandler>().CurrentMentalHealth += (short)_value;
-        owner.AddFeedBackToQueue(GameManager.Instance.SpriteUtils.spriteMoralBuff, _value);
         return true;
     }
 
     private bool DecreaseHunger(int _value, PawnInstance owner)
     {
         owner.GetComponent<Behaviour.HungerHandler>().CurrentHunger += (short)_value;
-        owner.AddFeedBackToQueue(GameManager.Instance.SpriteUtils.spriteHunger, _value);
         return true;
     }
 
