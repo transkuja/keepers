@@ -22,6 +22,7 @@ namespace Behaviour
 
         // @ Seb: j'ai mis ça là mais à mon avis il va falloir faire qq chose pour récupérer le panel, vois avec Rémi
         public GameObject prisonerFeedingPanel;
+        private GameObject myIconForShortcut;
 
         void Awake()
         {
@@ -33,6 +34,10 @@ namespace Behaviour
             if (GetComponent<HungerHandler>() != null && GetComponent<MentalHealthHandler>() != null)
                 instance.Interactions.Add(new Interaction(InitFeeding), 1, "Feed", GameManager.Instance.SpriteUtils.spriteHarvest);
             instance.Interactions.Add(new Interaction(Escort), 0, "Escort", GameManager.Instance.SpriteUtils.spriteEscort);
+
+            myIconForShortcut = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabImageUI);
+            myIconForShortcut.GetComponent<RectTransform>().sizeDelta = new Vector3(50.0f, 50.0f, 0.0f);
+            myIconForShortcut.GetComponent<Image>().sprite = GetComponent<PawnInstance>().Data.AssociatedSpriteForShortcut;
         }
 
         void OnDestroy()
@@ -48,6 +53,11 @@ namespace Behaviour
 
             escort = GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Keeper>();
             escort.GetComponent<Keeper>().GoListCharacterFollowing.Add(gameObject);
+            myIconForShortcut.gameObject.SetActive(true);
+
+            myIconForShortcut.transform.SetParent(escort.ShorcutUI.transform, false);
+            myIconForShortcut.transform.localPosition = new Vector3(-50.0f, -70.0f, 0.0f);
+            myIconForShortcut.transform.localScale = Vector3.one;
             IsEscorted = true;
 
             GetComponent<NavMeshAgent>().stoppingDistance = 0.75f;
@@ -57,6 +67,7 @@ namespace Behaviour
         public void UnEscort(int _i = 0)
         {
             escort.GoListCharacterFollowing.Remove(gameObject);
+            myIconForShortcut.gameObject.SetActive(false);
             escort = null;
             IsEscorted = false;
             GetComponent<NavMeshAgent>().avoidancePriority = 50;
