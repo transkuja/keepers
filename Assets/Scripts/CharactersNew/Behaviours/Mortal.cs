@@ -41,6 +41,10 @@ namespace Behaviour
         int currentHp;
         bool isAlive;
 
+        private Color green;
+        private Color red;
+        private Color yellow;
+
         [SerializeField]
         private ParticleSystem deathParticles;
 
@@ -50,7 +54,11 @@ namespace Behaviour
 
         void Awake()
         {
+
             instance = GetComponent<PawnInstance>();
+            green = new Color32(0x00, 0xFF, 0x6B, 0x92);
+            red = new Color32(0xFF, 0x00, 0x00, 0x92);
+            yellow = new Color32(0xD1, 0xFF, 0x00, 0x92);
         }
 
         void Start()
@@ -73,16 +81,19 @@ namespace Behaviour
                 if (keeper != null)
                 {
                     TileManager.Instance.RemoveKilledKeeper(pawnInstance);
-
+                    GameManager.Instance.ClearListKeeperSelected();
+                    keeper.IsSelected = false;
                     // Drop items
-                    ItemManager.AddItemOnTheGround(pawnInstance.CurrentTile, transform, GetComponent<Inventory>().Items);
+                    if (GetComponent<Inventory>().Items.Length > 0)
+                    {
+                        ItemManager.AddItemOnTheGround(pawnInstance.CurrentTile, transform, GetComponent<Inventory>().Items);
+                    }
                 }
                 else
                     TileManager.Instance.RemoveDefeatedMonster(pawnInstance);
 
                 // Death operations
                 // TODO @Rémi, il me faut de quoi mettre a jour le shortcut panel pour afficher l'icone de mort
-                //GameManager.Instance.ShortcutPanel_NeedUpdate = true;
 
                 GlowController.UnregisterObject(GetComponent<GlowObjectCmd>());
                 GetComponent<AnimatedPawn>().Anim.SetTrigger("triggerDeath");
@@ -149,9 +160,9 @@ namespace Behaviour
 
                 CreateSelectedHPPanel();
                 SelectedHPUI.name = "Mortal";
-                SelectedHPUI.transform.SetParent(instance.GetComponent<Keeper>().SelectedStatPanelUI.transform);
+                SelectedHPUI.transform.SetParent(instance.GetComponent<Keeper>().SelectedStatPanelUI.transform, false);
                 SelectedHPUI.transform.localScale = Vector3.one;
-                SelectedHPUI.transform.localPosition = new Vector3(200, 200, 0);
+                //SelectedHPUI.transform.localPosition = Vector3.zero;
 
                 ShortcutHPUI.transform.SetParent(instance.GetComponent<Keeper>().ShorcutUI.transform);
                 ShortcutHPUI.transform.localScale = Vector3.one;
@@ -174,11 +185,46 @@ namespace Behaviour
         public void UpdateHPPanel(int currentHp)
         {
             if (instance.GetComponent<Escortable>() != null)
-            {
+            {     
+                if (currentHp <= 0)
+                {
+                    GetComponent<Escortable>().ShorcutUI.transform.GetChild((int)PanelShortcutChildren.Image).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteDeath;
+                    GetComponent<HungerHandler>().ShortcutHungerUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = 0;
+                    GetComponent<Escortable>().ShorcutUI.GetComponent<Button>().interactable = false;
+                }
+                else if (currentHp < (Data.MaxHp / 3.0f))
+                    ShortcutHPUI.transform.GetChild(0).gameObject.GetComponent<Image>().color = red;
+                else if (currentHp < (2 * Data.MaxHp / 3.0f))
+                    ShortcutHPUI.transform.GetChild(0).gameObject.GetComponent<Image>().color = yellow;
+                else
+                    ShortcutHPUI.transform.GetChild(0).gameObject.GetComponent<Image>().color = green;
                 ShortcutHPUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)currentHp / (float)Data.MaxHp;
             }
             else if (instance.GetComponent<Keeper>() != null)
             {
+                if (currentHp <= 0)
+                {
+                    GetComponent<Keeper>().ShorcutUI.transform.GetChild((int)PanelShortcutChildren.Image).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteDeath;
+                    GetComponent<Keeper>().UpdateActionPoint(0);
+                    GetComponent<MentalHealthHandler>().ShortcutMentalHealthUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = 0;
+                    GetComponent<HungerHandler>().ShortcutHungerUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = 0;
+                    GetComponent<Keeper>().ShorcutUI.GetComponent<Button>().interactable = false;
+                }
+                else if (currentHp < (Data.MaxHp / 3.0f))
+                {
+                    ShortcutHPUI.transform.GetChild(0).gameObject.GetComponent<Image>().color = red;
+                    SelectedHPUI.transform.GetChild(0).gameObject.GetComponent<Image>().color = red;
+                }
+                else if (currentHp < (2 * Data.MaxHp / 3.0f))
+                {
+                    ShortcutHPUI.transform.GetChild(0).gameObject.GetComponent<Image>().color = yellow;
+                    SelectedHPUI.transform.GetChild(0).gameObject.GetComponent<Image>().color = yellow;
+                }
+                else
+                {
+                    ShortcutHPUI.transform.GetChild(0).gameObject.GetComponent<Image>().color = green;
+                    SelectedHPUI.transform.GetChild(0).gameObject.GetComponent<Image>().color = green;
+                }
                 SelectedHPUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)currentHp / (float)Data.MaxHp;
                 ShortcutHPUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)currentHp / (float)Data.MaxHp;
             }
@@ -216,8 +262,8 @@ namespace Behaviour
                 else
                 {
                     IsAlive = true;
-                    UpdateHPPanel(currentHp);
                 }
+                UpdateHPPanel(currentHp);
                 if (GameManager.Instance.CurrentState == GameState.InBattle)
                 {
                     if (GetComponent<Keeper>() != null || GetComponent<Escortable>())

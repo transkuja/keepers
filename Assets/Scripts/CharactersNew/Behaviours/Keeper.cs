@@ -99,7 +99,7 @@ namespace Behaviour
         void Awake()
         {
             instance = GetComponent<PawnInstance>();
-            equipements = new ItemContainer[3];
+            equipements = new ItemContainer[1];
         }
 
         void Start()
@@ -295,22 +295,22 @@ namespace Behaviour
                     ShorcutUI.transform.GetChild(1).GetChild(2).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteTokenAction;
                     break;
                 case 2:
-                    SelectedActionPointsUI.transform.GetChild(0).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteNoAction;
-                    SelectedActionPointsUI.transform.GetChild(1).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteTokenAction;
-                    SelectedActionPointsUI.transform.GetChild(2).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteTokenAction;
-
-                    ShorcutUI.transform.GetChild(1).GetChild(0).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteNoAction;
-                    ShorcutUI.transform.GetChild(1).GetChild(1).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteTokenAction;
-                    ShorcutUI.transform.GetChild(1).GetChild(2).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteTokenAction;
-                    break;
-                case 1:
-                    SelectedActionPointsUI.transform.GetChild(0).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteNoAction;
+                    SelectedActionPointsUI.transform.GetChild(0).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteTokenAction;
                     SelectedActionPointsUI.transform.GetChild(1).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteNoAction;
                     SelectedActionPointsUI.transform.GetChild(2).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteTokenAction;
 
+                    ShorcutUI.transform.GetChild(1).GetChild(0).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteTokenAction;
+                    ShorcutUI.transform.GetChild(1).GetChild(1).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteTokenAction;
+                    ShorcutUI.transform.GetChild(1).GetChild(2).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteNoAction;
+                    break;
+                case 1:
+                    SelectedActionPointsUI.transform.GetChild(0).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteTokenAction;
+                    SelectedActionPointsUI.transform.GetChild(1).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteNoAction;
+                    SelectedActionPointsUI.transform.GetChild(2).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteNoAction;
+
                     ShorcutUI.transform.GetChild(1).GetChild(0).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteNoAction;
-                    ShorcutUI.transform.GetChild(1).GetChild(1).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteNoAction;
-                    ShorcutUI.transform.GetChild(1).GetChild(2).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteTokenAction;
+                    ShorcutUI.transform.GetChild(1).GetChild(1).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteTokenAction;
+                    ShorcutUI.transform.GetChild(1).GetChild(2).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteNoAction;
                     break;
                 case 0:
                     SelectedActionPointsUI.transform.GetChild(0).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteNoAction;
@@ -320,6 +320,16 @@ namespace Behaviour
                     ShorcutUI.transform.GetChild(1).GetChild(0).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteNoAction;
                     ShorcutUI.transform.GetChild(1).GetChild(1).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteNoAction;
                     ShorcutUI.transform.GetChild(1).GetChild(2).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteNoAction;
+                    break;
+                default:
+                    // Unlimited
+                    SelectedActionPointsUI.transform.GetChild(0).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteTokenAction;
+                    SelectedActionPointsUI.transform.GetChild(1).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteTokenAction;
+                    SelectedActionPointsUI.transform.GetChild(2).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteTokenAction;
+
+                    ShorcutUI.transform.GetChild(1).GetChild(0).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteTokenAction;
+                    ShorcutUI.transform.GetChild(1).GetChild(1).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteTokenAction;
+                    ShorcutUI.transform.GetChild(1).GetChild(2).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteTokenAction;
                     break;
             }
         }

@@ -44,9 +44,17 @@ namespace Behaviour
         private GameObject selectedHungerUI;
         private GameObject shortcutHungerUI;
 
+
+        private Color green;
+        private Color yellow;
+        private Color red;
+
         void Awake()
         {
             instance = GetComponent<PawnInstance>();
+            green = new Color32(0x00, 0xFF, 0x6B, 0x92);
+            red = new Color32(0xFF, 0x00, 0x00, 0x92);
+            yellow = new Color32(0xD1, 0xFF, 0x00, 0x92);
         }
 
         void Start()
@@ -71,9 +79,9 @@ namespace Behaviour
             {
                 CreateSelectedHungerPanel();
                 SelectedHungerUI.name = "Hunger";
-                SelectedHungerUI.transform.SetParent(instance.GetComponent<Keeper>().SelectedStatPanelUI.transform);
+                SelectedHungerUI.transform.SetParent(instance.GetComponent<Keeper>().SelectedStatPanelUI.transform, false);
                 SelectedHungerUI.transform.localScale = Vector3.one;
-                SelectedHungerUI.transform.localPosition = new Vector3(100, 125, 0);
+
 
                 ShortcutHungerUI.transform.SetParent(instance.GetComponent<Keeper>().ShorcutUI.transform);
                 ShortcutHungerUI.transform.localScale = Vector3.one;
@@ -96,10 +104,31 @@ namespace Behaviour
         {
             if (instance.GetComponent<Escortable>() != null)
             {
+                if (hunger < (Data.MaxHunger / 3.0f))
+                    ShortcutHungerUI.transform.GetChild(0).gameObject.GetComponent<Image>().color = red;
+                else if (hunger < (2 * Data.MaxHunger / 3.0f))
+                    ShortcutHungerUI.transform.GetChild(0).gameObject.GetComponent<Image>().color = yellow;
+                else
+                    ShortcutHungerUI.transform.GetChild(0).gameObject.GetComponent<Image>().color = green;
                 ShortcutHungerUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)hunger / (float)data.MaxHunger;
             }
             else if (instance.GetComponent<Keeper>() != null)
             {
+                if (hunger < (Data.MaxHunger / 3.0f))
+                {
+                    ShortcutHungerUI.transform.GetChild(0).gameObject.GetComponent<Image>().color = red;
+                    SelectedHungerUI.transform.GetChild(0).gameObject.GetComponent<Image>().color = red;
+                }
+                else if (hunger < (2 * Data.MaxHunger / 3.0f))
+                {
+                    ShortcutHungerUI.transform.GetChild(0).gameObject.GetComponent<Image>().color = yellow;
+                    SelectedHungerUI.transform.GetChild(0).gameObject.GetComponent<Image>().color = yellow;
+                }
+                else
+                {
+                    ShortcutHungerUI.transform.GetChild(0).gameObject.GetComponent<Image>().color = green;
+                    SelectedHungerUI.transform.GetChild(0).gameObject.GetComponent<Image>().color = green;
+                }
                 SelectedHungerUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)hunger / (float)data.MaxHunger;
                 ShortcutHungerUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)hunger / (float)data.MaxHunger;
             }

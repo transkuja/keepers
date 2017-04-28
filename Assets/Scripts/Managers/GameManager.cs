@@ -987,7 +987,7 @@ public class GameManager : MonoBehaviour
     {
         foreach (NavMeshAgent agent in pausedAgents)
         {
-            if (agent != null)
+            if (agent != null && agent.isActiveAndEnabled)
                 agent.Resume();
         }
         pausedAgents.Clear();
