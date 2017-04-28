@@ -67,25 +67,15 @@ public class SeqFirstMove : Sequence {
                 GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().gameObject.AddComponent<MouseClickExpected>();
 
             TutoManager.s_instance.EcrireMessage(str);
-            TutoManager.s_instance.TutoPanelInstance.transform.GetChild(3).gameObject.SetActive(false);
-
-            if (TutoManager.s_instance.PlayingSequence.isPreviousStepReachable())
-            {
-                TutoManager.s_instance.TutoPanelInstance.transform.GetChild(2).gameObject.SetActive(true);
-                TutoManager.s_instance.TutoPanelInstance.transform.GetChild(2).GetComponent<Button>().onClick.RemoveAllListeners();
-                TutoManager.s_instance.TutoPanelInstance.transform.GetChild(2).GetComponent<Button>().onClick.AddListener(() => TutoManager.s_instance.PlayPreviousStep());
-            }
-            else
-            {
-                TutoManager.s_instance.TutoPanelInstance.transform.GetChild(2).gameObject.SetActive(false);
-            }
             TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.WaitingForClickUI;
         }
     
         public override void Reverse()
         {
-            Destroy(GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().gameObject.GetComponent<ThrowDiceButtonFeedback>());
-            Destroy(GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().gameObject.GetComponent<MouseClickExpected>());
+            if (GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().gameObject.GetComponent<ThrowDiceButtonFeedback>() != null)
+                Destroy(GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().gameObject.GetComponent<ThrowDiceButtonFeedback>());
+            if (GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().gameObject.GetComponent<MouseClickExpected>() != null)
+                Destroy(GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().gameObject.GetComponent<MouseClickExpected>());
 
             //TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.WaitingForClickUI;
             alreadyPlayed = false;
@@ -103,27 +93,69 @@ public class SeqFirstMove : Sequence {
 
         public void Message_fct()
         {
-            // Feedback sur les points d'action
             // show text
+            if (GameManager.Instance.AllKeepersList[0].gameObject.GetComponent<MouseClickedOnIngameElt>() == null)
+                GameManager.Instance.AllKeepersList[0].gameObject.AddComponent<MouseClickedOnIngameElt>();
 
             TutoManager.s_instance.EcrireMessage(str);
-            TutoManager.EnableNextButton();
-
-            if (TutoManager.s_instance.PlayingSequence.isPreviousStepReachable())
-            {
-                TutoManager.EnablePreviousButton();
-            }
-            else
-            {
-                TutoManager.EnablePreviousButton(false);
-            }
             TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.WaitingForClickInGame;
         }
 
         public override void Reverse()
         {
-            // Desactive le feedback sur les points d'action
+            Destroy(GameManager.Instance.AllKeepersList[0].gameObject.GetComponent<MouseClickedOnIngameElt>());
+            alreadyPlayed = false;
+        }
+    }
 
+    public class MovePawnOnTileStep : Step
+    {
+        string str;
+        public MovePawnOnTileStep(string _str)
+        {
+            stepFunction = Message_fct;
+            str = _str;
+        }
+
+        public void Message_fct()
+        {
+            // show text
+            if (GameManager.Instance.AllKeepersList[0].CurrentTile.gameObject.GetComponent<RightMouseClickExpected>() == null)
+                GameManager.Instance.AllKeepersList[0].CurrentTile.gameObject.AddComponent<RightMouseClickExpected>();
+
+            TutoManager.s_instance.EcrireMessage(str);
+            TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.WaitingForClickInGame;
+        }
+
+        public override void Reverse()
+        {
+            Destroy(GameManager.Instance.AllKeepersList[0].CurrentTile.gameObject.GetComponent<RightMouseClickExpected>());
+            alreadyPlayed = false;
+        }
+    }
+
+    public class MovePawnToAnotherTileExplanation : Step
+    {
+        string str;
+        public MovePawnToAnotherTileExplanation(string _str)
+        {
+            stepFunction = Message_fct;
+            str = _str;
+        }
+
+        public void Message_fct()
+        {
+            // show text
+            if (GameManager.Instance.AllKeepersList[0].CurrentTile.gameObject.GetComponent<RightMouseClickExpected>() == null)
+                GameManager.Instance.AllKeepersList[0].CurrentTile.gameObject.AddComponent<RightMouseClickExpected>();
+
+            TutoManager.s_instance.EcrireMessage(str);
+            TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.WaitingForClickInGame;
+        }
+
+        public override void Reverse()
+        {
+            Destroy(GameManager.Instance.AllKeepersList[0].CurrentTile.gameObject.GetComponent<RightMouseClickExpected>());
             alreadyPlayed = false;
         }
     }
@@ -143,16 +175,6 @@ public class SeqFirstMove : Sequence {
             // show text
 
             TutoManager.s_instance.EcrireMessage(str);
-            TutoManager.EnableNextButton();
-
-            if (TutoManager.s_instance.PlayingSequence.isPreviousStepReachable())
-            {
-                TutoManager.EnablePreviousButton();
-            }
-            else
-            {
-                TutoManager.EnablePreviousButton(false);
-            }
             TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.Idle;
         }
 
@@ -177,8 +199,6 @@ public class SeqFirstMove : Sequence {
 
         public void Message_fct()
         {
-            // Pointer sur le bouton de fin de tour
-            // show text
             GameObject endTurnButton = ((SeqFirstMove)TutoManager.s_instance.PlayingSequence).endTurnBtn;
             endTurnButton.SetActive(true);
             if (endTurnButton.GetComponentInChildren<Button>().gameObject.GetComponent<MouseClickExpected>() == null)
@@ -193,18 +213,11 @@ public class SeqFirstMove : Sequence {
             }
 
             TutoManager.s_instance.EcrireMessage(str);
-            TutoManager.s_instance.TutoPanelInstance.transform.GetChild(3).gameObject.SetActive(false);
 
-            if (TutoManager.s_instance.PlayingSequence.isPreviousStepReachable())
-            {
-                TutoManager.s_instance.TutoPanelInstance.transform.GetChild(2).gameObject.SetActive(true);
-                TutoManager.s_instance.TutoPanelInstance.transform.GetChild(2).GetComponent<Button>().onClick.RemoveAllListeners();
-                TutoManager.s_instance.TutoPanelInstance.transform.GetChild(2).GetComponent<Button>().onClick.AddListener(() => TutoManager.s_instance.PlayPreviousStep());
-            }
-            else
-            {
-                TutoManager.s_instance.TutoPanelInstance.transform.GetChild(2).gameObject.SetActive(false);
-            }
+            // Reactivate feedback above heads
+            GameManager.Instance.AllKeepersList[0].transform.GetChild(2).GetChild(0).gameObject.SetActive(true);
+            GameManager.Instance.PrisonerInstance.transform.GetChild(2).GetChild(0).gameObject.SetActive(true);
+
             TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.WaitingForClickUI;
         }
 
@@ -331,11 +344,17 @@ public class SeqFirstMove : Sequence {
         // Content
         Etapes.Add(new TutoManager.Message(pawnMrResetti, "Hi, I'm here to teach you how to play"));
         Etapes.Add(new SelectCharacterStep("First select the girl by clicking on her."));
-        Etapes.Add(new ExploreStep("First, click on the Explore button to explore the next area."));
+        Etapes.Add(new MovePawnOnTileStep("To interact with the world, you have to use the right click. Try to move the girl."));
+        Etapes.Add(new TutoManager.Message(pawnMrResetti, "You can also interact with everything glowing in the world, like this bridge over here.")); // => click expected on bridge
+        Etapes.Add(new TutoManager.Message(pawnMrResetti, "Good,")); // => click expected on bridge
+        Etapes.Add(new ExploreStep("Now click on the Explore button to explore the next area. And get a cookie."));
+
         Etapes.Add(new TutoManager.Message(pawnMrResetti, "Well done you genius, here's your cookie!"));
         Etapes.Add(new ActionPointsExplanationStep("This action cost you 3 action points. Always keep an eye on them.")); // ==> feedback sur les points d'action
         Etapes.Add(new FirstEndTurnStep("You can restore your action points by clicking on the end turn button."));
-        Etapes.Add(new TutoManager.Message(pawnMrResetti, "Well done. Now finish the level."));
+
+        Etapes.Add(new TutoManager.Message(pawnMrResetti, "End your turn starves your characters, so be careful!")); // Activate hunger panel + feedback
+        Etapes.Add(new TutoManager.Message(pawnMrResetti, "You should be able to finish this level now. Good luck!"));
     }
 
     public override void End()

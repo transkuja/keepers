@@ -33,6 +33,8 @@ public class TutoManager : MonoBehaviour {
     private static bool mouseClicked;
     public GameObject tutoPanel;
     public GameObject uiPointer;
+    public GameObject mouseClickIngameCollider;
+
 
     private GameObject tutoPanelInstance;
 
@@ -66,9 +68,18 @@ public class TutoManager : MonoBehaviour {
         selectedKeepersFirstCharUI.GetChild(2).gameObject.SetActive(false); // Inventory
 
         GameManager.Instance.AllKeepersList[0].GetComponent<Keeper>().GoListCharacterFollowing.Add(GameManager.Instance.PrisonerInstance.gameObject);
+        // No mental health for first sequence
+        Destroy(GameManager.Instance.AllKeepersList[0].GetComponent<MentalHealthHandler>());
+
+        // Deactivate feedback above head at start, reactivate at the end turn button step
+        GameManager.Instance.AllKeepersList[0].transform.GetChild(2).GetChild(0).gameObject.SetActive(false);
+        GameManager.Instance.PrisonerInstance.transform.GetChild(2).GetChild(0).gameObject.SetActive(false);
+
         GameManager.Instance.PrisonerInstance.GetComponent<Escortable>().enabled = false;
         GameManager.Instance.PrisonerInstance.GetComponent<Interactable>().Interactions = new InteractionImplementer();
         Destroy(GameManager.Instance.PrisonerInstance.GetComponent<GlowObjectCmd>());
+
+        s_instance.playSequence(s_instance.GetComponent<SeqFirstMove>());
     }
 
     void Update()
@@ -82,6 +93,13 @@ public class TutoManager : MonoBehaviour {
                 case SequenceState.ReadyForNext:
                     s_instance.PlayNextStep();
                     break;
+                case SequenceState.WaitingForClickInGame:
+                    if (mouseClicked)
+                    {
+                        mouseClicked = false;
+                        s_instance.PlayNextStep();
+                    }
+                    break;
                 case SequenceState.WaitingForClickUI:
                     if (mouseClicked)
                     {
@@ -89,6 +107,7 @@ public class TutoManager : MonoBehaviour {
                         s_instance.PlayNextStep();
                     }
                     break;
+
             }
             //    if (playingSequence.CurrentState == SequenceState.WaitingForClickUI)
             //    {
@@ -255,11 +274,14 @@ public class TutoManager : MonoBehaviour {
 
     public static void EnablePreviousButton(bool _enable = true)
     {
-        s_instance.tutoPanelInstance.transform.GetChild(2).gameObject.SetActive(_enable);
-        if (_enable)
+        if (s_instance.tutoPanelInstance != null)
         {
-            s_instance.tutoPanelInstance.transform.GetChild(2).GetComponent<Button>().onClick.RemoveAllListeners();
-            s_instance.tutoPanelInstance.transform.GetChild(2).GetComponent<Button>().onClick.AddListener(() => s_instance.PlayPreviousStep());
+            s_instance.tutoPanelInstance.transform.GetChild(2).gameObject.SetActive(_enable);
+            if (_enable)
+            {
+                s_instance.tutoPanelInstance.transform.GetChild(2).GetComponent<Button>().onClick.RemoveAllListeners();
+                s_instance.tutoPanelInstance.transform.GetChild(2).GetComponent<Button>().onClick.AddListener(() => s_instance.PlayPreviousStep());
+            }
         }
     }
 

@@ -40,7 +40,7 @@ public class EventManager : MonoBehaviour {
     {
         foreach (PawnInstance ki in GameManager.Instance.AllKeepersList)
         {
-            if (ki.GetComponent<Mortal>().IsAlive)
+            if (ki.GetComponent<Mortal>().IsAlive && ki.GetComponent<MentalHealthHandler>() != null)
                 ki.GetComponent<MentalHealthHandler>().CurrentMentalHealth -= 10;
                 //ki.AddFeedBackToQueue(GameManager.Instance.SpriteUtils.spriteMoralDebuff, -10);
         }
@@ -57,7 +57,6 @@ public class EventManager : MonoBehaviour {
 
         if (GameManager.Instance.PrisonerInstance.GetComponent<Mortal>().IsAlive)
             GameManager.Instance.PrisonerInstance.GetComponent<HungerHandler>().CurrentHunger -= 10;
-            GameManager.Instance.PrisonerInstance.AddFeedBackToQueue(GameManager.Instance.SpriteUtils.spriteHunger, -10);
     }
 
     private static void ResetActionPointsForNextTurn()
@@ -85,7 +84,7 @@ public class EventManager : MonoBehaviour {
     {
         foreach (PawnInstance ki in GameManager.Instance.AllKeepersList)
         {
-            if (ki.GetComponent<Mortal>().IsAlive && ki.GetComponent<MentalHealthHandler>().IsDepressed && !ki.GetComponent<MentalHealthHandler>().IsLowMentalHealthBuffApplied)
+            if (ki.GetComponent<Mortal>().IsAlive && ki.GetComponent<MentalHealthHandler>() != null && ki.GetComponent<MentalHealthHandler>().IsDepressed && !ki.GetComponent<MentalHealthHandler>().IsLowMentalHealthBuffApplied)
             {
                 //ki.Keeper.BonusDefense = (short)(ki.Keeper.BonusDefense - ki.Keeper.BaseDefense/2);
                 //ki.Keeper.BonusStrength = (short)(ki.Keeper.BonusStrength - ki.Keeper.BaseStrength / 2);

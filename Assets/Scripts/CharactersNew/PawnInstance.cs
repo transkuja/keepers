@@ -82,6 +82,10 @@ public class PawnInstance : MonoBehaviour {
     #region Ascending feedback functions
     public void AddFeedBackToQueue(Sprite sprite, int amount)
     {
+        // Used in tuto, allow to show the ascending feedback only when necessary
+        if (!goPanelAscendingFeedback.transform.parent.gameObject.activeInHierarchy)
+            return;
+
         string str = (amount < 0) ? "- ": "+ ";
         str += Mathf.Abs(amount);
 
@@ -97,6 +101,10 @@ public class PawnInstance : MonoBehaviour {
 
     public void AddFeedBackToQueue(int amount)
     {
+        // Used in tuto, allow to show the ascending feedback only when necessary
+        if (!goPanelAscendingFeedback.transform.parent.gameObject.activeInHierarchy)
+            return;
+
         string str = (amount < 0) ? "- " : "+ ";
         str += Mathf.Abs(amount);
 
