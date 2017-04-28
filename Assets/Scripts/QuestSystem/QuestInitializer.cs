@@ -37,5 +37,6 @@ public class QuestInitializer : MonoBehaviour {
         side1.OnQuestInit -= side_quest_01_Init;
         tileToActivate.gameObject.SetActive(true);
         tileToActivate.South.North = tileToActivate;
+        tileToActivate.South.transform.GetChild(0).GetChild(1).GetChild(0).gameObject.SetActive(true);
     }
 }

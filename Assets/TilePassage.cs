@@ -10,8 +10,39 @@ public class TilePassage : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-		
-	}
+        string strTag = tag;
+        Direction dir;
+
+        switch (strTag)
+        {
+            case "NorthTrigger":
+                dir = Direction.North;
+                break;
+            case "NorthEastTrigger":
+                dir = Direction.North_East;
+                break;
+            case "SouthEastTrigger":
+                dir = Direction.South_East;
+                break;
+            case "SouthTrigger":
+                dir = Direction.South;
+                break;
+            case "SouthWestTrigger":
+                dir = Direction.South_West;
+                break;
+            case "NorthWestTrigger":
+                dir = Direction.North_West;
+                break;
+            default:
+                dir = Direction.None;
+                break;
+        }
+
+        if (GetComponentInParent<Tile>().Neighbors[(int)dir] == null)
+        {
+            gameObject.SetActive(false);
+        }
+    }
 	
 	// Update is called once per frame
 	void Update () {
