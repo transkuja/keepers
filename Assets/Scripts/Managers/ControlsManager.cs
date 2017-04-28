@@ -108,6 +108,11 @@ public class ControlsManager : MonoBehaviour
                         {
                             if (tileHit == keeperSelectedTile)
                             {
+                                //To add if we want the keepers to move to the clicked object
+                                /*for (int i = 0; i < GameManager.Instance.ListOfSelectedKeepers.Count; i++)
+                                {
+                                    GameManager.Instance.ListOfSelectedKeepers[i].GetComponent<AnimatedPawn>().TriggerRotation(hitInfo.collider.transform.position);
+                                }*/
                                 GameManager.Instance.GoTarget = hitInfo.collider.gameObject.GetComponent<Interactable>();
                                 ui.UpdateActionPanelUIQ(hitInfo.collider.gameObject.GetComponent<ItemInstance>().InteractionImplementer);
                             }
@@ -158,8 +163,22 @@ public class ControlsManager : MonoBehaviour
                                 ui.UpdateActionPanelUIQ(clickTarget.GetComponent<Arrival>().InterationImplementer);
                             }
                         }
-                        else
+                        else if (hitInfo.collider.gameObject.GetComponent<TilePassage>() != null)
                         {
+                            TilePassage tp = hitInfo.collider.gameObject.GetComponent<TilePassage>();
+                            if(GameManager.Instance.ListOfSelectedKeepers.Count > 0)
+                            {
+                                for (int i = 0; i < GameManager.Instance.ListOfSelectedKeepers.Count; i++)
+                                {
+                                    GameManager.Instance.ListOfSelectedKeepers[i].GetComponent<AnimatedPawn>().TriggerRotation(hitInfo.collider.transform.position);
+                                }
+                            
+                                if(tp.GetComponentInParent<Tile>() == GameManager.Instance.ListOfSelectedKeepers[0].CurrentTile)
+                                    tp.HandleClick();
+                            }
+                        }
+                        else
+                        { 
                             ui.ClearActionPanel();
                             if (tileHit != null)
                             {
@@ -193,19 +212,20 @@ public class ControlsManager : MonoBehaviour
                                     int neighbourIndex = Array.FindIndex(GameManager.Instance.GetFirstSelectedKeeper().CurrentTile.Neighbors, x => x == tileHit);
                                     Tile currentTile = GameManager.Instance.GetFirstSelectedKeeper().CurrentTile;
                                     TileTrigger tt = currentTile.transform.GetChild(0).GetChild(1).GetChild(neighbourIndex).GetComponent<TileTrigger>();
-                                    if (tt.piList.Contains(GameManager.Instance.GetFirstSelectedKeeper()))
+                                    TilePassage tp = currentTile.transform.GetChild(0).GetChild(1).GetChild(neighbourIndex).GetComponent<TilePassage>();
+                                    Vector3 movePosition = Vector3.zero;
+                                    if (tt != null)
+                                        movePosition = tt.transform.position;
+                                    if(tp != null)
+                                        movePosition = tp.transform.position;
+                                    // Move the keeper
+
+                                    for (int i = 0; i < GameManager.Instance.ListOfSelectedKeepers.Count; i++)
                                     {
-                                        tt.HandleTrigger(GameManager.Instance.GetFirstSelectedKeeper());
+                                        GameManager.Instance.ListOfSelectedKeepers[i].GetComponent<AnimatedPawn>().TriggerRotation(movePosition);
                                     }
-                                    else
-                                    {
-                                        Vector3 movePosition = tt.transform.position;
-                                        // Move the keeper
-                                        for (int i = 0; i < GameManager.Instance.ListOfSelectedKeepers.Count; i++)
-                                        {
-                                            GameManager.Instance.ListOfSelectedKeepers[i].GetComponent<AnimatedPawn>().TriggerRotation(movePosition);
-                                        }
-                                    }
+                                    if(tp != null)
+                                        tp.HandleClick();
                                 }
                             }
                         }

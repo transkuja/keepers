@@ -130,6 +130,7 @@ public class IngameUI : MonoBehaviour
         goActionPanelQ.GetComponent<RectTransform>().localPosition = Vector3.zero;
 
         // Actions
+
         for (int i = 0; i < ic.listActionContainers.Count; i++)
         {
             bool bIsForbiden = ic.listActionContainers[i].strName == "Quest" && !GameManager.Instance.GetFirstSelectedKeeper().Data.Behaviours[(int)BehavioursEnum.CanSpeak];
@@ -159,14 +160,15 @@ public class IngameUI : MonoBehaviour
                     actionPoints.transform.localPosition = Vector3.zero;
                     actionPoints.transform.localRotation = Quaternion.identity;
 
-                    actionPoints.transform.GetComponentInChildren<Text>().text =  ic.listActionContainers[i].costAction + "/" + nbActionRestantKeeper;
+                    actionPoints.transform.GetComponentInChildren<Text>().text = ic.listActionContainers[i].costAction + "/" + nbActionRestantKeeper;
                     if (ic.listActionContainers[i].costAction > nbActionRestantKeeper)
                         actionPoints.transform.GetComponentInChildren<Text>().color = Color.red;
 
                 }
 
                 int iParam = ic.listActionContainers[n].iParam;
-                btn.onClick.AddListener(() => {
+                btn.onClick.AddListener(() =>
+                {
                     ic.listActionContainers[n].action(iParam);
                     GameManager.Instance.Ui.ClearActionPanel();
                 });

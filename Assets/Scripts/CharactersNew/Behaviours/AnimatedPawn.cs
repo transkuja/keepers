@@ -192,6 +192,11 @@ namespace Behaviour
 
                 fLerpRotation = 0.0f;
             }
+            else
+            {
+                bIsRotating = true;
+                agent.Resume();
+            }
             v3AgentDirectionTemp = v3Direction;
         }
 
