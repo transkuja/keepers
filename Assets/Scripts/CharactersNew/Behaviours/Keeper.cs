@@ -308,8 +308,8 @@ namespace Behaviour
                     SelectedActionPointsUI.transform.GetChild(1).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteNoAction;
                     SelectedActionPointsUI.transform.GetChild(2).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteNoAction;
 
-                    ShorcutUI.transform.GetChild(1).GetChild(0).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteNoAction;
-                    ShorcutUI.transform.GetChild(1).GetChild(1).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteTokenAction;
+                    ShorcutUI.transform.GetChild(1).GetChild(0).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteTokenAction;
+                    ShorcutUI.transform.GetChild(1).GetChild(1).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteNoAction;
                     ShorcutUI.transform.GetChild(1).GetChild(2).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteNoAction;
                     break;
                 case 0:
