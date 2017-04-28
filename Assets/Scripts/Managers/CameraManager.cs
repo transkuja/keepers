@@ -38,6 +38,8 @@ public class CameraManager : MonoBehaviour {
     float fZoomLerp = 1;
     float fZoomLerpOrigin = 1;
     float fLerpTarget = 1;
+    [SerializeField]
+    float farSpeedMultiplier = 1.5f;
     Vector3 newPosition;
     public CameraState state = CameraState.close;
 
@@ -341,7 +343,10 @@ public class CameraManager : MonoBehaviour {
         if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
         {
             Vector3 v3IncrementPos = new Vector3( Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
-            v3IncrementPos = v3IncrementPos.normalized * fKeySpeed * Time.deltaTime;
+            float speed = fKeySpeed * Time.deltaTime;
+            if (state == CameraState.far)
+                speed *= farSpeedMultiplier;
+            v3IncrementPos = v3IncrementPos.normalized * speed; 
             if (!((tClose.position + v3IncrementPos).z > cameraBounds.GetChild((int)CameraBound.South).position.z &&
                (tClose.position + v3IncrementPos).z < cameraBounds.GetChild((int)CameraBound.North).position.z))
             {
@@ -352,7 +357,7 @@ public class CameraManager : MonoBehaviour {
             tClose.position += v3IncrementPos;
             tFar.position += v3IncrementPos;
 
-            v3DragOrigin = Input.mousePosition;
+            //v3DragOrigin = Input.mousePosition;
         }
        
         Vector3 pos = transform.position;
