@@ -9,6 +9,10 @@ public class AnimationButtonClick : MonoBehaviour, IPointerEnterHandler {
 
     private Light directionalLight;
     private float temps;
+    private Color baseColor;
+    private Color nightColor;
+    private float baseExposure;
+    private float nightExposure;
 
     public void Start()
     {
@@ -25,6 +29,10 @@ public class AnimationButtonClick : MonoBehaviour, IPointerEnterHandler {
       
         }
         temps = ac.length;
+        baseColor = new Color32(0xFF, 0xF4, 0xD6, 0xFF);
+        nightColor = new Color32(0x01, 0x16, 0x56, 0xFF);
+        baseExposure = RenderSettings.skybox.GetFloat("_Exposure");
+        nightExposure = 1.0f;
     }
 
 
@@ -37,21 +45,31 @@ public class AnimationButtonClick : MonoBehaviour, IPointerEnterHandler {
 
     private IEnumerator GodsWork()
     {
-
+        float ElapsedTime = 0.0f;
         directionalLight.intensity = Mathf.Clamp(directionalLight.intensity, 0, 1);
         for (float f = temps/2; f >= 0; f -= Time.deltaTime)
         {
             //valeur = 0
-            directionalLight.intensity -= Time.deltaTime *2;
+
+            ElapsedTime += Time.deltaTime;
+            //directionalLight.intensity -= Time.deltaTime *2;
+            directionalLight.color = Color.Lerp(baseColor, nightColor, (ElapsedTime / (temps / 2)));
+            RenderSettings.skybox.SetFloat("_Exposure", Mathf.Lerp(baseExposure, nightExposure, (ElapsedTime / (temps / 2))));
             yield return null;
         }
 
+
+        ElapsedTime = 0.0f;
         for (float f = temps / 2; f >= 0; f -= Time.deltaTime)
         {
             // valeur = 1
-            directionalLight.intensity += Time.deltaTime*2;
+            ElapsedTime += Time.deltaTime;
+            //directionalLight.intensity += Time.deltaTime*2;
+            directionalLight.color = Color.Lerp(nightColor, baseColor, (ElapsedTime / (temps / 2)));
+            RenderSettings.skybox.SetFloat("_Exposure", Mathf.Lerp(nightExposure, baseExposure, (ElapsedTime / (temps / 2))));
             yield return null;
         }
+
         directionalLight.transform.SetParent(null);
                     yield return null;
     }
