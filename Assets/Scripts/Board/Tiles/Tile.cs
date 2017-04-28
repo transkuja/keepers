@@ -8,10 +8,12 @@ using UnityEngine.Events;
 public enum TileType
 {
     None,
-    Mountain,
+    Forest,
     Plain,
     Snow,
-    Beach
+    Beach,
+    Desert,
+    China
 }
 
 public enum Direction

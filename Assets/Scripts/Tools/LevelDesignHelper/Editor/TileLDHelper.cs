@@ -321,8 +321,8 @@ public class TileLDHelper : EditorWindow {
     {
         switch(currentType)
         {
-            case TileType.Mountain:
-                models = GetAtPath<GameObject>("Prefabs/Tiles/Mountain") as GameObject[];
+            case TileType.Forest:
+                models = GetAtPath<GameObject>("Prefabs/Tiles/Forest") as GameObject[];
                 break;
             case TileType.Plain:
                 models = GetAtPath<GameObject>("Prefabs/Tiles/Plain") as GameObject[];
@@ -332,6 +332,12 @@ public class TileLDHelper : EditorWindow {
                 break;
             case TileType.Beach:
                 models = GetAtPath<GameObject>("Prefabs/Tiles/Beach") as GameObject[];
+                break;
+            case TileType.Desert:
+                models = GetAtPath<GameObject>("Prefabs/Tiles/Desert") as GameObject[];
+                break;
+            case TileType.China:
+                models = GetAtPath<GameObject>("Prefabs/Tiles/China") as GameObject[];
                 break;
         }
     }
