@@ -35,4 +35,13 @@ public class InteractionImplementer {
         }
         return null;
     }
+
+    public void SwapSprite(string strName, Sprite _newSprite)
+    {
+        InteractionContainer ic = Get(strName);
+        if (ic == null)
+            return;
+        else
+            ic.sprite = _newSprite;
+    }
 }

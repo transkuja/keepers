@@ -117,7 +117,6 @@ public class ThrownDiceHandler : MonoBehaviour {
                 timerAnimation = 0.0f;
                 isRunning = false;
                 SendDataToBattleHandler();
-                // GetComponent<UIBattleHandler>().ChangeState(UIBattleState.);
             }
         }
     }

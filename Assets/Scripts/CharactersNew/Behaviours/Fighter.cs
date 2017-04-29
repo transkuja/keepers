@@ -147,6 +147,19 @@ namespace Behaviour
             hasPlayedThisTurn = false;
         }
 
+        public void UpdateSkillButton(bool _hasAUsableSkill)
+        {
+            if (_hasAUsableSkill)
+            {
+                // TODO: change to proper sprite
+                battleInteractions.SwapSprite("OpenSkillPanel", GameManager.Instance.SpriteUtils.spriteUseSkill);
+            }
+            else
+            {
+                battleInteractions.SwapSprite("OpenSkillPanel", GameManager.Instance.SpriteUtils.spriteUseSkill);
+            }
+        }
+
         #region Interactions
         public void Attack(int _i = 0)
         {

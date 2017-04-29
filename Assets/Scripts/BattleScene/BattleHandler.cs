@@ -162,6 +162,17 @@ public class BattleHandler {
             }
             pi.GetComponent<Fighter>().LastThrowResult = lastThrowResult[pi];
             pi.GetComponent<Fighter>().LastThrowDiceInstance = currentTurnDiceInstance[pi];
+
+            bool canUseASkill = false;
+            foreach (SkillBattle sb in pi.GetComponent<Fighter>().BattleSkills)
+            {
+                if (sb.CanUseSkill())
+                {
+                    canUseASkill = true;
+                    break;
+                }
+            }
+            pi.GetComponent<Fighter>().UpdateSkillButton(canUseASkill);
         }
 
         HasDiceBeenThrown = true;
