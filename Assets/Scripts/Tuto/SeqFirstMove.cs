@@ -18,6 +18,7 @@ public class SeqFirstMove : Sequence {
     public class ExploreActionPointsExplanation : Step
     {
         string str;
+        GameObject feedbackPointer;
         public ExploreActionPointsExplanation(string _str)
         {
             stepFunction = Message_fct;
@@ -30,7 +31,14 @@ public class SeqFirstMove : Sequence {
                 GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().transform.GetChild(0).gameObject.AddComponent<ThrowDiceButtonFeedback>();
 
             GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().interactable = false;
+            if (feedbackPointer == null)
+            {
+                feedbackPointer = Instantiate(TutoManager.s_instance.uiPointer, GameManager.Instance.Ui.transform.GetChild(0));
+                feedbackPointer.GetComponent<FlecheQuiBouge>().PointToPoint = Camera.main.WorldToScreenPoint(GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().transform.GetChild(0).position);
+                feedbackPointer.GetComponent<FlecheQuiBouge>().distanceOffset = 30.0f;
 
+                feedbackPointer.transform.localEulerAngles = new Vector3(0, 0, -80);
+            }
             TutoManager.s_instance.EcrireMessage(str);
             TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.Idle;
         }
@@ -40,7 +48,7 @@ public class SeqFirstMove : Sequence {
             if (GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().transform.GetChild(0).gameObject.GetComponent<ThrowDiceButtonFeedback>() != null)
                 Destroy(GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().transform.GetChild(0).gameObject.GetComponent<ThrowDiceButtonFeedback>());
             GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().interactable = true;
-
+            Destroy(feedbackPointer);
             alreadyPlayed = false;
         }
     }
@@ -403,7 +411,7 @@ public class SeqFirstMove : Sequence {
 
         // Content
         Etapes.Add(new TutoManager.Message(pawnMrResetti, "Hi, I'm here to teach you how to play"));
-        Etapes.Add(new SelectCharacterStep("First select the girl by clicking on her."));
+        Etapes.Add(new SelectCharacterStep("First select the girl in armor by clicking on her."));
         Etapes.Add(new MovePawnOnTileStep("To interact with the world, you have to use the right click. Try to move the girl."));
         Etapes.Add(new MovePawnToAnotherTileExplanation("You can also interact with everything glowing in the world. Try a right click on this portal.")); // => click expected on bridge
         Etapes.Add(new RightClickOnBridgeValidated("Good,"));
