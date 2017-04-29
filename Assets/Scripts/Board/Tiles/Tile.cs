@@ -251,9 +251,9 @@ public class Tile : MonoBehaviour{
         return transform.GetChild(0);
     }
 
-    public BoxCollider GetTileTriggerFromDirection(Direction direction)
+    public GameObject GetTileTriggerFromDirection(Direction direction)
     {
-        return GetTilePrefab().GetChild((int)TilePrefabChildren.PortalTriggers).GetChild((int)direction).GetComponent<BoxCollider>();
+        return GetTilePrefab().GetChild((int)TilePrefabChildren.PortalTriggers).GetChild((int)direction).gameObject;
     }
 
     // Debug functions

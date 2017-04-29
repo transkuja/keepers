@@ -8,24 +8,24 @@ namespace Behaviour
     {
         [SerializeField]
         Direction[] pathsBlocked;
-        BoxCollider[] pathBlockedColliders;
+        GameObject[] pathBlockedPortals;
         Tile effectiveTile;
 
         void Start()
         {
-            effectiveTile = GetComponentInParent<Tile>();
+            effectiveTile = GetComponent<PawnInstance>().CurrentTile;
 
             // Check if is blocking paths and deactivate concerned colliders
             if (pathsBlocked != null)
             {
-                pathBlockedColliders = new BoxCollider[2 * pathsBlocked.Length];
+                pathBlockedPortals = new GameObject[2 * pathsBlocked.Length];
 
                 for (int i = 0; i < pathsBlocked.Length; i++)
                 {
-                    pathBlockedColliders[2 * i] = effectiveTile.GetTileTriggerFromDirection(pathsBlocked[i]);
-                    pathBlockedColliders[2 * i].enabled = false;
-                    pathBlockedColliders[2 * i + 1] = effectiveTile.Neighbors[(int)pathsBlocked[i]].GetTileTriggerFromDirection(Utils.GetOppositeDirection(pathsBlocked[i]));
-                    pathBlockedColliders[2 * i + 1].enabled = false;
+                    pathBlockedPortals[2 * i] = effectiveTile.GetTileTriggerFromDirection(pathsBlocked[i]);
+                    pathBlockedPortals[2 * i].SetActive(false);
+                    pathBlockedPortals[2 * i + 1] = effectiveTile.Neighbors[(int)pathsBlocked[i]].GetTileTriggerFromDirection(Utils.GetOppositeDirection(pathsBlocked[i]));
+                    pathBlockedPortals[2 * i + 1].SetActive(false);
                 }
             }
         }
@@ -35,9 +35,9 @@ namespace Behaviour
             // Reactivate paths blocked when the blocker is destroyed
             if (pathsBlocked != null)
             {
-                for (int i = 0; i < pathBlockedColliders.Length; i++)
+                for (int i = 0; i < pathBlockedPortals.Length; i++)
                 {
-                    pathBlockedColliders[i].enabled = true;
+                    pathBlockedPortals[i].SetActive(true);
                 }
             }
         }
