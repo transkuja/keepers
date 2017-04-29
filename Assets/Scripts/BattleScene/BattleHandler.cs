@@ -159,9 +159,6 @@ public class BattleHandler {
                     case FaceType.Defensive:
                         pi.GetComponent<Fighter>().DefensiveSymbolStored += lastThrowResult[pi][i].Value;
                         break;
-                    case FaceType.Support:
-                        pi.GetComponent<Fighter>().SupportSymbolStored += lastThrowResult[pi][i].Value;
-                        break;
                 }
             }
             pi.GetComponent<Fighter>().LastThrowResult = lastThrowResult[pi];

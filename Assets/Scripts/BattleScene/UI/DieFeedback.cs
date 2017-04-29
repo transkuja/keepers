@@ -43,11 +43,6 @@ public class DieFeedback : MonoBehaviour {
             feedback.GetComponentInChildren<Image>().sprite = GameManager.Instance.SpriteUtils.spriteMagicSymbol;
             lerpEndPosition = attributesPanel.GetChild((int)AttributesChildren.Magic).position;
         }
-        else if (faceInfo.Type == FaceType.Support)
-        {
-            feedback.GetComponentInChildren<Image>().sprite = GameManager.Instance.SpriteUtils.spriteSupportSymbol;
-            lerpEndPosition = attributesPanel.GetChild((int)AttributesChildren.Support).position;
-        }
 
         isRising = true;
     }

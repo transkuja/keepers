@@ -23,12 +23,6 @@ public class Texture2DUtils : MonoBehaviour {
     public Texture2D magicX4;
     public Texture2D magicX5;
     public Texture2D magicX6;
-    public Texture2D supportX1;
-    public Texture2D supportX2;
-    public Texture2D supportX3;
-    public Texture2D supportX4;
-    public Texture2D supportX5;
-    public Texture2D supportX6;
 
     public Texture2D GetTextureFromFaceData(Face faceData)
     {
@@ -78,22 +72,6 @@ public class Texture2DUtils : MonoBehaviour {
                 return defenseX5;
             if (faceData.Value == 6)
                 return defenseX6;
-        }
-
-        if (faceData.Type == FaceType.Support)
-        {
-            if (faceData.Value == 1)
-                return supportX1;
-            if (faceData.Value == 2)
-                return supportX2;
-            if (faceData.Value == 3)
-                return supportX3;
-            if (faceData.Value == 4)
-                return supportX4;
-            if (faceData.Value == 5)
-                return supportX5;
-            if (faceData.Value == 6)
-                return supportX6;
         }
 
         Debug.LogWarning("Invalid face data. Cannot retrieve associated face texture.");

@@ -83,6 +83,5 @@ public enum FaceType
 {
     Physical,
     Magical,
-    Defensive,
-    Support
+    Defensive
 }

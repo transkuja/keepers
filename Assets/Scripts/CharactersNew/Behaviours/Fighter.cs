@@ -41,8 +41,6 @@ namespace Behaviour
         int magicalSymbolStored = 0;
         [SerializeField]
         int defensiveSymbolStored = 0;
-        [SerializeField]
-        int supportSymbolStored = 0;
 
         bool hasPlayedThisTurn = false;
 
@@ -139,7 +137,6 @@ namespace Behaviour
             physicalSymbolStored = 0;
             magicalSymbolStored = 0;
             defensiveSymbolStored = 0;
-            supportSymbolStored = 0;
             hasPlayedThisTurn = false;
         }
 
@@ -318,22 +315,6 @@ namespace Behaviour
                 defensiveSymbolStored = value;
                 if (defensiveSymbolStored > stockMaxValue)
                     defensiveSymbolStored = stockMaxValue;
-                GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().UpdateAttributesStocks(this);
-            }
-        }
-
-        public int SupportSymbolStored
-        {
-            get
-            {
-                return supportSymbolStored;
-            }
-
-            set
-            {
-                supportSymbolStored = value;
-                if (supportSymbolStored > stockMaxValue)
-                    supportSymbolStored = stockMaxValue;
                 GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().UpdateAttributesStocks(this);
             }
         }
@@ -588,8 +569,6 @@ public class SkillBattle
 
             if (f.Type == FaceType.Defensive && _user.DefensiveSymbolStored < f.Value)
                 return false;
-            if (f.Type == FaceType.Support && _user.SupportSymbolStored < f.Value)
-                return false;
         }
         return true;
     }
@@ -605,8 +584,6 @@ public class SkillBattle
 
             if (f.Type == FaceType.Defensive)
                 _user.DefensiveSymbolStored -= f.Value;
-            if (f.Type == FaceType.Support)
-                _user.SupportSymbolStored -= f.Value;
         }
 
         GameObject skillNameUI = GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().SkillName;

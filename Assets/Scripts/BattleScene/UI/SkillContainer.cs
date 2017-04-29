@@ -30,7 +30,6 @@ public class SkillContainer : MonoBehaviour {
         Text atkTxt = transform.parent.GetChild((int)SkillButtonChildren.Atk).GetComponentInChildren<Text>();
         Text magTxt = transform.parent.GetChild((int)SkillButtonChildren.Mag).GetComponentInChildren<Text>();
         Text defTxt = transform.parent.GetChild((int)SkillButtonChildren.Def).GetComponentInChildren<Text>();
-        Text supTxt = transform.parent.GetChild((int)SkillButtonChildren.Support).GetComponentInChildren<Text>();
 
         foreach (Face face in skillData.Cost)
         {
@@ -70,19 +69,6 @@ public class SkillContainer : MonoBehaviour {
                         defTxt.color = Color.red;
                     else if (face.Value <= fighterComponent.DefensiveSymbolStored)
                         defTxt.color = Color.green;
-                }
-            }
-
-            if (face.Type == FaceType.Support)
-            {
-                if (face.Value == 0)
-                    supTxt.color = Color.white;
-                else
-                {
-                    if (face.Value > fighterComponent.SupportSymbolStored)
-                        supTxt.color = Color.red;
-                    else if (face.Value <= fighterComponent.SupportSymbolStored)
-                        supTxt.color = Color.green;
                 }
             }
         }

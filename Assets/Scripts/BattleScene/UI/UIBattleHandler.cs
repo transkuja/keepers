@@ -7,9 +7,9 @@ using System;
 public enum BattleUIChildren { SkillsPanel, ThrowDice, EscapeButton, SkillName, CharactersPanel }
 public enum UIBattleState { WaitForDiceThrow, DiceRolling, WaitForDiceThrowValidation, Actions, SkillsOpened, TargetSelection, Disabled }
 public enum CharactersPanelChildren { Avatar, LifeBar, Attributes }
-public enum AttributesChildren { Attack, Defense, Magic, Support }
+public enum AttributesChildren { Attack, Defense, Magic }
 public enum LifeBarChildren { Remaining, Text }
-public enum SkillButtonChildren { SkillName, Atk, Def, Mag, Support }
+public enum SkillButtonChildren { SkillName, Atk, Def, Mag }
 
 public class UIBattleHandler : MonoBehaviour {
 
@@ -203,7 +203,6 @@ public class UIBattleHandler : MonoBehaviour {
         characterPanel.GetChild((int)CharactersPanelChildren.Attributes).GetChild((int)AttributesChildren.Attack).GetComponentInChildren<Text>().text = fighterComponent.PhysicalSymbolStored.ToString();
         characterPanel.GetChild((int)CharactersPanelChildren.Attributes).GetChild((int)AttributesChildren.Defense).GetComponentInChildren<Text>().text = fighterComponent.DefensiveSymbolStored.ToString();
         characterPanel.GetChild((int)CharactersPanelChildren.Attributes).GetChild((int)AttributesChildren.Magic).GetComponentInChildren<Text>().text = fighterComponent.MagicalSymbolStored.ToString();
-        characterPanel.GetChild((int)CharactersPanelChildren.Attributes).GetChild((int)AttributesChildren.Support).GetComponentInChildren<Text>().text = fighterComponent.SupportSymbolStored.ToString();
 
         occupiedCharacterPanelIndex[initIndex] = true;
         characterPanel.gameObject.SetActive(true);
@@ -234,9 +233,6 @@ public class UIBattleHandler : MonoBehaviour {
 
                     if (face.Type == FaceType.Magical)
                         currentSkill.GetChild((int)SkillButtonChildren.Mag).GetComponentInChildren<Text>().text = face.Value.ToString();
-
-                    if (face.Type == FaceType.Support)
-                        currentSkill.GetChild((int)SkillButtonChildren.Support).GetComponentInChildren<Text>().text = face.Value.ToString();
                 }
                 currentSkill.gameObject.SetActive(true);
             }
@@ -289,7 +285,6 @@ public class UIBattleHandler : MonoBehaviour {
         Transform atkAttribute = attributes.GetChild((int)AttributesChildren.Attack);
         Transform defAttribute = attributes.GetChild((int)AttributesChildren.Defense);
         Transform magAttribute = attributes.GetChild((int)AttributesChildren.Magic);
-        Transform supAttribute = attributes.GetChild((int)AttributesChildren.Support);
 
         int diffAtk = _toUpdate.PhysicalSymbolStored - Int32.Parse(atkAttribute.GetComponentInChildren<Text>().text);
         if (diffAtk < 0)
@@ -315,18 +310,9 @@ public class UIBattleHandler : MonoBehaviour {
             magAscFeedback.GetComponent<AttributesAscFeedback>().FeedbackValue(diffMag);
         }
 
-        int diffSup = _toUpdate.SupportSymbolStored - Int32.Parse(supAttribute.GetComponentInChildren<Text>().text);
-        if (diffSup < 0)
-        {
-            GameObject supAscFeedback = Instantiate(GameManager.Instance.PrefabUIUtils.attributesAscFeedback, supAttribute);
-            supAscFeedback.transform.localPosition = Vector3.zero;
-            supAscFeedback.GetComponent<AttributesAscFeedback>().FeedbackValue(diffSup);
-        }
-
         atkAttribute.GetComponentInChildren<Text>().text = _toUpdate.PhysicalSymbolStored.ToString();
         defAttribute.GetComponentInChildren<Text>().text = _toUpdate.DefensiveSymbolStored.ToString();
         magAttribute.GetComponentInChildren<Text>().text = _toUpdate.MagicalSymbolStored.ToString();
-        supAttribute.GetComponentInChildren<Text>().text = _toUpdate.SupportSymbolStored.ToString();
     }
 
     public void UpdateCharacterLifeBar(Mortal _toUpdate)
