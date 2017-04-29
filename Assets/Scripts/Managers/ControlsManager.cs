@@ -332,7 +332,7 @@ public class ControlsManager : MonoBehaviour
                                 GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Fighter>().AttackProcess(clickTarget.GetComponentInParent<Fighter>());
                             else
                             {
-                                BattleHandler.PendingSkill.UseSkill(GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Fighter>(), clickTarget.GetComponentInParent<PawnInstance>());
+                                BattleHandler.PendingSkill.UseSkill(clickTarget.GetComponentInParent<PawnInstance>());
                             }
                         }
                         else

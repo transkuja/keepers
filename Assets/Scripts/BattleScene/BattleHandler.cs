@@ -31,8 +31,6 @@ public class BattleHandler {
     private static SkillBattle pendingSkill;
     private static bool isWaitingForSkillEnd = false;
     private static bool wasLaunchedDuringKeepersTurn;
-    // TODO: fix by setting the user in the skill
-    private static Fighter pendingSkillUser;
 
     // Debug parameters
     private static bool isDebugModeActive = false;
@@ -259,7 +257,7 @@ public class BattleHandler {
         PawnInstance target = GetTargetForAttack();
         Fighter monsterBattleInfo = currentBattleMonsters[nextMonsterIndex].GetComponent<Fighter>();
         SkillBattle skillUsed = monsterBattleInfo.BattleSkills[Random.Range(0, currentBattleMonsters[nextMonsterIndex].GetComponent<Fighter>().BattleSkills.Count)];
-        skillUsed.UseSkill(currentBattleMonsters[nextMonsterIndex].GetComponent<Fighter>(), target);
+        skillUsed.UseSkill(target);
         nextMonsterIndex++;
     }
 
@@ -460,7 +458,6 @@ public class BattleHandler {
         wasTheLastToPlay = false;
         pendingSkill = null;
         isWaitingForSkillEnd = false;
-        pendingSkillUser = null;
     }
 
     private static void PrintResultsScreen(bool isVictorious)
@@ -605,10 +602,9 @@ public class BattleHandler {
         }
     }
 
-    public static void WaitForSkillConfirmation(SkillBattle _skillData, Fighter _user)
+    public static void WaitForSkillConfirmation(SkillBattle _skillData)
     {
         pendingSkill = _skillData;
-        pendingSkillUser = _user;
     }
 
     public static bool IsKeepersTurn
@@ -704,10 +700,10 @@ public class BattleHandler {
             isWaitingForSkillEnd = value;
             if (isWaitingForSkillEnd == false)
             {
-                if (pendingSkillUser != null && pendingSkillUser.GetComponent<Keeper>() != null)
+                if (pendingSkill != null && pendingSkill.SkillUser != null && pendingSkill.SkillUser.GetComponent<Keeper>() != null)
                 {
-                    pendingSkillUser.HasPlayedThisTurn = true;
-                    pendingSkillUser = null;
+                    pendingSkill.SkillUser.HasPlayedThisTurn = true;
+                    pendingSkill.SkillUser = null;
                     return;
                 }
 
@@ -731,19 +727,6 @@ public class BattleHandler {
                 wasLaunchedDuringKeepersTurn = IsKeepersTurn;
                 DeactivateFeedbackSelection(true, true);
             }
-        }
-    }
-
-    public static Fighter PendingSkillUser
-    {
-        get
-        {
-            return pendingSkillUser;
-        }
-
-        set
-        {
-            pendingSkillUser = value;
         }
     }
 }

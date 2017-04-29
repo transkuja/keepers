@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Behaviour;
 
 namespace Behaviour
 {
@@ -80,6 +81,12 @@ namespace Behaviour
 
             showSkillPanelTimer = 2.2f;
             showFeedbackDmgTimer = 1.7f;
+
+            foreach (SkillBattle sb in battleSkills)
+            {
+                if (sb.SkillUser == null)
+                    sb.SkillUser = this;
+            }
         }
 
         private void Update()
@@ -489,6 +496,8 @@ public enum TargetType { Friend, Foe}
 [System.Serializable]
 public class SkillBattle
 {
+    private Fighter skillUser;
+
     [SerializeField]
     private int damage;
     [SerializeField]
@@ -499,6 +508,8 @@ public class SkillBattle
     private List<Face> cost = new List<Face>();
     [SerializeField]
     TargetType targetType;
+
+    private SkillBattle depressedVersion;
 
     public int Damage
     {
@@ -558,41 +569,61 @@ public class SkillBattle
         }
     }
 
-    public bool CanUseSkill(Behaviour.Fighter _user)
+    public Fighter SkillUser
+    {
+        get
+        {
+            return skillUser;
+        }
+
+        set
+        {
+            skillUser = value;
+        }
+    }
+
+    public bool CanUseSkill()
     {
         foreach (Face f in cost)
         {
-            if (f.Type == FaceType.Physical && _user.PhysicalSymbolStored < f.Value)
+            if (f.Type == FaceType.Physical && skillUser.PhysicalSymbolStored < f.Value)
                 return false;
-            if (f.Type == FaceType.Magical && _user.MagicalSymbolStored < f.Value)
+            if (f.Type == FaceType.Magical && skillUser.MagicalSymbolStored < f.Value)
                 return false;
 
-            if (f.Type == FaceType.Defensive && _user.DefensiveSymbolStored < f.Value)
+            if (f.Type == FaceType.Defensive && skillUser.DefensiveSymbolStored < f.Value)
                 return false;
         }
         return true;
     }
 
-    public void UseSkill(Behaviour.Fighter _user, PawnInstance _target)
+    public void UseSkill(PawnInstance _target)
     {
-        foreach (Face f in cost)
+        if (depressedVersion != null && skillUser.GetComponent<MentalHealthHandler>() != null && skillUser.GetComponent<MentalHealthHandler>().IsDepressed)
         {
-            if (f.Type == FaceType.Physical)
-                _user.PhysicalSymbolStored -= f.Value;
-            if (f.Type == FaceType.Magical)
-                _user.MagicalSymbolStored -= f.Value;
-
-            if (f.Type == FaceType.Defensive)
-                _user.DefensiveSymbolStored -= f.Value;
+            depressedVersion.UseSkill(_target);
         }
+        else
+        {
+            foreach (Face f in cost)
+            {
+                if (f.Type == FaceType.Physical)
+                    skillUser.PhysicalSymbolStored -= f.Value;
+                if (f.Type == FaceType.Magical)
+                    skillUser.MagicalSymbolStored -= f.Value;
 
-        GameObject skillNameUI = GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().SkillName;
-        skillNameUI.transform.GetComponentInChildren<Text>().text = skillName;
-        skillNameUI.SetActive(true);
-        _target.GetComponent<Behaviour.Fighter>().IsWaitingForDmgFeedback = true;
-        _target.GetComponent<Behaviour.Fighter>().IsWaitingForSkillPanelToClose = true;
-        _target.GetComponent<Behaviour.Fighter>().PendingDamage = damage;
+                if (f.Type == FaceType.Defensive)
+                    skillUser.DefensiveSymbolStored -= f.Value;
+            }
 
-        BattleHandler.IsWaitingForSkillEnd = true;
+            GameObject skillNameUI = GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().SkillName;
+            skillNameUI.transform.GetComponentInChildren<Text>().text = skillName;
+            skillNameUI.SetActive(true);
+            _target.GetComponent<Fighter>().IsWaitingForDmgFeedback = true;
+            _target.GetComponent<Fighter>().IsWaitingForSkillPanelToClose = true;
+            _target.GetComponent<Fighter>().PendingDamage = damage;
+
+            BattleHandler.IsWaitingForSkillEnd = true;
+        }
     }
 }

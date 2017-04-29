@@ -19,9 +19,7 @@ public class SkillContainer : MonoBehaviour {
 
     private void OnEnable()
     {
-        // TODO: fix this, user should be set on skill
-        Behaviour.Fighter fighterComponent = GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Fighter>();
-        GetComponent<Button>().interactable = skillData.CanUseSkill(fighterComponent);
+        GetComponent<Button>().interactable = skillData.CanUseSkill();
         if (GetComponent<Button>().interactable == true)
             GetComponent<Text>().color = Color.white;
         else
@@ -39,9 +37,9 @@ public class SkillContainer : MonoBehaviour {
                     atkTxt.color = Color.white;
                 else
                 {
-                    if (face.Value > fighterComponent.PhysicalSymbolStored)
+                    if (face.Value > skillData.SkillUser.PhysicalSymbolStored)
                         atkTxt.color = Color.red;
-                    else if (face.Value <= fighterComponent.PhysicalSymbolStored)
+                    else if (face.Value <= skillData.SkillUser.PhysicalSymbolStored)
                         atkTxt.color = Color.green;
                 }
             }
@@ -52,9 +50,9 @@ public class SkillContainer : MonoBehaviour {
                     magTxt.color = Color.white;
                 else
                 {
-                    if (face.Value > fighterComponent.MagicalSymbolStored)
+                    if (face.Value > skillData.SkillUser.MagicalSymbolStored)
                         magTxt.color = Color.red;
-                    else if (face.Value <= fighterComponent.MagicalSymbolStored)
+                    else if (face.Value <= skillData.SkillUser.MagicalSymbolStored)
                         magTxt.color = Color.green;
                 }
             }
@@ -65,9 +63,9 @@ public class SkillContainer : MonoBehaviour {
                     defTxt.color = Color.white;
                 else
                 {
-                    if (face.Value > fighterComponent.DefensiveSymbolStored)
+                    if (face.Value > skillData.SkillUser.DefensiveSymbolStored)
                         defTxt.color = Color.red;
-                    else if (face.Value <= fighterComponent.DefensiveSymbolStored)
+                    else if (face.Value <= skillData.SkillUser.DefensiveSymbolStored)
                         defTxt.color = Color.green;
                 }
             }
@@ -89,7 +87,7 @@ public class SkillContainer : MonoBehaviour {
             BattleHandler.ActivateFeedbackSelection(true, false);
         }
         // TODO: find an other way
-        GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().GetSkillsPanelIndex(GameManager.Instance.GetFirstSelectedKeeper()).gameObject.SetActive(false);
-        BattleHandler.WaitForSkillConfirmation(skillData, GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Fighter>());
+        GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().GetSkillsPanelIndex(skillData.SkillUser.GetComponent<PawnInstance>()).gameObject.SetActive(false);
+        BattleHandler.WaitForSkillConfirmation(skillData);
     }
 }
