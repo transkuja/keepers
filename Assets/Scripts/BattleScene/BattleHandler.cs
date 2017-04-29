@@ -441,6 +441,10 @@ public class BattleHandler {
                     currentBattleMonsters[i].transform.GetChild(1).gameObject.SetActive(true);
                     GlowController.UnregisterObject(currentBattleMonsters[i].GetComponent<GlowObjectCmd>());
                 }
+                else
+                {
+                    GameObject.Destroy(currentBattleMonsters[i].gameObject, 0.5f);
+                }
             }
         }
 
