@@ -33,6 +33,8 @@ public class UIBattleHandler : MonoBehaviour {
     private GameObject shortcutButton;
 
     private Dictionary<PawnInstance, Transform> associatedCharacterPanel = new Dictionary<PawnInstance, Transform>();
+    private Dictionary<Transform, PawnInstance> associatedCharacterPanelReversed = new Dictionary<Transform, PawnInstance>();
+
     private Dictionary<PawnInstance, Transform> associatedSkillsPanel = new Dictionary<PawnInstance, Transform>();
 
     public GameObject SkillName
@@ -64,6 +66,11 @@ public class UIBattleHandler : MonoBehaviour {
     public Transform GetCharacterPanelIndex(PawnInstance _fromPawn)
     {
         return associatedCharacterPanel[_fromPawn];
+    }
+
+    public PawnInstance GetCharacterFromPanelIndex(Transform _fromPanel)
+    {
+        return associatedCharacterPanelReversed[_fromPanel];
     }
 
     public Transform GetSkillsPanelIndex(PawnInstance _fromPawn)
@@ -100,7 +107,7 @@ public class UIBattleHandler : MonoBehaviour {
             shortcutButton.SetActive(true);
 
         BattleHandler.DisableMonstersLifeBars();
-        associatedCharacterPanel.Clear();
+
         associatedSkillsPanel.Clear();
         foreach (Transform characterPan in associatedCharacterPanel.Values)
         {
@@ -108,6 +115,9 @@ public class UIBattleHandler : MonoBehaviour {
         }
         for (int i = 0; i < charactersPanel.transform.childCount; i++)
             charactersPanel.transform.GetChild(i).GetChild(0).gameObject.SetActive(false);
+
+        associatedCharacterPanel.Clear();
+        associatedCharacterPanelReversed.Clear();
         ChangeState(UIBattleState.Disabled);
     }
 
@@ -121,11 +131,6 @@ public class UIBattleHandler : MonoBehaviour {
         // Retrieve skills list and print them on UI (disable all buttons, enable Skills buttons)
         ChangeState(UIBattleState.SkillsOpened);
 
-    }
-
-    public void PressGuardButton()
-    {
-        // Retrieve current character from CharacterManager to process guard
     }
 
     public void ChangeState(UIBattleState newState)
@@ -207,6 +212,7 @@ public class UIBattleHandler : MonoBehaviour {
         occupiedCharacterPanelIndex[initIndex] = true;
         characterPanel.gameObject.SetActive(true);
         associatedCharacterPanel.Add(_pawnInstanceForInit, characterPanel);
+        associatedCharacterPanelReversed.Add(characterPanel, _pawnInstanceForInit);
         SkillsPanelInit(_pawnInstanceForInit, initIndex);
     }
 
@@ -277,6 +283,8 @@ public class UIBattleHandler : MonoBehaviour {
         }
 
         associatedCharacterPanel[_toUpdate].GetChild((int)CharactersPanelChildren.Avatar).GetComponent<Image>().enabled = _enableHighlightFeedback;
+        associatedCharacterPanel[_toUpdate].GetChild((int)CharactersPanelChildren.Avatar).GetComponentInChildren<Button>().interactable = _enableHighlightFeedback;
+        associatedCharacterPanel[_toUpdate].GetChild((int)CharactersPanelChildren.Avatar).GetComponentInParent<Button>().interactable = _enableHighlightFeedback;
     }
 
     public void UpdateAttributesStocks(Fighter _toUpdate)
@@ -330,5 +338,4 @@ public class UIBattleHandler : MonoBehaviour {
         }
         panelToUpdate.GetChild((int)CharactersPanelChildren.LifeBar).GetChild((int)LifeBarChildren.Text).GetComponent<Text>().text = _toUpdate.CurrentHp + " / " + _toUpdate.Data.MaxHp;
     }
-
 }

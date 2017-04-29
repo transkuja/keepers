@@ -267,7 +267,6 @@ public class ControlsManager : MonoBehaviour
 
                             if (clickTarget.GetComponentInParent<PawnInstance>() != null)
                             {
-
                                 if (clickTarget.GetComponentInParent<Keeper>() != null)
                                 {
                                     if (clickTarget.GetComponentInParent<Fighter>() != null && !clickTarget.GetComponentInParent<Fighter>().HasPlayedThisTurn)

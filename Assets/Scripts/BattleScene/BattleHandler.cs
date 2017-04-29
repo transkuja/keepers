@@ -120,6 +120,7 @@ public class BattleHandler {
         }
 
         GameManager.Instance.GetBattleUI.SetActive(true);
+        DeactivateFeedbackSelection(true, false);
 
         ShiftTurn();
     }
