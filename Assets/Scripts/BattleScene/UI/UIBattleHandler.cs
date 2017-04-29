@@ -270,21 +270,32 @@ public class UIBattleHandler : MonoBehaviour {
 
     public void UpdateAvatar(PawnInstance _toUpdate, bool _enableHighlightFeedback)
     {
+        bool enableHighlightFeedback = false;
         if (!associatedCharacterPanel.ContainsKey(_toUpdate))
             return;
 
-        if (_toUpdate.GetComponent<Fighter>().HasPlayedThisTurn)
+        if (!BattleHandler.HasDiceBeenThrown)
         {
-                        
+            enableHighlightFeedback = false;
         }
         else
         {
-            associatedCharacterPanel[_toUpdate].GetChild((int)CharactersPanelChildren.Avatar).GetChild(0).GetComponent<Image>().sprite = _toUpdate.Data.AssociatedSprite;
+            if (_toUpdate.GetComponent<Fighter>().HasPlayedThisTurn)
+            {
+                enableHighlightFeedback = false;
+            }
+            else
+            {
+                if (GameManager.Instance.ListOfSelectedKeepers != null && GameManager.Instance.ListOfSelectedKeepers.Count > 0)
+                    enableHighlightFeedback = !(GameManager.Instance.GetFirstSelectedKeeper() == _toUpdate);
+                else
+                    enableHighlightFeedback = true;
+                associatedCharacterPanel[_toUpdate].GetChild((int)CharactersPanelChildren.Avatar).GetChild(0).GetComponent<Image>().sprite = _toUpdate.Data.AssociatedSprite;
+            }
         }
-
-        associatedCharacterPanel[_toUpdate].GetChild((int)CharactersPanelChildren.Avatar).GetComponent<Image>().enabled = _enableHighlightFeedback;
-        associatedCharacterPanel[_toUpdate].GetChild((int)CharactersPanelChildren.Avatar).GetComponentInChildren<Button>().interactable = _enableHighlightFeedback;
-        associatedCharacterPanel[_toUpdate].GetChild((int)CharactersPanelChildren.Avatar).GetComponentInParent<Button>().interactable = _enableHighlightFeedback;
+        associatedCharacterPanel[_toUpdate].GetChild((int)CharactersPanelChildren.Avatar).GetComponent<Image>().enabled = enableHighlightFeedback;
+        associatedCharacterPanel[_toUpdate].GetChild((int)CharactersPanelChildren.Avatar).GetComponentInChildren<Button>().interactable = enableHighlightFeedback;
+        associatedCharacterPanel[_toUpdate].GetChild((int)CharactersPanelChildren.Avatar).GetComponentInParent<Button>().interactable = enableHighlightFeedback;
     }
 
     public void UpdateAttributesStocks(Fighter _toUpdate)
