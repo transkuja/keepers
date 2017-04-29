@@ -22,11 +22,31 @@ public class ShowMainQuest : MonoBehaviour {
     public void ShowLevelArrival()
     {
         GameManager.Instance.UpdateCameraPosition(TileManager.Instance.EndTile);
+        for (int i = 0; i < transform.childCount; i++)
+            transform.GetChild(i).gameObject.SetActive(false);
         isTimerActive = true;
     }
 
     public void Update()
     {
+        if (!isTimerActive && Input.GetKeyDown(KeyCode.Space))
+        {
+            ShowLevelArrival();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            isTimerActive = false;
+            isFirstStepFinished = false;
+
+            gameObject.SetActive(false);
+            if (TutoManager.s_instance != null && TutoManager.s_instance.enableTuto && TutoManager.s_instance.GetComponent<SeqFirstMove>().AlreadyPlayed == false)
+            {
+                TutoManager.s_instance.playSequence(TutoManager.s_instance.GetComponent<SeqFirstMove>());
+            }
+            GameManager.Instance.UpdateCameraPosition(TileManager.Instance.BeginTile);
+        }
+
         if (isTimerActive)
         {
             timeToResetCamera -= Time.deltaTime;
