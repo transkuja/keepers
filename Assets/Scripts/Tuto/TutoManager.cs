@@ -79,7 +79,7 @@ public class TutoManager : MonoBehaviour {
         GameManager.Instance.PrisonerInstance.GetComponent<Interactable>().Interactions = new InteractionImplementer();
         Destroy(GameManager.Instance.PrisonerInstance.GetComponent<GlowObjectCmd>());
 
-        s_instance.playSequence(s_instance.GetComponent<SeqFirstMove>());
+       // s_instance.playSequence(s_instance.GetComponent<SeqFirstMove>());
     }
 
     void Update()

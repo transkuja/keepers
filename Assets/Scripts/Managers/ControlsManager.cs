@@ -368,7 +368,7 @@ public class ControlsManager : MonoBehaviour
             {
                 if (GameManager.Instance.ListOfSelectedKeepers != null && GameManager.Instance.ListOfSelectedKeepers.Count > 0)
                 {
-                    if(GameManager.Instance.CameraManagerReference.state == CameraManager.CameraState.far)
+                    if(GameManager.Instance.CameraManagerReference.state == CameraManager.CameraState.Far)
                     {
                         // Get first selected
                         PawnInstance currentKeeperSelected = GameManager.Instance.ListOfSelectedKeepers[0];

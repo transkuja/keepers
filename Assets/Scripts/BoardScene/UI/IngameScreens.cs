@@ -95,5 +95,6 @@ public enum IngameScreensEnum
     SelectBattleCharactersScreen,
     WinScreen,
     LoseScreen,
-    EscapeMenu
+    EscapeMenu,
+    MainQuestPanel
 }

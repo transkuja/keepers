@@ -16,8 +16,8 @@ public class CameraManager : MonoBehaviour {
 
     public enum CameraState
     {
-        close,
-        far
+        Close,
+        Far
     }
 
     struct Transformation
@@ -41,7 +41,7 @@ public class CameraManager : MonoBehaviour {
     [SerializeField]
     float farSpeedMultiplier = 1.5f;
     Vector3 newPosition;
-    public CameraState state = CameraState.close;
+    public CameraState state = CameraState.Close;
 
     // Camera Drag
     [SerializeField] float fDragFactor = 0.1f;
@@ -55,6 +55,9 @@ public class CameraManager : MonoBehaviour {
     public List<GreyTileCameraAdapter> greyTileCameraAdapters = new List<GreyTileCameraAdapter>();
     public List<SelectionPointerCameraAdapter> selectionPointerCameraAdapters = new List<SelectionPointerCameraAdapter>();
     public List<WorldspaceCanvasCameraAdapter> worldspaceCanvasCameraAdapters = new List<WorldspaceCanvasCameraAdapter>();
+
+    bool isFirstCallToUpdatePosition = false;
+    bool hasMainQuestBeenShown = false;
 
     // *********************************
     enum CameraBound
@@ -131,11 +134,13 @@ public class CameraManager : MonoBehaviour {
         closeToFar = tFar.position - tClose.position;
 
         zoomState = eZoomState.forward;
-        state = CameraState.close;
+        state = CameraState.Close;
         FZoomLerp = .85f;
         fLerpTarget = .85f;
         fZoomLerpOrigin = .85f;
         isUpdateNeeded = true;
+        isFirstCallToUpdatePosition = false;
+        hasMainQuestBeenShown = false;
 
         GameManager.Instance.RegisterCameraManager(this);
     }
@@ -152,6 +157,8 @@ public class CameraManager : MonoBehaviour {
         isUpdateNeeded = true;
         oldPosition = tClose.position;
         activeTile = targetTile;
+        if (!isFirstCallToUpdatePosition && !hasMainQuestBeenShown)
+            isFirstCallToUpdatePosition = true;
     }
 
     public void UpdateCameraPosition(Vector3 _newPosition)
@@ -174,7 +181,7 @@ public class CameraManager : MonoBehaviour {
 
     void Update()
     {
-        if (GameManager.Instance != null && GameManager.Instance.CurrentState == GameState.Normal)
+        if (GameManager.Instance != null && (GameManager.Instance.CurrentState == GameState.Normal || GameManager.Instance.CurrentState == GameState.InPause))
         {
             if (isUpdateNeeded)
             {
@@ -183,7 +190,6 @@ public class CameraManager : MonoBehaviour {
                 Vector3 v3NewPos = Vector3.Lerp(oldPosition, positionFromATileClose + activeTile.transform.position + Vector3.back, Mathf.Min(lerpParameter, 1.0f));
 
                 
-
                 v3NewPos.y = tClose.position.y;
                 tClose.position = v3NewPos;
 
@@ -197,6 +203,12 @@ public class CameraManager : MonoBehaviour {
                     isUpdateNeeded = false;
                     oldPosition = Vector3.zero;
                     lerpParameter -= 1.0f;
+                    if (isFirstCallToUpdatePosition && !hasMainQuestBeenShown)
+                    {
+                        // show main quest
+                        GameManager.Instance.ShowMainQuest();
+                        hasMainQuestBeenShown = true;
+                    }
                 }
 
                 //Vector3 pos = transform.position;
@@ -205,7 +217,8 @@ public class CameraManager : MonoBehaviour {
                 //transform.position = pos;
             }
 
-            Controls();
+            if (GameManager.Instance.CurrentState != GameState.InPause)
+                Controls();
 
             if (zoomState != eZoomState.idle)
             {
@@ -252,11 +265,11 @@ public class CameraManager : MonoBehaviour {
 
         if (fZoomLerp < 0.6f)
         {
-            state = CameraState.far;
+            state = CameraState.Far;
         }
         else
         {
-            state = CameraState.close;
+            state = CameraState.Close;
         }
     }
     private void Controls()
@@ -344,7 +357,7 @@ public class CameraManager : MonoBehaviour {
         {
             Vector3 v3IncrementPos = new Vector3( Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
             float speed = fKeySpeed * Time.deltaTime;
-            if (state == CameraState.far)
+            if (state == CameraState.Far)
                 speed *= farSpeedMultiplier;
             v3IncrementPos = v3IncrementPos.normalized * speed; 
             if (!((tClose.position + v3IncrementPos).z > cameraBounds.GetChild((int)CameraBound.South).position.z &&

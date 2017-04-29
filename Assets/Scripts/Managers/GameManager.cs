@@ -792,7 +792,10 @@ public class GameManager : MonoBehaviour
             Debug.Log("Can't add a pawn to selected keepers list without the Keeper component.");
     }
 
-
+    public void ShowMainQuest()
+    {
+        gameScreens.transform.GetChild(0).GetChild((int)IngameScreensEnum.MainQuestPanel).gameObject.SetActive(true);
+    }
 
     #region Game states switch functions
 

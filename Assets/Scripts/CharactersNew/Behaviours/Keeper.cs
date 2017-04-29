@@ -395,7 +395,7 @@ namespace Behaviour
                     if (agent != null)
                         agent.avoidancePriority = value == true ? 80 : 50;
 
-                    if (isSelected == true && GameManager.Instance.CameraManagerReference.state == CameraManager.CameraState.close)
+                    if (isSelected == true && GameManager.Instance.CameraManagerReference.state == CameraManager.CameraState.Close)
                     {
                         GameManager.Instance.UpdateCameraPosition(instance);
                     }

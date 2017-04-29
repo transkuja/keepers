@@ -29,7 +29,7 @@ public class QuestsContainer {
         quests.Add(new Quest(new QuestIdentifier("main_quest_01", ""), 
                             new QuestText("Main Quest: The last phoque licorne", 
                             "", 
-                            "You're probably wondering why I gathered all of you here today. Well I'll be quick, I want you to bring this wonderful animal to my good and rich friend." + 
+                            "You're probably wondering why I gathered all of you here today. Well I'll be quick, I want you to bring this wonderful animal, Ashley, to my good and rich friend." + 
                             "Don't worry, you will be rewarded. His name is \"The End\", you'll see his flag from pretty far away, head towards it. I'm counting on you, it is extremely important.", 
                             "",
                             "Hint: Don't kill Ashley."), 

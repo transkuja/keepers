@@ -15,40 +15,6 @@ public class SeqFirstMove : Sequence {
     public GameObject shortcutBtn;
     public GameObject endTurnBtn;
 
-
-    //public GameObject SpawnPointer2()
-    //{
-    //    GameObject pointer = GameObject.Instantiate(GameManager.Instance.PrefabUIUtils.PrefabImageUI, endTurnBtn.transform, false);
-
-    //    pointer.GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteTutoHighlightCercle;
-    //    pointer.transform.SetParent(endTurnBtn.transform.parent);
-    //    pointer.transform.SetAsFirstSibling();
-    //    pointer.AddComponent<UIPointerOpacityTingling>();
-    //    pointer.SetActive(false);
-    //    return pointer;
-    //}
-
-    //public class Activation : Etape
-    //{
-    //    GameObject goActivable;
-    //    bool active;
-    //    Sprite sprite;
-    //    public Activation(GameObject _goActivable, Sprite _sprite, bool _active)
-    //    {
-    //        goActivable = _goActivable;
-    //        active = _active;
-    //        sprite = _sprite;
-    //        step = Activation_fct(0.0f);
-    //    }
-    //    public IEnumerator Activation_fct(float delayTime)
-    //    {
-    //        yield return new WaitForSeconds(delayTime);
-    //        goActivable.SetActive(active);
-    //        goActivable.GetComponent<Image>().sprite = sprite;
-    //        TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.ReadyForNext;
-    //        alreadyPlayed = true;
-    //    }
-    //}
     public class ExploreActionPointsExplanation : Step
     {
         string str;
@@ -206,8 +172,6 @@ public class SeqFirstMove : Sequence {
 
             if (portal.GetComponent<GlowObjectCmd>() == null)
                 portal.AddComponent<GlowObjectCmd>();
-            portal.AddComponent<Rigidbody>();
-            portal.GetComponent<Rigidbody>().useGravity = false;
             portal.transform.parent.gameObject.SetActive(true);
             portal.GetComponent<GlowObjectCmd>().UpdateColor(true);
 
@@ -261,6 +225,66 @@ public class SeqFirstMove : Sequence {
         {
             // Desactive le feedback sur les points d'action
             Destroy(feedbackPointer);
+            alreadyPlayed = false;
+        }
+    }
+
+    public class ReactivateAscFeedbackStep : Step
+    {
+        string str;
+        public ReactivateAscFeedbackStep(string _str)
+        {
+            stepFunction = Message_fct;
+            str = _str;
+        }
+
+        public void Message_fct()
+        {
+            TutoManager.s_instance.EcrireMessage(str);
+
+            // Reactivate feedback above heads
+            if (!GameManager.Instance.AllKeepersList[0].transform.GetChild(2).GetChild(0).gameObject.activeSelf)
+                GameManager.Instance.AllKeepersList[0].transform.GetChild(2).GetChild(0).gameObject.SetActive(true);
+            if (!GameManager.Instance.PrisonerInstance.transform.GetChild(2).GetChild(0).gameObject.activeSelf)
+                GameManager.Instance.PrisonerInstance.transform.GetChild(2).GetChild(0).gameObject.SetActive(true);
+
+            TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.Idle;
+        }
+
+        public override void Reverse()
+        {
+            alreadyPlayed = false;
+        }
+    }
+
+    public class GiveACookieStep : Step
+    {
+        string str;
+        bool hasCookieBeenOffered = false;
+        public GiveACookieStep(string _str)
+        {
+            stepFunction = Message_fct;
+            str = _str;
+            hasCookieBeenOffered = false;
+        }
+
+        public void Message_fct()
+        {
+            TutoManager.s_instance.EcrireMessage(str);
+
+            if (!hasCookieBeenOffered)
+            {
+                ItemContainer cookie = new ItemContainer(GameManager.Instance.ItemDataBase.getItemById("thecookie"), 1);
+                InventoryManager.AddItemToInventory(GameManager.Instance.AllKeepersList[0].GetComponent<Inventory>().Items, cookie);
+                GameManager.Instance.AllKeepersList[0].GetComponent<Inventory>().UpdateInventories();
+            }
+            GameManager.Instance.AllKeepersList[0].AddFeedBackToQueue(GameManager.Instance.SpriteUtils.spriteCookie, 1);
+            TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.Idle;
+        }
+
+        public override void Reverse()
+        {
+            hasCookieBeenOffered = true;
             alreadyPlayed = false;
         }
     }
@@ -353,13 +377,6 @@ public class SeqFirstMove : Sequence {
 
         public void Message_fct()
         {
-            // Add a cookie in inventory with highlight sprite
-            // show inventory
-            // highlight the cookie
-            // Insantiate ItemUI, sprite cookie, 
-            ItemContainer cookie = new ItemContainer(GameManager.Instance.ItemDataBase.getItemById("thecookie"), 1);
-            InventoryManager.AddItemToInventory(GameManager.Instance.AllKeepersList[0].GetComponent<Inventory>().Items, cookie);
-            GameManager.Instance.AllKeepersList[0].GetComponent<Inventory>().UpdateInventories();
             GameManager.Instance.AllKeepersList[0].GetComponent<Inventory>().SelectedInventoryPanel.gameObject.SetActive(true); // Inventory
 
             TutoManager.s_instance.EcrireMessage(str);
@@ -371,106 +388,6 @@ public class SeqFirstMove : Sequence {
             alreadyPlayed = false;
         }
     }
-
-    //public class LootAt : Etape
-    //{
-    //    GameObject mrresetti;
-    //    GameObject pointer;
-    //    GameObject gobtn;
-    //    AnimationClip turnLeft;
-    //    string str;
-
-    //    public LootAt(GameObject _mrresetti, GameObject _pointer, GameObject _btnToHightlight, AnimationClip _turnLeft)
-    //    {
-    //        mrresetti = _mrresetti;
-    //        gobtn = _btnToHightlight;
-    //        turnLeft = _turnLeft;
-    //        pointer = _pointer;
-    //        pointer.transform.localScale = Vector3.one;
-    //        pointer.transform.position = gobtn.transform.position;
-    //        RectTransform rt = _btnToHightlight.GetComponent(typeof(RectTransform)) as RectTransform;
-    //        float newX = _btnToHightlight.GetComponent<RectTransform>().sizeDelta.x + 70;
-    //        float newY = _btnToHightlight.GetComponent<RectTransform>().sizeDelta.y + 70;
-    //        pointer.GetComponent<RectTransform>().sizeDelta = new Vector2(newX, newY);
-    //        pointer.SetActive(false);
-    //        step = LootAt_fct(0.5f);
-    //        str = "Regardez la bas, essayez de cliquer dessus.";
-    //    }
-    //    public IEnumerator LootAt_fct(float delayTime)
-    //    {
-    //        yield return new WaitForSeconds(delayTime);
-
-    //        pointer.SetActive(true);
-    //        mrresetti.GetComponentInChildren<Animator>().SetTrigger("turnLeft");
-    //        yield return new WaitForSeconds(turnLeft.length);
-    //        yield return TutoManager.s_instance.EcrireMessage(str);
-    //        gobtn.gameObject.AddComponent<MouseClickExpected>();
-    //        TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.WaitingForClickUI;
-
-    //        // Clean
-    //        yield return new WaitForSeconds(0.5f);
-    //        //pointer.SetActive(false);
-    //        //gobtn.transform.localScale = Vector3.one;
-    //        //Destroy(pointer);
-    //        alreadyPlayed = true;
-    //    }
-    //}
-
-    //public class UnLookAt : Etape
-    //{
-    //    GameObject mrresetti;
-    //    GameObject pointer;
-    //    AnimationClip jump;
-    //    GameObject btnToUnHightlight;
-    //    string str;
-
-    //    public UnLookAt(GameObject _mrresetti, GameObject _pointer, GameObject _btnToUnHightlight, AnimationClip _jumpAnimationClip)
-    //    {
-    //        mrresetti = _mrresetti;
-    //        jump = _jumpAnimationClip;
-    //        pointer = _pointer;
-    //        btnToUnHightlight = _btnToUnHightlight;
-    //        step = UnLookAtAt_fct(0.5f);
-    //    }
-    //    public IEnumerator UnLookAtAt_fct(float delayTime)
-    //    {
-    //        yield return new WaitForSeconds(delayTime);
-    //        pointer.SetActive(false);
-    //        mrresetti.GetComponentInChildren<Animator>().SetTrigger("jumpArround");
-    //        yield return new WaitForSeconds(jump.length);
-    //        TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.ReadyForNext;
-    //        btnToUnHightlight.GetComponent<MouseClickExpected>().enabled = false;
-
-    //        // Clean
-    //        //pointer.SetActive(false);
-    //        //gobtn.transform.localScale = Vector3.one;
-    //        //Destroy(pointer);
-    //        alreadyPlayed = true;
-    //    }
-    //}
-
-
-    //public class DeplacerCamera : Etape
-    //{
-    //    GameObject mrresetti;
-    //    Tile where;
-    //    public DeplacerCamera(GameObject _mrresetti, Tile _where)
-    //    {
-    //        mrresetti = _mrresetti;
-    //        where = _where;
-    //        step = DeplacerCamera_fct(0.5f);
-    //    }
-
-    //    public IEnumerator DeplacerCamera_fct(float delayTime)
-    //    {
-    //        yield return new WaitForSeconds(delayTime);
-    //        GameManager.Instance.CameraManagerReference.UpdateCameraPosition(where);
-    //        yield return new WaitForSeconds(delayTime);
-    //        TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.WaitingForInput;
-    //        alreadyPlayed = true;
-    //    }
-    //}
-
 
     public override void Init()
     {
@@ -493,7 +410,8 @@ public class SeqFirstMove : Sequence {
         Etapes.Add(new ExploreActionPointsExplanation("you can see the cost of the action here."));
         Etapes.Add(new ExploreStep("Now click on the Explore button to explore the next area. And get a cookie."));
 
-        Etapes.Add(new TutoManager.Message(pawnMrResetti, "Well done you genius, here's your cookie!"));
+        Etapes.Add(new ReactivateAscFeedbackStep("Well done you genius,"));
+        Etapes.Add(new GiveACookieStep("here's your cookie!"));
         Etapes.Add(new ActionPointsExplanationStep("This action cost you 3 action points. Always keep an eye on them.")); // ==> feedback sur les points d'action
         Etapes.Add(new FirstEndTurnStep("You can restore your action points by clicking on the end turn button."));
 
