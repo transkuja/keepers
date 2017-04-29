@@ -584,6 +584,7 @@ public class SkillBattle
 
     public bool CanUseSkill()
     {
+        Debug.Log(skillUser);
         foreach (Face f in cost)
         {
             if (f.Type == FaceType.Physical && skillUser.PhysicalSymbolStored < f.Value)
@@ -599,6 +600,8 @@ public class SkillBattle
 
     public void UseSkill(PawnInstance _target)
     {
+        Debug.Log(skillName);
+
         if (depressedVersion != null && skillUser.GetComponent<MentalHealthHandler>() != null && skillUser.GetComponent<MentalHealthHandler>().IsDepressed)
         {
             depressedVersion.UseSkill(_target);

@@ -704,6 +704,7 @@ public class BattleHandler {
                 {
                     pendingSkill.SkillUser.HasPlayedThisTurn = true;
                     pendingSkill.SkillUser = null;
+                    pendingSkill = null;
                     return;
                 }
 
