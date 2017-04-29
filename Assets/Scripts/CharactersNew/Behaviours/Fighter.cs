@@ -494,8 +494,9 @@ public enum TargetType { Friend, Foe}
  * Contains definition of battle skills 
  */
 [System.Serializable]
-public class SkillBattle
-{
+public class SkillBattle {
+
+    [SerializeField]
     private Fighter skillUser;
 
     [SerializeField]
@@ -582,9 +583,33 @@ public class SkillBattle
         }
     }
 
+    public SkillBattle()
+    {
+
+    }
+
+    public SkillBattle(SkillBattle _origin)
+    {
+        if (_origin == null)
+        {
+            new SkillBattle();
+        }
+        else
+        {
+            skillUser = _origin.skillUser;
+            damage = _origin.damage;
+
+            skillName = _origin.skillName;
+            description = _origin.description;
+            cost = _origin.cost;
+            targetType = _origin.targetType;
+
+            depressedVersion = new SkillBattle(_origin.depressedVersion);
+        }
+    }
+
     public bool CanUseSkill()
     {
-        Debug.Log(skillUser);
         foreach (Face f in cost)
         {
             if (f.Type == FaceType.Physical && skillUser.PhysicalSymbolStored < f.Value)
@@ -600,8 +625,6 @@ public class SkillBattle
 
     public void UseSkill(PawnInstance _target)
     {
-        Debug.Log(skillName);
-
         if (depressedVersion != null && skillUser.GetComponent<MentalHealthHandler>() != null && skillUser.GetComponent<MentalHealthHandler>().IsDepressed)
         {
             depressedVersion.UseSkill(_target);

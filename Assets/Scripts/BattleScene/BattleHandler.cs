@@ -333,8 +333,6 @@ public class BattleHandler {
                 }
             }
 
-            Debug.Log(newIndex);
-            Debug.Log(currentBattleKeepers.Length);
             if (currentBattleKeepers[newIndex].GetComponent<Mortal>().CurrentHp <= 0)
             {
                 alreadyPickedIndex[drawIndex] = newIndex;
@@ -456,7 +454,7 @@ public class BattleHandler {
         currentTurnDice = null;
         hasDiceBeenThrown = false;
         wasTheLastToPlay = false;
-        pendingSkill = null;
+        PendingSkill = null;
         isWaitingForSkillEnd = false;
     }
 
@@ -604,7 +602,7 @@ public class BattleHandler {
 
     public static void WaitForSkillConfirmation(SkillBattle _skillData)
     {
-        pendingSkill = _skillData;
+        PendingSkill = _skillData;
     }
 
     public static bool IsKeepersTurn
@@ -684,7 +682,10 @@ public class BattleHandler {
 
         set
         {
-            pendingSkill = value;
+            if (value != null)
+                pendingSkill = new SkillBattle(value);
+            else
+                pendingSkill = null;
         }
     }
 
@@ -703,7 +704,6 @@ public class BattleHandler {
                 if (pendingSkill != null && pendingSkill.SkillUser != null && pendingSkill.SkillUser.GetComponent<Keeper>() != null)
                 {
                     pendingSkill.SkillUser.HasPlayedThisTurn = true;
-                    pendingSkill.SkillUser = null;
                     pendingSkill = null;
                     return;
                 }
