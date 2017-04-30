@@ -1,0 +1,23 @@
+Retours playtest
+
+Profil 1
+Nono, 26 ans, gamer, habitué de jeu de roles
+
+Tendance a cliquer sur le tile adjacent pour se déplacer plutot que le visuel
+touchpad pour dézoom???
+feedback au sol pas clair
+revoir les trigger de combat
+revoir les raycast pour la selection
+selectionne en cliquant sur le panneau en combat 
+bouton retour sur panel de skills 
+bouton en haut a gauche pas clair sans tuto
+tuto conséquence low hunger 
+tuto escorte
+tuto clair 
+
+Notes à part:
+revoir les dés de la fille
+
+
+
+Profil 2

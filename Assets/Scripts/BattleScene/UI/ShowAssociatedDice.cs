@@ -7,7 +7,6 @@ public class ShowAssociatedDice : MonoBehaviour, IPointerEnterHandler, IPointerE
     PawnInstance pawn;
     GameObject feedbackAboveDice;
     int attackTotal = 0;
-    int defenseTotal = 0;
 
     private void Start()
     {
@@ -19,13 +18,10 @@ public class ShowAssociatedDice : MonoBehaviour, IPointerEnterHandler, IPointerE
             feedbackAboveDice.SetActive(false);
         }
         attackTotal = 0;
-        defenseTotal = 0;
         foreach (Face face in pawn.GetComponent<Behaviour.Fighter>().LastThrowResult)
         {
             if (face.Type == FaceType.Physical)
                 attackTotal += face.Value;
-            if (face.Type == FaceType.Defensive)
-                defenseTotal += face.Value;
         }
     }
 
@@ -52,7 +48,7 @@ public class ShowAssociatedDice : MonoBehaviour, IPointerEnterHandler, IPointerE
                 die.GetComponent<GlowObjectCmd>().enabled = true;
             }
         }
-        Destroy(feedbackAboveDice);
+        feedbackAboveDice.SetActive(false);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -77,18 +73,11 @@ public class ShowAssociatedDice : MonoBehaviour, IPointerEnterHandler, IPointerE
                 feedbackAboveDice.GetComponentInChildren<Text>().color = Color.red;
                 feedbackAboveDice.GetComponentInChildren<Image>().sprite = GameManager.Instance.SpriteUtils.spriteAttackSymbol;
                 feedbackAboveDice.GetComponentInChildren<Image>().color = Color.red;
-                // TODO: @Anthony, pretty ugly
-                feedbackAboveDice.transform.position = Camera.main.WorldToScreenPoint(TileManager.Instance.DicePositionsOnTile.GetChild(GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().GetCharacterPanelIndex(pawn).parent.GetSiblingIndex()).position);
-                feedbackAboveDice.SetActive(true);
-            }
-            else
-            {
-                feedbackAboveDice.GetComponentInChildren<Text>().text = defenseTotal.ToString();
-                feedbackAboveDice.GetComponentInChildren<Text>().color = Color.blue;
-                feedbackAboveDice.GetComponentInChildren<Image>().sprite = GameManager.Instance.SpriteUtils.spriteDefenseSymbol;
-                feedbackAboveDice.GetComponentInChildren<Image>().color = Color.blue;
-                // TODO: @Anthony, pretty ugly
-                feedbackAboveDice.transform.position = Camera.main.WorldToScreenPoint(TileManager.Instance.DicePositionsOnTile.GetChild(GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().GetCharacterPanelIndex(pawn).parent.GetSiblingIndex()).position);
+                // TODO: @Anthony, pretty very ugly butt it works
+                feedbackAboveDice.transform.position = 
+                    Camera.main.WorldToScreenPoint(TileManager.Instance.DicePositionsOnTile
+                    .GetChild(GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().GetCharacterPanelIndex(pawn).parent.GetSiblingIndex()).localPosition
+                    + GameManager.Instance.CameraManagerReference.ActiveTile.transform.position);
                 feedbackAboveDice.SetActive(true);
             }
             foreach (GameObject die in pawn.GetComponent<Behaviour.Fighter>().LastThrowDiceInstance)
