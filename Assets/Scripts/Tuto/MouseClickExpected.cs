@@ -11,6 +11,16 @@ public class MouseClickExpected : MonoBehaviour, IPointerClickHandler {
         TutoManager.MouseClicked = false;
     }
 
+    private void Update()
+    {
+        if (TutoManager.s_instance.PlayingSequence != null 
+            && TutoManager.s_instance.PlayingSequence.CurrentStep.GetType() == typeof(SeqMultiCharacters.ShortcutPanelTeaching))
+        {
+            if (Input.GetKeyDown(KeyCode.A))
+                TutoManager.MouseClicked = true;
+        }
+
+    }
 
     public void OnPointerClick(PointerEventData eventData)
     {

@@ -42,6 +42,15 @@ public class RightMouseClickExpected : MonoBehaviour {
                         if (tp.GetComponentInParent<Tile>() == GameManager.Instance.AllKeepersList[0].CurrentTile)
                             tp.HandleClick();
                     }
+                    else if (TargetExpected == "Keeper" && (hitInfo.collider.GetComponentInParent<Keeper>() != null || hitInfo.collider.GetComponentInParent<Escortable>() != null))
+                    {
+                        TutoManager.MouseClicked = true;
+                        if (hitInfo.collider.GetComponentInParent<Escortable>() != null)
+                            hitInfo.collider.GetComponentInParent<Escortable>().UpdateEscortableInteractions();
+
+                        GameManager.Instance.GoTarget = hitInfo.collider.GetComponentInParent<Interactable>();
+                        GameManager.Instance.Ui.UpdateActionPanelUIQ(hitInfo.collider.GetComponentInParent<PawnInstance>().Interactions);
+                    }
                 }
             }
         }
