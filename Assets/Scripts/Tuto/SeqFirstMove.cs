@@ -420,7 +420,8 @@ public class SeqFirstMove : Sequence {
         Etapes.Add(new ActionPointsExplanationStep("This action cost you 3 action points. Always keep an eye on them.")); // ==> feedback sur les points d'action
         Etapes.Add(new FirstEndTurnStep("You can restore your action points by clicking on the end turn button."));
 
-        Etapes.Add(new AddHungerStep("Ending your turn starves your characters, so be careful!")); // Activate hunger panel + feedback pointer
+        Etapes.Add(new TutoManager.Message(pawnMrResetti, "Ending your turn send your characters to sleep,")); // Activate hunger panel + feedback pointer
+        Etapes.Add(new AddHungerStep("but they become hungry in the morning, so be careful!"));
         Etapes.Add(new TutoManager.Message(pawnMrResetti, "Remember the cookie?"));
         Etapes.Add(new UseAnObjectStep("Eat it by double clicking on it to restore your selected character's hunger.")); // Activate inventory and add a cookie in to be used
 

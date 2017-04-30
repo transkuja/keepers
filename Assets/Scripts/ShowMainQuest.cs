@@ -40,9 +40,12 @@ public class ShowMainQuest : MonoBehaviour {
             isFirstStepFinished = false;
 
             gameObject.SetActive(false);
-            if (TutoManager.s_instance != null && TutoManager.s_instance.enableTuto && TutoManager.s_instance.GetComponent<SeqFirstMove>().AlreadyPlayed == false)
+            if (TutoManager.s_instance != null && TutoManager.s_instance.enableTuto)
             {
-                TutoManager.s_instance.playSequence(TutoManager.s_instance.GetComponent<SeqFirstMove>());
+                if (TutoManager.s_instance.GetComponent<SeqFirstMove>().AlreadyPlayed == false)
+                    TutoManager.s_instance.playSequence(TutoManager.s_instance.GetComponent<SeqFirstMove>());
+                else if (TutoManager.s_instance.GetComponent<SeqMultiCharacters>().AlreadyPlayed == false)
+                    TutoManager.s_instance.playSequence(TutoManager.s_instance.GetComponent<SeqMultiCharacters>());
             }
             GameManager.Instance.UpdateCameraPosition(TileManager.Instance.BeginTile);
         }
@@ -64,9 +67,12 @@ public class ShowMainQuest : MonoBehaviour {
             if (timeToLaunchTuto <= 0.0f)
             {
                 gameObject.SetActive(false);
-                if (TutoManager.s_instance != null && TutoManager.s_instance.enableTuto && TutoManager.s_instance.GetComponent<SeqFirstMove>().AlreadyPlayed == false)
+                if (TutoManager.s_instance != null && TutoManager.s_instance.enableTuto)
                 {
-                    TutoManager.s_instance.playSequence(TutoManager.s_instance.GetComponent<SeqFirstMove>());
+                    if (TutoManager.s_instance.GetComponent<SeqFirstMove>().AlreadyPlayed == false)
+                        TutoManager.s_instance.playSequence(TutoManager.s_instance.GetComponent<SeqFirstMove>());
+                    else if (TutoManager.s_instance.GetComponent<SeqMultiCharacters>().AlreadyPlayed == false)
+                        TutoManager.s_instance.playSequence(TutoManager.s_instance.GetComponent<SeqMultiCharacters>());
                 }
             }
         }
