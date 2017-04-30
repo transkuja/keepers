@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class AudioManager : MonoBehaviour {
 
@@ -80,7 +81,7 @@ public class AudioManager : MonoBehaviour {
         {
             s_instance = this;
             DontDestroyOnLoad(gameObject);
-            transform.GetChild(0).GetComponent<AudioSource>().clip = menuMusic;
+          //  transform.GetChild(0).GetComponent<AudioSource>().clip = menuMusic;
         }
         else if (s_instance != this)
         {
@@ -90,6 +91,11 @@ public class AudioManager : MonoBehaviour {
 
     void Start ()
     {
+        sourceMusic.Stop();
+        if (SceneManager.GetActiveScene().buildIndex != 0)
+            transform.GetChild(0).GetComponent<AudioSource>().clip = Scene1Clip;
+        else
+            transform.GetChild(0).GetComponent<AudioSource>().clip = menuMusic;
         sourceMusic.Play();
     }
 

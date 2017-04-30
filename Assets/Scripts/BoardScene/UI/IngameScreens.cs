@@ -10,6 +10,7 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class IngameScreens : MonoBehaviour {
     private static IngameScreens instance = null;
+    public AudioManager audioMan;
 
     public void Start()
     {
@@ -93,6 +94,9 @@ public class IngameScreens : MonoBehaviour {
     {
         GameManager.Instance.CurrentState = GameState.Normal;
         GameManager.Instance.ResetInstance();
+        audioMan.transform.GetChild(0).GetComponent<AudioSource>().clip = audioMan.Scene1Clip;
+        audioMan.sourceMusic.Play();
+
         SceneManager.LoadScene("ProtoScene1");
     }
 }
