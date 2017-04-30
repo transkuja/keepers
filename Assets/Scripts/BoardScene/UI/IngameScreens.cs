@@ -41,7 +41,7 @@ public class IngameScreens : MonoBehaviour {
 
     public void OpenCloseEscapeMenu()
     {
-        if (GameManager.Instance.CurrentState == GameState.Normal || GameManager.Instance.CurrentState == GameState.InTuto)
+        if (GameManager.Instance.CurrentState == GameState.Normal)
         {
             transform.GetChild(0).GetChild((int)IngameScreensEnum.EscapeMenu).gameObject.SetActive(true);
             GameManager.Instance.CurrentState = GameState.InPause;
@@ -52,17 +52,18 @@ public class IngameScreens : MonoBehaviour {
             {
                 transform.GetChild(0).GetChild((int)IngameScreensEnum.EscapeMenu).gameObject.SetActive(false);
                 transform.GetChild(0).GetChild((int)IngameScreensEnum.BattleResultScreens).gameObject.SetActive(false);
-                if (TutoManager.s_instance != null) // TMP
-                {
-                    if (TutoManager.s_instance.enableTuto == true)
-                    {
-                        GameManager.Instance.CurrentState = GameState.InTuto;
-                    }
-                } else
-                {
-                    GameManager.Instance.CurrentState = GameState.Normal;
-                }
-
+                GameManager.Instance.CurrentState = GameState.Normal;
+            }
+        }
+        else if (GameManager.Instance.CurrentState == GameState.InTuto)
+        {
+            if (transform.GetChild(0).GetChild((int)IngameScreensEnum.EscapeMenu).gameObject.activeInHierarchy)
+            {
+                transform.GetChild(0).GetChild((int)IngameScreensEnum.EscapeMenu).gameObject.SetActive(false);
+            }
+            else
+            {
+                transform.GetChild(0).GetChild((int)IngameScreensEnum.EscapeMenu).gameObject.SetActive(true);
             }
         }
     }
