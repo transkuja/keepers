@@ -3,7 +3,7 @@ Retours playtest
 Profil 1
 Nono, 26 ans, gamer, habitué de jeu de roles
 
-Tendance a cliquer sur le tile adjacent pour se déplacer plutot que le visuel
+Tendance a cliquer sur le tile adjacent pour se déplacer plutot que le visuel 
 touchpad pour dézoom???
 feedback au sol pas clair
 revoir les trigger de combat
@@ -17,7 +17,10 @@ tuto clair
 
 Notes à part:
 revoir les dés de la fille
+quete non fonctionnelle lors du test
 
-
+Fun global: 4/5
+Fun combat: 4/5
 
 Profil 2
+Shona, 

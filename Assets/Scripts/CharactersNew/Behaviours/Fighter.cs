@@ -99,8 +99,7 @@ namespace Behaviour
                         || (GameManager.Instance.CurrentState == GameState.InTuto && (GetComponent<Keeper>() != null || GetComponent<Escortable>() != null)))
                     {
                         EndSkillProcess();
-                    }
-                    
+                    }                
                 }
                 else
                 {
