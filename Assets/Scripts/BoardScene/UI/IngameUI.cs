@@ -215,7 +215,7 @@ public class IngameUI : MonoBehaviour
             btn.transform.GetComponentInChildren<Image>().sprite = selectedFighter.BattleInteractions.listActionContainers[i].sprite;
             btn.transform.GetComponentInChildren<Image>().transform.localScale = Vector3.one;
         }
-        
+
         worldSpaceCanvas.transform.SetParent(selectedFighter.InteractionsPosition);
         worldSpaceCanvas.transform.localPosition = Vector3.zero;
         worldSpaceCanvas.GetComponent<WorldspaceCanvasCameraAdapter>().RecalculateActionCanvas(Camera.main);

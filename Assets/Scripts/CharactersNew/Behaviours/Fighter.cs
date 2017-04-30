@@ -95,7 +95,12 @@ namespace Behaviour
             {
                 if (showSkillPanelTimer < 0.0f)
                 {
-                    EndSkillProcess();
+                    if (GameManager.Instance.CurrentState != GameState.InTuto
+                        || (GameManager.Instance.CurrentState == GameState.InTuto && (GetComponent<Keeper>() != null || GetComponent<Escortable>() != null)))
+                    {
+                        EndSkillProcess();
+                    }
+                    
                 }
                 else
                 {
@@ -126,7 +131,7 @@ namespace Behaviour
             }
         }
 
-        private void EndSkillProcess()
+        public void EndSkillProcess()
         {
             GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().SkillName.SetActive(false);
             showSkillPanelTimer = 2.2f;

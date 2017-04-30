@@ -4,6 +4,7 @@ using UnityEngine;
 
 public abstract class Sequence : MonoBehaviour
 {
+    [SerializeField]
     private bool alreadyPlayed = false;
     private SequenceState currentState;
     private List<Step> etapes;
@@ -68,7 +69,8 @@ public abstract class Sequence : MonoBehaviour
         set
         {
             currentState = value;
-            if (value == SequenceState.WaitingForClickUI || value == SequenceState.WaitingForClickInGame)
+            if (value == SequenceState.WaitingForClickUI || value == SequenceState.WaitingForClickInGame 
+                || value == SequenceState.WaitingForSkillUse || value == SequenceState.WaitingForExternalEvent)
             {
                 TutoManager.s_instance.PlayingSequence.CurrentStep.isReachableByClickOnPrevious = false;
                 TutoManager.EnableNextButton(false);

@@ -123,6 +123,11 @@ public class BattleHandler {
         DeactivateFeedbackSelection(true, false);
 
         ShiftTurn();
+
+        if (TutoManager.s_instance != null && TutoManager.s_instance.enableTuto && TutoManager.s_instance.GetComponent<SeqTutoCombat>().AlreadyPlayed == false)
+        {
+            TutoManager.s_instance.playSequence(TutoManager.s_instance.GetComponent<SeqTutoCombat>());
+        }
     }
 
     private static PawnInstance[] AllCurrentFighters()
@@ -242,6 +247,10 @@ public class BattleHandler {
             }
             ClearDiceForNextThrow();
             GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().ChangeState(UIBattleState.WaitForDiceThrow);
+            if (TutoManager.s_instance != null && TutoManager.s_instance.PlayingSequence != null && TutoManager.s_instance.PlayingSequence.CurrentState == SequenceState.WaitingForExternalEvent)
+            {
+                TutoManager.s_instance.PlayingSequence.Play();
+            }
         }
         else
         {

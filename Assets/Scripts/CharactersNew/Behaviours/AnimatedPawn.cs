@@ -64,7 +64,8 @@ namespace Behaviour
                     {
                         if (!keeper.GoListCharacterFollowing[i].GetComponent<AnimatedPawn>().IsMovingBetweenTiles)
                         {
-                            keeper.GoListCharacterFollowing[i].GetComponentInParent<NavMeshAgent>().destination = goDestinationTemp.transform.position;
+                            if (keeper.GoListCharacterFollowing[i].GetComponentInParent<NavMeshAgent>() != null && keeper.GoListCharacterFollowing[i].GetComponentInParent<NavMeshAgent>().isActiveAndEnabled)
+                                keeper.GoListCharacterFollowing[i].GetComponentInParent<NavMeshAgent>().destination = goDestinationTemp.transform.position;
                             goDestinationTemp = keeper.GoListCharacterFollowing[i];
                         }
                     }
@@ -201,44 +202,29 @@ namespace Behaviour
         }
 
         void Rotate()
-
         {
-
-            if (fLerpRotation >= 1.0f)
-
+            if (agent.enabled == false)
             {
-
-                transform.rotation = quatTargetRotation;
-
+                Debug.Log("Agent is not active!");
                 bIsRotating = false;
-
+                return;
+            }
+            if (fLerpRotation >= 1.0f)
+            {
+                transform.rotation = quatTargetRotation;
+                bIsRotating = false;
                 agent.Resume();
-
                 fLerpRotation = 0.0f;
 
-
-
                 agent.destination = v3AgentDirectionTemp;
-
                 agent.angularSpeed = 100.0f;
-
             }
-
             else
-
             {
-
                 fLerpRotation += fRotateSpeed * Time.deltaTime;
-
                 transform.rotation = Quaternion.Lerp(quatPreviousRotation, quatTargetRotation, fLerpRotation);
-
             }
-
         }
-
-        
-
-
 
         #region Accessors
 

@@ -388,7 +388,8 @@ namespace Behaviour
             {
                 isSelected = value;
 
-                if (GameManager.Instance.CurrentState == GameState.Normal || GameManager.Instance.CurrentState == GameState.InTuto)
+                if (GameManager.Instance.CurrentState == GameState.Normal || 
+                    (GameManager.Instance.CurrentState == GameState.InTuto && TutoManager.s_instance.StateBeforeTutoStarts == GameState.Normal))
                 {
                     feedbackSelection.SetActive(value);
 
@@ -402,7 +403,8 @@ namespace Behaviour
                     ShowSelectedPanelUI(isSelected);
                     GameManager.Instance.Ui.HideInventoryPanels();
                 }
-                else if (GameManager.Instance.CurrentState == GameState.InBattle)
+                else if (GameManager.Instance.CurrentState == GameState.InBattle ||
+                    (GameManager.Instance.CurrentState == GameState.InTuto && TutoManager.s_instance.StateBeforeTutoStarts == GameState.InBattle))
                 {
                     feedbackSelection.SetActive(false);
                     BattleHandler.DeactivateFeedbackSelection(true, false);

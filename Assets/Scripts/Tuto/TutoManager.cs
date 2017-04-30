@@ -8,7 +8,7 @@ using Behaviour;
 
 //public enum SequenceState { Idle, ReadyForNext, WaitingForInput, WaitingForClickUI, End };
 
-public enum SequenceState { Idle, ReadyForNext, WaitingForClickUI, WaitingForClickInGame };
+public enum SequenceState { Idle, ReadyForNext, WaitingForClickUI, WaitingForClickInGame, WaitingForSkillUse, WaitingForExternalEvent };
 public delegate void StepFunction();
 
 public abstract class Step
@@ -31,10 +31,15 @@ public class TutoManager : MonoBehaviour {
     private List<Sequence> sequences;
 
     private static bool mouseClicked;
+    private static bool secondMouseClicked;
+    private static bool externalEventReached;
+
     public GameObject tutoPanel;
     public GameObject uiPointer;
 
     private GameObject tutoPanelInstance;
+
+    private GameState stateBeforeTutoStarts;
 
     private void Awake()
     {
@@ -43,9 +48,16 @@ public class TutoManager : MonoBehaviour {
 
     void Start()
     {
+        mouseClicked = false;
+        secondMouseClicked = false;
+        externalEventReached = false;
         if (s_instance.enableTuto && s_instance.GetComponent<SeqFirstMove>().AlreadyPlayed == false)
         {
             InitTutoScene();
+        }
+        else
+        {
+            InitSecondLevel();
         }
     }
 
@@ -78,8 +90,21 @@ public class TutoManager : MonoBehaviour {
         GameManager.Instance.PrisonerInstance.GetComponent<Escortable>().enabled = false;
         GameManager.Instance.PrisonerInstance.GetComponent<Interactable>().Interactions = new InteractionImplementer();
         Destroy(GameManager.Instance.PrisonerInstance.GetComponent<GlowObjectCmd>());
+    }
 
-       // s_instance.playSequence(s_instance.GetComponent<SeqFirstMove>());
+    void InitSecondLevel()
+    {
+        SeqFirstMove seqIntro = s_instance.GetComponent<SeqFirstMove>();
+        seqIntro.shortcutBtn.SetActive(false);
+
+        for (int i = 0; i < GameManager.Instance.AllKeepersList.Count; i++)
+        {
+            Transform selectedKeepersFirstCharUI = seqIntro.selectedKeepersPanel.transform.GetChild(i);
+            selectedKeepersFirstCharUI.GetChild(0).GetChild((int)PanelSelectedKeeperStatChildren.Mortal).gameObject.SetActive(false);
+            selectedKeepersFirstCharUI.GetChild(0).GetChild((int)PanelSelectedKeeperStatChildren.MentalHealth).gameObject.SetActive(false);
+        }
+
+        GameManager.Instance.AllKeepersList[0].GetComponent<Keeper>().GoListCharacterFollowing.Add(GameManager.Instance.PrisonerInstance.gameObject);
     }
 
     void Update()
@@ -104,6 +129,21 @@ public class TutoManager : MonoBehaviour {
                     if (mouseClicked)
                     {
                         mouseClicked = false;
+                        s_instance.PlayNextStep();
+                    }
+                    break;
+                case SequenceState.WaitingForSkillUse:
+                    if (mouseClicked && secondMouseClicked)
+                    {
+                        mouseClicked = false;
+                        secondMouseClicked = false;
+                        s_instance.PlayNextStep();
+                    }
+                    break;
+                case SequenceState.WaitingForExternalEvent:
+                    if (externalEventReached)
+                    {
+                        externalEventReached = false;
                         s_instance.PlayNextStep();
                     }
                     break;
@@ -180,10 +220,11 @@ public class TutoManager : MonoBehaviour {
             playingSequence = value;
             if (playingSequence != null)
             {
-                GameManager.Instance.CurrentState = GameState.InTuto;
+                stateBeforeTutoStarts = GameManager.Instance.CurrentState;
+                GameManager.Instance.CurrentState = GameState.InTuto;          
             } else
             {
-                GameManager.Instance.CurrentState = GameState.Normal;
+                GameManager.Instance.CurrentState = stateBeforeTutoStarts;
                 //TutoManager.s_instance.StopAllCoroutines();
             }
         }
@@ -203,6 +244,45 @@ public class TutoManager : MonoBehaviour {
     }
 
     public GameObject TutoPanelInstance
+    {
+        get
+        {
+            return tutoPanelInstance;
+        }
+
+        set
+        {
+            tutoPanelInstance = value;
+        }
+    }
+
+    public GameState StateBeforeTutoStarts
+    {
+        get
+        {
+            return stateBeforeTutoStarts;
+        }
+
+        set
+        {
+            stateBeforeTutoStarts = value;
+        }
+    }
+
+    public static bool SecondMouseClicked
+    {
+        get
+        {
+            return secondMouseClicked;
+        }
+
+        set
+        {
+            secondMouseClicked = value;
+        }
+    }
+
+    public GameObject TutoPanelInstance1
     {
         get
         {
@@ -301,7 +381,8 @@ public class TutoManager : MonoBehaviour {
         {
             if (s_instance.playingSequence.MoveNext())
             {
-                s_instance.playingSequence.Play();
+                if (s_instance.playingSequence.CurrentState != SequenceState.WaitingForExternalEvent)
+                    s_instance.playingSequence.Play();
             }
             // End sequence
             else

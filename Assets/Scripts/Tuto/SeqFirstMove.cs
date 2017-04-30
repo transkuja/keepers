@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 using UnityEngine.UI;
 using Behaviour;
 
@@ -432,26 +429,12 @@ public class SeqFirstMove : Sequence {
 
     public override void End()
     {
-        //if ( pointer != null ) pointer.SetActive(false);
-        //pointer2.SetActive(false);
-
-
-        // Reactivate all UI
         selectedKeepersPanel.SetActive(true);
         if (pawnMrResetti != null)
             TutoManager.UnSpawn(pawnMrResetti);
         if (TutoManager.s_instance.TutoPanelInstance != null)
             Destroy(TutoManager.s_instance.TutoPanelInstance);
         TutoManager.s_instance.PlayingSequence = null;
-        //endTurnBtn.SetActive(true);
-        //shortcutBtn.SetActive(true);
-
-        //Destroy(pointer);
-
-        //Destroy(pointer2);
-        //endTurnBtn.gameObject.GetComponent<MouseClickExpected>().enabled = false;
-        //shortcutBtn.transform.localScale = Vector3.one;
-        //endTurnBtn.transform.localScale = Vector3.one;
-        //this.Etapes[Etapes.Count - 1].step.Invoke();
+        TutoManager.s_instance.GetComponent<SeqFirstMove>().AlreadyPlayed = true;
     }
 }
