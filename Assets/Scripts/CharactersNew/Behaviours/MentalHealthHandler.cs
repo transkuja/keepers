@@ -148,6 +148,12 @@ namespace Behaviour
             get { return currentMentalHealth; }
             set
             {
+                int feedbackAmount = value - currentMentalHealth;
+                if (feedbackAmount < 0)
+                    instance.AddFeedBackToQueue(GameManager.Instance.SpriteUtils.spriteMoralBuff, value - currentMentalHealth);
+                else
+                    instance.AddFeedBackToQueue(GameManager.Instance.SpriteUtils.spriteMoralDebuff, value - currentMentalHealth);
+
                 currentMentalHealth = value;
                 if (currentMentalHealth < 0)
                 {
@@ -163,7 +169,6 @@ namespace Behaviour
                 {
                     isDepressed = false;
                 }
-                instance.AddFeedBackToQueue(GameManager.Instance.SpriteUtils.spriteMoralDebuff, -10);
                 UpdateMentalHealthPanel(currentMentalHealth);
             }
         }
