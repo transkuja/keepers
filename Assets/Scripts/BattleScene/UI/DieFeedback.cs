@@ -82,4 +82,14 @@ public class DieFeedback : MonoBehaviour {
             }
         }
     }
+
+    private void OnDisable()
+    {
+        Destroy(feedback);
+    }
+
+    private void OnDestroy()
+    {
+        Destroy(feedback);
+    }
 }
