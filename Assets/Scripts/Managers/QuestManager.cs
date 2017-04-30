@@ -29,7 +29,8 @@ public class QuestManager : MonoBehaviour
             if (TutoManager.s_instance.enableTuto == true)
             {
                 CurrentQuestDeck = GameManager.Instance.QuestDeckDataBase.GetDeckByID("deck_01");
-                CurrentQuestDeck.SideQuests.Clear();
+                if (TutoManager.s_instance.GetComponent<SeqFirstMove>().AlreadyPlayed == false)
+                    CurrentQuestDeck.SideQuests.Clear();
             }
         }
         else
