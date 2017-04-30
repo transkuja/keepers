@@ -150,7 +150,11 @@ public class ControlsManager : MonoBehaviour
                                 }
                                 GameManager.Instance.GoTarget = clickTarget.GetComponentInParent<Interactable>();
                                 if (clickTarget.GetComponentInParent<Monster>() != null)
-                                    GameManager.Instance.GetFirstSelectedKeeper().GetComponent<NavMeshAgent>().SetDestination(clickTarget.transform.position);
+                                {
+                                    NavMeshAgent agent = GameManager.Instance.GetFirstSelectedKeeper().GetComponent<NavMeshAgent>();
+                                    if (agent != null && agent.isActiveAndEnabled)
+                                        agent.SetDestination(clickTarget.transform.position);
+                                }
                                 else
                                     ui.UpdateActionPanelUIQ(clickTarget.GetComponentInParent<PawnInstance>().Interactions);
                             }

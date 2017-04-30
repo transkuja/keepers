@@ -13,7 +13,7 @@ namespace Behaviour
 
         void Start()
         {
-            effectiveTile = GetComponent<PawnInstance>().CurrentTile;
+            effectiveTile = GetComponentInParent<Tile>();
 
             // Check if is blocking paths and deactivate concerned colliders
             if (pathsBlocked != null)

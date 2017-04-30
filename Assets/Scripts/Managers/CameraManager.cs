@@ -225,7 +225,8 @@ public class CameraManager : MonoBehaviour {
                 UpdateCamZoom();
             }
         }
-        else if (GameManager.Instance.CurrentState == GameState.InBattle)
+        else if (GameManager.Instance.CurrentState == GameState.InBattle
+            || (GameManager.Instance.CurrentState == GameState.InTuto && TutoManager.s_instance.PlayingSequence != null && TutoManager.s_instance.PlayingSequence.GetType() == typeof(SeqTutoCombat)))
         {
             if (isUpdateNeeded)
             {

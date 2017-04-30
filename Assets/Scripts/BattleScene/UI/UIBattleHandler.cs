@@ -246,6 +246,38 @@ public class UIBattleHandler : MonoBehaviour {
         associatedSkillsPanel.Add(_pawnInstanceForInit, skillsPanel);
     }
 
+    public void TutoReloadSkillPanel(PawnInstance _pawnInstanceForReload)
+    {
+        Transform panelToReload = associatedSkillsPanel[_pawnInstanceForReload];
+        Fighter fighterComponent = _pawnInstanceForReload.GetComponent<Fighter>();
+
+        for (int i = 0; i < 4; i++)
+            panelToReload.GetChild(i).gameObject.SetActive(false);
+
+        if (fighterComponent.BattleSkills != null && fighterComponent.BattleSkills.Count > 0)
+        {
+            for (int i = 0; i < fighterComponent.BattleSkills.Count && i < 4; i++)
+            {
+                Transform currentSkill = panelToReload.GetChild(i);
+                currentSkill.GetChild((int)SkillButtonChildren.SkillName).GetComponent<SkillContainer>().SkillData = fighterComponent.BattleSkills[i];
+                currentSkill.GetChild((int)SkillButtonChildren.SkillName).GetComponent<Text>().text = fighterComponent.BattleSkills[i].SkillName;
+                currentSkill.GetComponent<SkillDescriptionUI>().SkillDescription = fighterComponent.BattleSkills[i].Description;
+                foreach (Face face in fighterComponent.BattleSkills[i].Cost)
+                {
+                    if (face.Type == FaceType.Physical)
+                        currentSkill.GetChild((int)SkillButtonChildren.Atk).GetComponentInChildren<Text>().text = face.Value.ToString();
+
+                    if (face.Type == FaceType.Defensive)
+                        currentSkill.GetChild((int)SkillButtonChildren.Def).GetComponentInChildren<Text>().text = face.Value.ToString();
+
+                    if (face.Type == FaceType.Magical)
+                        currentSkill.GetChild((int)SkillButtonChildren.Mag).GetComponentInChildren<Text>().text = face.Value.ToString();
+                }
+                currentSkill.gameObject.SetActive(true);
+            }
+        }
+    }
+
     public void UpdateLifeBar(Mortal _toUpdate)
     {
         foreach (Transform child in _toUpdate.transform)
@@ -270,6 +302,9 @@ public class UIBattleHandler : MonoBehaviour {
 
     public void UpdateAvatar(PawnInstance _toUpdate, bool _enableHighlightFeedback)
     {
+        if (GameManager.Instance.CurrentState == GameState.InTuto)
+            return;
+
         bool enableHighlightFeedback = false;
         if (!associatedCharacterPanel.ContainsKey(_toUpdate))
             return;
