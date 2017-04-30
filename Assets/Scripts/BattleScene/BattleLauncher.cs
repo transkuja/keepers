@@ -9,7 +9,7 @@ public class BattleLauncher : MonoBehaviour {
         {
             if (other.gameObject.GetComponentInParent<Monster>() != null)
             {
-                if (GetComponentInParent<Fighter>() != null && GetComponentInParent<Fighter>().IsTargetableByMonster)
+                if (GetComponentInParent<Fighter>() != null && GetComponentInParent<Fighter>().IsTargetableByMonster == true)
                 {
                     if (BattleHandler.IsABattleAlreadyInProcess())
                         return;

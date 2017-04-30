@@ -14,6 +14,9 @@ bouton en haut a gauche pas clair sans tuto
 tuto conséquence low hunger 
 tuto escorte
 tuto clair 
+clic droit sur map pas clair 
+a pas vu les controls camera
+selection des persos en combat => ok
 
 Notes à part:
 revoir les dés de la fille
@@ -22,5 +25,46 @@ quete non fonctionnelle lors du test
 Fun global: 4/5
 Fun combat: 4/5
 
+
+
 Profil 2
-Shona, 
+Shona, 21, casual, pas habituée aux jeux de stratégie/gestion
+
+girl in armor clair 
+clic droit sur map pas clair 
+reste ok
+a vu les controls camera
+supprimer les champignons de la map ou mettre des trucs mangeables
+a bien compris la notion de faim
+passer le tour parce que pas vu points d'action sur les autres persos
+recul de caméra a chaque selection de perso => bof
+pas clair la selection des persos en combat => compris dans le sens inverse
+
+Baisser le son de victoire (merci Seb)
+peux rien faire lorsque les actions s'affichent => peu clair?
+Touchpad too => impossible de zoomer
+difficulté à comprendre qd un perso est selectionné 
+clic droit peu précis, feedback au sol pas assez pertinent
+
+pb de collider sur les pions pour la selection?
+revoir les trigger pour le déclenchement des combats 
+bouton de jet de dés en bas a droite pas idéal pour les notifs windows
+explications escorte 
+les combats contre les loups ne se sont pas déclenchés
+
+Post playtest
+Du mal avec le clic gauche/droit => déselection intempestive
+ => Mais pas habituée aux jeux de stratégie/gestion
+Musiques ++
+
+petit pont plus que couronne ?
+
+Fun global  4/5 (à cause des bugs)
+Fun combat  4.5/5 (parce que pas pu utiliser le dumb move) "un des meilleurs trucs du jeu outre les persos que j'ai adoré"
+
+/!\ son de victoire /!\
+
+Notes à part:
+2nd build, avec beaucoup moins de bugs dans le tuto de combat 
+/!\ jeu plante lors du tuto combat si plus d'un perso /!\
+
