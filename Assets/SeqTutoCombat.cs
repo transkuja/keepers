@@ -156,7 +156,7 @@ public class SeqTutoCombat : Sequence
             {
                 SeqTutoCombat seqTutoCombat = TutoManager.s_instance.GetComponent<SeqTutoCombat>();
                 feedback = Instantiate(TutoManager.s_instance.uiPointer, GameManager.Instance.Ui.transform.GetChild(0));
-                feedback.GetComponent<FlecheQuiBouge>().PointToPoint = Camera.main.WorldToScreenPoint(TileManager.Instance.DicePositionsOnTile.GetChild(0).transform.position);
+                feedback.GetComponent<FlecheQuiBouge>().PointToPoint = Camera.main.WorldToScreenPoint(TileManager.Instance.DicePositionsOnTile.GetChild(0).transform.position + GameManager.Instance.ActiveTile.transform.position);
                 feedback.GetComponent<FlecheQuiBouge>().distanceOffset = 80.0f;
 
                 feedback.transform.localEulerAngles = new Vector3(0, 0, 45);
@@ -271,6 +271,7 @@ public class SeqTutoCombat : Sequence
 
             TutoManager.s_instance.EcrireMessage(str);
             TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.WaitingForSkillUse;
+            TutoManager.EnablePreviousButton(false);
         }
 
         public override void Reverse()
@@ -313,13 +314,17 @@ public class SeqTutoCombat : Sequence
 
         public override void Reverse()
         {
-            BattleHandler.CurrentBattleKeepers[0].GetComponent<Behaviour.Fighter>().EndSkillProcess();
-            TutoManager.s_instance.TutoPanelInstance.SetActive(false);
-            
+
+            foreach (PawnInstance pi in BattleHandler.CurrentBattleMonsters)
+            {
+                if (pi.GetComponent<Behaviour.Fighter>().PendingDamage != 0)
+                    pi.GetComponent<Behaviour.Fighter>().EndSkillProcess();
+            }
+            TutoManager.s_instance.TutoPanelInstance.SetActive(false);       
             alreadyPlayed = false;
         }
     }
-
+   
     public override void Init()
     {
         base.Init();
@@ -371,7 +376,8 @@ public class SeqTutoCombat : Sequence
         if (TutoManager.s_instance.TutoPanelInstance != null)
             Destroy(TutoManager.s_instance.TutoPanelInstance);
         TutoManager.s_instance.PlayingSequence = null;
-        BattleHandler.PendingSkill = null;
+        BattleHandler.ResetBattleHandlerForTuto();
+        GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().ChangeState(UIBattleState.WaitForDiceThrow);
 
         SeqFirstMove seqIntro = TutoManager.s_instance.GetComponent<SeqFirstMove>();
 

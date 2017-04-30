@@ -264,7 +264,8 @@ namespace Behaviour
                     IsAlive = true;
                 }
                 UpdateHPPanel(currentHp);
-                if (GameManager.Instance.CurrentState == GameState.InBattle)
+                if (GameManager.Instance.CurrentState == GameState.InBattle || 
+                    (GameManager.Instance.CurrentState == GameState.InTuto && TutoManager.s_instance.StateBeforeTutoStarts == GameState.InBattle))
                 {
                     if (GetComponent<Keeper>() != null || GetComponent<Escortable>())
                     {

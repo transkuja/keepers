@@ -234,7 +234,6 @@ public class BattleHandler {
     public static void ShiftTurn()
     {
         isKeepersTurn = !isKeepersTurn;
-
         if (isKeepersTurn)
         {
             nbTurn++;
@@ -246,11 +245,8 @@ public class BattleHandler {
                 currentBattleKeepers[i].GetComponent<Fighter>().HasPlayedThisTurn = false;
             }
             ClearDiceForNextThrow();
-            GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().ChangeState(UIBattleState.WaitForDiceThrow);
-            if (TutoManager.s_instance != null && TutoManager.s_instance.PlayingSequence != null && TutoManager.s_instance.PlayingSequence.CurrentState == SequenceState.WaitingForExternalEvent)
-            {
-                TutoManager.s_instance.PlayingSequence.Play();
-            }
+            if (GameManager.Instance.CurrentState != GameState.InTuto)
+                GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().ChangeState(UIBattleState.WaitForDiceThrow);
         }
         else
         {
@@ -271,6 +267,10 @@ public class BattleHandler {
 
         if (nextMonsterIndex >= currentBattleMonsters.Length)
         {
+            if (TutoManager.s_instance != null && TutoManager.s_instance.PlayingSequence != null && TutoManager.s_instance.PlayingSequence.CurrentState == SequenceState.WaitingForExternalEvent)
+            {
+                TutoManager.s_instance.PlayingSequence.Play();
+            }
             ShiftTurn();
             return;
         }
@@ -481,6 +481,14 @@ public class BattleHandler {
         wasTheLastToPlay = false;
         PendingSkill = null;
         isWaitingForSkillEnd = false;
+    }
+
+    public static void ResetBattleHandlerForTuto()
+    {
+        nbTurn = 0;
+        isKeepersTurn = false;
+        PendingSkill = null;
+        ShiftTurn();
     }
 
     private static void PrintResultsScreen(bool isVictorious)
@@ -724,6 +732,7 @@ public class BattleHandler {
         set
         {
             isWaitingForSkillEnd = value;
+
             if (isWaitingForSkillEnd == false)
             {
                 if (pendingSkill != null && pendingSkill.SkillUser != null && pendingSkill.SkillUser.GetComponent<Keeper>() != null)
@@ -737,15 +746,21 @@ public class BattleHandler {
                     ActivateFeedbackSelection(true, false);
                 else
                 {
-
                     if (nextMonsterIndex == currentBattleMonsters.Length)
                     {
+                        pendingSkill = null;
+                        if (TutoManager.s_instance != null && TutoManager.s_instance.PlayingSequence != null && TutoManager.s_instance.PlayingSequence.CurrentState == SequenceState.WaitingForExternalEvent)
+                        {
+                            TutoManager.s_instance.PlayingSequence.Play();
+                        }
                         ShiftTurn();
                     }
                     else
                     {
+                        pendingSkill = null;
                         ShiftToNextMonsterTurn();
                     }
+
                 }
             }
             else
@@ -753,6 +768,19 @@ public class BattleHandler {
                 wasLaunchedDuringKeepersTurn = IsKeepersTurn;
                 DeactivateFeedbackSelection(true, true);
             }
+        }
+    }
+
+    public static PawnInstance[] CurrentBattleMonsters
+    {
+        get
+        {
+            return currentBattleMonsters;
+        }
+
+        set
+        {
+            currentBattleMonsters = value;
         }
     }
 }
