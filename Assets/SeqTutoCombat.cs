@@ -330,7 +330,9 @@ public class SeqTutoCombat : Sequence
 
         seqTutoCombat.rollDiceButton.GetComponentInChildren<ThrowDiceButtonFeedback>().enabled = false;
 
-        previousCharacterSkills = BattleHandler.CurrentBattleKeepers[0].GetComponent<Behaviour.Fighter>().BattleSkills;
+        previousCharacterSkills = new List<SkillBattle>();
+        previousCharacterSkills.Add(new SkillBattle(BattleHandler.CurrentBattleKeepers[0].GetComponent<Behaviour.Fighter>().BattleSkills[0]));
+        previousCharacterSkills.Add(new SkillBattle(BattleHandler.CurrentBattleKeepers[0].GetComponent<Behaviour.Fighter>().BattleSkills[1]));
         BattleHandler.CurrentBattleKeepers[0].GetComponent<Behaviour.Fighter>().BattleSkills.Clear();
         SkillBattle tutoSkill = new SkillBattle();
         tutoSkill.Damage = 20;
@@ -370,6 +372,16 @@ public class SeqTutoCombat : Sequence
             Destroy(TutoManager.s_instance.TutoPanelInstance);
         TutoManager.s_instance.PlayingSequence = null;
         BattleHandler.PendingSkill = null;
+
+        SeqFirstMove seqIntro = TutoManager.s_instance.GetComponent<SeqFirstMove>();
+
+        for (int i = 0; i < GameManager.Instance.AllKeepersList.Count; i++)
+        {
+            Transform selectedKeepersFirstCharUI = seqIntro.selectedKeepersPanel.transform.GetChild(i);
+            selectedKeepersFirstCharUI.GetChild(0).GetChild((int)PanelSelectedKeeperStatChildren.Mortal).gameObject.SetActive(true);
+            selectedKeepersFirstCharUI.GetChild(0).GetChild((int)PanelSelectedKeeperStatChildren.MentalHealth).gameObject.SetActive(true);
+        }
+
         TutoManager.s_instance.GetComponent<SeqTutoCombat>().AlreadyPlayed = true;
     }
 }
