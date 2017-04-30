@@ -170,6 +170,22 @@ namespace Behaviour
                     isDepressed = false;
                 }
                 UpdateMentalHealthPanel(currentMentalHealth);
+
+                if (TutoManager.s_instance != null && TutoManager.s_instance.enableTuto)
+                {
+                    if (TutoManager.s_instance.PlayingSequence == null)
+                    {
+                        if (TutoManager.s_instance.GetComponent<SeqMoraleExplained>().AlreadyPlayed == false)
+                        {
+                            TutoManager.s_instance.playSequence(TutoManager.s_instance.GetComponent<SeqMoraleExplained>());
+                        }
+                        else if (TutoManager.s_instance.GetComponent<SeqLowMorale>().AlreadyPlayed == false)
+                        {
+                            if (currentMentalHealth < data.MaxMentalHealth / 4.0f)
+                                TutoManager.s_instance.playSequence(TutoManager.s_instance.GetComponent<SeqLowMorale>());
+                        }
+                    }                
+                }
             }
         }
 

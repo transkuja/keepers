@@ -143,6 +143,11 @@ public class ControlsManager : MonoBehaviour
                                 if (clickTarget.GetComponentInParent<Escortable>() != null)
                                 {
                                     clickTarget.GetComponentInParent<Escortable>().UpdateEscortableInteractions();
+                                    if (TutoManager.s_instance != null && TutoManager.s_instance.enableTuto && TutoManager.s_instance.PlayingSequence == null
+                                        && TutoManager.s_instance.GetComponent<SeqAshleyEscort>().AlreadyPlayed == false)
+                                    {
+                                        TutoManager.s_instance.playSequence(TutoManager.s_instance.GetComponent<SeqAshleyEscort>());
+                                    }
                                 }
                                 if (clickTarget.GetComponentInParent<QuestDealer>() != null)
                                 {
