@@ -77,7 +77,7 @@ public class IngameScreens : MonoBehaviour {
         GameManager.Instance.CurrentState = GameState.Normal;
         AudioManager.Instance.Fade(AudioManager.Instance.menuMusic);
         GameManager.Instance.ResetInstance();
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene("Menu");
     }
 
 
@@ -86,6 +86,14 @@ public class IngameScreens : MonoBehaviour {
         GameManager.Instance.CurrentState = GameState.Normal;
         GameManager.Instance.ResetInstance();
         SceneManager.LoadScene(3);
+    }
+
+    // TODO: delete this
+    public void GoToProtoScene1()
+    {
+        GameManager.Instance.CurrentState = GameState.Normal;
+        GameManager.Instance.ResetInstance();
+        SceneManager.LoadScene("ProtoScene1");
     }
 }
 

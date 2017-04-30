@@ -99,7 +99,8 @@ public class GameManager : MonoBehaviour
                 AllKeepersList.Add(k.GetComponent<PawnInstance>());
             }
         }
-        DontDestroyOnLoad(gameObject);
+        // TODO: uncomment this
+     //   DontDestroyOnLoad(gameObject);
 
     }
 
