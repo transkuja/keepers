@@ -136,11 +136,17 @@ public class AudioManager : MonoBehaviour {
 
     public void PlayOneShot(AudioClip clip)
     {
-        sourceFX.PlayOneShot(clip, volumeFXs);
+        if (clip == winningSound)
+            sourceFX.PlayOneShot(clip, 0.02f);
+        else
+            sourceFX.PlayOneShot(clip, volumeFXs);
     }
 
     public void PlayOneShot(AudioClip clip, float volumeMultiplier)
     {
-        sourceFX.PlayOneShot(clip, volumeFXs * volumeMultiplier);
+        if (clip == winningSound)
+            sourceFX.PlayOneShot(clip, 0.02f * volumeMultiplier);
+        else
+            sourceFX.PlayOneShot(clip, volumeFXs * volumeMultiplier);
     }
 }
