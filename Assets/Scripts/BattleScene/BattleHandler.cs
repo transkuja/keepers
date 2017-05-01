@@ -515,7 +515,7 @@ public class BattleHandler {
         GameManager.Instance.BattleResultScreen.gameObject.SetActive(true);
         Transform header = GameManager.Instance.BattleResultScreen.GetChild((int)BattleResultScreenChildren.Header);
 
-        header.GetComponentInChildren<Image>().color = isVictorious ? Color.green : Color.red;
+        header.GetComponentInChildren<Text>().color = isVictorious ? Color.green : new Color(0.75f, 0,0,1);
         header.GetComponentInChildren<Text>().text = isVictorious ? "Victory!" : "Defeat";
 
         // Freeze time until close button is pressed
