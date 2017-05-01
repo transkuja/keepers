@@ -384,4 +384,12 @@ public class UIBattleHandler : MonoBehaviour {
         }
         panelToUpdate.GetChild((int)CharactersPanelChildren.LifeBar).GetChild((int)LifeBarChildren.Text).GetComponent<Text>().text = _toUpdate.CurrentHp + " / " + _toUpdate.Data.MaxHp;
     }
+
+    public void CloseSkillsPanel()
+    {
+        GameManager.Instance.ClearListKeeperSelected();
+        GameManager.Instance.Ui.mouseFollower.SetActive(false);
+        BattleHandler.ActivateFeedbackSelection(true, false);
+        BattleHandler.DeactivateFeedbackSelection(false, true);
+    }
 }
