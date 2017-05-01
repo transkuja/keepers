@@ -50,9 +50,12 @@ public class BattleHandler {
         AudioManager.Instance.PlayOneShot(AudioManager.Instance.battleSound, 0.5f);
         GameManager.Instance.CurrentState = GameState.InPause;
         // Auto selection
-        if (TileManager.Instance.KeepersOnTile[tile].Count <= 1)
+
+        if (TutoManager.s_instance && TutoManager.s_instance.enableTuto && TutoManager.s_instance.PlayingSequence == null
+            && TutoManager.s_instance.GetComponent<SeqTutoCombat>().AlreadyPlayed == false)
         {
-            List<PawnInstance> keepersForBattle = TileManager.Instance.KeepersOnTile[tile];
+            List<PawnInstance> keepersForBattle = new List<PawnInstance>();
+            keepersForBattle.Add(TileManager.Instance.KeepersOnTile[tile][0]);
             if (TileManager.Instance.PrisonerTile == tile)
             {
                 isPrisonerOnTile = true;
@@ -61,13 +64,29 @@ public class BattleHandler {
             {
                 isPrisonerOnTile = false;
             }
-
             LaunchBattle(tile, keepersForBattle);
         }
-        // Manual selection
         else
         {
-            GameManager.Instance.OpenSelectBattleCharactersScreen(tile);
+            if (TileManager.Instance.KeepersOnTile[tile].Count <= 1)
+            {
+                List<PawnInstance> keepersForBattle = TileManager.Instance.KeepersOnTile[tile];
+                if (TileManager.Instance.PrisonerTile == tile)
+                {
+                    isPrisonerOnTile = true;
+                }
+                else
+                {
+                    isPrisonerOnTile = false;
+                }
+
+                LaunchBattle(tile, keepersForBattle);
+            }
+            // Manual selection
+            else
+            {
+                GameManager.Instance.OpenSelectBattleCharactersScreen(tile);
+            }
         }
     }
 
@@ -388,14 +407,14 @@ public class BattleHandler {
         {
             if (currentBattleKeepers[i] != null)
             {
-                currentBattleKeepers[i].GetComponent<MentalHealthHandler>().CurrentMentalHealth += 10;
-                currentBattleKeepers[i].GetComponent<HungerHandler>().CurrentHunger -= 5;
+                //currentBattleKeepers[i].GetComponent<MentalHealthHandler>().CurrentMentalHealth += 10;
+                //currentBattleKeepers[i].GetComponent<HungerHandler>().CurrentHunger -= 5;
             }
         }
 
         if (isPrisonerOnTile)
         {
-            GameManager.Instance.PrisonerInstance.GetComponent<HungerHandler>().CurrentHunger -= 5;
+            //GameManager.Instance.PrisonerInstance.GetComponent<HungerHandler>().CurrentHunger -= 5;
             //BattleLog("Prisoner won 10 mental health and lost 5 hunger due to victory.");
         }
 
