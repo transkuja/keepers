@@ -335,6 +335,53 @@ public class CameraManager : MonoBehaviour {
                 }
             }
         }
+        ControlZoomKeyboard();
+    }
+
+    // TODO: find a better way
+    private void ControlZoomKeyboard()
+    {
+        if (Input.GetKey(KeyCode.KeypadPlus) || Input.GetKey(KeyCode.PageUp))
+        {
+            if (fZoomLerp < 1 && fZoomLerp > 0)
+            {
+                fZoomLerpOrigin = fZoomLerp;
+                fLerpTarget = fZoomLerp; 
+                fLerpTarget += fLerpNotch;
+
+                if (fLerpTarget > 1)
+                {
+                    fLerpTarget = 1;
+                }
+                else if (fLerpTarget < 0)
+                {
+                    fLerpTarget = 0;
+                }
+
+                zoomState = eZoomState.forward;
+            }
+        }
+
+        if (Input.GetKey(KeyCode.PageDown) || Input.GetKey(KeyCode.KeypadMinus))
+        {
+            if (fZoomLerp < 1 && fZoomLerp > 0)
+            {
+                fZoomLerpOrigin = fZoomLerp;
+                fLerpTarget = fZoomLerp;
+                fLerpTarget -= fLerpNotch;
+
+                if (fLerpTarget > 1)
+                {
+                    fLerpTarget = 1;
+                }
+                else if (fLerpTarget < 0)
+                {
+                    fLerpTarget = 0;
+                }
+
+                zoomState = eZoomState.backward;
+            }
+        }
     }
 
     void OnDrawGizmos()
