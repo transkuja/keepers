@@ -167,7 +167,6 @@ public class UIBattleHandler : MonoBehaviour {
     public void EscapeBattle()
     {
         BattleHandler.HandleBattleDefeat();
-        GameManager.Instance.CurrentState = GameState.Normal;
     }
 
     public void CharacterPanelInit(PawnInstance _pawnInstanceForInit)
