@@ -6,6 +6,7 @@ public class ShowMainQuest : MonoBehaviour {
     private float timeToLaunchTuto = 1.5f;
     bool isTimerActive = false;
     bool isFirstStepFinished = false;
+    public GameObject btnReviewMainQuest;
 
     private void OnEnable()
     {
@@ -25,6 +26,14 @@ public class ShowMainQuest : MonoBehaviour {
         for (int i = 0; i < transform.childCount; i++)
             transform.GetChild(i).gameObject.SetActive(false);
         isTimerActive = true;
+    }
+
+    public void showMainQuestObjectif()
+    {
+        this.gameObject.SetActive(true);
+        for (int i = 0; i < transform.childCount; i++)
+            transform.GetChild(i).gameObject.SetActive(true);
+        isFirstStepFinished = false;
     }
 
     public void Update()
@@ -73,6 +82,11 @@ public class ShowMainQuest : MonoBehaviour {
                         TutoManager.s_instance.playSequence(TutoManager.s_instance.GetComponent<SeqFirstMove>());
                     else if (TutoManager.s_instance.GetComponent<SeqMultiCharacters>().AlreadyPlayed == false)
                         TutoManager.s_instance.playSequence(TutoManager.s_instance.GetComponent<SeqMultiCharacters>());
+                }
+
+                if (btnReviewMainQuest.activeSelf == false)
+                {
+                    btnReviewMainQuest.SetActive(true);
                 }
             }
         }

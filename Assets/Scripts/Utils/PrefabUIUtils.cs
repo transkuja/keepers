@@ -46,7 +46,6 @@ public class PrefabUIUtils : MonoBehaviour {
     [Header("Quest")]
     public GameObject PrefabContentQuestUI;
 
-
     [Header("Panneau")]
     public GameObject PrefabContentPanneauUI;
 
