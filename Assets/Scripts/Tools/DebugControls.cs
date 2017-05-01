@@ -121,7 +121,6 @@ public class DebugControls : MonoBehaviour {
             if (Input.GetKeyDown(KeyCode.Alpha8))
             {
                 ItemContainer[] itemToSpawn = new ItemContainer[1];
-                Debug.Log(GameManager.Instance.ItemDataBase.ItemsList.Count);
                 itemToSpawn[0] = new ItemContainer(GameManager.Instance.ItemDataBase.ItemsList[Random.Range(0, GameManager.Instance.ItemDataBase.ItemsList.Count)], itemsToPopAmount);
                 ItemManager.AddItemOnTheGround(GameManager.Instance.GetFirstSelectedKeeper().CurrentTile, GameManager.Instance.GetFirstSelectedKeeper().CurrentTile.transform, itemToSpawn);
             }
