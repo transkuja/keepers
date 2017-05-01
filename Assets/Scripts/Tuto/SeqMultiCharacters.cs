@@ -85,7 +85,7 @@ public class SeqMultiCharacters : Sequence
             }
             if (GameManager.Instance.PrisonerInstance.gameObject.GetComponent<RightMouseClickExpected>() != null)
             {
-                GameManager.Instance.PrisonerInstance.gameObject.GetComponent<RightMouseClickExpected>();
+                Destroy(GameManager.Instance.PrisonerInstance.gameObject.GetComponent<RightMouseClickExpected>());
             }
             alreadyPlayed = false;
         }
@@ -117,6 +117,13 @@ public class SeqMultiCharacters : Sequence
                 seqMultiCharacters.shortcutButton.gameObject.AddComponent<MouseClickExpected>();
 
             seqMultiCharacters.shortcutButton.transform.parent.gameObject.SetActive(true);
+            Button[] shortcutButt = TutoManager.s_instance.shortcutButton.GetComponentsInChildren<Button>();
+
+            foreach (Button b in shortcutButt)
+            {
+                b.interactable = true;
+            }
+
 
             TutoManager.s_instance.EcrireMessage(str);
             TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.WaitingForClickUI;

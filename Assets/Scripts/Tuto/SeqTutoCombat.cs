@@ -123,7 +123,8 @@ public class SeqTutoCombat : Sequence
             {
                 SeqTutoCombat seqTutoCombat = TutoManager.s_instance.GetComponent<SeqTutoCombat>();
                 feedback = Instantiate(TutoManager.s_instance.uiPointer, GameManager.Instance.Ui.transform.GetChild(0));
-                feedback.GetComponent<FlecheQuiBouge>().PointToPoint = Camera.main.WorldToScreenPoint(GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().transform.position);
+                if (GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>() != null) // fix for build
+                    feedback.GetComponent<FlecheQuiBouge>().PointToPoint = Camera.main.WorldToScreenPoint(GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().transform.position);
                 feedback.GetComponent<FlecheQuiBouge>().distanceOffset = 80.0f;
 
                 feedback.transform.localEulerAngles = new Vector3(0, 0, 75);

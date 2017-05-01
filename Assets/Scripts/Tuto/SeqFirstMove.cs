@@ -36,6 +36,10 @@ public class SeqFirstMove : Sequence {
 
                 feedbackPointer.transform.localEulerAngles = new Vector3(0, 0, -80);
             }
+
+            Button endTurnButt = TutoManager.s_instance.endTurnButton.GetComponentInChildren<Button>();
+            endTurnButt.interactable = true;
+
             TutoManager.s_instance.EcrireMessage(str);
             TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.Idle;
         }
@@ -308,6 +312,7 @@ public class SeqFirstMove : Sequence {
         {
             GameObject endTurnButton = ((SeqFirstMove)TutoManager.s_instance.PlayingSequence).endTurnBtn;
             endTurnButton.SetActive(true);
+
             if (endTurnButton.GetComponentInChildren<Button>().gameObject.GetComponent<MouseClickExpected>() == null)
                 endTurnButton.GetComponentInChildren<Button>().gameObject.AddComponent<MouseClickExpected>();
             if (feedback == null)
