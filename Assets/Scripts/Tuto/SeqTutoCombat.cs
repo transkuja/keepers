@@ -336,8 +336,8 @@ public class SeqTutoCombat : Sequence
         seqTutoCombat.rollDiceButton.GetComponentInChildren<ThrowDiceButtonFeedback>().enabled = false;
 
         previousCharacterSkills = new List<SkillBattle>();
-        previousCharacterSkills.Add(new SkillBattle(BattleHandler.CurrentBattleKeepers[0].GetComponent<Behaviour.Fighter>().BattleSkills[0]));
-        previousCharacterSkills.Add(new SkillBattle(BattleHandler.CurrentBattleKeepers[0].GetComponent<Behaviour.Fighter>().BattleSkills[1]));
+        for (int i = 0; i < BattleHandler.CurrentBattleKeepers[0].GetComponent<Behaviour.Fighter>().BattleSkills.Count; i++)
+            previousCharacterSkills.Add(new SkillBattle(BattleHandler.CurrentBattleKeepers[0].GetComponent<Behaviour.Fighter>().BattleSkills[i]));
         BattleHandler.CurrentBattleKeepers[0].GetComponent<Behaviour.Fighter>().BattleSkills.Clear();
         SkillBattle tutoSkill = new SkillBattle();
         tutoSkill.Damage = 20;
