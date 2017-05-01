@@ -83,10 +83,14 @@ namespace Behaviour
                 if (lerpMoveParam >= 1.0f)
                 {
                     IsMovingBetweenTiles = false;
+                    if (GameManager.Instance.CameraManagerReference.state == CameraManager.CameraState.Close)
+                        GameManager.Instance.CameraManagerReference.UpdateCameraPosition(instance);
                 }
 
                 transform.position = Vector3.Lerp(lerpStartPosition, lerpEndPosition, Mathf.Clamp(lerpMoveParam, 0, 1));
                 transform.rotation = Quaternion.Lerp(lerpStartRotation, lerpEndRotation, Mathf.Clamp(lerpMoveParam, 0, 1));
+
+
             }
 
             if (isMovingToBattlePosition)
