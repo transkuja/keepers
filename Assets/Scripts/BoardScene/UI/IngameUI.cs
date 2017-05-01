@@ -267,23 +267,37 @@ public class IngameUI : MonoBehaviour
 
     public void ZeroActionTextAnimation(Behaviour.Keeper ki)
     {
-        ki.ShorcutUI.transform.GetChild((int)PanelShortcutChildren.ActionPoints).GetComponent<Text>().color = Color.red;
-        ki.ShorcutUI.transform.GetChild((int)PanelShortcutChildren.ActionPoints).GetComponent<Text>().transform.localScale = new Vector3(1.4f, 1.4f, 1.4f);
+        foreach(Image i in ki.ShorcutUI.transform.GetChild((int)PanelShortcutChildren.ActionPoints).GetComponentsInChildren<Image>())
+        {
+            i.color = Color.red;
+            //i.transform.localScale = new Vector3(1.1f, 1.1f, 1.1f);
+        }
 
+        foreach (Image i in ki.SelectedActionPointsUI.GetComponentsInChildren<Image>())
+        {
+            i.color = Color.red;
+            //i.transform.localScale = new Vector3(1.1f, 1.1f, 1.1f);
+        }
 
-        ki.SelectedActionPointsUI.GetComponentInChildren<Text>().color = Color.red;
-        ki.SelectedActionPointsUI.GetComponentInChildren<Text>().transform.localScale = new Vector3(1.4f, 1.4f, 1.4f);
         StartCoroutine(TextAnimationNormalState(ki));
     }
 
     private IEnumerator TextAnimationNormalState(Behaviour.Keeper ki)
     {
         yield return new WaitForSeconds(1);
-        ki.ShorcutUI.transform.GetChild((int)PanelShortcutChildren.ActionPoints).GetComponent<Text>().color = Color.white;
-        ki.ShorcutUI.transform.GetChild((int)PanelShortcutChildren.ActionPoints).GetComponent<Text>().transform.localScale = Vector3.one;
 
-        ki.SelectedActionPointsUI.GetComponentInChildren<Text>().color = Color.white;
-        ki.SelectedActionPointsUI.GetComponentInChildren<Text>().transform.localScale = Vector3.one;
+        foreach (Image i in ki.ShorcutUI.transform.GetChild((int)PanelShortcutChildren.ActionPoints).GetComponentsInChildren<Image>())
+        {
+            i.color = Color.white;
+            //i.transform.localScale = Vector3.one;
+        }
+
+        foreach (Image i in ki.SelectedActionPointsUI.GetComponentsInChildren<Image>())
+        {
+            i.color = Color.white;
+            //i.transform.localScale = Vector3.one;
+        }
+
         yield return null;
     }
 
