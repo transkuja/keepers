@@ -107,6 +107,10 @@ public class ControlsManager : MonoBehaviour
                     if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo, Mathf.Infinity, ~layerMask) == true)
                     {
                         IngameUI ui = GameManager.Instance.Ui;
+
+                        Cursor.SetCursor(GameManager.Instance.Texture2DUtils.iconeMouseClicked, Vector2.zero, CursorMode.Auto);
+                        Invoke("CursorNormalState", 0.5f);
+
                         Tile tileHit = hitInfo.collider.gameObject.GetComponentInParent<Tile>();
                         Tile keeperSelectedTile = GameManager.Instance.GetFirstSelectedKeeper().CurrentTile;
                         GameObject clickTarget = hitInfo.collider.gameObject;
@@ -198,8 +202,6 @@ public class ControlsManager : MonoBehaviour
                         else
                         { 
                             ui.ClearActionPanel();
-                            Cursor.SetCursor(GameManager.Instance.Texture2DUtils.iconeMouseClicked, Vector2.zero, CursorMode.Auto);
-                            Invoke("CursorNormalState",0.5f);
                             if (tileHit != null)
                             {
                                 Tile currentKeeperTile = GameManager.Instance.GetFirstSelectedKeeper().CurrentTile;
