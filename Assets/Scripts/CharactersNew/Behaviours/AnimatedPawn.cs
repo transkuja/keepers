@@ -88,7 +88,8 @@ namespace Behaviour
                 {
                     IsMovingBetweenTiles = false;
                     if (GameManager.Instance.CameraManagerReference.state == CameraManager.CameraState.Close)
-                        GameManager.Instance.CameraManagerReference.UpdateCameraPositionWithOffset(instance);
+                        GameManager.Instance.CameraManagerReference.UpdateCameraPositionWithOffset(instance.CurrentTile.transform.position, instance.CurrentTile, (Direction)whereMove);
+    
                 }
 
                 transform.position = Vector3.Lerp(lerpStartPosition, lerpEndPosition, Mathf.Clamp(lerpMoveParam, 0, 1));

@@ -52,6 +52,8 @@ public class CameraManager : MonoBehaviour {
     Vector3 closeToFar;
     bool needOffset;
 
+    bool isSpecialUpdate = false;
+
     // Camera adapters
     public List<GreyTileCameraAdapter> greyTileCameraAdapters = new List<GreyTileCameraAdapter>();
     public List<SelectionPointerCameraAdapter> selectionPointerCameraAdapters = new List<SelectionPointerCameraAdapter>();
@@ -142,7 +144,6 @@ public class CameraManager : MonoBehaviour {
         isUpdateNeeded = true;
         isFirstCallToUpdatePosition = false;
         hasMainQuestBeenShown = false;
-        needOffset = false;
 
         GameManager.Instance.RegisterCameraManager(this);
     }
@@ -154,12 +155,25 @@ public class CameraManager : MonoBehaviour {
         activeTile = pi.CurrentTile;
     }
 
-    public void UpdateCameraPositionWithOffset(PawnInstance pi)
+    // WTF fonction spaghetti
+    public void UpdateCameraPositionWithOffset(Vector3 _newTileCenter, Tile _newTile, Direction directionDuDeplacement)
     {
-        isUpdateNeeded = true;
+        isSpecialUpdate = true;
         oldPosition = tClose.position;
-        needOffset = true;
-        activeTile = pi.CurrentTile;
+
+        if (directionDuDeplacement == Direction.South || directionDuDeplacement == Direction.South_East || directionDuDeplacement == Direction.South_West)
+        {
+            newPosition = _newTileCenter + Vector3.back;
+        } else
+        {
+            newPosition = positionFromATileClose + activeTile.transform.position ;
+        }
+        activeTile = _newTile;
+
+        fZoomLerpOrigin = fZoomLerp;
+
+        fLerpTarget = 1 - (2* fLerpNotch);
+        zoomState = eZoomState.backward;
     }
 
 
@@ -200,7 +214,6 @@ public class CameraManager : MonoBehaviour {
 
                 Vector3 v3NewPos = Vector3.Lerp(oldPosition, positionFromATileClose + activeTile.transform.position + Vector3.back, Mathf.Min(lerpParameter, 1.0f));
 
-                
                 v3NewPos.y = tClose.position.y;
                 tClose.position = v3NewPos;
 
@@ -226,16 +239,6 @@ public class CameraManager : MonoBehaviour {
                     {
                         FZoomLerp = fLerpTarget;
                         zoomState = eZoomState.idle;
-
-                        if (needOffset)
-                        {
-                            fZoomLerpOrigin = fZoomLerp;
-                            fLerpTarget = fZoomLerp;
-                            fLerpTarget -= 3*fLerpNotch;
-                            zoomState = eZoomState.backward;
-                            //isUpdateNeeded = true;
-                            needOffset = false;
-                        }
                     }
                 }
 
@@ -243,6 +246,30 @@ public class CameraManager : MonoBehaviour {
                 //pos.x = Mathf.Clamp(pos.x, cameraBounds.GetChild((int)CameraBound.West).position.x, cameraBounds.GetChild((int)CameraBound.East).position.x);
                 //pos.z = Mathf.Clamp(pos.z, cameraBounds.GetChild((int)CameraBound.South).position.z, cameraBounds.GetChild((int)CameraBound.North).position.z);
                 //transform.position = pos;
+            } else if (isSpecialUpdate == true)
+            {
+                lerpParameter += Time.deltaTime;
+
+                Vector3 v3NewPos = Vector3.Lerp(oldPosition, newPosition, Mathf.Min(lerpParameter, 1.0f));
+
+                v3NewPos.y = tClose.position.y;
+                tClose.position = v3NewPos;
+
+                tFar.position = tClose.position + closeToFar;
+
+                transform.position = Vector3.Lerp(tFar.position, tClose.position, fZoomLerp);
+                transform.rotation = Quaternion.Lerp(tFar.rotation, tClose.rotation, fZoomLerp);
+
+                if (lerpParameter >= 1.0f)
+                {
+                    oldPosition = Vector3.zero;
+                    lerpParameter = 0.0f;
+
+                    isSpecialUpdate = false;
+                    newPosition = Vector3.zero;
+                }
+
+
             }
 
             if (GameManager.Instance.CurrentState != GameState.InPause)
@@ -295,7 +322,6 @@ public class CameraManager : MonoBehaviour {
 
         if (fZoomLerp < 0.6f)
         {
-            Debug.Log("true");
             state = CameraState.Far;
         }
         else
