@@ -17,19 +17,6 @@ public class TriggerPanneau : MonoBehaviour {
         GetComponent<Interactable>().Interactions.Add(new Interaction(Look), 0, "Look", GameManager.Instance.SpriteUtils.spriteExplore, true);
     }
 
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.GetComponentInParent<Behaviour.Keeper>() != null)
-        {
-            Behaviour.Keeper ki = other.GetComponentInParent<Behaviour.Keeper>();
-
-            // On veut le mesh collider actif du perso
-            GameManager.Instance.GoTarget = ki.GetComponent<Interactable>();
-
-            GameManager.Instance.Ui.UpdateActionPanelUIQ(GetComponent<Interactable>().Interactions);
-        }
-    }
-
     void Look(int _i)
     {
         if (GameManager.Instance.ListOfSelectedKeepers.Count > 0)

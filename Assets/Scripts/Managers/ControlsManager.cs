@@ -128,6 +128,14 @@ public class ControlsManager : MonoBehaviour
                                 ui.UpdateActionPanelUIQ(hitInfo.collider.gameObject.GetComponent<LootInstance>().InteractionImplementer);
                             }
                         }
+                        else if (clickTarget.GetComponent<TriggerPanneau>() != null)
+                        {
+                            if (tileHit == keeperSelectedTile)
+                            {
+                                GameManager.Instance.GoTarget = clickTarget.GetComponent<Interactable>();
+                                ui.UpdateActionPanelUIQ(clickTarget.GetComponent<Interactable>().Interactions);
+                            }
+                        }
                         // Handle click on a pawn
                         else if (clickTarget.GetComponentInParent<PawnInstance>() != null)
                         {
