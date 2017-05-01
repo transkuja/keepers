@@ -26,7 +26,7 @@ public class DragHandler : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
             startParent = transform.parent;
 
             // Force sorting layer a ontopofEverything
-            absoluteParent = transform.parent.parent.parent.parent;
+            absoluteParent = transform.parent.parent.parent.parent.parent;
             eventData.pointerDrag.gameObject.transform.SetParent(absoluteParent);
 
 
