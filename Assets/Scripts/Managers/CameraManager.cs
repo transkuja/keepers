@@ -50,6 +50,7 @@ public class CameraManager : MonoBehaviour {
     bool bIsDraging = false;
     Vector3 v3DragOrigin;
     Vector3 closeToFar;
+    bool needOffset;
 
     // Camera adapters
     public List<GreyTileCameraAdapter> greyTileCameraAdapters = new List<GreyTileCameraAdapter>();
@@ -141,6 +142,7 @@ public class CameraManager : MonoBehaviour {
         isUpdateNeeded = true;
         isFirstCallToUpdatePosition = false;
         hasMainQuestBeenShown = false;
+        needOffset = false;
 
         GameManager.Instance.RegisterCameraManager(this);
     }
@@ -151,6 +153,15 @@ public class CameraManager : MonoBehaviour {
 
         activeTile = pi.CurrentTile;
     }
+
+    public void UpdateCameraPositionWithOffset(PawnInstance pi)
+    {
+        isUpdateNeeded = true;
+        oldPosition = tClose.position;
+        needOffset = true;
+        activeTile = pi.CurrentTile;
+    }
+
 
     public void UpdateCameraPosition(Tile targetTile)
     {
@@ -209,6 +220,23 @@ public class CameraManager : MonoBehaviour {
                         GameManager.Instance.ShowMainQuest();
                         hasMainQuestBeenShown = true;
                     }
+
+                    // Ajout par rémi
+                    if ((zoomState == eZoomState.forward && fZoomLerp > fLerpTarget) || (zoomState == eZoomState.backward && fZoomLerp < fLerpTarget) || (fLerpTarget == fZoomLerp))
+                    {
+                        FZoomLerp = fLerpTarget;
+                        zoomState = eZoomState.idle;
+
+                        if (needOffset)
+                        {
+                            fZoomLerpOrigin = fZoomLerp;
+                            fLerpTarget = fZoomLerp;
+                            fLerpTarget -= 3*fLerpNotch;
+                            zoomState = eZoomState.backward;
+                            //isUpdateNeeded = true;
+                            needOffset = false;
+                        }
+                    }
                 }
 
                 //Vector3 pos = transform.position;
@@ -223,7 +251,8 @@ public class CameraManager : MonoBehaviour {
             if (zoomState != eZoomState.idle)
             {
                 UpdateCamZoom();
-            }
+            } 
+
         }
         else if (GameManager.Instance.CurrentState == GameState.InBattle
             || (GameManager.Instance.CurrentState == GameState.InTuto && TutoManager.s_instance.PlayingSequence != null && TutoManager.s_instance.PlayingSequence.GetType() == typeof(SeqTutoCombat)))
@@ -266,6 +295,7 @@ public class CameraManager : MonoBehaviour {
 
         if (fZoomLerp < 0.6f)
         {
+            Debug.Log("true");
             state = CameraState.Far;
         }
         else
@@ -483,7 +513,7 @@ public class CameraManager : MonoBehaviour {
     {
         FZoomLerp = fZoomLerp + (fLerpTarget - fZoomLerpOrigin) * fZoomSpeed * Time.unscaledDeltaTime;
 
-        if((zoomState == eZoomState.forward && fZoomLerp > fLerpTarget) || (zoomState == eZoomState.backward && fZoomLerp < fLerpTarget))
+        if((zoomState == eZoomState.forward && fZoomLerp > fLerpTarget) || (zoomState == eZoomState.backward && fZoomLerp < fLerpTarget) || (fLerpTarget == fZoomLerp))
         {
             FZoomLerp = fLerpTarget;
             zoomState = eZoomState.idle;
