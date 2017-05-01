@@ -149,6 +149,8 @@ namespace Behaviour
             originPosition = transform.position;
             originRotation = transform.rotation;
 
+            GetComponent<Interactable>().Interactions.Add(new Interaction(Attack), 0, "Attack", GameManager.Instance.SpriteUtils.spriteAttack);
+
             GameManager.Instance.RegisterMonsterPosition(instance);
         }
 
@@ -159,6 +161,28 @@ namespace Behaviour
             {
                 if (agent != null && agent.enabled)
                     NavMeshMovement();
+            }
+        }
+
+        private void Attack(int _i = 0)
+        {
+            if (GameManager.Instance.CurrentState == GameState.Normal)
+            {
+                //NavMeshAgent agent = GameManager.Instance.GetFirstSelectedKeeper().GetComponent<NavMeshAgent>();
+                //if (agent != null && agent.isActiveAndEnabled)
+                //    agent.SetDestination(transform.position);
+
+                if (GetComponentInParent<Fighter>() != null && GetComponentInParent<Fighter>().IsTargetableByMonster == true)
+                {
+                    if (BattleHandler.IsABattleAlreadyInProcess())
+                        return;
+
+                    Tile tile = GetComponentInParent<PawnInstance>().CurrentTile;
+
+                    BattleHandler.StartBattleProcess(tile);
+
+                    GameManager.Instance.UpdateCameraPosition(GetComponentInParent<PawnInstance>());
+                }
             }
         }
 
