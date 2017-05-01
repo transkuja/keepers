@@ -37,7 +37,6 @@ public class RightMouseClickExpected : MonoBehaviour {
                     {
                         TutoManager.MouseClicked = true;
                         TilePassage tp = hitInfo.collider.gameObject.GetComponent<TilePassage>();
-                        GameManager.Instance.AllKeepersList[0].GetComponent<AnimatedPawn>().TriggerRotation(hitInfo.collider.transform.position);
 
                         if (tp.GetComponentInParent<Tile>() == GameManager.Instance.AllKeepersList[0].CurrentTile)
                             tp.HandleClick();
