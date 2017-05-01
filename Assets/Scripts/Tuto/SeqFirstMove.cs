@@ -430,6 +430,7 @@ public class SeqFirstMove : Sequence {
 
     public override void End()
     {
+        base.End();
         selectedKeepersPanel.SetActive(true);
         if (pawnMrResetti != null)
             TutoManager.UnSpawn(pawnMrResetti);

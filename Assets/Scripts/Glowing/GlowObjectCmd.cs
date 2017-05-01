@@ -40,35 +40,38 @@ public class GlowObjectCmd : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (GetComponent<Keeper>() != null)
+        if (GameManager.Instance.CurrentState == GameState.Normal)
         {
-            nbrOfClicks++;
-            Keeper clickedKeeper = GetComponent<Keeper>();
-            GameManager.Instance.ClearListKeeperSelected();
-            GameManager.Instance.AddKeeperToSelectedList(clickedKeeper.getPawnInstance);
-            GameManager.Instance.Ui.HideInventoryPanels();
-            clickedKeeper.IsSelected = true;
-
-            if (nbrOfClicks == 1)
+            if (GetComponent<Keeper>() != null)
             {
-                timerDoubleClick = doubleClickCoolDown;
-                startDCTimer = true;
-            }
+                nbrOfClicks++;
+                Keeper clickedKeeper = GetComponent<Keeper>();
+                GameManager.Instance.ClearListKeeperSelected();
+                GameManager.Instance.AddKeeperToSelectedList(clickedKeeper.getPawnInstance);
+                GameManager.Instance.Ui.HideInventoryPanels();
+                clickedKeeper.IsSelected = true;
 
-            if (timerDoubleClick > 0.0f)
-            {
-                if (nbrOfClicks >= 2)
+                if (nbrOfClicks == 1)
                 {
-                    Camera.main.GetComponent<CameraManager>().UpdateCameraPosition(GetComponent<PawnInstance>());
-                    timerDoubleClick = 0.0f;
-                    nbrOfClicks = 0;
-                    startDCTimer = false;
+                    timerDoubleClick = doubleClickCoolDown;
+                    startDCTimer = true;
                 }
-            }
-            else
-            {
-                startDCTimer = false;
-                nbrOfClicks = 0;
+
+                if (timerDoubleClick > 0.0f)
+                {
+                    if (nbrOfClicks >= 2)
+                    {
+                        Camera.main.GetComponent<CameraManager>().UpdateCameraPosition(GetComponent<PawnInstance>());
+                        timerDoubleClick = 0.0f;
+                        nbrOfClicks = 0;
+                        startDCTimer = false;
+                    }
+                }
+                else
+                {
+                    startDCTimer = false;
+                    nbrOfClicks = 0;
+                }
             }
         }
     }
