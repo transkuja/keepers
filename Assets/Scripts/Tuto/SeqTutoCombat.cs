@@ -373,6 +373,7 @@ public class SeqTutoCombat : Sequence
 
     public override void End()
     {
+        base.End();
         if (TutoManager.s_instance.TutoPanelInstance != null)
             Destroy(TutoManager.s_instance.TutoPanelInstance);
         TutoManager.s_instance.PlayingSequence = null;

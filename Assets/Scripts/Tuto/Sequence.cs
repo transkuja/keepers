@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public abstract class Sequence : MonoBehaviour
 {
@@ -112,8 +113,48 @@ public abstract class Sequence : MonoBehaviour
     public virtual void Init()
     {
         currentState = SequenceState.Idle;
+        Button[] shortcutButt = TutoManager.s_instance.shortcutButton.GetComponentsInChildren<Button>();
+        ColorBlock cb;
+
+        foreach (Button b in shortcutButt)
+        {
+            cb = b.colors;
+            cb.disabledColor = Color.white;
+            b.colors = cb;
+            b.interactable = false;
+        }
+
+        Button endTurnButt = TutoManager.s_instance.endTurnButton.GetComponentInChildren<Button>();
+
+        cb = endTurnButt.colors;
+        cb.disabledColor = Color.white;
+        endTurnButt.colors = cb;
+        endTurnButt.interactable = false;
+
+        foreach (Button b in GameManager.Instance.Ui.GoActionPanelQ.GetComponentsInChildren<Button>())
+        {
+            cb = b.colors;
+            cb.disabledColor = Color.white;
+            b.colors = cb;
+            b.interactable = false;
+        }
+
     }
-    public abstract void End();
+
+    public virtual void End()
+    {
+        Button[] shortcutButt = TutoManager.s_instance.shortcutButton.GetComponentsInChildren<Button>();
+
+        foreach (Button b in shortcutButt)
+        {
+            b.interactable = true;
+        }
+
+        Button endTurnButt = TutoManager.s_instance.endTurnButton.GetComponentInChildren<Button>();
+        endTurnButt.interactable = true;
+
+        GameManager.Instance.Ui.ClearActionPanel();
+    }
 
     public bool isLastSequence()
     {

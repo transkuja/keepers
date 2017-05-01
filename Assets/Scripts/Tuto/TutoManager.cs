@@ -41,6 +41,10 @@ public class TutoManager : MonoBehaviour {
 
     private GameState stateBeforeTutoStarts;
 
+    [Header("UI blocked during all sequences")]
+    public GameObject endTurnButton;
+    public GameObject shortcutButton;
+
     private void Awake()
     {
         s_instance = this;

@@ -19,6 +19,7 @@ public class SeqActionCostHunger : Sequence {
 
     public override void End()
     {
+        base.End();
         if (pawnMrResetti != null)
             TutoManager.UnSpawn(pawnMrResetti);
         if (TutoManager.s_instance.TutoPanelInstance != null)
