@@ -153,62 +153,6 @@ public class TutoManager : MonoBehaviour {
                     break;
 
             }
-            //    if (playingSequence.CurrentState == SequenceState.WaitingForClickUI)
-            //    {
-            //        if (MouseCLicked == true)
-            //        {
-            //            MouseCLicked = false;
-            //            playingSequence.CurrentState = SequenceState.Idle;
-            //            s_instance.playNextSeq();
-            //        }
-            //    }
-            //    else if (Input.GetKeyDown(KeyCode.Space))
-            //    {
-            //        switch (playingSequence.CurrentState)
-            //        {
-            //            case SequenceState.Idle:
-            //                break;
-            //            case SequenceState.WaitingForInput:
-
-            //                if (playingSequence.isLastSequence())
-            //                {
-            //                    playingSequence.MoveNext();
-            //                    playingSequence.CurrentState = SequenceState.End;
-            //                }
-            //                else
-            //                {
-            //                    s_instance.playNextSeq();
-            //                    playingSequence.CurrentState = SequenceState.Idle;
-            //                }
-            //                break;
-            //        }
-            //    }
-            //    else if (Input.GetKeyDown(KeyCode.Escape))
-            //    {
-            //        playingSequence.Reset();
-            //    }
-            //    else if (playingSequence.CurrentState == SequenceState.End)
-            //    {
-            //        playingSequence.End();
-            //        if (tutoPanelInstance != null && tutoPanelInstance.activeSelf == true)
-            //            Destroy(tutoPanelInstance);
-            //        playingSequence.AlreadyPlayed = true;
-            //        PlayingSequence = null;
-            //    }
-            //    else if (playingSequence.CurrentState == SequenceState.ReadyForNext)
-            //    {
-            //        if (playingSequence.isLastSequence())
-            //        {
-            //            playingSequence.MoveNext();
-            //            playingSequence.CurrentState = SequenceState.End;
-            //        }
-            //        else
-            //        {
-            //            s_instance.playNextSeq();
-            //            playingSequence.CurrentState = SequenceState.Idle;
-            //        }
-            //    }
-            //}
         }
     }
 
@@ -306,12 +250,7 @@ public class TutoManager : MonoBehaviour {
         s_instance.playingSequence.MoveNext();
         s_instance.playingSequence.Play();
     }
-
-    public void Init()
-    {
-        s_instance.enableTuto = true;
-    }
-
+    
     public void EcrireMessage(string str)
     {
         if (tutoPanelInstance == null)
