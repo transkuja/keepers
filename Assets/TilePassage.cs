@@ -223,7 +223,7 @@ public class TilePassage : MonoBehaviour {
 
     public void OnTriggerStay(Collider other)
     {
-        if (other.GetComponentInParent<Keeper>() != null && other.isTrigger)
+        if (other.GetComponentInParent<Keeper>() != null && other.isTrigger && GameManager.Instance.GoTarget.GetComponent<TilePassage>() == this)
         {
             if (other.GetComponentInParent<AnimatedPawn>().CmdExplore == true)
             {
