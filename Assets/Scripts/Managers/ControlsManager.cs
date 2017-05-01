@@ -14,6 +14,7 @@ public class ControlsManager : MonoBehaviour
     void Start()
     {
         goPreviousLeftclicked = null;
+        Cursor.SetCursor(GameManager.Instance.Texture2DUtils.iconeMouse, Vector2.zero, CursorMode.Auto);
         fTimerDoubleClick = 0;
     }
     void Update()
@@ -197,6 +198,8 @@ public class ControlsManager : MonoBehaviour
                         else
                         { 
                             ui.ClearActionPanel();
+                            Cursor.SetCursor(GameManager.Instance.Texture2DUtils.iconeMouseClicked, Vector2.zero, CursorMode.Auto);
+                            Invoke("CursorNormalState",0.5f);
                             if (tileHit != null)
                             {
                                 Tile currentKeeperTile = GameManager.Instance.GetFirstSelectedKeeper().CurrentTile;
@@ -478,5 +481,10 @@ public class ControlsManager : MonoBehaviour
                 GameManager.Instance.Ui.EndTurn();
             }
         }
+    }
+
+    private void CursorNormalState()
+    {
+        Cursor.SetCursor(GameManager.Instance.Texture2DUtils.iconeMouse, Vector2.zero, CursorMode.Auto);
     }
 }

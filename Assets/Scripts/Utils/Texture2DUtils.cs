@@ -24,6 +24,9 @@ public class Texture2DUtils : MonoBehaviour {
     public Texture2D magicX5;
     public Texture2D magicX6;
 
+    public Texture2D iconeMouse;
+    public Texture2D iconeMouseClicked;
+
     public Texture2D GetTextureFromFaceData(Face faceData)
     {
         if (faceData.Type == FaceType.Physical)
