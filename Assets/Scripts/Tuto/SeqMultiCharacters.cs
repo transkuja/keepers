@@ -187,8 +187,8 @@ public class SeqMultiCharacters : Sequence
         Etapes.Add(new TutoManager.Spawn(pawnMrResetti, jumpAnimationClip));
 
         Etapes.Add(new TutoManager.Message(pawnMrResetti, "You now have more characters."));
-        Etapes.Add(new TutoManager.Message(pawnMrResetti, "Each one of them has his own action points, inventory and specificities."));
-        Etapes.Add(new ShowCurrentCharacterAvatar("You can see the character actually selected here."));
+        Etapes.Add(new TutoManager.Message(pawnMrResetti, "Each one of them has its own action points, inventory and specificities."));
+        Etapes.Add(new ShowCurrentCharacterAvatar("You can see the character currently selected here."));
         Etapes.Add(new TutoManager.Message(pawnMrResetti, "You can interact with other characters by right clicking on them when you have a character selected."));
         Etapes.Add(new InteractWithAnotherCharacter("Try interacting with another pawn!"));
         Etapes.Add(new FreezeInteractionsForTuto("Good,"));
