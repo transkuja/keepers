@@ -68,6 +68,12 @@ public class DebugControls : MonoBehaviour {
                     tile.State = TileState.Discovered;
             }
 
+            // Decrease food Ashley
+            if (Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.Alpha2))
+            {
+                GameManager.Instance.PrisonerInstance.GetComponent<HungerHandler>().CurrentHunger--;
+            }
+
             if (GameManager.Instance.ListOfSelectedKeepers == null || GameManager.Instance.ListOfSelectedKeepers.Count == 0)
             {
                 return;

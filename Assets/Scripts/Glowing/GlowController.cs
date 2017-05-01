@@ -79,7 +79,7 @@ public class GlowController : MonoBehaviour
             if (!_instance._glowableObjects.Contains(glowObj))
                 _instance._glowableObjects.Add(glowObj);
 		}
-	}
+    }
 
     public static void UnregisterObject(GlowObjectCmd glowObj)
     {
