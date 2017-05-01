@@ -71,4 +71,182 @@ Notes à part:
 
 
 Profil 3
+Rémy, 26 ans, gamer, habitués de jeu de rôle, gestion/stratégie 
+
+bouton end clair 
+move girl clair 
+clic droit pour drag plutot que central => + naturel pour ce type de jeu 
+SUPPRIMER LES CHAMPIS DE TUTOSCENE 1
+Expliquer différence entre exploration et déplacement (3PA contre 2)
+peut etre pas clair explication du perso selectionné 
+explications shortcut panel clair
+Actions qui s'ouvrent sur la fille alors qu'elle est toute seule => corrigé, venait du tuto
+bug si on déplace la fille directement sur la couronne au début du tuto 
+clic droit, perso devrait pas se déplacer, seulement se déplacer si l'action est validée
+meme chose pour aggro le mob
+ramasse le contenu d'un coffre avec simple clic gauche 
+PA clairs 
+pb sprite moralBuff/debuff
+
+Panneau visible? oui
+
+si inventaire plein, les points d'action diminuent sur la récolte mais l'objet est pas ramassé
+objectif de quete clair? non => manque de feedback 
+valider la quete clair? non => manque de feedback 
+=> feedback au dessus du PNJ
+
+Indications écrites sur les boutons (onpointerenter?) ? Parce qu'on sait pas trop ce que ça fait 
+
+ashley starving tuto se déclenche si on lui redonne de la nourriture 
+double click pour feed ashley => bad idea 
+
+Fun global  3/5 (super court pas évident de noter)
+Fun combat  3/5 (manque d'anims pour augmenter le fun) MAIS ça apporte un truc 
+
+selection auto d'un perso après le jet de dés 
+l'impression qu'on a finit le tour après le lancer de dés 
+
+Tuto clairs dans l'ensemble
+
+
+Profil 4
+Alexandra, 22 ans, casual++, peu habituée aux jdr, gestion ou stratégie 
+
+"they get hungry" first move 
+panneau de camera controls vu 
+deactivate seq ashley on tutoscene1 
+"has their"
+close skill panel button must be deactivated in seqTutoCombat 
+a lu le panneau 
+clique sur le feedback du tile destination pour se déplacer +++++++++++++++++++++
+du mal avec clic gauche/droit 
+5 boucliers vert alors que 2 en stock sur skills panels 
+Gérer la défaite des combats lorsque tous les persos sont morts 
+Explications cout d'actions déplacement vs exploration 
+PNJ qui rejoint pas clair si shortcut panel fermé?
+a bien compris qu'il faut parler pour remonter le moral 
+utilise peu le shortcut panel 
+supprimer le reset des isTargetableByMonster de l'event manager le pb doit venir des tilepassage i think 
+
+bug de l'objet qui passe derriere le panel perturbant 
+
+Fun global 4.5/5
+Fun combat 4.5/5
+
+barre de vie cachée par un arbre 
+
+Tuto impec
+
+
+Profil 5 
+Flora, 20+ ans, gamer consoles/pc, habituée de jdr, qq jeux de strat 
+ 
+Build Mac 
+fenetré
+
+
+Fun global /5 
+Fun combat /5 
+
+EPIC FAIL
+
+
+
+Clarté des tutos: 
+
+
+Profil 6 
+Lucas, 23 ans, gamer, peu habitué de jdr, pas habitué aux jeux de strat/gestion
+
+click on ground pas clair 
+pas clair l'ui qui apparait que quand un perso est selectionné => 1 par défaut?
+a pas lu le panneau
+SUPPRIMER LES CHAMPIS 
+
+Tout le monde veut faire un truc avec le puits
+
+1er a cliquer sur les fleches
+
+reset les destinations des agents pour éviter qu'ils bougent comme des autistes
+ui worldspace ne prend pas le pas sur le shortcut 
+les pions peuvent se pencher après s'etre trop rentrés dedans (position par défaut de l'animation)
+panneau defeat qui reste en plein milieu => verrouiller les actions du joueur tant qu'il l'a pas fermé? => bug s'il est fermé en plein combat => bloquant 
+Probleme de selection au clic d'un personnage sur un panneau 
+A bien compris qu'il faut cliquer sur la couronne au sol pour se déplacer entre les tiles 
+pas de dézoom 
+a compris la différence de cout entre déplacement et explo 
+
+rajouter des skills a raspberry
+selectionne ses persos en combat en cliquant dessus 
+
+feed ashley => action bien comprise mais a aussi double click pour la nourrir 
+déclencher le tuto ashley starving uniquement lorsqu'elle perd de la faim et pas quand elle en regagne 
+
+"Actually" => "Currently"
+
+Fun global 3-4/5 => pb de clics avec elements qui se superposent (noatemment shortcut et actions)
+Fun combat 5/5 => dés+++++
+
+Clarté des tutos: très bien
+
+
+Profil 7
+Eva, 22 ans, casual, pas mal joué à Age of Empires et Pokemon
+
+gros temps de chargement au début car PC pourri
+
+ascending feedback lent
+
+
+feedback au sol évident jusqu'a ce que le perso arrive dessus et ensuite clic sur le feedback du tile adjacent quand il est dévoilé ou sur le tile sinon
+
+tuto combat: pas évident qu'il faut cliquer sur le skill => ajouter une fleche?
+
+reset les destinations d'agent 
+tout ce qui utilise un delta time est vraiment ralenti
+
+pb de clics avec elements qui se superposent (shortcut et actions)
+
+masquer l'action panneau on trigger exit
+pb sur l'update du panneau de skills du vieux (9 magie pour le dumb move ??)
+
+personnage selectionné par défaut en sortant d'un combat 
+Panel feeding ashley bug => baie + champi => validate 
+
+Réduire les pénalités par tour, -10 un peu violent
+
+Bien compris qu'il faut nourrir Ashley meme sans le tuto ashley low hunger 
+Souvent le tuto low hunger suffit comme rappel
+probleme lors de l'update des skills panels entre 2 combats! (raspberry a utilisé axe crush)
+
+
+clarté des tutos: trop long, les situationnels on n'a pas envie de les lire
+
+Fun global 3/5 
+Fun combat 4/5 
+
+agro brutale du lapin contre pas d'aggro des loups wtf???
+
+
+Profil 8
+, 20+ ans, gamer, qq jdr, peu d'expérience dans les jeux de stratégie gestion 
+
+controles caméra sur poanneau vu mais a demandé comment on la bougeait (correction évidente = déplacer la caméra en meme temps que le perso)
+REMPLACER LES CHAMPIGNONS
+a compris qu'il faut 2pts pour move et 3 pour explo 
+couper le son!
+mal compris qu'il fallait utiliser le skill dans le tuto 
+Sud est?? Nord??
+
+0épée ==> expliquer pourquoi on peut attaquer quand meme mais faire peu de dgats => ou afficher directement les dgts calculés
+A nourri tous ses persos sauf Ashley => tuto impec 
+
+
+clarté des tutos: clair, malgré que son anglais soit pas terrible! 
+tuto explication escorte sur Ashley => bonne idée de faire ça de façon ponctuelle 
+bloquer tous les tutos sur la premiere map ou presque (je sais pas si je l'ai déjà fait ou pas)
+
+
+Fun global 4/5 (très bonne idée)
+Fun combat 5+++/5 (vachement original, référence à Andor, rapide, net, aime les feedbacks, ajoute le côté reflexion des jeux de plateau)
 
