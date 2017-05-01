@@ -160,7 +160,7 @@ public class CameraManager : MonoBehaviour {
     {
         isSpecialUpdate = true;
         oldPosition = tClose.position;
-
+        activeTile = _newTile.Neighbors[(int)Utils.GetOppositeDirection(directionDuDeplacement)];
         if (directionDuDeplacement == Direction.South || directionDuDeplacement == Direction.South_East || directionDuDeplacement == Direction.South_West)
         {
             newPosition = _newTileCenter + Vector3.back;
@@ -168,7 +168,6 @@ public class CameraManager : MonoBehaviour {
         {
             newPosition = positionFromATileClose + activeTile.transform.position ;
         }
-        activeTile = _newTile;
 
         fZoomLerpOrigin = fZoomLerp;
 
