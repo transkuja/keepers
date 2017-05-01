@@ -59,7 +59,7 @@ public class TutoManager : MonoBehaviour {
         {
             InitTutoScene();
         }
-        else
+        else if (s_instance.enableTuto && s_instance.GetComponent<SeqFirstMove>().AlreadyPlayed == true && s_instance.GetComponent<SeqMultiCharacters>().AlreadyPlayed == false)
         {
             InitSecondLevel();
         }
