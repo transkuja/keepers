@@ -140,7 +140,8 @@ namespace Behaviour
             get { return currentHunger; }
             set
             {
-                instance.AddFeedBackToQueue(GameManager.Instance.SpriteUtils.spriteHunger, value - currentHunger);
+                int diffHunger = value - currentHunger;
+                instance.AddFeedBackToQueue(GameManager.Instance.SpriteUtils.spriteHunger, diffHunger);
                 currentHunger = value;
                 if (currentHunger < 0)
                 {
@@ -169,7 +170,7 @@ namespace Behaviour
                     }
                     if (GetComponent<Escortable>() != null && TutoManager.s_instance.GetComponent<SeqAshleyLowHunger>().AlreadyPlayed == false)
                     {
-                        if (currentHunger < data.MaxHunger / 4.0f)
+                        if (currentHunger < data.MaxHunger / 4.0f && diffHunger < 0)
                             TutoManager.s_instance.playSequence(TutoManager.s_instance.GetComponent<SeqAshleyLowHunger>());
                     }
 
