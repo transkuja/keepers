@@ -99,9 +99,9 @@ public class ItemInstance : MonoBehaviour, IHavestable
                     DestroyImmediate(this.transform.GetChild(1).gameObject);
                 }
 
+                GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Keeper>().ActionPoints -= (short)costAction;
             }
 
-            GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Keeper>().ActionPoints -= (short)costAction;
             GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Inventory>().UpdateInventories();
         }
         else
