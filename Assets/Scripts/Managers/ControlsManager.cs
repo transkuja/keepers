@@ -143,6 +143,7 @@ public class ControlsManager : MonoBehaviour
                                 {
                                     if (clickTarget.GetComponentInParent<PawnInstance>() == GameManager.Instance.GetFirstSelectedKeeper())
                                     {
+                                        GameManager.Instance.Ui.ClearActionPanel();
                                         return;
                                     }
                                 }

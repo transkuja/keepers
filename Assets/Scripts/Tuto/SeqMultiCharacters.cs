@@ -55,11 +55,15 @@ public class SeqMultiCharacters : Sequence
         {
             for (int i = 1; i < GameManager.Instance.AllKeepersList.Count; i++)
             {
-                if (GameManager.Instance.AllKeepersList[i].gameObject.GetComponent<RightMouseClickExpected>() == null)
+                if (GameManager.Instance.AllKeepersList[i] != GameManager.Instance.GetFirstSelectedKeeper())
                 {
-                    GameManager.Instance.AllKeepersList[i].gameObject.AddComponent<RightMouseClickExpected>();
-                    GameManager.Instance.AllKeepersList[i].gameObject.GetComponent<RightMouseClickExpected>().TargetExpected = "Keeper";
+                    if (GameManager.Instance.AllKeepersList[i].gameObject.GetComponent<RightMouseClickExpected>() == null)
+                    {
+                        GameManager.Instance.AllKeepersList[i].gameObject.AddComponent<RightMouseClickExpected>();
+                        GameManager.Instance.AllKeepersList[i].gameObject.GetComponent<RightMouseClickExpected>().TargetExpected = "Keeper";
+                    }
                 }
+   
             }
 
             if (GameManager.Instance.PrisonerInstance.gameObject.GetComponent<RightMouseClickExpected>() == null)

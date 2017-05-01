@@ -44,6 +44,8 @@ public class RightMouseClickExpected : MonoBehaviour {
                     }
                     else if (TargetExpected == "Keeper" && (hitInfo.collider.GetComponentInParent<Keeper>() != null || hitInfo.collider.GetComponentInParent<Escortable>() != null))
                     {
+                        if (hitInfo.collider.GetComponentInParent<Keeper>() != null  && hitInfo.collider.GetComponentInParent<Keeper>().GetComponent<PawnInstance>() == GameManager.Instance.GetFirstSelectedKeeper())
+                            return;
                         TutoManager.MouseClicked = true;
                         if (hitInfo.collider.GetComponentInParent<Escortable>() != null)
                             hitInfo.collider.GetComponentInParent<Escortable>().UpdateEscortableInteractions();
