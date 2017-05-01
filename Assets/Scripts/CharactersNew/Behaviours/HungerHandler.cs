@@ -173,7 +173,7 @@ namespace Behaviour
                             TutoManager.s_instance.playSequence(TutoManager.s_instance.GetComponent<SeqAshleyLowHunger>());
                     }
 
-                    if (TutoManager.s_instance.GetComponent<SeqLowHunger>().AlreadyPlayed == false)
+                    if (GetComponent<Keeper>() != null && TutoManager.s_instance.GetComponent<SeqLowHunger>().AlreadyPlayed == false)
                     {
                         if (currentHunger < data.MaxHunger / 4.0f)
                             TutoManager.s_instance.playSequence(TutoManager.s_instance.GetComponent<SeqLowHunger>());
