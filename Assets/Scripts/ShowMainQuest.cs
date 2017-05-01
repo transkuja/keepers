@@ -30,10 +30,20 @@ public class ShowMainQuest : MonoBehaviour {
 
     public void showMainQuestObjectif()
     {
-        this.gameObject.SetActive(true);
-        for (int i = 0; i < transform.childCount; i++)
-            transform.GetChild(i).gameObject.SetActive(true);
-        isFirstStepFinished = false;
+        if( gameObject.activeSelf == true)
+        {
+            this.gameObject.SetActive(false);
+            for (int i = 0; i < transform.childCount; i++)
+                transform.GetChild(i).gameObject.SetActive(false);
+            isFirstStepFinished = true;
+        } else
+        {
+            this.gameObject.SetActive(true);
+            for (int i = 0; i < transform.childCount; i++)
+                transform.GetChild(i).gameObject.SetActive(true);
+            isFirstStepFinished = false;
+        }
+
     }
 
     public void Update()
