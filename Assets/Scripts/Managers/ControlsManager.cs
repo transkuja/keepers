@@ -45,42 +45,48 @@ public class ControlsManager : MonoBehaviour
                 if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo, Mathf.Infinity, ~layerMask) == true)
                 {
                     GameManager.Instance.Ui.ClearActionPanel();
-                    if (hitInfo.transform.gameObject.GetComponentInParent<Keeper>() != null)
-                    {
-                        Keeper clickedKeeper = hitInfo.transform.gameObject.GetComponentInParent<Keeper>();
-                        if (Input.GetKey(KeyCode.LeftShift))
-                        {
-                            if (GameManager.Instance.ListOfSelectedKeepers.Contains(clickedKeeper.getPawnInstance))
-                            {
-                                GameManager.Instance.ListOfSelectedKeepers.Remove(clickedKeeper.getPawnInstance);
-                                clickedKeeper.IsSelected = false;
-                            }
-                            else
-                            {
-                                GameManager.Instance.AddKeeperToSelectedList(clickedKeeper.getPawnInstance);
-                                clickedKeeper.IsSelected = true;
-                            }
-                        }
-                        else
-                        {
-                            GameManager.Instance.ClearListKeeperSelected();
-                            GameManager.Instance.AddKeeperToSelectedList(clickedKeeper.getPawnInstance);
-                            GameManager.Instance.Ui.HideInventoryPanels();
-                            clickedKeeper.IsSelected = true;
-                        }
-                        if (fTimerDoubleClick > 0 && goPreviousLeftclicked == hitInfo.transform.gameObject)
-                        {
-                            Camera.main.GetComponent<CameraManager>().UpdateCameraPosition(clickedKeeper.getPawnInstance);
-                            goPreviousLeftclicked = null;
-                            fTimerDoubleClick = 0;
-                        }
-                        else
-                        {
-                            fTimerDoubleClick = fDoubleClickCoolDown;
-                            goPreviousLeftclicked = hitInfo.transform.gameObject;
-                        }
-                    }
-                    else
+                    //if (hitInfo.transform.gameObject.GetComponentInParent<Keeper>() != null)
+                    //{
+                    //    Keeper clickedKeeper = hitInfo.transform.gameObject.GetComponentInParent<Keeper>();
+                    //    if (Input.GetKey(KeyCode.LeftShift))
+                    //    {
+                    //        if (GameManager.Instance.ListOfSelectedKeepers.Contains(clickedKeeper.getPawnInstance))
+                    //        {
+                    //            GameManager.Instance.ListOfSelectedKeepers.Remove(clickedKeeper.getPawnInstance);
+                    //            clickedKeeper.IsSelected = false;
+                    //        }
+                    //        else
+                    //        {
+                    //            GameManager.Instance.AddKeeperToSelectedList(clickedKeeper.getPawnInstance);
+                    //            clickedKeeper.IsSelected = true;
+                    //        }
+                    //    }
+                    //    else
+                    //    {
+                    //        GameManager.Instance.ClearListKeeperSelected();
+                    //        GameManager.Instance.AddKeeperToSelectedList(clickedKeeper.getPawnInstance);
+                    //        GameManager.Instance.Ui.HideInventoryPanels();
+                    //        clickedKeeper.IsSelected = true;
+                    //    }
+                    //    if (fTimerDoubleClick > 0 && goPreviousLeftclicked == hitInfo.transform.gameObject)
+                    //    {
+                    //        Camera.main.GetComponent<CameraManager>().UpdateCameraPosition(clickedKeeper.getPawnInstance);
+                    //        goPreviousLeftclicked = null;
+                    //        fTimerDoubleClick = 0;
+                    //    }
+                    //    else
+                    //    {
+                    //        fTimerDoubleClick = fDoubleClickCoolDown;
+                    //        goPreviousLeftclicked = hitInfo.transform.gameObject;
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    GameManager.Instance.ClearListKeeperSelected();
+                    //    GameManager.Instance.Ui.HideInventoryPanels();
+                    //}
+
+                    if (hitInfo.transform.gameObject.GetComponentInParent<Keeper>() == null)
                     {
                         GameManager.Instance.ClearListKeeperSelected();
                         GameManager.Instance.Ui.HideInventoryPanels();

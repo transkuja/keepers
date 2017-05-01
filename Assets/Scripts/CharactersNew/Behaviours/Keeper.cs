@@ -395,10 +395,10 @@ namespace Behaviour
                     if (agent != null)
                         agent.avoidancePriority = value == true ? 80 : 50;
 
-                    if (isSelected == true && GameManager.Instance.CameraManagerReference.state == CameraManager.CameraState.Close)
-                    {
-                        GameManager.Instance.UpdateCameraPosition(instance);
-                    }
+                    //if (isSelected == true && GameManager.Instance.CameraManagerReference.state == CameraManager.CameraState.Close)
+                    //{
+                    //    GameManager.Instance.UpdateCameraPosition(instance);
+                    //}
                     ShowSelectedPanelUI(isSelected);
                     GameManager.Instance.Ui.HideInventoryPanels();
                 }

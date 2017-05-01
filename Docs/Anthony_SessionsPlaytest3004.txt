@@ -68,5 +68,7 @@ Notes à part:
 2nd build, avec beaucoup moins de bugs dans le tuto de combat 
 /!\ jeu plante lors du tuto combat si plus d'un perso /!\
 
+
+
 Profil 3
 
