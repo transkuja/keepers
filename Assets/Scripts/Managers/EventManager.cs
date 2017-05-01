@@ -32,8 +32,9 @@ public class EventManager : MonoBehaviour {
             TutoManager.s_instance.GetComponent<SeqActionCostHunger>().hasPressedEndTurnButton = true;
         }
 
-        DecreaseMentalHealth();
+
         IncreaseHunger();
+        DecreaseMentalHealth();
         ApplyEndTurnHungerPenalty();
         ApplyEndTurnMentalHealthPenalty();
 
