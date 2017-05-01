@@ -235,7 +235,8 @@ public class SeqTutoCombat : Sequence
                 feedback.transform.localEulerAngles = new Vector3(0, 0, -60);
             }
 
-            seqTutoCombat.skillPanel.GetComponentInChildren<Button>().interactable = false;
+            foreach (Button b in seqTutoCombat.skillPanel.GetComponentsInChildren<Button>())
+                b.interactable = false;
 
             TutoManager.s_instance.EcrireMessage(str);
             TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.Idle;
@@ -285,6 +286,9 @@ public class SeqTutoCombat : Sequence
             Behaviour.Monster monster = BattleHandler.CurrentBattleKeepers[0].CurrentTile.GetComponentInChildren<Behaviour.Monster>();
             if (monster.gameObject.GetComponent<MouseClickedOnIngameElt>() != null)
                 Destroy(monster.gameObject.GetComponent<MouseClickedOnIngameElt>());
+
+            foreach (Button b in seqTutoCombat.skillPanel.GetComponentsInChildren<Button>())
+                b.interactable = true;
 
             alreadyPlayed = false;
         }
