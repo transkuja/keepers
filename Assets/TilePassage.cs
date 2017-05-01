@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Behaviour;
 using UnityEngine.UI;
+using UnityEngine.AI;
 
 public class TilePassage : MonoBehaviour {
     int actionCostExplore = 3;
@@ -43,11 +44,7 @@ public class TilePassage : MonoBehaviour {
             gameObject.SetActive(false);
         }
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
 
     public void HandleClick()
     {
@@ -201,99 +198,125 @@ public class TilePassage : MonoBehaviour {
 
     private void MoveWithoutConfirmation(int _i)
     {
-        if (GameManager.Instance.ListOfSelectedKeepers.Count > 0)
+        PawnInstance toMove = GameManager.Instance.GetFirstSelectedKeeper();
+        AnimatedPawn toMoveAnimatedPawn = toMove.GetComponent<AnimatedPawn>();
+        toMoveAnimatedPawn.CmdMove = true;
+        toMoveAnimatedPawn.WhereMove = _i;
+        for (int i = 0; i < GameManager.Instance.ListOfSelectedKeepers.Count; i++)
         {
-            PawnInstance toMove = GameManager.Instance.GetFirstSelectedKeeper();
-
-            TileManager.Instance.MoveKeeper(toMove, toMove.CurrentTile, (Direction)_i, actionCostMove);
-
-            GameManager.Instance.Ui.HideInventoryPanels();
-
-            if (toMove.GetComponent<Fighter>() != null)
-                toMove.GetComponent<Fighter>().IsTargetableByMonster = false;
+            GameManager.Instance.ListOfSelectedKeepers[i].GetComponent<AnimatedPawn>().TriggerRotation(transform.position);
         }
-        else
-        {
-            Debug.Log("No keeper selected");
-        }
+
     }
 
     private void ExploreWithoutConfirmation(int _i)
     {
-        if (GameManager.Instance.ListOfSelectedKeepers.Count > 0)
+        PawnInstance toMove = GameManager.Instance.GetFirstSelectedKeeper();
+        AnimatedPawn toMoveAnimatedPawn = toMove.GetComponent<AnimatedPawn>();
+        toMoveAnimatedPawn.CmdExplore = true;
+        toMoveAnimatedPawn.WhereMove = _i;
+        for (int i = 0; i < GameManager.Instance.ListOfSelectedKeepers.Count; i++)
         {
-            PawnInstance toMove = GameManager.Instance.GetFirstSelectedKeeper();
+            GameManager.Instance.ListOfSelectedKeepers[i].GetComponent<AnimatedPawn>().TriggerRotation(transform.position);
+        }
+    }
 
-            // Move to explored tile
-            TileManager.Instance.MoveKeeper(toMove, toMove.CurrentTile, (Direction)_i, actionCostExplore);
-
-            // Tell the tile it has been discovered (and watch it panic)
-            Tile exploredTile = toMove.CurrentTile;
-            exploredTile.State = TileState.Discovered;
-            foreach (Tile t in exploredTile.Neighbors)
+    public void OnTriggerStay(Collider other)
+    {
+        if (other.GetComponentInParent<Keeper>() != null && other.isTrigger)
+        {
+            if (other.GetComponentInParent<AnimatedPawn>().CmdExplore == true)
             {
-                if (t != null && t.State == TileState.Hidden)
-                {
-                    t.State = TileState.Greyed;
-                }
+                if (other.GetComponentInParent<NavMeshAgent>().remainingDistance <= 0.001f) {
+                    other.GetComponentInParent<NavMeshAgent>().Stop();
+                    other.GetComponentInParent<AnimatedPawn>().CmdExplore = false;
+                    PawnInstance toMove = other.GetComponentInParent<PawnInstance>();
 
-            }
+                    // Move to explored tile
+                    TileManager.Instance.MoveKeeper(toMove, toMove.CurrentTile, (Direction)other.GetComponentInParent<AnimatedPawn>().WhereMove, actionCostExplore);
 
-            // Apply exploration costs
-            if (toMove.GetComponent<HungerHandler>() != null)
-                toMove.GetComponent<HungerHandler>().CurrentHunger -= 5;
-            //GameManager.Instance.Ui.BuffActionTextAnimation(GameManager.Instance.Ui.goHungerBuffOnStatPanel, -5);
-            //Moral is affected by the friendliness of the discovered tile
-            if (toMove.GetComponent<MentalHealthHandler>() != null)
-            {
-                if (exploredTile.Friendliness == TileFriendliness.Scary)
-                {
+                    // Tell the tile it has been discovered (and watch it panic)
+                    Tile exploredTile = toMove.CurrentTile;
+                    exploredTile.State = TileState.Discovered;
+                    foreach (Tile t in exploredTile.Neighbors)
+                    {
+                        if (t != null && t.State == TileState.Hidden)
+                        {
+                            t.State = TileState.Greyed;
+                        }
 
-                    toMove.GetComponent<MentalHealthHandler>().CurrentMentalHealth -= 5;
-                }
-                else if (exploredTile.Friendliness == TileFriendliness.Friendly)
-                {
-                    toMove.GetComponent<MentalHealthHandler>().CurrentMentalHealth += 5;
-                }
-            }
+                    }
 
-            //GameManager.Instance.Ui.BuffActionTextAnimation(GameManager.Instance.Ui.goMentalHeathBuffOnStatPanel, -5);
-
-            // If the player is exploring with the prisoner following, apply costs to him too
-            if (toMove.GetComponent<Keeper>() != null && toMove.GetComponent<Keeper>().GoListCharacterFollowing.Count > 0)
-            {
-                foreach (GameObject follower in toMove.GetComponent<Keeper>().GoListCharacterFollowing)
-                {
-                    if (follower.GetComponent<HungerHandler>() != null)
-                        follower.GetComponent<HungerHandler>().CurrentHunger -= 5;
-
-
-                    if (follower.GetComponent<MentalHealthHandler>() != null)
+                    // Apply exploration costs
+                    if (toMove.GetComponent<HungerHandler>() != null)
+                        toMove.GetComponent<HungerHandler>().CurrentHunger -= 5;
+                    //GameManager.Instance.Ui.BuffActionTextAnimation(GameManager.Instance.Ui.goHungerBuffOnStatPanel, -5);
+                    //Moral is affected by the friendliness of the discovered tile
+                    if (toMove.GetComponent<MentalHealthHandler>() != null)
                     {
                         if (exploredTile.Friendliness == TileFriendliness.Scary)
                         {
-                            follower.GetComponent<MentalHealthHandler>().CurrentMentalHealth -= 5;
+
+                            toMove.GetComponent<MentalHealthHandler>().CurrentMentalHealth -= 5;
                         }
                         else if (exploredTile.Friendliness == TileFriendliness.Friendly)
                         {
-                            follower.GetComponent<MentalHealthHandler>().CurrentMentalHealth += 5;
+                            toMove.GetComponent<MentalHealthHandler>().CurrentMentalHealth += 5;
                         }
                     }
 
-                    //TODO: Apply this only when the discovered tile is unfriendly
-                    if (follower.GetComponent<MentalHealthHandler>() != null)
-                        follower.GetComponent<MentalHealthHandler>().CurrentMentalHealth -= 5;
+                    //GameManager.Instance.Ui.BuffActionTextAnimation(GameManager.Instance.Ui.goMentalHeathBuffOnStatPanel, -5);
+
+                    // If the player is exploring with the prisoner following, apply costs to him too
+                    if (toMove.GetComponent<Keeper>() != null && toMove.GetComponent<Keeper>().GoListCharacterFollowing.Count > 0)
+                    {
+                        foreach (GameObject follower in toMove.GetComponent<Keeper>().GoListCharacterFollowing)
+                        {
+                            if (follower.GetComponent<HungerHandler>() != null)
+                                follower.GetComponent<HungerHandler>().CurrentHunger -= 5;
+
+
+                            if (follower.GetComponent<MentalHealthHandler>() != null)
+                            {
+                                if (exploredTile.Friendliness == TileFriendliness.Scary)
+                                {
+                                    follower.GetComponent<MentalHealthHandler>().CurrentMentalHealth -= 5;
+                                }
+                                else if (exploredTile.Friendliness == TileFriendliness.Friendly)
+                                {
+                                    follower.GetComponent<MentalHealthHandler>().CurrentMentalHealth += 5;
+                                }
+                            }
+
+                            //TODO: Apply this only when the discovered tile is unfriendly
+                            if (follower.GetComponent<MentalHealthHandler>() != null)
+                                follower.GetComponent<MentalHealthHandler>().CurrentMentalHealth -= 5;
+                        }
+                    }
+
+                    GameManager.Instance.Ui.HideInventoryPanels();
+
+                    if (toMove.GetComponent<Fighter>() != null)
+                        toMove.GetComponent<Fighter>().IsTargetableByMonster = false;
+                }
+               
+            } else if (other.GetComponentInParent<AnimatedPawn>().CmdMove == true)
+            {
+                if (other.GetComponentInParent<NavMeshAgent>().remainingDistance <= 0.001f)
+                {
+                    other.GetComponentInParent<NavMeshAgent>().Stop();
+                    other.GetComponentInParent<AnimatedPawn>().CmdMove = false;
+
+                    PawnInstance toMove = other.GetComponentInParent<PawnInstance>();
+
+                    TileManager.Instance.MoveKeeper(toMove, toMove.CurrentTile, (Direction)other.GetComponentInParent<AnimatedPawn>().WhereMove, actionCostMove);
+
+                    GameManager.Instance.Ui.HideInventoryPanels();
+
+                    if (toMove.GetComponent<Fighter>() != null)
+                        toMove.GetComponent<Fighter>().IsTargetableByMonster = false;
                 }
             }
-
-            GameManager.Instance.Ui.HideInventoryPanels();
-
-            if (toMove.GetComponent<Fighter>() != null)
-                toMove.GetComponent<Fighter>().IsTargetableByMonster = false;
-        }
-        else
-        {
-            Debug.Log("No keeper selected");
         }
     }
 }

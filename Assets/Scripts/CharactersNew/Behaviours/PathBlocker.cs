@@ -33,7 +33,7 @@ namespace Behaviour
         private void OnDestroy()
         {
             // Reactivate paths blocked when the blocker is destroyed
-            if (pathsBlocked != null)
+            if (pathsBlocked != null && pathBlockedPortals != null)
             {
                 for (int i = 0; i < pathBlockedPortals.Length; i++)
                 {

@@ -33,6 +33,10 @@ namespace Behaviour
         Quaternion quatPreviousRotation;
         bool bIsRotating = false;
 
+        bool cmdMove = false;
+        bool cmdExplore = false;
+        int whereMove = 0;
+
         [SerializeField]
         float fRotateSpeed = 1.0f;
 
@@ -336,6 +340,45 @@ namespace Behaviour
 
             }
 
+        }
+
+        public bool CmdMove
+        {
+            get
+            {
+                return cmdMove;
+            }
+
+            set
+            {
+                cmdMove = value;
+            }
+        }
+
+        public bool CmdExplore
+        {
+            get
+            {
+                return cmdExplore;
+            }
+
+            set
+            {
+                cmdExplore = value;
+            }
+        }
+
+        public int WhereMove
+        {
+            get
+            {
+                return whereMove;
+            }
+
+            set
+            {
+                whereMove = value;
+            }
         }
 
         #endregion
