@@ -30,7 +30,7 @@ namespace Behaviour
             }
         }
 
-        private void OnDestroy()
+        private void OnDisable()
         {
             // Reactivate paths blocked when the blocker is destroyed
             if (pathsBlocked != null && pathBlockedPortals != null)
