@@ -67,6 +67,12 @@ public class ShowMainQuest : MonoBehaviour {
                     TutoManager.s_instance.playSequence(TutoManager.s_instance.GetComponent<SeqMultiCharacters>());
             }
             GameManager.Instance.UpdateCameraPosition(TileManager.Instance.BeginTile);
+
+
+            if (btnReviewMainQuest.activeSelf == false)
+            {
+                btnReviewMainQuest.SetActive(true);
+            }
         }
 
         if (isTimerActive)
