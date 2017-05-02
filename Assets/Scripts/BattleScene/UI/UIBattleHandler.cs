@@ -96,34 +96,7 @@ public class UIBattleHandler : MonoBehaviour {
 
     void OnDisable()
     {
-        if (endTurnButton == null)
-            Debug.LogWarning("End turn button reference not set in UIBattleHandler.");
-        else
-            endTurnButton.SetActive(true);
-
-        if (shortcutButton == null)
-            Debug.LogWarning("Shortcut button reference not set in UIBattleHandler (top left button).");
-        else
-            shortcutButton.SetActive(true);
-
-        BattleHandler.DisableMonstersLifeBars();
-
-        associatedSkillsPanel.Clear();
-        foreach (Transform characterPan in associatedCharacterPanel.Values)
-        {
-            characterPan.gameObject.SetActive(false);
-        }
-        for (int i = 0; i < charactersPanel.transform.childCount; i++)
-            charactersPanel.transform.GetChild(i).GetChild(0).gameObject.SetActive(false);
-
-        associatedCharacterPanel.Clear();
-        associatedCharacterPanelReversed.Clear();
-        ChangeState(UIBattleState.Disabled);
-    }
-
-    public void PressAttackButton()
-    {
-        // Retrieve current character from CharacterManager to process attack
+        ResetUIBattle();
     }
 
     public void PressSkillsButton()
@@ -228,6 +201,11 @@ public class UIBattleHandler : MonoBehaviour {
                 currentSkill.GetChild((int)SkillButtonChildren.SkillName).GetComponent<SkillContainer>().SkillData = fighterComponent.BattleSkills[i];
                 currentSkill.GetChild((int)SkillButtonChildren.SkillName).GetComponent<Text>().text = fighterComponent.BattleSkills[i].SkillName;
                 currentSkill.GetComponent<SkillDescriptionUI>().SkillDescription = fighterComponent.BattleSkills[i].Description;
+
+                currentSkill.GetChild((int)SkillButtonChildren.Atk).GetComponentInChildren<Text>().text = "0";
+                currentSkill.GetChild((int)SkillButtonChildren.Def).GetComponentInChildren<Text>().text = "0";
+                currentSkill.GetChild((int)SkillButtonChildren.Mag).GetComponentInChildren<Text>().text = "0";
+
                 foreach (Face face in fighterComponent.BattleSkills[i].Cost)
                 {
                     if (face.Type == FaceType.Physical)
@@ -390,5 +368,60 @@ public class UIBattleHandler : MonoBehaviour {
         GameManager.Instance.Ui.mouseFollower.SetActive(false);
         BattleHandler.ActivateFeedbackSelection(true, false);
         BattleHandler.DeactivateFeedbackSelection(false, true);
+    }
+
+    private void ResetUIBattle()
+    {
+        // Restore board state UI
+        if (endTurnButton == null)
+            Debug.LogWarning("End turn button reference not set in UIBattleHandler.");
+        else
+            endTurnButton.SetActive(true);
+
+        if (shortcutButton == null)
+            Debug.LogWarning("Shortcut button reference not set in UIBattleHandler (top left button).");
+        else
+            shortcutButton.SetActive(true);
+
+        BattleHandler.DisableMonstersLifeBars();
+
+        // Clear association tables and characters panel
+        associatedSkillsPanel.Clear();
+        foreach (Transform characterPan in associatedCharacterPanel.Values)
+        {
+            characterPan.gameObject.SetActive(false);
+        }
+        for (int i = 0; i < charactersPanel.transform.childCount; i++)
+            charactersPanel.transform.GetChild(i).GetChild(0).gameObject.SetActive(false);
+
+        associatedCharacterPanel.Clear();
+        associatedCharacterPanelReversed.Clear();
+
+        // Reset skills panel
+        for (int i = 0; i < skillsPanels.transform.childCount; i++)
+        {
+            Transform currentSkillsPanel = skillsPanels.transform.GetChild(i);
+
+            for (int j = 0; j < 4; j++)
+            {
+                Transform currentSkill = currentSkillsPanel.GetChild(j);
+                currentSkill.GetChild((int)SkillButtonChildren.SkillName).GetComponent<SkillContainer>().SkillData = null;
+                currentSkill.GetChild((int)SkillButtonChildren.SkillName).GetComponent<Text>().text = "";
+                currentSkill.GetComponent<SkillDescriptionUI>().SkillDescription = "";
+
+                currentSkill.GetChild((int)SkillButtonChildren.Atk).GetComponentInChildren<Text>().text = "0";
+                currentSkill.GetChild((int)SkillButtonChildren.Def).GetComponentInChildren<Text>().text = "0";
+                currentSkill.GetChild((int)SkillButtonChildren.Mag).GetComponentInChildren<Text>().text = "0";
+
+                currentSkill.GetChild((int)SkillButtonChildren.Atk).GetComponentInChildren<Text>().color = Color.white;
+                currentSkill.GetChild((int)SkillButtonChildren.Def).GetComponentInChildren<Text>().color = Color.white;
+                currentSkill.GetChild((int)SkillButtonChildren.Mag).GetComponentInChildren<Text>().color = Color.white;
+
+                currentSkill.gameObject.SetActive(false);
+            }
+        }
+
+        // Disable UI battle
+        ChangeState(UIBattleState.Disabled);
     }
 }
