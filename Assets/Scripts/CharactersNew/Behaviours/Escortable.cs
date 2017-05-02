@@ -61,7 +61,6 @@ namespace Behaviour
             IsEscorted = true;
 
             GetComponent<NavMeshAgent>().stoppingDistance = 0.75f;
-            GetComponent<NavMeshAgent>().avoidancePriority = 80;
         }
 
         public void UnEscort(int _i = 0)
@@ -70,7 +69,6 @@ namespace Behaviour
             myIconForShortcut.gameObject.SetActive(false);
             escort = null;
             IsEscorted = false;
-            GetComponent<NavMeshAgent>().avoidancePriority = 50;
             ActivateEscortAction();
         }
 
