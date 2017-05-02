@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using Behaviour;
 
 public class ThrownDiceHandler : MonoBehaviour {
 
@@ -26,11 +27,14 @@ public class ThrownDiceHandler : MonoBehaviour {
             for (int i = 0; i < BattleHandler.CurrentBattleKeepers.Length; i++)
             {
                 PawnInstance currentKeeper = BattleHandler.CurrentBattleKeepers[i];
-                diceForCurrentThrow.Add(currentKeeper, currentKeeper.GetComponent<Behaviour.Fighter>().Dice);
+                if (currentKeeper.GetComponent<Mortal>().CurrentHp <= 0)
+                    continue;
+
+                diceForCurrentThrow.Add(currentKeeper, currentKeeper.GetComponent<Fighter>().Dice);
 
                 // Create dice visuals
                 diceInstance.Add(currentKeeper, new List<GameObject>());
-                for (int j = 0; j < currentKeeper.GetComponent<Behaviour.Fighter>().Dice.Length; j++)
+                for (int j = 0; j < currentKeeper.GetComponent<Fighter>().Dice.Length; j++)
                 {                  
                     Transform diePosition = TileManager.Instance.DicePositionsOnTile.GetChild(i).GetChild(j);
                     diceInstance[currentKeeper].Add(DieBuilder.BuildDie(diceForCurrentThrow[currentKeeper][j], GameManager.Instance.ActiveTile, diePosition.localPosition + diePosition.parent.localPosition));
