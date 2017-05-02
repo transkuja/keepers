@@ -7,18 +7,21 @@ public class BattleLauncher : MonoBehaviour {
     {
         if (GameManager.Instance.CurrentState == GameState.Normal)
         {
-            if (other.gameObject.GetComponentInParent<Monster>() != null)
+            if (other.gameObject.GetComponentInParent<Monster>() != null && other.gameObject.GetComponent<AggroBehaviour>() == null)
             {
                 if (GetComponentInParent<Fighter>() != null && GetComponentInParent<Fighter>().IsTargetableByMonster == true)
                 {
-                    if (BattleHandler.IsABattleAlreadyInProcess())
-                        return;
+                    if (other.gameObject.GetComponentInParent<PawnInstance>().CurrentTile == GetComponentInParent<PawnInstance>().CurrentTile)
+                    {
+                        if (BattleHandler.IsABattleAlreadyInProcess())
+                            return;
 
-                    Tile tile = GetComponentInParent<PawnInstance>().CurrentTile;
+                        Tile tile = GetComponentInParent<PawnInstance>().CurrentTile;
 
-                    BattleHandler.StartBattleProcess(tile);
+                        BattleHandler.StartBattleProcess(tile);
 
-                    GameManager.Instance.UpdateCameraPosition(GetComponentInParent<PawnInstance>());
+                        GameManager.Instance.UpdateCameraPosition(GetComponentInParent<PawnInstance>());
+                    }
                 }
             }
         }
