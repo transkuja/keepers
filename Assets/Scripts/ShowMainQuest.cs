@@ -7,9 +7,15 @@ public class ShowMainQuest : MonoBehaviour {
     bool isTimerActive = false;
     bool isFirstStepFinished = false;
     public GameObject btnReviewMainQuest;
+    bool wasAlreadyInPause = false;
 
     private void OnEnable()
     {
+        if (GameManager.Instance.CurrentState == GameState.InPause)
+            wasAlreadyInPause = true;
+        else
+            wasAlreadyInPause = false;
+
         GameManager.Instance.CurrentState = GameState.InPause;
         timeToResetCamera = 2.5f;
         timeToLaunchTuto = 1.5f;
@@ -17,7 +23,10 @@ public class ShowMainQuest : MonoBehaviour {
 
     private void OnDisable()
     {
-        GameManager.Instance.CurrentState = GameState.Normal;
+        if (wasAlreadyInPause)
+            GameManager.Instance.CurrentState = GameState.InPause;
+        else
+            GameManager.Instance.CurrentState = GameState.Normal;
     }
 
     public void ShowLevelArrival()
