@@ -32,3 +32,16 @@ sysinfo.txt
 Build_Data/
 
 Build\.exe
+
+# Prevents graphichts from pushing Library folders
+/*/Library/
+/*/*/Library/
+/*/*/*/Library/
+/*/*/*/*/Library/
+/*/*/*/*/*/Library/
+/*/*/*/*/*/*/Library/
+/*/*/*/*/*/*/*/Library/
+/*/*/*/*/*/*/*/*/Library/
+/*/*/*/*/*/*/*/*/*/Library/
+/*/*/*/*/*/*/*/*/*/*/Library/
+/*/*/*/*/*/*/*/*/*/*/*/Library/
