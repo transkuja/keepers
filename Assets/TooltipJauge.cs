@@ -33,13 +33,19 @@ public class TooltipJauge : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
                 break;
 
         }
-       
-        tooltip.SetActive(true);
+        Invoke("showTooltip", 0.5f);
+    }
+
+    public void showTooltip()
+    {
+        if (!tooltip.activeSelf)
+            tooltip.SetActive(true);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        tooltip.SetActive(false);
+        if (tooltip.activeSelf)
+            tooltip.SetActive(false);
     }
 
     // Use this for initialization
