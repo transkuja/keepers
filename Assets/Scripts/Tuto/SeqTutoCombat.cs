@@ -252,6 +252,7 @@ public class SeqTutoCombat : Sequence
     public class SkillSelectionStep : Step
     {
         string str;
+        public GameObject feedback;
         public SkillSelectionStep(string _str)
         {
             stepFunction = Message_fct;
@@ -263,6 +264,15 @@ public class SeqTutoCombat : Sequence
             SeqTutoCombat seqTutoCombat = TutoManager.s_instance.GetComponent<SeqTutoCombat>();
             Button skillButton = seqTutoCombat.skillPanel.GetComponentInChildren<Button>();
             skillButton.interactable = true;
+
+            if (feedback == null)
+            {
+                feedback = Instantiate(TutoManager.s_instance.uiPointer, GameManager.Instance.Ui.transform.GetChild(0));
+                feedback.GetComponent<FlecheQuiBouge>().PointToPoint = seqTutoCombat.skillPanel.transform.GetChild(0).GetChild(0).position;
+                feedback.GetComponent<FlecheQuiBouge>().distanceOffset = 40.0f;
+
+                feedback.transform.localEulerAngles = new Vector3(0, 0, -60);
+            }
 
             if (skillButton.gameObject.GetComponent<MouseClickExpected>() == null)
                 skillButton.gameObject.AddComponent<MouseClickExpected>();
@@ -290,6 +300,7 @@ public class SeqTutoCombat : Sequence
             foreach (Button b in seqTutoCombat.skillPanel.GetComponentsInChildren<Button>())
                 b.interactable = true;
 
+            Destroy(feedback);
             alreadyPlayed = false;
         }
     }

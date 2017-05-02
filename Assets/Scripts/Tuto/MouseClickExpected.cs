@@ -27,6 +27,8 @@ public class MouseClickExpected : MonoBehaviour, IPointerClickHandler {
         if (eventData.button == PointerEventData.InputButton.Left)
         {
             TutoManager.MouseClicked = true;
+            if (TutoManager.s_instance.PlayingSequence.GetType() == typeof(SeqTutoCombat) && TutoManager.s_instance.PlayingSequence.CurrentStep.GetType() == typeof(SeqTutoCombat.SkillSelectionStep))
+                Destroy(((SeqTutoCombat.SkillSelectionStep)TutoManager.s_instance.PlayingSequence.CurrentStep).feedback);
         }
 
     }
