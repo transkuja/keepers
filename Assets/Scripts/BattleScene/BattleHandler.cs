@@ -106,7 +106,9 @@ public class BattleHandler {
 
         currentBattleMonsters = new PawnInstance[TileManager.Instance.MonstersOnTile[tile].Count];
         for (int i = 0; i < TileManager.Instance.MonstersOnTile[tile].Count && i < 3; i++)
+        {
             currentBattleMonsters[i] = TileManager.Instance.MonstersOnTile[tile][i];
+        }
 
         currentBattleKeepers = selectedKeepersForBattle.ToArray();
 
@@ -132,7 +134,7 @@ public class BattleHandler {
             GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().CharacterPanelInit(currentBattleKeepers[keeperIndex]);
             keeperIndex++;
         }
-
+        
         int monsterIndex = 0;
         for (int i = 3; i < 3 + currentBattleMonsters.Length; i++)
         {
@@ -375,18 +377,36 @@ public class BattleHandler {
                         newIndexHasAlreadyBeenPicked = true;
                         break;
                     }
+                    else
+                    {
+                        if (currentBattleKeepers[newIndex].GetComponent<Mortal>().CurrentHp <= 0)
+                        {
+                            alreadyPickedIndex[drawIndex] = newIndex;
+                            newIndexHasAlreadyBeenPicked = true;
+                            break;
+                        }
+                    }
                     newIndexHasAlreadyBeenPicked = false;
                 }
             }
 
-            if (currentBattleKeepers[newIndex].GetComponent<Mortal>().CurrentHp <= 0)
+            Debug.Log(currentBattleKeepers.Length);
+            // 2 1, 2 0, 2 0 
+            Debug.Log(newIndex);
+            Debug.Log(drawIndex);
+            Debug.Log(newIndexHasAlreadyBeenPicked);
+
+            target = currentBattleKeepers[newIndex];
+
+            // Safety
+            if (drawIndex >= alreadyPickedIndex.Length)
             {
-                alreadyPickedIndex[drawIndex] = newIndex;
-                drawIndex++;
-            }
-            else
-            {
-                target = currentBattleKeepers[newIndex];
+                Debug.LogError("GetTargetForAttack Loop safety error!");
+                for (int i = 0; i < currentBattleKeepers.Length; i++)
+                {
+                    if (currentBattleKeepers[i].GetComponent<Mortal>().CurrentHp > 0)
+                        target = currentBattleKeepers[i];
+                }
             }
         }
 
@@ -503,6 +523,15 @@ public class BattleHandler {
         }
 
         GameManager.Instance.GetBattleUI.gameObject.SetActive(false);
+        GameManager.Instance.ClearListKeeperSelected();
+        for (int i = 0; i < currentBattleKeepers.Length; i++)
+        {
+            if (currentBattleKeepers[i].GetComponent<Mortal>().CurrentHp > 0)
+            {
+                GameManager.Instance.AddKeeperToSelectedList(currentBattleKeepers[i]);
+                currentBattleKeepers[i].GetComponent<Keeper>().IsSelected = true;
+            }
+        }
         ResetBattleHandler();
     }
 
@@ -546,7 +575,7 @@ public class BattleHandler {
         header.GetComponentInChildren<Text>().text = isVictorious ? "Victory!" : "Defeat";
 
         // Freeze time until close button is pressed
-        GameManager.Instance.ClearListKeeperSelected();
+        //GameManager.Instance.ClearListKeeperSelected();
         GameManager.Instance.CurrentState = GameState.InPause;
     }
 

@@ -721,7 +721,20 @@ public class GameManager : MonoBehaviour
 
         }
 
-    } 
+    }
+
+    public PawnInstance[] CurrentFighters
+    {
+        get
+        {
+            return currentFighters;
+        }
+
+        set
+        {
+            currentFighters = value;
+        }
+    }
 
     public void RegisterGreyTileCameraAdapter(GreyTileCameraAdapter _cameraAdapter)
 

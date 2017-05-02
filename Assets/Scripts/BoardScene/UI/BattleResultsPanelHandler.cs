@@ -1,6 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using Behaviour;
 
 public class BattleResultsPanelHandler : MonoBehaviour {
 
@@ -10,8 +9,18 @@ public class BattleResultsPanelHandler : MonoBehaviour {
         gameObject.SetActive(false);
         GameManager.Instance.CurrentState = GameState.Normal;
 
-        //GameManager.Instance.Ui.UpdateSelectedKeeperPanel();
-        //GameManager.Instance.Ui.UpdateShortcutPanel();
+        GameManager.Instance.ClearListKeeperSelected();
+        PawnInstance[] curFighters = GameManager.Instance.CurrentFighters;
+        for (int i = 0; i < curFighters.Length; i++)
+        {
+            if (curFighters[i].GetComponent<Keeper>() != null && curFighters[i].GetComponent<Mortal>().CurrentHp > 0)
+            {
+                curFighters[i].GetComponent<Keeper>().IsSelected = true;
+                GameManager.Instance.AddKeeperToSelectedList(curFighters[i]);
+                break;
+            }
+        }
+
     }
 }
 
