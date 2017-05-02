@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Rendering;
 using System.Collections.Generic;
+using Behaviour;
 
 /// <summary>
 /// Creates and maintains a command buffer to set up the textures used in the glowing object image effect.
@@ -97,6 +98,7 @@ public class GlowController : MonoBehaviour
     private void RebuildCommandBuffer()
 	{
         if (GameManager.Instance.CurrentState == GameState.InPause) return;
+
         if (_commandBuffer == null) return;
 
 		_commandBuffer.Clear();
@@ -107,7 +109,11 @@ public class GlowController : MonoBehaviour
 
 		for (int i = 0; i < _glowableObjects.Count; i++)
 		{
-			_commandBuffer.SetGlobalColor(_glowColorID, _glowableObjects[i].CurrentColor);
+            if (GameManager.Instance.CurrentState == GameState.InBattle 
+                && _glowableObjects[i].GetComponent<Keeper>() == null && _glowableObjects[i].GetComponent<Escortable>() == null && _glowableObjects[i].GetComponent<Monster>() == null)
+                continue;
+
+            _commandBuffer.SetGlobalColor(_glowColorID, _glowableObjects[i].CurrentColor);
             if (_glowableObjects[i].Renderers != null && _glowableObjects[i].Renderers.Length > 0)
             {
                 for (int j = 0; j < _glowableObjects[i].Renderers.Length; j++)
