@@ -77,7 +77,7 @@ namespace Behaviour
             else IsAMonster = false;
 
             battleInteractions.Add(new Interaction(Attack), 0, "Attack", GameManager.Instance.SpriteUtils.spriteAttack);
-            battleInteractions.Add(new Interaction(OpenSkillPanel), 0, "OpenSkillPanel", GameManager.Instance.SpriteUtils.spriteUseSkill);
+            battleInteractions.Add(new Interaction(OpenSkillPanel), 0, "Skills", GameManager.Instance.SpriteUtils.spriteUseSkill);
 
             showSkillPanelTimer = 2.2f;
             showFeedbackDmgTimer = 1.7f;
@@ -156,11 +156,11 @@ namespace Behaviour
             if (_hasAUsableSkill)
             {
                 // TODO: change to proper sprite
-                battleInteractions.SwapSprite("OpenSkillPanel", GameManager.Instance.SpriteUtils.spriteUseSkill);
+                battleInteractions.SwapSprite("Skills", GameManager.Instance.SpriteUtils.spriteUseSkill);
             }
             else
             {
-                battleInteractions.SwapSprite("OpenSkillPanel", GameManager.Instance.SpriteUtils.spriteUseSkill);
+                battleInteractions.SwapSprite("Skills", GameManager.Instance.SpriteUtils.spriteUseSkill);
             }
         }
 
@@ -220,7 +220,6 @@ namespace Behaviour
 
         public void OpenSkillPanel(int _i = 0)
         {
-            Debug.Log("openskillpanel");
             GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().GetSkillsPanelIndex(GetComponent<PawnInstance>()).gameObject.SetActive(true);
         }
         #endregion

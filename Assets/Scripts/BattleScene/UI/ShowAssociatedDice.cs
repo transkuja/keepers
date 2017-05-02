@@ -27,7 +27,7 @@ public class ShowAssociatedDice : MonoBehaviour, IPointerEnterHandler, IPointerE
 
     private void OnDisable()
     {
-        if (name == "OpenSkillPanel")
+        if (name == "Skills")
         {
             Transform characterPanel = GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().GetCharacterPanelIndex(pawn);
             foreach (Image im in characterPanel.GetChild((int)CharactersPanelChildren.Attributes).GetComponentsInChildren<Image>())
@@ -53,7 +53,7 @@ public class ShowAssociatedDice : MonoBehaviour, IPointerEnterHandler, IPointerE
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (name == "OpenSkillPanel")
+        if (name == "Skills")
         {
             Transform characterPanel = GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().GetCharacterPanelIndex(pawn);
             foreach (Image im in characterPanel.GetChild((int)CharactersPanelChildren.Attributes).GetComponentsInChildren<Image>())
@@ -90,7 +90,7 @@ public class ShowAssociatedDice : MonoBehaviour, IPointerEnterHandler, IPointerE
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (name == "OpenSkillPanel")
+        if (name == "Skills")
         {
             Transform characterPanel = GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().GetCharacterPanelIndex(pawn);
             foreach (Image im in characterPanel.GetChild((int)CharactersPanelChildren.Attributes).GetComponentsInChildren<Image>())
