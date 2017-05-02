@@ -43,16 +43,7 @@ namespace Behaviour
                 }
             }
 
-            bool isEmpty = true;
-            for (i = 0; i < inv.Items.Length; i++)
-            {
-                if (inv.Items[i] != null)
-                {
-                    isEmpty = false;
-                    break;
-                }
-            }
-            if (!isEmpty)
+            if (!inv.IsEmpty())
             {
                 // Bug ? 
                 ItemManager.AddItemOnTheGround(TileManager.Instance.PrisonerTile, transform, inv.Items);

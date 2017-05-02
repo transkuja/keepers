@@ -337,6 +337,18 @@ namespace Behaviour
         
         #endregion
 
+        public bool IsEmpty()
+        {
+            for (int i = 0; i < Items.Length; i++)
+            {
+                if (Items[i] != null)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         #region Accessors
         public ItemContainer[] Items
         {

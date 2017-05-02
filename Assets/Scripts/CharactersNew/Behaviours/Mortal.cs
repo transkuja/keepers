@@ -84,7 +84,7 @@ namespace Behaviour
                     GameManager.Instance.ClearListKeeperSelected();
                     keeper.IsSelected = false;
                     // Drop items
-                    if (GetComponent<Inventory>().Items.Length > 0)
+                    if (!GetComponent<Inventory>().IsEmpty())
                     {
                         ItemManager.AddItemOnTheGround(pawnInstance.CurrentTile, transform, GetComponent<Inventory>().Items);
                     }
