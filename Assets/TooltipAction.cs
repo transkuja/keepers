@@ -11,6 +11,13 @@ public class TooltipAction : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        if (GameManager.Instance.CurrentState == GameState.InBattle)
+        {
+            tooltip.GetComponentInChildren<Text>().text = GameManager.Instance.GoTarget.GetComponent<Behaviour.Fighter>().BattleInteractions.listActionContainers[transform.GetSiblingIndex()].strName;
+        } else
+        {
+            tooltip.GetComponentInChildren<Text>().text = GameManager.Instance.GoTarget.GetComponent<Interactable>().Interactions.listActionContainers[transform.GetSiblingIndex()].strName;
+        }
         tooltip.GetComponentInChildren<Text>().text = GameManager.Instance.GoTarget.GetComponent<Interactable>().Interactions.listActionContainers[transform.GetSiblingIndex()].strName;
         tooltip.transform.position = transform.position;
 
