@@ -105,7 +105,7 @@ namespace Behaviour
         void Start()
         {
             if (instance.Data.Behaviours[(int)BehavioursEnum.CanSpeak])
-                instance.Interactions.Add(new Interaction(MoralBuff), 1, "Moral", GameManager.Instance.SpriteUtils.spriteMoral);
+                instance.Interactions.Add(new Interaction(MoralBuff), 1, "Talk", GameManager.Instance.SpriteUtils.spriteMoral);
 
             agent = GetComponent<NavMeshAgent>();
 
