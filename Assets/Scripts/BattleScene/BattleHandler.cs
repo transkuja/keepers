@@ -390,15 +390,9 @@ public class BattleHandler {
                 }
             }
 
-            Debug.Log(currentBattleKeepers.Length);
-            // 2 1, 2 0, 2 0 
-            Debug.Log(newIndex);
-            Debug.Log(drawIndex);
-            Debug.Log(newIndexHasAlreadyBeenPicked);
-
             target = currentBattleKeepers[newIndex];
 
-            // Safety
+            // Safety: Remove when a lot of tests have been performed
             if (drawIndex >= alreadyPickedIndex.Length)
             {
                 Debug.LogError("GetTargetForAttack Loop safety error!");
@@ -575,7 +569,6 @@ public class BattleHandler {
         header.GetComponentInChildren<Text>().text = isVictorious ? "Victory!" : "Defeat";
 
         // Freeze time until close button is pressed
-        //GameManager.Instance.ClearListKeeperSelected();
         GameManager.Instance.CurrentState = GameState.InPause;
     }
 
