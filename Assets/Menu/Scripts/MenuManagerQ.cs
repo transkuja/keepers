@@ -10,9 +10,9 @@ public class MenuManagerQ : MonoBehaviour {
     private string deckOfCardsSelected = string.Empty;
     private List<PawnInstance> listeSelectedKeepers;
 
-    public Transform[] questDecksPosition;
+    public Transform questDecksPosition;
     public Transform[] keepersPosition;
-    public Transform[] cardlevelPosition;
+    public Transform levelDeckPosition;
 
     public GameObject GoPrefabLevelCard;
     public GameObject GoPrefabEventCard;
@@ -24,74 +24,58 @@ public class MenuManagerQ : MonoBehaviour {
 
     [SerializeField] public List<GameObject> listLevelCards = new List<GameObject>();
 
-    public Material matBox;
-    public Material matBox2;
-
     void Start()
     {
         listeSelectedKeepers = new List<PawnInstance>();
 
-        InitDeckOfCards();
-        InitCardLevels();
+        InitEventCards();
+        InitLevelsCard();
         InitKeepers();
     }
 
-    public void InitDeckOfCards()
+    public void InitEventCards()
     {
-        for (int i = 0; i < GameManager.Instance.QuestDeckDataBase.ListQuestDeck.Count; i++)
+        EventDataBase edb = new EventDataBase();
+        edb.Load();
+
+        for (int i = 0; i < edb.listEvents.Count; i++)
         {
-            QuestDeckData qdd = GameManager.Instance.QuestDeckDataBase.ListQuestDeck[i];
-
-            // Instanciation du deck
-            //GameObject goDeck = Instantiate(GameManager.Instance.PrefabUtils.prefabQuestDeck);
-            GameObject goDeck = Instantiate(GoPrefabDeck);
-            goDeck.transform.SetParent(questDecksPosition[i].parent, false);
-            GameObject.Destroy(questDecksPosition[i].gameObject);
-
-            // Recuperation du component deck of cards for selection in menu
-            DeckOfCards deckOfCards = goDeck.GetComponent<DeckOfCards>();
-            if (deckOfCards != null && qdd.idQuestDeck != string.Empty)
-            {
-                deckOfCards.idQuestDeck = qdd.idQuestDeck;
-                goDeck.layer = LayerMask.NameToLayer("DeckOfCards");
-                goDeck.GetComponent<MeshFilter>().mesh = GetDeckModel(qdd.deckModelName).GetComponent<MeshFilter>().sharedMesh;
-                goDeck.GetComponent<MeshRenderer>().material = matBox;
-            }
-            else
-                Debug.Log("Deck with no id to set on the prefab");
-
-            for (int j = 0; j < qdd.secondaryQuests.Count; j++)
-            {
-                GameObject goTemp = Instantiate(GoPrefabEventCard, goDeck.transform);
-                goTemp.GetComponent<MeshFilter>().mesh = GetCardModel(qdd.secondaryQuests[j].cardModelname).GetComponent<MeshFilter>().sharedMesh;
-                goTemp.tag = "OpenerContent";
-                goTemp.SetActive(false);
-            }
-
-            goDeck.AddComponent<Opener>().bOverMode = true;
+            GameObject goEventCard = Instantiate(GoPrefabEventCard, questDecksPosition);
+            goEventCard.transform.localPosition = Vector3.zero;
+            goEventCard.GetComponent<MeshFilter>().mesh = GetCardModel(edb.listEvents[i].cardModelName).GetComponent<MeshFilter>().sharedMesh;
         }
     }
 
-    public void InitCardLevels()
+    public void InitLevelsCard()
     {
-        for (int i = 1; i <= 2; i++)
+        LevelDataBase leveldb = new LevelDataBase();
+
+        for (int i = 0; i < leveldb.listLevels.Count; i++)
         {
             // Instanciation du deck
-            GameObject goCardLevel = Instantiate(GoPrefabLevelCard);
-            goCardLevel.transform.SetParent(cardlevelPosition[i-1].parent, false);
+            GameObject goCardLevel = Instantiate(GoPrefabLevelCard, levelDeckPosition);
+            goCardLevel.transform.localPosition = Vector3.zero;
 
-            GameObject.Destroy(cardlevelPosition[i - 1].gameObject);
+            goCardLevel.GetComponent<MeshFilter>().mesh = GetLevelCardModel(leveldb.listLevels[i].cardModelName).GetComponent<MeshFilter>().sharedMesh;
+            goCardLevel.GetComponent<CardLevel>().levelIndex = leveldb.listLevels[i].id;
 
-            // Recuperation du component card level for selection in menu
-            CardLevel cardLevel = goCardLevel.GetComponentInChildren<CardLevel>();
-            if (cardLevel != null)
+            for(int j = 0; j< leveldb.listLevels[i].listDeckId.Count; j++)
             {
-                cardLevel.GetComponent<MeshFilter>().mesh = listLevelCards[i-1].GetComponent<MeshFilter>().sharedMesh;
-                cardLevel.GetComponent<MeshRenderer>().material = matBox2;
-                cardLevel.levelIndex = i;
+                GameObject goDeck = Instantiate(GoPrefabDeck, goCardLevel.transform);
+                goDeck.transform.localPosition = Vector3.zero;
+
+                QuestDeckData qdd = GameManager.Instance.QuestDeckDataBase.GetQuestDeckDataByID(leveldb.listLevels[i].listDeckId[j]);
+
+                goDeck.GetComponent<MeshFilter>().mesh = GetDeckModel(qdd.deckModelName).GetComponent<MeshFilter>().sharedMesh;
+
+                for(int k = 0; k < qdd.secondaryQuests.Count; k++)
+                {
+                    GameObject goQuestCard = Instantiate(GoPrefabEventCard, goDeck.transform);
+                    goQuestCard.transform.localPosition = Vector3.zero;
+
+                    goQuestCard.GetComponent<MeshFilter>().mesh = GetCardModel(qdd.secondaryQuests[k].cardModelname).GetComponent<MeshFilter>().sharedMesh;
+                }
             }
-            else
-                Debug.Log("Card with no id to set on the prefab");
         }
     }
 
@@ -104,7 +88,14 @@ public class MenuManagerQ : MonoBehaviour {
 
             if (GameManager.Instance.PawnDataBase.DicPawnDataContainer[id].dicComponentData.ContainsKey(typeof(Behaviour.Keeper)))
             {
-                GameObject goKeeper = GameManager.Instance.PawnDataBase.CreatePawn(id, Vector3.zero, Quaternion.Euler(180, 90, -90), keepersPosition[iKeeper]);
+                GameObject goKeeper = GameManager.Instance.PawnDataBase.CreatePawn(id, /*Vector3.zero*/ keepersPosition[iKeeper].position, keepersPosition[iKeeper].rotation, null /*keepersPosition[iKeeper]*/);
+                OpenerContent oc = goKeeper.AddComponent<OpenerContent>();
+                oc.fSpeed = 10;
+                oc.AddKeyPose(keepersPosition[iKeeper].position, keepersPosition[iKeeper].rotation);
+                oc.AddKeyPose(keepersPosition[iKeeper].position + new Vector3(1.5f,1,0) , keepersPosition[iKeeper].rotation);
+                oc.AddKeyPose(keepersPosition[iKeeper].position + new Vector3(3.5f,0,0) , keepersPosition[iKeeper].rotation);
+                oc.Init();
+                //oc.rd.enabled = true;
                 iKeeper++;
             }
         }

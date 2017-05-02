@@ -11,6 +11,7 @@ namespace QuestSystem
         string deckModelName;
         string mainQuest;
         List<string> sideQuests;
+        string deckModelName;
 
         public string Id
         {

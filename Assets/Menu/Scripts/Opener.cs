@@ -4,82 +4,33 @@ using UnityEngine;
 
 public class Opener : MonoBehaviour {
 
+    List<Opener> listOpenerSiblings;
+
+    [HideInInspector] public bool bOpened = false;
+    [HideInInspector] public List<OpenerContent> listChilds;
+
+    public bool bIsLast;
     public bool bOverMode = false;
-    public bool bAlwaysAllowed = true;
-    public Transform trOffset = null;
     public float fOffsetX = .1f;
     public float fOffsetZ = .1f;
 
-    bool bAllowed = true;
-    bool bIsOpen = false;
+    public List<Transform> listTrSpots;
 
-    Vector3 v3Size;
-    Vector3 v3Offset = Vector3.zero;
-
-    public List<GameObject> listGoCards = new List<GameObject>();
-    List<Opener> listOpenerSiblings;
-
-	void Start () {
+    void Start () {
         Init();
     }
 
-    #region OverMode
-
-    void OnMouseEnter()
-    {
-        if (bOverMode)
-        {
-            Open();
-        }
-    }
-
-    void OnMouseExit()
-    {
-        if (bOverMode)
-        {
-            Close();
-        }
-    }
-
-    #endregion
-
-    #region NormalMode
-
-    void OnMouseDown()
-    {
-        if (!bOverMode)
-        {
-            if (bAllowed || bAlwaysAllowed)
-            {
-                if (!bIsOpen)
-                {
-                    for(int i =0; i < listOpenerSiblings.Count; i++)
-                    {
-                        listOpenerSiblings[i].Close();
-                    }
-                    Open();
-                }
-                else
-                {
-                    Close();
-                }
-            }
-        }
-    }
-
-    #endregion
-
     void Init()
     {
-        for (int i = 0; i < transform.childCount; i++)
-        {
-            if (transform.GetChild(i).tag == "OpenerContent")
-            {
-                listGoCards.Add(transform.GetChild(i).gameObject);
-                transform.GetChild(i).gameObject.SetActive(false);
-            }
-        }
+        LoadSiblings();
 
+        LoadChilds();
+
+        ComputeContentPositions();
+    }
+
+    void LoadSiblings()
+    {
         if (transform.parent != null)
         {
             Opener openerTemp;
@@ -96,43 +47,130 @@ public class Opener : MonoBehaviour {
                 }
             }
         }
-
-        if (trOffset != null)
-        {
-            v3Offset = trOffset.position - transform.position;
-        }
-
-        v3Size = GetComponentInChildren<MeshRenderer>().bounds.size;
     }
 
-    void Open()
+    void LoadChilds()
     {
-        for (int i = 0; i < listGoCards.Count; i++)
-        {
-            float x = -((listGoCards.Count / 2.0f) * (v3Size.x + fOffsetX)) + ((listGoCards.Count % 2 == 0)? v3Size.x / 2.0f : v3Size.x) + i * (v3Size.x + fOffsetX);
+        listChilds = new List<OpenerContent>();
 
-            listGoCards[i].transform.localPosition = new Vector3(x, 0, (trOffset == null ? (v3Size.z + fOffsetZ) : v3Size.z / 2.0f)) + v3Offset;
-
-            listGoCards[i].SetActive(true);
-        }
-        bIsOpen = true;
-        for (int i = 0; !bAlwaysAllowed && listOpenerSiblings != null && i < listOpenerSiblings.Count; i++)
+        for (int i = 0; i < transform.childCount; i++)
         {
-            listOpenerSiblings[i].bAllowed = false;
+            if (transform.GetChild(i).tag == "OpenerContent")
+            {
+                listChilds.Add(transform.GetChild(i).gameObject.GetComponent<OpenerContent>());
+            }
         }
     }
 
-    void Close()
+    void ComputeContentPositions()
     {
-        for (int i = 0; i < listGoCards.Count; i++)
+        Vector3 size = GetComponentInChildren<MeshRenderer>().bounds.size;
+
+        for(int i = 0; i< listChilds.Count; i++)
         {
-            listGoCards[i].transform.localPosition = Vector3.zero;
-            listGoCards[i].SetActive(false);
+            listChilds[i].AddKeyPose(Vector3.zero, Quaternion.identity);
+
+            float fOrigin = (listChilds.Count % 2 == 1) ? -((listChilds.Count / 2) * (size.x + fOffsetX)) : -((listChilds.Count / 2) * (size.x / 2.0f + fOffsetX / 2.0f));
+            float fIncrement = size.x + fOffsetX;
+
+            for (int j = 0; j < listTrSpots.Count; j++)
+            {
+                if (j + 1 < listTrSpots.Count)
+                {
+                    listChilds[i].AddKeyPose(listTrSpots[j].position - transform.position, listTrSpots[j].rotation);
+                }
+                else
+                {
+                    Vector3 pos = listTrSpots[j].position - transform.position; ;
+
+                    pos += (listTrSpots[j].rotation * new Vector3(fOrigin + i * fIncrement,0,0));
+
+                    listChilds[i].AddKeyPose(pos, listTrSpots[j].rotation);
+                }
+            }
         }
-        bIsOpen = false;
-        for (int i = 0; listOpenerSiblings != null && i < listOpenerSiblings.Count; i++)
+    }
+
+    void Update()
+    {
+        if(bOpened == true && Input.GetMouseButtonDown(0))
         {
-            listOpenerSiblings[i].bAllowed = true;
+            RaycastHit hit;
+            LayerMask mask = 1 << LayerMask.NameToLayer("DeckAndCard"); ;
+            Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, mask);
+            if(hit.transform == null)
+            {
+                Fold();
+            }
+        }
+
+    }
+
+    #region OverMode
+
+    void OnMouseEnter()
+    {
+        if (bOverMode)
+        {
+            Unfold();
+        }
+    }
+
+    void OnMouseExit()
+    {
+        if (bOverMode)
+        {
+            Fold();
+        }
+    }
+
+    #endregion
+
+    #region NormalMode
+
+    void OnMouseDown()
+    {
+        if (!bOverMode)
+        {
+            if (bOpened)
+            {
+                Fold();
+            }
+            else
+            {
+                Unfold();
+                for (int i = 0; listOpenerSiblings != null && i < listOpenerSiblings.Count; i++)
+                {
+                    if (listOpenerSiblings[i].bOpened == true)
+                    {
+                        listOpenerSiblings[i].Fold();
+                    }
+                }
+            }
+        }
+    }
+
+    #endregion
+
+
+    void Unfold() // Depliage du contenu
+    {
+        for (int i = 0; i < listChilds.Count; i++)
+        {
+            listChilds[i].Show();
+        }
+        bOpened = true;
+    }
+
+    void Fold() // Rangement du contenu
+    {
+        for (int i = 0; bOpened && i < listChilds.Count; i++)
+        {
+            listChilds[i].Hide();
+            if (!bIsLast)
+            {
+                listChilds[i].GetComponent<Opener>().Fold();
+            }
         }
     }
 }
