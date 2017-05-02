@@ -102,6 +102,8 @@ public class GameManager : MonoBehaviour
             {
                 AllKeepersList.Add(k.GetComponent<PawnInstance>());
             }
+
+            listEventSelected.Add("1");
         }
         DontDestroyOnLoad(gameObject);
 
