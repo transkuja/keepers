@@ -25,8 +25,7 @@ public class AudioManager : MonoBehaviour {
     public AudioClip paperSelectSound;
 
     public AudioClip buttonClick;
-    // Temp
-    [SerializeField]
+
     public AudioClip battleSound;
 
     public AudioClip winningSound;
@@ -136,17 +135,11 @@ public class AudioManager : MonoBehaviour {
 
     public void PlayOneShot(AudioClip clip)
     {
-        if (clip == winningSound)
-            sourceFX.PlayOneShot(clip, 0.02f);
-        else
-            sourceFX.PlayOneShot(clip, volumeFXs);
+        sourceFX.PlayOneShot(clip, volumeFXs);
     }
 
     public void PlayOneShot(AudioClip clip, float volumeMultiplier)
     {
-        if (clip == winningSound)
-            sourceFX.PlayOneShot(clip, 0.02f * volumeMultiplier);
-        else
-            sourceFX.PlayOneShot(clip, volumeFXs * volumeMultiplier);
+        sourceFX.PlayOneShot(clip, volumeFXs * volumeMultiplier);
     }
 }

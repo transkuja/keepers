@@ -138,7 +138,7 @@ public class GameManager : MonoBehaviour
 
     public void Win()
     {
-        AudioManager.Instance.PlayOneShot(AudioManager.Instance.winningSound);
+        AudioManager.Instance.PlayOneShot(AudioManager.Instance.winningSound, 0.2f);
         WinScreen.gameObject.SetActive(true);
         currentState = GameState.InPause;
     }

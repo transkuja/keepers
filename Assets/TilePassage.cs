@@ -223,11 +223,11 @@ public class TilePassage : MonoBehaviour {
 
     public void OnTriggerStay(Collider other)
     {
-        if (other.GetComponentInParent<Keeper>() != null && other.isTrigger && GameManager.Instance.GoTarget.GetComponent<TilePassage>() == this)
+        if (other.GetComponentInParent<Keeper>() != null && other.isTrigger)
         {
             if (other.GetComponentInParent<AnimatedPawn>().CmdExplore == true)
             {
-                if (other.GetComponentInParent<NavMeshAgent>().remainingDistance <= 0.001f) {
+                if (GameManager.Instance.GoTarget != null && GameManager.Instance.GoTarget.GetComponent<TilePassage>() == this && other.GetComponentInParent<NavMeshAgent>().remainingDistance <= 0.001f) {
                     other.GetComponentInParent<NavMeshAgent>().Stop();
                     other.GetComponentInParent<AnimatedPawn>().CmdExplore = false;
                     PawnInstance toMove = other.GetComponentInParent<PawnInstance>();
