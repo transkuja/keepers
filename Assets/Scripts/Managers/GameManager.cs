@@ -47,6 +47,8 @@ public class GameManager : MonoBehaviour
     private PawnDatabase pawnDataBase = new PawnDatabase();
     private QuestDeckDatabase questDeckDataBase = new QuestDeckDatabase();
 
+    private EventDataBase eventDataBase = new EventDataBase();
+
     private QuestsContainer questsContainer = new QuestsContainer();
     private QuestSourceContainer questSources;
 
@@ -55,6 +57,10 @@ public class GameManager : MonoBehaviour
     private IngameScreens gameScreens;
     private List<PawnInstance> allKeepersList = new List<PawnInstance>();
     private List<PawnInstance> listOfSelectedKeepers = new List<PawnInstance>();
+
+    private List<string> listEventSelected = new List<string>();
+    private string deckSelected = string.Empty;
+
     private Interactable goTarget;
     private PawnInstance prisonerInstance;
     private int nbTurn = 1;
@@ -76,6 +82,7 @@ public class GameManager : MonoBehaviour
             // InitAllDatabase
             itemDataBase.Init();
             pawnDataBase.Init();
+            eventDataBase.Init();
             questDeckDataBase.Init();
             questsContainer.Init();
         }
@@ -702,6 +709,45 @@ public class GameManager : MonoBehaviour
         set
         {
             currentFighters = value;
+        }
+    }
+
+    public EventDataBase EventDataBase
+    {
+        get
+        {
+            return eventDataBase;
+        }
+
+        set
+        {
+            eventDataBase = value;
+        }
+    }
+
+    public List<string> ListEventSelected
+    {
+        get
+        {
+            return listEventSelected;
+        }
+
+        set
+        {
+            listEventSelected = value;
+        }
+    }
+
+    public string DeckSelected
+    {
+        get
+        {
+            return deckSelected;
+        }
+
+        set
+        {
+            deckSelected = value;
         }
     }
 

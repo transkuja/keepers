@@ -118,40 +118,48 @@ public class EventManager : MonoBehaviour {
     public static void HandleWeather()
     {
         Tile[] tiles = TileManager.Instance.Tiles.GetComponentsInChildren<Tile>();
-        if (GameManager.Instance.NbTurn >= 2 && GameManager.Instance.NbTurn <= 4)
+        if (GameManager.Instance.ListEventSelected.Count > 0)
         {
-            foreach (Tile tile in tiles)
-            {
-                if (tile.Type == TileType.Snow && tile.State == TileState.Discovered)
+            // id event 1
+            if (GameManager.Instance.ListEventSelected.Contains("1")){
+                if (GameManager.Instance.NbTurn >= 2 && GameManager.Instance.NbTurn <= 4)
                 {
-                    if(tile.gameObject.GetComponentInChildren<Climat>() == null)
+                    foreach (Tile tile in tiles)
                     {
-                        Debug.Log(tile.name + "n'a pas de climat en enfant");
-                        return;
-                    }
-                    Climat climat = tile.gameObject.GetComponentInChildren<Climat>();
-                    if (climat != null)
-                    {
-                        climat.TypeClimat = TypeClimat.Snow;
-                    }
+                        if (tile.Type == TileType.Snow && tile.State == TileState.Discovered)
+                        {
+                            if (tile.gameObject.GetComponentInChildren<Climat>() == null)
+                            {
+                                Debug.Log(tile.name + "n'a pas de climat en enfant");
+                                return;
+                            }
+                            Climat climat = tile.gameObject.GetComponentInChildren<Climat>();
+                            if (climat != null)
+                            {
+                                climat.TypeClimat = TypeClimat.Snow;
+                            }
 
+                        }
+                    }
+                }
+                else if (GameManager.Instance.NbTurn > 4)
+                {
+                    foreach (Tile tile in tiles)
+                    {
+                        if (tile.gameObject.GetComponentInChildren<Climat>() == null)
+                        {
+                            Debug.Log(tile.name + "n'a pas de climat en enfant");
+                            return;
+                        }
+                        Climat climat = tile.gameObject.GetComponentInChildren<Climat>();
+                        if (climat != null)
+                        {
+                            climat.TypeClimat = TypeClimat.None;
+                        }
+                    }
                 }
             }
-        } else if (GameManager.Instance.NbTurn > 4)
-        {
-            foreach (Tile tile in tiles)
-            {
-                if (tile.gameObject.GetComponentInChildren<Climat>() == null)
-                {
-                    Debug.Log(tile.name + "n'a pas de climat en enfant");
-                    return;
-                }
-                Climat climat = tile.gameObject.GetComponentInChildren<Climat>();
-                if (climat != null)
-                {
-                    climat.TypeClimat = TypeClimat.None;
-                }
-            }
+
         }
     }
 }

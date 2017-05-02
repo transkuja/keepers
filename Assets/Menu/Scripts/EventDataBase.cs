@@ -20,11 +20,9 @@ public class EventDataBase
     public EventDataBase()
     {
         listEvents = new List<Event>();
-        Load();
     }
 
-
-    public void Load()
+    public void Init()
     {
         string pathBase = Application.dataPath + "/../Data";
 
