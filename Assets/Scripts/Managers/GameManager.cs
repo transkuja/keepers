@@ -6,7 +6,6 @@ using UnityEngine.AI;
 using QuestSystem;
 using Behaviour;
 using QuestDeckLoader;
-using QuestLoader;
 
 public class GameManager : MonoBehaviour
 {
@@ -48,8 +47,6 @@ public class GameManager : MonoBehaviour
     private PawnDatabase pawnDataBase = new PawnDatabase();
     private QuestDeckDatabase questDeckDataBase = new QuestDeckDatabase();
 
-    //Not used for now
-    private QuestDatabase questDataBase = new QuestDatabase();
     private QuestsContainer questsContainer = new QuestsContainer();
     private QuestSourceContainer questSources;
 
@@ -80,7 +77,6 @@ public class GameManager : MonoBehaviour
             itemDataBase.Init();
             pawnDataBase.Init();
             questDeckDataBase.Init();
-            //questDataBase.Init();
             questsContainer.Init();
         }
 
@@ -231,34 +227,6 @@ public class GameManager : MonoBehaviour
         }
 
     }
-
-
-
-    public QuestDatabase QuestDataBase
-
-    {
-
-        get
-
-        {
-
-            return questDataBase;
-
-        }
-
-
-
-        set
-
-        {
-
-            questDataBase = value;
-
-        }
-
-    }
-
-
 
     public Database ItemDataBase
 

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using QuestDeckLoader;
-using QuestLoader; 
 
 public class NewMenuManager : MonoBehaviour {
 
