@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: c12813b0929316a40b8ec5b22751ec1c
-timeCreated: 1493733315
+guid: 6a3380bdad3e4da4c8622881b62301bd
+timeCreated: 1493384589
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -9,23 +9,28 @@ ModelImporter:
     100002: circle
     100004: innerlight
     100006: light
-    100008: outerlight
-    100010: SolGaucheoff
+    100008: lightball01
+    100010: outerlight
+    100012: SolOn
     400000: //RootNode
     400002: circle
     400004: innerlight
     400006: light
-    400008: outerlight
-    400010: SolGaucheoff
+    400008: lightball01
+    400010: outerlight
+    400012: SolOn
     2300000: circle
     2300002: innerlight
-    2300004: outerlight
+    2300004: lightball01
+    2300006: outerlight
     3300000: circle
     3300002: innerlight
-    3300004: outerlight
-    4300000: circle
-    4300002: innerlight
-    4300004: outerlight
+    3300004: lightball01
+    3300006: outerlight
+    4300000: lightball01
+    4300002: circle
+    4300004: innerlight
+    4300006: outerlight
     9500000: //RootNode
   materials:
     importMaterials: 1

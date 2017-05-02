@@ -1,31 +1,15 @@
 fileFormatVersion: 2
-guid: c12813b0929316a40b8ec5b22751ec1c
-timeCreated: 1493733315
+guid: 786097c32c052334d805b34e5467e9d5
+timeCreated: 1493731195
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
     100000: //RootNode
-    100002: circle
-    100004: innerlight
-    100006: light
-    100008: outerlight
-    100010: SolGaucheoff
     400000: //RootNode
-    400002: circle
-    400004: innerlight
-    400006: light
-    400008: outerlight
-    400010: SolGaucheoff
-    2300000: circle
-    2300002: innerlight
-    2300004: outerlight
-    3300000: circle
-    3300002: innerlight
-    3300004: outerlight
-    4300000: circle
-    4300002: innerlight
-    4300004: outerlight
+    2300000: //RootNode
+    3300000: //RootNode
+    4300000: Asset_pointeurPERSO
     9500000: //RootNode
   materials:
     importMaterials: 1
