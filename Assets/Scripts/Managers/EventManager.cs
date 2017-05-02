@@ -118,18 +118,38 @@ public class EventManager : MonoBehaviour {
     public static void HandleWeather()
     {
         Tile[] tiles = TileManager.Instance.Tiles.GetComponentsInChildren<Tile>();
-        if (GameManager.Instance.NbTurn == 2)
+        if (GameManager.Instance.NbTurn >= 2 && GameManager.Instance.NbTurn <= 4)
         {
             foreach (Tile tile in tiles)
             {
-                if (tile.Type == TileType.Snow/* && tile.State == TileState.Discovered*/)
+                if (tile.Type == TileType.Snow && tile.State == TileState.Discovered)
                 {
-                    Climat climat = tile.gameObject.GetComponent<Climat>();
+                    if(tile.gameObject.GetComponentInChildren<Climat>() == null)
+                    {
+                        Debug.Log(tile.name + "n'a pas de climat en enfant");
+                        return;
+                    }
+                    Climat climat = tile.gameObject.GetComponentInChildren<Climat>();
                     if (climat != null)
                     {
                         climat.TypeClimat = TypeClimat.Snow;
                     }
 
+                }
+            }
+        } else if (GameManager.Instance.NbTurn > 4)
+        {
+            foreach (Tile tile in tiles)
+            {
+                if (tile.gameObject.GetComponentInChildren<Climat>() == null)
+                {
+                    Debug.Log(tile.name + "n'a pas de climat en enfant");
+                    return;
+                }
+                Climat climat = tile.gameObject.GetComponentInChildren<Climat>();
+                if (climat != null)
+                {
+                    climat.TypeClimat = TypeClimat.None;
                 }
             }
         }
