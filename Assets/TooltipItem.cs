@@ -23,7 +23,7 @@ public class TooltipItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     // Use this for initialization
     void Start () {
-        tooltip = GameManager.Instance.Ui.tooltip;
+        tooltip = GameManager.Instance.Ui.tooltipItem;
     }
 
 }

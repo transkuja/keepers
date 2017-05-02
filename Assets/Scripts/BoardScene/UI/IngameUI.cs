@@ -51,7 +51,9 @@ public class IngameUI : MonoBehaviour
     public GameObject battleUI;
 
 
-    public GameObject tooltip;
+    public GameObject tooltipItem;
+    public GameObject tooltipJauge;
+
 
     public GameObject mouseFollower;
     #region Accessors
