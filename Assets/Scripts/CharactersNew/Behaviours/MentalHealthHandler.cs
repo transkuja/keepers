@@ -150,9 +150,9 @@ namespace Behaviour
             {
                 int feedbackAmount = value - currentMentalHealth;
                 if (feedbackAmount < 0)
-                    instance.AddFeedBackToQueue(GameManager.Instance.SpriteUtils.spriteMoralBuff, value - currentMentalHealth);
-                else
                     instance.AddFeedBackToQueue(GameManager.Instance.SpriteUtils.spriteMoralDebuff, value - currentMentalHealth);
+                else
+                    instance.AddFeedBackToQueue(GameManager.Instance.SpriteUtils.spriteMoralBuff, value - currentMentalHealth);
 
                 currentMentalHealth = value;
                 if (currentMentalHealth < 0)
