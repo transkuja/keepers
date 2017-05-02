@@ -39,21 +39,8 @@ public class EventManager : MonoBehaviour {
         ApplyEndTurnMentalHealthPenalty();
 
         ResetActionPointsForNextTurn();
-        ResetFighters();
         GameManager.Instance.Ui.ClearUiOnTurnEnding();
         HandleWeather();
-    }
-    
-    private static void ResetFighters()
-    {
-        foreach (PawnInstance pi in GameManager.Instance.AllKeepersList)
-        {
-            if (pi.GetComponent<Mortal>() != null && pi.GetComponent<Mortal>().CurrentHp > 0)
-            {
-                pi.GetComponent<Fighter>().ResetValuesAfterBattle();
-                pi.GetComponent<Fighter>().IsTargetableByMonster = true;
-            }
-        }
     }
 
     private static void DecreaseMentalHealth()
