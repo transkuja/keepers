@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class DragHandler : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler{
+public class DragHandler : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler{
     Vector3 startPosition;
     public Transform startParent;
     Transform absoluteParent;

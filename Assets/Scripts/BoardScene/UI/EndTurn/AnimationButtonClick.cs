@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class AnimationButtonClick : MonoBehaviour, IPointerEnterHandler {
+public class AnimationButtonClick : MonoBehaviour {
 
     private Light directionalLight;
     private float temps;
