@@ -43,6 +43,11 @@ namespace Behaviour
         Vector3 beforeBattlePosition;
         Quaternion beforeBattleRotation;
 
+        // Reset agent destination to avoid pawn strange behaviours
+        float timerResetAgentDestination;
+        float timerResetAgentDestinationDefault = 2.0f;
+        bool doesAgentNeedReset = false;
+
         void Awake()
         {
             instance = GetComponent<PawnInstance>();
@@ -54,6 +59,7 @@ namespace Behaviour
         {
             arrivingTrigger = Direction.None;
             fRotateSpeed = 5.0f;
+            timerResetAgentDestinationDefault = 2.0f;
         }
 
         void Update()
@@ -114,6 +120,17 @@ namespace Behaviour
             if (anim.isActiveAndEnabled == true && agent.isActiveAndEnabled == true)
             {
                 anim.SetFloat("velocity", agent.velocity.magnitude);
+            }
+
+            if (doesAgentNeedReset)
+            {
+                if (timerResetAgentDestination > 0.0f)
+                    timerResetAgentDestination -= Time.deltaTime;
+                else
+                {
+                    agent.ResetPath();
+                    doesAgentNeedReset = false;
+                }
             }
 
         }
@@ -188,6 +205,9 @@ namespace Behaviour
                 Debug.Log("Agent is not active!");
                 return;
             }
+
+            timerResetAgentDestination = timerResetAgentDestinationDefault;
+            doesAgentNeedReset = true;
             agent.angularSpeed = 0.0f;
             quatPreviousRotation = transform.rotation;
             Vector3 v3PosTemp = transform.position;
