@@ -68,6 +68,7 @@ public class GameManager : MonoBehaviour
     private List<GameObject> disabledModels = new List<GameObject>();
     private List<GlowObjectCmd> unregisteredGlows = new List<GlowObjectCmd>();
     private PawnInstance[] currentFighters;
+    private List<GameObject> tilePortalsDisabled = new List<GameObject>();
 
     void Awake()
     {
@@ -1000,6 +1001,17 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
+
+        // Mask tile portals
+        Transform tilePortals = ActiveTile.transform.GetChild(0).GetChild((int)TilePrefabChildren.PortalTriggers);
+        for (int i = 0; i < tilePortals.childCount; i++)
+        {
+            if (tilePortals.GetChild(i).gameObject.activeInHierarchy)
+            {
+                tilePortalsDisabled.Add(tilePortals.GetChild(i).gameObject);
+                tilePortals.GetChild(i).gameObject.SetActive(false);
+            }
+        }
     }
 
     private void ExitBattleStateProcess()
@@ -1037,6 +1049,11 @@ public class GameManager : MonoBehaviour
             if (prisonerInstance.GetComponent<Fighter>() != null)
                 prisonerInstance.GetComponent<Fighter>().IsTargetableByMonster = false;
         }
+
+        // Reactivate tile portals
+        foreach (GameObject go in tilePortalsDisabled)
+            go.SetActive(true);
+        tilePortalsDisabled.Clear();
 
         cameraManagerReference.UpdateCameraPositionExitBattle();
     }
