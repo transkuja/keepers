@@ -20,7 +20,7 @@ public class TooltipJauge : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
                 tooltip.transform.position = transform.position;
                 break;
             case TypeOfJauge.Mental:
-                tooltip.GetComponentInChildren<Text>().text = "Mental : " + GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.MentalHealthHandler>().CurrentMentalHealth;
+                tooltip.GetComponentInChildren<Text>().text = "Mood : " + GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.MentalHealthHandler>().CurrentMentalHealth;
                 tooltip.transform.position = Input.mousePosition;
                 break;
             case TypeOfJauge.Health:
