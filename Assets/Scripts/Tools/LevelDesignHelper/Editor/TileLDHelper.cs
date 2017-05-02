@@ -197,8 +197,6 @@ public class TileLDHelper : EditorWindow {
             {
                 if(selectedModelIndex == 0 && selectedType == TileType.None)
                 {
-                    if (emptyTilePrefab == null)
-                        LoadEmptyTilePrefab();
                     for (int i = 0; i < selectedObjects.Length; i++)
                     {
                         if (selectedObjects[i].GetComponentInParent<Tile>() != null)
@@ -215,6 +213,17 @@ public class TileLDHelper : EditorWindow {
                         {
                             UpdateTile(selectedObjects[i].GetComponentInParent<Tile>(), currentType, (selectedModelIndex - 1 >= 0) ? models[selectedModelIndex - 1] : null);
                         }
+                    }
+                }
+            }
+
+            if(GUILayout.Button("Refresh from prefab"))
+            {
+                for (int i = 0; i < selectedObjects.Length; i++)
+                {
+                    if (selectedObjects[i].GetComponentInParent<Tile>() != null)
+                    {
+                        RefreshTile(selectedObjects[i].GetComponentInParent<Tile>());
                     }
                 }
             }
@@ -250,6 +259,18 @@ public class TileLDHelper : EditorWindow {
         EditorGUILayout.HelpBox("Information Warning: the \"TilePrefab\" object must stay the first child of its parent (a Tile). Same goes for the model object, which must stay the first child of the \"TilePrefab\" object.", MessageType.Info);
     }
 
+    void RefreshTile(Tile tile)
+    {
+        Transform model = tile.transform.GetChild(0).GetChild(0);
+        model.parent = tile.transform;
+        Transform tilePrefab = tile.transform.GetChild(0);
+        PrefabUtility.ReconnectToLastPrefab(tilePrefab.gameObject);
+        PrefabUtility.RevertPrefabInstance(tilePrefab.gameObject);
+        Undo.DestroyObjectImmediate(tilePrefab.GetChild(0).gameObject);
+        model.parent = tilePrefab;
+        model.SetAsFirstSibling();
+    }
+
     void LoadEmptyTilePrefab()
     {
         string tilePath = "Assets/Prefabs/Tiles/TilePrefab.prefab";
@@ -276,25 +297,29 @@ public class TileLDHelper : EditorWindow {
         {
             if(model == emptyTilePrefab)
             {
-                for (int i = 0; i < tile.transform.GetChild(0).childCount; i++)
-                {
-                    Transform child = tile.transform.GetChild(0).GetChild(i);
-                    if (child.name == "TileModel" || child.name == "Model")
-                    {
-                        prevPos = child.position;
-                        Undo.DestroyObjectImmediate(child.gameObject);
-                    }
-                }
-                GameObject go = PrefabUtility.InstantiatePrefab(model) as GameObject;
-                GameObject go2 = go.transform.GetChild(0).gameObject;
+                //for (int i = 0; i < tile.transform.GetChild(0).childCount; i++)
+                //{
+                //    Transform child = tile.transform.GetChild(0).GetChild(i);
+                //    if (child.name == "TileModel" || child.name == "Model")
+                //    {
+                //        prevPos = child.position;
+                //        Undo.DestroyObjectImmediate(child.gameObject);
+                //    }
+                //}
+                //GameObject go = PrefabUtility.InstantiatePrefab(model) as GameObject;
+                //GameObject go2 = go.transform.GetChild(0).gameObject;
 
-                go2.name = "Model";
-                go.transform.parent = tile.transform.GetChild(0);
-                go2.transform.parent = go.transform.parent;
-                go2.transform.SetAsFirstSibling();
-                DestroyImmediate(go);
-                go2.transform.position = prevPos;
-                Undo.RegisterCreatedObjectUndo(go2, "Created Model " + tile.name);
+                //go2.name = "Model";
+                //go.transform.parent = tile.transform.GetChild(0);
+                //go2.transform.parent = go.transform.parent;
+                //go2.transform.SetAsFirstSibling();
+                //DestroyImmediate(go);
+                //go2.transform.position = prevPos;
+                //Undo.RegisterCreatedObjectUndo(go2, "Created Model " + tile.name);
+
+                PrefabUtility.ReconnectToLastPrefab(tile.transform.GetChild(0).gameObject);
+                PrefabUtility.RevertPrefabInstance(tile.transform.GetChild(0).gameObject);
+
             }
             else
             {
