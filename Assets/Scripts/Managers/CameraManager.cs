@@ -166,7 +166,8 @@ public class CameraManager : MonoBehaviour {
             newPosition = _newTileCenter + Vector3.back;
         } else
         {
-            newPosition = positionFromATileClose + activeTile.transform.position ;
+            if(activeTile != null)
+                newPosition = positionFromATileClose + activeTile.transform.position ;
         }
 
         fZoomLerpOrigin = fZoomLerp;
