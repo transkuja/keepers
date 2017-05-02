@@ -53,6 +53,7 @@ public class IngameUI : MonoBehaviour
 
     public GameObject tooltipItem;
     public GameObject tooltipJauge;
+    public GameObject tooltipAction;
 
 
     public GameObject mouseFollower;
