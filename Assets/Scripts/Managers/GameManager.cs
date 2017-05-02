@@ -1012,6 +1012,9 @@ public class GameManager : MonoBehaviour
                 tilePortals.GetChild(i).gameObject.SetActive(false);
             }
         }
+
+        // Mask quest reminder button
+        gameScreens.transform.GetChild(0).GetChild((int)IngameScreensEnum.QuestReminderButton).gameObject.SetActive(false);
     }
 
     private void ExitBattleStateProcess()
@@ -1054,6 +1057,9 @@ public class GameManager : MonoBehaviour
         foreach (GameObject go in tilePortalsDisabled)
             go.SetActive(true);
         tilePortalsDisabled.Clear();
+
+        // Enable quest reminder button
+        gameScreens.transform.GetChild(0).GetChild((int)IngameScreensEnum.QuestReminderButton).gameObject.SetActive(true);
 
         cameraManagerReference.UpdateCameraPositionExitBattle();
     }
