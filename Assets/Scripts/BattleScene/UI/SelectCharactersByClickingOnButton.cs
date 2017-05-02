@@ -17,6 +17,11 @@ public class SelectCharactersByClickingOnButton : MonoBehaviour {
                 pawnInstance.GetComponent<Keeper>().IsSelected = true;
                 GameManager.Instance.Ui.UpdateActionPanelUIForBattle(pawnInstance.GetComponent<Fighter>());
             }
+
+            for (int i = 0; i < 3; i++)
+            {
+                uiBattleHandler.SkillsPanels.transform.GetChild(i).gameObject.SetActive(false);
+            }
         }
     }
 }
