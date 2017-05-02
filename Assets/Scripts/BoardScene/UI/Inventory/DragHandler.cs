@@ -81,14 +81,4 @@ public class DragHandler : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
         GetComponent<CanvasGroup>().blocksRaycasts = true;
     }
 
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        //UIManager.Instance.AfficherTooltip(GetComponentInChildren<ItemInstance>());
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        //UIManager.Instance.MasquerTooltip();
-    }
-
 }

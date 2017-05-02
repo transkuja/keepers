@@ -81,39 +81,8 @@ public class AnimationButtonClick : MonoBehaviour, IPointerEnterHandler {
         GameManager.Instance.Ui.isTurnEnding = false;
         EventManager.EndTurnEvent();
         GetComponent<Animator>().enabled = false;
+        GameManager.Instance.CurrentState = GameState.Normal;
 
-    }
-
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        //for (int i = 0; i < GameManager.Instance.AllKeepersList.Count; i++)
-        //{
-        //    PawnInstance pi = GameManager.Instance.AllKeepersList[i];
-        //    if (pi.GetComponent<Behaviour.Keeper>() != null && pi.GetComponent<Behaviour.Mortal>().IsAlive)
-        //    {
-        //        if (pi.GetComponent<Behaviour.Keeper>().ActionPoints > 0)
-        //        {
-        //            GameManager.Instance.Ui.goShortcutKeepersPanel.SetActive(true);
-        //            // Actions
-
-        //            // If keeper is dead this will be destroy
-        //            pi.GetComponent<Behaviour.Keeper>().ShorcutUI.transform.GetChild((int)PanelShortcutChildren.ActionPoints).GetComponent<Text>().color = Color.green;
-        //            pi.GetComponent<Behaviour.Keeper>().ShorcutUI.transform.GetChild((int)PanelShortcutChildren.ActionPoints).GetComponent<Text>().transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
-          
-        //            StartCoroutine(TextAnimationNormalState(i));
-        //            return;
-        //        }
-        //    }
-        //}
-    }
-
-    private IEnumerator TextAnimationNormalState(int _i)
-    {
-        yield return new WaitForSeconds(1);
-        PawnInstance pi = GameManager.Instance.AllKeepersList[_i];
-        pi.GetComponent<Behaviour.Keeper>().ShorcutUI.transform.GetChild((int)PanelShortcutChildren.ActionPoints).GetComponent<Text>().color = Color.white;
-        pi.GetComponent<Behaviour.Keeper>().ShorcutUI.transform.GetChild((int)PanelShortcutChildren.ActionPoints).GetComponent<Text>().transform.localScale = Vector3.one;
-        yield return null;
     }
 
 }

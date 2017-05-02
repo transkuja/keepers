@@ -248,6 +248,7 @@ public class IngameUI : MonoBehaviour
         {
             if (!isTurnEnding)
             {
+                GameManager.Instance.CurrentState = GameState.InPause;
                 AnimateButtonOnClick();
             }
         }
