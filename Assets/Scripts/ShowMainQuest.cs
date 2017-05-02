@@ -30,6 +30,8 @@ public class ShowMainQuest : MonoBehaviour {
 
     public void showMainQuestObjectif()
     {
+        if (GameManager.Instance.CurrentState == GameState.InTuto || GameManager.Instance.CurrentState == GameState.InBattle)
+            return;
         if( gameObject.activeSelf == true)
         {
             this.gameObject.SetActive(false);
