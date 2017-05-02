@@ -61,7 +61,7 @@ public class MenuUIQ: MonoBehaviour {
 
     public void UpdateDeckSelection()
     {
-        Debug.Log("Deck Selected");
+        // TODO Update Deck Selection
     }
 
     public void UpdateStartButton()

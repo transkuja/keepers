@@ -1,0 +1,39 @@
+{ 
+  "Levels": [   
+    { 
+      "id": 1, 
+      "name" : "niveau 1", 
+      "cardModelName" : "Asset_Carte_Level_01", 
+      "questDecks" : [
+		{
+			"id" : "deck_01",
+		},
+		{
+			"id" : "deck_01",
+		},
+		{
+			"id" : "deck_01",
+		},
+		{
+			"id" : "deck_01",
+		},
+		{
+			"id" : "deck_02",
+		}
+	]
+    },
+    { 
+      "id": 1, 
+      "name" : "niveau 1", 
+      "cardModelName" : "Asset_Carte_Level_02", 
+      "questDecks" : [
+		{
+			"id" : "deck_02",
+		},
+		{
+			"id" : "deck_01",
+		}
+	]
+    },
+  ] 
+ }

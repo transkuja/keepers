@@ -2,6 +2,7 @@
   "QuestDecks": [   
     { 
       "id": "deck_01", 
+	  "level" : "level1",
       "name" : "tuto", 
       "deckModelName" : "Asset_Deck_Levels", 
       "main" : "main_quest_01", 
@@ -14,12 +15,12 @@
 		{
 			"idQuest": "side_quest_01", 
 			"idQuestDealer" : "pnj_01",
-			"cardModelname" : "Asset_Carte_Event_01"
+			"cardModelname" : "Asset_Carte_Event_02"
 		},
 		{
 			"idQuest": "side_quest_01", 
 			"idQuestDealer" : "pnj_01",
-			"cardModelname" : "Asset_Carte_Event_01"
+			"cardModelname" : "Asset_Carte_Event_03"
 		}
       ] 
     },  

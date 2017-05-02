@@ -83,6 +83,7 @@ namespace QuestDeckLoader
                         case "deckModelName":
                             // if null -> didn't the corresponding material
                             newQuestDeckDataContainer.deckModelName = deckQuestEntry.Value.Str;
+                            newDeck.DeckModelName = deckQuestEntry.Value.Str;
                             break;
                         case "main":
                             newQuestDeckDataContainer.idMainQuest = deckQuestEntry.Value.Str;
@@ -140,6 +141,11 @@ namespace QuestDeckLoader
         {
             return questDeckList.Find(x => x.Id == id);
         } 
+
+        public QuestDeckData GetQuestDeckDataByID(string id)
+        {
+            return listeQuestDeck.Find(x => x.idQuestDeck == id);
+        }
 
         #endregion
     }
