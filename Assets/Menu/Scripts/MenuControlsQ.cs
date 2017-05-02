@@ -16,6 +16,10 @@ public class MenuControlsQ : MonoBehaviour {
     GameObject levelCardSelected = null;
     GameObject deckSelected = null;
 
+    bool bIsOpen = false;
+    public Animator animatorBox;
+    public Animator animatorCam;
+
     // Use this for initialization
     void Start () {
         menuManager = GetComponent<MenuManagerQ>();
@@ -30,6 +34,13 @@ public class MenuControlsQ : MonoBehaviour {
         LevelSelectionControls();
         KeeperSelectionControls();
         RuleBookControls();
+
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            bIsOpen = !bIsOpen;
+            animatorBox.SetBool("bOpen", bIsOpen);
+            animatorCam.SetBool("bOpen", bIsOpen);
+        }
     }
 
     public void MenuControls()
