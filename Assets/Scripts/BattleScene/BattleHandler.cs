@@ -32,6 +32,8 @@ public class BattleHandler {
     private static bool isWaitingForSkillEnd = false;
     private static bool wasLaunchedDuringKeepersTurn;
 
+    private static bool battleEndConditionsReached = false;
+
     // Debug parameters
     private static bool isDebugModeActive = false;
 
@@ -47,6 +49,7 @@ public class BattleHandler {
     public static void StartBattleProcess(Tile tile)
     {
         isProcessingABattle = true;
+        battleEndConditionsReached = false;
         AudioManager.Instance.PlayOneShot(AudioManager.Instance.battleSound, 0.5f);
         GameManager.Instance.CurrentState = GameState.InPause;
         // Auto selection
@@ -102,7 +105,7 @@ public class BattleHandler {
         battleLogger.text = string.Empty;
 
         currentBattleMonsters = new PawnInstance[TileManager.Instance.MonstersOnTile[tile].Count];
-        for (int i = 0; i < TileManager.Instance.MonstersOnTile[tile].Count; i++)
+        for (int i = 0; i < TileManager.Instance.MonstersOnTile[tile].Count && i < 3; i++)
             currentBattleMonsters[i] = TileManager.Instance.MonstersOnTile[tile][i];
 
         currentBattleKeepers = selectedKeepersForBattle.ToArray();
@@ -224,7 +227,10 @@ public class BattleHandler {
     {
         if (BattleEndConditionsReached())
         {
-            HandleBattleVictory(GameManager.Instance.ActiveTile);
+            if (isVictorious)
+                HandleBattleVictory(GameManager.Instance.ActiveTile);
+            else
+                HandleBattleDefeat();
             return;
         }
         
@@ -389,13 +395,33 @@ public class BattleHandler {
 
     private static bool BattleEndConditionsReached()
     {
+        bool isWinningConditionReached = false;
+        bool isLosingConditionReached = false;
+
+        int nbDeadMonsters = 0;
         for (int i = 0; i < currentBattleMonsters.Length; i++)
         {
-            if (currentBattleMonsters[i] != null && currentBattleMonsters[i].GetComponent<Mortal>().CurrentHp > 0)
-                return false;
+            if (currentBattleMonsters[i] != null && currentBattleMonsters[i].GetComponent<Mortal>().CurrentHp <= 0)
+            {
+                nbDeadMonsters++;
+            }
         }
+        isWinningConditionReached = (nbDeadMonsters == currentBattleMonsters.Length);
 
-        return true;
+        int nbDeadKeepers = 0;
+        for (int i = 0; i < currentBattleKeepers.Length; i++)
+        {
+            if (currentBattleKeepers[i] != null && currentBattleKeepers[i].GetComponent<Mortal>().CurrentHp <= 0)
+            {
+                nbDeadKeepers++;
+            }
+        }
+        isLosingConditionReached = ((isPrisonerOnTile && GameManager.Instance.PrisonerInstance.GetComponent<Mortal>().CurrentHp <= 0) || (nbDeadKeepers == currentBattleKeepers.Length));
+
+        isVictorious = isWinningConditionReached && !isLosingConditionReached;
+
+        battleEndConditionsReached = (isWinningConditionReached || isLosingConditionReached);
+        return battleEndConditionsReached;
     }
 
     /*
@@ -500,6 +526,7 @@ public class BattleHandler {
         wasTheLastToPlay = false;
         PendingSkill = null;
         isWaitingForSkillEnd = false;
+        battleEndConditionsReached = false;
     }
 
     public static void ResetBattleHandlerForTuto()
@@ -765,6 +792,17 @@ public class BattleHandler {
                     ActivateFeedbackSelection(true, false);
                 else
                 {
+                    if (BattleEndConditionsReached())
+                    {
+                        if (isVictorious)
+                            HandleBattleVictory(GameManager.Instance.ActiveTile);
+                        else
+                            HandleBattleDefeat();
+
+                        pendingSkill = null;
+                        return;
+                    }
+
                     if (nextMonsterIndex == currentBattleMonsters.Length)
                     {
                         pendingSkill = null;
