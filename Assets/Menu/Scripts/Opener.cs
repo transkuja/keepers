@@ -6,11 +6,17 @@ public class Opener : MonoBehaviour {
 
     List<Opener> listOpenerSiblings;
 
+    LayerMask layerToCheck;
+
     [HideInInspector] public bool bOpened = false;
     [HideInInspector] public List<OpenerContent> listChilds;
 
+    public bool bDontClose = false;
+
     public bool bIsLast;
     public bool bOverMode = false;
+    float fOverTimer = 0;
+    public float fOverTime = 0;
     public float fOffsetX = .1f;
     public float fOffsetZ = .1f;
 
@@ -18,6 +24,8 @@ public class Opener : MonoBehaviour {
 
     void Start () {
         Init();
+
+        layerToCheck = GameObject.Find("Menu").GetComponent<MenuControlsQ>().layerToCheck;
     }
 
     void Init()
@@ -96,23 +104,36 @@ public class Opener : MonoBehaviour {
         if(bOpened == true && Input.GetMouseButtonDown(0))
         {
             RaycastHit hit;
-            LayerMask mask = 1 << LayerMask.NameToLayer("DeckAndCard"); ;
-            Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, mask);
+            Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, layerToCheck);
             if(hit.transform == null)
             {
                 Fold();
             }
         }
 
+        if (bOverMode)
+        {
+            if(fOverTimer > 0)
+            {
+                fOverTimer -= Time.unscaledDeltaTime;
+            }
+
+            if(fOverTimer < 0)
+            {
+                Fold();
+            }
+        }
     }
 
     #region OverMode
 
     void OnMouseEnter()
     {
-        if (bOverMode)
+        if (bOverMode && !bOpened)
         {
             Unfold();
+            CloseSiblings();
+            fOverTimer = 0;
         }
     }
 
@@ -120,7 +141,14 @@ public class Opener : MonoBehaviour {
     {
         if (bOverMode)
         {
-            Fold();
+            if (bDontClose)
+            {
+                fOverTimer = 0;
+            }
+            else
+            {
+                fOverTimer = fOverTime;
+            }
         }
     }
 
@@ -130,6 +158,7 @@ public class Opener : MonoBehaviour {
 
     void OnMouseDown()
     {
+        
         if (!bOverMode)
         {
             if (bOpened)
@@ -139,13 +168,7 @@ public class Opener : MonoBehaviour {
             else
             {
                 Unfold();
-                for (int i = 0; listOpenerSiblings != null && i < listOpenerSiblings.Count; i++)
-                {
-                    if (listOpenerSiblings[i].bOpened == true)
-                    {
-                        listOpenerSiblings[i].Fold();
-                    }
-                }
+                CloseSiblings();
             }
         }
     }
@@ -170,6 +193,17 @@ public class Opener : MonoBehaviour {
             if (!bIsLast)
             {
                 listChilds[i].GetComponent<Opener>().Fold();
+            }
+        }
+    }
+
+    void CloseSiblings()
+    {
+        for (int i = 0; listOpenerSiblings != null && i < listOpenerSiblings.Count; i++)
+        {
+            if (listOpenerSiblings[i].bOpened == true)
+            {
+                listOpenerSiblings[i].Fold();
             }
         }
     }

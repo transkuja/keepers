@@ -19,28 +19,60 @@ public class MenuControlsQ : MonoBehaviour {
     bool bIsOpen = false;
     public Animator animatorBox;
     public Animator animatorCam;
+     
+    [SerializeField]
+    public LayerMask layerToCheck;
+
+    [SerializeField] Color colorLockOpen;
+    [SerializeField] Color colorLockClosed;
 
     // Use this for initialization
     void Start () {
         menuManager = GetComponent<MenuManagerQ>();
         menuUI = GetComponent<MenuUIQ>();
+
+
     }
 
     // Update is called once per frame
     void Update()
     {
         MenuControls();
-        DeckSelectionControls();
-        LevelSelectionControls();
-        KeeperSelectionControls();
-        RuleBookControls();
 
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (bIsOpen)
         {
-            bIsOpen = !bIsOpen;
-            animatorBox.SetBool("bOpen", bIsOpen);
-            animatorCam.SetBool("bOpen", bIsOpen);
+            DeckSelectionControls();
+            LevelSelectionControls();
+            KeeperSelectionControls();
+            RuleBookControls();
         }
+
+        BoxControls();
+    }
+
+    void UpdateToolTip()
+    {
+        RaycastHit hit;
+        Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit);
+    }
+
+    public void BoxControls()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            RaycastHit hit;
+            LayerMask mask = 1 << LayerMask.NameToLayer("BoxLock");
+            Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, mask);
+            if (hit.transform != null)
+            {
+                bIsOpen = !bIsOpen;
+                animatorBox.SetBool("bOpen", bIsOpen);
+                animatorCam.SetBool("bOpen", bIsOpen);
+
+                hit.transform.GetComponent<GlowObjectCmd>().GlowColor = bIsOpen ? colorLockOpen : colorLockClosed;
+            }
+        }
+
     }
 
     public void MenuControls()
@@ -55,12 +87,11 @@ public class MenuControlsQ : MonoBehaviour {
         {
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
             LayerMask DeckOfCardsLayerMask = 1 << LayerMask.NameToLayer("DeckOfCards");
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, DeckOfCardsLayerMask) == true)
             {
                 DeckOfCards deck = hit.transform.gameObject.GetComponent<DeckOfCards>();
-                if (deck != null)
+                if (deck != null && deck.gameObject != deckSelected)
                 {
                     if (menuManager.DeckOfCardsSelected == deck.idQuestDeck)
                     {
@@ -84,7 +115,7 @@ public class MenuControlsQ : MonoBehaviour {
                         //GameObject.Destroy(deckSelected);
                     }
 
-                    OpenerContent newDeck = Instantiate(prefabDeckSelected, deck.transform.position, deck.transform.rotation).GetComponent<OpenerContent>();
+                    OpenerContent newDeck = Instantiate(deck.gameObject /*prefabDeckSelected*/, deck.transform.position, deck.transform.rotation).GetComponent<OpenerContent>();
 
                     newDeck.GetComponent<MeshFilter>().mesh = deck.GetComponent<MeshFilter>().sharedMesh;
 
@@ -108,7 +139,7 @@ public class MenuControlsQ : MonoBehaviour {
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-            LayerMask cardLevelLayerMask = 1 << LayerMask.NameToLayer("CardLevel"); ;
+            LayerMask cardLevelLayerMask = 1 << LayerMask.NameToLayer("CardLevel");
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, cardLevelLayerMask) == true)
             {
                 CardLevel card = hit.transform.gameObject.GetComponent<CardLevel>();
@@ -148,6 +179,8 @@ public class MenuControlsQ : MonoBehaviour {
                     newCard.bNeedShow = true;
 
                     levelCardSelected = newCard.gameObject;
+
+                    GlowController.RegisterObject(newCard.GetComponent<GlowObjectCmd>());
 
                     menuUI.UpdateCardLevelSelection();
                 }

@@ -15,8 +15,8 @@ public class MenuManagerQ : MonoBehaviour {
 
     public GameObject GoPrefabLevelCard;
     public GameObject GoPrefabEventCard;
+    public GameObject GoPrefabQuestCard;
     public GameObject GoPrefabDeck;
-
 
     [SerializeField] public List<GameObject> listCardModels = new List<GameObject>();
     [SerializeField] public List<GameObject> listDeckModels = new List<GameObject>();
@@ -40,6 +40,7 @@ public class MenuManagerQ : MonoBehaviour {
             GameObject goEventCard = Instantiate(GoPrefabEventCard, questDecksPosition);
             goEventCard.transform.localPosition = Vector3.zero;
             goEventCard.GetComponent<MeshFilter>().mesh = GetCardModel(GameManager.Instance.EventDataBase.listEvents[i].cardModelName).GetComponent<MeshFilter>().sharedMesh;
+            goEventCard.name = GameManager.Instance.EventDataBase.listEvents[i].id.ToString();
         }
     }
 
@@ -67,7 +68,7 @@ public class MenuManagerQ : MonoBehaviour {
 
                 for(int k = 0; k < qdd.secondaryQuests.Count; k++)
                 {
-                    GameObject goQuestCard = Instantiate(GoPrefabEventCard, goDeck.transform);
+                    GameObject goQuestCard = Instantiate(GoPrefabQuestCard, goDeck.transform);
                     goQuestCard.transform.localPosition = Vector3.zero;
 
                     goQuestCard.GetComponent<MeshFilter>().mesh = GetCardModel(qdd.secondaryQuests[k].cardModelname).GetComponent<MeshFilter>().sharedMesh;

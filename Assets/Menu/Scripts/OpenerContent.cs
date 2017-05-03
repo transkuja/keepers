@@ -162,6 +162,12 @@ public class OpenerContent : MonoBehaviour {
                 }
             }
         }
+
+        Displayer displayer = GetComponent<Displayer>();
+        if(displayer != null)
+        {
+            displayer.Hide();
+        }
     }
 
     void UpdatePosition()
@@ -201,6 +207,12 @@ public class OpenerContent : MonoBehaviour {
                     if (col != null)
                     {
                         col.enabled = true;
+                    }
+
+                    Displayer d = GetComponent<Displayer>();
+                    if(d != null)
+                    {
+                        d.Init();
                     }
 
                 }
