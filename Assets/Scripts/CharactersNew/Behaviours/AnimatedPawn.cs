@@ -128,7 +128,8 @@ namespace Behaviour
                     timerResetAgentDestination -= Time.deltaTime;
                 else
                 {
-                    agent.ResetPath();
+                    if (agent != null && agent.isActiveAndEnabled)
+                        agent.ResetPath();
                     doesAgentNeedReset = false;
                 }
             }

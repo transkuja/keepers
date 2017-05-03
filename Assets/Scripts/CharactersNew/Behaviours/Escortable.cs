@@ -11,9 +11,6 @@ namespace Behaviour
         // UI
         private GameObject shorcutUI;
 
-        //  Escort
-        public bool isEscortAvailable = true;
-
         private bool isEscorted = false;
         public Keeper escort;
 
@@ -33,11 +30,11 @@ namespace Behaviour
         {
             if (GetComponent<HungerHandler>() != null && GetComponent<MentalHealthHandler>() != null)
                 instance.Interactions.Add(new Interaction(InitFeeding), 1, "Feed", GameManager.Instance.SpriteUtils.spriteHarvest);
-            instance.Interactions.Add(new Interaction(Escort), 0, "Escort", GameManager.Instance.SpriteUtils.spriteEscort);
 
-            myIconForShortcut = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabImageUI);
-            myIconForShortcut.GetComponent<RectTransform>().sizeDelta = new Vector3(50.0f, 50.0f, 0.0f);
-            myIconForShortcut.GetComponent<Image>().sprite = GetComponent<PawnInstance>().Data.AssociatedSpriteForShortcut;
+            if (isEscorted)
+                instance.Interactions.Add(new Interaction(UnEscort), 0, "Unescort", GameManager.Instance.SpriteUtils.spriteUnescort);
+            else
+                instance.Interactions.Add(new Interaction(Escort), 0, "Escort", GameManager.Instance.SpriteUtils.spriteEscort);
         }
 
         void OnDestroy()
@@ -53,14 +50,26 @@ namespace Behaviour
 
             escort = GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Keeper>();
             escort.GetComponent<Keeper>().GoListCharacterFollowing.Add(gameObject);
+
+            ActivateIconNearEscort();
+
+            IsEscorted = true;
+        }
+
+        public void ActivateIconNearEscort()
+        {
+            if (myIconForShortcut == null)
+            {
+                myIconForShortcut = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabImageUI);
+                myIconForShortcut.GetComponent<RectTransform>().sizeDelta = new Vector3(50.0f, 50.0f, 0.0f);
+                myIconForShortcut.GetComponent<Image>().sprite = GetComponent<PawnInstance>().Data.AssociatedSpriteForShortcut;
+            }
+
             myIconForShortcut.gameObject.SetActive(true);
 
             myIconForShortcut.transform.SetParent(escort.ShorcutUI.transform, false);
             myIconForShortcut.transform.localPosition = new Vector3(-50.0f, -70.0f, 0.0f);
             myIconForShortcut.transform.localScale = Vector3.one;
-            IsEscorted = true;
-
-            GetComponent<NavMeshAgent>().stoppingDistance = 0.75f;
         }
 
         public void UnEscort(int _i = 0)
