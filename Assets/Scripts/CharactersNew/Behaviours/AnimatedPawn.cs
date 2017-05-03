@@ -99,7 +99,6 @@ namespace Behaviour
 
                 if (lerpMoveParam >= 0.25f && !isCameraUpdated)
                 {
-                    Debug.Log(GameManager.Instance.CameraManagerReference.IsFollowingKeeper);
                     if (GameManager.Instance.CameraManagerReference.IsFollowingKeeper)
                         GameManager.Instance.UpdateCameraPosition(instance);
                     isCameraUpdated = true;

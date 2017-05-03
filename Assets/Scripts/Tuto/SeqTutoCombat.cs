@@ -359,7 +359,7 @@ public class SeqTutoCombat : Sequence
         tutoSkill.Damage = 20;
         tutoSkill.Description = "Comes with great responsability.";
         tutoSkill.SkillName = "Great Power";
-        tutoSkill.TargetType = TargetType.Foe;
+        tutoSkill.TargetType = TargetType.FoeSingle;
         tutoSkill.SkillUser = BattleHandler.CurrentBattleKeepers[0].GetComponent<Behaviour.Fighter>();
         tutoSkill.Cost = new List<Face>();
         tutoSkill.Cost.Add(new Face(FaceType.Physical, 0));

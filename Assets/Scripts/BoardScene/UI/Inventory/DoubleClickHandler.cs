@@ -70,8 +70,13 @@ public class DoubleClickHandler : MonoBehaviour, IPointerClickHandler
 
 
             ii.ItemContainer.UseItem(owner.GetComponent<PawnInstance>());
+
             if (ii.ItemContainer.Quantity <= 0)
             {
+                if (GameManager.Instance.Ui.tooltipItem.activeSelf)
+                {
+                    GameManager.Instance.Ui.tooltipItem.SetActive(false);
+                }
                 InventoryManager.RemoveItem(owner.GetComponent<Behaviour.Inventory>().Items, ii.ItemContainer);
                 if (GameManager.Instance.CurrentState == GameState.InTuto)
                 {

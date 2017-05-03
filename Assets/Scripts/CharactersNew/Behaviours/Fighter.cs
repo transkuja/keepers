@@ -11,7 +11,7 @@ namespace Behaviour
         // Balance variables
         private int effectiveAttackValue = 5;
         private int effectiveDefenseValue = 5;
-        private int stockMaxValue = 20;
+        private int stockMaxValue = 10;
 
         PawnInstance instance;
         private InteractionImplementer battleInteractions;
@@ -57,6 +57,8 @@ namespace Behaviour
         float showSkillPanelTimer = 2.2f;
         float showFeedbackDmgTimer = 1.7f;
 
+        SkillDecisionAlgo skillDecisionAlgo;
+
         void Awake()
         {
             instance = GetComponent<PawnInstance>();
@@ -87,6 +89,9 @@ namespace Behaviour
                 if (sb.SkillUser == null)
                     sb.SkillUser = this;
             }
+
+            MonstersBattleSkillsSelection mbss = new MonstersBattleSkillsSelection();
+            skillDecisionAlgo = mbss.GetDecisionAlgorithm(GetComponent<PawnInstance>().Data.PawnId);
         }
 
         private void Update()
@@ -399,7 +404,7 @@ namespace Behaviour
                 if (hasClickedOnAttack == true)
                 {
                     GameManager.Instance.Ui.mouseFollower.SetActive(true);
-                    GameManager.Instance.Ui.mouseFollower.GetComponent<MouseFollower>().ExpectedTarget(TargetType.Foe);
+                    GameManager.Instance.Ui.mouseFollower.GetComponent<MouseFollower>().ExpectedTarget(TargetType.FoeSingle);
                     BattleHandler.ActivateFeedbackSelection(false, true);
                 }
             }
@@ -473,7 +478,25 @@ namespace Behaviour
             }
         }
 
+        public SkillDecisionAlgo SkillDecisionAlgo
+        {
+            get
+            {
+                return skillDecisionAlgo;
+            }
+
+            set
+            {
+                skillDecisionAlgo = value;
+            }
+        }
+
         #endregion
+
+        public void UseSkill(PawnInstance _target)
+        {
+            skillDecisionAlgo.Invoke(this).UseSkill(_target);
+        }
 
         // TODO: externalize this in Monster
         #region Monster functions
@@ -501,171 +524,5 @@ namespace Behaviour
 
         }
         #endregion
-    }
-}
-
-public enum TargetType { Friend, Foe}
-
-/*
- * Contains definition of battle skills 
- */
-[System.Serializable]
-public class SkillBattle {
-
-    [SerializeField]
-    private Fighter skillUser;
-
-    [SerializeField]
-    private int damage;
-    [SerializeField]
-    private string skillName;
-    [SerializeField]
-    private string description;
-    [SerializeField]
-    private List<Face> cost = new List<Face>();
-    [SerializeField]
-    TargetType targetType;
-
-    private SkillBattle depressedVersion;
-
-    public int Damage
-    {
-        get { return damage; }
-        set { damage = value; }
-    }
-
-    public string Description
-    {
-        get
-        {
-            return description;
-        }
-
-        set
-        {
-            description = value;
-        }
-    }
-
-    public List<Face> Cost
-    {
-        get
-        {
-            return cost;
-        }
-
-        set
-        {
-            cost = value;
-        }
-    }
-
-    public TargetType TargetType
-    {
-        get
-        {
-            return targetType;
-        }
-
-        set
-        {
-            targetType = value;
-        }
-    }
-
-    public string SkillName
-    {
-        get
-        {
-            return skillName;
-        }
-
-        set
-        {
-            skillName = value;
-        }
-    }
-
-    public Fighter SkillUser
-    {
-        get
-        {
-            return skillUser;
-        }
-
-        set
-        {
-            skillUser = value;
-        }
-    }
-
-    public SkillBattle()
-    {
-
-    }
-
-    public SkillBattle(SkillBattle _origin)
-    {
-        if (_origin == null)
-        {
-            new SkillBattle();
-        }
-        else
-        {
-            skillUser = _origin.skillUser;
-            damage = _origin.damage;
-
-            skillName = _origin.skillName;
-            description = _origin.description;
-            cost = _origin.cost;
-            targetType = _origin.targetType;
-
-            depressedVersion = new SkillBattle(_origin.depressedVersion);
-        }
-    }
-
-    public bool CanUseSkill()
-    {
-        foreach (Face f in cost)
-        {
-            if (f.Type == FaceType.Physical && skillUser.PhysicalSymbolStored < f.Value)
-                return false;
-            if (f.Type == FaceType.Magical && skillUser.MagicalSymbolStored < f.Value)
-                return false;
-
-            if (f.Type == FaceType.Defensive && skillUser.DefensiveSymbolStored < f.Value)
-                return false;
-        }
-        return true;
-    }
-
-    public void UseSkill(PawnInstance _target)
-    {
-        if (depressedVersion != null && skillUser.GetComponent<MentalHealthHandler>() != null && skillUser.GetComponent<MentalHealthHandler>().IsDepressed)
-        {
-            depressedVersion.UseSkill(_target);
-        }
-        else
-        {
-            foreach (Face f in cost)
-            {
-                if (f.Type == FaceType.Physical)
-                    skillUser.PhysicalSymbolStored -= f.Value;
-                if (f.Type == FaceType.Magical)
-                    skillUser.MagicalSymbolStored -= f.Value;
-
-                if (f.Type == FaceType.Defensive)
-                    skillUser.DefensiveSymbolStored -= f.Value;
-            }
-
-            GameObject skillNameUI = GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().SkillName;
-            skillNameUI.transform.GetComponentInChildren<Text>().text = skillName;
-            skillNameUI.SetActive(true);
-            _target.GetComponent<Fighter>().IsWaitingForDmgFeedback = true;
-            _target.GetComponent<Fighter>().IsWaitingForSkillPanelToClose = true;
-            _target.GetComponent<Fighter>().PendingDamage = damage;
-
-            BattleHandler.IsWaitingForSkillEnd = true;
-        }
     }
 }

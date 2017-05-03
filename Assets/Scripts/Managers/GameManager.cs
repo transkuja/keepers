@@ -105,6 +105,8 @@ public class GameManager : MonoBehaviour
             }
 
             listEventSelected.Add("1");
+
+            listEventSelected.Add("2");
         }
         DontDestroyOnLoad(gameObject);
 
@@ -856,54 +858,29 @@ public class GameManager : MonoBehaviour
 
     private void SwitchToPauseStateProcess()
     {
-
         // Pause keepers
-
         foreach (PawnInstance pi in allKeepersList)
-
         {
-
             NavMeshAgent currentAgent = pi.GetComponent<NavMeshAgent>();
-
             if (currentAgent != null && currentAgent.isActiveAndEnabled)
-
             {
-
                 currentAgent.Stop();
-
                 pausedAgents.Add(currentAgent);
-
             }
-
         }
-
-
 
         // Pause NPCs
-
         // If needed, we should register all PNJ on tiles in TileManager so we can handle AI behaviours when the game paused
-
         // For now we'll only deal with the prisoner
-
         if (prisonerInstance != null)
-
         {
-
             NavMeshAgent prisonerAgent = prisonerInstance.GetComponent<NavMeshAgent>();
-
             if (prisonerAgent != null && prisonerAgent.isActiveAndEnabled)
-
             {
-
                 prisonerAgent.Stop();
-
                 pausedAgents.Add(prisonerAgent);
-
             }
-
         }
-
-
 
         // Pause monsters
         foreach (Tile tile in tileManagerReference.MonstersOnTile.Keys)
@@ -1038,13 +1015,14 @@ public class GameManager : MonoBehaviour
                         GlowController.RegisterObject(pi.GetComponent<GlowObjectCmd>());
                     }
 
-                    pi.GetComponentInChildren<AggroBehaviour>().gameObject.SetActive(false);
+                    if (pi.GetComponentInChildren<AggroBehaviour>() != null)
+                        pi.GetComponentInChildren<AggroBehaviour>().gameObject.SetActive(false);
                 }
             }
         }
 
         // Mask tile portals
-        Transform tilePortals = ActiveTile.transform.GetChild(0).GetChild((int)TilePrefabChildren.PortalTriggers);
+        Transform tilePortals = currentFighters[0].CurrentTile.transform.GetChild(0).GetChild((int)TilePrefabChildren.PortalTriggers);
         for (int i = 0; i < tilePortals.childCount; i++)
         {
             if (tilePortals.GetChild(i).gameObject.activeInHierarchy)

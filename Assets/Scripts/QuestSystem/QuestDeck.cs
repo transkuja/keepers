@@ -8,6 +8,7 @@ namespace QuestSystem
     {
         string id;
         string deckName;
+        string levelId;
         string deckModelName;
         string mainQuest;
         List<string> sideQuests;
@@ -74,6 +75,19 @@ namespace QuestSystem
             set
             {
                 deckModelName = value;
+            }
+        }
+
+        public string LevelId
+        {
+            get
+            {
+                return levelId;
+            }
+
+            set
+            {
+                levelId = value;
             }
         }
 

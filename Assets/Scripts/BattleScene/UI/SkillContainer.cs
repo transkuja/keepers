@@ -74,16 +74,16 @@ public class SkillContainer : MonoBehaviour {
 
     public void UseLinkedSkill()
     {
-        if (skillData.TargetType == TargetType.Foe)
+        if (skillData.TargetType == TargetType.FoeSingle || skillData.TargetType == TargetType.FoeAll)
         {
             GameManager.Instance.Ui.mouseFollower.SetActive(true);
-            GameManager.Instance.Ui.mouseFollower.GetComponent<MouseFollower>().ExpectedTarget(TargetType.Foe);
+            GameManager.Instance.Ui.mouseFollower.GetComponent<MouseFollower>().ExpectedTarget(TargetType.FoeSingle);
             BattleHandler.ActivateFeedbackSelection(false, true);
         }
-        else if (skillData.TargetType == TargetType.Friend)
+        else if (skillData.TargetType == TargetType.FriendSingle)
         {
             GameManager.Instance.Ui.mouseFollower.SetActive(true);
-            GameManager.Instance.Ui.mouseFollower.GetComponent<MouseFollower>().ExpectedTarget(TargetType.Friend);
+            GameManager.Instance.Ui.mouseFollower.GetComponent<MouseFollower>().ExpectedTarget(TargetType.FriendSingle);
             BattleHandler.ActivateFeedbackSelection(true, false);
         }
         // TODO: find an other way

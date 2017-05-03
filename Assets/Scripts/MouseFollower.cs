@@ -29,7 +29,7 @@ public class MouseFollower : MonoBehaviour {
 
     public void ExpectedTarget(TargetType _targetType)
     {
-        if (_targetType == TargetType.Foe)
+        if (_targetType == TargetType.FoeSingle)
             isTargetExpectedAFriend = false;
         else
             isTargetExpectedAFriend = true;

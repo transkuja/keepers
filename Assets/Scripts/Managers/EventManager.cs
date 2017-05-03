@@ -129,7 +129,7 @@ public class EventManager : MonoBehaviour {
                         }
                     }
                 }
-                else if (GameManager.Instance.NbTurn > 4)
+                else if (GameManager.Instance.NbTurn > 5)
                 {
                     foreach (Tile tile in tiles)
                     {
@@ -147,6 +147,45 @@ public class EventManager : MonoBehaviour {
                 }
             }
 
+            if (GameManager.Instance.ListEventSelected.Contains("2"))
+            {
+                if (GameManager.Instance.NbTurn >= 1 && GameManager.Instance.NbTurn <= 3)
+                {
+                    foreach (Tile tile in tiles)
+                    {
+                        if (tile.Type == TileType.Plain && tile.State == TileState.Discovered)
+                        {
+                            if (tile.gameObject.GetComponentInChildren<Climat>() == null)
+                            {
+                                Debug.Log(tile.name + "n'a pas de climat en enfant");
+                                return;
+                            }
+                            Climat climat = tile.gameObject.GetComponentInChildren<Climat>();
+                            if (climat != null)
+                            {
+                                climat.TypeClimat = TypeClimat.Butterfly;
+                            }
+
+                        }
+                    }
+                }
+                else if (GameManager.Instance.NbTurn > 4)
+                {
+                    foreach (Tile tile in tiles)
+                    {
+                        if (tile.gameObject.GetComponentInChildren<Climat>() == null)
+                        {
+                            Debug.Log(tile.name + "n'a pas de climat en enfant");
+                            return;
+                        }
+                        Climat climat = tile.gameObject.GetComponentInChildren<Climat>();
+                        if (climat != null)
+                        {
+                            climat.TypeClimat = TypeClimat.None;
+                        }
+                    }
+                }
+            }
         }
     }
 }
