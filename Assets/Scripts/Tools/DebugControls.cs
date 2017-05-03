@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using Behaviour;
+using System.Collections.Generic;
 
 public class DebugControls : MonoBehaviour {
 
     bool isDebugModeActive = false;
     bool isUnlimitedActionPointsModeActive = false;
+    bool isMapUncovered = false;
 
     [SerializeField]
     GameObject monsterToPopPrefab;
@@ -14,7 +16,9 @@ public class DebugControls : MonoBehaviour {
     [SerializeField]
     GameObject debugCanvas;
 
-	void Start () {
+    Dictionary<Tile, TileState> oldTileStates = new Dictionary<Tile, TileState>();
+
+    void Start () {
         isDebugModeActive = false;
         isUnlimitedActionPointsModeActive = false;
         debugCanvas.SetActive(false);
@@ -64,14 +68,46 @@ public class DebugControls : MonoBehaviour {
             // Discover all tiles
             if (Input.GetKeyDown(KeyCode.Alpha9))
             {
-                foreach (Tile tile in TileManager.Instance.Tiles.GetComponentsInChildren<Tile>())
-                    tile.State = TileState.Discovered;
+                if (Input.GetKey(KeyCode.LeftShift))
+                {
+                    if (isMapUncovered)
+                    {
+                        if (oldTileStates != null && oldTileStates.Count > 0)
+                        {
+                            foreach (Tile tile in oldTileStates.Keys)
+                            {
+                                tile.State = oldTileStates[tile];
+                            }
+                        }
+                    }
+                    isMapUncovered = false;
+                }
+                else
+                {
+                    if (!isMapUncovered)
+                    {
+                        oldTileStates.Clear();
+                        foreach (Tile tile in TileManager.Instance.Tiles.GetComponentsInChildren<Tile>())
+                        {
+                            oldTileStates.Add(tile, tile.State);
+                            tile.State = TileState.Discovered;
+                        }
+                    }
+                    isMapUncovered = true;
+                }
             }
 
             // Decrease food Ashley
-            if (Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.Alpha2))
+            if (Input.GetKey(KeyCode.CapsLock) && Input.GetKey(KeyCode.Alpha2))
             {
-                GameManager.Instance.PrisonerInstance.GetComponent<HungerHandler>().CurrentHunger--;
+                if (Input.GetKey(KeyCode.LeftShift))
+                {
+                    GameManager.Instance.PrisonerInstance.GetComponent<HungerHandler>().CurrentHunger++;
+                }
+                else
+                {
+                    GameManager.Instance.PrisonerInstance.GetComponent<HungerHandler>().CurrentHunger--;
+                }
             }
 
             if (GameManager.Instance.ListOfSelectedKeepers == null || GameManager.Instance.ListOfSelectedKeepers.Count == 0)
@@ -89,24 +125,36 @@ public class DebugControls : MonoBehaviour {
             // Decrease food
             if (Input.GetKey(KeyCode.Alpha2))
             {
-                GameManager.Instance.GetFirstSelectedKeeper().GetComponent<HungerHandler>().CurrentHunger--;
+                if (Input.GetKey(KeyCode.LeftShift))
+                    GameManager.Instance.GetFirstSelectedKeeper().GetComponent<HungerHandler>().CurrentHunger++;
+                else
+                    GameManager.Instance.GetFirstSelectedKeeper().GetComponent<HungerHandler>().CurrentHunger--;
             }
 
             // Decrease mental health
             if (Input.GetKey(KeyCode.Alpha3))
             {
-                GameManager.Instance.GetFirstSelectedKeeper().GetComponent<MentalHealthHandler>().CurrentMentalHealth--;
+                if (Input.GetKey(KeyCode.LeftShift))
+                    GameManager.Instance.GetFirstSelectedKeeper().GetComponent<MentalHealthHandler>().CurrentMentalHealth++;
+                else
+                    GameManager.Instance.GetFirstSelectedKeeper().GetComponent<MentalHealthHandler>().CurrentMentalHealth--;
             }
 
             // Decrease HP
             if (Input.GetKey(KeyCode.Alpha4))
             {
-                GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Mortal>().CurrentHp--;
+                if (Input.GetKey(KeyCode.LeftShift))
+                    GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Mortal>().CurrentHp++;
+                else
+                    GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Mortal>().CurrentHp--;
             }
 
             if (Input.GetKeyDown(KeyCode.Alpha5))
             {
-                GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Keeper>().ActionPoints--;
+                if (Input.GetKey(KeyCode.LeftShift))
+                    GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Keeper>().ActionPoints++;
+                else
+                    GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Keeper>().ActionPoints--;
             }
 
             // Pop a monster
