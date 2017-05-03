@@ -32,6 +32,13 @@ public class AudioManager : MonoBehaviour {
 
     private AudioClip musicToPlay;
 
+    public AudioClip commonBattleMusic;
+
+    public AudioClip miniBossMusic;
+
+    public AudioClip epicFightMusic;
+
+
     [SerializeField]
     private float volumeMusic = 0.5f;
     [SerializeField]

@@ -57,6 +57,8 @@ namespace Behaviour
         float showSkillPanelTimer = 2.2f;
         float showFeedbackDmgTimer = 1.7f;
 
+        SkillDecisionAlgo skillDecisionAlgo;
+
         void Awake()
         {
             instance = GetComponent<PawnInstance>();
@@ -87,6 +89,9 @@ namespace Behaviour
                 if (sb.SkillUser == null)
                     sb.SkillUser = this;
             }
+
+            MonstersBattleSkillsSelection mbss = new MonstersBattleSkillsSelection();
+            skillDecisionAlgo = mbss.GetDecisionAlgorithm(GetComponent<PawnInstance>().Data.PawnId);
         }
 
         private void Update()
@@ -473,7 +478,25 @@ namespace Behaviour
             }
         }
 
+        public SkillDecisionAlgo SkillDecisionAlgo
+        {
+            get
+            {
+                return skillDecisionAlgo;
+            }
+
+            set
+            {
+                skillDecisionAlgo = value;
+            }
+        }
+
         #endregion
+
+        public void UseSkill(PawnInstance _target)
+        {
+            skillDecisionAlgo.Invoke(this).UseSkill(_target);
+        }
 
         // TODO: externalize this in Monster
         #region Monster functions

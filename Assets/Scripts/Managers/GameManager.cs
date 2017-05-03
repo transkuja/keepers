@@ -1015,7 +1015,8 @@ public class GameManager : MonoBehaviour
                         GlowController.RegisterObject(pi.GetComponent<GlowObjectCmd>());
                     }
 
-                    pi.GetComponentInChildren<AggroBehaviour>().gameObject.SetActive(false);
+                    if (pi.GetComponentInChildren<AggroBehaviour>() != null)
+                        pi.GetComponentInChildren<AggroBehaviour>().gameObject.SetActive(false);
                 }
             }
         }

@@ -3,6 +3,8 @@ using UnityEngine.AI;
 
 namespace Behaviour
 {
+    public enum MonsterType { Common, Miniboss, Epic }
+
     public class Monster : MonoBehaviour
     {
         PawnInstance instance;
@@ -27,6 +29,9 @@ namespace Behaviour
         // TODO: fix this behaviour
         bool hasRecentlyBattled = false;
         GameObject pointerFeedback;
+
+        [SerializeField]
+        MonsterType monsterType;
 
         public PawnInstance getPawnInstance
         {
@@ -135,6 +140,19 @@ namespace Behaviour
                     pointerFeedback.transform.localPosition = Vector3.zero + GameManager.Instance.PrefabUtils.selectionPointer.transform.localPosition;
                 }
                 return pointerFeedback;
+            }
+        }
+
+        public MonsterType GetMType
+        {
+            get
+            {
+                return monsterType;
+            }
+
+            set
+            {
+                monsterType = value;
             }
         }
 

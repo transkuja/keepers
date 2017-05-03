@@ -18,11 +18,11 @@
 			"item" : { 
 				"id": "resource01",
 				"itemName": "Berries",
-				"description": "Restore health",
+				"description": "Restores 3 hunger",
 				"inventorySprite": "Items_0",
 				"ingameVisual": "Models/Items/Berry",
 				"use": "DecreaseHunger",
-				"value": 5
+				"value": 3
 			}
 		},
 		{
@@ -30,10 +30,10 @@
 			"item" : { 
 				"id": "resource02",
 				"itemName": "Mushroom",
-				"description": "Increase mental health",
+				"description": "Restores 5 hunger",
 				"inventorySprite": "Items_1",
 				"ingameVisual": "Models/Items/Mushroom",
-				"use": "UpMentalHealth",
+				"use": "DecreaseHunger",
 				"value": 5
 			}
 		},
@@ -42,11 +42,11 @@
 			"item" : { 
 				"id": "resource03",
 				"itemName": "Wheat",
-				"description": "Restore health",
+				"description": "Restores 10 hunger",
 				"inventorySprite": "Items_2",
 				"ingameVisual": "Models/Items/Wheat",
 				"use": "DecreaseHunger",
-				"value": 5
+				"value": 10
 			}
 		},
 		{

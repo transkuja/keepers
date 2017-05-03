@@ -105,9 +105,19 @@ public class BattleHandler {
         battleLogger.text = string.Empty;
 
         currentBattleMonsters = new PawnInstance[TileManager.Instance.MonstersOnTile[tile].Count];
+        MonsterType monsterType = MonsterType.Common;
+
         for (int i = 0; i < TileManager.Instance.MonstersOnTile[tile].Count && i < 3; i++)
         {
             currentBattleMonsters[i] = TileManager.Instance.MonstersOnTile[tile][i];
+            if (currentBattleMonsters[i].GetComponent<Monster>().GetMType == MonsterType.Miniboss && monsterType != MonsterType.Epic)
+            {
+                monsterType = MonsterType.Miniboss;
+            }
+            else if (currentBattleMonsters[i].GetComponent<Monster>().GetMType == MonsterType.Epic)
+            {
+                monsterType = MonsterType.Epic;
+            }
         }
 
         currentBattleKeepers = selectedKeepersForBattle.ToArray();
@@ -142,6 +152,13 @@ public class BattleHandler {
             currentBattleMonsters[monsterIndex].GetComponent<AnimatedPawn>().StartMoveToBattlePositionAnimation(newTransform.localPosition, newTransform.localRotation);
             monsterIndex++;
         }
+
+        if (monsterType == MonsterType.Epic)
+            AudioManager.Instance.Fade(AudioManager.Instance.epicFightMusic);
+        else if (monsterType == MonsterType.Miniboss)
+            AudioManager.Instance.Fade(AudioManager.Instance.miniBossMusic);
+        else
+            AudioManager.Instance.Fade(AudioManager.Instance.commonBattleMusic);
 
         GameManager.Instance.GetBattleUI.SetActive(true);
         DeactivateFeedbackSelection(true, false);
@@ -304,8 +321,7 @@ public class BattleHandler {
 
         PawnInstance target = GetTargetForAttack();
         Fighter monsterBattleInfo = currentBattleMonsters[nextMonsterIndex].GetComponent<Fighter>();
-        SkillBattle skillUsed = monsterBattleInfo.BattleSkills[Random.Range(0, currentBattleMonsters[nextMonsterIndex].GetComponent<Fighter>().BattleSkills.Count)];
-        skillUsed.UseSkill(target);
+        monsterBattleInfo.UseSkill(target);
         nextMonsterIndex++;
     }
 
@@ -860,6 +876,19 @@ public class BattleHandler {
         set
         {
             currentBattleMonsters = value;
+        }
+    }
+
+    public static int NbTurn
+    {
+        get
+        {
+            return nbTurn;
+        }
+
+        set
+        {
+            nbTurn = value;
         }
     }
 }
