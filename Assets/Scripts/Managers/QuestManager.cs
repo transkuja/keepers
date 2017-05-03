@@ -31,6 +31,8 @@ public class QuestManager : MonoBehaviour
         }
         else
         {
+            if (questDeckID == "deck_03")
+                CurrentQuestDeck.SideQuests.Clear();
 
             CurrentQuestDeck = GameManager.Instance.QuestDeckDataBase.GetDeckByID(questDeckID);
             if(isDebugQuestManager)

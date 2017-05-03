@@ -35,6 +35,12 @@
 		  "cardModelname" : "Asset_Carte_Event_02"
         } 
       ] 
-    } 
+    },
+	{ 
+      "id": "deck_03", 
+      "name" : "level4", 
+      "deckModelName" : "Asset_Deck_Levels", 
+      "main" : "main_quest_01"
+    } 		
   ] 
  }
