@@ -762,11 +762,13 @@ public class GameManager : MonoBehaviour
     }
 
     public void RegisterSelectionPointerCameraAdapter(SelectionPointerCameraAdapter _cameraAdapter)
-
     {
-
         cameraManagerReference.selectionPointerCameraAdapters.Add(_cameraAdapter);
+    }
 
+    public void UnregisterSelectionPointerCameraAdapter(SelectionPointerCameraAdapter _cameraAdapter)
+    {
+        cameraManagerReference.selectionPointerCameraAdapters.Remove(_cameraAdapter);
     }
 
     public void RegisterWorldspaceCanvasCameraAdapter(WorldspaceCanvasCameraAdapter _cameraAdapter)

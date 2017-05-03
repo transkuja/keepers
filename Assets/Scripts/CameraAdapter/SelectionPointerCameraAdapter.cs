@@ -14,4 +14,9 @@ public class SelectionPointerCameraAdapter : MonoBehaviour {
             transform.localScale = new Vector3(1,1,1) + new Vector3(1,1,1) * 2 * (1 - GameManager.Instance.CameraFZoomLerp);
     }
 
+    void OnDestroy()
+    {
+        GameManager.Instance.UnregisterSelectionPointerCameraAdapter(this);
+    }
+
 }
