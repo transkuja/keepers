@@ -12,11 +12,9 @@ public class ShowAssociatedDice : MonoBehaviour, IPointerEnterHandler, IPointerE
     {
         pawn = GetComponentInParent<PawnInstance>();
 
-        if (feedbackAboveDice == null)
-        {
-            feedbackAboveDice = Instantiate(GameManager.Instance.PrefabUIUtils.diceFeedbackOnPointerEnter, GameManager.Instance.Ui.transform.GetChild(0));
-            feedbackAboveDice.SetActive(false);
-        }
+        feedbackAboveDice = Instantiate(GameManager.Instance.PrefabUIUtils.diceFeedbackOnPointerEnter, GameManager.Instance.Ui.transform.GetChild(0));
+        feedbackAboveDice.SetActive(false);
+
         attackTotal = 0;
         foreach (Face face in pawn.GetComponent<Behaviour.Fighter>().LastThrowResult)
         {
@@ -25,6 +23,7 @@ public class ShowAssociatedDice : MonoBehaviour, IPointerEnterHandler, IPointerE
         }
     }
 
+    // TODO: may be useless, test @Anthony
     private void OnDisable()
     {
         if (name == "Skills")
@@ -112,5 +111,10 @@ public class ShowAssociatedDice : MonoBehaviour, IPointerEnterHandler, IPointerE
             }
         }
 
+    }
+
+    void OnDestroy()
+    {
+        Destroy(feedbackAboveDice);
     }
 }
