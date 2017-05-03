@@ -240,6 +240,13 @@ namespace Behaviour
         public void ShowSelectedPanelUI(bool isShow)
         {
             SelectedPanelUI.SetActive(isShow);
+            if (!isShow)
+            {
+                if(GameManager.Instance.Ui.tooltipItem.activeSelf)
+                    GameManager.Instance.Ui.tooltipItem.SetActive(false);
+                if (GameManager.Instance.Ui.tooltipJauge.activeSelf)
+                    GameManager.Instance.Ui.tooltipJauge.SetActive(false);
+            }
         }
 
         public void GoToKeeper()
