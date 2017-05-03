@@ -62,6 +62,10 @@ public class CameraManager : MonoBehaviour {
     bool isFirstCallToUpdatePosition = false;
     bool hasMainQuestBeenShown = false;
 
+
+    // Camera behaviour
+    bool isFollowingKeeper = false;
+
     // *********************************
     enum CameraBound
     {
@@ -117,6 +121,19 @@ public class CameraManager : MonoBehaviour {
             activeTile = value;
         }
     }
+
+    public bool IsFollowingKeeper
+    {
+        get
+        {
+            return isFollowingKeeper;
+        }
+
+        set
+        {
+            isFollowingKeeper = value;
+        }
+    }
     #endregion
 
     public void Start()
@@ -144,6 +161,7 @@ public class CameraManager : MonoBehaviour {
         isUpdateNeeded = true;
         isFirstCallToUpdatePosition = false;
         hasMainQuestBeenShown = false;
+        isFollowingKeeper = false;
 
         GameManager.Instance.RegisterCameraManager(this);
     }
@@ -459,6 +477,10 @@ public class CameraManager : MonoBehaviour {
     {
         if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
         {
+            isUpdateNeeded = false;
+            oldPosition = Vector3.zero;
+            lerpParameter = 0.0f;
+
             Vector3 v3IncrementPos = new Vector3( Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
             float speed = fKeySpeed * Time.deltaTime;
             if (state == CameraState.Far)
@@ -495,6 +517,10 @@ public class CameraManager : MonoBehaviour {
     {
         if (Input.GetMouseButtonDown(2) && !bIsDraging)
         {
+            isUpdateNeeded = false;
+            oldPosition = Vector3.zero;
+            lerpParameter = 0.0f;
+
             v3DragOrigin = Input.mousePosition;
 
             bIsDraging = true;
