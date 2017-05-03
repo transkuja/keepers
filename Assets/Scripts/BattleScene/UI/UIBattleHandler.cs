@@ -211,7 +211,14 @@ public class UIBattleHandler : MonoBehaviour {
             for (int i = 0; i < fighterComponent.BattleSkills.Count && i < 4; i++)
             {
                 Transform currentSkill = skillsPanel.GetChild(i);
-                currentSkill.GetChild((int)SkillButtonChildren.SkillName).GetComponent<SkillContainer>().SkillData = fighterComponent.BattleSkills[i];
+
+                SkillBattle fighterCurSkill;
+                if (_pawnInstanceForInit.GetComponent<MentalHealthHandler>() != null && _pawnInstanceForInit.GetComponent<MentalHealthHandler>().IsDepressed)
+                    fighterCurSkill = fighterComponent.BattleSkills[i].DepressedVersion;
+                else
+                    fighterCurSkill = fighterComponent.BattleSkills[i];
+
+                currentSkill.GetChild((int)SkillButtonChildren.SkillName).GetComponent<SkillContainer>().SkillData = fighterCurSkill;
                 currentSkill.GetChild((int)SkillButtonChildren.SkillName).GetComponent<Text>().text = fighterComponent.BattleSkills[i].SkillName;
                 currentSkill.GetComponent<SkillDescriptionUI>().SkillDescription = fighterComponent.BattleSkills[i].Description;
 
@@ -249,7 +256,13 @@ public class UIBattleHandler : MonoBehaviour {
             for (int i = 0; i < fighterComponent.BattleSkills.Count && i < 4; i++)
             {
                 Transform currentSkill = panelToReload.GetChild(i);
-                currentSkill.GetChild((int)SkillButtonChildren.SkillName).GetComponent<SkillContainer>().SkillData = fighterComponent.BattleSkills[i];
+                SkillBattle fighterCurSkill;
+                if (_pawnInstanceForReload.GetComponent<MentalHealthHandler>() != null && _pawnInstanceForReload.GetComponent<MentalHealthHandler>().IsDepressed)
+                    fighterCurSkill = fighterComponent.BattleSkills[i].DepressedVersion;
+                else
+                    fighterCurSkill = fighterComponent.BattleSkills[i];
+
+                currentSkill.GetChild((int)SkillButtonChildren.SkillName).GetComponent<SkillContainer>().SkillData = fighterCurSkill;
                 currentSkill.GetChild((int)SkillButtonChildren.SkillName).GetComponent<Text>().text = fighterComponent.BattleSkills[i].SkillName;
                 currentSkill.GetComponent<SkillDescriptionUI>().SkillDescription = fighterComponent.BattleSkills[i].Description;
                 foreach (Face face in fighterComponent.BattleSkills[i].Cost)
