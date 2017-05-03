@@ -219,14 +219,14 @@ public class UIBattleHandler : MonoBehaviour {
                     fighterCurSkill = fighterComponent.BattleSkills[i];
 
                 currentSkill.GetChild((int)SkillButtonChildren.SkillName).GetComponent<SkillContainer>().SkillData = fighterCurSkill;
-                currentSkill.GetChild((int)SkillButtonChildren.SkillName).GetComponent<Text>().text = fighterComponent.BattleSkills[i].SkillName;
-                currentSkill.GetComponent<SkillDescriptionUI>().SkillDescription = fighterComponent.BattleSkills[i].Description;
+                currentSkill.GetChild((int)SkillButtonChildren.SkillName).GetComponent<Text>().text = fighterCurSkill.SkillName;
+                currentSkill.GetComponent<SkillDescriptionUI>().SkillDescription = fighterCurSkill.Description;
 
                 currentSkill.GetChild((int)SkillButtonChildren.Atk).GetComponentInChildren<Text>().text = "0";
                 currentSkill.GetChild((int)SkillButtonChildren.Def).GetComponentInChildren<Text>().text = "0";
                 currentSkill.GetChild((int)SkillButtonChildren.Mag).GetComponentInChildren<Text>().text = "0";
 
-                foreach (Face face in fighterComponent.BattleSkills[i].Cost)
+                foreach (Face face in fighterCurSkill.Cost)
                 {
                     if (face.Type == FaceType.Physical)
                         currentSkill.GetChild((int)SkillButtonChildren.Atk).GetComponentInChildren<Text>().text = face.Value.ToString();
@@ -263,9 +263,9 @@ public class UIBattleHandler : MonoBehaviour {
                     fighterCurSkill = fighterComponent.BattleSkills[i];
 
                 currentSkill.GetChild((int)SkillButtonChildren.SkillName).GetComponent<SkillContainer>().SkillData = fighterCurSkill;
-                currentSkill.GetChild((int)SkillButtonChildren.SkillName).GetComponent<Text>().text = fighterComponent.BattleSkills[i].SkillName;
-                currentSkill.GetComponent<SkillDescriptionUI>().SkillDescription = fighterComponent.BattleSkills[i].Description;
-                foreach (Face face in fighterComponent.BattleSkills[i].Cost)
+                currentSkill.GetChild((int)SkillButtonChildren.SkillName).GetComponent<Text>().text = fighterCurSkill.SkillName;
+                currentSkill.GetComponent<SkillDescriptionUI>().SkillDescription = fighterCurSkill.Description;
+                foreach (Face face in fighterCurSkill.Cost)
                 {
                     if (face.Type == FaceType.Physical)
                         currentSkill.GetChild((int)SkillButtonChildren.Atk).GetComponentInChildren<Text>().text = face.Value.ToString();

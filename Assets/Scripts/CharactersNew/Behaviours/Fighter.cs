@@ -30,6 +30,10 @@ namespace Behaviour
         // Battle stats
         [SerializeField]
         private List<SkillBattle> battleSkills;
+
+        // Fix, is there a way to set directly a sub skillbattle?
+        [SerializeField]
+        private List<SkillBattle> depressedSkills;
         [SerializeField]
         int nbrOfDice;
         [SerializeField]
@@ -90,8 +94,18 @@ namespace Behaviour
                     sb.SkillUser = this;
             }
 
+            foreach (SkillBattle sb in depressedSkills)
+            {
+                if (sb.SkillUser == null)
+                    sb.SkillUser = this;
+            }
+
             MonstersBattleSkillsSelection mbss = new MonstersBattleSkillsSelection();
             skillDecisionAlgo = mbss.GetDecisionAlgorithm(GetComponent<PawnInstance>().Data.PawnId);
+
+            // Fix, remove when found a way to set directly sub skill
+            for (int i = 0; i < depressedSkills.Count; i++)
+                battleSkills[i].DepressedVersion = new SkillBattle(depressedSkills[i]);
         }
 
         private void Update()

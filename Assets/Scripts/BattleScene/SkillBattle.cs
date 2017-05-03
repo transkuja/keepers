@@ -153,41 +153,34 @@ public class SkillBattle {
 
     public void UseSkill(PawnInstance _target)
     {
-        if (depressedVersion != null && skillUser.GetComponent<MentalHealthHandler>() != null && skillUser.GetComponent<MentalHealthHandler>().IsDepressed)
+        foreach (Face f in cost)
         {
-            depressedVersion.UseSkill(_target);
+            if (f.Type == FaceType.Physical)
+                skillUser.PhysicalSymbolStored -= f.Value;
+            if (f.Type == FaceType.Magical)
+                skillUser.MagicalSymbolStored -= f.Value;
+
+            if (f.Type == FaceType.Defensive)
+                skillUser.DefensiveSymbolStored -= f.Value;
         }
-        else
+
+        GameObject skillNameUI = GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().SkillName;
+        skillNameUI.transform.GetComponentInChildren<Text>().text = skillName;
+        skillNameUI.SetActive(true);
+        if (targetType == TargetType.FoeAll)
         {
-            foreach (Face f in cost)
+            for (int i = 0; i < BattleHandler.CurrentBattleMonsters.Length; i++)
             {
-                if (f.Type == FaceType.Physical)
-                    skillUser.PhysicalSymbolStored -= f.Value;
-                if (f.Type == FaceType.Magical)
-                    skillUser.MagicalSymbolStored -= f.Value;
-
-                if (f.Type == FaceType.Defensive)
-                    skillUser.DefensiveSymbolStored -= f.Value;
+                BattleHandler.CurrentBattleMonsters[i].GetComponent<Fighter>().IsWaitingForDmgFeedback = true;
+                BattleHandler.CurrentBattleMonsters[i].GetComponent<Fighter>().IsWaitingForSkillPanelToClose = true;
+                BattleHandler.CurrentBattleMonsters[i].GetComponent<Fighter>().PendingDamage = damage;
             }
-
-            GameObject skillNameUI = GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().SkillName;
-            skillNameUI.transform.GetComponentInChildren<Text>().text = skillName;
-            skillNameUI.SetActive(true);
-            if (targetType == TargetType.FoeAll)
-            {
-                for (int i = 0; i < BattleHandler.CurrentBattleMonsters.Length; i++)
-                {
-                    BattleHandler.CurrentBattleMonsters[i].GetComponent<Fighter>().IsWaitingForDmgFeedback = true;
-                    BattleHandler.CurrentBattleMonsters[i].GetComponent<Fighter>().IsWaitingForSkillPanelToClose = true;
-                    BattleHandler.CurrentBattleMonsters[i].GetComponent<Fighter>().PendingDamage = damage;
-                }
-            }
-            _target.GetComponent<Fighter>().IsWaitingForDmgFeedback = true;
-            _target.GetComponent<Fighter>().IsWaitingForSkillPanelToClose = true;
-            _target.GetComponent<Fighter>().PendingDamage = damage;
-
-            BattleHandler.IsWaitingForSkillEnd = true;
         }
+        _target.GetComponent<Fighter>().IsWaitingForDmgFeedback = true;
+        _target.GetComponent<Fighter>().IsWaitingForSkillPanelToClose = true;
+        _target.GetComponent<Fighter>().PendingDamage = damage;
+
+        BattleHandler.IsWaitingForSkillEnd = true;
     }
 }
 
