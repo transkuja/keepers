@@ -153,12 +153,7 @@ public class BattleHandler {
             monsterIndex++;
         }
 
-        if (monsterType == MonsterType.Epic)
-            AudioManager.Instance.Fade(AudioManager.Instance.epicFightMusic);
-        else if (monsterType == MonsterType.Miniboss)
-            AudioManager.Instance.Fade(AudioManager.Instance.miniBossMusic);
-        else
-            AudioManager.Instance.Fade(AudioManager.Instance.commonBattleMusic);
+        AudioManager.Instance.PlayBattleMusic(monsterType);
 
         GameManager.Instance.GetBattleUI.SetActive(true);
         DeactivateFeedbackSelection(true, false);
@@ -542,6 +537,9 @@ public class BattleHandler {
                 currentBattleKeepers[i].GetComponent<Keeper>().IsSelected = true;
             }
         }
+
+        AudioManager.Instance.StopBattleMusic();
+
         ResetBattleHandler();
     }
 
@@ -815,6 +813,9 @@ public class BattleHandler {
 
         set
         {
+            if (isWaitingForSkillEnd == false && value == false)
+                return;
+
             isWaitingForSkillEnd = value;
 
             if (isWaitingForSkillEnd == false)

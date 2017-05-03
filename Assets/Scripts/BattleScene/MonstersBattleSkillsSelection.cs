@@ -36,11 +36,20 @@ public class MonstersBattleSkillsSelection  {
             if (BattleHandler.NbTurn % 5 == 1)
                 return skills[(int)DuckySkills.StrongCoin];
 
+            if (Random.Range(0, 10) > 2)
+                return skills[(int)DuckySkills.CoinCoin];
+            return skills[(int)DuckySkills.NormalCoin];
+        }
+        else if (mortal.CurrentHp < mortal.Data.MaxHp / 2.5f)
+        {
+            if (BattleHandler.NbTurn % 5 == 1)
+                return skills[(int)DuckySkills.StrongCoin];
+
             if (Random.Range(0, 10) > 6)
                 return skills[(int)DuckySkills.CoinCoin];
             return skills[(int)DuckySkills.NormalCoin];
         }
-        else if (mortal.CurrentHp < mortal.Data.MaxHp / 2.0f)
+        else if (mortal.CurrentHp < mortal.Data.MaxHp / 1.25f)
         {
             if (BattleHandler.NbTurn % 5 == 1)
                 return skills[(int)DuckySkills.StrongCoin];

@@ -11,7 +11,7 @@ namespace Behaviour
         // Balance variables
         private int effectiveAttackValue = 5;
         private int effectiveDefenseValue = 5;
-        private int stockMaxValue = 20;
+        private int stockMaxValue = 10;
 
         PawnInstance instance;
         private InteractionImplementer battleInteractions;
@@ -404,7 +404,7 @@ namespace Behaviour
                 if (hasClickedOnAttack == true)
                 {
                     GameManager.Instance.Ui.mouseFollower.SetActive(true);
-                    GameManager.Instance.Ui.mouseFollower.GetComponent<MouseFollower>().ExpectedTarget(TargetType.Foe);
+                    GameManager.Instance.Ui.mouseFollower.GetComponent<MouseFollower>().ExpectedTarget(TargetType.FoeSingle);
                     BattleHandler.ActivateFeedbackSelection(false, true);
                 }
             }
@@ -527,7 +527,7 @@ namespace Behaviour
     }
 }
 
-public enum TargetType { Friend, Foe}
+public enum TargetType { FriendSingle, FoeSingle, FriendAll, FoeAll, Self }
 
 /*
  * Contains definition of battle skills 
@@ -684,6 +684,15 @@ public class SkillBattle {
             GameObject skillNameUI = GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().SkillName;
             skillNameUI.transform.GetComponentInChildren<Text>().text = skillName;
             skillNameUI.SetActive(true);
+            if (targetType == TargetType.FoeAll)
+            {
+                for (int i = 0; i < BattleHandler.CurrentBattleMonsters.Length; i++)
+                {
+                    BattleHandler.CurrentBattleMonsters[i].GetComponent<Fighter>().IsWaitingForDmgFeedback = true;
+                    BattleHandler.CurrentBattleMonsters[i].GetComponent<Fighter>().IsWaitingForSkillPanelToClose = true;
+                    BattleHandler.CurrentBattleMonsters[i].GetComponent<Fighter>().PendingDamage = damage;
+                }
+            }
             _target.GetComponent<Fighter>().IsWaitingForDmgFeedback = true;
             _target.GetComponent<Fighter>().IsWaitingForSkillPanelToClose = true;
             _target.GetComponent<Fighter>().PendingDamage = damage;

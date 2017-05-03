@@ -38,6 +38,7 @@ public class AudioManager : MonoBehaviour {
 
     public AudioClip epicFightMusic;
 
+    private AudioClip previousMusic;
 
     [SerializeField]
     private float volumeMusic = 0.5f;
@@ -112,9 +113,29 @@ public class AudioManager : MonoBehaviour {
         }
 
     }
-	
-	// Update is called once per frame
-	void Update ()
+
+    public void PlayBattleMusic(Behaviour.MonsterType monsterType)
+    {
+        previousMusic = sourceMusic.clip;
+        if (monsterType == Behaviour.MonsterType.Epic)
+        {
+            sourceMusic.clip = epicFightMusic;
+        }
+        else if (monsterType == Behaviour.MonsterType.Miniboss)
+            sourceMusic.clip = miniBossMusic;
+        else
+            sourceMusic.clip = commonBattleMusic;
+
+        sourceMusic.Play();
+    }
+
+    public void StopBattleMusic()
+    {
+        Fade(previousMusic);
+    }
+
+    // Update is called once per frame
+    void Update ()
     {
 	    if(isFading)
         {
