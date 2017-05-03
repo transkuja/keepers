@@ -105,6 +105,8 @@ public class GameManager : MonoBehaviour
             }
 
             listEventSelected.Add("1");
+
+            listEventSelected.Add("2");
         }
         DontDestroyOnLoad(gameObject);
 

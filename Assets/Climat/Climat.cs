@@ -33,10 +33,12 @@ public class Climat : MonoBehaviour {
                     case TypeClimat.None:
                         break;
                     case TypeClimat.Snow:
-                        refSnowParticleSystem.SetActive(true);
+                        if(refSnowParticleSystem!= null)
+                            refSnowParticleSystem.SetActive(true);
                         break;
                     case TypeClimat.Butterfly:
-                        refButterflyParticleSystem.SetActive(true);
+                        if (refButterflyParticleSystem != null)
+                            refButterflyParticleSystem.SetActive(true);
                         break;
                 }
             }
@@ -45,7 +47,9 @@ public class Climat : MonoBehaviour {
 
     public void ResetAllParticleSystem()
     {
-        refSnowParticleSystem.SetActive(false);
-        refButterflyParticleSystem.SetActive(false);
+        if (refSnowParticleSystem != null)
+            refSnowParticleSystem.SetActive(false);
+        if (refButterflyParticleSystem != null)
+            refButterflyParticleSystem.SetActive(false);
     }
 }
