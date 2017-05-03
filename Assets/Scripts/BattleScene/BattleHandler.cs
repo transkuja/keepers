@@ -275,7 +275,7 @@ public class BattleHandler {
         isKeepersTurn = !isKeepersTurn;
         if (isKeepersTurn)
         {
-            nbTurn++;
+            NbTurn++;
             hasDiceBeenThrown = false;
 
             // Initialization for keepers turn
@@ -350,6 +350,10 @@ public class BattleHandler {
     {
         if (isPrisonerOnTile)
         {
+            for (int i = 0; i < currentBattleKeepers.Length; i++)
+            {
+                // Gérer les aggro ici, Ashley a 50 d'aggro (50%) de base
+            }
             float determineTarget = Random.Range(0, 100);
             if (determineTarget < ((100.0f / (currentBattleKeepers.Length + 2)) * 2))
             {
@@ -890,6 +894,16 @@ public class BattleHandler {
         set
         {
             nbTurn = value;
+            for (int i = 0; i < currentBattleKeepers.Length; i++)
+            {
+                if (currentBattleKeepers[i].GetComponent<Mortal>().IsAlive)
+                    currentBattleKeepers[i].GetComponent<Fighter>().UpdateActiveBoeufs();
+            }
+            for (int i = 0; i < currentBattleMonsters.Length; i++)
+            {
+                if (currentBattleMonsters[i].GetComponent<Mortal>().IsAlive)
+                    currentBattleMonsters[i].GetComponent<Fighter>().UpdateActiveBoeufs();
+            }
         }
     }
 }

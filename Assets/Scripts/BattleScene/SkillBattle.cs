@@ -26,6 +26,8 @@ public class SkillBattle {
     private List<Face> cost = new List<Face>();
     [SerializeField]
     TargetType targetType;
+    [SerializeField]
+    BattleBoeuf[] boeufs;
 
     public int Damage
     {
@@ -167,18 +169,30 @@ public class SkillBattle {
         GameObject skillNameUI = GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().SkillName;
         skillNameUI.transform.GetComponentInChildren<Text>().text = skillName;
         skillNameUI.SetActive(true);
+
+        int effectiveDamage = damage;
+
+        foreach (BattleBoeuf boeuf in skillUser.EffectiveBoeufs)
+        {
+            if (boeuf.BoeufType == BoeufType.Damage)
+                effectiveDamage += boeuf.EffectValue;
+        }
+
         if (targetType == TargetType.FoeAll)
         {
             for (int i = 0; i < BattleHandler.CurrentBattleMonsters.Length; i++)
             {
-                BattleHandler.CurrentBattleMonsters[i].GetComponent<Fighter>().IsWaitingForDmgFeedback = true;
-                BattleHandler.CurrentBattleMonsters[i].GetComponent<Fighter>().IsWaitingForSkillPanelToClose = true;
-                BattleHandler.CurrentBattleMonsters[i].GetComponent<Fighter>().PendingDamage = damage;
+                Fighter curFighter = BattleHandler.CurrentBattleMonsters[i].GetComponent<Fighter>();
+                curFighter.IsWaitingForDmgFeedback = true;
+                curFighter.IsWaitingForSkillPanelToClose = true;
+                curFighter.PendingDamage = effectiveDamage;
+                curFighter.EffectiveBoeufs.AddRange(boeufs);
             }
         }
         _target.GetComponent<Fighter>().IsWaitingForDmgFeedback = true;
         _target.GetComponent<Fighter>().IsWaitingForSkillPanelToClose = true;
-        _target.GetComponent<Fighter>().PendingDamage = damage;
+        _target.GetComponent<Fighter>().PendingDamage = effectiveDamage;
+        _target.GetComponent<Fighter>().EffectiveBoeufs.AddRange(boeufs);
 
         BattleHandler.IsWaitingForSkillEnd = true;
     }

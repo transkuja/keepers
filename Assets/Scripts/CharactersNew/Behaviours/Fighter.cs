@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Behaviour;
+using System;
 
 namespace Behaviour
 {
@@ -62,6 +63,7 @@ namespace Behaviour
         float showFeedbackDmgTimer = 1.7f;
 
         SkillDecisionAlgo skillDecisionAlgo;
+        List<BattleBoeuf> effectiveBoeufs = new List<BattleBoeuf>();
 
         void Awake()
         {
@@ -195,6 +197,7 @@ namespace Behaviour
             Debug.Log("attackProcess lunched");
 
             int attackDamage = 0;
+
             for (int i = 0; i < lastThrowResult.Length; i++)
             {
                 // Apply attack calculation
@@ -218,7 +221,14 @@ namespace Behaviour
                 // max defense => 10% dmg taken
                 // 0 defense => 100% dmg taken
                 
-                int effectiveDamage = ComputeEffectiveDamage(_attackTarget, attackDamage);
+                int effectiveDamage = attackDamage;
+                foreach (BattleBoeuf boeuf in effectiveBoeufs)
+                {
+                    if (boeuf.BoeufType == BoeufType.Damage)
+                        effectiveDamage += boeuf.EffectValue;
+                }
+
+                effectiveDamage = ComputeEffectiveDamage(_attackTarget, effectiveDamage);
                 _attackTarget.GetComponent<Mortal>().CurrentHp -= effectiveDamage;
                 _attackTarget.GetComponent<PawnInstance>().AddFeedBackToQueue(-effectiveDamage);
             }
@@ -228,13 +238,6 @@ namespace Behaviour
 
             hasClickedOnAttack = false;
             HasPlayedThisTurn = true;
-        }
-
-        // Compute effective damage when hitting a monster
-        private int ComputeEffectiveDamage(Fighter _target, int _attackDmg)
-        {
-            return _attackDmg;
-            //return Mathf.Max((int)(_attackDmg / (Mathf.Sqrt(_target.GetComponent<Monster>().EffectiveDefense + 1))), (int)(_attackDmg / 10.0f));
         }
 
         public void OpenSkillPanel(int _i = 0)
@@ -485,11 +488,18 @@ namespace Behaviour
 
             set
             {
-                if (GetComponent<Keeper>() != null || GetComponent<Escortable>() != null)
-                    pendingDamage = value;
-                else
-                    pendingDamage = ComputeEffectiveDamage(this, value);
+                pendingDamage = ComputeEffectiveDamage(this, value);
             }
+        }
+
+        private int ComputeEffectiveDamage(Fighter _fighter, int value)
+        {
+            foreach (BattleBoeuf boeuf in _fighter.effectiveBoeufs)
+            {
+                if (boeuf.BoeufType == BoeufType.Defense)
+                    value -= boeuf.EffectValue;
+            }
+            return Mathf.Min(0, value);
         }
 
         public SkillDecisionAlgo SkillDecisionAlgo
@@ -505,11 +515,34 @@ namespace Behaviour
             }
         }
 
+        public List<BattleBoeuf> EffectiveBoeufs
+        {
+            get
+            {
+                return effectiveBoeufs;
+            }
+
+            set
+            {
+                effectiveBoeufs = value;
+            }
+        }
+
         #endregion
 
         public void UseSkill(PawnInstance _target)
         {
             skillDecisionAlgo.Invoke(this).UseSkill(_target);
+        }
+
+        public void UpdateActiveBoeufs()
+        {
+            foreach (BattleBoeuf boeuf in effectiveBoeufs)
+            {
+                boeuf.Duration--;
+                if (boeuf.Duration == 0)
+                    effectiveBoeufs.Remove(boeuf);
+            }
         }
 
         // TODO: externalize this in Monster
