@@ -220,10 +220,12 @@ public class SeqFirstMove : Sequence {
             if (feedbackPointer == null)
             {
                 feedbackPointer = Instantiate(TutoManager.s_instance.uiPointer, GameManager.Instance.Ui.transform.GetChild(0));
+                feedbackPointer.SetActive(false);
                 feedbackPointer.GetComponent<FlecheQuiBouge>().PointToPoint = actionPoints.transform.GetChild(2).position;
                 feedbackPointer.GetComponent<FlecheQuiBouge>().distanceOffset = 30.0f;
 
                 feedbackPointer.transform.localEulerAngles = new Vector3(0, 0, -80);
+                feedbackPointer.SetActive(true);
             }
 
             TutoManager.s_instance.EcrireMessage(str);
