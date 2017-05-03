@@ -418,6 +418,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public Transform OptionsScreen
+    {
+        get
+        {
+            return gameScreens.transform.GetChild(0).GetChild((int)IngameScreensEnum.OptionsMenu);
+        }
+    }
+
     public void OpenSelectBattleCharactersScreen(Tile tile)
     {
         Transform screen = SelectBattleCharactersScreen;

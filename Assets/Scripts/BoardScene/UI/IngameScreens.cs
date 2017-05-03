@@ -89,6 +89,7 @@ public enum IngameScreensEnum
     WinScreen,
     LoseScreen,
     EscapeMenu,
+    OptionsMenu,
     MainQuestPanel,
     QuestReminderButton
 }

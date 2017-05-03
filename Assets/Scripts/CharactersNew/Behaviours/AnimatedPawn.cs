@@ -48,6 +48,8 @@ namespace Behaviour
         float timerResetAgentDestinationDefault = 2.0f;
         bool doesAgentNeedReset = false;
 
+        bool isCameraUpdated = false;
+
         void Awake()
         {
             instance = GetComponent<PawnInstance>();
@@ -93,9 +95,14 @@ namespace Behaviour
                 if (lerpMoveParam >= 1.0f)
                 {
                     IsMovingBetweenTiles = false;
-                    if (GameManager.Instance.CameraManagerReference.state == CameraManager.CameraState.Close)
-                        GameManager.Instance.CameraManagerReference.UpdateCameraPositionWithOffset(instance.CurrentTile.transform.position, instance.CurrentTile, (Direction)whereMove);
-    
+                }
+
+                if (lerpMoveParam >= 0.25f && !isCameraUpdated)
+                {
+                    Debug.Log(GameManager.Instance.CameraManagerReference.IsFollowingKeeper);
+                    if (GameManager.Instance.CameraManagerReference.IsFollowingKeeper)
+                        GameManager.Instance.UpdateCameraPosition(instance);
+                    isCameraUpdated = true;
                 }
 
                 transform.position = Vector3.Lerp(lerpStartPosition, lerpEndPosition, Mathf.Clamp(lerpMoveParam, 0, 1));
@@ -259,29 +266,18 @@ namespace Behaviour
         #region Accessors
 
         public bool IsMovingBetweenTiles
-
         {
-
             get
-
             {
-
                 return isMovingBetweenTiles;
-
             }
-
-
 
             set
-
             {
-
                 isMovingBetweenTiles = value;
-
                 agent.enabled = !isMovingBetweenTiles;
-
+                isCameraUpdated = !value;
             }
-
         }
 
 

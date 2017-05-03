@@ -64,7 +64,7 @@ public class CameraManager : MonoBehaviour {
 
 
     // Camera behaviour
-    bool isFollowingKeeper = false;
+    bool isFollowingKeeper = true;
 
     // *********************************
     enum CameraBound
@@ -132,6 +132,7 @@ public class CameraManager : MonoBehaviour {
         set
         {
             isFollowingKeeper = value;
+            GameManager.Instance.OptionsScreen.GetComponent<PanelOptionsReference>().FollowingCharacterToggleButton.isOn = value;
         }
     }
     #endregion
@@ -161,7 +162,6 @@ public class CameraManager : MonoBehaviour {
         isUpdateNeeded = true;
         isFirstCallToUpdatePosition = false;
         hasMainQuestBeenShown = false;
-        isFollowingKeeper = false;
 
         GameManager.Instance.RegisterCameraManager(this);
     }
