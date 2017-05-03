@@ -32,6 +32,17 @@ public class VolePetitPapillon : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        if (GameManager.Instance.CurrentState == GameState.InBattle)
+        {
+            if (GetComponent<MeshRenderer>().enabled)
+                GetComponent<MeshRenderer>().enabled = false;
+        }
+        else
+        {
+            if (!GetComponent<MeshRenderer>().enabled)
+                GetComponent<MeshRenderer>().enabled = true;
+        }
+
         i += Time.deltaTime;
 
         if (i > 50.0f)
