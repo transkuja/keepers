@@ -9,7 +9,7 @@ public class EventDataBase
 
     public class Event
     {
-        public int id;
+        public string id;
         public string name;
         public string description;
         public string cardModelName;
@@ -41,7 +41,7 @@ public class EventDataBase
                 {
                     // ROOT DATA
                     case "id":
-                        newEvent.id = (int)levelEntry.Value.Number;
+                        newEvent.id = levelEntry.Value.Str;
                         break;
                     case "name":
                         newEvent.name = levelEntry.Value.Str;
@@ -58,7 +58,7 @@ public class EventDataBase
         }
     }
 
-    public Event GetEventById(int id)
+    public Event GetEventById(string id)
     {
         return listEvents.Find(x => x.id == id);
     }

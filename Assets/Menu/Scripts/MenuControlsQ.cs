@@ -10,6 +10,7 @@ public class MenuControlsQ : MonoBehaviour {
 
     public Transform trLevelCardTarget;
     public Transform trQuestDeckTarget;
+    public Opener EventCardSelectedOpener;
 
     public GameObject prefabLevelCardSelected;
     public GameObject prefabDeckSelected;
@@ -31,7 +32,8 @@ public class MenuControlsQ : MonoBehaviour {
         menuManager = GetComponent<MenuManagerQ>();
         menuUI = GetComponent<MenuUIQ>();
 
-
+        EventCardSelectedOpener.GetComponent<MeshRenderer>().enabled = false;
+        EventCardSelectedOpener.GetComponent<MeshCollider>().enabled = false;
     }
 
     // Update is called once per frame
@@ -45,6 +47,7 @@ public class MenuControlsQ : MonoBehaviour {
             LevelSelectionControls();
             KeeperSelectionControls();
             RuleBookControls();
+            EventCardsSelectionControls();
         }
 
         BoxControls();
@@ -86,7 +89,6 @@ public class MenuControlsQ : MonoBehaviour {
         if (Input.GetMouseButtonDown(0))
         {
             RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             LayerMask DeckOfCardsLayerMask = 1 << LayerMask.NameToLayer("DeckOfCards");
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, DeckOfCardsLayerMask) == true)
             {
@@ -137,8 +139,6 @@ public class MenuControlsQ : MonoBehaviour {
         if (Input.GetMouseButtonDown(0))
         {
             RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
             LayerMask cardLevelLayerMask = 1 << LayerMask.NameToLayer("CardLevel");
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, cardLevelLayerMask) == true)
             {
@@ -188,13 +188,32 @@ public class MenuControlsQ : MonoBehaviour {
         }
     }
 
+    public void EventCardsSelectionControls()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            LayerMask mask = 1 << LayerMask.NameToLayer("EventCard");
+            RaycastHit hit;
+            Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, mask);
+            if(hit.transform != null)
+            {
+                if (!FindEventCard(hit.transform.gameObject.name))
+                {
+                    AddEventCardToSelection(hit.transform.gameObject);
+                }
+                else
+                {
+                    RemoveEventCardFromSelection(hit.transform.gameObject);
+                }
+            }
+        }
+    }
+
     public void KeeperSelectionControls()
     {
         if (Input.GetMouseButtonDown(0))
         {
             RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
             LayerMask keeperLayerMask = 1 << LayerMask.NameToLayer("KeeperInstance"); ;
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, keeperLayerMask) == true)
             {
@@ -225,8 +244,6 @@ public class MenuControlsQ : MonoBehaviour {
         if (Input.GetMouseButtonDown(0))
         {
             RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
             LayerMask ruleBookLayer = 1 << LayerMask.NameToLayer("RuleBook"); ;
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, ruleBookLayer) == true)
             {
@@ -263,5 +280,48 @@ public class MenuControlsQ : MonoBehaviour {
             AudioManager.Instance.Fade(toPlay);
         }
         SceneManager.LoadScene(menuManager.CardLevelSelected);
+    }
+
+    void AddEventCardToSelection(GameObject goCard)
+    {
+        if (EventCardSelectedOpener.listChilds.Count == 0)
+        {
+            EventCardSelectedOpener.GetComponent<MeshRenderer>().enabled = true;
+            EventCardSelectedOpener.GetComponent<MeshCollider>().enabled = true;
+        }
+
+        GameObject newCard = Instantiate(goCard, EventCardSelectedOpener.transform);
+        newCard.transform.localPosition = Vector3.zero;
+
+        newCard.name = goCard.name;
+
+        EventCardSelectedOpener.LoadChilds();
+        EventCardSelectedOpener.ComputeContentPositions();
+        EventCardSelectedOpener.Fold(true);
+
+        GameManager.Instance.ListEventSelected.Add(goCard.name);
+    }
+
+    void RemoveEventCardFromSelection(GameObject goCard)
+    {
+        GameManager.Instance.ListEventSelected.Remove(goCard.name);
+
+        if (EventCardSelectedOpener.listChilds.Count == 0)
+        {
+            EventCardSelectedOpener.GetComponent<MeshRenderer>().enabled = false;
+            EventCardSelectedOpener.GetComponent<MeshCollider>().enabled = false;
+        }
+    }
+
+    bool FindEventCard(string id)
+    {
+        for(int i=0; i < GameManager.Instance.ListEventSelected.Count; i++)
+        {
+            if(string.Compare(GameManager.Instance.ListEventSelected[i],id) == 0)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

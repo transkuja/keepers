@@ -57,7 +57,7 @@ public class Opener : MonoBehaviour {
         }
     }
 
-    void LoadChilds()
+    public void LoadChilds()
     {
         listChilds = new List<OpenerContent>();
 
@@ -70,12 +70,18 @@ public class Opener : MonoBehaviour {
         }
     }
 
-    void ComputeContentPositions()
+    public void ComputeContentPositions()
     {
-        Vector3 size = GetComponentInChildren<MeshRenderer>().bounds.size;
+        Vector3 size = Vector3.zero;
+        if (listChilds.Count > 0)
+        {
+            size = GetComponentInChildren<MeshRenderer>().bounds.size;
+        }
 
         for(int i = 0; i< listChilds.Count; i++)
         {
+            listChilds[i].listKeyPose.Clear();
+
             listChilds[i].AddKeyPose(Vector3.zero, Quaternion.identity);
 
             float fOrigin = (listChilds.Count % 2 == 1) ? -((listChilds.Count / 2) * (size.x + fOffsetX)) : -((listChilds.Count / 2) * (size.x / 2.0f + fOffsetX / 2.0f));
@@ -176,23 +182,23 @@ public class Opener : MonoBehaviour {
     #endregion
 
 
-    void Unfold() // Depliage du contenu
+    public void Unfold(bool force = false) // Depliage du contenu
     {
         for (int i = 0; i < listChilds.Count; i++)
         {
-            listChilds[i].Show();
+            listChilds[i].Show(force);
         }
         bOpened = true;
     }
 
-    void Fold() // Rangement du contenu
+    public void Fold(bool force = false) // Rangement du contenu
     {
-        for (int i = 0; bOpened && i < listChilds.Count; i++)
+        for (int i = 0; (bOpened || force) && i < listChilds.Count; i++)
         {
-            listChilds[i].Hide();
+            listChilds[i].Hide(force);
             if (!bIsLast)
             {
-                listChilds[i].GetComponent<Opener>().Fold();
+                listChilds[i].GetComponent<Opener>().Fold(force);
             }
         }
     }

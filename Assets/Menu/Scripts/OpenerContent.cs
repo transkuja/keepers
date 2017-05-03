@@ -139,11 +139,15 @@ public class OpenerContent : MonoBehaviour {
 
     public void Hide(bool force = false)
     {
-        if(!bIsMoving || force)
+        if (force && rd != null)
         {
-            iKeyPoseTarget = listKeyPose.Count - 2;
+            rd.enabled = true;
+        }
+        if (!bIsMoving || force)
+        {
+            iKeyPoseTarget = (listKeyPose.Count - 2) >= 0 ? listKeyPose.Count - 2 : 0;
             iWay = -1;
-            bIsMoving = true;
+            bIsMoving = true; 
             if (col != null)
             {
                 col.enabled = false;

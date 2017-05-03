@@ -12,6 +12,8 @@ public class MenuUIQ: MonoBehaviour {
     [SerializeField]
     Sprite[] levelImg;
 
+    [SerializeField] GameObject prefabChatox;
+
     void Start()
     {
         menuManager = GetComponent<MenuManagerQ>();
