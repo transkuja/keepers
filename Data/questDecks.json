@@ -1,8 +1,7 @@
 { 
   "QuestDecks": [   
     { 
-      "id": "deck_01", 
-	  "level" : "level1",
+      "id": "deck_01",
       "name" : "tuto", 
       "deckModelName" : "Asset_Deck_Levels", 
       "main" : "main_quest_01", 

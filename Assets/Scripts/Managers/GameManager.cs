@@ -48,6 +48,7 @@ public class GameManager : MonoBehaviour
     private QuestDeckDatabase questDeckDataBase = new QuestDeckDatabase();
 
     private EventDataBase eventDataBase = new EventDataBase();
+    private PersistenceLoader persistenceLoader = new PersistenceLoader();
 
     private QuestsContainer questsContainer = new QuestsContainer();
     private QuestSourceContainer questSources;
@@ -163,6 +164,7 @@ public class GameManager : MonoBehaviour
         currentState = GameState.Normal;
         ui.gameObject.SetActive(false);
         ui.ResetIngameUI();
+        persistenceLoader.Load();
     }
 
 
@@ -758,6 +760,19 @@ public class GameManager : MonoBehaviour
         set
         {
             deckSelected = value;
+        }
+    }
+
+    public PersistenceLoader PersistenceLoader
+    {
+        get
+        {
+            return persistenceLoader;
+        }
+
+        set
+        {
+            persistenceLoader = value;
         }
     }
 
