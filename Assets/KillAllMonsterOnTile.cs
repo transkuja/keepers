@@ -10,15 +10,22 @@ public class KillAllMonsterOnTile : MonoBehaviour {
 
     public void OnEnable()
     {
+        // FIx this shit @Rémi
+        Invoke("KillAllMonster", 2.0f);
+
+        Invoke("SetActiveFalse", 10.0f);
+    }
+
+    public void KillAllMonster()
+    {
         if (listMonstertoKill.Count > 0)
         {
-            foreach(Monster monster in listMonstertoKill)
+            foreach (Monster monster in listMonstertoKill)
             {
                 monster.GetComponent<Mortal>().Die();
             }
         }
 
-        Invoke("SetActiveFalse", 10.0f);
     }
 
     public void SetActiveFalse()
