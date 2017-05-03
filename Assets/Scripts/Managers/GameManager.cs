@@ -856,54 +856,29 @@ public class GameManager : MonoBehaviour
 
     private void SwitchToPauseStateProcess()
     {
-
         // Pause keepers
-
         foreach (PawnInstance pi in allKeepersList)
-
         {
-
             NavMeshAgent currentAgent = pi.GetComponent<NavMeshAgent>();
-
             if (currentAgent != null && currentAgent.isActiveAndEnabled)
-
             {
-
                 currentAgent.Stop();
-
                 pausedAgents.Add(currentAgent);
-
             }
-
         }
-
-
 
         // Pause NPCs
-
         // If needed, we should register all PNJ on tiles in TileManager so we can handle AI behaviours when the game paused
-
         // For now we'll only deal with the prisoner
-
         if (prisonerInstance != null)
-
         {
-
             NavMeshAgent prisonerAgent = prisonerInstance.GetComponent<NavMeshAgent>();
-
             if (prisonerAgent != null && prisonerAgent.isActiveAndEnabled)
-
             {
-
                 prisonerAgent.Stop();
-
                 pausedAgents.Add(prisonerAgent);
-
             }
-
         }
-
-
 
         // Pause monsters
         foreach (Tile tile in tileManagerReference.MonstersOnTile.Keys)

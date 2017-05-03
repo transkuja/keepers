@@ -81,8 +81,8 @@ public class AnimationButtonClick : MonoBehaviour {
         GameManager.Instance.Ui.isTurnEnding = false;
         EventManager.EndTurnEvent();
         GetComponent<Animator>().enabled = false;
-        GameManager.Instance.CurrentState = GameState.Normal;
-
+        if (GameManager.Instance.CurrentState != GameState.InTuto)
+            GameManager.Instance.CurrentState = GameState.Normal;
     }
 
 }
