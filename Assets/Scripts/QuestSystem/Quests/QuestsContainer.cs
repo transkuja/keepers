@@ -22,6 +22,7 @@ public class QuestsContainer {
 
     public void Init()
     {
+        // Level 1
         quests = new List<Quest>();
 
         List<IQuestObjective> mainObjectives = new List<IQuestObjective>();

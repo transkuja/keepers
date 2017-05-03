@@ -81,7 +81,24 @@ public class CharactersInitializer : MonoBehaviour {
 
         InitCharacterUI(prisoner.GetComponent<PawnInstance>());
         GameManager.Instance.PrisonerInstance = prisoner.GetComponent<PawnInstance>();
-        GameManager.Instance.QuestSources.GetComponent<QuestInitializer>().InitializeQuests();
+        switch(GameManager.Instance.QuestManager.CurrentQuestDeck.LevelId)
+        {
+            case "level1":
+                GameManager.Instance.QuestSources.GetComponent<QuestInitializer_Level1>().InitializeQuests();
+                break;
+            case "level2":
+                GameManager.Instance.QuestSources.GetComponent<QuestInitializer_Level2>().InitializeQuests();
+                break;
+            case "level3":
+                GameManager.Instance.QuestSources.GetComponent<QuestInitializer_Level3>().InitializeQuests();
+                break;
+            case "level4":
+                GameManager.Instance.QuestSources.GetComponent<QuestInitializer_Level4>().InitializeQuests();
+                break;
+            default:
+                break;
+        }
+        //GameManager.Instance.QuestSources.GetComponent<QuestInitializer>().InitializeQuests();
         GameManager.Instance.QuestManager.MainQuest.OnQuestComplete += EndGameQuest;
     }
 

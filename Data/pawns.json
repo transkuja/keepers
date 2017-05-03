@@ -157,6 +157,19 @@
 			"QuestDealer" : 
 			{}
 			
+		},
+		{
+			"id": "pnj_02",
+			"name" : "Pipou",
+			"sprite" : "Pawn_mini_icon/Heal_mini_icon",
+			"canSpeak" : "true",
+			
+			"Inventory" : {
+				"nbSlot" : 6
+			},
+			"QuestDealer" : 
+			{}
+			
 		}
 		
 	]

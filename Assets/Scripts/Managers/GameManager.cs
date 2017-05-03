@@ -1019,7 +1019,7 @@ public class GameManager : MonoBehaviour
         }
 
         // Mask tile portals
-        Transform tilePortals = ActiveTile.transform.GetChild(0).GetChild((int)TilePrefabChildren.PortalTriggers);
+        Transform tilePortals = currentFighters[0].CurrentTile.transform.GetChild(0).GetChild((int)TilePrefabChildren.PortalTriggers);
         for (int i = 0; i < tilePortals.childCount; i++)
         {
             if (tilePortals.GetChild(i).gameObject.activeInHierarchy)

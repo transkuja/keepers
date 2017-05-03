@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using QuestSystem;
 
-public class QuestInitializer : MonoBehaviour {
+public class QuestInitializer_Level3 : MonoBehaviour {
     // Here will be all the functions or things we need to do specific to a certain quest (activating a tile ...)
     [Header("Quest 1")]
     [SerializeField]

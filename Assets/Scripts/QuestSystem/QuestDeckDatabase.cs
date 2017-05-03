@@ -80,6 +80,9 @@ namespace QuestDeckLoader
                             newQuestDeckDataContainer.nameQuestDeck = deckQuestEntry.Value.Str;
                             newDeck.DeckName = deckQuestEntry.Value.Str;
                             break;
+                        case "level":
+                            newDeck.LevelId = deckQuestEntry.Value.Str;
+                            break;
                         case "deckModelName":
                             // if null -> didn't the corresponding material
                             newQuestDeckDataContainer.deckModelName = deckQuestEntry.Value.Str;
