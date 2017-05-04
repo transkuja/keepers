@@ -499,7 +499,7 @@ namespace Behaviour
                 if (boeuf.BoeufType == BoeufType.Defense)
                     value -= boeuf.EffectValue;
             }
-            return Mathf.Min(0, value);
+            return Mathf.Max(0, value);
         }
 
         public SkillDecisionAlgo SkillDecisionAlgo
@@ -540,8 +540,12 @@ namespace Behaviour
             foreach (BattleBoeuf boeuf in effectiveBoeufs)
             {
                 boeuf.Duration--;
+                Debug.Log(boeuf.Duration);
                 if (boeuf.Duration == 0)
+                {
+                    Debug.Log("??");
                     effectiveBoeufs.Remove(boeuf);
+                }
             }
         }
 

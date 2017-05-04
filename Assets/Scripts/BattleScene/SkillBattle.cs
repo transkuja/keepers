@@ -26,6 +26,7 @@ public class SkillBattle {
     private List<Face> cost = new List<Face>();
     [SerializeField]
     TargetType targetType;
+
     [SerializeField]
     BattleBoeuf[] boeufs;
 
@@ -178,21 +179,44 @@ public class SkillBattle {
                 effectiveDamage += boeuf.EffectValue;
         }
 
+        Fighter curTargetFighter;
         if (targetType == TargetType.FoeAll)
         {
             for (int i = 0; i < BattleHandler.CurrentBattleMonsters.Length; i++)
             {
-                Fighter curFighter = BattleHandler.CurrentBattleMonsters[i].GetComponent<Fighter>();
-                curFighter.IsWaitingForDmgFeedback = true;
-                curFighter.IsWaitingForSkillPanelToClose = true;
-                curFighter.PendingDamage = effectiveDamage;
-                curFighter.EffectiveBoeufs.AddRange(boeufs);
+                curTargetFighter = BattleHandler.CurrentBattleMonsters[i].GetComponent<Fighter>();
+                int curEffDmg = effectiveDamage;
+
+                foreach (BattleBoeuf boeuf in curTargetFighter.EffectiveBoeufs)
+                {
+                    if (boeuf.BoeufType == BoeufType.Defense)
+                        curEffDmg -= boeuf.EffectValue;
+                }
+
+                curTargetFighter.IsWaitingForDmgFeedback = true;
+                curTargetFighter.IsWaitingForSkillPanelToClose = true;
+                curTargetFighter.PendingDamage = curEffDmg;
+                if (boeufs != null)
+                    curTargetFighter.EffectiveBoeufs.AddRange(boeufs);
             }
         }
-        _target.GetComponent<Fighter>().IsWaitingForDmgFeedback = true;
-        _target.GetComponent<Fighter>().IsWaitingForSkillPanelToClose = true;
-        _target.GetComponent<Fighter>().PendingDamage = effectiveDamage;
-        _target.GetComponent<Fighter>().EffectiveBoeufs.AddRange(boeufs);
+
+        curTargetFighter = _target.GetComponent<Fighter>();
+        curTargetFighter.IsWaitingForDmgFeedback = true;
+        curTargetFighter.IsWaitingForSkillPanelToClose = true;
+
+        List<BattleBoeuf> effBoeufs = curTargetFighter.EffectiveBoeufs;
+
+        foreach (BattleBoeuf boeuf in effBoeufs)
+        {
+            if (boeuf.BoeufType == BoeufType.Defense)
+                effectiveDamage -= boeuf.EffectValue;
+        }
+
+        curTargetFighter.PendingDamage = effectiveDamage;
+
+        if (boeufs != null)
+            effBoeufs.AddRange(boeufs);
 
         BattleHandler.IsWaitingForSkillEnd = true;
     }
