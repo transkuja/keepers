@@ -80,8 +80,17 @@ namespace Behaviour
                 // Remove reference from tiles
                 if (keeper != null)
                 {
+                    if (TileManager.Instance.KeepersOnTile.ContainsKey(keeper.GetComponent<PawnInstance>().CurrentTile))
+                    {
+                        foreach (PawnInstance k in TileManager.Instance.KeepersOnTile[keeper.GetComponent<PawnInstance>().CurrentTile])
+                        {
+                            k.GetComponent<MentalHealthHandler>().CurrentMentalHealth -= 30;
+                        }
+                    }
+
                     TileManager.Instance.RemoveKilledKeeper(pawnInstance);
                     GameManager.Instance.ClearListKeeperSelected();
+
                     keeper.IsSelected = false;
                     // Drop items
                     if (!GetComponent<Inventory>().IsEmpty())
@@ -117,12 +126,7 @@ namespace Behaviour
 
                 }
 
-                if (TileManager.Instance.KeepersOnTile.ContainsKey(keeper.GetComponent<PawnInstance>().CurrentTile)) {
-                    foreach (PawnInstance k in TileManager.Instance.KeepersOnTile[keeper.GetComponent<PawnInstance>().CurrentTile])
-                    {
-                        k.GetComponent<MentalHealthHandler>().CurrentMentalHealth -= 30;
-                    }
-                }
+     
               
             }
             else if (GetComponent<Prisoner>() != null)
