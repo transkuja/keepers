@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum TypeClimat { None, Snow, Butterfly }
+public enum TypeClimat { None, Snow, Butterfly, HeatDistorsion }
 
 public class Climat : MonoBehaviour {
 
@@ -14,6 +14,9 @@ public class Climat : MonoBehaviour {
 
     [SerializeField]
     private GameObject refButterflyParticleSystem;
+
+    [SerializeField]
+    private GameObject refHeatDistorsionParticleSystem;
 
     public TypeClimat TypeClimat
     {
@@ -40,6 +43,10 @@ public class Climat : MonoBehaviour {
                         if (refButterflyParticleSystem != null)
                             refButterflyParticleSystem.SetActive(true);
                         break;
+                    case TypeClimat.HeatDistorsion:
+                        if (refHeatDistorsionParticleSystem != null)
+                            refHeatDistorsionParticleSystem.SetActive(true);
+                        break;
                 }
             }
         }
@@ -51,5 +58,7 @@ public class Climat : MonoBehaviour {
             refSnowParticleSystem.SetActive(false);
         if (refButterflyParticleSystem != null)
             refButterflyParticleSystem.SetActive(false);
+        if (refHeatDistorsionParticleSystem != null)
+            refHeatDistorsionParticleSystem.SetActive(false);
     }
 }

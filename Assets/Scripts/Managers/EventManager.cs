@@ -104,12 +104,14 @@ public class EventManager : MonoBehaviour {
 
     public static void HandleWeather()
     {
+        int nbDayInWeek = 7;
+        int nbDayInMonth = 20;
         Tile[] tiles = TileManager.Instance.Tiles.GetComponentsInChildren<Tile>();
         if (GameManager.Instance.ListEventSelected.Count > 0)
         {
-            // id event 1
+            // Snow events
             if (GameManager.Instance.ListEventSelected.Contains("1")){
-                if (GameManager.Instance.NbTurn >= 2 && GameManager.Instance.NbTurn <= 4)
+                if (GameManager.Instance.NbTurn % nbDayInMonth < 5 || GameManager.Instance.NbTurn % nbDayInMonth > nbDayInMonth -5)
                 {
                     foreach (Tile tile in tiles)
                     {
@@ -129,7 +131,7 @@ public class EventManager : MonoBehaviour {
                         }
                     }
                 }
-                else if (GameManager.Instance.NbTurn > 5)
+                else
                 {
                     foreach (Tile tile in tiles)
                     {
@@ -147,9 +149,10 @@ public class EventManager : MonoBehaviour {
                 }
             }
 
+            // HButterfly events
             if (GameManager.Instance.ListEventSelected.Contains("2"))
             {
-                if (GameManager.Instance.NbTurn >= 1 && GameManager.Instance.NbTurn <= 3)
+                if (GameManager.Instance.NbTurn % nbDayInWeek == 5 || GameManager.Instance.NbTurn % nbDayInWeek == 6)
                 {
                     foreach (Tile tile in tiles)
                     {
@@ -169,7 +172,7 @@ public class EventManager : MonoBehaviour {
                         }
                     }
                 }
-                else if (GameManager.Instance.NbTurn > 4)
+                else
                 {
                     foreach (Tile tile in tiles)
                     {
@@ -183,6 +186,28 @@ public class EventManager : MonoBehaviour {
                         {
                             climat.TypeClimat = TypeClimat.None;
                         }
+                    }
+                }
+            }
+
+            // HEat distorsion
+            if (GameManager.Instance.ListEventSelected.Contains("3"))
+            {
+                foreach (Tile tile in tiles)
+                {
+                    if (tile.Type == TileType.Desert && tile.State == TileState.Discovered)
+                    {
+                        if (tile.gameObject.GetComponentInChildren<Climat>() == null)
+                        {
+                            Debug.Log(tile.name + "n'a pas de climat en enfant");
+                            return;
+                        }
+                        Climat climat = tile.gameObject.GetComponentInChildren<Climat>();
+                        if (climat != null)
+                        {
+                            climat.TypeClimat = TypeClimat.Butterfly;
+                        }
+
                     }
                 }
             }
