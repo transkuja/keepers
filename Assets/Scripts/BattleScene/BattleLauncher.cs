@@ -7,7 +7,7 @@ public class BattleLauncher : MonoBehaviour {
     {
         if (GameManager.Instance.CurrentState == GameState.Normal)
         {
-            if (other.gameObject.GetComponentInParent<Monster>() != null && other.gameObject.GetComponent<AggroBehaviour>() == null)
+            if (other.gameObject.GetComponentInParent<Monster>() != null && other.gameObject.GetComponent<AggroBehaviour>() == null && other.gameObject.GetComponentInParent<Monster>().BattleOnCollision)
             {
                 if (GetComponentInParent<Fighter>() != null && GetComponentInParent<Fighter>().IsTargetableByMonster == true)
                 {

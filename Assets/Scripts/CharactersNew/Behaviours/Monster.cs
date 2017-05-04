@@ -10,7 +10,8 @@ namespace Behaviour
         PawnInstance instance;
         [SerializeField]
         string monsterTypeID;
-
+        [SerializeField]
+        bool battleOnCollision = true;
         private NavMeshAgent agent;
         private float moveTimer = 0.0f;
         private bool isAnimInitialized = false;
@@ -153,6 +154,19 @@ namespace Behaviour
             set
             {
                 monsterType = value;
+            }
+        }
+
+        public bool BattleOnCollision
+        {
+            get
+            {
+                return battleOnCollision;
+            }
+
+            set
+            {
+                battleOnCollision = value;
             }
         }
 

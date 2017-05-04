@@ -24,6 +24,7 @@ public class TileManager : MonoBehaviour {
 
     Dictionary<Tile, List<PawnInstance>> monstersOnTile = new Dictionary<Tile, List<PawnInstance>>();
     Dictionary<Tile, List<PawnInstance>> keepersOnTile = new Dictionary<Tile, List<PawnInstance>>();
+    Dictionary<Tile, List<PawnInstance>> escortablesOnTile = new Dictionary<Tile, List<PawnInstance>>();
     Dictionary<PawnInstance, Tile> getTileFromKeeper = new Dictionary<PawnInstance, Tile>();
 
     Tile prisonerTile;
@@ -84,7 +85,8 @@ public class TileManager : MonoBehaviour {
             if (goCurrentCharacter.GetComponent<Behaviour.Escortable>() != null)
             {
                 goCurrentCharacter.GetComponent<PawnInstance>().CurrentTile = destination;
-                goCurrentCharacter.GetComponent<Behaviour.AnimatedPawn>().StartBetweenTilesAnimation(spawnPoints[i + 1 % spawnPoints.Length].position);
+                goCurrentCharacter.GetComponent<Behaviour.AnimatedPawn>().StartBetweenTilesAnimation(spawnPoints[(i + 1) % spawnPoints.Length].position);
+                MoveEscortable(goCurrentCharacter.GetComponent<PawnInstance>(), from, direction);
             }
 
         }
@@ -94,6 +96,12 @@ public class TileManager : MonoBehaviour {
     {
         RemoveMonsterFromTile(from, monster);
         AddMonsterOnTile(from.Neighbors[(int)direction], monster);
+    }
+
+    public void MoveEscortable(PawnInstance escortable, Tile from, Direction direction)
+    {
+        RemoveEscortableFromTile(from, escortable);
+        AddEscortableOnTile(from.Neighbors[(int)direction], escortable);
     }
 
     public void RemoveDefeatedMonster(PawnInstance _deadMonster)
@@ -219,6 +227,7 @@ public class TileManager : MonoBehaviour {
             newList.Add(monster);
             MonstersOnTile.Add(tile, newList);
         }
+
         monster.CurrentTile = tile;
     }
 
@@ -242,6 +251,72 @@ public class TileManager : MonoBehaviour {
             MonstersOnTile.Add(tile, newList);
         }
         monster.CurrentTile = tile;
+    }
+
+    public void AddEscortableOnTile(Tile tile, PawnInstance escortable)
+    {
+        if (tile == null)
+        {
+            Debug.Log("Can't add escortable to tile, tile given is null");
+            return;
+        }
+
+        if (escortable.GetComponent<Behaviour.Escortable>() == null)
+        {
+            Debug.Log("Can't add escortable to tile, missing component Escortable.");
+            return;
+        }
+        if(escortable.GetComponent<Behaviour.Prisoner>() != null)
+        {
+            Debug.Log("Can't add an escortable with a Prisoner component.");
+            return;
+        }
+        if (escortablesOnTile.ContainsKey(tile))
+        {
+            escortablesOnTile[tile].Add(escortable);
+        }
+        else
+        {
+            List<PawnInstance> newList = new List<PawnInstance>();
+            newList.Add(escortable);
+            escortablesOnTile.Add(tile, newList);
+        }
+
+        escortable.CurrentTile = tile;
+    }
+
+    public void AddEscortableOnTile(PawnInstance escortable)
+    {
+        Tile tile = escortable.GetComponentInParent<Tile>();
+
+        if (escortable.GetComponent<Behaviour.Escortable>() == null)
+        {
+            Debug.Log("Can't add escortable to tile, missing component Escortable.");
+            return;
+        }
+        if (escortable.GetComponent<Behaviour.Prisoner>() != null)
+        {
+            Debug.Log("Can't add an escortable with a Prisoner component.");
+            return;
+        }
+
+        if(tile == null)
+        {
+            Debug.Log("Can't add escortable to tile, no Tile component found in parent.");
+            return;
+        }
+
+        if (escortablesOnTile.ContainsKey(tile))
+        {
+            escortablesOnTile[tile].Add(escortable);
+        }
+        else
+        {
+            List<PawnInstance> newList = new List<PawnInstance>();
+            newList.Add(escortable);
+            escortablesOnTile.Add(tile, newList);
+        }
+        escortable.CurrentTile = tile;
     }
 
     public void AddKeeperOnTile(Tile tile, PawnInstance keeper)
@@ -285,6 +360,19 @@ public class TileManager : MonoBehaviour {
             KeepersOnTile[tile].Remove(keeper);
         else
             Debug.Log("Could not add keeper because Keeper component missing.");
+    }
+
+    public void RemoveEscortableFromTile(Tile tile, PawnInstance escortable)
+    {
+        if(tile == null)
+        {
+            Debug.Log("Tile given is null");
+            return;
+        }
+        if (escortable.GetComponent<Behaviour.Escortable>() != null)
+            escortablesOnTile[tile].Remove(escortable);
+        else
+            Debug.Log("Could not add escortable because Escortable component missing.");
     }
 
     /// <summary>
@@ -370,6 +458,14 @@ public class TileManager : MonoBehaviour {
     }
 
     public Dictionary<Tile, List<PawnInstance>> KeepersOnTile
+    {
+        get
+        {
+            return keepersOnTile;
+        }
+    }
+
+    public Dictionary<Tile, List<PawnInstance>> EscortablesOnTile
     {
         get
         {

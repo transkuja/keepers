@@ -4,27 +4,31 @@ using UnityEngine;
 using QuestSystem;
 using System;
 
-public class PrisonerEscortObjective : IQuestObjective
-{
+public class MultipleEscortObjective : IQuestObjective {
     InitEvent onInit;
     private string title;
     private string description;
     private bool isComplete;
 
-    // We must give an ID to every Quest Objective class (static because it belongs to the class)
-    // So we can know what to call when loading the quest from JSON
+    // ---Not in use yet----
+    //  // We must give an ID to every Quest Objective class (static because it belongs to the class)
+    //  // So we can know what to call when loading the quest from JSON
     private static int id = 0;
+    // ---------------------
 
-    public GameObject prisoner;
+    public string escortablePawnID;
+    public int amountToBring;
+    public int amountBrought = 0;
     public Tile destination;
 
-    public PrisonerEscortObjective(string _title, string desc, GameObject _prisoner, Tile dest, bool complete = false)
+    public MultipleEscortObjective(string _title, string desc, string _escortablePawnID, int _amount, Tile _destination, bool complete = false)
     {
         title = _title;
         description = desc;
-        prisoner = _prisoner;
+        escortablePawnID = _escortablePawnID;
+        amountToBring = _amount;
+        destination = _destination;
         isComplete = complete;
-        destination = dest;
     }
 
     public string Title
@@ -74,7 +78,8 @@ public class PrisonerEscortObjective : IQuestObjective
 
     public void CheckProgress()
     {
-        if (prisoner.GetComponent<PawnInstance>().CurrentTile == destination)
+        UpdateProgress();
+        if (amountBrought >= amountToBring)
         {
             isComplete = true;
         }
@@ -86,7 +91,10 @@ public class PrisonerEscortObjective : IQuestObjective
 
     public void UpdateProgress()
     {
-        
+        Debug.Log(destination);
+        List<PawnInstance> pi = TileManager.Instance.EscortablesOnTile[destination].FindAll(x => x.Data.PawnId == escortablePawnID);
+        if(pi != null)
+            amountBrought = pi.Count;
     }
 
     public void Init()
@@ -97,8 +105,12 @@ public class PrisonerEscortObjective : IQuestObjective
         }
     }
 
+    public void Unregister()
+    {
+    }
+
     public IQuestObjective GetCopy()
     {
-        return new PrisonerEscortObjective(title, description, prisoner, destination, isComplete);
+        return new MultipleEscortObjective(title, description, escortablePawnID, amountToBring, destination);
     }
 }

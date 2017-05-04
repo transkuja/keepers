@@ -104,7 +104,6 @@ namespace Behaviour
                     GameManager.Instance.ListOfSelectedKeepers[0].GetComponent<Keeper>().ActionPoints -= (short)costAction;
                     if(GameManager.Instance.QuestManager.ActiveQuests.Contains(questToGive))
                     {
-                        
                         if(questToGive.CheckIfComplete())
                         {
                             //Si la quête a été complétée

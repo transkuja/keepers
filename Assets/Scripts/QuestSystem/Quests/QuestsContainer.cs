@@ -70,19 +70,21 @@ public class QuestsContainer {
                             mainObjectives));
 
 
+        objectives.Clear();
         objectives = new List<IQuestObjective>();
 
-        objectives.Add(new KillMonsterObjective("Bring Mommy duck her 3 little ducklings",
-                                                "",
-                                                "duckling"));
 
-        quests.Add(new Quest(new QuestIdentifier("side_quest_ducklings_04", "pnj_02"),
+        objectives.Add(new MultipleEscortObjective("Bring Mommy duck her 3 little ducklings",
+                                                "Mommy duck lost her ducklings, try to find them! Where are they? Well you know that ducks love water right...",
+                                                "duckling", 3, null));
+
+        quests.Add(new Quest(new QuestIdentifier("side_quest_ducklings_01", "ducky"),
                                          new QuestText("The duckling apocalypse",
-                                                        "A Frightful monster is menacing the village. Find it and persuade it not to come close again.",
+                                                        "Mommy duck is blocking the way, and she won't move until she retrieves her ducklings.",
                                                         //"Oh hey fellow adventurer! You seem tough, and I really think you could help me. You see, a really scary monster is coming closer to the village and the inhabitants are getting stressed out. I can't fix the problem alone, and if we do nothing, I can't imagine what will happen to these people. Please, go to the north east and kill this beast! You will be rewarded, don't worry.", 
-                                                        "Hey you! Kill that big thing over there! *points at a hidden passage between two bushes*",
-                                                        "Great job! You know what, I have been wishing to get on an adventure for some time now... I'm coming with you!",
-                                                        "Go to the north, but be careful, this thing is one powerful being."),
+                                                        "\"Quack? Quack! Quack quack quack.\" "+'\n'+" This Mommy duck seems very nervous. She seem to have lost her ducklings! Apparently she won't move until they come back... Will you help her?",
+                                                        "Quack ! *Jumps in happiness* "+'\n'+"The mommy duck seem very thankful, she greets her ducklings and move out of the way. Great job, you're a great person!",
+                                                        "Quack quack..."),
                                          objectives));
 
         isInitialized = true;

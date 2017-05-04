@@ -28,6 +28,10 @@ namespace Behaviour
 
         void Start()
         {
+            // TODO: Ajouter le panel feeding aux prefabs UI
+            //prisonerFeedingPanel = GameManager.Instance.PrefabUIUtils.
+            if (GetComponent<Prisoner>() == null)
+                TileManager.Instance.AddEscortableOnTile(GetComponentInParent<Tile>(), instance);
             if (GetComponent<HungerHandler>() != null && GetComponent<MentalHealthHandler>() != null)
                 instance.Interactions.Add(new Interaction(InitFeeding), 1, "Feed", GameManager.Instance.SpriteUtils.spriteHarvest);
 
@@ -47,10 +51,13 @@ namespace Behaviour
         {
             if (escort != null)
                 escort.GoListCharacterFollowing.Remove(gameObject);
-
+            if(GetComponentInParent<Tile>() != null)
+            {
+                transform.parent = null;
+            }
             escort = GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Keeper>();
             escort.GetComponent<Keeper>().GoListCharacterFollowing.Add(gameObject);
-
+            GetComponent<NavMeshAgent>().enabled = true;
             ActivateIconNearEscort();
 
             IsEscorted = true;

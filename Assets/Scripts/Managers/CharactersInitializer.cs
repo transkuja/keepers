@@ -36,12 +36,11 @@ public class CharactersInitializer : MonoBehaviour {
     {
         foreach (Quest quest in GameManager.Instance.QuestManager.Quests)
         {
-            if (quest.Identifier.SourceID != string.Empty &&
-            quest.Identifier.SourceID.Contains("pnj"))
+            if (quest.Identifier.SourceID != string.Empty)
             {
                 if (GameManager.Instance.QuestSources == null)
                 {
-
+                    break;
                 }
                 QuestSource source = GameManager.Instance.QuestSources.FindSourceByID(quest.Identifier.SourceID);
                 if (source == null)
@@ -70,6 +69,11 @@ public class CharactersInitializer : MonoBehaviour {
                             spawnedPawn.SetActive(false);
                         }
 
+                    }
+                    else
+                    {
+                        source.Transform.GetComponent<Behaviour.QuestDealer>().questToGive = quest;
+                        source.Transform.GetComponent<Behaviour.QuestDealer>().Init();
                     }
                 }
             }

@@ -74,7 +74,7 @@ public class KillMonsterObjective : IQuestObjective
 
     public void CheckProgress()
     {
-        if(monsterKilled)
+        if (monsterKilled)
         {
             isComplete = true;
         }
