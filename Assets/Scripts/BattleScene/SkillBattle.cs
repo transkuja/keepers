@@ -34,6 +34,9 @@ public class SkillBattle {
     [SerializeField]
     BattleBoeuf[] boeufs;
 
+    [SerializeField]
+    bool isMeantToHeal = false;
+
     public int Damage
     {
         get {
@@ -178,6 +181,7 @@ public class SkillBattle {
             targetType = _origin.targetType;
             boeufs = _origin.boeufs;
             skillType = _origin.skillType;
+            isMeantToHeal = _origin.isMeantToHeal;
         }
     }
 
@@ -219,15 +223,10 @@ public class SkillBattle {
         curTargetFighter = _target.GetComponent<Fighter>();
         int curEffDmg = _effectiveDamage;
 
-        foreach (BattleBoeuf boeuf in curTargetFighter.EffectiveBoeufs)
-        {
-            if (boeuf.BoeufType == BoeufType.Defense)
-                curEffDmg -= boeuf.EffectValue;
-        }
-
         curTargetFighter.IsWaitingForDmgFeedback = true;
         curTargetFighter.IsWaitingForSkillPanelToClose = true;
-        curTargetFighter.PendingDamage = curEffDmg;
+
+        curTargetFighter.PendingDamage = ((isMeantToHeal) ? -curEffDmg : curEffDmg);
         if (boeufs != null)
             curTargetFighter.EffectiveBoeufs.AddRange(boeufs);
     }
@@ -254,6 +253,8 @@ public class SkillBattle {
             {
                 ApplySkillEffectOnTarget(BattleHandler.CurrentBattleMonsters[i], effectiveDamage);
             }
+            if (BattleHandler.isPrisonerOnTile)
+                ApplySkillEffectOnTarget(GameManager.Instance.PrisonerInstance, effectiveDamage);
         }
         else if (targetType == TargetType.FriendAll)
         {
@@ -261,6 +262,8 @@ public class SkillBattle {
             {
                 ApplySkillEffectOnTarget(BattleHandler.CurrentBattleKeepers[i], effectiveDamage);
             }
+            if (BattleHandler.isPrisonerOnTile)
+                ApplySkillEffectOnTarget(GameManager.Instance.PrisonerInstance, effectiveDamage);
         }
         else if (targetType == TargetType.Self)
         {

@@ -386,12 +386,19 @@ namespace Behaviour
 
         private int ComputeEffectiveDamage(Fighter _fighter, int value)
         {
-            foreach (BattleBoeuf boeuf in _fighter.effectiveBoeufs)
+            if (value > 0)
             {
-                if (boeuf.BoeufType == BoeufType.Defense)
-                    value -= boeuf.EffectValue;
+                foreach (BattleBoeuf boeuf in _fighter.effectiveBoeufs)
+                {
+                    if (boeuf.BoeufType == BoeufType.Defense)
+                        value -= boeuf.EffectValue;
+                }
+                return Mathf.Max(0, value);
             }
-            return Mathf.Max(0, value);
+            else
+            {
+                return Mathf.Min(0, value);
+            }
         }
 
         public SkillDecisionAlgo SkillDecisionAlgo
@@ -437,7 +444,9 @@ namespace Behaviour
 
         public void UseSkill(PawnInstance _target)
         {
-            skillDecisionAlgo.Invoke(this).UseSkill(_target);
+            SkillBattle sb = skillDecisionAlgo.Invoke(this);
+            if (sb.TargetType == TargetType.FriendSingle) sb.UseSkill(_target);
+            else sb.UseSkill();
         }
 
         public void UpdateActiveBoeufs()
