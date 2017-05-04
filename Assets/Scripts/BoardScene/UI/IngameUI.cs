@@ -153,21 +153,27 @@ public class IngameUI : MonoBehaviour
 
                 int n = i;
 
+                int costActionTmp = ic.listActionContainers[i].costAction;
+
+                if (ic.listActionContainers[i].strName == "Explore" && GameManager.Instance.GetFirstSelectedKeeper().Data.Behaviours[(int)BehavioursEnum.Explorateur] == true)
+                {
+                    costActionTmp -= 1;
+                }
                 int nbActionRestantKeeper = GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Keeper>().ActionPoints;
-                if (ic.listActionContainers[i].costAction > nbActionRestantKeeper)
+                if (costActionTmp > nbActionRestantKeeper)
                 {
                     goAction.GetComponent<Image>().color = Color.grey;
                 }
 
-                if (ic.listActionContainers[i].costAction > 0)
+                if (costActionTmp > 0)
                 {
                     GameObject actionPoints = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabActionPoint, goAction.transform);
                     actionPoints.transform.localScale = Vector3.one;
                     actionPoints.transform.localPosition = Vector3.zero;
                     actionPoints.transform.localRotation = Quaternion.identity;
 
-                    actionPoints.transform.GetComponentInChildren<Text>().text = ic.listActionContainers[i].costAction + "/" + nbActionRestantKeeper;
-                    if (ic.listActionContainers[i].costAction > nbActionRestantKeeper)
+                    actionPoints.transform.GetComponentInChildren<Text>().text = costActionTmp + "/" + nbActionRestantKeeper;
+                    if (costActionTmp > nbActionRestantKeeper)
                         actionPoints.transform.GetComponentInChildren<Text>().color = Color.red;
 
                 }
