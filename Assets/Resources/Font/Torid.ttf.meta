@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 293b933b1ab73b249ae9351c942f92cd
+timeCreated: 1493888241
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Torid
+  fontNames:
+  - Torid
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
