@@ -1,6 +1,11 @@
 fileFormatVersion: 2
+<<<<<<< refs/remotes/origin/master
 guid: 0564efbba1d9af24692a9e08b1456bbe
 timeCreated: 1493885943
+=======
+guid: b68e9f4ebff3e6b4b869379296926445
+timeCreated: 1493905039
+>>>>>>> New monster life bars
 licenseType: Free
 NativeFormatImporter:
   userData: 

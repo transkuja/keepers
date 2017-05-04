@@ -21,9 +21,9 @@ public class SkillContainer : MonoBehaviour {
     {
         GetComponent<Button>().interactable = skillData.CanUseSkill();
         if (GetComponent<Button>().interactable == true)
-            GetComponent<Text>().color = Color.white;
+            GetComponentInChildren<Text>().color = Color.white;
         else
-            GetComponent<Text>().color = Color.grey;
+            GetComponentInChildren<Text>().color = Color.grey;
 
         Text atkTxt = transform.parent.GetChild((int)SkillButtonChildren.Atk).GetComponentInChildren<Text>();
         Text magTxt = transform.parent.GetChild((int)SkillButtonChildren.Mag).GetComponentInChildren<Text>();
