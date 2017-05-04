@@ -213,7 +213,7 @@ public class UIBattleHandler : MonoBehaviour {
         {
             for (int i = 0; i < fighterComponent.BattleSkills.Count && i < 4; i++)
             {
-                Transform currentSkill = skillsPanel.GetChild(i+1);
+                Transform currentSkill = skillsPanel.GetChild(i);
 
                 SkillBattle fighterCurSkill;
                 if (_pawnInstanceForInit.GetComponent<MentalHealthHandler>() != null && _pawnInstanceForInit.GetComponent<MentalHealthHandler>().IsDepressed)
@@ -293,7 +293,7 @@ public class UIBattleHandler : MonoBehaviour {
                 GameObject lifeBar = child.GetChild(0).GetChild(1).gameObject;
                 Image lifeBarImg = lifeBar.transform.GetChild((int)LifeBarChildren.Remaining).GetComponent<Image>();
                 lifeBarImg.fillAmount = _toUpdate.CurrentHp / (float)_toUpdate.MaxHp;
-                lifeBarImg.sprite = GameManager.Instance.SpriteUtils.spritePlayerGreenLifeBar;
+                lifeBarImg.sprite = GameManager.Instance.SpriteUtils.spriteMonsterGreenLifeBar;
 
                 if (lifeBarImg.fillAmount < 0.33f)
                 {
@@ -478,7 +478,7 @@ public class UIBattleHandler : MonoBehaviour {
         associatedCharacterPanelReversed.Clear();
 
         // Reset skills panel
-        for (int i = 1; i < skillsPanels.transform.childCount; i++)
+        for (int i = 0; i < skillsPanels.transform.childCount; i++)
         {
             Transform currentSkillsPanel = skillsPanels.transform.GetChild(i);
 

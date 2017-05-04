@@ -92,6 +92,13 @@ namespace Behaviour
             showSkillPanelTimer = 2.2f;
             showFeedbackDmgTimer = 1.7f;
 
+            if (!IsAMonster)
+            {
+                SkillBattle defaultAtk = new SkillBattle("default");
+                battleSkills.Insert(0, defaultAtk);
+                depressedSkills.Insert(0, defaultAtk);
+            }
+
             foreach (SkillBattle sb in battleSkills)
             {
                 if (sb.SkillUser == null)

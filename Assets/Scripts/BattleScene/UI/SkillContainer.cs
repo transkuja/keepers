@@ -24,7 +24,7 @@ public class SkillContainer : MonoBehaviour {
     {
         GetComponent<Button>().interactable = skillData.CanUseSkill();
         if (GetComponent<Button>().interactable == true)
-            GetComponentInChildren<Text>().color = Color.white;
+            GetComponentInChildren<Text>().color = Color.black;
         else
             GetComponentInChildren<Text>().color = Color.grey;
 

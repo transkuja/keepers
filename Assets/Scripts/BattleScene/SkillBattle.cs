@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Behaviour;
+using System;
 
 public enum TargetType { FriendSingle, FoeSingle, FriendAll, FoeAll, Self }
 
@@ -10,6 +11,7 @@ public enum TargetType { FriendSingle, FoeSingle, FriendAll, FoeAll, Self }
  */
 [System.Serializable]
 public class SkillBattle {
+    private int effectiveAttackValue = 3;
 
     [SerializeField]
     private Fighter skillUser;
@@ -30,8 +32,39 @@ public class SkillBattle {
 
     public int Damage
     {
-        get { return damage; }
+        get {
+            if (skillName == "Attack")
+                return StandardAtkDmg(skillUser);
+
+            return damage;
+        }
         set { damage = value; }
+    }
+
+    private int StandardAtkDmg(Fighter _skillUser)
+    {
+        int attackDamage = 0;
+
+        for (int i = 0; i < _skillUser.LastThrowResult.Length; i++)
+        {
+            // Apply attack calculation
+            if (_skillUser.LastThrowResult[i].Type == FaceType.Physical)
+            {
+                attackDamage += (effectiveAttackValue * _skillUser.LastThrowResult[i].Value);
+            }
+            else
+            {
+                attackDamage += 1;
+            }
+        }
+
+        foreach (BattleBoeuf boeuf in _skillUser.EffectiveBoeufs)
+        {
+            if (boeuf.BoeufType == BoeufType.Damage)
+                attackDamage += boeuf.EffectValue;
+        }
+
+        return attackDamage;
     }
 
     public string Description
@@ -104,6 +137,19 @@ public class SkillBattle {
 
     }
 
+    public SkillBattle(string _id)
+    {
+        if (_id == "default")
+        {
+            damage = 0;
+
+            skillName = "Attack";
+            description = "Damage based on current dice roll.";
+            cost = new List<Face>();
+            targetType = TargetType.FoeSingle;
+        }
+    }
+
     public SkillBattle(SkillBattle _origin)
     {
         if (_origin == null)
@@ -154,7 +200,7 @@ public class SkillBattle {
         skillNameUI.transform.GetComponentInChildren<Text>().text = skillName;
         skillNameUI.SetActive(true);
 
-        int effectiveDamage = damage;
+        int effectiveDamage = Damage;
 
         foreach (BattleBoeuf boeuf in skillUser.EffectiveBoeufs)
         {
