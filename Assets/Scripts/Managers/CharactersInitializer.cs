@@ -77,8 +77,27 @@ public class CharactersInitializer : MonoBehaviour {
                     }
                 }
             }
-           
         }
+
+        foreach (Tile t in TileManager.Instance.Tiles.GetComponentsInChildren<Tile>())
+        {
+            if (GetComponentsInChildren<Trader>() != null)
+            {
+                for (int i = 0; i < t.transform.childCount; i++)
+                {
+                    if (t.transform.GetChild(i).GetComponent<Trader>() != null)
+                    {
+                        Trader ta = t.transform.GetChild(i).GetComponent<Trader>();
+                        if (ta.GetComponent<Inventory>() != null && ta.GetComponent<Inventory>().PossibleItems != null && ta.GetComponent<Inventory>().PossibleItems.Count > 0)
+                            ta.GetComponent<Inventory>().ComputeItems();
+             
+                        ta.GetComponent<PawnInstance>().CurrentTile = t;
+                        InitCharacterUI(ta.GetComponent<PawnInstance>());
+                    }
+                }
+            }
+        }
+
         // TODO this should not be handled like, especially if there is more prisoner in scene
         GameObject prisoner = GameManager.Instance.PawnDataBase.CreatePawn("ashley", TileManager.Instance.BeginTile.transform.position, Quaternion.identity, null);
         GlowController.RegisterObject(prisoner.GetComponent<GlowObjectCmd>()); // TODO: Inutile maintenant ? 
@@ -123,6 +142,10 @@ public class CharactersInitializer : MonoBehaviour {
             newCharacter.GetComponent<Behaviour.Escortable>().InitUI();
         }
         else if (newCharacter.GetComponent<Behaviour.QuestDealer>() != null)
+        {
+            // Do nothing yet but has to reach init for inventory
+        }
+        else if (newCharacter.GetComponent<Trader>() != null)
         {
             // Do nothing yet but has to reach init for inventory
         }

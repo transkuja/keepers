@@ -166,10 +166,6 @@ public class ControlsManager : MonoBehaviour
                                         TutoManager.s_instance.playSequence(TutoManager.s_instance.GetComponent<SeqAshleyEscort>());
                                     }
                                 }
-                                if (clickTarget.GetComponentInParent<QuestDealer>() != null)
-                                {
-                                    //clickTarget.GetComponentInParent<QuestDealer>().;
-                                }
                                 GameManager.Instance.GoTarget = clickTarget.GetComponentInParent<Interactable>();
                                 if (clickTarget.GetComponentInParent<Monster>() != null)
                                 {
