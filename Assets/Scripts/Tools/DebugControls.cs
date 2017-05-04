@@ -44,25 +44,38 @@ public class DebugControls : MonoBehaviour {
             // Unlimited action points
             if (Input.GetKeyDown(KeyCode.Alpha6))
             {
-                if (isUnlimitedActionPointsModeActive)
+                if (GameManager.Instance.CurrentState == GameState.InBattle)
                 {
-                    Debug.Log("Deactivate unlimited action points mode.");
-                    foreach (PawnInstance pi in GameManager.Instance.AllKeepersList)
+                    for (int i = 0; i < BattleHandler.CurrentBattleKeepers.Length; i++)
                     {
-                        pi.GetComponent<Keeper>().MaxActionPoints = 3;
-                        pi.GetComponent<Keeper>().ActionPoints = 3;
+                        BattleHandler.CurrentBattleKeepers[i].GetComponent<Fighter>().PhysicalSymbolStored = 9;
+                        BattleHandler.CurrentBattleKeepers[i].GetComponent<Fighter>().DefensiveSymbolStored = 9;
+                        BattleHandler.CurrentBattleKeepers[i].GetComponent<Fighter>().MagicalSymbolStored = 9;
                     }
+                    
                 }
                 else
                 {
-                    Debug.Log("Activate unlimited action points mode.");
-                    foreach (PawnInstance pi in GameManager.Instance.AllKeepersList)
+                    if (isUnlimitedActionPointsModeActive)
                     {
-                        pi.GetComponent<Keeper>().MaxActionPoints = 99;
-                        pi.GetComponent<Keeper>().ActionPoints = 99;
+                        Debug.Log("Deactivate unlimited action points mode.");
+                        foreach (PawnInstance pi in GameManager.Instance.AllKeepersList)
+                        {
+                            pi.GetComponent<Keeper>().MaxActionPoints = 3;
+                            pi.GetComponent<Keeper>().ActionPoints = 3;
+                        }
                     }
-                }
-                isUnlimitedActionPointsModeActive = !isUnlimitedActionPointsModeActive;
+                    else
+                    {
+                        Debug.Log("Activate unlimited action points mode.");
+                        foreach (PawnInstance pi in GameManager.Instance.AllKeepersList)
+                        {
+                            pi.GetComponent<Keeper>().MaxActionPoints = 99;
+                            pi.GetComponent<Keeper>().ActionPoints = 99;
+                        }
+                    }
+                    isUnlimitedActionPointsModeActive = !isUnlimitedActionPointsModeActive;
+                }            
             }
 
             // Discover all tiles
@@ -125,28 +138,58 @@ public class DebugControls : MonoBehaviour {
             // Decrease food
             if (Input.GetKey(KeyCode.Alpha2))
             {
-                if (Input.GetKey(KeyCode.LeftShift))
-                    GameManager.Instance.GetFirstSelectedKeeper().GetComponent<HungerHandler>().CurrentHunger++;
+                if (GameManager.Instance.CurrentState == GameState.InBattle)
+                {
+                    if (Input.GetKey(KeyCode.LeftShift))
+                        GameManager.Instance.GetComponent<Fighter>().PhysicalSymbolStored++;
+                    else
+                        GameManager.Instance.GetComponent<Fighter>().PhysicalSymbolStored--;
+                }
                 else
-                    GameManager.Instance.GetFirstSelectedKeeper().GetComponent<HungerHandler>().CurrentHunger--;
+                {
+                    if (Input.GetKey(KeyCode.LeftShift))
+                        GameManager.Instance.GetFirstSelectedKeeper().GetComponent<HungerHandler>().CurrentHunger++;
+                    else
+                        GameManager.Instance.GetFirstSelectedKeeper().GetComponent<HungerHandler>().CurrentHunger--;
+                }
             }
 
             // Decrease mental health
             if (Input.GetKey(KeyCode.Alpha3))
             {
-                if (Input.GetKey(KeyCode.LeftShift))
-                    GameManager.Instance.GetFirstSelectedKeeper().GetComponent<MentalHealthHandler>().CurrentMentalHealth++;
+                if (GameManager.Instance.CurrentState == GameState.InBattle)
+                {
+                    if (Input.GetKey(KeyCode.LeftShift))
+                        GameManager.Instance.GetComponent<Fighter>().DefensiveSymbolStored++;
+                    else
+                        GameManager.Instance.GetComponent<Fighter>().DefensiveSymbolStored--;
+                }
                 else
-                    GameManager.Instance.GetFirstSelectedKeeper().GetComponent<MentalHealthHandler>().CurrentMentalHealth--;
+                {
+                    if (Input.GetKey(KeyCode.LeftShift))
+                        GameManager.Instance.GetFirstSelectedKeeper().GetComponent<MentalHealthHandler>().CurrentMentalHealth++;
+                    else
+                        GameManager.Instance.GetFirstSelectedKeeper().GetComponent<MentalHealthHandler>().CurrentMentalHealth--;
+                }
             }
 
             // Decrease HP
             if (Input.GetKey(KeyCode.Alpha4))
             {
-                if (Input.GetKey(KeyCode.LeftShift))
-                    GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Mortal>().CurrentHp++;
+                if (GameManager.Instance.CurrentState == GameState.InBattle)
+                {
+                    if (Input.GetKey(KeyCode.LeftShift))
+                        GameManager.Instance.GetComponent<Fighter>().MagicalSymbolStored++;
+                    else
+                        GameManager.Instance.GetComponent<Fighter>().MagicalSymbolStored--;
+                }
                 else
-                    GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Mortal>().CurrentHp--;
+                {
+                    if (Input.GetKey(KeyCode.LeftShift))
+                        GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Mortal>().CurrentHp++;
+                    else
+                        GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Mortal>().CurrentHp--;
+                }
             }
 
             if (Input.GetKeyDown(KeyCode.Alpha5))
