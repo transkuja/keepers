@@ -454,37 +454,37 @@ public class TileTrigger : MonoBehaviour {
 
             // Apply exploration costs
 
-            if (toMove.GetComponent<HungerHandler>() != null)
+            //if (toMove.GetComponent<HungerHandler>() != null)
 
-                toMove.GetComponent<HungerHandler>().CurrentHunger -= 5;
+            //    toMove.GetComponent<HungerHandler>().CurrentHunger -= 5;
 
             //GameManager.Instance.Ui.BuffActionTextAnimation(GameManager.Instance.Ui.goHungerBuffOnStatPanel, -5);
 
             //Moral is affected by the friendliness of the discovered tile
 
-            if (toMove.GetComponent<MentalHealthHandler>() != null)
+            //if (toMove.GetComponent<MentalHealthHandler>() != null)
 
-            {
+            //{
 
-                if (exploredTile.Friendliness == TileFriendliness.Scary)
+            //    if (exploredTile.Friendliness == TileFriendliness.Scary)
 
-                {
+            //    {
 
 
 
-                    toMove.GetComponent<MentalHealthHandler>().CurrentMentalHealth -= 5;
+            //        toMove.GetComponent<MentalHealthHandler>().CurrentMentalHealth -= 5;
 
-                }
+            //    }
 
-                else if (exploredTile.Friendliness == TileFriendliness.Friendly)
+            //    else if (exploredTile.Friendliness == TileFriendliness.Friendly)
 
-                {
+            //    {
 
-                    toMove.GetComponent<MentalHealthHandler>().CurrentMentalHealth += 5;
+            //        toMove.GetComponent<MentalHealthHandler>().CurrentMentalHealth += 5;
 
-                }
+            //    }
 
-            }   
+            //}   
 
             
 
@@ -494,55 +494,55 @@ public class TileTrigger : MonoBehaviour {
 
             // If the player is exploring with the prisoner following, apply costs to him too
 
-            if (toMove.GetComponent<Keeper>() != null && toMove.GetComponent<Keeper>().GoListCharacterFollowing.Count > 0)
+            //if (toMove.GetComponent<Keeper>() != null && toMove.GetComponent<Keeper>().GoListCharacterFollowing.Count > 0)
 
-            {
+            //{
 
-                foreach(GameObject follower in toMove.GetComponent<Keeper>().GoListCharacterFollowing)
+            //    foreach(GameObject follower in toMove.GetComponent<Keeper>().GoListCharacterFollowing)
 
-                {
+            //    {
 
-                    if (follower.GetComponent<HungerHandler>() != null)
+                    //if (follower.GetComponent<HungerHandler>() != null)
 
-                        follower.GetComponent<HungerHandler>().CurrentHunger -= 5;
-
-
+                    //    follower.GetComponent<HungerHandler>().CurrentHunger -= 5;
 
 
 
-                    if (follower.GetComponent<MentalHealthHandler>() != null)
 
-                    {
 
-                        if (exploredTile.Friendliness == TileFriendliness.Scary)
+                    //if (follower.GetComponent<MentalHealthHandler>() != null)
 
-                        {
+                    //{
 
-                            follower.GetComponent<MentalHealthHandler>().CurrentMentalHealth -= 5;
+                    //    if (exploredTile.Friendliness == TileFriendliness.Scary)
 
-                        }
+                    //    {
 
-                        else if (exploredTile.Friendliness == TileFriendliness.Friendly)
+                    //        follower.GetComponent<MentalHealthHandler>().CurrentMentalHealth -= 5;
 
-                        {
+                    //    }
 
-                            follower.GetComponent<MentalHealthHandler>().CurrentMentalHealth += 5;
+                    //    else if (exploredTile.Friendliness == TileFriendliness.Friendly)
 
-                        }
+                    //    {
 
-                    }
+                    //        follower.GetComponent<MentalHealthHandler>().CurrentMentalHealth += 5;
+
+                    //    }
+
+                    //}
 
 
 
                     //TODO: Apply this only when the discovered tile is unfriendly
 
-                    if (follower.GetComponent<MentalHealthHandler>() != null)
+            //        if (follower.GetComponent<MentalHealthHandler>() != null)
 
-                        follower.GetComponent<MentalHealthHandler>().CurrentMentalHealth -= 5;
+            //            follower.GetComponent<MentalHealthHandler>().CurrentMentalHealth -= 5;
 
-                }
+            //    }
 
-            }
+            //}
 
 
 

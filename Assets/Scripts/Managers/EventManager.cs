@@ -21,6 +21,8 @@ public class EventManager : MonoBehaviour {
     public static ItemEvent OnHarvest;
     public static ItemEvent OnPickUp;
 
+    public static int nbDayInWeek = 7;
+    public static int nbDayInMonth = 20;
 
     private static short actionPointsResetValue = 3;
 
@@ -31,6 +33,7 @@ public class EventManager : MonoBehaviour {
         {
             TutoManager.s_instance.GetComponent<SeqActionCostHunger>().hasPressedEndTurnButton = true;
         }
+        HandleWeather();
 
 
         IncreaseHunger();
@@ -40,7 +43,7 @@ public class EventManager : MonoBehaviour {
 
         ResetActionPointsForNextTurn();
         GameManager.Instance.Ui.ClearUiOnTurnEnding();
-        HandleWeather();
+
     }
 
     private static void DecreaseMentalHealth()
@@ -48,7 +51,35 @@ public class EventManager : MonoBehaviour {
         foreach (PawnInstance ki in GameManager.Instance.AllKeepersList)
         {
             if (ki.GetComponent<Mortal>().IsAlive && ki.GetComponent<MentalHealthHandler>() != null)
-                ki.GetComponent<MentalHealthHandler>().CurrentMentalHealth -= 10;
+            {
+                bool moodModifier = false;
+                if (GameManager.Instance.ListEventSelected.Count > 0)
+                {
+                    if (GameManager.Instance.ListEventSelected.Contains("1"))
+                    {
+                        if (ki.CurrentTile.GetComponentInChildren<Climat>() != null && ki.CurrentTile.GetComponentInChildren<Climat>().TypeClimat == TypeClimat.Snow)
+                        {
+                            moodModifier = true;
+                        }
+                    }
+                }
+
+                if (moodModifier)
+                    ki.GetComponent<MentalHealthHandler>().CurrentMentalHealth -= 5;
+
+                if (ki.CurrentTile != null && TileManager.Instance.MonstersOnTile != null && TileManager.Instance.MonstersOnTile.ContainsKey(ki.CurrentTile) && TileManager.Instance.MonstersOnTile[ki.CurrentTile].Count > 0)
+                    ki.GetComponent<MentalHealthHandler>().CurrentMentalHealth -= 5;
+
+
+                if (ki.CurrentTile.GetComponent<Tile>().Friendliness == TileFriendliness.Scary)
+                    ki.GetComponent<MentalHealthHandler>().CurrentMentalHealth -= 10;
+                if (ki.CurrentTile.GetComponent<Tile>().Friendliness == TileFriendliness.Friendly)
+                    ki.GetComponent<MentalHealthHandler>().CurrentMentalHealth += 5;
+
+          
+
+            }
+
                 //ki.AddFeedBackToQueue(GameManager.Instance.SpriteUtils.spriteMoralDebuff, -10);
         }
     }
@@ -57,13 +88,49 @@ public class EventManager : MonoBehaviour {
     {
         foreach (PawnInstance ki in GameManager.Instance.AllKeepersList)
         {
-            if (ki.GetComponent<Mortal>().IsAlive)
+            if (ki.GetComponent<Mortal>().IsAlive && ki.GetComponent<HungerHandler>() != null)
+            {
+                bool hungerModifier = false;
+                if (GameManager.Instance.ListEventSelected.Count > 0)
+                {
+                    if (GameManager.Instance.ListEventSelected.Contains("3"))
+                    {
+                        if (ki.CurrentTile.GetComponentInChildren<Climat>() != null && ki.CurrentTile.GetComponentInChildren<Climat>().TypeClimat == TypeClimat.HeatDistorsion)
+                        {
+                            hungerModifier = true;
+                        }
+                    }
+                }
+
+                if (hungerModifier)
+                    ki.GetComponent<HungerHandler>().CurrentHunger -= 5;
+
                 ki.GetComponent<HungerHandler>().CurrentHunger -= 10;
+            }
+         
                 //ki.AddFeedBackToQueue(GameManager.Instance.SpriteUtils.spriteHunger, -10);
         }
 
         if (GameManager.Instance.PrisonerInstance.GetComponent<Mortal>().IsAlive && GameManager.Instance.PrisonerInstance.GetComponent<HungerHandler>() != null)
+        {
+            bool hungerModifier = false;
+            if (GameManager.Instance.ListEventSelected.Count > 0)
+            {
+                if (GameManager.Instance.ListEventSelected.Contains("3"))
+                {
+                    if (GameManager.Instance.PrisonerInstance.CurrentTile.GetComponentInChildren<Climat>() != null && GameManager.Instance.PrisonerInstance.CurrentTile.GetComponentInChildren<Climat>().TypeClimat == TypeClimat.HeatDistorsion)
+                    {
+                        hungerModifier = true;
+                    }
+                }
+            }
+
+            if (hungerModifier)
+                GameManager.Instance.PrisonerInstance.GetComponent<HungerHandler>().CurrentHunger -= 5;
+
             GameManager.Instance.PrisonerInstance.GetComponent<HungerHandler>().CurrentHunger -= 10;
+        }
+
     }
 
     private static void ResetActionPointsForNextTurn()
@@ -104,120 +171,116 @@ public class EventManager : MonoBehaviour {
 
     public static void HandleWeather()
     {
-        int nbDayInWeek = 7;
-        int nbDayInMonth = 20;
+        if (GameManager.Instance.ListEventSelected.Count <= 0)
+            return;
+
         Tile[] tiles = TileManager.Instance.Tiles.GetComponentsInChildren<Tile>();
-        if (GameManager.Instance.ListEventSelected.Count > 0)
+
+        foreach (Tile tile in tiles)
         {
-            // Snow events
-            if (GameManager.Instance.ListEventSelected.Contains("1")){
-                if (GameManager.Instance.NbTurn % nbDayInMonth < 5 || GameManager.Instance.NbTurn % nbDayInMonth > nbDayInMonth -5)
-                {
-                    foreach (Tile tile in tiles)
-                    {
-                        if (tile.Type == TileType.Snow && tile.State == TileState.Discovered)
-                        {
-                            if (tile.gameObject.GetComponentInChildren<Climat>() == null)
-                            {
-                                Debug.Log(tile.name + "n'a pas de climat en enfant");
-                                return;
-                            }
-                            Climat climat = tile.gameObject.GetComponentInChildren<Climat>();
-                            if (climat != null)
-                            {
-                                climat.TypeClimat = TypeClimat.Snow;
-                            }
+            HandleWeather(tile);
+        }
+    }
 
-                        }
-                    }
-                }
-                else
+    public static void HandleWeather(Tile currentTile)
+    {
+        if (GameManager.Instance.ListEventSelected.Count <= 0)
+            return;
+
+        // Snow events
+        if (GameManager.Instance.ListEventSelected.Contains("1"))
+        {
+            if (GameManager.Instance.NbTurn % nbDayInMonth < 5 || GameManager.Instance.NbTurn % nbDayInMonth > nbDayInMonth - 5)
+            {
+
+                if (currentTile.Type == TileType.Snow && currentTile.State == TileState.Discovered)
                 {
-                    foreach (Tile tile in tiles)
+                    if (currentTile.gameObject.GetComponentInChildren<Climat>() == null)
                     {
-                        if (tile.Type == TileType.Snow && tile.State == TileState.Discovered)
-                        {
-                            if (tile.gameObject.GetComponentInChildren<Climat>() == null)
-                            {
-                                Debug.Log(tile.name + "n'a pas de climat en enfant");
-                                return;
-                            }
-                            Climat climat = tile.gameObject.GetComponentInChildren<Climat>();
-                            if (climat != null)
-                            {
-                                climat.TypeClimat = TypeClimat.None;
-                            }
-                        }
+                        Debug.Log(currentTile.name + "n'a pas de climat en enfant");
+                        return;
                     }
+                    Climat climat = currentTile.gameObject.GetComponentInChildren<Climat>();
+                    if (climat != null)
+                    {
+                        climat.TypeClimat = TypeClimat.Snow;
+                    }
+
                 }
             }
-
-            // HButterfly events
-            if (GameManager.Instance.ListEventSelected.Contains("2"))
+        }
+        else
+        {
+            if (currentTile.Type == TileType.Snow && currentTile.State == TileState.Discovered)
             {
-                if (GameManager.Instance.NbTurn % nbDayInWeek == 5 || GameManager.Instance.NbTurn % nbDayInWeek == 6)
+                if (currentTile.gameObject.GetComponentInChildren<Climat>() == null)
                 {
-                    foreach (Tile tile in tiles)
-                    {
-                        if (tile.Type == TileType.Plain && tile.State == TileState.Discovered)
-                        {
-                            if (tile.gameObject.GetComponentInChildren<Climat>() == null)
-                            {
-                                Debug.Log(tile.name + "n'a pas de climat en enfant");
-                                return;
-                            }
-                            Climat climat = tile.gameObject.GetComponentInChildren<Climat>();
-                            if (climat != null)
-                            {
-                                climat.TypeClimat = TypeClimat.Butterfly;
-                            }
-
-                        }
-                    }
+                    Debug.Log(currentTile.name + "n'a pas de climat en enfant");
+                    return;
                 }
-                else
+                Climat climat = currentTile.gameObject.GetComponentInChildren<Climat>();
+                if (climat != null)
                 {
-                    foreach (Tile tile in tiles)
-                    {
-                        if (tile.Type == TileType.Plain && tile.State == TileState.Discovered)
-                        {
-                            if (tile.gameObject.GetComponentInChildren<Climat>() == null)
-                            {
-                                Debug.Log(tile.name + "n'a pas de climat en enfant");
-                                return;
-                            }
-                            Climat climat = tile.gameObject.GetComponentInChildren<Climat>();
-                            if (climat != null)
-                            {
-                                climat.TypeClimat = TypeClimat.None;
-                            }
-
-                        }
-                    }
+                    climat.TypeClimat = TypeClimat.None;
                 }
             }
-
-            // HEat distorsion
-            if (GameManager.Instance.ListEventSelected.Contains("3"))
+        }
+        // HButterfly events
+        if (GameManager.Instance.ListEventSelected.Contains("2"))
+        {
+            if (GameManager.Instance.NbTurn % nbDayInWeek == 5 || GameManager.Instance.NbTurn % nbDayInWeek == 6)
             {
-                foreach (Tile tile in tiles)
+                if (currentTile.Type == TileType.Plain && currentTile.State == TileState.Discovered)
                 {
-                    if (tile.Type == TileType.Desert && tile.State == TileState.Discovered)
+                    if (currentTile.gameObject.GetComponentInChildren<Climat>() == null)
                     {
-                        if (tile.gameObject.GetComponentInChildren<Climat>() == null)
-                        {
-                            Debug.Log(tile.name + "n'a pas de climat en enfant");
-                            return;
-                        }
-                        Climat climat = tile.gameObject.GetComponentInChildren<Climat>();
-                        if (climat != null)
-                        {
-                            climat.TypeClimat = TypeClimat.HeatDistorsion;
-                        }
+                        Debug.Log(currentTile.name + "n'a pas de climat en enfant");
+                        return;
+                    }
+                    Climat climat = currentTile.gameObject.GetComponentInChildren<Climat>();
+                    if (climat != null)
+                    {
+                        climat.TypeClimat = TypeClimat.Butterfly;
+                    }
 
+                }
+            }
+            else
+            {
+                if (currentTile.Type == TileType.Plain && currentTile.State == TileState.Discovered)
+                {
+                    if (currentTile.gameObject.GetComponentInChildren<Climat>() == null)
+                    {
+                        Debug.Log(currentTile.name + "n'a pas de climat en enfant");
+                        return;
+                    }
+                    Climat climat = currentTile.gameObject.GetComponentInChildren<Climat>();
+                    if (climat != null)
+                    {
+                        climat.TypeClimat = TypeClimat.None;
                     }
                 }
             }
         }
+        // HEat distorsion
+        if (GameManager.Instance.ListEventSelected.Contains("3"))
+        {
+            if (currentTile.Type == TileType.Desert && currentTile.State == TileState.Discovered)
+            {
+                if (currentTile.gameObject.GetComponentInChildren<Climat>() == null)
+                {
+                    Debug.Log(currentTile.name + "n'a pas de climat en enfant");
+                    return;
+                }
+                Climat climat = currentTile.gameObject.GetComponentInChildren<Climat>();
+                if (climat != null)
+                {
+                    climat.TypeClimat = TypeClimat.HeatDistorsion;
+                }
+            }
+        }
+
+
+
     }
 }
