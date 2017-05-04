@@ -188,46 +188,6 @@ public class IngameUI : MonoBehaviour
         worldSpaceCanvas.GetComponent<WorldspaceCanvasCameraAdapter>().RecalculateActionCanvas(Camera.main);
     }
 
-    public void UpdateActionPanelUIForBattle(Behaviour.Fighter selectedFighter)
-    {
-        if (goActionPanelQ == null) { return; }
-        if (GameManager.Instance.ListOfSelectedKeepers.Count == 0) { return; }
-
-        //Clear
-        ClearActionPanel();
-
-        goActionPanelQ.GetComponent<RectTransform>().localPosition = Vector3.zero;
-
-        // Actions
-        for (int i = 0; i < selectedFighter.BattleInteractions.listActionContainers.Count; i++)
-        {
-            GameObject goAction = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabActionUI, goActionPanelQ.transform);
-            goAction.name = selectedFighter.BattleInteractions.listActionContainers[i].strName;
-
-            goAction.GetComponent<RectTransform>().localPosition = Vector3.zero;
-            goAction.GetComponent<RectTransform>().localRotation = Quaternion.identity;
-            if (goAction.name == "Attack")
-                goAction.AddComponent<ShowAssociatedDice>();
-
-            Button btn = goAction.GetComponent<Button>();
-
-            int n = i;
-
-            int iParam = selectedFighter.BattleInteractions.listActionContainers[n].iParam;
-            btn.onClick.AddListener(() => {
-                selectedFighter.BattleInteractions.listActionContainers[n].action(iParam);
-                GameManager.Instance.Ui.ClearActionPanel();
-            });
-
-            btn.transform.GetComponentInChildren<Image>().sprite = selectedFighter.BattleInteractions.listActionContainers[i].sprite;
-            btn.transform.GetComponentInChildren<Image>().transform.localScale = Vector3.one;
-        }
-
-        worldSpaceCanvas.transform.SetParent(selectedFighter.InteractionsPosition);
-        worldSpaceCanvas.transform.localPosition = Vector3.zero;
-        worldSpaceCanvas.GetComponent<WorldspaceCanvasCameraAdapter>().RecalculateActionCanvas(Camera.main);
-    }
-
     public void ClearActionPanel()
     {
         if (goActionPanelQ != null && goActionPanelQ.transform.childCount > 0)

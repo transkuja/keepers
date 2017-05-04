@@ -44,8 +44,4 @@ public class MouseFollower : MonoBehaviour {
         }
     }
 
-    void Update()
-    {
-        transform.position = Input.mousePosition + new Vector3(offsetX, offsetY);
-    }
 }

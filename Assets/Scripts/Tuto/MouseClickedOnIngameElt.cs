@@ -27,7 +27,7 @@ public class MouseClickedOnIngameElt : MonoBehaviour {
                     GameManager.Instance.ClearListKeeperSelected();
                     GameManager.Instance.AddKeeperToSelectedList(GetComponent<PawnInstance>());
                     clickedKeeper.IsSelected = true;
-                    GameManager.Instance.Ui.UpdateActionPanelUIForBattle(clickedKeeper.GetComponent<Fighter>());
+                    GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().GetSkillsPanelIndex(GetComponent<PawnInstance>()).gameObject.SetActive(true);
                 }
             }
         }

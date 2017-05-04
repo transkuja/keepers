@@ -10,14 +10,12 @@ namespace Behaviour
     public class Fighter : MonoBehaviour
     {
         // Balance variables
-        private int effectiveAttackValue = 5;
-        private int effectiveDefenseValue = 5;
+        private int effectiveAttackValue = 3;
 
         // Warning, UI is not think for values above 9, so ask before changing this setting
         public static int StockMaxValue = 9;
 
         PawnInstance instance;
-        private InteractionImplementer battleInteractions;
         private Transform interactionsPosition;
 
         // TODO: externalize this in Monster
@@ -52,8 +50,6 @@ namespace Behaviour
 
         bool hasPlayedThisTurn = false;
 
-        bool hasClickedOnAttack = false;
-
         Face[] lastThrowResult;
         List<GameObject> lastThrowDiceInstance;
 
@@ -70,7 +66,6 @@ namespace Behaviour
         void Awake()
         {
             instance = GetComponent<PawnInstance>();
-            battleInteractions = new InteractionImplementer();
             foreach (Transform child in transform)
             {
                 if (child.CompareTag("FeedbackTransform"))
@@ -85,9 +80,6 @@ namespace Behaviour
         {
             if (GetComponent<Monster>() != null) IsAMonster = true;
             else IsAMonster = false;
-
-            battleInteractions.Add(new Interaction(Attack), 0, "Attack", GameManager.Instance.SpriteUtils.spriteAttack);
-            battleInteractions.Add(new Interaction(OpenSkillPanel), 0, "Skills", GameManager.Instance.SpriteUtils.spriteUseSkill);
 
             showSkillPanelTimer = 2.2f;
             showFeedbackDmgTimer = 1.7f;
@@ -176,80 +168,6 @@ namespace Behaviour
             defensiveSymbolStored = 0;
             hasPlayedThisTurn = false;
         }
-
-        public void UpdateSkillButton(bool _hasAUsableSkill)
-        {
-            if (_hasAUsableSkill)
-            {
-                // TODO: change to proper sprite
-                battleInteractions.SwapSprite("Skills", GameManager.Instance.SpriteUtils.spriteUseSkill);
-            }
-            else
-            {
-                battleInteractions.SwapSprite("Skills", GameManager.Instance.SpriteUtils.spriteUseSkill);
-            }
-        }
-
-        #region Interactions
-        public void Attack(int _i = 0)
-        {
-            Debug.Log("attack");
-            HasClickedOnAttack = true;
-        }
-
-        public void AttackProcess(Fighter _attackTarget)
-        {
-            Debug.Log("attackProcess lunched");
-
-            int attackDamage = 0;
-
-            for (int i = 0; i < lastThrowResult.Length; i++)
-            {
-                // Apply attack calculation
-                if (lastThrowResult[i].Type == FaceType.Physical)
-                {
-                    attackDamage += (effectiveAttackValue * lastThrowResult[i].Value);
-                }
-                else
-                {
-                    attackDamage += 1;
-                }
-
-            }
-            if (_attackTarget.GetComponent<Keeper>() != null || _attackTarget.GetComponent<Escortable>() != null)
-            {
-                int effectiveDamage = (int)((attackDamage / (float)effectiveAttackValue));
-                _attackTarget.GetComponent<Mortal>().CurrentHp -= effectiveDamage;
-            }
-            else if (_attackTarget.GetComponent<Monster>() != null)
-            {
-                // max defense => 10% dmg taken
-                // 0 defense => 100% dmg taken
-                
-                int effectiveDamage = attackDamage;
-                foreach (BattleBoeuf boeuf in effectiveBoeufs)
-                {
-                    if (boeuf.BoeufType == BoeufType.Damage)
-                        effectiveDamage += boeuf.EffectValue;
-                }
-
-                effectiveDamage = ComputeEffectiveDamage(_attackTarget, effectiveDamage);
-                _attackTarget.GetComponent<Mortal>().CurrentHp -= effectiveDamage;
-                _attackTarget.GetComponent<PawnInstance>().AddFeedBackToQueue(-effectiveDamage);
-            }
-
-            if (_attackTarget.GetComponent<Mortal>().CurrentHp <= 0)
-                _attackTarget.gameObject.SetActive(false);
-
-            hasClickedOnAttack = false;
-            HasPlayedThisTurn = true;
-        }
-
-        public void OpenSkillPanel(int _i = 0)
-        {
-            GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().GetSkillsPanelIndex(GetComponent<PawnInstance>()).gameObject.SetActive(true);
-        }
-        #endregion
 
         #region Accessors
         public List<SkillBattle> BattleSkills
@@ -400,38 +318,7 @@ namespace Behaviour
             }
         }
 
-        public InteractionImplementer BattleInteractions
-        {
-            get
-            {
-                return battleInteractions;
-            }
-
-            set
-            {
-                battleInteractions = value;
-            }
-        }
-
-        public bool HasClickedOnAttack
-        {
-            get
-            {
-                return hasClickedOnAttack;
-            }
-
-            set
-            {
-                hasClickedOnAttack = value;
-                if (hasClickedOnAttack == true)
-                {
-                    GameManager.Instance.Ui.mouseFollower.SetActive(true);
-                    GameManager.Instance.Ui.mouseFollower.GetComponent<MouseFollower>().ExpectedTarget(TargetType.FoeSingle);
-                    BattleHandler.ActivateFeedbackSelection(false, true);
-                }
-            }
-        }
-
+        
         public Face[] LastThrowResult
         {
             get

@@ -12,15 +12,14 @@ public class SelectCharactersByClickingOnButton : MonoBehaviour {
         {
             if (pawnInstance.GetComponent<Fighter>() != null && !pawnInstance.GetComponent<Fighter>().HasPlayedThisTurn)
             {
+                for (int i = 0; i < 3; i++)
+                {
+                    uiBattleHandler.SkillsPanels.transform.GetChild(i).gameObject.SetActive(false);
+                }
                 GameManager.Instance.ClearListKeeperSelected();
                 GameManager.Instance.AddKeeperToSelectedList(pawnInstance);
                 pawnInstance.GetComponent<Keeper>().IsSelected = true;
-                GameManager.Instance.Ui.UpdateActionPanelUIForBattle(pawnInstance.GetComponent<Fighter>());
-            }
-
-            for (int i = 0; i < 3; i++)
-            {
-                uiBattleHandler.SkillsPanels.transform.GetChild(i).gameObject.SetActive(false);
+                GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().GetSkillsPanelIndex(pawnInstance).gameObject.SetActive(true);
             }
         }
     }
