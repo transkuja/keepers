@@ -306,7 +306,7 @@ public class ControlsManager : MonoBehaviour
                                     GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().GetSkillsPanelIndex(GameManager.Instance.GetFirstSelectedKeeper()).gameObject.SetActive(false);
                                 }
                                 GameManager.Instance.ClearListKeeperSelected();
-                                GameManager.Instance.Ui.mouseFollower.SetActive(false);
+                                CursorNormalState();
                                 BattleHandler.ActivateFeedbackSelection(true, false);
                                 BattleHandler.DeactivateFeedbackSelection(false, true);
                             }
@@ -319,7 +319,7 @@ public class ControlsManager : MonoBehaviour
                                 GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().GetSkillsPanelIndex(GameManager.Instance.GetFirstSelectedKeeper()).gameObject.SetActive(false);
                             }
                             GameManager.Instance.ClearListKeeperSelected();
-                            GameManager.Instance.Ui.mouseFollower.SetActive(false);
+                            CursorNormalState();
                             BattleHandler.ActivateFeedbackSelection(true, false);
                             BattleHandler.DeactivateFeedbackSelection(false, true);
                         }
@@ -344,7 +344,7 @@ public class ControlsManager : MonoBehaviour
     // TODO: some things are in double for left click
     private void HandleActionValidationDuringBattle()
     {
-        GameManager.Instance.Ui.mouseFollower.SetActive(false);
+        CursorNormalState();
         BattleHandler.DeactivateFeedbackSelection(false, true);
 
         if (!EventSystem.current.IsPointerOverGameObject())

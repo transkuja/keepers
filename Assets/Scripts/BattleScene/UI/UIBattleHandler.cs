@@ -443,7 +443,7 @@ public class UIBattleHandler : MonoBehaviour {
     public void CloseSkillsPanel()
     {
         GameManager.Instance.ClearListKeeperSelected();
-        GameManager.Instance.Ui.mouseFollower.SetActive(false);
+        Cursor.SetCursor(GameManager.Instance.Texture2DUtils.iconeMouse, Vector2.zero, CursorMode.Auto);
         BattleHandler.ActivateFeedbackSelection(true, false);
         BattleHandler.DeactivateFeedbackSelection(false, true);
     }

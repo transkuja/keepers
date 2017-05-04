@@ -37,7 +37,7 @@ public class MouseClickedOnIngameElt : MonoBehaviour {
             {
                 TutoManager.SecondMouseClicked = true;
                 BattleHandler.PendingSkill.UseSkill(GetComponent<PawnInstance>());
-                GameManager.Instance.Ui.mouseFollower.SetActive(false);
+                Cursor.SetCursor(GameManager.Instance.Texture2DUtils.iconeMouse, Vector2.zero, CursorMode.Auto);
             }
         }
     }

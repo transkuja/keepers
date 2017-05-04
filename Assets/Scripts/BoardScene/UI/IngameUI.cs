@@ -55,8 +55,6 @@ public class IngameUI : MonoBehaviour
     public GameObject tooltipJauge;
     public GameObject tooltipAction;
 
-
-    public GameObject mouseFollower;
     #region Accessors
     public UIIconFeedback UiIconFeedBack
     {
