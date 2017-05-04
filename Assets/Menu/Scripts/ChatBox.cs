@@ -158,4 +158,10 @@ public class ChatBox : MonoBehaviour {
             TriggerUnscale();
         }
     }
+
+    public void Say(string message)
+    {
+        txt.text = message;
+        TriggerScale();
+    }
 }

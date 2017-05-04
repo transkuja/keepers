@@ -237,6 +237,7 @@ public class MenuControlsQ : MonoBehaviour {
                         pi.GetComponent<OpenerContent>().Hide();
                         menuManager.RemoveFromSelectedKeepers(pi);
                         menuManager.dicPawnChatBox[pi.gameObject].SetMode(ChatBox.ChatMode.pickme);
+                        menuManager.dicPawnChatBox[pi.gameObject].Say("Oh no ...");
                     }
                     else    // ADD
                     {
@@ -245,6 +246,7 @@ public class MenuControlsQ : MonoBehaviour {
 
                         menuManager.AddToSelectedKeepers(pi);
                         menuManager.dicPawnChatBox[pi.gameObject].SetMode(ChatBox.ChatMode.picked);
+                        menuManager.dicPawnChatBox[pi.gameObject].Say("Yahouuuu !");
                     }
                     menuUI.UpdateSelectedKeepers();
                 }
