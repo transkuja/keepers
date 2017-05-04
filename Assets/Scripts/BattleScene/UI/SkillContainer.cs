@@ -3,6 +3,9 @@ using UnityEngine.UI;
 
 public class SkillContainer : MonoBehaviour {
     SkillBattle skillData;
+    private Color customGrey = new Color(0.6784f, 0.6784f, 0.6784f, 1);
+    private Color customRed = new Color(0.75f, 0, 0, 1);
+    private Color customGreen = new Color(0, 0.75f, 0, 1);
 
     public SkillBattle SkillData
     {
@@ -34,39 +37,39 @@ public class SkillContainer : MonoBehaviour {
             if (face.Type == FaceType.Physical)
             {
                 if (face.Value == 0)
-                    atkTxt.color = Color.white;
+                    atkTxt.color = customGrey;
                 else
                 {
                     if (face.Value > skillData.SkillUser.PhysicalSymbolStored)
-                        atkTxt.color = Color.red;
+                        atkTxt.color = customRed;
                     else if (face.Value <= skillData.SkillUser.PhysicalSymbolStored)
-                        atkTxt.color = Color.green;
+                        atkTxt.color = customGreen;
                 }
             }
 
             if (face.Type == FaceType.Magical)
             {
                 if (face.Value == 0)
-                    magTxt.color = Color.white;
+                    magTxt.color = customGrey;
                 else
                 {
                     if (face.Value > skillData.SkillUser.MagicalSymbolStored)
-                        magTxt.color = Color.red;
+                        magTxt.color = customRed;
                     else if (face.Value <= skillData.SkillUser.MagicalSymbolStored)
-                        magTxt.color = Color.green;
+                        magTxt.color = customGreen;
                 }
             }
 
             if (face.Type == FaceType.Defensive)
             {
                 if (face.Value == 0)
-                    defTxt.color = Color.white;
+                    defTxt.color = customGrey;
                 else
                 {
                     if (face.Value > skillData.SkillUser.DefensiveSymbolStored)
-                        defTxt.color = Color.red;
+                        defTxt.color = customRed;
                     else if (face.Value <= skillData.SkillUser.DefensiveSymbolStored)
-                        defTxt.color = Color.green;
+                        defTxt.color = customGreen;
                 }
             }
         }
