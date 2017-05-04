@@ -5,7 +5,11 @@
 			"name" : "Ashley",
 			"sprite" : "Pawn_mini_icon/ashley_mini_icon",
 			"shortcutSprite" : "Pawn_mini_icon/support_ashley",
-			"canSpeak" : "true",
+			"canSpeak" : "false",
+			"morfale" : "false",
+			"gaga" : "false",
+			"explorateur" : "false",
+			"sensible" : "false",
 			
 			"HungerHandler" : {
 				"maxHunger" : 100
@@ -29,6 +33,10 @@
 			"sprite" : "Pawn_mini_icon/oldman_mini_icon",
 			"shortcutSprite" : "Pawn_mini_icon/support_oldman",
 			"canSpeak" : "true",
+			"morfale" : "false",
+			"gaga" : "true",
+			"explorateur" : "false",
+			"sensible" : "false",
 			
 			"Fighter" : {},
 			
@@ -60,6 +68,10 @@
 			"sprite" : "Pawn_mini_icon/dog_mini_icon",
 			"shortcutSprite" : "Pawn_mini_icon/support_dog",
 			"canSpeak" : "false",
+			"morfale" : "false",
+			"gaga" : "false",
+			"explorateur" : "true",
+			"sensible" : "false",
 			
 			"Fighter" : {},
 			
@@ -91,6 +103,10 @@
 			"sprite" : "Pawn_mini_icon/doll_mini_icon",
 			"shortcutSprite" : "Pawn_mini_icon/support_doll",			
 			"canSpeak" : "true",
+			"morfale" : "true",
+			"gaga" : "false",
+			"explorateur" : "false",
+			"sensible" : "false",
 
 			"Fighter" : {},
 			
@@ -122,6 +138,10 @@
 			"sprite" : "Pawn_mini_icon/Heal_mini_icon",
 			"shortcutSprite" : "Pawn_mini_icon/support_heal",
 			"canSpeak" : "true",
+			"morfale" : "false",
+			"gaga" : "false",
+			"explorateur" : "false",
+			"sensible" : "true",
 
 			"HungerHandler" : {
 				"maxHunger" : 100
