@@ -212,16 +212,16 @@ public class UIBattleHandler : MonoBehaviour {
         {
             for (int i = 0; i < fighterComponent.BattleSkills.Count && i < 4; i++)
             {
-                Transform currentSkill = skillsPanel.GetChild(i);
+                Transform currentSkill = skillsPanel.GetChild(i+1);
 
                 SkillBattle fighterCurSkill;
                 if (_pawnInstanceForInit.GetComponent<MentalHealthHandler>() != null && _pawnInstanceForInit.GetComponent<MentalHealthHandler>().IsDepressed)
-                    fighterCurSkill = fighterComponent.BattleSkills[i].DepressedVersion;
+                    fighterCurSkill = fighterComponent.DepressedSkills[i];
                 else
                     fighterCurSkill = fighterComponent.BattleSkills[i];
 
                 currentSkill.GetChild((int)SkillButtonChildren.SkillName).GetComponent<SkillContainer>().SkillData = fighterCurSkill;
-                currentSkill.GetChild((int)SkillButtonChildren.SkillName).GetComponent<Text>().text = fighterCurSkill.SkillName;
+                currentSkill.GetChild((int)SkillButtonChildren.SkillName).GetComponentInChildren<Text>().text = fighterCurSkill.SkillName;
                 currentSkill.GetComponent<SkillDescriptionUI>().SkillDescription = fighterCurSkill.Description;
 
                 currentSkill.GetChild((int)SkillButtonChildren.Atk).GetComponentInChildren<Text>().text = "0";
@@ -260,7 +260,7 @@ public class UIBattleHandler : MonoBehaviour {
                 Transform currentSkill = panelToReload.GetChild(i);
                 SkillBattle fighterCurSkill;
                 if (_pawnInstanceForReload.GetComponent<MentalHealthHandler>() != null && _pawnInstanceForReload.GetComponent<MentalHealthHandler>().IsDepressed)
-                    fighterCurSkill = fighterComponent.BattleSkills[i].DepressedVersion;
+                    fighterCurSkill = fighterComponent.DepressedSkills[i];
                 else
                     fighterCurSkill = fighterComponent.BattleSkills[i];
 
@@ -374,6 +374,51 @@ public class UIBattleHandler : MonoBehaviour {
         atkAttribute.GetComponentInChildren<Text>().text = _toUpdate.PhysicalSymbolStored.ToString();
         defAttribute.GetComponentInChildren<Text>().text = _toUpdate.DefensiveSymbolStored.ToString();
         magAttribute.GetComponentInChildren<Text>().text = _toUpdate.MagicalSymbolStored.ToString();
+
+        float atkFillAmount = (_toUpdate.PhysicalSymbolStored / (float)Fighter.StockMaxValue);
+        atkAttribute.GetComponentInChildren<Image>().fillAmount = atkFillAmount;
+        if (atkFillAmount == 1.0f)
+            atkAttribute.GetComponentInChildren<Image>().sprite = GameManager.Instance.SpriteUtils.spriteFillAtkFull;
+        else
+            atkAttribute.GetComponentInChildren<Image>().sprite = GameManager.Instance.SpriteUtils.spriteFillAtk;
+
+        float defFillAmount = (_toUpdate.DefensiveSymbolStored / (float)Fighter.StockMaxValue);
+        defAttribute.GetComponentInChildren<Image>().fillAmount = defFillAmount;
+        if (defFillAmount == 1.0f)
+            defAttribute.GetComponentInChildren<Image>().sprite = GameManager.Instance.SpriteUtils.spriteFillDefFull;
+        else
+            defAttribute.GetComponentInChildren<Image>().sprite = GameManager.Instance.SpriteUtils.spriteFillDef;
+
+        float magFillAmount = (_toUpdate.MagicalSymbolStored / (float)Fighter.StockMaxValue);
+        magAttribute.GetComponentInChildren<Image>().fillAmount = magFillAmount;
+        if (magFillAmount == 1.0f)
+            magAttribute.GetComponentInChildren<Image>().sprite = GameManager.Instance.SpriteUtils.spriteFillMagicFull;
+        else
+            magAttribute.GetComponentInChildren<Image>().sprite = GameManager.Instance.SpriteUtils.spriteFillMagic;
+    }
+
+    private void ResetAttributesGauges()
+    {
+        foreach (PawnInstance pi in associatedCharacterPanel.Keys)
+        {
+            Transform attributes = associatedCharacterPanel[pi].GetChild((int)CharactersPanelChildren.Attributes);
+            Transform atkAttribute = attributes.GetChild((int)AttributesChildren.Attack);
+            Transform defAttribute = attributes.GetChild((int)AttributesChildren.Defense);
+            Transform magAttribute = attributes.GetChild((int)AttributesChildren.Magic);
+            
+            atkAttribute.GetComponentInChildren<Text>().text = "0";
+            defAttribute.GetComponentInChildren<Text>().text = "0";
+            magAttribute.GetComponentInChildren<Text>().text = "0";
+
+            atkAttribute.GetComponentInChildren<Image>().fillAmount = 0.0f;        
+            atkAttribute.GetComponentInChildren<Image>().sprite = GameManager.Instance.SpriteUtils.spriteFillAtk;
+
+            defAttribute.GetComponentInChildren<Image>().fillAmount = 0.0f;
+            defAttribute.GetComponentInChildren<Image>().sprite = GameManager.Instance.SpriteUtils.spriteFillDef;
+
+            magAttribute.GetComponentInChildren<Image>().fillAmount = 0.0f;
+            magAttribute.GetComponentInChildren<Image>().sprite = GameManager.Instance.SpriteUtils.spriteFillMagic;
+        }
     }
 
     public void UpdateCharacterLifeBar(Mortal _toUpdate)
@@ -426,11 +471,13 @@ public class UIBattleHandler : MonoBehaviour {
         for (int i = 0; i < charactersPanel.transform.childCount; i++)
             charactersPanel.transform.GetChild(i).GetChild(0).gameObject.SetActive(false);
 
+        ResetAttributesGauges();
+
         associatedCharacterPanel.Clear();
         associatedCharacterPanelReversed.Clear();
 
         // Reset skills panel
-        for (int i = 0; i < skillsPanels.transform.childCount; i++)
+        for (int i = 1; i < skillsPanels.transform.childCount; i++)
         {
             Transform currentSkillsPanel = skillsPanels.transform.GetChild(i);
 
@@ -438,7 +485,7 @@ public class UIBattleHandler : MonoBehaviour {
             {
                 Transform currentSkill = currentSkillsPanel.GetChild(j);
                 currentSkill.GetChild((int)SkillButtonChildren.SkillName).GetComponent<SkillContainer>().SkillData = null;
-                currentSkill.GetChild((int)SkillButtonChildren.SkillName).GetComponent<Text>().text = "";
+                currentSkill.GetChild((int)SkillButtonChildren.SkillName).GetComponentInChildren<Text>().text = "";
                 currentSkill.GetComponent<SkillDescriptionUI>().SkillDescription = "";
 
                 currentSkill.GetChild((int)SkillButtonChildren.Atk).GetComponentInChildren<Text>().text = "0";

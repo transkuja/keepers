@@ -12,7 +12,9 @@ namespace Behaviour
         // Balance variables
         private int effectiveAttackValue = 5;
         private int effectiveDefenseValue = 5;
-        private int stockMaxValue = 10;
+
+        // Warning, UI is not think for values above 9, so ask before changing this setting
+        public static int StockMaxValue = 9;
 
         PawnInstance instance;
         private InteractionImplementer battleInteractions;
@@ -104,10 +106,6 @@ namespace Behaviour
 
             MonstersBattleSkillsSelection mbss = new MonstersBattleSkillsSelection();
             skillDecisionAlgo = mbss.GetDecisionAlgorithm(GetComponent<PawnInstance>().Data.PawnId);
-
-            // Fix, remove when found a way to set directly sub skill
-            for (int i = 0; i < depressedSkills.Count; i++)
-                battleSkills[i].DepressedVersion = new SkillBattle(depressedSkills[i]);
         }
 
         private void Update()
@@ -326,8 +324,8 @@ namespace Behaviour
             set
             {
                 physicalSymbolStored = value;
-                if (physicalSymbolStored > stockMaxValue)
-                    physicalSymbolStored = stockMaxValue;
+                if (physicalSymbolStored > StockMaxValue)
+                    physicalSymbolStored = StockMaxValue;
                 GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().UpdateAttributesStocks(this);
             }
         }
@@ -342,8 +340,8 @@ namespace Behaviour
             set
             {
                 magicalSymbolStored = value;
-                if (magicalSymbolStored > stockMaxValue)
-                    magicalSymbolStored = stockMaxValue;
+                if (magicalSymbolStored > StockMaxValue)
+                    magicalSymbolStored = StockMaxValue;
                 GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().UpdateAttributesStocks(this);
             }
         }
@@ -358,8 +356,8 @@ namespace Behaviour
             set
             {
                 defensiveSymbolStored = value;
-                if (defensiveSymbolStored > stockMaxValue)
-                    defensiveSymbolStored = stockMaxValue;
+                if (defensiveSymbolStored > StockMaxValue)
+                    defensiveSymbolStored = StockMaxValue;
                 GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().UpdateAttributesStocks(this);
             }
         }
@@ -525,6 +523,19 @@ namespace Behaviour
             set
             {
                 effectiveBoeufs = value;
+            }
+        }
+
+        public List<SkillBattle> DepressedSkills
+        {
+            get
+            {
+                return depressedSkills;
+            }
+
+            set
+            {
+                depressedSkills = value;
             }
         }
 

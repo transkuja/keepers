@@ -11,8 +11,6 @@ public enum TargetType { FriendSingle, FoeSingle, FriendAll, FoeAll, Self }
 [System.Serializable]
 public class SkillBattle {
 
-    public SkillBattle depressedVersion;
-
     [SerializeField]
     private Fighter skillUser;
 
@@ -101,19 +99,6 @@ public class SkillBattle {
         }
     }
 
-    public SkillBattle DepressedVersion
-    {
-        get
-        {
-            return depressedVersion;
-        }
-
-        set
-        {
-            depressedVersion = value;
-        }
-    }
-
     public SkillBattle()
     {
 
@@ -134,8 +119,6 @@ public class SkillBattle {
             description = _origin.description;
             cost = _origin.cost;
             targetType = _origin.targetType;
-
-            depressedVersion = new SkillBattle(_origin.depressedVersion);
         }
     }
 

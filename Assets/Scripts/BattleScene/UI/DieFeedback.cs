@@ -31,19 +31,19 @@ public class DieFeedback : MonoBehaviour {
         if (faceInfo.Type == FaceType.Physical)
         {
             feedback.GetComponentInChildren<Image>().sprite = GameManager.Instance.SpriteUtils.spriteAttackSymbol;
-            feedback.GetComponentInChildren<Image>().color = new Color(0.75f, 0, 0, 1);
+            feedback.GetComponentInChildren<Image>().color = new Color(1, 0.5f, 0, 1);
             lerpEndPosition = attributesPanel.GetChild((int)AttributesChildren.Attack).position;
         }
         else if (faceInfo.Type == FaceType.Defensive)
         {
             feedback.GetComponentInChildren<Image>().sprite = GameManager.Instance.SpriteUtils.spriteDefenseSymbol;
-            feedback.GetComponentInChildren<Image>().color = new Color(0, 0, 0.75f, 1);
+            feedback.GetComponentInChildren<Image>().color = new Color(0, 0.5f, 1.0f, 1);
             lerpEndPosition = attributesPanel.GetChild((int)AttributesChildren.Defense).position;
         }
         else if (faceInfo.Type == FaceType.Magical)
         {
             feedback.GetComponentInChildren<Image>().sprite = GameManager.Instance.SpriteUtils.spriteMagicSymbol;
-            feedback.GetComponentInChildren<Image>().color = Color.green;
+            feedback.GetComponentInChildren<Image>().color = new Color(0.6f, 0, 0.6f, 1);
             lerpEndPosition = attributesPanel.GetChild((int)AttributesChildren.Magic).position;
         }
 
