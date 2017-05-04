@@ -1,6 +1,6 @@
 //Maya ASCII 2016 scene
 //Name: Group_Biome.ma
-//Last modified: Thu, May 04, 2017 12:19:13 AM
+//Last modified: Thu, May 04, 2017 03:33:10 AM
 //Codeset: 1252
 requires maya "2016";
 requires "stereoCamera" "10.0";
@@ -79,15 +79,15 @@ createNode camera -s -n "sideShape" -p "side";
 	setAttr ".o" yes;
 createNode transform -n "camera1";
 	rename -uid "29486B55-4496-08B3-607E-55A70E78AEC0";
-	setAttr ".t" -type "double3" -698.72827694278647 1766.2558558079613 2041.4926788508305 ;
-	setAttr ".r" -type "double3" -400.80000000152091 1792.7999999997576 -1.2021876139615782e-015 ;
+	setAttr ".t" -type "double3" -728.30892902445589 1563.1228322467343 2942.7819697555638 ;
+	setAttr ".r" -type "double3" -388.2000000015197 1794.3999999997488 -5.9921381061810854e-016 ;
 createNode camera -n "cameraShape1" -p "camera1";
 	rename -uid "5BD82F62-47D8-A8CD-388D-4C824DCD4E22";
 	setAttr -k off ".v";
 	setAttr ".rnd" no;
 	setAttr ".cap" -type "double2" 1.41732 0.94488 ;
 	setAttr ".ff" 0;
-	setAttr ".coi" 2768.2364409995826;
+	setAttr ".coi" 3397.920018445604;
 	setAttr ".ow" 30;
 	setAttr ".imn" -type "string" "camera1";
 	setAttr ".den" -type "string" "camera1_depth";
