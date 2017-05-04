@@ -61,13 +61,19 @@ public class SpriteUIUtils : MonoBehaviour {
 
     // Life bars
     [Header("Battle")]
-    public Sprite spriteGreenLifeBar;
-    public Sprite spriteOrangeLifeBar;
+    public Sprite spritePlayerGreenLifeBar;
+    public Sprite spriteMonsterGreenLifeBar;
 
-    // Face type symbols
+    // Stocks
+    public Sprite spriteFillAtk;
+    public Sprite spriteFillAtkFull;
+    public Sprite spriteFillDef;
+    public Sprite spriteFillDefFull;
+    public Sprite spriteFillMagic;
+    public Sprite spriteFillMagicFull;
     public Sprite spriteAttackSymbol;
     public Sprite spriteDefenseSymbol;
     public Sprite spriteMagicSymbol;
-    public Sprite spriteSupportSymbol;
+
 }
 

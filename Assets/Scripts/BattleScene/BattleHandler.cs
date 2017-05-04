@@ -619,13 +619,14 @@ public class BattleHandler {
                     GameObject lifeBar = child.GetChild(0).GetChild(1).gameObject;
                     Image lifeBarImg = lifeBar.transform.GetChild((int)LifeBarChildren.Remaining).GetComponent<Image>();
                     lifeBarImg.fillAmount = currentBattleMonsters[i].GetComponent<Mortal>().CurrentHp / (float)currentBattleMonsters[i].GetComponent<Mortal>().MaxHp;
+                    lifeBarImg.sprite = GameManager.Instance.SpriteUtils.spriteMonsterGreenLifeBar;
                     if (lifeBarImg.fillAmount < 0.33f)
                     {
-                        lifeBarImg.sprite = GameManager.Instance.SpriteUtils.spriteOrangeLifeBar;
+                        lifeBarImg.color = Color.red;
                     }
                     else
                     {
-                        lifeBarImg.sprite = GameManager.Instance.SpriteUtils.spriteGreenLifeBar;
+                        lifeBarImg.color = Color.white;
                     }
                     lifeBar.SetActive(true);
                     enabledLifeBars.Add(lifeBar);

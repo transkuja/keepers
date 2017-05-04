@@ -178,13 +178,15 @@ public class UIBattleHandler : MonoBehaviour {
         Mortal mortalComponent = _pawnInstanceForInit.GetComponent<Mortal>();
         Image lifeBarImg = characterPanel.GetChild((int)CharactersPanelChildren.LifeBar).GetChild((int)LifeBarChildren.Remaining).GetComponent<Image>();
         lifeBarImg.fillAmount = mortalComponent.CurrentHp / (float)mortalComponent.Data.MaxHp;
+        lifeBarImg.sprite = GameManager.Instance.SpriteUtils.spritePlayerGreenLifeBar;
+
         if (lifeBarImg.fillAmount < 0.33f)
         {
-            lifeBarImg.sprite = GameManager.Instance.SpriteUtils.spriteOrangeLifeBar;
+            lifeBarImg.color = Color.red;
         }
         else
         {
-            lifeBarImg.sprite = GameManager.Instance.SpriteUtils.spriteGreenLifeBar;
+            lifeBarImg.color = Color.white;
         }
         characterPanel.GetChild((int)CharactersPanelChildren.LifeBar).GetChild((int)LifeBarChildren.Text).GetComponent<Text>().text = mortalComponent.CurrentHp + " / " + mortalComponent.Data.MaxHp;
 
@@ -290,13 +292,15 @@ public class UIBattleHandler : MonoBehaviour {
                 GameObject lifeBar = child.GetChild(0).GetChild(1).gameObject;
                 Image lifeBarImg = lifeBar.transform.GetChild((int)LifeBarChildren.Remaining).GetComponent<Image>();
                 lifeBarImg.fillAmount = _toUpdate.CurrentHp / (float)_toUpdate.MaxHp;
+                lifeBarImg.sprite = GameManager.Instance.SpriteUtils.spritePlayerGreenLifeBar;
+
                 if (lifeBarImg.fillAmount < 0.33f)
                 {
-                    lifeBarImg.sprite = GameManager.Instance.SpriteUtils.spriteOrangeLifeBar;
+                    lifeBarImg.color = Color.red;
                 }
                 else
                 {
-                    lifeBarImg.sprite = GameManager.Instance.SpriteUtils.spriteGreenLifeBar;
+                    lifeBarImg.color = Color.white;
                 }
                 break;
             }
@@ -377,13 +381,15 @@ public class UIBattleHandler : MonoBehaviour {
         Transform panelToUpdate = associatedCharacterPanel[_toUpdate.GetComponent<PawnInstance>()];
         Image lifeBarImg = panelToUpdate.GetChild((int)CharactersPanelChildren.LifeBar).GetChild((int)LifeBarChildren.Remaining).GetComponent<Image>();
         lifeBarImg.fillAmount = _toUpdate.CurrentHp / (float) _toUpdate.Data.MaxHp;
+        lifeBarImg.sprite = GameManager.Instance.SpriteUtils.spritePlayerGreenLifeBar;
+
         if (lifeBarImg.fillAmount < 0.33f)
         {
-            lifeBarImg.sprite = GameManager.Instance.SpriteUtils.spriteOrangeLifeBar;
+            lifeBarImg.color = Color.red;
         }
         else
         {
-            lifeBarImg.sprite = GameManager.Instance.SpriteUtils.spriteGreenLifeBar;
+            lifeBarImg.color = Color.white;
         }
         panelToUpdate.GetChild((int)CharactersPanelChildren.LifeBar).GetChild((int)LifeBarChildren.Text).GetComponent<Text>().text = _toUpdate.CurrentHp + " / " + _toUpdate.Data.MaxHp;
     }

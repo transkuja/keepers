@@ -36,13 +36,11 @@ public class MouseFollower : MonoBehaviour {
 
         if (isTargetExpectedAFriend)
         {
-            GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteSupportSymbol;
-            GetComponent<Image>().color = friendlyColor;
+            Cursor.SetCursor(GameManager.Instance.Texture2DUtils.buffCursor, Vector2.zero, CursorMode.Auto);
         }
         else
         {
-            GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteAttackSymbol;
-            GetComponent<Image>().color = foeColor;
+            Cursor.SetCursor(GameManager.Instance.Texture2DUtils.attackCursor, Vector2.zero, CursorMode.Auto);
         }
     }
 

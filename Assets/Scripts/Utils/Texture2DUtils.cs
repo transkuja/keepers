@@ -24,8 +24,12 @@ public class Texture2DUtils : MonoBehaviour {
     public Texture2D magicX5;
     public Texture2D magicX6;
 
+    [Header("Cursors")]
     public Texture2D iconeMouse;
     public Texture2D iconeMouseClicked;
+    public Texture2D attackCursor;
+    public Texture2D buffCursor;
+    public Texture2D magicCursor;
 
     public Texture2D GetTextureFromFaceData(Face faceData)
     {
