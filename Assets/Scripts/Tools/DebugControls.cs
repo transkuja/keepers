@@ -141,9 +141,9 @@ public class DebugControls : MonoBehaviour {
                 if (GameManager.Instance.CurrentState == GameState.InBattle)
                 {
                     if (Input.GetKey(KeyCode.LeftShift))
-                        GameManager.Instance.GetComponent<Fighter>().PhysicalSymbolStored++;
+                        GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Fighter>().PhysicalSymbolStored++;
                     else
-                        GameManager.Instance.GetComponent<Fighter>().PhysicalSymbolStored--;
+                        GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Fighter>().PhysicalSymbolStored--;
                 }
                 else
                 {
@@ -160,9 +160,9 @@ public class DebugControls : MonoBehaviour {
                 if (GameManager.Instance.CurrentState == GameState.InBattle)
                 {
                     if (Input.GetKey(KeyCode.LeftShift))
-                        GameManager.Instance.GetComponent<Fighter>().DefensiveSymbolStored++;
+                        GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Fighter>().DefensiveSymbolStored++;
                     else
-                        GameManager.Instance.GetComponent<Fighter>().DefensiveSymbolStored--;
+                        GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Fighter>().DefensiveSymbolStored--;
                 }
                 else
                 {
@@ -179,9 +179,9 @@ public class DebugControls : MonoBehaviour {
                 if (GameManager.Instance.CurrentState == GameState.InBattle)
                 {
                     if (Input.GetKey(KeyCode.LeftShift))
-                        GameManager.Instance.GetComponent<Fighter>().MagicalSymbolStored++;
+                        GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Fighter>().MagicalSymbolStored++;
                     else
-                        GameManager.Instance.GetComponent<Fighter>().MagicalSymbolStored--;
+                        GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Fighter>().MagicalSymbolStored--;
                 }
                 else
                 {
