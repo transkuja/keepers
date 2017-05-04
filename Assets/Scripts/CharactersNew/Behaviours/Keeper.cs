@@ -253,7 +253,10 @@ namespace Behaviour
         {
             GameManager.Instance.ClearListKeeperSelected();
             GameManager.Instance.ListOfSelectedKeepers.Add(instance);
+
             IsSelected = true;
+
+            GameManager.Instance.UpdateCameraPosition(instance);
         }
 
         public void GoToKeeper(int direction)
@@ -399,10 +402,6 @@ namespace Behaviour
                 {
                     feedbackSelection.SetActive(value);
 
-                    //if (isSelected == true && GameManager.Instance.CameraManagerReference.state == CameraManager.CameraState.Close)
-                    //{
-                    //    GameManager.Instance.UpdateCameraPosition(instance);
-                    //}
                     ShowSelectedPanelUI(isSelected);
                     GameManager.Instance.Ui.HideInventoryPanels();
                 }
