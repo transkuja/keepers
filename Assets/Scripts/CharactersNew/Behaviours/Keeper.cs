@@ -139,7 +139,7 @@ namespace Behaviour
 
         public void MoralBuff(int _i = 0)
         {
-            int costAction = instance.Interactions.Get("Moral").costAction;
+            int costAction = instance.Interactions.Get("Talk").costAction;
             Keeper from = GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Keeper>();
             if (from.ActionPoints >= costAction)
             {

@@ -67,6 +67,50 @@ public class PawnDatabase {
                                 break;
                         }
                         break;
+                    case "morfale":
+                        switch (pawnEntry.Value.Str)
+                        {
+                            case "true":
+                                newPawnDataContainer.pawnData.Behaviours[(int)BehavioursEnum.Morfale] = true;
+                                break;
+                            case "false":
+                                newPawnDataContainer.pawnData.Behaviours[(int)BehavioursEnum.Morfale] = false;
+                                break;
+                        }
+                        break;
+                    case "gaga":
+                        switch (pawnEntry.Value.Str)
+                        {
+                            case "true":
+                                newPawnDataContainer.pawnData.Behaviours[(int)BehavioursEnum.Gaga] = true;
+                                break;
+                            case "false":
+                                newPawnDataContainer.pawnData.Behaviours[(int)BehavioursEnum.Gaga] = false;
+                                break;
+                        }
+                        break;
+                    case "explorateur":
+                        switch (pawnEntry.Value.Str)
+                        {
+                            case "true":
+                                newPawnDataContainer.pawnData.Behaviours[(int)BehavioursEnum.Explorateur] = true;
+                                break;
+                            case "false":
+                                newPawnDataContainer.pawnData.Behaviours[(int)BehavioursEnum.Explorateur] = false;
+                                break;
+                        }
+                        break;
+                    case "sensible":
+                        switch (pawnEntry.Value.Str)
+                        {
+                            case "true":
+                                newPawnDataContainer.pawnData.Behaviours[(int)BehavioursEnum.Sensible] = true;
+                                break;
+                            case "false":
+                                newPawnDataContainer.pawnData.Behaviours[(int)BehavioursEnum.Sensible] = false;
+                                break;
+                        }
+                        break;
                     // COMPONENTS DATA
                     case "Fighter":
                         newPawnDataContainer.dicComponentData.Add(typeof(Behaviour.Fighter), null);

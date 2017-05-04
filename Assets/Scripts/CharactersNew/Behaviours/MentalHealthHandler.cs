@@ -149,12 +149,16 @@ namespace Behaviour
             set
             {
                 int feedbackAmount = value - currentMentalHealth;
-                if (feedbackAmount < 0)
-                    instance.AddFeedBackToQueue(GameManager.Instance.SpriteUtils.spriteMoralDebuff, value - currentMentalHealth);
-                else
-                    instance.AddFeedBackToQueue(GameManager.Instance.SpriteUtils.spriteMoralBuff, value - currentMentalHealth);
 
-                currentMentalHealth = value;
+                if (GetComponent<PawnInstance>().Data.Behaviours[(int)BehavioursEnum.Sensible])
+                    feedbackAmount *= 2;
+
+                if (feedbackAmount < 0)
+                    instance.AddFeedBackToQueue(GameManager.Instance.SpriteUtils.spriteMoralDebuff, feedbackAmount);
+                else
+                    instance.AddFeedBackToQueue(GameManager.Instance.SpriteUtils.spriteMoralBuff, feedbackAmount);
+
+                currentMentalHealth = value + feedbackAmount;
                 if (currentMentalHealth < 0)
                 {
                     currentMentalHealth = 0;

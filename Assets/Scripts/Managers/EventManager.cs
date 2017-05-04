@@ -70,7 +70,6 @@ public class EventManager : MonoBehaviour {
                 if (ki.CurrentTile != null && TileManager.Instance.MonstersOnTile != null && TileManager.Instance.MonstersOnTile.ContainsKey(ki.CurrentTile) && TileManager.Instance.MonstersOnTile[ki.CurrentTile].Count > 0)
                     ki.GetComponent<MentalHealthHandler>().CurrentMentalHealth -= 5;
 
-
                 if (ki.CurrentTile.GetComponent<Tile>().Friendliness == TileFriendliness.Scary)
                     ki.GetComponent<MentalHealthHandler>().CurrentMentalHealth -= 10;
                 if (ki.CurrentTile.GetComponent<Tile>().Friendliness == TileFriendliness.Friendly)
@@ -105,7 +104,10 @@ public class EventManager : MonoBehaviour {
                 if (hungerModifier)
                     ki.GetComponent<HungerHandler>().CurrentHunger -= 5;
 
-                ki.GetComponent<HungerHandler>().CurrentHunger -= 10;
+                int hungerMultipier = 1;
+                if (ki.GetComponent<PawnInstance>().Data.Behaviours[(int)BehavioursEnum.Morfale])
+                    hungerMultipier = 2;
+                ki.GetComponent<HungerHandler>().CurrentHunger -= (10* hungerMultipier);
             }
          
                 //ki.AddFeedBackToQueue(GameManager.Instance.SpriteUtils.spriteHunger, -10);
