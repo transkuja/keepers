@@ -116,6 +116,14 @@ namespace Behaviour
                         Destroy(gameObject, 0.1f);
 
                 }
+
+                if (TileManager.Instance.KeepersOnTile.ContainsKey(keeper.GetComponent<PawnInstance>().CurrentTile)) {
+                    foreach (PawnInstance k in TileManager.Instance.KeepersOnTile[keeper.GetComponent<PawnInstance>().CurrentTile])
+                    {
+                        k.GetComponent<MentalHealthHandler>().CurrentMentalHealth -= 30;
+                    }
+                }
+              
             }
             else if (GetComponent<Prisoner>() != null)
             {
