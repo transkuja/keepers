@@ -118,17 +118,10 @@ public class PawnData {
 
 public enum BehavioursEnum
 {
-    AnimatedPawn,
-    Escortable,
-    Fighter,
-    HungerHandler,
-    Inventory,
-    Keeper,
-    MentalHealthHandler,
-    Monster,
-    Mortal,
-    PathBlocker,
-    QuestDealer,
+    Morfale,
+    Gaga,
+    Explorateur,
+    Sensible,
     CanSpeak,
     Size
 };
