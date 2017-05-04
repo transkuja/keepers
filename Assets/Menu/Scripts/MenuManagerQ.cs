@@ -5,6 +5,13 @@ using QuestDeckLoader;
 
 public class MenuManagerQ : MonoBehaviour {
 
+    [SerializeField]
+    GameObject prefabChatox;
+
+    [HideInInspector] public  Dictionary<GameObject, ChatBox> dicPawnChatBox;
+
+    public GameObject canvas;
+
     private int cardLevelSelected = -1;
     private string deckOfCardsSelected = string.Empty;
     private List<PawnInstance> listeSelectedKeepers;
@@ -29,7 +36,12 @@ public class MenuManagerQ : MonoBehaviour {
 
         InitEventCards();
         InitLevelsCard();
-        InitKeepers();
+        InitKeepers(); 
+    }
+
+    void Update()
+    {
+
     }
 
     public void InitEventCards()
@@ -79,6 +91,7 @@ public class MenuManagerQ : MonoBehaviour {
 
     public void InitKeepers()
     {
+        dicPawnChatBox = new Dictionary<GameObject, ChatBox>();
         int iKeeper = 0;
         foreach (string id in GameManager.Instance.PawnDataBase.DicPawnDataContainer.Keys)
         {
@@ -87,6 +100,14 @@ public class MenuManagerQ : MonoBehaviour {
             if (GameManager.Instance.PawnDataBase.DicPawnDataContainer[id].dicComponentData.ContainsKey(typeof(Behaviour.Keeper)))
             {
                 GameObject goKeeper = GameManager.Instance.PawnDataBase.CreatePawn(id, /*Vector3.zero*/ keepersPosition[iKeeper].position, keepersPosition[iKeeper].rotation, null /*keepersPosition[iKeeper]*/);
+
+                ChatBox newChatBox = Instantiate(prefabChatox, canvas.transform).GetComponent<ChatBox>();
+                newChatBox.trTarget = goKeeper.transform;
+                newChatBox.SetMode(ChatBox.ChatMode.pickme);
+                newChatBox.SetEnable(false);
+                dicPawnChatBox.Add(goKeeper, newChatBox);
+
+
                 OpenerContent oc = goKeeper.AddComponent<OpenerContent>();
                 oc.fSpeed = 10;
                 oc.AddKeyPose(keepersPosition[iKeeper].position, keepersPosition[iKeeper].rotation);

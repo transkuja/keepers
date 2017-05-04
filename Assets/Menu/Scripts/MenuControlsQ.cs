@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 // Temp
 using UnityEngine.SceneManagement;
@@ -75,6 +76,11 @@ public class MenuControlsQ : MonoBehaviour {
                 animatorCam.SetBool("bOpen", bIsOpen);
 
                 hit.transform.GetComponent<GlowObjectCmd>().GlowColor = bIsOpen ? colorLockOpen : colorLockClosed;
+
+                foreach(KeyValuePair<GameObject, ChatBox> gc in menuManager.dicPawnChatBox)
+                {
+                    gc.Value.SetEnable(bIsOpen);
+                }
             }
         }
 
@@ -225,18 +231,20 @@ public class MenuControlsQ : MonoBehaviour {
                 PawnInstance pi = hit.transform.gameObject.GetComponent<PawnInstance>();
                 if (pi != null)
                 {
-                    if (menuManager.ContainsSelectedKeepers(pi))
+                    if (menuManager.ContainsSelectedKeepers(pi)) // REMOVE
                     {
                         AudioManager.Instance.PlayOneShot(AudioManager.Instance.deselectSound, 0.25f);
                         pi.GetComponent<OpenerContent>().Hide();
                         menuManager.RemoveFromSelectedKeepers(pi);
+                        menuManager.dicPawnChatBox[pi.gameObject].SetMode(ChatBox.ChatMode.pickme);
                     }
-                    else
+                    else    // ADD
                     {
                         AudioManager.Instance.PlayOneShot(AudioManager.Instance.selectSound, 0.25f);
                         pi.GetComponent<OpenerContent>().Show();
 
                         menuManager.AddToSelectedKeepers(pi);
+                        menuManager.dicPawnChatBox[pi.gameObject].SetMode(ChatBox.ChatMode.picked);
                     }
                     menuUI.UpdateSelectedKeepers();
                 }
@@ -307,13 +315,14 @@ public class MenuControlsQ : MonoBehaviour {
         EventCardSelectedOpener.ComputeContentPositions();
         //EventCardSelectedOpener.Fold(true);
 
+        goCard.GetComponent<OpenerContent>().LoadParent();
         goCard.GetComponent<OpenerContent>().Hide(true);
 
         GameManager.Instance.ListEventSelected.Add(goCard.GetComponent<EventCard>().id);
 
         EventDeck.LoadChilds();
         EventDeck.ComputeContentPositions();
-        EventDeck.Unfold(true);
+        EventDeck.bNeedReload = true;
     }
 
     public void RemoveEventCardFromSelection(GameObject goCard)
@@ -324,9 +333,13 @@ public class MenuControlsQ : MonoBehaviour {
         goCard.transform.localPosition = Vector3.zero;
         EventDeck.LoadChilds();
         EventDeck.ComputeContentPositions();
+        goCard.GetComponent<OpenerContent>().LoadParent();
         goCard.GetComponent<OpenerContent>().Hide(true);
 
         goCard.GetComponent<EventCard>().bSelected = false;
+
+        EventCardSelectedOpener.LoadChilds();
+        EventCardSelectedOpener.ComputeContentPositions();
 
         if (EventCardSelectedOpener.listChilds.Count == 0)
         {

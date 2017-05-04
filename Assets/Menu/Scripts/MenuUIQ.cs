@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class MenuUIQ: MonoBehaviour {
 
@@ -11,8 +12,6 @@ public class MenuUIQ: MonoBehaviour {
     // TODO handle this better
     [SerializeField]
     Sprite[] levelImg;
-
-    [SerializeField] GameObject prefabChatox;
 
     void Start()
     {

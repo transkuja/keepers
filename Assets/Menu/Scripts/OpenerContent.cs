@@ -43,10 +43,7 @@ public class OpenerContent : MonoBehaviour {
 	
     public void Init()
     {
-        if(transform.parent != null)
-        {
-            openerParent = transform.parent.GetComponent<Opener>();
-        }
+        LoadParent();
 
         col = GetComponent<MeshCollider>();
         rd = GetComponent<Renderer>();
@@ -57,6 +54,14 @@ public class OpenerContent : MonoBehaviour {
         if (rd != null)
         {
             rd.enabled = false;
+        }
+    }
+
+    public void LoadParent()
+    {
+        if (transform.parent != null)
+        {
+            openerParent = transform.parent.GetComponent<Opener>();
         }
     }
 

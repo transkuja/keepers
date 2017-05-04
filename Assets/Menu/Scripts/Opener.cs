@@ -12,6 +12,7 @@ public class Opener : MonoBehaviour {
     /*[HideInInspector]*/ public List<OpenerContent> listChilds;
 
     public bool bDontClose = false;
+    public bool bNeedReload = false;
 
     public bool bIsLast;
     public bool bOverMode = false;
@@ -184,6 +185,12 @@ public class Opener : MonoBehaviour {
 
     public void Unfold(bool force = false) // Depliage du contenu
     {
+        if (bNeedReload)
+        {
+            LoadChilds();
+            ComputeContentPositions();
+            bNeedReload = false;
+        }
         for (int i = 0; i < listChilds.Count; i++)
         {
             listChilds[i].Show(force);
