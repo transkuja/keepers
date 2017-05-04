@@ -135,15 +135,18 @@ public class EventManager : MonoBehaviour {
                 {
                     foreach (Tile tile in tiles)
                     {
-                        if (tile.gameObject.GetComponentInChildren<Climat>() == null)
+                        if (tile.Type == TileType.Snow && tile.State == TileState.Discovered)
                         {
-                            Debug.Log(tile.name + "n'a pas de climat en enfant");
-                            return;
-                        }
-                        Climat climat = tile.gameObject.GetComponentInChildren<Climat>();
-                        if (climat != null)
-                        {
-                            climat.TypeClimat = TypeClimat.None;
+                            if (tile.gameObject.GetComponentInChildren<Climat>() == null)
+                            {
+                                Debug.Log(tile.name + "n'a pas de climat en enfant");
+                                return;
+                            }
+                            Climat climat = tile.gameObject.GetComponentInChildren<Climat>();
+                            if (climat != null)
+                            {
+                                climat.TypeClimat = TypeClimat.None;
+                            }
                         }
                     }
                 }
@@ -176,15 +179,19 @@ public class EventManager : MonoBehaviour {
                 {
                     foreach (Tile tile in tiles)
                     {
-                        if (tile.gameObject.GetComponentInChildren<Climat>() == null)
+                        if (tile.Type == TileType.Plain && tile.State == TileState.Discovered)
                         {
-                            Debug.Log(tile.name + "n'a pas de climat en enfant");
-                            return;
-                        }
-                        Climat climat = tile.gameObject.GetComponentInChildren<Climat>();
-                        if (climat != null)
-                        {
-                            climat.TypeClimat = TypeClimat.None;
+                            if (tile.gameObject.GetComponentInChildren<Climat>() == null)
+                            {
+                                Debug.Log(tile.name + "n'a pas de climat en enfant");
+                                return;
+                            }
+                            Climat climat = tile.gameObject.GetComponentInChildren<Climat>();
+                            if (climat != null)
+                            {
+                                climat.TypeClimat = TypeClimat.None;
+                            }
+
                         }
                     }
                 }
@@ -205,7 +212,7 @@ public class EventManager : MonoBehaviour {
                         Climat climat = tile.gameObject.GetComponentInChildren<Climat>();
                         if (climat != null)
                         {
-                            climat.TypeClimat = TypeClimat.Butterfly;
+                            climat.TypeClimat = TypeClimat.HeatDistorsion;
                         }
 
                     }
