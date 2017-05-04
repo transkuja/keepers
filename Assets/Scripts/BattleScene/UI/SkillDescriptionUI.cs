@@ -28,7 +28,7 @@ public class SkillDescriptionUI : MonoBehaviour, IPointerEnterHandler, IPointerE
         }
         descriptionPanel.SetActive(false);
         descriptionPanel.GetComponentInChildren<Text>().text = skillDescription;
-        descriptionPanel.transform.localPosition = new Vector3(0, 200, 0);
+        descriptionPanel.transform.localPosition = new Vector3(300, 300, 0);
     }
 
     private void OnEnable()
