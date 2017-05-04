@@ -11,6 +11,8 @@ public class ControlsManager : MonoBehaviour
     [SerializeField]
     private float fDoubleClickCoolDown = 0.3f;
     public LayerMask layerMask;
+    // Utiliser pour les panneaux
+    public LayerMask layerMaskClickGauche;
     void Start()
     {
         goPreviousLeftclicked = null;
@@ -43,7 +45,7 @@ public class ControlsManager : MonoBehaviour
             if (!EventSystem.current.IsPointerOverGameObject())
             {
                 RaycastHit hitInfo;
-                if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo, Mathf.Infinity, ~layerMask) == true)
+                if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo, Mathf.Infinity, ~layerMaskClickGauche) == true)
                 {
                     GameManager.Instance.Ui.ClearActionPanel();
                     if (hitInfo.transform.gameObject.GetComponentInParent<Keeper>() != null)
