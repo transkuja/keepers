@@ -14,6 +14,7 @@ public enum SkillButtonChildren { SkillName, Atk, Def, Mag }
 public class UIBattleHandler : MonoBehaviour {
 
     private bool[] occupiedCharacterPanelIndex;
+    private Color customGrey = new Color(0.6784f, 0.6784f, 0.6784f, 1);
 
     [SerializeField]
     private GameObject skillsPanels;
@@ -492,9 +493,9 @@ public class UIBattleHandler : MonoBehaviour {
                 currentSkill.GetChild((int)SkillButtonChildren.Def).GetComponentInChildren<Text>().text = "0";
                 currentSkill.GetChild((int)SkillButtonChildren.Mag).GetComponentInChildren<Text>().text = "0";
 
-                currentSkill.GetChild((int)SkillButtonChildren.Atk).GetComponentInChildren<Text>().color = Color.white;
-                currentSkill.GetChild((int)SkillButtonChildren.Def).GetComponentInChildren<Text>().color = Color.white;
-                currentSkill.GetChild((int)SkillButtonChildren.Mag).GetComponentInChildren<Text>().color = Color.white;
+                currentSkill.GetChild((int)SkillButtonChildren.Atk).GetComponentInChildren<Text>().color = customGrey;
+                currentSkill.GetChild((int)SkillButtonChildren.Def).GetComponentInChildren<Text>().color = customGrey;
+                currentSkill.GetChild((int)SkillButtonChildren.Mag).GetComponentInChildren<Text>().color = customGrey;
 
                 currentSkill.gameObject.SetActive(false);
             }
