@@ -471,12 +471,7 @@ public class TilePassage : MonoBehaviour {
                         actionCostExploreTmp -= 1;
                     }
 
-
-
-                    Debug.Log(actionCostExploreTmp);
                     TileManager.Instance.MoveKeeper(toMove, toMove.CurrentTile, (Direction)other.GetComponentInParent<AnimatedPawn>().WhereMove, actionCostExploreTmp);
-
-
 
                     // Tell the tile it has been discovered (and watch it panic)
 
@@ -495,9 +490,6 @@ public class TilePassage : MonoBehaviour {
                             t.State = TileState.Greyed;
 
                         }
-
-
-
                     }
 
                     GameManager.Instance.Ui.HideInventoryPanels();
