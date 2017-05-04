@@ -40,7 +40,7 @@ public class MenuManagerQ : MonoBehaviour {
             GameObject goEventCard = Instantiate(GoPrefabEventCard, questDecksPosition);
             goEventCard.transform.localPosition = Vector3.zero;
             goEventCard.GetComponent<MeshFilter>().mesh = GetCardModel(GameManager.Instance.EventDataBase.listEvents[i].cardModelName).GetComponent<MeshFilter>().sharedMesh;
-            goEventCard.name = GameManager.Instance.EventDataBase.listEvents[i].id.ToString();
+            goEventCard.GetComponent<EventCard>().id = GameManager.Instance.EventDataBase.listEvents[i].id;
         }
     }
 

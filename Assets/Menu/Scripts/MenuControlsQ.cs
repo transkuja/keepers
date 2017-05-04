@@ -12,6 +12,8 @@ public class MenuControlsQ : MonoBehaviour {
     public Transform trQuestDeckTarget;
     public Opener EventCardSelectedOpener;
 
+    public Opener EventDeck;
+
     public GameObject prefabLevelCardSelected;
     public GameObject prefabDeckSelected;
     GameObject levelCardSelected = null;
@@ -128,6 +130,8 @@ public class MenuControlsQ : MonoBehaviour {
                     newDeck.AddKeyPose(trQuestDeckTarget.position, trQuestDeckTarget.rotation);
                     newDeck.bNeedShow = true;
 
+                    newDeck.fSpeed = 5;
+
                     deckSelected = newDeck.gameObject;
                 }
             }
@@ -197,13 +201,14 @@ public class MenuControlsQ : MonoBehaviour {
             Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, mask);
             if(hit.transform != null)
             {
-                if (!FindEventCard(hit.transform.gameObject.name))
+                EventCard ec = hit.transform.GetComponent<EventCard>();
+                if (ec.bSelected == true)
                 {
-                    AddEventCardToSelection(hit.transform.gameObject);
+                    RemoveEventCardFromSelection(hit.transform.gameObject);
                 }
                 else
                 {
-                    RemoveEventCardFromSelection(hit.transform.gameObject);
+                    AddEventCardToSelection(hit.transform.gameObject);
                 }
             }
         }
@@ -282,7 +287,7 @@ public class MenuControlsQ : MonoBehaviour {
         SceneManager.LoadScene(menuManager.CardLevelSelected);
     }
 
-    void AddEventCardToSelection(GameObject goCard)
+    public void AddEventCardToSelection(GameObject goCard)
     {
         if (EventCardSelectedOpener.listChilds.Count == 0)
         {
@@ -290,21 +295,38 @@ public class MenuControlsQ : MonoBehaviour {
             EventCardSelectedOpener.GetComponent<MeshCollider>().enabled = true;
         }
 
-        GameObject newCard = Instantiate(goCard, EventCardSelectedOpener.transform);
-        newCard.transform.localPosition = Vector3.zero;
+        //GameObject newCard = Instantiate(goCard, EventCardSelectedOpener.transform);
+        //newCard.transform.localPosition = Vector3.zero;
 
-        newCard.name = goCard.name;
+        goCard.transform.parent = EventCardSelectedOpener.transform;
+        goCard.transform.localPosition = Vector3.zero;
+
+        goCard.GetComponent<EventCard>().bSelected = true;
 
         EventCardSelectedOpener.LoadChilds();
         EventCardSelectedOpener.ComputeContentPositions();
-        EventCardSelectedOpener.Fold(true);
+        //EventCardSelectedOpener.Fold(true);
 
-        GameManager.Instance.ListEventSelected.Add(goCard.name);
+        goCard.GetComponent<OpenerContent>().Hide(true);
+
+        GameManager.Instance.ListEventSelected.Add(goCard.GetComponent<EventCard>().id);
+
+        EventDeck.LoadChilds();
+        EventDeck.ComputeContentPositions();
+        EventDeck.Unfold(true);
     }
 
-    void RemoveEventCardFromSelection(GameObject goCard)
+    public void RemoveEventCardFromSelection(GameObject goCard)
     {
-        GameManager.Instance.ListEventSelected.Remove(goCard.name);
+        GameManager.Instance.ListEventSelected.Remove(goCard.GetComponent<EventCard>().id);
+
+        goCard.transform.parent = EventDeck.transform;
+        goCard.transform.localPosition = Vector3.zero;
+        EventDeck.LoadChilds();
+        EventDeck.ComputeContentPositions();
+        goCard.GetComponent<OpenerContent>().Hide(true);
+
+        goCard.GetComponent<EventCard>().bSelected = false;
 
         if (EventCardSelectedOpener.listChilds.Count == 0)
         {

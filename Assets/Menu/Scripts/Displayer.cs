@@ -7,7 +7,6 @@ public class Displayer : MonoBehaviour {
     bool bIsOver = false;
     bool bIsShown = false;
     bool bIsMoving = false;
-    float fShowTimer = 0;
     float fLerp = 0;
 
     public float fShowDelay = 1;
@@ -17,13 +16,13 @@ public class Displayer : MonoBehaviour {
 
     Vector3 v3StartPos, v3TargetPos;
 
-    Opener openerParent;
+    public Opener openerParent;
 
     public List<Displayer> listDisplayerSiblings;
 
 	// Use this for initialization
 	void Start () {
-
+        Init();
 	}
 	
     public void Init()
@@ -65,48 +64,18 @@ public class Displayer : MonoBehaviour {
         Show();
     }
 
-    /*void OnMouseEnter()
-    {
-        Debug.Log("lol");
-
-        fShowTimer = fShowDelay;
-
-        if(openerParent != null)
-        {
-            openerParent.bDontClose = true;
-        }
-    }
-
-    void OnMouseExit()
-    {
-        Debug.Log("lol2");
-
-
-        fShowTimer = 0;
-    }*/
-
     void UpdateShow()
     {
-        if (fShowTimer > 0)
-        {
-            fShowTimer -= Time.unscaledDeltaTime;
-
-            if(fShowTimer < 0)
-            {
-                Show();
-                Debug.Log("show");
-            }
-        }
-
-        /*if (Input.GetMouseButtonDown(0) && bIsShown)
+        if (Input.GetMouseButtonDown(0) && bIsShown)
         {
             LayerMask mask = 1 << LayerMask.NameToLayer("QuestCard");
             RaycastHit hit;
             Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, mask);
-            if(hit.transform != null){
+            if(hit.transform == null){
                 Hide();
+                openerParent.bDontClose = false;
             }
-        }*/
+        }
     }
 
     void Show()
@@ -114,7 +83,6 @@ public class Displayer : MonoBehaviour {
         if (openerParent != null)
         {
             openerParent.bDontClose = true;
-            Debug.Log("NOPE");
         }
 
         if (bIsMoving && !bIsShown)

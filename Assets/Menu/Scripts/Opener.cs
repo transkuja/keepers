@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class Opener : MonoBehaviour {
 
-    List<Opener> listOpenerSiblings;
+    public List<Opener> listOpenerSiblings;
 
     LayerMask layerToCheck;
 
-    [HideInInspector] public bool bOpened = false;
-    [HideInInspector] public List<OpenerContent> listChilds;
+    /*[HideInInspector]*/ public bool bOpened = false;
+    /*[HideInInspector]*/ public List<OpenerContent> listChilds;
 
     public bool bDontClose = false;
 
@@ -124,7 +124,7 @@ public class Opener : MonoBehaviour {
                 fOverTimer -= Time.unscaledDeltaTime;
             }
 
-            if(fOverTimer < 0)
+            if(fOverTimer < 0 && !bDontClose)
             {
                 Fold();
             }
@@ -198,6 +198,7 @@ public class Opener : MonoBehaviour {
             listChilds[i].Hide(force);
             if (!bIsLast)
             {
+                if (listChilds[i].GetComponent<Opener>() == null) Debug.Log("MERDE");
                 listChilds[i].GetComponent<Opener>().Fold(force);
             }
         }
