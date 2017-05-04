@@ -56,7 +56,7 @@ public class CharactersInitializer : MonoBehaviour {
                         // TODO: NPCs must be registered in Tile Manager and ComputeItems called in character initializer
                         if (spawnedPawn.GetComponent<PawnInstance>() != null && spawnedPawn.GetComponent<Keeper>() == null)
                         {
-                            if (spawnedPawn.GetComponent<Inventory>().PossibleItems != null && spawnedPawn.GetComponent<Inventory>().PossibleItems.Count > 0)
+                            if (spawnedPawn.GetComponent<Inventory>() != null && spawnedPawn.GetComponent<Inventory>().PossibleItems != null && spawnedPawn.GetComponent<Inventory>().PossibleItems.Count > 0)
                                 spawnedPawn.GetComponent<Inventory>().ComputeItems();
                         }
                         spawnedPawn.transform.SetParent(source.Tile.transform);
