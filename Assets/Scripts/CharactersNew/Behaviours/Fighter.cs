@@ -442,14 +442,14 @@ namespace Behaviour
 
         public void UpdateActiveBoeufs()
         {
-            foreach (BattleBoeuf boeuf in effectiveBoeufs)
+            for (int i = 0; i < effectiveBoeufs.Count; i++)
             {
-                boeuf.Duration--;
-                Debug.Log(boeuf.Duration);
-                if (boeuf.Duration == 0)
+                effectiveBoeufs[i].Duration--;
+                Debug.Log(effectiveBoeufs[i].Duration);
+                if (effectiveBoeufs[i].Duration == 0)
                 {
                     Debug.Log("??");
-                    effectiveBoeufs.Remove(boeuf);
+                    effectiveBoeufs.Remove(effectiveBoeufs[i]);
                 }
             }
         }

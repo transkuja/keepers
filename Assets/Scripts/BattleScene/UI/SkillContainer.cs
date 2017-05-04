@@ -77,20 +77,28 @@ public class SkillContainer : MonoBehaviour {
 
     public void UseLinkedSkill()
     {
-        if (skillData.TargetType == TargetType.FoeSingle || skillData.TargetType == TargetType.FoeAll)
+        if (skillData.TargetType == TargetType.FoeSingle || skillData.TargetType == TargetType.FriendSingle)
         {
-            GameManager.Instance.Ui.mouseFollower.SetActive(true);
-            GameManager.Instance.Ui.mouseFollower.GetComponent<MouseFollower>().ExpectedTarget(TargetType.FoeSingle);
-            BattleHandler.ActivateFeedbackSelection(false, true);
+            if (skillData.SkillType == SkillType.Physical)
+                Cursor.SetCursor(GameManager.Instance.Texture2DUtils.attackCursor, Vector2.zero, CursorMode.Auto);
+            else if (skillData.SkillType == SkillType.Defensive)
+                Cursor.SetCursor(GameManager.Instance.Texture2DUtils.buffCursor, Vector2.zero, CursorMode.Auto);
+            else if (skillData.SkillType == SkillType.Magical)
+                Cursor.SetCursor(GameManager.Instance.Texture2DUtils.magicCursor, Vector2.zero, CursorMode.Auto);
+
+            if (skillData.TargetType == TargetType.FoeSingle)
+                BattleHandler.ActivateFeedbackSelection(false, true);
+            else
+                BattleHandler.ActivateFeedbackSelection(true, false);
+
+            // TODO: find an other way
+            GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().GetSkillsPanelIndex(skillData.SkillUser.GetComponent<PawnInstance>()).gameObject.SetActive(false);
+            BattleHandler.WaitForSkillConfirmation(skillData);
         }
-        else if (skillData.TargetType == TargetType.FriendSingle)
+        else
         {
-            GameManager.Instance.Ui.mouseFollower.SetActive(true);
-            GameManager.Instance.Ui.mouseFollower.GetComponent<MouseFollower>().ExpectedTarget(TargetType.FriendSingle);
-            BattleHandler.ActivateFeedbackSelection(true, false);
+            skillData.UseSkill();
         }
-        // TODO: find an other way
-        GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().GetSkillsPanelIndex(skillData.SkillUser.GetComponent<PawnInstance>()).gameObject.SetActive(false);
-        BattleHandler.WaitForSkillConfirmation(skillData);
+
     }
 }

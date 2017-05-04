@@ -5,6 +5,7 @@ using Behaviour;
 using System;
 
 public enum TargetType { FriendSingle, FoeSingle, FriendAll, FoeAll, Self }
+public enum SkillType { Physical, Magical, Defensive }
 
 /*
  * Contains definition of battle skills 
@@ -26,6 +27,9 @@ public class SkillBattle {
     private List<Face> cost = new List<Face>();
     [SerializeField]
     TargetType targetType;
+
+    [SerializeField]
+    SkillType skillType;
 
     [SerializeField]
     BattleBoeuf[] boeufs;
@@ -56,12 +60,6 @@ public class SkillBattle {
             {
                 attackDamage += 1;
             }
-        }
-
-        foreach (BattleBoeuf boeuf in _skillUser.EffectiveBoeufs)
-        {
-            if (boeuf.BoeufType == BoeufType.Damage)
-                attackDamage += boeuf.EffectValue;
         }
 
         return attackDamage;
@@ -132,6 +130,19 @@ public class SkillBattle {
         }
     }
 
+    public SkillType SkillType
+    {
+        get
+        {
+            return skillType;
+        }
+
+        set
+        {
+            skillType = value;
+        }
+    }
+
     public SkillBattle()
     {
 
@@ -165,6 +176,8 @@ public class SkillBattle {
             description = _origin.description;
             cost = _origin.cost;
             targetType = _origin.targetType;
+            boeufs = _origin.boeufs;
+            skillType = _origin.skillType;
         }
     }
 
@@ -183,7 +196,7 @@ public class SkillBattle {
         return true;
     }
 
-    public void UseSkill(PawnInstance _target)
+    private void ConsumeCost()
     {
         foreach (Face f in cost)
         {
@@ -195,6 +208,33 @@ public class SkillBattle {
             if (f.Type == FaceType.Defensive)
                 skillUser.DefensiveSymbolStored -= f.Value;
         }
+    }
+
+    private void ApplySkillEffectOnTarget(PawnInstance _target, int _effectiveDamage)
+    {
+        Fighter curTargetFighter;
+        if (_target.GetComponent<Mortal>() == null || _target.GetComponent<Mortal>().CurrentHp <= 0)
+            return;
+
+        curTargetFighter = _target.GetComponent<Fighter>();
+        int curEffDmg = _effectiveDamage;
+
+        foreach (BattleBoeuf boeuf in curTargetFighter.EffectiveBoeufs)
+        {
+            if (boeuf.BoeufType == BoeufType.Defense)
+                curEffDmg -= boeuf.EffectValue;
+        }
+
+        curTargetFighter.IsWaitingForDmgFeedback = true;
+        curTargetFighter.IsWaitingForSkillPanelToClose = true;
+        curTargetFighter.PendingDamage = curEffDmg;
+        if (boeufs != null)
+            curTargetFighter.EffectiveBoeufs.AddRange(boeufs);
+    }
+
+    public void UseSkill()
+    {
+        ConsumeCost();
 
         GameObject skillNameUI = GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().SkillName;
         skillNameUI.transform.GetComponentInChildren<Text>().text = skillName;
@@ -208,45 +248,49 @@ public class SkillBattle {
                 effectiveDamage += boeuf.EffectValue;
         }
 
-        Fighter curTargetFighter;
         if (targetType == TargetType.FoeAll)
         {
             for (int i = 0; i < BattleHandler.CurrentBattleMonsters.Length; i++)
             {
-                curTargetFighter = BattleHandler.CurrentBattleMonsters[i].GetComponent<Fighter>();
-                int curEffDmg = effectiveDamage;
-
-                foreach (BattleBoeuf boeuf in curTargetFighter.EffectiveBoeufs)
-                {
-                    if (boeuf.BoeufType == BoeufType.Defense)
-                        curEffDmg -= boeuf.EffectValue;
-                }
-
-                curTargetFighter.IsWaitingForDmgFeedback = true;
-                curTargetFighter.IsWaitingForSkillPanelToClose = true;
-                curTargetFighter.PendingDamage = curEffDmg;
-                if (boeufs != null)
-                    curTargetFighter.EffectiveBoeufs.AddRange(boeufs);
+                ApplySkillEffectOnTarget(BattleHandler.CurrentBattleMonsters[i], effectiveDamage);
             }
         }
-
-        curTargetFighter = _target.GetComponent<Fighter>();
-        curTargetFighter.IsWaitingForDmgFeedback = true;
-        curTargetFighter.IsWaitingForSkillPanelToClose = true;
-
-        List<BattleBoeuf> effBoeufs = curTargetFighter.EffectiveBoeufs;
-
-        foreach (BattleBoeuf boeuf in effBoeufs)
+        else if (targetType == TargetType.FriendAll)
         {
-            if (boeuf.BoeufType == BoeufType.Defense)
-                effectiveDamage -= boeuf.EffectValue;
+            for (int i = 0; i < BattleHandler.CurrentBattleKeepers.Length; i++)
+            {
+                ApplySkillEffectOnTarget(BattleHandler.CurrentBattleKeepers[i], effectiveDamage);
+            }
+        }
+        else if (targetType == TargetType.Self)
+        {
+            ApplySkillEffectOnTarget(skillUser.GetComponent<PawnInstance>(), effectiveDamage);
+        }
+        else
+        {
+            Debug.LogError("UseSkill without parameters should not be called for single target skills other than Self.");
         }
 
-        curTargetFighter.PendingDamage = effectiveDamage;
+        BattleHandler.IsWaitingForSkillEnd = true;
+    }
 
-        if (boeufs != null)
-            effBoeufs.AddRange(boeufs);
+    public void UseSkill(PawnInstance _target)
+    {
+        ConsumeCost();
 
+        GameObject skillNameUI = GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().SkillName;
+        skillNameUI.transform.GetComponentInChildren<Text>().text = skillName;
+        skillNameUI.SetActive(true);
+
+        int effectiveDamage = Damage;
+
+        foreach (BattleBoeuf boeuf in skillUser.EffectiveBoeufs)
+        {
+            if (boeuf.BoeufType == BoeufType.Damage)
+                effectiveDamage += boeuf.EffectValue;
+        }
+
+        ApplySkillEffectOnTarget(_target, effectiveDamage);
         BattleHandler.IsWaitingForSkillEnd = true;
     }
 }

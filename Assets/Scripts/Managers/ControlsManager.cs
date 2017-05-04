@@ -355,7 +355,16 @@ public class ControlsManager : MonoBehaviour
                 GameObject clickTarget = hitInfo.collider.gameObject;
                 if (clickTarget.GetComponentInParent<PawnInstance>() != null)
                 {
-                    BattleHandler.PendingSkill.UseSkill(clickTarget.GetComponentInParent<PawnInstance>());
+                    if (BattleHandler.PendingSkill.TargetType == TargetType.FoeSingle && clickTarget.GetComponentInParent<Monster>() != null
+                            || BattleHandler.PendingSkill.TargetType == TargetType.FriendSingle && (clickTarget.GetComponentInParent<Keeper>() != null || clickTarget.GetComponentInParent<Escortable>() != null))
+                    {
+                        BattleHandler.PendingSkill.UseSkill(clickTarget.GetComponentInParent<PawnInstance>());
+                    }
+                    else
+                    {
+                        BattleHandler.PendingSkill = null;
+                        GameManager.Instance.ClearListKeeperSelected();
+                    }
                 }
                 else
                 {
