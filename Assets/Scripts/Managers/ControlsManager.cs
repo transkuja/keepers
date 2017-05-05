@@ -358,11 +358,7 @@ public class ControlsManager : MonoBehaviour
                             || BattleHandler.PendingSkill.TargetType == TargetType.FriendSingle && (clickTarget.GetComponentInParent<Keeper>() != null || clickTarget.GetComponentInParent<Escortable>() != null))
                     {
                         CursorNormalState();
-                        if (BattleHandler.PendingSkill.TargetType == TargetType.FoeSingle)
-                            BattleHandler.DeactivateFeedbackSelection(false, true);
-                        else
-                            BattleHandler.DeactivateFeedbackSelection(true, false);
-
+                        BattleHandler.DeactivateFeedbackSelection(true, true);
                         BattleHandler.PendingSkill.UseSkill(clickTarget.GetComponentInParent<PawnInstance>());
                     }
                     else
@@ -371,6 +367,8 @@ public class ControlsManager : MonoBehaviour
                 else
                 {
                     CursorNormalState();
+                    BattleHandler.DeactivateFeedbackSelection(true, true);
+                    BattleHandler.ActivateFeedbackSelection(true, false);
                     BattleHandler.PendingSkill = null;
                     GameManager.Instance.ClearListKeeperSelected();
                 }
@@ -378,19 +376,26 @@ public class ControlsManager : MonoBehaviour
             else
             {
                 CursorNormalState();
+                BattleHandler.DeactivateFeedbackSelection(true, true);
+                BattleHandler.ActivateFeedbackSelection(true, false);
                 BattleHandler.PendingSkill = null;
                 GameManager.Instance.ClearListKeeperSelected();
             }
+        }
+        else
+        {
+            CursorNormalState();
+            BattleHandler.DeactivateFeedbackSelection(true, true);
+            BattleHandler.ActivateFeedbackSelection(true, false);
+            BattleHandler.PendingSkill = null;
+            GameManager.Instance.ClearListKeeperSelected();
         }
 
         if (!BattleHandler.WasTheLastToPlay && !BattleHandler.IsWaitingForSkillEnd && !isClickOnWrongTarget)
         {
             CursorNormalState();
+            BattleHandler.DeactivateFeedbackSelection(true, true);
             BattleHandler.ActivateFeedbackSelection(true, false);
-            if (BattleHandler.PendingSkill.TargetType == TargetType.FoeSingle)
-                BattleHandler.DeactivateFeedbackSelection(false, true);
-            else
-                BattleHandler.DeactivateFeedbackSelection(true, false);
         }
     }
 
