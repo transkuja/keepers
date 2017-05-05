@@ -12,7 +12,7 @@ public enum SkillType { Physical, Magical, Defensive }
  */
 [System.Serializable]
 public class SkillBattle {
-    private int effectiveAttackValue = 3;
+    public int effectiveAttackValue = 3;
 
     [SerializeField]
     private Fighter skillUser;

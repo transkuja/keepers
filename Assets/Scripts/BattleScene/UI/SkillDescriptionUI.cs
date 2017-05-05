@@ -45,7 +45,14 @@ public class SkillDescriptionUI : MonoBehaviour, IPointerEnterHandler, IPointerE
         if (skillData.IsMeantToHeal)
             descriptionPanel.GetComponentInChildren<Text>().text += "\n\nHeal value: " + skillData.Damage;
         else if (skillData.Damage > 0)
-            descriptionPanel.GetComponentInChildren<Text>().text += "\n\nDamage: " + skillData.Damage;
+        {
+            if (skillData.SkillName.Equals("Attack"))
+            {
+                descriptionPanel.GetComponentInChildren<Text>().text += "\n\nDamage: " + skillData.effectiveAttackValue + " damage for each swords on dice, 1 damage for other faces";
+            }
+            else
+                descriptionPanel.GetComponentInChildren<Text>().text += "\n\nDamage: " + skillData.Damage;
+        }
 
         if (skillData.Boeufs != null && skillData.Boeufs.Length > 0)
         {
@@ -119,7 +126,14 @@ public class SkillDescriptionUI : MonoBehaviour, IPointerEnterHandler, IPointerE
         if (skillData.IsMeantToHeal)
             descriptionPanel.GetComponentInChildren<Text>().text += "\n\nHeal value: " + skillData.Damage;
         else if (skillData.Damage > 0)
-            descriptionPanel.GetComponentInChildren<Text>().text += "\n\nDamage: " + skillData.Damage;
+        {
+            if (skillData.SkillName.Equals("Attack"))
+            {
+                descriptionPanel.GetComponentInChildren<Text>().text += "\n\nDamage: " + skillData.effectiveAttackValue + " damage for each swords on dice, 1 damage for other faces";
+            }
+            else
+                descriptionPanel.GetComponentInChildren<Text>().text += "\n\nDamage: " + skillData.Damage;
+        }
 
         if (skillData.Boeufs != null && skillData.Boeufs.Length > 0)
         {
