@@ -44,6 +44,7 @@ namespace Behaviour
 
             goQuest.transform.GetChild(goQuest.transform.childCount - 1).GetComponent<Text>().text = questToGive.Information.Title;
             goQuest.transform.GetChild(goQuest.transform.childCount - 2).GetComponentInChildren<Text>().text = questToGive.Information.Dialog;
+            goQuest.transform.GetChild(goQuest.transform.childCount - 2).GetComponent<ScrollRect>().verticalNormalizedPosition = 1f;
             Button validate = goQuest.transform.GetChild(goQuest.transform.childCount - 3).GetComponent<Button>();
             if (validate != null)
             {
@@ -60,6 +61,7 @@ namespace Behaviour
         {
             goQuest.transform.GetChild(goQuest.transform.childCount - 1).GetComponent<Text>().text = questToGive.Information.Title;
             goQuest.transform.GetChild(goQuest.transform.childCount - 2).GetComponentInChildren<Text>().text = questToGive.Information.HintDialog;
+            goQuest.transform.GetChild(goQuest.transform.childCount - 2).GetComponent<ScrollRect>().verticalNormalizedPosition = 1f;
             Button validate = goQuest.transform.GetChild(goQuest.transform.childCount - 3).GetComponent<Button>();
             if (validate != null)
             {
@@ -72,6 +74,7 @@ namespace Behaviour
         {
             goQuest.transform.GetChild(goQuest.transform.childCount - 1).GetComponent<Text>().text = questToGive.Information.Title;
             goQuest.transform.GetChild(goQuest.transform.childCount - 2).GetComponentInChildren<Text>().text = questToGive.Information.EndDialog;
+            goQuest.transform.GetChild(goQuest.transform.childCount - 2).GetComponent<ScrollRect>().verticalNormalizedPosition = 1f;
             Button validate = goQuest.transform.GetChild(goQuest.transform.childCount - 3).GetComponent<Button>();
             if (validate != null)
             {
@@ -82,6 +85,7 @@ namespace Behaviour
 
         public void Quest(int _i = 0)
         {
+            //AudioManager.Instance.PlayOneShot(AudioManager.Instance.quackSound);
             if (GameManager.Instance.ListOfSelectedKeepers.Count > 0 && questToGive != null)
             {
                 int costAction = GetComponent<Interactable>().Interactions.Get("Quest").costAction;

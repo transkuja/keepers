@@ -108,10 +108,10 @@ public class EventManager : MonoBehaviour {
                 if (hungerModifier)
                     ki.GetComponent<HungerHandler>().CurrentHunger -= 5;
 
-                int hungerMultipier = 1;
+                float hungerMultiplier = 1.0f;
                 if (ki.GetComponent<PawnInstance>().Data.Behaviours[(int)BehavioursEnum.Morfale])
-                    hungerMultipier = 2;
-                ki.GetComponent<HungerHandler>().CurrentHunger -= (10* hungerMultipier);
+                    hungerMultiplier = 1.5f;
+                ki.GetComponent<HungerHandler>().CurrentHunger -= (int)(10.0f* hungerMultiplier);
             }
          
                 //ki.AddFeedBackToQueue(GameManager.Instance.SpriteUtils.spriteHunger, -10);
