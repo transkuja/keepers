@@ -201,7 +201,7 @@ public class IngameUI : MonoBehaviour
                 Destroy(ActionPanel.gameObject);
             }
         }
-        if(tooltipAction.activeSelf)
+        if(tooltipAction != null && tooltipAction.activeSelf)
             tooltipAction.SetActive(false);
     }
     #endregion
