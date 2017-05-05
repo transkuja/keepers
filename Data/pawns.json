@@ -150,6 +150,12 @@
 			"Inventory" : {
 				"nbSlot" : 6
 			},
+			
+			"Keeper" : {
+				"minMoralBuff" : -10,
+				"maxMoralBuff" : 20,
+				"maxActionPoint" : 3
+			},
 						
 			"MentalHealthHandler" : {
 				"maxMentalHealth" : 100
