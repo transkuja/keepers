@@ -85,7 +85,7 @@ public class Opener : MonoBehaviour {
 
             listChilds[i].AddKeyPose(Vector3.zero, Quaternion.identity);
 
-            float fOrigin = (listChilds.Count % 2 == 1) ? -((listChilds.Count / 2) * (size.x + fOffsetX)) : -((listChilds.Count / 2) * (size.x / 2.0f + fOffsetX / 2.0f));
+            float fOrigin = (listChilds.Count % 2 == 1) ? -((listChilds.Count / 2) * (size.x + fOffsetX)) : -((((listChilds.Count / 2) -1) * (size.x + fOffsetX)) + (size.x + fOffsetX) / 2.0f);
             float fIncrement = size.x + fOffsetX;
 
             for (int j = 0; j < listTrSpots.Count; j++)
