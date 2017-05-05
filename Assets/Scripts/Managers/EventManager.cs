@@ -24,7 +24,7 @@ public class EventManager : MonoBehaviour {
     public static int nbDayInWeek = 7;
     public static int nbDayInMonth = 20;
 
-    private static short actionPointsResetValue = 3;
+    //private static short actionPointsResetValue = 3;
 
     public static void EndTurnEvent()
     {
@@ -140,7 +140,7 @@ public class EventManager : MonoBehaviour {
         foreach (PawnInstance ki in GameManager.Instance.AllKeepersList)
         {
             if (ki.GetComponent<Mortal>().IsAlive)
-                ki.GetComponent<Keeper>().ActionPoints = actionPointsResetValue;
+                ki.GetComponent<Keeper>().ActionPoints = ki.GetComponent<Keeper>().Data.MaxActionPoint;
         }
     }
 

@@ -96,6 +96,7 @@ namespace Behaviour
         private GameObject selectedActionPointsUI;
         private GameObject selectedEquipementUI;
 
+
         void Awake()
         {
             instance = GetComponent<PawnInstance>();
@@ -173,6 +174,25 @@ namespace Behaviour
             ShorcutUI.transform.GetChild(0).GetComponent<Image>().sprite = associatedSprite;
             ShorcutUI.transform.localScale = Vector3.one;
             ShorcutUI.GetComponent<Button>().onClick.AddListener(() => GoToKeeper());
+
+            int row = 29;
+            int column = 6;
+            for (int i = 0; i < Data.MaxActionPoint; i++)
+            {
+                GameObject pa = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabShortcutActionPAUI, ShorcutUI.transform.position, ShorcutUI.transform.rotation);
+                pa.transform.SetParent(ShorcutUI.transform.GetChild(1), false);
+                // Attention ça c'est de la merde
+                if( i < 2)
+                {
+                    pa.transform.localPosition = new Vector3(-17 + i * column, -42 + i * row, 0);
+                } else
+                {
+                    pa.transform.localPosition = new Vector3(8 + ((i-2) * 26.5f), 9 + ((i-2) * 12.5f), 0);
+                }
+                // Fin lol
+                pa.transform.localScale = Vector3.one;
+
+            }
         }
 
         public void CreateSelectedPanel()
@@ -191,6 +211,20 @@ namespace Behaviour
             SelectedActionPointsUI = SelectedStatPanelUI.transform.GetChild((int)PanelSelectedKeeperStatChildren.ActionPoints).gameObject;
             SelectedActionPointsUI.transform.localScale = Vector3.one;
             SelectedActionPointsUI.name = "Action";
+
+            // Attention ça c'est de la merde
+            int row = 24;
+            int column = 42;
+            // Fin lol
+            for (int i =0; i < Data.MaxActionPoint; i++)
+            {
+                GameObject pa = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabActionPAUI, SelectedActionPointsUI.transform.position, SelectedActionPointsUI.transform.rotation);
+                pa.transform.SetParent(SelectedActionPointsUI.transform, false);
+                pa.transform.localPosition = new Vector3(i % 2 * column, i * row, 0);
+
+                pa.transform.localScale = Vector3.one;
+
+            }
 
             SelectedStatPanelUI.transform.GetChild((int)PanelSelectedKeeperStatChildren.ButtonCycleLeft).GetComponent<Button>().onClick.AddListener(() => GoToKeeper(-1));
             SelectedStatPanelUI.transform.GetChild((int)PanelSelectedKeeperStatChildren.ButtonCycleRight).GetComponent<Button>().onClick.AddListener(() => GoToKeeper(+1));
@@ -291,55 +325,22 @@ namespace Behaviour
 
         public void UpdateActionPoint(int actionPoint)
         {
-            // TMP
-            switch (actionPoint)
+            for (int i=0; i < Data.MaxActionPoint; i++)
             {
-                case 3:
-                    SelectedActionPointsUI.transform.GetChild(0).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteTokenAction;
-                    SelectedActionPointsUI.transform.GetChild(1).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteTokenAction;
-                    SelectedActionPointsUI.transform.GetChild(2).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteTokenAction;
-
-                    ShorcutUI.transform.GetChild(1).GetChild(0).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteTokenAction;
-                    ShorcutUI.transform.GetChild(1).GetChild(1).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteTokenAction;
-                    ShorcutUI.transform.GetChild(1).GetChild(2).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteTokenAction;
-                    break;
-                case 2:
-                    SelectedActionPointsUI.transform.GetChild(0).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteTokenAction;
-                    SelectedActionPointsUI.transform.GetChild(1).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteNoAction;
-                    SelectedActionPointsUI.transform.GetChild(2).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteTokenAction;
-
-                    ShorcutUI.transform.GetChild(1).GetChild(0).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteTokenAction;
-                    ShorcutUI.transform.GetChild(1).GetChild(1).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteTokenAction;
-                    ShorcutUI.transform.GetChild(1).GetChild(2).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteNoAction;
-                    break;
-                case 1:
-                    SelectedActionPointsUI.transform.GetChild(0).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteTokenAction;
-                    SelectedActionPointsUI.transform.GetChild(1).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteNoAction;
-                    SelectedActionPointsUI.transform.GetChild(2).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteNoAction;
-
-                    ShorcutUI.transform.GetChild(1).GetChild(0).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteTokenAction;
-                    ShorcutUI.transform.GetChild(1).GetChild(1).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteNoAction;
-                    ShorcutUI.transform.GetChild(1).GetChild(2).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteNoAction;
-                    break;
-                case 0:
-                    SelectedActionPointsUI.transform.GetChild(0).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteNoAction;
-                    SelectedActionPointsUI.transform.GetChild(1).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteNoAction;
-                    SelectedActionPointsUI.transform.GetChild(2).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteNoAction;
-
-                    ShorcutUI.transform.GetChild(1).GetChild(0).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteNoAction;
-                    ShorcutUI.transform.GetChild(1).GetChild(1).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteNoAction;
-                    ShorcutUI.transform.GetChild(1).GetChild(2).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteNoAction;
-                    break;
-                default:
-                    // Unlimited
-                    SelectedActionPointsUI.transform.GetChild(0).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteTokenAction;
-                    SelectedActionPointsUI.transform.GetChild(1).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteTokenAction;
-                    SelectedActionPointsUI.transform.GetChild(2).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteTokenAction;
-
-                    ShorcutUI.transform.GetChild(1).GetChild(0).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteTokenAction;
-                    ShorcutUI.transform.GetChild(1).GetChild(1).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteTokenAction;
-                    ShorcutUI.transform.GetChild(1).GetChild(2).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteTokenAction;
-                    break;
+                if (actionPoint > i )
+                {
+                    if (SelectedActionPointsUI.transform.childCount > i) 
+                        SelectedActionPointsUI.transform.GetChild(i).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteTokenAction;
+                    if (ShorcutUI.transform.GetChild(1).childCount > i)
+                        ShorcutUI.transform.GetChild(1).GetChild(i).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteTokenAction;
+                }
+                else
+                {
+                    if (SelectedActionPointsUI.transform.childCount > i)
+                        SelectedActionPointsUI.transform.GetChild(i).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteNoAction;
+                    if (ShorcutUI.transform.GetChild(1).childCount > i)
+                        ShorcutUI.transform.GetChild(1).GetChild(i).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteNoAction;
+                }
             }
         }
         #endregion

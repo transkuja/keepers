@@ -23,6 +23,7 @@ public class PrefabUIUtils : MonoBehaviour {
     public GameObject PrefabMentalHealthUI;
     public GameObject PrefabHungerUI;
     public GameObject PrefabHPUI;
+    public GameObject PrefabActionPAUI;
 
     // ActionPanel
     [Header("Action UI")]
@@ -37,6 +38,8 @@ public class PrefabUIUtils : MonoBehaviour {
     public GameObject PrefabShortcutMentalHealthUI;
     public GameObject PrefabShortcutHungerUI;
     public GameObject PrefabShortcutHPUI;
+
+    public GameObject PrefabShortcutActionPAUI;
 
     // Utils 
     [Header("Utils UI")]
