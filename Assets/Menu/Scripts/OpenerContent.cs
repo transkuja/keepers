@@ -30,6 +30,7 @@ public class OpenerContent : MonoBehaviour {
     public MeshCollider col;
     public Renderer rd;
 
+    public bool bNeedCompute = false;
     public bool bNeedShow = false;
     public bool bNeedHide = false;
     public bool bKill = false;
@@ -206,6 +207,12 @@ public class OpenerContent : MonoBehaviour {
                     if(openerParent != null)
                     {
                         openerParent.bOpened = false;
+                        if (bNeedCompute)
+                        {
+                            openerParent.LoadChilds();
+                            openerParent.ComputeContentPositions();
+                            bNeedCompute = false;
+                        }
                     }
                 }else
                 {

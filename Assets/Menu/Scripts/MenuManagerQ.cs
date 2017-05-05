@@ -10,8 +10,6 @@ public class MenuManagerQ : MonoBehaviour {
 
     [HideInInspector] public  Dictionary<GameObject, ChatBox> dicPawnChatBox;
 
-    public GameObject canvas;
-
     private int cardLevelSelected = -1;
     private string deckOfCardsSelected = string.Empty;
     private List<PawnInstance> listeSelectedKeepers;
@@ -101,15 +99,14 @@ public class MenuManagerQ : MonoBehaviour {
             {
                 GameObject goKeeper = GameManager.Instance.PawnDataBase.CreatePawn(id, /*Vector3.zero*/ keepersPosition[iKeeper].position, keepersPosition[iKeeper].rotation, null /*keepersPosition[iKeeper]*/);
 
-                ChatBox newChatBox = Instantiate(prefabChatox, canvas.transform).GetComponent<ChatBox>();
-                newChatBox.trTarget = goKeeper.transform;
+                ChatBox newChatBox = Instantiate(prefabChatox, goKeeper.transform).GetComponent<ChatBox>();
                 newChatBox.SetMode(ChatBox.ChatMode.pickme);
                 newChatBox.SetEnable(false);
                 dicPawnChatBox.Add(goKeeper, newChatBox);
 
 
                 OpenerContent oc = goKeeper.AddComponent<OpenerContent>();
-                oc.fSpeed = 10;
+                oc.fSpeed = 5;
                 oc.AddKeyPose(keepersPosition[iKeeper].position, keepersPosition[iKeeper].rotation);
                 oc.AddKeyPose(keepersPosition[iKeeper].position + new Vector3(1.5f,1,0) , keepersPosition[iKeeper].rotation);
                 oc.AddKeyPose(keepersPosition[iKeeper].position + new Vector3(3.5f,0,0) , keepersPosition[iKeeper].rotation);

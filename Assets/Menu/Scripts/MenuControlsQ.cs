@@ -11,6 +11,7 @@ public class MenuControlsQ : MonoBehaviour {
 
     public Transform trLevelCardTarget;
     public Transform trQuestDeckTarget;
+
     public Opener EventCardSelectedOpener;
 
     public Opener EventDeck;
@@ -137,6 +138,15 @@ public class MenuControlsQ : MonoBehaviour {
                     newDeck.bNeedShow = true;
 
                     newDeck.fSpeed = 5;
+
+                    Opener p = newDeck.GetComponent<Opener>();
+
+                    p.listOpenerSiblings.Clear();
+                    for(int i = 0; i < EventDeck.listOpenerSiblings.Count; i++)
+                    {
+                        p.listOpenerSiblings.Add(EventDeck.listOpenerSiblings[i]);
+                        EventDeck.listOpenerSiblings[i].listOpenerSiblings.Add(p);
+                    }
 
                     deckSelected = newDeck.gameObject;
                 }
@@ -305,25 +315,19 @@ public class MenuControlsQ : MonoBehaviour {
             EventCardSelectedOpener.GetComponent<MeshCollider>().enabled = true;
         }
 
-        //GameObject newCard = Instantiate(goCard, EventCardSelectedOpener.transform);
-        //newCard.transform.localPosition = Vector3.zero;
+        OpenerContent oc = goCard.GetComponent<OpenerContent>();
 
-        goCard.transform.parent = EventCardSelectedOpener.transform;
-        goCard.transform.localPosition = Vector3.zero;
-
-        goCard.GetComponent<EventCard>().bSelected = true;
-
-        EventCardSelectedOpener.LoadChilds();
-        EventCardSelectedOpener.ComputeContentPositions();
-        //EventCardSelectedOpener.Fold(true);
-
-        goCard.GetComponent<OpenerContent>().LoadParent();
-        goCard.GetComponent<OpenerContent>().Hide(true);
+        oc.GetComponent<EventCard>().bSelected = true;
+        oc.transform.parent = EventCardSelectedOpener.transform;
+        oc.LoadParent();
+        oc.listKeyPose.Clear();
+        oc.AddKeyPose(Vector3.zero, Quaternion.identity);
+        oc.AddKeyPose(oc.transform.position - EventCardSelectedOpener.transform.position, Quaternion.identity);
+        oc.Hide(true);
+        oc.bNeedCompute = true;
 
         GameManager.Instance.ListEventSelected.Add(goCard.GetComponent<EventCard>().id);
 
-        EventDeck.LoadChilds();
-        EventDeck.ComputeContentPositions();
         EventDeck.bNeedReload = true;
     }
 
@@ -331,19 +335,21 @@ public class MenuControlsQ : MonoBehaviour {
     {
         GameManager.Instance.ListEventSelected.Remove(goCard.GetComponent<EventCard>().id);
 
-        goCard.transform.parent = EventDeck.transform;
-        goCard.transform.localPosition = Vector3.zero;
-        EventDeck.LoadChilds();
-        EventDeck.ComputeContentPositions();
-        goCard.GetComponent<OpenerContent>().LoadParent();
-        goCard.GetComponent<OpenerContent>().Hide(true);
-
         goCard.GetComponent<EventCard>().bSelected = false;
 
-        EventCardSelectedOpener.LoadChilds();
-        EventCardSelectedOpener.ComputeContentPositions();
+        OpenerContent oc = goCard.GetComponent<OpenerContent>();
 
-        if (EventCardSelectedOpener.listChilds.Count == 0)
+        oc.transform.parent = EventDeck.transform;
+        oc.LoadParent();
+        oc.listKeyPose.Clear();
+        oc.AddKeyPose(Vector3.zero, Quaternion.identity);
+        oc.AddKeyPose(oc.transform.position - EventDeck.transform.position, Quaternion.identity);
+        oc.Hide(true);
+        oc.bNeedCompute = true;
+
+        EventCardSelectedOpener.bNeedReload = true;
+
+        if (GameManager.Instance.ListEventSelected.Count == 0)
         {
             EventCardSelectedOpener.GetComponent<MeshRenderer>().enabled = false;
             EventCardSelectedOpener.GetComponent<MeshCollider>().enabled = false;

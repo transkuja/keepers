@@ -20,6 +20,8 @@ public class Displayer : MonoBehaviour {
 
     public List<Displayer> listDisplayerSiblings;
 
+    [SerializeField] LayerMask maskToCheck;
+
 	// Use this for initialization
 	void Start () {
         Init();
@@ -51,6 +53,11 @@ public class Displayer : MonoBehaviour {
 		if(bIsShown)
         {
             UpdateShow();
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                Hide();
+            }
         }
 
         if (bIsMoving)
@@ -59,18 +66,27 @@ public class Displayer : MonoBehaviour {
         }
 	}
 
-    void OnMouseDown()
+    void OnMouseOver()
     {
-        Show();
+        if (Input.GetMouseButtonDown(1))
+        {
+            if (bIsShown)
+            {
+                Hide();
+            }
+            else
+            {
+                Show();
+            }
+        }
     }
 
     void UpdateShow()
     {
         if (Input.GetMouseButtonDown(0) && bIsShown)
         {
-            LayerMask mask = 1 << LayerMask.NameToLayer("QuestCard");
             RaycastHit hit;
-            Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, mask);
+            Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, maskToCheck);
             if(hit.transform == null){
                 Hide();
                 openerParent.bDontClose = false;
