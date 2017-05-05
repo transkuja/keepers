@@ -20,5 +20,15 @@
 		}
 	]
     },
+    { 
+      "id": 4, 
+      "name" : "niveau 4", 
+      "cardModelName" : "Asset_Carte_Level_02", 
+      "questDecks" : [
+		{
+			"id" : "deck_04",
+		}
+	]
+    },
   ] 
  }
