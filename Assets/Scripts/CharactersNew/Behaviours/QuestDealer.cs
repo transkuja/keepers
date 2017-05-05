@@ -31,6 +31,9 @@ namespace Behaviour
             goQuest.transform.localPosition = Vector3.zero;
             goQuest.transform.localScale = Vector3.one;
             goQuest.transform.GetChild(1).GetComponent<Image>().sprite = instance.Data.AssociatedSprite;
+            Button close = goQuest.transform.GetChild(0).GetComponent<Button>();
+            close.onClick.RemoveAllListeners();
+            close.onClick.AddListener(CloseBox);
             GetComponent<Interactable>().Interactions.Add(new Interaction(Quest), 0, "Quest", GameManager.Instance.SpriteUtils.spriteQuest);
 
             if (questToGive == null)
