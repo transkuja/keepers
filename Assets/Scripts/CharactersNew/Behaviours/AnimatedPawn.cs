@@ -126,7 +126,18 @@ namespace Behaviour
             if (anim.isActiveAndEnabled == true && agent.isActiveAndEnabled == true)
             {
                 anim.SetFloat("velocity", agent.velocity.magnitude);
+                if (GameManager.Instance.CurrentState == GameState.InBattle)
+                {
+                    if (Vector3.Distance(agent.destination, transform.position) < 0.5f)
+                    {
+                        agent.Stop();
+                        agent.enabled = false;
+                        anim.SetTrigger("doClassicAtk");
+                        anim.SetFloat("velocity", 0);
+                    }
+                }
             }
+
 
             if (doesAgentNeedReset)
             {
@@ -140,6 +151,14 @@ namespace Behaviour
                 }
             }
 
+        }
+
+        public void ResetPositionInBattle()
+        {
+            lerpMoveParam = 0.0f;
+            isMovingToBattlePosition = true;
+            lerpStartPosition = transform.position;
+            lerpStartRotation = transform.rotation;
         }
 
         public void StartBetweenTilesAnimation(Vector3 newPosition)

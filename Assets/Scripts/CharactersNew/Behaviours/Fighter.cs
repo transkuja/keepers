@@ -131,6 +131,7 @@ namespace Behaviour
                         GetComponent<PawnInstance>().AddFeedBackToQueue(-pendingDamage);
                         GetComponent<Mortal>().CurrentHp -= pendingDamage;
                         isWaitingForDmgFeedback = false;
+                        GetComponent<AnimatedPawn>().Anim.SetTrigger("getHit");
                     }
                     else
                     {

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.UI;
 using Behaviour;
 using System;
@@ -337,7 +338,16 @@ public class SkillBattle {
 
         ApplySkillEffectOnTarget(_target, effectiveDamage);
         BattleHandler.ExpectedAnswers = 1;
+        PlayAttackAnimation(_target);
         BattleHandler.IsWaitingForSkillEnd = true;
+    }
+
+    private void PlayAttackAnimation(PawnInstance _target)
+    {
+        NavMeshAgent agent = skillUser.GetComponent<NavMeshAgent>();
+        agent.enabled = true;
+        skillUser.transform.LookAt(_target.transform);
+        agent.SetDestination(_target.transform.position);
     }
 }
 

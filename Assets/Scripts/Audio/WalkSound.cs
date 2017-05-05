@@ -21,4 +21,12 @@ public class WalkSound : MonoBehaviour {
             source.volume = Mathf.Min(source.volume, AudioManager.Instance.VolumeFXs);
         }
     }
+
+    // TMP, fait par rémi
+    public void TmpResetPositionInBattle()
+    {
+        Debug.Log("ici");
+        GetComponentInParent<Behaviour.AnimatedPawn>().ResetPositionInBattle();
+    }
+
 }
