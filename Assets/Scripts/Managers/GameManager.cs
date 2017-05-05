@@ -163,15 +163,23 @@ public class GameManager : MonoBehaviour
 
     public void ResetInstance()
     {
-        instance.allKeepersList.Clear();
-        instance.listOfSelectedKeepers.Clear();
-        instance.listEventSelected.Clear();
-        instance.deckSelected = string.Empty;
+        if( SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Menu"))
+        {
+
+            instance.listOfSelectedKeepers.Clear();
+            instance.listEventSelected.Clear();
+            instance.deckSelected = string.Empty;
+
+        } else
+        {
+            persistenceLoader.Load();
+        }
+        //instance.allKeepersList.Clear();
         instance.nbTurn = 1;
         instance.currentState = GameState.Normal;
         instance.ui.gameObject.SetActive(false);
         instance.ui.ResetIngameUI();
-        persistenceLoader.Load();
+
     }
 
 
