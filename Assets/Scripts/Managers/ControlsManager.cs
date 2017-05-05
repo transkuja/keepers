@@ -370,12 +370,14 @@ public class ControlsManager : MonoBehaviour
                 }
                 else
                 {
+                    CursorNormalState();
                     BattleHandler.PendingSkill = null;
                     GameManager.Instance.ClearListKeeperSelected();
                 }
             }
             else
             {
+                CursorNormalState();
                 BattleHandler.PendingSkill = null;
                 GameManager.Instance.ClearListKeeperSelected();
             }
@@ -383,6 +385,7 @@ public class ControlsManager : MonoBehaviour
 
         if (!BattleHandler.WasTheLastToPlay && !BattleHandler.IsWaitingForSkillEnd && !isClickOnWrongTarget)
         {
+            CursorNormalState();
             BattleHandler.ActivateFeedbackSelection(true, false);
             if (BattleHandler.PendingSkill.TargetType == TargetType.FoeSingle)
                 BattleHandler.DeactivateFeedbackSelection(false, true);
