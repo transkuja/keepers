@@ -1,11 +1,16 @@
 fileFormatVersion: 2
 <<<<<<< refs/remotes/origin/master
+<<<<<<< refs/remotes/origin/master
 guid: e1c8cb4b80e630846844dff161bb822b
 timeCreated: 1493974189
 =======
 guid: cb432490d4cf0cb41bf5674c6718ba42
 timeCreated: 1493969961
 >>>>>>> Fix Duck Quest
+=======
+guid: 66b3d566a73929a4d888cc0f99679480
+timeCreated: 1493968802
+>>>>>>> Fix monsters AoE and work on battle targets pointers in limit cases
 licenseType: Free
 AudioImporter:
   serializedVersion: 6

@@ -37,6 +37,9 @@ public class BattleHandler {
     // Debug parameters
     private static bool isDebugModeActive = false;
 
+    private static int expectedAnswers = 0;
+    private static int answersReceived = 0;
+
     public static bool IsABattleAlreadyInProcess()
     {
         return isProcessingABattle;
@@ -807,13 +810,19 @@ public class BattleHandler {
 
         set
         {
-            if (isWaitingForSkillEnd == false && value == false)
-                return;
+
+            //if (isWaitingForSkillEnd == false && value == false)
+            //    return;
 
             isWaitingForSkillEnd = value;
 
             if (isWaitingForSkillEnd == false)
             {
+                answersReceived++;
+                if (answersReceived != expectedAnswers)
+                    return;
+
+                GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().SkillName.SetActive(false);
                 if (pendingSkill != null && pendingSkill.SkillUser != null && pendingSkill.SkillUser.GetComponent<Keeper>() != null)
                 {
                     pendingSkill.SkillUser.HasPlayedThisTurn = true;
@@ -894,6 +903,20 @@ public class BattleHandler {
                 if (currentBattleMonsters[i].GetComponent<Mortal>().IsAlive)
                     currentBattleMonsters[i].GetComponent<Fighter>().UpdateActiveBoeufs();
             }
+        }
+    }
+
+    public static int ExpectedAnswers
+    {
+        get
+        {
+            return expectedAnswers;
+        }
+
+        set
+        {
+            expectedAnswers = value;
+            answersReceived = 0;
         }
     }
 }

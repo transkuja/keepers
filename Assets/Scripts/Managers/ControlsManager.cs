@@ -344,8 +344,7 @@ public class ControlsManager : MonoBehaviour
     // TODO: some things are in double for left click
     private void HandleActionValidationDuringBattle()
     {
-        CursorNormalState();
-        BattleHandler.DeactivateFeedbackSelection(false, true);
+        bool isClickOnWrongTarget = false;
 
         if (!EventSystem.current.IsPointerOverGameObject())
         {
@@ -355,16 +354,19 @@ public class ControlsManager : MonoBehaviour
                 GameObject clickTarget = hitInfo.collider.gameObject;
                 if (clickTarget.GetComponentInParent<PawnInstance>() != null)
                 {
-                    if (BattleHandler.PendingSkill.TargetType == TargetType.FoeSingle && clickTarget.GetComponentInParent<Monster>() != null
+                    if ((BattleHandler.PendingSkill.TargetType == TargetType.FoeSingle && clickTarget.GetComponentInParent<Monster>() != null)
                             || BattleHandler.PendingSkill.TargetType == TargetType.FriendSingle && (clickTarget.GetComponentInParent<Keeper>() != null || clickTarget.GetComponentInParent<Escortable>() != null))
                     {
+                        CursorNormalState();
+                        if (BattleHandler.PendingSkill.TargetType == TargetType.FoeSingle)
+                            BattleHandler.DeactivateFeedbackSelection(false, true);
+                        else
+                            BattleHandler.DeactivateFeedbackSelection(true, false);
+
                         BattleHandler.PendingSkill.UseSkill(clickTarget.GetComponentInParent<PawnInstance>());
                     }
                     else
-                    {
-                        BattleHandler.PendingSkill = null;
-                        GameManager.Instance.ClearListKeeperSelected();
-                    }
+                        isClickOnWrongTarget = true;
                 }
                 else
                 {
@@ -379,8 +381,14 @@ public class ControlsManager : MonoBehaviour
             }
         }
 
-        if (!BattleHandler.WasTheLastToPlay && !BattleHandler.IsWaitingForSkillEnd)
-            BattleHandler.ActivateFeedbackSelection(true, false);        
+        if (!BattleHandler.WasTheLastToPlay && !BattleHandler.IsWaitingForSkillEnd && !isClickOnWrongTarget)
+        {
+            BattleHandler.ActivateFeedbackSelection(true, false);
+            if (BattleHandler.PendingSkill.TargetType == TargetType.FoeSingle)
+                BattleHandler.DeactivateFeedbackSelection(false, true);
+            else
+                BattleHandler.DeactivateFeedbackSelection(true, false);
+        }
     }
 
     private void ChangeSelectedKeeper()

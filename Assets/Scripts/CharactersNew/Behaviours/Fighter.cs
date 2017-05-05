@@ -117,7 +117,7 @@ namespace Behaviour
                         || (GameManager.Instance.CurrentState == GameState.InTuto && (GetComponent<Keeper>() != null || GetComponent<Escortable>() != null)))
                     {
                         EndSkillProcess();
-                    }                
+                    }
                 }
                 else
                 {
@@ -150,11 +150,15 @@ namespace Behaviour
 
         public void EndSkillProcess()
         {
-            GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().SkillName.SetActive(false);
             showSkillPanelTimer = 2.2f;
             showFeedbackDmgTimer = 1.7f;
             isWaitingForSkillPanelToClose = false;
-            BattleHandler.IsWaitingForSkillEnd = false;
+            //if (BattleHandler.PendingSkill != null)
+            //{
+                //GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().SkillName.SetActive(false);
+                
+                BattleHandler.IsWaitingForSkillEnd = false;
+            //}
             if (GetComponent<Mortal>().CurrentHp <= 0)
             {
                 gameObject.SetActive(false);
@@ -454,10 +458,8 @@ namespace Behaviour
             for (int i = 0; i < effectiveBoeufs.Count; i++)
             {
                 effectiveBoeufs[i].Duration--;
-                Debug.Log(effectiveBoeufs[i].Duration);
                 if (effectiveBoeufs[i].Duration == 0)
                 {
-                    Debug.Log("??");
                     effectiveBoeufs.Remove(effectiveBoeufs[i]);
                 }
             }

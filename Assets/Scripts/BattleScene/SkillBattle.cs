@@ -253,8 +253,7 @@ public class SkillBattle {
             {
                 ApplySkillEffectOnTarget(BattleHandler.CurrentBattleMonsters[i], effectiveDamage);
             }
-            if (BattleHandler.isPrisonerOnTile)
-                ApplySkillEffectOnTarget(GameManager.Instance.PrisonerInstance, effectiveDamage);
+             BattleHandler.ExpectedAnswers = BattleHandler.CurrentBattleMonsters.Length;
         }
         else if (targetType == TargetType.FriendAll)
         {
@@ -264,10 +263,12 @@ public class SkillBattle {
             }
             if (BattleHandler.isPrisonerOnTile)
                 ApplySkillEffectOnTarget(GameManager.Instance.PrisonerInstance, effectiveDamage);
+            BattleHandler.ExpectedAnswers = BattleHandler.CurrentBattleKeepers.Length + ((BattleHandler.isPrisonerOnTile) ? 1 : 0);
         }
         else if (targetType == TargetType.Self)
         {
             ApplySkillEffectOnTarget(skillUser.GetComponent<PawnInstance>(), effectiveDamage);
+            BattleHandler.ExpectedAnswers = 1;
         }
         else
         {
@@ -294,6 +295,7 @@ public class SkillBattle {
         }
 
         ApplySkillEffectOnTarget(_target, effectiveDamage);
+        BattleHandler.ExpectedAnswers = 1;
         BattleHandler.IsWaitingForSkillEnd = true;
     }
 }
