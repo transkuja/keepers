@@ -88,7 +88,6 @@ public class TileManager : MonoBehaviour {
                 goCurrentCharacter.GetComponent<Behaviour.AnimatedPawn>().StartBetweenTilesAnimation(spawnPoints[(i + 1) % spawnPoints.Length].position);
                 if(goCurrentCharacter.GetComponent<Behaviour.Prisoner>() == null)
                     MoveEscortable(goCurrentCharacter.GetComponent<PawnInstance>(), from, direction);
-                Debug.Log(from);
             }
 
         }

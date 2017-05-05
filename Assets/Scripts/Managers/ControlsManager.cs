@@ -188,14 +188,13 @@ public class ControlsManager : MonoBehaviour
                                 ui.UpdateActionPanelUIQ(clickTarget.GetComponent<Arrival>().InterationImplementer);
                             }
                         }
-                        else if (hitInfo.collider.gameObject.GetComponent<TilePassage>() != null)
+                        else if (hitInfo.collider.gameObject.GetComponent<TilePassage>() != null && tileHit == keeperSelectedTile)
                         {
                             ui.ClearActionPanel();
                             TilePassage tp = hitInfo.collider.gameObject.GetComponent<TilePassage>();
                             if(GameManager.Instance.ListOfSelectedKeepers.Count > 0)
                             {
-                                if(tp.GetComponentInParent<Tile>() == GameManager.Instance.ListOfSelectedKeepers[0].CurrentTile)
-                                    tp.HandleClick();
+                                tp.HandleClick();
                             }
                         }
                         else

@@ -94,19 +94,19 @@ namespace Behaviour
                         {
                             //Si la quête a été complétée
                             BuildEndQuestPanel();
-                            goQuest.SetActive(true);
+                            OpenBox();
                         }
                         else
                         {
                             //Si la quête a déjà été acceptée
                             BuildAlreadyActivePanel();
-                            goQuest.SetActive(true);
+                            OpenBox();
                         }
                     }
                     else
                     {
                         BuildQuestPanel();
-                        goQuest.SetActive(true);
+                        OpenBox();
                     }
                     
                     GameManager.Instance.Ui.goContentQuestParent.SetActive(true);
@@ -122,11 +122,16 @@ namespace Behaviour
         {
             QuestUtility.AcceptQuest(questToGive);
             GameManager.Instance.Ui.goContentQuestParent.SetActive(false);
-            goQuest.SetActive(false);
+            CloseBox();
         }
-
+        void OpenBox()
+        {
+            goQuest.SetActive(true);
+            GameManager.Instance.CurrentState = GameState.InPause;
+        }
         void CloseBox()
         {
+            GameManager.Instance.CurrentState = GameState.Normal;
             goQuest.SetActive(false);
         }
 
@@ -134,7 +139,7 @@ namespace Behaviour
         {
 
             QuestUtility.CompleteQuest(questToGive);
-            goQuest.SetActive(false);  
+            CloseBox();
             // Do things?
         }
     }

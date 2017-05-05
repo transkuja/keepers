@@ -93,11 +93,14 @@ public class MultipleEscortObjective : IQuestObjective {
     {
         //List<PawnInstance> pi = TileManager.Instance.EscortablesOnTile[destination].FindAll(x => x.Data.PawnId == escortablePawnID);
         List<PawnInstance> escortOnTile = new List<PawnInstance>();
-        foreach(PawnInstance p in TileManager.Instance.EscortablesOnTile[destination])
+        if(TileManager.Instance.EscortablesOnTile.ContainsKey(destination))
         {
-            if(p.Data.PawnId == escortablePawnID)
+            foreach (PawnInstance p in TileManager.Instance.EscortablesOnTile[destination])
             {
-                escortOnTile.Add(p);
+                if (p.Data.PawnId == escortablePawnID)
+                {
+                    escortOnTile.Add(p);
+                }
             }
         }
         amountBrought = escortOnTile.Count;
