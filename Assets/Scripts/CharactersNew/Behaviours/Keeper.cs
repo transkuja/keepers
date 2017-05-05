@@ -144,10 +144,13 @@ namespace Behaviour
             Keeper from = GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Keeper>();
             if (from.ActionPoints >= costAction)
             {
-                from.ActionPoints -= (short)costAction;
-                short amountMoralBuff = (short)Random.Range(Data.MinMoralBuff, Data.MaxMoralBuff);
+                from.ActionPoints -= costAction;
+                int amountMoralBuff = 0;
+                if (instance.Data.Behaviours[(int)BehavioursEnum.Gaga] == true)
+                    amountMoralBuff = Random.Range(Data.MinMoralBuff, Data.MaxMoralBuff);
+                else
+                    amountMoralBuff = 15;
                 GetComponent<MentalHealthHandler>().CurrentMentalHealth += amountMoralBuff;
-                //GameManager.Instance.Ui.MoralBuffActionTextAnimation(amountMoralBuff);
             }
             else
             {
