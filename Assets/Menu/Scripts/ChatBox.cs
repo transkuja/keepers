@@ -22,7 +22,7 @@ public class ChatBox : MonoBehaviour {
     RectTransform trBox;
     Text txt;
 
-    //public Transform trTarget;    
+    public Transform trTarget;    
     public List<string>[] tabEmotes;
     public bool bEnable = false;
 
@@ -105,7 +105,7 @@ public class ChatBox : MonoBehaviour {
 
     void UpdatePosition()
     {
-        //trBox.position = Camera.main.WorldToScreenPoint(trTarget.position); /*Camera.main.WorldToScreenPoint(trTarget.position)*/;
+        trBox.position = Camera.main.WorldToScreenPoint(trTarget.position); /*Camera.main.WorldToScreenPoint(trTarget.position)*/;
     }
 
     void UpdateScale()

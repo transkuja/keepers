@@ -9,18 +9,19 @@ public class Displayer : MonoBehaviour {
     bool bIsMoving = false;
     float fLerp = 0;
 
-    public float fShowDelay = 1;
-    public float fSpeed = 1;
-
-    [SerializeField] Transform trShowspot;
-
     Vector3 v3StartPos, v3TargetPos;
+    Quaternion quatStart, quatTarget;
 
-    public Opener openerParent;
-
-    public List<Displayer> listDisplayerSiblings;
+    [HideInInspector] public Opener openerParent;
+    [HideInInspector] public List<Displayer> listDisplayerSiblings;
 
     [SerializeField] LayerMask maskToCheck;
+    [SerializeField] Transform trShowspot;
+
+    public float fShowDelay = 1;
+    public float fSpeed = 1;
+    public int mouseButton = 1;
+
 
 	// Use this for initialization
 	void Start () {
@@ -30,20 +31,32 @@ public class Displayer : MonoBehaviour {
     public void Init()
     {
         v3StartPos = transform.position;
-        v3TargetPos = trShowspot.position;
+        quatStart = transform.rotation;
 
-        if(transform.parent != null)
+        v3TargetPos = trShowspot.position;
+        quatTarget = trShowspot.rotation;
+
+        if (transform.parent != null)
         {
             openerParent = GetComponentInParent<Opener>();
         }
 
-        listDisplayerSiblings = new List<Displayer>();
+        /*listDisplayerSiblings = new List<Displayer>();
         for(int i = 0; i< transform.parent.childCount; i++)
         {
             Displayer newDisplayer = transform.parent.GetChild(i).GetComponent<Displayer>();
             if(newDisplayer != null && newDisplayer != this)
             {
                 listDisplayerSiblings.Add(newDisplayer);
+            }
+        }*/
+
+        Displayer[] tabDisplayers = GameObject.FindObjectsOfType<Displayer>();
+        for (int i = 0; i < tabDisplayers.Length; i++)
+        {
+            if(tabDisplayers[i].gameObject != gameObject)
+            {
+                listDisplayerSiblings.Add(tabDisplayers[i]);
             }
         }
     }
@@ -53,8 +66,8 @@ public class Displayer : MonoBehaviour {
 		if(bIsShown)
         {
             UpdateShow();
-
-            if (Input.GetMouseButtonDown(0))
+            
+            if (Input.GetMouseButtonDown((mouseButton == 0)? 1:0))
             {
                 Hide();
             }
@@ -68,7 +81,7 @@ public class Displayer : MonoBehaviour {
 
     void OnMouseOver()
     {
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(mouseButton))
         {
             if (bIsShown)
             {
@@ -89,7 +102,10 @@ public class Displayer : MonoBehaviour {
             Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, maskToCheck);
             if(hit.transform == null){
                 Hide();
-                openerParent.bDontClose = false;
+                if(openerParent != null)
+                {
+                    openerParent.bDontClose = false;
+                }
             }
         }
     }
@@ -99,6 +115,10 @@ public class Displayer : MonoBehaviour {
         if (openerParent != null)
         {
             openerParent.bDontClose = true;
+        }
+        else
+        {
+            GameObject.FindObjectOfType<MenuManagerQ>().SetActiveChatBoxes(false);
         }
 
         if (bIsMoving && !bIsShown)
@@ -128,6 +148,11 @@ public class Displayer : MonoBehaviour {
 
         bIsShown = false;
         bIsMoving = true;
+
+        if(openerParent == null)
+        {
+            GameObject.FindObjectOfType<MenuManagerQ>().SetActiveChatBoxes(true);
+        }
     }
 
     void UpdatePosition()
@@ -154,13 +179,13 @@ public class Displayer : MonoBehaviour {
         }
 
         transform.position = Vector3.Lerp(v3StartPos, v3TargetPos, fLerp);
+        transform.rotation = Quaternion.Lerp(quatStart, quatTarget, fLerp);
     }
 
     public void HideSiblings()
     {
         for (int i = 0; i< listDisplayerSiblings.Count; i++)
         {
-            if(listDisplayerSiblings[i] != this)
             listDisplayerSiblings[i].Hide();
         }
     }

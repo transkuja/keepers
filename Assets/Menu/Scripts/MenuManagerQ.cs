@@ -114,7 +114,8 @@ public class MenuManagerQ : MonoBehaviour {
                 if (GameManager.Instance.PersistenceLoader.Pd.dicPersistencePawns[id] == true) { 
                     GameObject goKeeper = GameManager.Instance.PawnDataBase.CreatePawn(id, /*Vector3.zero*/ keepersPosition[iKeeper].position, keepersPosition[iKeeper].rotation, null /*keepersPosition[iKeeper]*/);
 
-                    ChatBox newChatBox = Instantiate(prefabChatox, goKeeper.transform).GetComponent<ChatBox>();
+                    ChatBox newChatBox = Instantiate(prefabChatox, GetComponentInChildren<Canvas>().transform).GetComponent<ChatBox>();
+                    newChatBox.trTarget = goKeeper.transform;
                     newChatBox.SetMode(ChatBox.ChatMode.pickme);
                     newChatBox.SetEnable(false);
                     dicPawnChatBox.Add(goKeeper, newChatBox);
@@ -228,5 +229,11 @@ public class MenuManagerQ : MonoBehaviour {
     }
     #endregion
 
-
+    public void SetActiveChatBoxes(bool value)
+    {
+        foreach (KeyValuePair<GameObject, ChatBox> gc in dicPawnChatBox)
+        {
+            gc.Value.SetEnable(value);
+        }
+    }
 }

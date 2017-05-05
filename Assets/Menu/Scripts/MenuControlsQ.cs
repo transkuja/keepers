@@ -31,6 +31,8 @@ public class MenuControlsQ : MonoBehaviour {
     [SerializeField] Color colorLockOpen;
     [SerializeField] Color colorLockClosed;
 
+    public GameObject boxLock;
+
     // Use this for initialization
     void Start () {
         menuManager = GetComponent<MenuManagerQ>();
@@ -72,16 +74,24 @@ public class MenuControlsQ : MonoBehaviour {
             Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, mask);
             if (hit.transform != null)
             {
-                bIsOpen = !bIsOpen;
-                animatorBox.SetBool("bOpen", bIsOpen);
-                animatorCam.SetBool("bOpen", bIsOpen);
-
-                hit.transform.GetComponent<GlowObjectCmd>().GlowColor = bIsOpen ? colorLockOpen : colorLockClosed;
-
-                foreach(KeyValuePair<GameObject, ChatBox> gc in menuManager.dicPawnChatBox)
+                
+                if ((menuManager.ListeSelectedKeepers.Count == 0 && menuManager.CardLevelSelected == -1 && menuManager.DeckOfCardsSelected == string.Empty))
                 {
-                    gc.Value.SetEnable(bIsOpen);
+                    if (bIsOpen)
+                    {
+                        foreach(Opener o in GameObject.FindObjectsOfType<Opener>())
+                        {
+                            o.Fold();
+                        }
+                    }
+
+                    bIsOpen = !bIsOpen;
+                    animatorBox.SetBool("bOpen", bIsOpen);
+                    animatorCam.SetBool("bOpen", bIsOpen);
+
+                    menuManager.SetActiveChatBoxes(bIsOpen);
                 }
+
             }
         }
 
@@ -122,11 +132,9 @@ public class MenuControlsQ : MonoBehaviour {
                         oc.AddKeyPose(oc.transform.position + new Vector3(2,2,2), Quaternion.Inverse(oc.transform.rotation));
                         oc.bNeedShow = true;
                         oc.bKill = true;
-
-                        //GameObject.Destroy(deckSelected);
                     }
 
-                    OpenerContent newDeck = Instantiate(deck.gameObject /*prefabDeckSelected*/, deck.transform.position, deck.transform.rotation).GetComponent<OpenerContent>();
+                    OpenerContent newDeck = Instantiate(deck.gameObject, deck.transform.position, deck.transform.rotation).GetComponent<OpenerContent>();
 
                     newDeck.GetComponent<MeshFilter>().mesh = deck.GetComponent<MeshFilter>().sharedMesh;
 
@@ -149,6 +157,7 @@ public class MenuControlsQ : MonoBehaviour {
                     }
 
                     deckSelected = newDeck.gameObject;
+                    UpdateLockAspect();
                 }
             }
         }
@@ -176,8 +185,17 @@ public class MenuControlsQ : MonoBehaviour {
                         menuManager.CardLevelSelected = card.levelIndex;
                     }
 
+                    if (deckSelected != null)
+                    {
+                        OpenerContent oc = deckSelected.GetComponent<OpenerContent>();
+                        oc.listKeyPose.Clear();
+                        oc.AddKeyPose(oc.transform.position, oc.transform.rotation);
+                        oc.AddKeyPose(oc.transform.position + new Vector3(2, 2, 2), Quaternion.Inverse(oc.transform.rotation));
+                        oc.bNeedShow = true;
+                        oc.bKill = true;
+                    }
 
-                    if(levelCardSelected != null)
+                    if (levelCardSelected != null)
                     {
                         OpenerContent oc = levelCardSelected.GetComponent<OpenerContent>();
                         oc.listKeyPose.Clear();
@@ -203,6 +221,7 @@ public class MenuControlsQ : MonoBehaviour {
                     GlowController.RegisterObject(newCard.GetComponent<GlowObjectCmd>());
 
                     menuUI.UpdateCardLevelSelection();
+                    UpdateLockAspect();
                 }
             }
         }
@@ -226,6 +245,7 @@ public class MenuControlsQ : MonoBehaviour {
                 {
                     AddEventCardToSelection(hit.transform.gameObject);
                 }
+                UpdateLockAspect();
             }
         }
     }
@@ -259,6 +279,7 @@ public class MenuControlsQ : MonoBehaviour {
                         menuManager.dicPawnChatBox[pi.gameObject].Say("Yahouuuu !");
                     }
                     menuUI.UpdateSelectedKeepers();
+                    UpdateLockAspect();
                 }
             }
         }
@@ -285,6 +306,11 @@ public class MenuControlsQ : MonoBehaviour {
         {
             GameManager.Instance.AllKeepersList.Add(ki);
             ki.gameObject.transform.SetParent(GameManager.Instance.transform);
+
+            foreach(KeyValuePair<GameObject, ChatBox> gc in menuManager.dicPawnChatBox)
+            {
+                GameObject.Destroy(gc.Value.gameObject);
+            }
         }
 
         Debug.Log(menuManager.DeckOfCardsSelected);
@@ -369,5 +395,18 @@ public class MenuControlsQ : MonoBehaviour {
             }
         }
         return false;
+    }
+
+    public void UpdateLockAspect()
+    {
+        if ((menuManager.ListeSelectedKeepers.Count == 0 && menuManager.CardLevelSelected == -1 && menuManager.DeckOfCardsSelected == string.Empty))
+        {
+            boxLock.GetComponent<GlowObjectCmd>().GlowColor = colorLockClosed;
+        }
+        else
+        {
+            boxLock.GetComponent<GlowObjectCmd>().GlowColor = colorLockOpen;
+        }
+
     }
 }
