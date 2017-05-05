@@ -35,6 +35,10 @@
 		{
 			"id":"2",
 			"unlocked":false
+		},
+		{
+			"id":"3",
+			"unlocked":false
 		}
 	],
 	"Decks":[
