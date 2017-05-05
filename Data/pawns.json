@@ -86,7 +86,7 @@
 			"Keeper" : {
 				"minMoralBuff" : -10,
 				"maxMoralBuff" : 20,
-				"maxActionPoint" : 3
+				"maxActionPoint" : 4
 			},
 			
 			"MentalHealthHandler" : {
