@@ -535,8 +535,16 @@ public class GameManager : MonoBehaviour
 
     void InitQuests()
     {
-        // Give choosen deck ID here
-        questManagerReference.Init(GameManager.Instance.DeckSelected);
+        if(GameManager.instance.isDebugGameManager)
+        {
+            questManagerReference.Init("deck_02");
+        }
+        else
+        {
+            // Give choosen deck ID here
+            questManagerReference.Init(GameManager.Instance.DeckSelected);
+        }
+
 
         // Next step, init keepers 
         characterInitializer.InitKeepers(tileManagerReference.GetBeginPositions);
