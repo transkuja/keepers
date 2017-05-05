@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class ChatBox : MonoBehaviour {
 
-    enum ScaleState
+    public enum ScaleState
     {
         unscale = -1,
         idle = 0,
@@ -24,13 +24,13 @@ public class ChatBox : MonoBehaviour {
 
     public Transform trTarget;    
     public List<string>[] tabEmotes;
-    public bool bEnable = true;
+    public bool bEnable = false;
 
-    bool bIsShown;
-    ScaleState state = ScaleState.idle;
+    public bool bIsShown = false;
+    public ScaleState state = ScaleState.idle;
     ChatMode mode = ChatMode.mute;
-    float fTimer = 0;
-    float fLerp = 0;
+    public float fTimer = 0;
+    public float fLerp = 0;
 
     // Parametres
     public float fShowLength = 3;
@@ -61,25 +61,34 @@ public class ChatBox : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        if (!bIsShown && mode != ChatMode.mute && bEnable)
+        if (bEnable)
         {
-            if(fTimer <= 0)
+            if (!bIsShown)
             {
-                txt.text = tabEmotes[(int)mode][Random.Range(0, tabEmotes[(int)mode].Count)];
-                TriggerScale();
+                if(mode != ChatMode.mute)
+                {
+                    if (fTimer <= 0)
+                    {
+                        txt.text = tabEmotes[(int)mode][Random.Range(0, tabEmotes[(int)mode].Count)];
+                        TriggerScale();
+                    }
+                    else
+                    {
+                        fTimer -= Time.unscaledDeltaTime;
+                    }
+                }
             }
             else
             {
-                fTimer -= Time.unscaledDeltaTime;
-            }
+                if(state == ScaleState.idle)
+                {
+                    fTimer -= Time.unscaledDeltaTime;
 
-        }else
-        {
-            fTimer -= Time.unscaledDeltaTime;
-
-            if(fTimer <= 0)
-            {
-                TriggerUnscale();
+                    if(fTimer <= 0)
+                    {
+                        TriggerUnscale();
+                    }
+                }
             }
         }
 
@@ -99,10 +108,31 @@ public class ChatBox : MonoBehaviour {
         trBox.position = Camera.main.WorldToScreenPoint(trTarget.position);
     }
 
+    void UpdateScale()
+    {
+        fLerp += Time.deltaTime * (int)state * fScaleSpeed;
+
+        trBox.transform.localScale = Vector3.Lerp(Vector3.zero, Vector3.one, Mathf.Clamp(fLerp,0, 1));
+
+        if(state == ScaleState.scale && fLerp >= 1)
+        {
+            state = ScaleState.idle;
+            fTimer = fShowLength;
+        }
+
+        if (state == ScaleState.unscale && fLerp <= 0)
+        {
+            state = ScaleState.idle;
+            fTimer = Random.Range(fDelayMin, fDelayMax);
+            bIsShown = false;
+        }
+
+
+    }
+
     public void TriggerScale()
     {
         fLerp = 0;
-        fTimer = fShowLength;
         bIsShown = true;
         state = ScaleState.scale;
     }
@@ -110,25 +140,7 @@ public class ChatBox : MonoBehaviour {
     public void TriggerUnscale()
     {
         fLerp = 1;
-        bIsShown = false;
-        fTimer = Random.Range(fDelayMin, fDelayMax);
         state = ScaleState.unscale;
-    }
-
-    void UpdateScale()
-    {
-        fLerp += Time.deltaTime * (int)state * fScaleSpeed;
-
-        trBox.transform.localScale = Vector3.Lerp(Vector3.zero, Vector3.one, fLerp);
-
-        if(state == ScaleState.scale && fLerp >= 1)
-        {
-            state = ScaleState.idle;
-        }
-        else if (state == ScaleState.unscale && fLerp <= 0)
-        {
-            state = ScaleState.idle;
-        }
     }
 
     public void SetMode(ChatMode _mode)
@@ -137,9 +149,10 @@ public class ChatBox : MonoBehaviour {
         switch (_mode)
         {
             case ChatMode.mute:
-                bIsShown = false;
-                trBox.transform.localScale = Vector3.zero;
-                fLerp = 0;
+                if (bIsShown)
+                {
+                    TriggerUnscale();
+                }
                 break;
             case ChatMode.pickme:
                 break;
@@ -155,8 +168,16 @@ public class ChatBox : MonoBehaviour {
         bEnable = status;
         if(status == false)
         {
-            TriggerUnscale();
+            if (bIsShown)
+            {
+                TriggerUnscale();
+            }
         }
+        else
+        {
+            fTimer = Random.Range(fDelayMin, fDelayMax);
+        }
+
     }
 
     public void Say(string message)
