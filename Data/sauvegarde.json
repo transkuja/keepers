@@ -24,7 +24,7 @@
 		},
 		{
 			"id":"2",
-			"unlocked":false
+			"unlocked":true
 		}
 	],
 	"Events":[
@@ -48,7 +48,7 @@
 		},
 		{
 			"id":"deck_02",
-			"unlocked":false
+			"unlocked":true
 		}
 	],
 	"Camera":{

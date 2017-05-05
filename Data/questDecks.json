@@ -3,14 +3,14 @@
     { 
       "id": "deck_01",
       "name" : "tuto",
-	  "level" : "level1",
+	  "level" : "tuto",
       "deckModelName" : "Asset_Deck_Levels", 
       "main" : "main_quest_01"
     },  
     { 
       "id": "deck_02", 
       "name" : "The last phoque unicorn",
-	  "level" : "level2",
+	  "level" : "level1",
       "deckModelName" : "Asset_Deck_Levels", 
       "main" : "main_quest_01", 
       "secondary" : [ 
