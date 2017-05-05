@@ -70,8 +70,12 @@ public class EventManager : MonoBehaviour {
                 if (ki.CurrentTile != null && TileManager.Instance.MonstersOnTile != null && TileManager.Instance.MonstersOnTile.ContainsKey(ki.CurrentTile) && TileManager.Instance.MonstersOnTile[ki.CurrentTile].Count > 0)
                     ki.GetComponent<MentalHealthHandler>().CurrentMentalHealth -= 5;
 
+                int moodMultiplier = 1;
+                if (ki.GetComponent<PawnInstance>().Data.Behaviours[(int)BehavioursEnum.Gaga])
+                    moodMultiplier = 2;
+
                 if (ki.CurrentTile.GetComponent<Tile>().Friendliness == TileFriendliness.Scary)
-                    ki.GetComponent<MentalHealthHandler>().CurrentMentalHealth -= 10;
+                    ki.GetComponent<MentalHealthHandler>().CurrentMentalHealth -= 10 * moodMultiplier;
                 if (ki.CurrentTile.GetComponent<Tile>().Friendliness == TileFriendliness.Friendly)
                     ki.GetComponent<MentalHealthHandler>().CurrentMentalHealth += 5;
 
