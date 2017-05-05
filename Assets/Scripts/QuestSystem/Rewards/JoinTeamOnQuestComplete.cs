@@ -29,6 +29,7 @@ public class JoinTeamOnQuestComplete : MonoBehaviour {
         pawn.GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = true;
         Transform feed = GetComponent<Interactable>().Feedback;
         feed.GetChild(feed.childCount - 1).SetParent(GameManager.Instance.Ui.transform);
+        GameManager.Instance.PersistenceLoader.SetPawnUnlocked(idKeeper, true);
         DestroyImmediate(gameObject);
     }
 }
