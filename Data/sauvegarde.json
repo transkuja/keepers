@@ -2,11 +2,11 @@
 	"Pawns":[
 		{
 			"id":"grekhan",
-			"unlocked":false
+			"unlocked":true
 		},
 		{
 			"id":"swag",
-			"unlocked":false
+			"unlocked":true
 		},
 		{
 			"id":"nana",
@@ -14,12 +14,16 @@
 		},
 		{
 			"id":"lupus",
-			"unlocked":false
+			"unlocked":true
 		}
 	],
 	"Levels":[
 		{
 			"id":"1",
+			"unlocked":true
+		},
+		{
+			"id":"2",
 			"unlocked":true
 		},
 		{
@@ -34,11 +38,11 @@
 		},
 		{
 			"id":"2",
-			"unlocked":false
+			"unlocked":true
 		},
 		{
 			"id":"3",
-			"unlocked":false
+			"unlocked":true
 		}
 	],
 	"Decks":[
@@ -48,6 +52,14 @@
 		},
 		{
 			"id":"deck_02",
+			"unlocked":true
+		},
+		{
+			"id":"deck_03",
+			"unlocked":true
+		},
+		{
+			"id":"deck_04",
 			"unlocked":true
 		}
 	],
