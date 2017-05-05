@@ -27,10 +27,13 @@ public class ShowAssociatedDice : MonoBehaviour, IPointerEnterHandler, IPointerE
     private void OnDisable()
     {
         feedbackAboveDice.SetActive(false);
-        foreach (GameObject die in pawn.GetComponent<Behaviour.Fighter>().LastThrowDiceInstance)
+        if (pawn != null)
         {
-            die.GetComponent<GlowObjectCmd>().UpdateColor(false);
-            die.GetComponent<GlowObjectCmd>().enabled = true;
+            foreach (GameObject die in pawn.GetComponent<Behaviour.Fighter>().LastThrowDiceInstance)
+            {
+                die.GetComponent<GlowObjectCmd>().UpdateColor(false);
+                die.GetComponent<GlowObjectCmd>().enabled = true;
+            }
         }
         feedbackAboveDice.SetActive(false);
     }
