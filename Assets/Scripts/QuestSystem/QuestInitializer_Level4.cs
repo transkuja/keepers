@@ -23,11 +23,9 @@ public class QuestInitializer_Level4 : MonoBehaviour {
             ((PrisonerEscortObjective)main1.Objectives[0]).prisoner = GameManager.Instance.PrisonerInstance.gameObject;
             ((PrisonerEscortObjective)main1.Objectives[0]).destination = TileManager.Instance.EndTile;
         }
-        Debug.Log("here");
         side1 = GameManager.Instance.QuestManager.GetQuestByID("side_quest_ducklings_01");
         if (side1 != null)
         {
-            Debug.Log("there");
             ((MultipleEscortObjective)side1.Objectives[0]).destination = duckTile;
         }
 

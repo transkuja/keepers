@@ -27,35 +27,21 @@ namespace Behaviour
 
         public void Init()
         {
-            //currentQuestIndex = 0;
-
             goQuest = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabContentQuestUI, GameManager.Instance.Ui.goContentQuestParent.transform);
             goQuest.transform.localPosition = Vector3.zero;
             goQuest.transform.localScale = Vector3.one;
-
+            goQuest.transform.GetChild(1).GetComponent<Image>().sprite = instance.Data.AssociatedSprite;
             GetComponent<Interactable>().Interactions.Add(new Interaction(Quest), 0, "Quest", GameManager.Instance.SpriteUtils.spriteQuest);
 
-            //questToGive = QuestManager.Instance.GetQuestByID(PossibleQuests[QuestManager.Instance.CurrentQuestDeck.Id].QuestIDs[0]);
-            //questToGive = GameManager.Instance.MainQuest;
-            //Test
-            //questToGive = GameManager.Instance.MainQuest;
             if (questToGive == null)
             {
                 Debug.Log("Quest Not Found");
             }
-            //else
-                //InitializeQuest();
         }
-
-        //public void InitializeQuest()
-        //{
-        //    //questToGive.Reset(new QuestIdentifier(questToGive.Identifier.ID, instance.Data.PawnId), questToGive.Information, questToGive.Objectives);
-        //    questToGive.Init();
-
-        //}
 
         void BuildQuestPanel()
         {
+
             goQuest.transform.GetChild(goQuest.transform.childCount - 1).GetComponent<Text>().text = questToGive.Information.Title;
             goQuest.transform.GetChild(goQuest.transform.childCount - 2).GetComponentInChildren<Text>().text = questToGive.Information.Dialog;
             Button validate = goQuest.transform.GetChild(goQuest.transform.childCount - 3).GetComponent<Button>();
@@ -151,19 +137,5 @@ namespace Behaviour
             goQuest.SetActive(false);  
             // Do things?
         }
-
-        /*public void ChangeQuestToGive(int questIDIndex)
-        {
-            questToGive = QuestManager.Instance.GetQuestByID(PossibleQuests[QuestManager.Instance.CurrentQuestDeck.Id].QuestIDs[questIDIndex]);
-            if (questToGive == null)
-            {
-                Debug.Log("Quest Not Found");
-            }
-            else
-            {
-                InitializeQuest();
-            }
-            
-        }*/
     }
 }

@@ -84,7 +84,7 @@ public class QuestsContainer {
                                                         //"Oh hey fellow adventurer! You seem tough, and I really think you could help me. You see, a really scary monster is coming closer to the village and the inhabitants are getting stressed out. I can't fix the problem alone, and if we do nothing, I can't imagine what will happen to these people. Please, go to the north east and kill this beast! You will be rewarded, don't worry.", 
                                                         "\"Quack? Quack! Quack quack quack.\" "+'\n'+" This Mommy duck seems very nervous. She seem to have lost her ducklings! Apparently she won't move until they come back... Will you help her?",
                                                         "Quack ! *Jumps in happiness* "+'\n'+"The mommy duck seem very thankful, she greets her ducklings and move out of the way. Great job, you're a great person!",
-                                                        "Quack quack..."),
+                                                        "\"Quack quack...\"" + '\n' + "She seem very woried for her babies... She's looking at the water, maybe she's giving you a hint?"),
                                          objectives));
 
         isInitialized = true;

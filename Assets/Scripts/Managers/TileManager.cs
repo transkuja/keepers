@@ -86,7 +86,9 @@ public class TileManager : MonoBehaviour {
             {
                 goCurrentCharacter.GetComponent<PawnInstance>().CurrentTile = destination;
                 goCurrentCharacter.GetComponent<Behaviour.AnimatedPawn>().StartBetweenTilesAnimation(spawnPoints[(i + 1) % spawnPoints.Length].position);
-                MoveEscortable(goCurrentCharacter.GetComponent<PawnInstance>(), from, direction);
+                if(goCurrentCharacter.GetComponent<Behaviour.Prisoner>() == null)
+                    MoveEscortable(goCurrentCharacter.GetComponent<PawnInstance>(), from, direction);
+                Debug.Log(from);
             }
 
         }
@@ -281,7 +283,6 @@ public class TileManager : MonoBehaviour {
             newList.Add(escortable);
             escortablesOnTile.Add(tile, newList);
         }
-
         escortable.CurrentTile = tile;
     }
 
@@ -469,7 +470,7 @@ public class TileManager : MonoBehaviour {
     {
         get
         {
-            return keepersOnTile;
+            return escortablesOnTile;
         }
     }
 

@@ -1,6 +1,11 @@
 fileFormatVersion: 2
+<<<<<<< refs/remotes/origin/master
 guid: d3bb448b29e7d284bbbf97ca9122953f
 timeCreated: 1493974186
+=======
+guid: 2d54cf3bcd40d3c4d9912324e30687af
+timeCreated: 1493969958
+>>>>>>> Fix Duck Quest
 licenseType: Free
 AudioImporter:
   serializedVersion: 6
