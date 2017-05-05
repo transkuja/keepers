@@ -274,6 +274,9 @@ public class TilePassage : MonoBehaviour {
 
                     {
 
+                        if (GameManager.Instance.CurrentState != GameState.InTuto || GameManager.Instance.CurrentState != GameState.InBattle)
+                            GameManager.Instance.CurrentState = GameState.InPause;
+
                         GameManager.Instance.Ui.goConfirmationPanel.SetActive(true);
 
                         int n = _i;
@@ -356,6 +359,9 @@ public class TilePassage : MonoBehaviour {
 
                     {
 
+                        if (GameManager.Instance.CurrentState != GameState.InTuto || GameManager.Instance.CurrentState != GameState.InBattle)
+                            GameManager.Instance.CurrentState = GameState.InPause;
+
                         GameManager.Instance.Ui.goConfirmationPanel.SetActive(true);
 
                         int n = _i;
@@ -398,6 +404,9 @@ public class TilePassage : MonoBehaviour {
 
     {
 
+        if (GameManager.Instance.CurrentState != GameState.InTuto || GameManager.Instance.CurrentState != GameState.InBattle)
+            GameManager.Instance.CurrentState = GameState.Normal;
+
         PawnInstance toMove = GameManager.Instance.GetFirstSelectedKeeper();
 
         AnimatedPawn toMoveAnimatedPawn = toMove.GetComponent<AnimatedPawn>();
@@ -423,6 +432,9 @@ public class TilePassage : MonoBehaviour {
     private void ExploreWithoutConfirmation(int _i)
 
     {
+
+        if (GameManager.Instance.CurrentState != GameState.InTuto || GameManager.Instance.CurrentState != GameState.InBattle)
+            GameManager.Instance.CurrentState = GameState.Normal;
 
         PawnInstance toMove = GameManager.Instance.GetFirstSelectedKeeper();
 
