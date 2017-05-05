@@ -47,10 +47,14 @@ public class MenuManagerQ : MonoBehaviour {
       
         for (int i = 0; i < GameManager.Instance.EventDataBase.listEvents.Count; i++)
         {
-            GameObject goEventCard = Instantiate(GoPrefabEventCard, questDecksPosition);
-            goEventCard.transform.localPosition = Vector3.zero;
-            goEventCard.GetComponent<MeshFilter>().mesh = GetCardModel(GameManager.Instance.EventDataBase.listEvents[i].cardModelName).GetComponent<MeshFilter>().sharedMesh;
-            goEventCard.GetComponent<EventCard>().id = GameManager.Instance.EventDataBase.listEvents[i].id;
+            if(GameManager.Instance.PersistenceLoader.Pd.dicPersistenceEvents[GameManager.Instance.EventDataBase.listEvents[i].id] == true)
+            {
+                GameObject goEventCard = Instantiate(GoPrefabEventCard, questDecksPosition);
+                goEventCard.transform.localPosition = Vector3.zero;
+                goEventCard.GetComponent<MeshFilter>().mesh = GetCardModel(GameManager.Instance.EventDataBase.listEvents[i].cardModelName).GetComponent<MeshFilter>().sharedMesh;
+                goEventCard.GetComponent<EventCard>().id = GameManager.Instance.EventDataBase.listEvents[i].id;
+            }
+
         }
     }
 
@@ -60,28 +64,38 @@ public class MenuManagerQ : MonoBehaviour {
 
         for (int i = 0; i < leveldb.listLevels.Count; i++)
         {
-            // Instanciation du deck
-            GameObject goCardLevel = Instantiate(GoPrefabLevelCard, levelDeckPosition);
-            goCardLevel.transform.localPosition = Vector3.zero;
-
-            goCardLevel.GetComponent<MeshFilter>().mesh = GetLevelCardModel(leveldb.listLevels[i].cardModelName).GetComponent<MeshFilter>().sharedMesh;
-            goCardLevel.GetComponent<CardLevel>().levelIndex = leveldb.listLevels[i].id;
-
-            for(int j = 0; j< leveldb.listLevels[i].listDeckId.Count; j++)
+            if (GameManager.Instance.PersistenceLoader.Pd.dicPersistenceLevels[leveldb.listLevels[i].id.ToString()] == true)
             {
-                GameObject goDeck = Instantiate(GoPrefabDeck, goCardLevel.transform);
-                goDeck.transform.localPosition = Vector3.zero;
 
-                QuestDeckData qdd = GameManager.Instance.QuestDeckDataBase.GetQuestDeckDataByID(leveldb.listLevels[i].listDeckId[j]);
+                // Instanciation du deck
+                GameObject goCardLevel = Instantiate(GoPrefabLevelCard, levelDeckPosition);
+                goCardLevel.transform.localPosition = Vector3.zero;
 
-                goDeck.GetComponent<MeshFilter>().mesh = GetDeckModel(qdd.deckModelName).GetComponent<MeshFilter>().sharedMesh;
+                goCardLevel.GetComponent<MeshFilter>().mesh = GetLevelCardModel(leveldb.listLevels[i].cardModelName).GetComponent<MeshFilter>().sharedMesh;
+                goCardLevel.GetComponent<CardLevel>().levelIndex = leveldb.listLevels[i].id;
 
-                for(int k = 0; k < qdd.secondaryQuests.Count; k++)
+                for (int j = 0; j < leveldb.listLevels[i].listDeckId.Count; j++)
                 {
-                    GameObject goQuestCard = Instantiate(GoPrefabQuestCard, goDeck.transform);
-                    goQuestCard.transform.localPosition = Vector3.zero;
+                    if (GameManager.Instance.PersistenceLoader.Pd.dicPersistenceDecks[leveldb.listLevels[i].listDeckId[j].ToString()] == true)
+                    {
 
-                    goQuestCard.GetComponent<MeshFilter>().mesh = GetCardModel(qdd.secondaryQuests[k].cardModelname).GetComponent<MeshFilter>().sharedMesh;
+                        GameObject goDeck = Instantiate(GoPrefabDeck, goCardLevel.transform);
+                        goDeck.transform.localPosition = Vector3.zero;
+
+                        QuestDeckData qdd = GameManager.Instance.QuestDeckDataBase.GetQuestDeckDataByID(leveldb.listLevels[i].listDeckId[j]);
+
+                        goDeck.GetComponent<MeshFilter>().mesh = GetDeckModel(qdd.deckModelName).GetComponent<MeshFilter>().sharedMesh;
+
+                        goDeck.GetComponent<DeckOfCards>().idQuestDeck = leveldb.listLevels[i].listDeckId[j];
+
+                        for (int k = 0; k < qdd.secondaryQuests.Count; k++)
+                        {
+                            GameObject goQuestCard = Instantiate(GoPrefabQuestCard, goDeck.transform);
+                            goQuestCard.transform.localPosition = Vector3.zero;
+
+                            goQuestCard.GetComponent<MeshFilter>().mesh = GetCardModel(qdd.secondaryQuests[k].cardModelname).GetComponent<MeshFilter>().sharedMesh;
+                        }
+                    }
                 }
             }
         }
@@ -97,22 +111,24 @@ public class MenuManagerQ : MonoBehaviour {
 
             if (GameManager.Instance.PawnDataBase.DicPawnDataContainer[id].dicComponentData.ContainsKey(typeof(Behaviour.Keeper)))
             {
-                GameObject goKeeper = GameManager.Instance.PawnDataBase.CreatePawn(id, /*Vector3.zero*/ keepersPosition[iKeeper].position, keepersPosition[iKeeper].rotation, null /*keepersPosition[iKeeper]*/);
+                if (GameManager.Instance.PersistenceLoader.Pd.dicPersistencePawns[id] == true) { 
+                    GameObject goKeeper = GameManager.Instance.PawnDataBase.CreatePawn(id, /*Vector3.zero*/ keepersPosition[iKeeper].position, keepersPosition[iKeeper].rotation, null /*keepersPosition[iKeeper]*/);
 
-                ChatBox newChatBox = Instantiate(prefabChatox, goKeeper.transform).GetComponent<ChatBox>();
-                newChatBox.SetMode(ChatBox.ChatMode.pickme);
-                newChatBox.SetEnable(false);
-                dicPawnChatBox.Add(goKeeper, newChatBox);
+                    ChatBox newChatBox = Instantiate(prefabChatox, goKeeper.transform).GetComponent<ChatBox>();
+                    newChatBox.SetMode(ChatBox.ChatMode.pickme);
+                    newChatBox.SetEnable(false);
+                    dicPawnChatBox.Add(goKeeper, newChatBox);
 
 
-                OpenerContent oc = goKeeper.AddComponent<OpenerContent>();
-                oc.fSpeed = 5;
-                oc.AddKeyPose(keepersPosition[iKeeper].position, keepersPosition[iKeeper].rotation);
-                oc.AddKeyPose(keepersPosition[iKeeper].position + new Vector3(1.5f,1,0) , keepersPosition[iKeeper].rotation);
-                oc.AddKeyPose(keepersPosition[iKeeper].position + new Vector3(3.5f,0,0) , keepersPosition[iKeeper].rotation);
-                oc.Init();
-                //oc.rd.enabled = true;
-                iKeeper++;
+                    OpenerContent oc = goKeeper.AddComponent<OpenerContent>();
+                    oc.fSpeed = 5;
+                    oc.AddKeyPose(keepersPosition[iKeeper].position, keepersPosition[iKeeper].rotation);
+                    oc.AddKeyPose(keepersPosition[iKeeper].position + new Vector3(1.5f, 1, 0), keepersPosition[iKeeper].rotation);
+                    oc.AddKeyPose(keepersPosition[iKeeper].position + new Vector3(3.5f, 0, 0), keepersPosition[iKeeper].rotation);
+                    oc.Init();
+                    //oc.rd.enabled = true;
+                    iKeeper++;
+                }
             }
         }
     }

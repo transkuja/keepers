@@ -109,6 +109,7 @@ public class GameManager : MonoBehaviour
             listEventSelected.Add("2");
 
             listEventSelected.Add("3");
+
         }
         DontDestroyOnLoad(gameObject);
 
@@ -535,7 +536,7 @@ public class GameManager : MonoBehaviour
     void InitQuests()
     {
         // Give choosen deck ID here
-        questManagerReference.Init("deck_02");
+        questManagerReference.Init(GameManager.Instance.DeckSelected);
 
         // Next step, init keepers 
         characterInitializer.InitKeepers(tileManagerReference.GetBeginPositions);

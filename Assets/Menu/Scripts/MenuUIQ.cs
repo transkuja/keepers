@@ -19,10 +19,6 @@ public class MenuUIQ: MonoBehaviour {
         startButtonImg.enabled = false;
     }
 
-    public void Update()
-    {
-        UpdateStartButton();
-    }
 
     public void UpdateSelectedKeepers()
     {
@@ -46,6 +42,8 @@ public class MenuUIQ: MonoBehaviour {
                 CharacterImage.transform.GetChild(0).GetComponent<Image>().sprite = associatedSprite;
                 CharacterImage.transform.localScale = Vector3.one;}
         }
+
+        UpdateStartButton();
     }
 
     public void UpdateCardLevelSelection()
@@ -58,16 +56,20 @@ public class MenuUIQ: MonoBehaviour {
         {
             cardLevelSelectedImg.enabled = false;
         }
+
+        UpdateStartButton();
     }
 
     public void UpdateDeckSelection()
     {
         // TODO Update Deck Selection
+
+        UpdateStartButton();
     }
 
     public void UpdateStartButton()
     {
-        if (menuManager.ListeSelectedKeepers.Count == 0 || menuManager.CardLevelSelected == -1)
+        if (menuManager.ListeSelectedKeepers.Count == 0 || menuManager.CardLevelSelected == -1 || menuManager.DeckOfCardsSelected == string.Empty)
         {
             startButtonImg.enabled = false;
         }

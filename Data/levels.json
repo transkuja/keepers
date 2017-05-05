@@ -7,31 +7,16 @@
       "questDecks" : [
 		{
 			"id" : "deck_01",
-		},
-		{
-			"id" : "deck_01",
-		},
-		{
-			"id" : "deck_01",
-		},
-		{
-			"id" : "deck_01",
-		},
-		{
-			"id" : "deck_02",
 		}
 	]
     },
     { 
-      "id": 1, 
-      "name" : "niveau 1", 
+      "id": 2, 
+      "name" : "niveau 2", 
       "cardModelName" : "Asset_Carte_Level_02", 
       "questDecks" : [
 		{
 			"id" : "deck_02",
-		},
-		{
-			"id" : "deck_01",
 		}
 	]
     },

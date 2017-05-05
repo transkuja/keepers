@@ -287,6 +287,9 @@ public class MenuControlsQ : MonoBehaviour {
             ki.gameObject.transform.SetParent(GameManager.Instance.transform);
         }
 
+        Debug.Log(menuManager.DeckOfCardsSelected);
+        GameManager.Instance.DeckSelected = menuManager.DeckOfCardsSelected;
+
         if (AudioManager.Instance != null)
         {
             AudioClip toPlay;

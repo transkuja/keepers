@@ -2,7 +2,7 @@
 	"Pawns":[
 		{
 			"id":"grekhan",
-			"unlocked":true
+			"unlocked":false
 		},
 		{
 			"id":"swag",
@@ -14,7 +14,7 @@
 		},
 		{
 			"id":"lupus",
-			"unlocked":true
+			"unlocked":false
 		}
 	],
 	"Levels":[
