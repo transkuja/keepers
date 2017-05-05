@@ -146,7 +146,7 @@ namespace Behaviour
             {
                 from.ActionPoints -= costAction;
                 int amountMoralBuff = 0;
-                if (instance.Data.Behaviours[(int)BehavioursEnum.Gaga] == true)
+                if (instance.Data.Behaviours[(int)BehavioursEnum.Gaga] == false)
                     amountMoralBuff = Random.Range(Data.MinMoralBuff, Data.MaxMoralBuff);
                 else
                     amountMoralBuff = 15;
