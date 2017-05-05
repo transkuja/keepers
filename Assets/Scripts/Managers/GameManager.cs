@@ -163,12 +163,14 @@ public class GameManager : MonoBehaviour
 
     public void ResetInstance()
     {
-        allKeepersList.Clear();
-        listOfSelectedKeepers.Clear();
-        nbTurn = 1;
-        currentState = GameState.Normal;
-        ui.gameObject.SetActive(false);
-        ui.ResetIngameUI();
+        instance.allKeepersList.Clear();
+        instance.listOfSelectedKeepers.Clear();
+        instance.listEventSelected.Clear();
+        instance.deckSelected = string.Empty;
+        instance.nbTurn = 1;
+        instance.currentState = GameState.Normal;
+        instance.ui.gameObject.SetActive(false);
+        instance.ui.ResetIngameUI();
         persistenceLoader.Load();
     }
 

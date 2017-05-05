@@ -77,7 +77,6 @@ public class IngameScreens : MonoBehaviour {
     {
         GameManager.Instance.CurrentState = GameState.Normal;
         AudioManager.Instance.Fade(AudioManager.Instance.menuMusic);
-        GameManager.Instance.ResetInstance();
         SceneManager.LoadScene(0);
     }
 }
