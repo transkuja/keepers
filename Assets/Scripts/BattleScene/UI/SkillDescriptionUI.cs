@@ -5,18 +5,18 @@ using UnityEngine.UI;
 public class SkillDescriptionUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     GameObject descriptionPanel;
-    string skillDescription;
+    SkillBattle skillData;
 
-    public string SkillDescription
+    public SkillBattle SkillData
     {
         get
         {
-            return skillDescription;
+            return skillData;
         }
 
         set
         {
-            skillDescription = value;
+            skillData = value;
         }
     }
 
@@ -27,8 +27,72 @@ public class SkillDescriptionUI : MonoBehaviour, IPointerEnterHandler, IPointerE
             descriptionPanel = Instantiate(GameManager.Instance.PrefabUIUtils.skillDescriptionPanel, GameManager.Instance.Ui.transform.GetChild(0));
         }
         descriptionPanel.SetActive(false);
-        descriptionPanel.GetComponentInChildren<Text>().text = skillDescription;
-        descriptionPanel.transform.localPosition = new Vector3(300, 300, 0);
+        descriptionPanel.GetComponentInChildren<Text>().text = skillData.Description;
+
+        if (skillData.TargetType == TargetType.FoeAll)
+        {
+            descriptionPanel.GetComponentInChildren<Text>().text += "\nTarget: All enemies";
+        }
+        else if (skillData.TargetType == TargetType.FoeSingle)
+            descriptionPanel.GetComponentInChildren<Text>().text += "\nTarget: One enemy";
+        else if (skillData.TargetType == TargetType.FriendSingle)
+            descriptionPanel.GetComponentInChildren<Text>().text += "\nTarget: One ally";
+        else if (skillData.TargetType == TargetType.FoeAll)
+            descriptionPanel.GetComponentInChildren<Text>().text += "\nTarget: All allies";
+        else
+            descriptionPanel.GetComponentInChildren<Text>().text += "\nTarget: Self";
+
+        if (skillData.IsMeantToHeal)
+            descriptionPanel.GetComponentInChildren<Text>().text += "\n\nHeal value: " + skillData.Damage;
+        else if (skillData.Damage > 0)
+            descriptionPanel.GetComponentInChildren<Text>().text += "\n\nDamage: " + skillData.Damage;
+
+        if (skillData.Boeufs != null && skillData.Boeufs.Length > 0)
+        {
+            descriptionPanel.GetComponentInChildren<Text>().text += "\nEffect: ";
+            for (int i = 0; i < skillData.Boeufs.Length; i++)
+            {
+                BattleBoeuf curBoeuf = skillData.Boeufs[i];
+                if (curBoeuf.BoeufType == BoeufType.Damage)
+                {
+                    descriptionPanel.GetComponentInChildren<Text>().text += (curBoeuf.EffectValue < 0) ? "Reduce " : "Increase ";
+                    descriptionPanel.GetComponentInChildren<Text>().text += "damage dealt by " + curBoeuf.EffectValue;
+                }
+                else if (curBoeuf.BoeufType == BoeufType.Defense)
+                {
+                    descriptionPanel.GetComponentInChildren<Text>().text += (curBoeuf.EffectValue > 0) ? "Reduce " : "Increase ";
+                    descriptionPanel.GetComponentInChildren<Text>().text += "damage taken by " + curBoeuf.EffectValue;
+                }
+                else if (curBoeuf.BoeufType == BoeufType.Aggro)
+                {
+
+                }
+                else if (curBoeuf.BoeufType == BoeufType.CostReduction)
+                {
+                    descriptionPanel.GetComponentInChildren<Text>().text += (curBoeuf.EffectValue < 0) ? "Reduce " : "Increase ";
+                    descriptionPanel.GetComponentInChildren<Text>().text += "chances of being targeted by " + curBoeuf.EffectValue + " percent";
+                }
+                else if (curBoeuf.BoeufType == BoeufType.IncreaseStocks)
+                {
+                    descriptionPanel.GetComponentInChildren<Text>().text += (curBoeuf.EffectValue < 0) ? "Reduce " : "Increase ";
+                    for (int j = 0; j < curBoeuf.SymbolsAffected.Length; j++)
+                    {
+                        if (curBoeuf.SymbolsAffected[j] == FaceType.Physical)
+                            descriptionPanel.GetComponentInChildren<Text>().text += "physical ";
+                        else if (curBoeuf.SymbolsAffected[j] == FaceType.Defensive)
+                            descriptionPanel.GetComponentInChildren<Text>().text += "defensive ";
+                        else
+                            descriptionPanel.GetComponentInChildren<Text>().text += "magic ";
+                    }
+                    descriptionPanel.GetComponentInChildren<Text>().text += "gauges by " + curBoeuf.EffectValue;
+                }
+                descriptionPanel.GetComponentInChildren<Text>().text += " for " + curBoeuf.Duration + " turns. ";
+            }
+        }
+
+
+        descriptionPanel.transform.localPosition = GameManager.Instance.PrefabUIUtils.skillDescriptionPanel.transform.localPosition;
+        descriptionPanel.transform.localScale = Vector3.one;
     }
 
     private void OnEnable()
@@ -37,9 +101,71 @@ public class SkillDescriptionUI : MonoBehaviour, IPointerEnterHandler, IPointerE
         {
             descriptionPanel = Instantiate(GameManager.Instance.PrefabUIUtils.skillDescriptionPanel, GameManager.Instance.Ui.transform.GetChild(0));
         }
-        descriptionPanel.SetActive(false);
-        descriptionPanel.GetComponentInChildren<Text>().text = skillDescription;
-        descriptionPanel.transform.localPosition = new Vector3(0, 200, 0);
+        descriptionPanel.GetComponentInChildren<Text>().text = skillData.Description;
+
+        if (skillData.TargetType == TargetType.FoeAll)
+        {
+            descriptionPanel.GetComponentInChildren<Text>().text += "\nTarget: All enemies";
+        }
+        else if (skillData.TargetType == TargetType.FoeSingle)
+            descriptionPanel.GetComponentInChildren<Text>().text += "\nTarget: One enemy";
+        else if (skillData.TargetType == TargetType.FriendSingle)
+            descriptionPanel.GetComponentInChildren<Text>().text += "\nTarget: One ally";
+        else if (skillData.TargetType == TargetType.FoeAll)
+            descriptionPanel.GetComponentInChildren<Text>().text += "\nTarget: All allies";
+        else
+            descriptionPanel.GetComponentInChildren<Text>().text += "\nTarget: Self";
+
+        if (skillData.IsMeantToHeal)
+            descriptionPanel.GetComponentInChildren<Text>().text += "\n\nHeal value: " + skillData.Damage;
+        else if (skillData.Damage > 0)
+            descriptionPanel.GetComponentInChildren<Text>().text += "\n\nDamage: " + skillData.Damage;
+
+        if (skillData.Boeufs != null && skillData.Boeufs.Length > 0)
+        {
+            descriptionPanel.GetComponentInChildren<Text>().text += "\nEffect" + ((skillData.Boeufs.Length > 1) ? "s" : "") + ": ";
+            for (int i = 0; i < skillData.Boeufs.Length; i++)
+            {
+                BattleBoeuf curBoeuf = skillData.Boeufs[i];
+                if (curBoeuf.BoeufType == BoeufType.Damage)
+                {
+                    descriptionPanel.GetComponentInChildren<Text>().text += (curBoeuf.EffectValue < 0) ? "Reduce " : "Increase ";
+                    descriptionPanel.GetComponentInChildren<Text>().text += "damage dealt by " + curBoeuf.EffectValue;
+                }
+                else if (curBoeuf.BoeufType == BoeufType.Defense)
+                {
+                    descriptionPanel.GetComponentInChildren<Text>().text += (curBoeuf.EffectValue > 0) ? "Reduce " : "Increase ";
+                    descriptionPanel.GetComponentInChildren<Text>().text += "damage taken by " + curBoeuf.EffectValue;
+                }
+                else if (curBoeuf.BoeufType == BoeufType.Aggro)
+                {
+
+                }
+                else if (curBoeuf.BoeufType == BoeufType.CostReduction)
+                {
+                    descriptionPanel.GetComponentInChildren<Text>().text += (curBoeuf.EffectValue < 0) ? "Reduce " : "Increase ";
+                    descriptionPanel.GetComponentInChildren<Text>().text += "chances of being targeted by " + curBoeuf.EffectValue + " percent";
+                }
+                else if (curBoeuf.BoeufType == BoeufType.IncreaseStocks)
+                {
+                    descriptionPanel.GetComponentInChildren<Text>().text += (curBoeuf.EffectValue < 0) ? "Reduce " : "Increase ";
+                    for (int j = 0; j < curBoeuf.SymbolsAffected.Length; j++)
+                    {
+                        if (curBoeuf.SymbolsAffected[j] == FaceType.Physical)
+                            descriptionPanel.GetComponentInChildren<Text>().text += "physical ";
+                        else if (curBoeuf.SymbolsAffected[j] == FaceType.Defensive)
+                            descriptionPanel.GetComponentInChildren<Text>().text += "defensive ";
+                        else
+                            descriptionPanel.GetComponentInChildren<Text>().text += "magic ";
+                    }
+                    descriptionPanel.GetComponentInChildren<Text>().text += "gauges by " + curBoeuf.EffectValue;
+                }
+                descriptionPanel.GetComponentInChildren<Text>().text += " for " + curBoeuf.Duration + " turns.\n";
+            }
+        }
+
+        descriptionPanel.transform.localPosition = GameManager.Instance.PrefabUIUtils.skillDescriptionPanel.transform.localPosition;
+        descriptionPanel.transform.localScale = Vector3.one;
     }
 
     private void OnDisable()

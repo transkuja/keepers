@@ -127,7 +127,8 @@ public class UIBattleHandler : MonoBehaviour {
             case UIBattleState.WaitForDiceThrow:
                 throwDiceButton.GetComponent<Button>().interactable = true;
                 throwDiceButton.GetComponent<ThrowDiceButtonFeedback>().enabled = true;
-                throwDiceButton.transform.parent.GetComponent<Image>().enabled = true;
+                // Better without feedback? Activate in tuto
+                //throwDiceButton.transform.parent.GetComponent<Image>().enabled = true;
 
                 escapeBattleButton.GetComponent<Button>().interactable = true;
                 throwDiceButton.SetActive(true);
@@ -223,7 +224,7 @@ public class UIBattleHandler : MonoBehaviour {
 
                 currentSkill.GetChild((int)SkillButtonChildren.SkillName).GetComponent<SkillContainer>().SkillData = fighterCurSkill;
                 currentSkill.GetChild((int)SkillButtonChildren.SkillName).GetComponentInChildren<Text>().text = fighterCurSkill.SkillName;
-                currentSkill.GetComponent<SkillDescriptionUI>().SkillDescription = fighterCurSkill.Description;
+                currentSkill.GetComponent<SkillDescriptionUI>().SkillData = fighterCurSkill;
 
                 currentSkill.GetChild((int)SkillButtonChildren.Atk).GetComponentInChildren<Text>().text = "0";
                 currentSkill.GetChild((int)SkillButtonChildren.Def).GetComponentInChildren<Text>().text = "0";
@@ -267,7 +268,7 @@ public class UIBattleHandler : MonoBehaviour {
 
                 currentSkill.GetChild((int)SkillButtonChildren.SkillName).GetComponent<SkillContainer>().SkillData = fighterCurSkill;
                 currentSkill.GetChild((int)SkillButtonChildren.SkillName).GetComponent<Text>().text = fighterCurSkill.SkillName;
-                currentSkill.GetComponent<SkillDescriptionUI>().SkillDescription = fighterCurSkill.Description;
+                currentSkill.GetComponent<SkillDescriptionUI>().SkillData = fighterCurSkill;
                 foreach (Face face in fighterCurSkill.Cost)
                 {
                     if (face.Type == FaceType.Physical)
@@ -487,7 +488,7 @@ public class UIBattleHandler : MonoBehaviour {
                 Transform currentSkill = currentSkillsPanel.GetChild(j);
                 currentSkill.GetChild((int)SkillButtonChildren.SkillName).GetComponent<SkillContainer>().SkillData = null;
                 currentSkill.GetChild((int)SkillButtonChildren.SkillName).GetComponentInChildren<Text>().text = "";
-                currentSkill.GetComponent<SkillDescriptionUI>().SkillDescription = "";
+                currentSkill.GetComponent<SkillDescriptionUI>().SkillData = null;
 
                 currentSkill.GetChild((int)SkillButtonChildren.Atk).GetComponentInChildren<Text>().text = "0";
                 currentSkill.GetChild((int)SkillButtonChildren.Def).GetComponentInChildren<Text>().text = "0";

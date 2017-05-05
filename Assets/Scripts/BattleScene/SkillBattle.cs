@@ -36,6 +36,8 @@ public class SkillBattle {
 
     [SerializeField]
     bool isMeantToHeal = false;
+    [SerializeField]
+    bool isMeantToBuff = false;
 
     public int Damage
     {
@@ -143,6 +145,45 @@ public class SkillBattle {
         set
         {
             skillType = value;
+        }
+    }
+
+    public bool IsMeantToHeal
+    {
+        get
+        {
+            return isMeantToHeal;
+        }
+
+        set
+        {
+            isMeantToHeal = value;
+        }
+    }
+
+    public bool IsMeantToBuff
+    {
+        get
+        {
+            return isMeantToBuff;
+        }
+
+        set
+        {
+            isMeantToBuff = value;
+        }
+    }
+
+    public BattleBoeuf[] Boeufs
+    {
+        get
+        {
+            return boeufs;
+        }
+
+        set
+        {
+            boeufs = value;
         }
     }
 

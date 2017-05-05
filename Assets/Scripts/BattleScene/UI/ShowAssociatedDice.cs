@@ -10,7 +10,7 @@ public class ShowAssociatedDice : MonoBehaviour, IPointerEnterHandler, IPointerE
 
     private void Start()
     {
-        pawn = GetComponentInParent<PawnInstance>();
+        pawn = GetComponent<SkillContainer>().SkillData.SkillUser.GetComponent<PawnInstance>();
 
         feedbackAboveDice = Instantiate(GameManager.Instance.PrefabUIUtils.diceFeedbackOnPointerEnter, GameManager.Instance.Ui.transform.GetChild(0));
         feedbackAboveDice.SetActive(false);
@@ -37,7 +37,17 @@ public class ShowAssociatedDice : MonoBehaviour, IPointerEnterHandler, IPointerE
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-    
+        if (pawn == null)
+        {
+            pawn = GetComponent<SkillContainer>().SkillData.SkillUser.GetComponent<PawnInstance>();
+            attackTotal = 0;
+            foreach (Face face in pawn.GetComponent<Behaviour.Fighter>().LastThrowResult)
+            {
+                if (face.Type == FaceType.Physical)
+                    attackTotal += face.Value;
+            }
+        }
+
         feedbackAboveDice.GetComponentInChildren<Text>().text = attackTotal.ToString();
         feedbackAboveDice.GetComponentInChildren<Text>().color = Color.red;
         feedbackAboveDice.GetComponentInChildren<Image>().sprite = GameManager.Instance.SpriteUtils.spriteAttackSymbol;

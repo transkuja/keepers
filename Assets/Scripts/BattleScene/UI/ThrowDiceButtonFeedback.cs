@@ -13,7 +13,7 @@ public class ThrowDiceButtonFeedback : MonoBehaviour {
 
     private void OnEnable()
     {
-        if (highlightFeedback != null)
+        if (highlightFeedback != null && GameManager.Instance.CurrentState == GameState.InTuto && TutoManager.s_instance.GetComponent<SeqTutoCombat>().AlreadyPlayed == false)
             highlightFeedback.enabled = true;
         timer = 0.0f;
     }
