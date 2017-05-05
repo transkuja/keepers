@@ -10,6 +10,8 @@ public enum CharactersPanelChildren { Avatar, LifeBar, Attributes }
 public enum AttributesChildren { Attack, Defense, Magic }
 public enum LifeBarChildren { Remaining, Text }
 public enum SkillButtonChildren { SkillName, Atk, Def, Mag }
+public enum SkillPanelChildren { Skill1, Skill2, Skill3, Skill4, CloseButton, CharacterAvatar }
+
 
 public class UIBattleHandler : MonoBehaviour {
 
@@ -244,6 +246,8 @@ public class UIBattleHandler : MonoBehaviour {
                 currentSkill.gameObject.SetActive(true);
             }
         }
+
+        skillsPanel.GetChild((int)SkillPanelChildren.CharacterAvatar).GetComponent<Image>().sprite = _pawnInstanceForInit.Data.AssociatedSprite;
         associatedSkillsPanel.Add(_pawnInstanceForInit, skillsPanel);
     }
 
@@ -283,6 +287,7 @@ public class UIBattleHandler : MonoBehaviour {
                 currentSkill.gameObject.SetActive(true);
             }
         }
+        panelToReload.GetChild((int)SkillPanelChildren.CharacterAvatar).GetComponent<Image>().sprite = _pawnInstanceForReload.Data.AssociatedSprite;
     }
 
     public void UpdateLifeBar(Mortal _toUpdate)
