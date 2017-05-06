@@ -57,8 +57,8 @@ namespace Behaviour
         bool isWaitingForDmgFeedback = false;
         int pendingDamage = 0;
         bool isWaitingForSkillPanelToClose = false;
-        float showSkillPanelTimer = 2.2f;
-        float showFeedbackDmgTimer = 1.7f;
+        float showSkillPanelTimer = 1.2f;
+        float showFeedbackDmgTimer = 0.7f;
 
         SkillDecisionAlgo skillDecisionAlgo;
         List<BattleBoeuf> effectiveBoeufs = new List<BattleBoeuf>();
@@ -81,8 +81,8 @@ namespace Behaviour
             if (GetComponent<Monster>() != null) IsAMonster = true;
             else IsAMonster = false;
 
-            showSkillPanelTimer = 2.2f;
-            showFeedbackDmgTimer = 1.7f;
+            showSkillPanelTimer = 1.2f;
+            showFeedbackDmgTimer = 0.7f;
 
             if (!IsAMonster)
             {
@@ -151,8 +151,8 @@ namespace Behaviour
 
         public void EndSkillProcess()
         {
-            showSkillPanelTimer = 2.2f;
-            showFeedbackDmgTimer = 1.7f;
+            showSkillPanelTimer = 1.2f;
+            showFeedbackDmgTimer = 0.7f;
             isWaitingForSkillPanelToClose = false;
             //if (BattleHandler.PendingSkill != null)
             //{
@@ -464,6 +464,17 @@ namespace Behaviour
                     effectiveBoeufs.Remove(effectiveBoeufs[i]);
                 }
             }
+            BuffFeedback bf = GetComponentInChildren<BuffFeedback>();
+            if (bf != null)
+                bf.UpdateCurrentBoeufsList(effectiveBoeufs);
+        }
+
+        public void AddBoeuf(BattleBoeuf _newBoeuf)
+        {
+            effectiveBoeufs.Add(_newBoeuf);
+            BuffFeedback bf = GetComponentInChildren<BuffFeedback>();
+            if (bf != null)
+                bf.UpdateCurrentBoeufsList(effectiveBoeufs);
         }
 
         // TODO: externalize this in Monster
