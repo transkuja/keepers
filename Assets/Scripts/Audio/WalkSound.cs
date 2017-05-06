@@ -22,11 +22,4 @@ public class WalkSound : MonoBehaviour {
         }
     }
 
-    // TMP, fait par rémi
-    public void TmpResetPositionInBattle()
-    {
-        Debug.Log("ici");
-        GetComponentInParent<Behaviour.AnimatedPawn>().ResetPositionInBattle();
-    }
-
 }

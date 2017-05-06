@@ -285,7 +285,7 @@ public class SkillBattle {
                         }
                     }
                 }
-                if (boeufMustBeAdded) curTargetFighter.EffectiveBoeufs.Add(boeufs[i]);
+                if (boeufMustBeAdded) curTargetFighter.AddBoeuf(boeufs[i]);
             }          
         }
     }
@@ -355,16 +355,8 @@ public class SkillBattle {
 
         ApplySkillEffectOnTarget(_target, effectiveDamage);
         BattleHandler.ExpectedAnswers = 1;
-        PlayAttackAnimation(_target);
+        skillUser.GetComponent<AnimatedPawn>().Anim.SetTrigger("doClassicAtk");
         BattleHandler.IsWaitingForSkillEnd = true;
-    }
-
-    private void PlayAttackAnimation(PawnInstance _target)
-    {
-        NavMeshAgent agent = skillUser.GetComponent<NavMeshAgent>();
-        agent.enabled = true;
-        skillUser.transform.LookAt(_target.transform);
-        agent.SetDestination(_target.transform.position);
     }
 }
 
