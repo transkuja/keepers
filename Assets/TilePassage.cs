@@ -519,18 +519,11 @@ public class TilePassage : MonoBehaviour {
             }
 
             else if (other.GetComponentInParent<AnimatedPawn>().CmdMove == true)
-
             {
-
-                if (other.GetComponentInParent<NavMeshAgent>().remainingDistance <= 0.001f)
-
+                if (other.GetComponentInParent<NavMeshAgent>().isActiveAndEnabled && other.GetComponentInParent<NavMeshAgent>().remainingDistance <= 0.001f)
                 {
-
                     other.GetComponentInParent<NavMeshAgent>().Stop();
-
                     other.GetComponentInParent<AnimatedPawn>().CmdMove = false;
-
-
 
                     PawnInstance toMove = other.GetComponentInParent<PawnInstance>();
 
