@@ -1055,6 +1055,16 @@ public class GameManager : MonoBehaviour
 
         // Mask quest reminder button
         gameScreens.transform.GetChild(0).GetChild((int)IngameScreensEnum.QuestReminderButton).gameObject.SetActive(false);
+
+        Transform tileModel = ActiveTile.transform.GetChild(0).GetChild((int)TilePrefabChildren.Model);
+        for (int i = 0; i < tileModel.childCount; i++)
+        {
+            if (tileModel.GetChild(i).name.Equals("Center"))
+            {
+                tileModel.GetChild(i).gameObject.SetActive(false);
+                disabledModels.Add(tileModel.GetChild(i).gameObject);
+            }
+        }
     }
 
     private void ExitBattleStateProcess()
