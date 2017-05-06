@@ -466,8 +466,13 @@ namespace Behaviour
             }
         }
 
+        public void AddBoeuf(BattleBoeuf _newBoeuf)
+        {
+            effectiveBoeufs.Add(_newBoeuf);
+        }
+
         // TODO: externalize this in Monster
-        #region Monster functions
+            #region Monster functions
         public void RestAfterBattle()
         {
             foreach (BoxCollider bc in GetComponentsInChildren<BoxCollider>())
