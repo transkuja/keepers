@@ -482,6 +482,8 @@ public class GameManager : MonoBehaviour
         }
         set
         {
+            Debug.Log("previous " + currentState);
+            Debug.Log("new " + value);
             // Exit pause state
             if (currentState == GameState.InPause && value != GameState.InPause)
                 ExitPauseStateProcess();

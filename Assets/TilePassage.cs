@@ -401,57 +401,40 @@ public class TilePassage : MonoBehaviour {
 
 
     private void MoveWithoutConfirmation(int _i)
-
     {
 
-        if (GameManager.Instance.CurrentState != GameState.InTuto || GameManager.Instance.CurrentState != GameState.InBattle)
+        if (GameManager.Instance.CurrentState != GameState.InTuto && GameManager.Instance.CurrentState != GameState.InBattle)
             GameManager.Instance.CurrentState = GameState.Normal;
 
         PawnInstance toMove = GameManager.Instance.GetFirstSelectedKeeper();
-
         AnimatedPawn toMoveAnimatedPawn = toMove.GetComponent<AnimatedPawn>();
 
         toMoveAnimatedPawn.CmdMove = true;
-
         toMoveAnimatedPawn.WhereMove = _i;
 
         for (int i = 0; i < GameManager.Instance.ListOfSelectedKeepers.Count; i++)
-
         {
-
             GameManager.Instance.ListOfSelectedKeepers[i].GetComponent<AnimatedPawn>().TriggerRotation(transform.position);
-
         }
-
-
-
     }
 
 
 
     private void ExploreWithoutConfirmation(int _i)
-
     {
-
-        if (GameManager.Instance.CurrentState != GameState.InTuto || GameManager.Instance.CurrentState != GameState.InBattle)
+        if (GameManager.Instance.CurrentState != GameState.InTuto && GameManager.Instance.CurrentState != GameState.InBattle)
             GameManager.Instance.CurrentState = GameState.Normal;
 
         PawnInstance toMove = GameManager.Instance.GetFirstSelectedKeeper();
-
         AnimatedPawn toMoveAnimatedPawn = toMove.GetComponent<AnimatedPawn>();
 
         toMoveAnimatedPawn.CmdExplore = true;
-
         toMoveAnimatedPawn.WhereMove = _i;
 
         for (int i = 0; i < GameManager.Instance.ListOfSelectedKeepers.Count; i++)
-
         {
-
             GameManager.Instance.ListOfSelectedKeepers[i].GetComponent<AnimatedPawn>().TriggerRotation(transform.position);
-
         }
-
     }
 
 

@@ -174,7 +174,8 @@ public class TutoManager : MonoBehaviour {
             if (playingSequence != null)
             {
                 stateBeforeTutoStarts = GameManager.Instance.CurrentState;
-                GameManager.Instance.CurrentState = GameState.InTuto;          
+                GameManager.Instance.CurrentState = GameState.InTuto;
+                Debug.Log(GameManager.Instance.CurrentState);
             } else
             {
                 GameManager.Instance.CurrentState = stateBeforeTutoStarts;
