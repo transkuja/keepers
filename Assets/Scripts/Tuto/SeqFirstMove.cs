@@ -416,7 +416,7 @@ public class SeqFirstMove : Sequence {
         // Content
         Etapes.Add(new TutoManager.Message(pawnMrResetti, "Hi, I'm here to teach you how to play"));
         Etapes.Add(new SelectCharacterStep("First select the girl in armor by clicking on her."));
-        Etapes.Add(new MovePawnOnTileStep("To interact with the world, you have to use the right click. Try to move the girl."));
+        Etapes.Add(new MovePawnOnTileStep("To interact with the world, you have to use the right click. Click on the ground to move the girl."));
         Etapes.Add(new MovePawnToAnotherTileExplanation("You can also interact with everything glowing in the world. Try a right click on this portal.")); // => click expected on bridge
         Etapes.Add(new RightClickOnBridgeValidated("Good,"));
         Etapes.Add(new ExploreActionPointsExplanation("you can see the cost of the action here."));
@@ -427,8 +427,8 @@ public class SeqFirstMove : Sequence {
         Etapes.Add(new ActionPointsExplanationStep("This action cost you 3 action points. Always keep an eye on them.")); // ==> feedback sur les points d'action
         Etapes.Add(new FirstEndTurnStep("You can restore your action points by clicking on the end turn button."));
 
-        Etapes.Add(new TutoManager.Message(pawnMrResetti, "Ending your turn send your characters to sleep,")); // Activate hunger panel + feedback pointer
-        Etapes.Add(new AddHungerStep("but they get hungry in the morning, so be careful!"));
+        Etapes.Add(new TutoManager.Message(pawnMrResetti, "Ending your turn ends the day,")); // Activate hunger panel + feedback pointer
+        Etapes.Add(new AddHungerStep("but your characters get hungry in the morning, so be careful!"));
         Etapes.Add(new TutoManager.Message(pawnMrResetti, "Remember the cookie?"));
         Etapes.Add(new UseAnObjectStep("Eat it by double clicking on it to restore your selected character's hunger.")); // Activate inventory and add a cookie in to be used
 
