@@ -6,6 +6,8 @@ public class SkillContainer : MonoBehaviour {
     private Color customGrey = new Color(0.6784f, 0.6784f, 0.6784f, 1);
     private Color customRed = new Color(0.75f, 0, 0, 1);
     private Color customGreen = new Color(0, 0.75f, 0, 1);
+    private Color customPurple = new Color(0.3372f, 0.0f, 0.4314f, 1);
+    private Color customPalePurple = new Color(0.3372f, 0.0f, 0.4314f, 0.5f);
 
     public SkillBattle SkillData
     {
@@ -24,9 +26,9 @@ public class SkillContainer : MonoBehaviour {
     {
         GetComponent<Button>().interactable = skillData.CanUseSkill();
         if (GetComponent<Button>().interactable == true)
-            GetComponentInChildren<Text>().color = Color.black;
+            GetComponentInChildren<Text>().color = customPurple;
         else
-            GetComponentInChildren<Text>().color = Color.grey;
+            GetComponentInChildren<Text>().color = customPalePurple;
 
         Text atkTxt = transform.parent.GetChild((int)SkillButtonChildren.Atk).GetComponentInChildren<Text>();
         Text magTxt = transform.parent.GetChild((int)SkillButtonChildren.Mag).GetComponentInChildren<Text>();
