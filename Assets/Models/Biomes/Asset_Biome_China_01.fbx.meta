@@ -1,0 +1,142 @@
+fileFormatVersion: 2
+guid: f8a5ad5fa7d753b42a9078bab4fcb2e9
+timeCreated: 1494069415
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Asset_Biome_China_01
+    100002: //RootNode
+    100004: Asset_Tile_China
+    100006: fleur_kawaii_07
+    100008: House_china
+    100010: House_china1
+    100012: pCylinder19
+    100014: pCylinder20
+    100016: pCylinder21
+    100018: pCylinder22
+    100020: pCylinder23
+    100022: pCylinder24
+    100024: pCylinder36
+    100026: pCylinder37
+    100028: Tree_china
+    400000: //RootNode
+    400002: Asset_Biome_China_01
+    400004: Asset_Tile_China
+    400006: fleur_kawaii_07
+    400008: House_china
+    400010: House_china1
+    400012: pCylinder19
+    400014: pCylinder20
+    400016: pCylinder21
+    400018: pCylinder22
+    400020: pCylinder23
+    400022: pCylinder24
+    400024: pCylinder36
+    400026: pCylinder37
+    400028: Tree_china
+    2300000: Asset_Tile_China
+    2300002: House_china
+    2300004: House_china1
+    2300006: pCylinder19
+    2300008: pCylinder20
+    2300010: pCylinder21
+    2300012: pCylinder22
+    2300014: pCylinder23
+    2300016: pCylinder24
+    2300018: pCylinder36
+    2300020: pCylinder37
+    2300022: Tree_china
+    3300000: Asset_Tile_China
+    3300002: House_china
+    3300004: House_china1
+    3300006: pCylinder19
+    3300008: pCylinder20
+    3300010: pCylinder21
+    3300012: pCylinder22
+    3300014: pCylinder23
+    3300016: pCylinder24
+    3300018: pCylinder36
+    3300020: pCylinder37
+    3300022: Tree_china
+    4300000: Asset_Tile_China
+    4300002: House_china
+    4300004: Tree_china
+    4300006: House_china1
+    4300008: pCylinder19
+    4300010: pCylinder20
+    4300012: pCylinder21
+    4300014: pCylinder22
+    4300016: pCylinder23
+    4300018: pCylinder24
+    4300020: pCylinder36
+    4300022: pCylinder37
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,397 @@
+fileFormatVersion: 2
+guid: d05be3d77e3e3554791bdf3aadf8ddd3
+timeCreated: 1494069414
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Asset_Biome_Snow_03
+    100002: //RootNode
+    100004: Asset_Tile_Snow
+    100006: Block_Snow_Logs_01
+    100008: Block_Snow_Logs_02
+    100010: Block_Snow_Trees_01
+    100012: fleur_snow_01
+    100014: fleur_snow_02
+    100016: fleur_snow_03
+    100018: pCylinder1
+    100020: pCylinder1 1
+    100022: pCylinder10
+    100024: pCylinder11
+    100026: pCylinder12
+    100028: pCylinder13
+    100030: pCylinder14
+    100032: pCylinder15
+    100034: pCylinder16
+    100036: pCylinder17
+    100038: pCylinder19
+    100040: pCylinder19 1
+    100042: pCylinder19 2
+    100044: pCylinder2
+    100046: pCylinder2 1
+    100048: pCylinder20
+    100050: pCylinder20 1
+    100052: pCylinder20 2
+    100054: pCylinder21
+    100056: pCylinder21 1
+    100058: pCylinder21 2
+    100060: pCylinder22
+    100062: pCylinder22 1
+    100064: pCylinder22 2
+    100066: pCylinder23
+    100068: pCylinder23 1
+    100070: pCylinder23 2
+    100072: pCylinder24
+    100074: pCylinder24 1
+    100076: pCylinder24 2
+    100078: pCylinder3
+    100080: pCylinder3 1
+    100082: pCylinder33
+    100084: pCylinder34
+    100086: pCylinder35
+    100088: pCylinder4
+    100090: pCylinder4 1
+    100092: pCylinder5
+    100094: pCylinder5 1
+    100096: pCylinder6
+    100098: pCylinder6 1
+    100100: pCylinder7
+    100102: pCylinder7 1
+    100104: pCylinder8
+    100106: pCylinder8 1
+    100108: pCylinder9
+    100110: PolySurface_RockSnow_01
+    100112: PolySurface_RockSnow_03
+    100114: PolySurface_RockSnow_04
+    100116: PolySurface_RockSnow_05
+    100118: PolySurface_TreeSnow_01
+    100120: PolySurface_TreeSnow_013
+    100122: PolySurface_TreeSnow_014
+    100124: PolySurface_TreeSnow_02
+    100126: PolySurface_TreeSnow_03
+    100128: PolySurface_TreeSnow_04
+    100130: PolySurface_TreeSnow_05
+    100132: PolySurface_TreeSnow_06
+    100134: PolySurface_TreeSnow_07
+    100136: PolySurface_TreeSnow_08
+    400000: //RootNode
+    400002: Asset_Biome_Snow_03
+    400004: Asset_Tile_Snow
+    400006: Block_Snow_Logs_01
+    400008: Block_Snow_Logs_02
+    400010: Block_Snow_Trees_01
+    400012: fleur_snow_01
+    400014: fleur_snow_02
+    400016: fleur_snow_03
+    400018: pCylinder1
+    400020: pCylinder1 1
+    400022: pCylinder10
+    400024: pCylinder11
+    400026: pCylinder12
+    400028: pCylinder13
+    400030: pCylinder14
+    400032: pCylinder15
+    400034: pCylinder16
+    400036: pCylinder17
+    400038: pCylinder19
+    400040: pCylinder19 1
+    400042: pCylinder19 2
+    400044: pCylinder2
+    400046: pCylinder2 1
+    400048: pCylinder20
+    400050: pCylinder20 1
+    400052: pCylinder20 2
+    400054: pCylinder21
+    400056: pCylinder21 1
+    400058: pCylinder21 2
+    400060: pCylinder22
+    400062: pCylinder22 1
+    400064: pCylinder22 2
+    400066: pCylinder23
+    400068: pCylinder23 1
+    400070: pCylinder23 2
+    400072: pCylinder24
+    400074: pCylinder24 1
+    400076: pCylinder24 2
+    400078: pCylinder3
+    400080: pCylinder3 1
+    400082: pCylinder33
+    400084: pCylinder34
+    400086: pCylinder35
+    400088: pCylinder4
+    400090: pCylinder4 1
+    400092: pCylinder5
+    400094: pCylinder5 1
+    400096: pCylinder6
+    400098: pCylinder6 1
+    400100: pCylinder7
+    400102: pCylinder7 1
+    400104: pCylinder8
+    400106: pCylinder8 1
+    400108: pCylinder9
+    400110: PolySurface_RockSnow_01
+    400112: PolySurface_RockSnow_03
+    400114: PolySurface_RockSnow_04
+    400116: PolySurface_RockSnow_05
+    400118: PolySurface_TreeSnow_01
+    400120: PolySurface_TreeSnow_013
+    400122: PolySurface_TreeSnow_014
+    400124: PolySurface_TreeSnow_02
+    400126: PolySurface_TreeSnow_03
+    400128: PolySurface_TreeSnow_04
+    400130: PolySurface_TreeSnow_05
+    400132: PolySurface_TreeSnow_06
+    400134: PolySurface_TreeSnow_07
+    400136: PolySurface_TreeSnow_08
+    2300000: Asset_Tile_Snow
+    2300002: pCylinder1
+    2300004: pCylinder1 1
+    2300006: pCylinder10
+    2300008: pCylinder11
+    2300010: pCylinder12
+    2300012: pCylinder13
+    2300014: pCylinder14
+    2300016: pCylinder15
+    2300018: pCylinder16
+    2300020: pCylinder17
+    2300022: pCylinder19
+    2300024: pCylinder19 1
+    2300026: pCylinder19 2
+    2300028: pCylinder2
+    2300030: pCylinder2 1
+    2300032: pCylinder20
+    2300034: pCylinder20 1
+    2300036: pCylinder20 2
+    2300038: pCylinder21
+    2300040: pCylinder21 1
+    2300042: pCylinder21 2
+    2300044: pCylinder22
+    2300046: pCylinder22 1
+    2300048: pCylinder22 2
+    2300050: pCylinder23
+    2300052: pCylinder23 1
+    2300054: pCylinder23 2
+    2300056: pCylinder24
+    2300058: pCylinder24 1
+    2300060: pCylinder24 2
+    2300062: pCylinder3
+    2300064: pCylinder3 1
+    2300066: pCylinder33
+    2300068: pCylinder34
+    2300070: pCylinder35
+    2300072: pCylinder4
+    2300074: pCylinder4 1
+    2300076: pCylinder5
+    2300078: pCylinder5 1
+    2300080: pCylinder6
+    2300082: pCylinder6 1
+    2300084: pCylinder7
+    2300086: pCylinder7 1
+    2300088: pCylinder8
+    2300090: pCylinder8 1
+    2300092: pCylinder9
+    2300094: PolySurface_RockSnow_01
+    2300096: PolySurface_RockSnow_03
+    2300098: PolySurface_RockSnow_04
+    2300100: PolySurface_RockSnow_05
+    2300102: PolySurface_TreeSnow_01
+    2300104: PolySurface_TreeSnow_013
+    2300106: PolySurface_TreeSnow_014
+    2300108: PolySurface_TreeSnow_02
+    2300110: PolySurface_TreeSnow_03
+    2300112: PolySurface_TreeSnow_04
+    2300114: PolySurface_TreeSnow_05
+    2300116: PolySurface_TreeSnow_06
+    2300118: PolySurface_TreeSnow_07
+    2300120: PolySurface_TreeSnow_08
+    3300000: Asset_Tile_Snow
+    3300002: pCylinder1
+    3300004: pCylinder1 1
+    3300006: pCylinder10
+    3300008: pCylinder11
+    3300010: pCylinder12
+    3300012: pCylinder13
+    3300014: pCylinder14
+    3300016: pCylinder15
+    3300018: pCylinder16
+    3300020: pCylinder17
+    3300022: pCylinder19
+    3300024: pCylinder19 1
+    3300026: pCylinder19 2
+    3300028: pCylinder2
+    3300030: pCylinder2 1
+    3300032: pCylinder20
+    3300034: pCylinder20 1
+    3300036: pCylinder20 2
+    3300038: pCylinder21
+    3300040: pCylinder21 1
+    3300042: pCylinder21 2
+    3300044: pCylinder22
+    3300046: pCylinder22 1
+    3300048: pCylinder22 2
+    3300050: pCylinder23
+    3300052: pCylinder23 1
+    3300054: pCylinder23 2
+    3300056: pCylinder24
+    3300058: pCylinder24 1
+    3300060: pCylinder24 2
+    3300062: pCylinder3
+    3300064: pCylinder3 1
+    3300066: pCylinder33
+    3300068: pCylinder34
+    3300070: pCylinder35
+    3300072: pCylinder4
+    3300074: pCylinder4 1
+    3300076: pCylinder5
+    3300078: pCylinder5 1
+    3300080: pCylinder6
+    3300082: pCylinder6 1
+    3300084: pCylinder7
+    3300086: pCylinder7 1
+    3300088: pCylinder8
+    3300090: pCylinder8 1
+    3300092: pCylinder9
+    3300094: PolySurface_RockSnow_01
+    3300096: PolySurface_RockSnow_03
+    3300098: PolySurface_RockSnow_04
+    3300100: PolySurface_RockSnow_05
+    3300102: PolySurface_TreeSnow_01
+    3300104: PolySurface_TreeSnow_013
+    3300106: PolySurface_TreeSnow_014
+    3300108: PolySurface_TreeSnow_02
+    3300110: PolySurface_TreeSnow_03
+    3300112: PolySurface_TreeSnow_04
+    3300114: PolySurface_TreeSnow_05
+    3300116: PolySurface_TreeSnow_06
+    3300118: PolySurface_TreeSnow_07
+    3300120: PolySurface_TreeSnow_08
+    4300000: Asset_Tile_Snow
+    4300002: PolySurface_RockSnow_01
+    4300004: PolySurface_TreeSnow_04
+    4300006: PolySurface_TreeSnow_05
+    4300008: pCylinder1
+    4300010: pCylinder2
+    4300012: pCylinder3
+    4300014: pCylinder4
+    4300016: pCylinder5
+    4300018: pCylinder6
+    4300020: pCylinder7
+    4300022: pCylinder8
+    4300024: pCylinder1
+    4300026: pCylinder2
+    4300028: pCylinder3
+    4300030: pCylinder4
+    4300032: pCylinder5
+    4300034: pCylinder6
+    4300036: pCylinder7
+    4300038: pCylinder8
+    4300040: pCylinder9
+    4300042: pCylinder10
+    4300044: pCylinder11
+    4300046: pCylinder12
+    4300048: pCylinder13
+    4300050: pCylinder14
+    4300052: pCylinder15
+    4300054: pCylinder16
+    4300056: pCylinder17
+    4300058: pCylinder19
+    4300060: pCylinder20
+    4300062: pCylinder21
+    4300064: pCylinder22
+    4300066: pCylinder23
+    4300068: pCylinder24
+    4300070: pCylinder19
+    4300072: pCylinder20
+    4300074: pCylinder21
+    4300076: pCylinder22
+    4300078: pCylinder23
+    4300080: pCylinder24
+    4300082: pCylinder33
+    4300084: pCylinder34
+    4300086: pCylinder35
+    4300088: pCylinder19
+    4300090: pCylinder20
+    4300092: pCylinder21
+    4300094: pCylinder22
+    4300096: pCylinder23
+    4300098: pCylinder24
+    4300100: PolySurface_TreeSnow_01
+    4300102: PolySurface_TreeSnow_02
+    4300104: PolySurface_TreeSnow_03
+    4300106: PolySurface_TreeSnow_06
+    4300108: PolySurface_TreeSnow_07
+    4300110: PolySurface_TreeSnow_08
+    4300112: PolySurface_TreeSnow_013
+    4300114: PolySurface_TreeSnow_014
+    4300116: PolySurface_RockSnow_03
+    4300118: PolySurface_RockSnow_04
+    4300120: PolySurface_RockSnow_05
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,326 @@
+fileFormatVersion: 2
+guid: 2ab0755c016ea2e4788f3bb769727654
+timeCreated: 1494069411
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Asset_Berries_Plain_01
+    100002: Asset_BerryBushPlain_01
+    100004: Asset_Biome_Plain_03
+    100006: //RootNode
+    100008: Asset_Bush_Plain_01
+    100010: Asset_Tile_Plain
+    100012: Asset_Tree_Plain_01
+    100014: Asset_Tree_Plain_010
+    100016: Asset_Tree_Plain_02
+    100018: Asset_Tree_Plain_04
+    100020: Asset_Tree_Plain_08
+    100022: Asset_Tree_Plain_09
+    100024: eau
+    100026: fleur_kawaii_01
+    100028: fleur_kawaii_02
+    100030: fleur_kawaii_03
+    100032: fleur_kawaii_04
+    100034: fleur_kawaii_05
+    100036: fleur_kawaii_06
+    100038: pCylinder19
+    100040: pCylinder19 1
+    100042: pCylinder19 2
+    100044: pCylinder19 3
+    100046: pCylinder19 4
+    100048: pCylinder20
+    100050: pCylinder20 1
+    100052: pCylinder20 2
+    100054: pCylinder20 3
+    100056: pCylinder20 4
+    100058: pCylinder20 5
+    100060: pCylinder21
+    100062: pCylinder21 1
+    100064: pCylinder21 2
+    100066: pCylinder21 3
+    100068: pCylinder21 4
+    100070: pCylinder22
+    100072: pCylinder22 1
+    100074: pCylinder22 2
+    100076: pCylinder22 3
+    100078: pCylinder22 4
+    100080: pCylinder22 5
+    100082: pCylinder23
+    100084: pCylinder23 1
+    100086: pCylinder23 2
+    100088: pCylinder23 3
+    100090: pCylinder23 4
+    100092: pCylinder23 5
+    100094: pCylinder24
+    100096: pCylinder24 1
+    100098: pCylinder24 2
+    100100: pCylinder24 3
+    100102: pCylinder24 4
+    100104: pCylinder24 5
+    100106: Puit
+    100108: sceau
+    100110: structure_puit
+    400000: Asset_Berries_Plain_01
+    400002: Asset_BerryBushPlain_01
+    400004: Asset_Biome_Plain_03
+    400006: //RootNode
+    400008: Asset_Bush_Plain_01
+    400010: Asset_Tile_Plain
+    400012: Asset_Tree_Plain_01
+    400014: Asset_Tree_Plain_010
+    400016: Asset_Tree_Plain_02
+    400018: Asset_Tree_Plain_04
+    400020: Asset_Tree_Plain_08
+    400022: Asset_Tree_Plain_09
+    400024: eau
+    400026: fleur_kawaii_01
+    400028: fleur_kawaii_02
+    400030: fleur_kawaii_03
+    400032: fleur_kawaii_04
+    400034: fleur_kawaii_05
+    400036: fleur_kawaii_06
+    400038: pCylinder19
+    400040: pCylinder19 1
+    400042: pCylinder19 2
+    400044: pCylinder19 3
+    400046: pCylinder19 4
+    400048: pCylinder20
+    400050: pCylinder20 1
+    400052: pCylinder20 2
+    400054: pCylinder20 3
+    400056: pCylinder20 4
+    400058: pCylinder20 5
+    400060: pCylinder21
+    400062: pCylinder21 1
+    400064: pCylinder21 2
+    400066: pCylinder21 3
+    400068: pCylinder21 4
+    400070: pCylinder22
+    400072: pCylinder22 1
+    400074: pCylinder22 2
+    400076: pCylinder22 3
+    400078: pCylinder22 4
+    400080: pCylinder22 5
+    400082: pCylinder23
+    400084: pCylinder23 1
+    400086: pCylinder23 2
+    400088: pCylinder23 3
+    400090: pCylinder23 4
+    400092: pCylinder23 5
+    400094: pCylinder24
+    400096: pCylinder24 1
+    400098: pCylinder24 2
+    400100: pCylinder24 3
+    400102: pCylinder24 4
+    400104: pCylinder24 5
+    400106: Puit
+    400108: sceau
+    400110: structure_puit
+    2300000: Asset_Berries_Plain_01
+    2300002: Asset_Bush_Plain_01
+    2300004: Asset_Tile_Plain
+    2300006: Asset_Tree_Plain_01
+    2300008: Asset_Tree_Plain_010
+    2300010: Asset_Tree_Plain_02
+    2300012: Asset_Tree_Plain_04
+    2300014: Asset_Tree_Plain_08
+    2300016: Asset_Tree_Plain_09
+    2300018: eau
+    2300020: pCylinder19
+    2300022: pCylinder19 1
+    2300024: pCylinder19 2
+    2300026: pCylinder19 3
+    2300028: pCylinder19 4
+    2300030: pCylinder20
+    2300032: pCylinder20 1
+    2300034: pCylinder20 2
+    2300036: pCylinder20 3
+    2300038: pCylinder20 4
+    2300040: pCylinder20 5
+    2300042: pCylinder21
+    2300044: pCylinder21 1
+    2300046: pCylinder21 2
+    2300048: pCylinder21 3
+    2300050: pCylinder21 4
+    2300052: pCylinder22
+    2300054: pCylinder22 1
+    2300056: pCylinder22 2
+    2300058: pCylinder22 3
+    2300060: pCylinder22 4
+    2300062: pCylinder22 5
+    2300064: pCylinder23
+    2300066: pCylinder23 1
+    2300068: pCylinder23 2
+    2300070: pCylinder23 3
+    2300072: pCylinder23 4
+    2300074: pCylinder23 5
+    2300076: pCylinder24
+    2300078: pCylinder24 1
+    2300080: pCylinder24 2
+    2300082: pCylinder24 3
+    2300084: pCylinder24 4
+    2300086: pCylinder24 5
+    2300088: sceau
+    2300090: structure_puit
+    3300000: Asset_Berries_Plain_01
+    3300002: Asset_Bush_Plain_01
+    3300004: Asset_Tile_Plain
+    3300006: Asset_Tree_Plain_01
+    3300008: Asset_Tree_Plain_010
+    3300010: Asset_Tree_Plain_02
+    3300012: Asset_Tree_Plain_04
+    3300014: Asset_Tree_Plain_08
+    3300016: Asset_Tree_Plain_09
+    3300018: eau
+    3300020: pCylinder19
+    3300022: pCylinder19 1
+    3300024: pCylinder19 2
+    3300026: pCylinder19 3
+    3300028: pCylinder19 4
+    3300030: pCylinder20
+    3300032: pCylinder20 1
+    3300034: pCylinder20 2
+    3300036: pCylinder20 3
+    3300038: pCylinder20 4
+    3300040: pCylinder20 5
+    3300042: pCylinder21
+    3300044: pCylinder21 1
+    3300046: pCylinder21 2
+    3300048: pCylinder21 3
+    3300050: pCylinder21 4
+    3300052: pCylinder22
+    3300054: pCylinder22 1
+    3300056: pCylinder22 2
+    3300058: pCylinder22 3
+    3300060: pCylinder22 4
+    3300062: pCylinder22 5
+    3300064: pCylinder23
+    3300066: pCylinder23 1
+    3300068: pCylinder23 2
+    3300070: pCylinder23 3
+    3300072: pCylinder23 4
+    3300074: pCylinder23 5
+    3300076: pCylinder24
+    3300078: pCylinder24 1
+    3300080: pCylinder24 2
+    3300082: pCylinder24 3
+    3300084: pCylinder24 4
+    3300086: pCylinder24 5
+    3300088: sceau
+    3300090: structure_puit
+    4300000: sceau
+    4300002: structure_puit
+    4300004: eau
+    4300006: Asset_Tile_Plain
+    4300008: Asset_Tree_Plain_01
+    4300010: Asset_Tree_Plain_02
+    4300012: Asset_Berries_Plain_01
+    4300014: Asset_Bush_Plain_01
+    4300016: pCylinder19
+    4300018: pCylinder20
+    4300020: pCylinder21
+    4300022: pCylinder22
+    4300024: pCylinder23
+    4300026: pCylinder24
+    4300028: pCylinder19
+    4300030: pCylinder20
+    4300032: pCylinder21
+    4300034: pCylinder22
+    4300036: pCylinder23
+    4300038: pCylinder24
+    4300040: pCylinder20
+    4300042: pCylinder22
+    4300044: pCylinder23
+    4300046: pCylinder24
+    4300048: pCylinder19
+    4300050: pCylinder20
+    4300052: pCylinder21
+    4300054: pCylinder22
+    4300056: pCylinder23
+    4300058: pCylinder24
+    4300060: pCylinder19
+    4300062: pCylinder20
+    4300064: pCylinder21
+    4300066: pCylinder22
+    4300068: pCylinder23
+    4300070: pCylinder24
+    4300072: pCylinder19
+    4300074: pCylinder20
+    4300076: pCylinder21
+    4300078: pCylinder22
+    4300080: pCylinder23
+    4300082: pCylinder24
+    4300084: Asset_Tree_Plain_04
+    4300086: Asset_Tree_Plain_08
+    4300088: Asset_Tree_Plain_09
+    4300090: Asset_Tree_Plain_010
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

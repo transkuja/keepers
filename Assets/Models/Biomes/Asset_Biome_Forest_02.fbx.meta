@@ -1,0 +1,303 @@
+fileFormatVersion: 2
+guid: 48f5dd6ef7a227a4e8a107d941c4a60c
+timeCreated: 1494069411
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Asset_Biome_Forest_02
+    100002: //RootNode
+    100004: Asset_Tile_Forest
+    100006: Block_Forest_Logs_01
+    100008: Block_Forest_Logs_02
+    100010: Block_Forest_Trees_01
+    100012: eau2
+    100014: pCylinder1
+    100016: pCylinder1 1
+    100018: pCylinder10
+    100020: pCylinder11
+    100022: pCylinder12
+    100024: pCylinder13
+    100026: pCylinder14
+    100028: pCylinder15
+    100030: pCylinder16
+    100032: pCylinder17
+    100034: pCylinder2
+    100036: pCylinder2 1
+    100038: pCylinder3
+    100040: pCylinder3 1
+    100042: pCylinder4
+    100044: pCylinder4 1
+    100046: pCylinder5
+    100048: pCylinder5 1
+    100050: pCylinder6
+    100052: pCylinder6 1
+    100054: pCylinder7
+    100056: pCylinder7 1
+    100058: pCylinder8
+    100060: pCylinder8 1
+    100062: pCylinder9
+    100064: PolySurface_MushroomForest_01
+    100066: PolySurface_MushroomForest_02
+    100068: PolySurface_MushroomForest_03
+    100070: PolySurface_MushroomForest_04
+    100072: PolySurface_TreeForest_01
+    100074: PolySurface_TreeForest_010
+    100076: PolySurface_TreeForest_02
+    100078: PolySurface_TreeForest_03
+    100080: PolySurface_TreeForest_04
+    100082: PolySurface_TreeForest_05
+    100084: PolySurface_TreeForest_06
+    100086: PolySurface_TreeForest_07
+    100088: PolySurface_TreeForest_08
+    100090: PolySurface_TreeForest_09
+    100092: sceau1
+    100094: structure_puit1
+    100096: Well_Forest
+    400000: //RootNode
+    400002: Asset_Biome_Forest_02
+    400004: Asset_Tile_Forest
+    400006: Block_Forest_Logs_01
+    400008: Block_Forest_Logs_02
+    400010: Block_Forest_Trees_01
+    400012: eau2
+    400014: pCylinder1
+    400016: pCylinder1 1
+    400018: pCylinder10
+    400020: pCylinder11
+    400022: pCylinder12
+    400024: pCylinder13
+    400026: pCylinder14
+    400028: pCylinder15
+    400030: pCylinder16
+    400032: pCylinder17
+    400034: pCylinder2
+    400036: pCylinder2 1
+    400038: pCylinder3
+    400040: pCylinder3 1
+    400042: pCylinder4
+    400044: pCylinder4 1
+    400046: pCylinder5
+    400048: pCylinder5 1
+    400050: pCylinder6
+    400052: pCylinder6 1
+    400054: pCylinder7
+    400056: pCylinder7 1
+    400058: pCylinder8
+    400060: pCylinder8 1
+    400062: pCylinder9
+    400064: PolySurface_MushroomForest_01
+    400066: PolySurface_MushroomForest_02
+    400068: PolySurface_MushroomForest_03
+    400070: PolySurface_MushroomForest_04
+    400072: PolySurface_TreeForest_01
+    400074: PolySurface_TreeForest_010
+    400076: PolySurface_TreeForest_02
+    400078: PolySurface_TreeForest_03
+    400080: PolySurface_TreeForest_04
+    400082: PolySurface_TreeForest_05
+    400084: PolySurface_TreeForest_06
+    400086: PolySurface_TreeForest_07
+    400088: PolySurface_TreeForest_08
+    400090: PolySurface_TreeForest_09
+    400092: sceau1
+    400094: structure_puit1
+    400096: Well_Forest
+    2300000: Asset_Tile_Forest
+    2300002: eau2
+    2300004: pCylinder1
+    2300006: pCylinder1 1
+    2300008: pCylinder10
+    2300010: pCylinder11
+    2300012: pCylinder12
+    2300014: pCylinder13
+    2300016: pCylinder14
+    2300018: pCylinder15
+    2300020: pCylinder16
+    2300022: pCylinder17
+    2300024: pCylinder2
+    2300026: pCylinder2 1
+    2300028: pCylinder3
+    2300030: pCylinder3 1
+    2300032: pCylinder4
+    2300034: pCylinder4 1
+    2300036: pCylinder5
+    2300038: pCylinder5 1
+    2300040: pCylinder6
+    2300042: pCylinder6 1
+    2300044: pCylinder7
+    2300046: pCylinder7 1
+    2300048: pCylinder8
+    2300050: pCylinder8 1
+    2300052: pCylinder9
+    2300054: PolySurface_MushroomForest_01
+    2300056: PolySurface_MushroomForest_02
+    2300058: PolySurface_MushroomForest_03
+    2300060: PolySurface_MushroomForest_04
+    2300062: PolySurface_TreeForest_01
+    2300064: PolySurface_TreeForest_010
+    2300066: PolySurface_TreeForest_02
+    2300068: PolySurface_TreeForest_03
+    2300070: PolySurface_TreeForest_04
+    2300072: PolySurface_TreeForest_05
+    2300074: PolySurface_TreeForest_06
+    2300076: PolySurface_TreeForest_07
+    2300078: PolySurface_TreeForest_08
+    2300080: PolySurface_TreeForest_09
+    2300082: sceau1
+    2300084: structure_puit1
+    3300000: Asset_Tile_Forest
+    3300002: eau2
+    3300004: pCylinder1
+    3300006: pCylinder1 1
+    3300008: pCylinder10
+    3300010: pCylinder11
+    3300012: pCylinder12
+    3300014: pCylinder13
+    3300016: pCylinder14
+    3300018: pCylinder15
+    3300020: pCylinder16
+    3300022: pCylinder17
+    3300024: pCylinder2
+    3300026: pCylinder2 1
+    3300028: pCylinder3
+    3300030: pCylinder3 1
+    3300032: pCylinder4
+    3300034: pCylinder4 1
+    3300036: pCylinder5
+    3300038: pCylinder5 1
+    3300040: pCylinder6
+    3300042: pCylinder6 1
+    3300044: pCylinder7
+    3300046: pCylinder7 1
+    3300048: pCylinder8
+    3300050: pCylinder8 1
+    3300052: pCylinder9
+    3300054: PolySurface_MushroomForest_01
+    3300056: PolySurface_MushroomForest_02
+    3300058: PolySurface_MushroomForest_03
+    3300060: PolySurface_MushroomForest_04
+    3300062: PolySurface_TreeForest_01
+    3300064: PolySurface_TreeForest_010
+    3300066: PolySurface_TreeForest_02
+    3300068: PolySurface_TreeForest_03
+    3300070: PolySurface_TreeForest_04
+    3300072: PolySurface_TreeForest_05
+    3300074: PolySurface_TreeForest_06
+    3300076: PolySurface_TreeForest_07
+    3300078: PolySurface_TreeForest_08
+    3300080: PolySurface_TreeForest_09
+    3300082: sceau1
+    3300084: structure_puit1
+    4300000: Asset_Tile_Forest
+    4300002: PolySurface_MushroomForest_03
+    4300004: PolySurface_MushroomForest_02
+    4300006: PolySurface_MushroomForest_01
+    4300008: PolySurface_TreeForest_04
+    4300010: PolySurface_TreeForest_07
+    4300012: PolySurface_TreeForest_08
+    4300014: PolySurface_TreeForest_09
+    4300016: pCylinder1
+    4300018: pCylinder2
+    4300020: pCylinder3
+    4300022: pCylinder4
+    4300024: pCylinder5
+    4300026: pCylinder6
+    4300028: pCylinder7
+    4300030: pCylinder8
+    4300032: pCylinder1
+    4300034: pCylinder2
+    4300036: pCylinder3
+    4300038: pCylinder4
+    4300040: pCylinder5
+    4300042: pCylinder6
+    4300044: pCylinder7
+    4300046: pCylinder8
+    4300048: pCylinder9
+    4300050: pCylinder10
+    4300052: pCylinder11
+    4300054: pCylinder12
+    4300056: pCylinder13
+    4300058: pCylinder14
+    4300060: pCylinder15
+    4300062: pCylinder16
+    4300064: pCylinder17
+    4300066: structure_puit1
+    4300068: sceau1
+    4300070: eau2
+    4300072: PolySurface_TreeForest_02
+    4300074: PolySurface_TreeForest_06
+    4300076: PolySurface_TreeForest_05
+    4300078: PolySurface_TreeForest_01
+    4300080: PolySurface_TreeForest_03
+    4300082: PolySurface_TreeForest_010
+    4300084: PolySurface_MushroomForest_04
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
