@@ -270,7 +270,24 @@ public class SkillBattle {
 
         curTargetFighter.PendingDamage = ((isMeantToHeal) ? -curEffDmg : curEffDmg);
         if (boeufs != null)
-            curTargetFighter.EffectiveBoeufs.AddRange(boeufs);
+        {
+            for (int i = 0; i < boeufs.Length; i++)
+            {
+                bool boeufMustBeAdded = true;
+                for (int j = 0; j < curTargetFighter.EffectiveBoeufs.Count; j++)
+                {
+                    if (boeufs[i].BoeufType == curTargetFighter.EffectiveBoeufs[j].BoeufType)
+                    {
+                        if ((boeufs[i].EffectValue > 0 && curTargetFighter.EffectiveBoeufs[j].EffectValue > 0) || (boeufs[i].EffectValue > 0 && curTargetFighter.EffectiveBoeufs[j].EffectValue > 0))
+                        {
+                            boeufMustBeAdded = false;
+                            break;
+                        }
+                    }
+                }
+                if (boeufMustBeAdded) curTargetFighter.EffectiveBoeufs.Add(boeufs[i]);
+            }          
+        }
     }
 
     public void UseSkill()
