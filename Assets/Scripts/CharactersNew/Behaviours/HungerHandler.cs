@@ -161,13 +161,6 @@ namespace Behaviour
 
                 if (TutoManager.s_instance != null && TutoManager.s_instance.enableTuto && TutoManager.s_instance.PlayingSequence == null)
                 {
-                    if (TutoManager.s_instance.GetComponent<SeqActionCostHunger>().AlreadyPlayed == false)
-                    {
-                        if (TutoManager.s_instance.GetComponent<SeqActionCostHunger>().hasPressedEndTurnButton == false)
-                            TutoManager.s_instance.playSequence(TutoManager.s_instance.GetComponent<SeqActionCostHunger>());
-                        else
-                            TutoManager.s_instance.GetComponent<SeqActionCostHunger>().hasPressedEndTurnButton = false;
-                    }
                     if (GetComponent<Escortable>() != null && TutoManager.s_instance.GetComponent<SeqAshleyLowHunger>().AlreadyPlayed == false)
                     {
                         if (currentHunger < data.MaxHunger / 4.0f && diffHunger < 0)

@@ -28,11 +28,7 @@ public class EventManager : MonoBehaviour {
 
     public static void EndTurnEvent()
     {
-        if (TutoManager.s_instance != null && TutoManager.s_instance.enableTuto
-            && TutoManager.s_instance.PlayingSequence == null && TutoManager.s_instance.GetComponent<SeqActionCostHunger>().AlreadyPlayed == false)
-        {
-            TutoManager.s_instance.GetComponent<SeqActionCostHunger>().hasPressedEndTurnButton = true;
-        }
+
         HandleWeather();
 
 
