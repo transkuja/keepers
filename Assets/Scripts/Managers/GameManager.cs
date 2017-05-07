@@ -482,8 +482,6 @@ public class GameManager : MonoBehaviour
         }
         set
         {
-            Debug.Log("previous " + currentState);
-            Debug.Log("new " + value);
             // Exit pause state
             if (currentState == GameState.InPause && value != GameState.InPause)
                 ExitPauseStateProcess();
@@ -1067,6 +1065,8 @@ public class GameManager : MonoBehaviour
                 disabledModels.Add(tileModel.GetChild(i).gameObject);
             }
         }
+
+        Ui.GoActionPanelQ.transform.parent.SetParent(Ui.transform);
     }
 
     private void ExitBattleStateProcess()

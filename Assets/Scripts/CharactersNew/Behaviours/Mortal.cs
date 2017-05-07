@@ -80,8 +80,7 @@ namespace Behaviour
                 if(GameManager.Instance.Ui.tooltipAction!= null)
                 {
                     // TMP Remi
-                    GameManager.Instance.Ui.tooltipAction.transform.SetParent(GameManager.Instance.Ui.transform);
-                    GameManager.Instance.Ui.GoActionPanelQ.transform.SetParent(GameManager.Instance.Ui.transform);
+                    GameManager.Instance.Ui.GoActionPanelQ.transform.parent.SetParent(GameManager.Instance.Ui.transform);
                     GameManager.Instance.Ui.tooltipAction.SetActive(false);
                 }
 
