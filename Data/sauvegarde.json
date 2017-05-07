@@ -2,11 +2,11 @@
 	"Pawns":[
 		{
 			"id":"grekhan",
-			"unlocked":true
+			"unlocked":false
 		},
 		{
 			"id":"swag",
-			"unlocked":true
+			"unlocked":false
 		},
 		{
 			"id":"nana",
@@ -14,7 +14,7 @@
 		},
 		{
 			"id":"lupus",
-			"unlocked":true
+			"unlocked":false
 		}
 	],
 	"Levels":[
@@ -24,11 +24,11 @@
 		},
 		{
 			"id":"2",
-			"unlocked":true
+			"unlocked":false
 		},
 		{
 			"id":"4",
-			"unlocked":true
+			"unlocked":false
 		}
 	],
 	"Events":[
@@ -38,11 +38,11 @@
 		},
 		{
 			"id":"2",
-			"unlocked":true
+			"unlocked":false
 		},
 		{
 			"id":"3",
-			"unlocked":true
+			"unlocked":false
 		}
 	],
 	"Decks":[
@@ -52,15 +52,15 @@
 		},
 		{
 			"id":"deck_02",
-			"unlocked":true
+			"unlocked":false
 		},
 		{
 			"id":"deck_03",
-			"unlocked":true
+			"unlocked":false
 		},
 		{
 			"id":"deck_04",
-			"unlocked":true
+			"unlocked":false
 		}
 	],
 	"Camera":{

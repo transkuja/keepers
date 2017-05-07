@@ -25,6 +25,10 @@
 		{
 			"id":"2",
 			"unlocked":false
+		},
+		{
+			"id":"4",
+			"unlocked":false
 		}
 	],
 	"Events":[
@@ -48,6 +52,14 @@
 		},
 		{
 			"id":"deck_02",
+			"unlocked":false
+		},
+		{
+			"id":"deck_03",
+			"unlocked":false
+		},
+		{
+			"id":"deck_04",
 			"unlocked":false
 		}
 	],
