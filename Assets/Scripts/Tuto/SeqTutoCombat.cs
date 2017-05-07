@@ -25,7 +25,8 @@ public class SeqTutoCombat : Sequence
         {
             SeqTutoCombat seqTutoCombat = TutoManager.s_instance.GetComponent<SeqTutoCombat>();
             Button rdButton = seqTutoCombat.rollDiceButton.GetComponentInChildren<Button>();
-            rdButton.gameObject.AddComponent<MouseClickExpected>();
+            if (rdButton.gameObject.GetComponent<MouseClickExpected>() == null)
+                rdButton.gameObject.AddComponent<MouseClickExpected>();
             rdButton.GetComponent<ThrowDiceButtonFeedback>().enabled = true;
             rdButton.interactable = true;
 
@@ -35,6 +36,10 @@ public class SeqTutoCombat : Sequence
 
         public override void Reverse()
         {
+            SeqTutoCombat seqTutoCombat = TutoManager.s_instance.GetComponent<SeqTutoCombat>();
+            Button rdButton = seqTutoCombat.rollDiceButton.GetComponentInChildren<Button>();
+            if (rdButton.gameObject.GetComponent<MouseClickExpected>() != null)
+                Destroy(rdButton.gameObject.GetComponent<MouseClickExpected>());
             alreadyPlayed = false;
         }
     }
@@ -373,15 +378,16 @@ public class SeqTutoCombat : Sequence
 
         // Content
         Etapes.Add(new TutoManager.Message(null, "You have to roll dice to defeat monsters in this world"));
-        Etapes.Add(new RollDiceButtonExplain("Click on the Dice button here to roll the dice of your characters."));
-        Etapes.Add(new ShowCharactersStocks("Good. The value of each dice is added to the character's stocks."));
+        Etapes.Add(new RollDiceButtonExplain("Click on the Dice button here to roll the dice of all your characters."));
+        Etapes.Add(new ShowCharactersStocks("Good. The value of each dice is added to the characters' stocks."));
         Etapes.Add(new ShowCharactersStocks("These stocks allow you to perform skills when you have enough of each required symbol."));
         Etapes.Add(new PawnSelection("Select a pawn by clicking on it to perform an action."));
-        Etapes.Add(new StandardAtkExplain("This button allows you to perform a standard attack based on your current roll,"));
-        Etapes.Add(new StandardAtkShowDice("the more swords you have on the dice, the more damage you'll do."));
-        Etapes.Add(new SkillButtonExplain("This button allows you to use a skill. Try it!"));
-        Etapes.Add(new SkillCostExplain("This is the skill cost, you need at least all the required symbols to use it."));
-        Etapes.Add(new SkillSelectionStep("Now select a skill and click on the monster to unleash your power!"));
+        //Etapes.Add(new StandardAtkExplain("This button allows you to perform a standard attack based on your current roll,"));
+        //Etapes.Add(new StandardAtkShowDice("the more swords you have on the dice, the more damage you'll do."));
+        Etapes.Add(new TutoManager.Message(null, "Here are your characters' skills list"));
+        Etapes.Add(new SkillCostExplain("This is the skill cost. You need at least all the required symbols to use a skill."));
+        Etapes.Add(new SkillSelectionStep("Now click on this skill, then on the monster to unleash your power!"));
+
         Etapes.Add(new TutoManager.Message(null, "Great!"));
         Etapes.Add(new MonstersTurnStep("When all your characters have played, it's the monsters turn.")); // ==> monsters play their turn when clicking on next arrow
         Etapes.Add(new TutoManager.Message(null, "Now use what you learned to finish the battle, good luck!")); // ==> show this step when turn reset, no previous arrow

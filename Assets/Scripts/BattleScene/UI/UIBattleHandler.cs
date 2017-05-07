@@ -271,7 +271,7 @@ public class UIBattleHandler : MonoBehaviour {
                     fighterCurSkill = fighterComponent.BattleSkills[i];
 
                 currentSkill.GetChild((int)SkillButtonChildren.SkillName).GetComponent<SkillContainer>().SkillData = fighterCurSkill;
-                currentSkill.GetChild((int)SkillButtonChildren.SkillName).GetComponent<Text>().text = fighterCurSkill.SkillName;
+                currentSkill.GetChild((int)SkillButtonChildren.SkillName).GetComponentInChildren<Text>().text = fighterCurSkill.SkillName;
                 currentSkill.GetComponent<SkillDescriptionUI>().SkillData = fighterCurSkill;
                 foreach (Face face in fighterCurSkill.Cost)
                 {
