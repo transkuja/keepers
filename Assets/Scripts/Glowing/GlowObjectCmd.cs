@@ -8,6 +8,8 @@ public class GlowObjectCmd : MonoBehaviour
 {
 	public Color GlowColor;
 	public float LerpFactor = 10;
+    private bool isBlinking = false;
+    private float blinkTimer = 0.3f;
 
     public Renderer[] Renderers
 	{
@@ -56,17 +58,46 @@ public class GlowObjectCmd : MonoBehaviour
             _targetColor = Color.black;
     }
 
+    public void ActivateBlinkBehaviour(bool _enable)
+    {
+        isBlinking = _enable;
+        UpdateColor(_enable);
+    }
+
     /// <summary>
     /// Update color, disable self if we reach our target color.
     /// </summary>
     private void Update()
 	{
-		_currentColor = Color.Lerp(_currentColor, _targetColor, Time.deltaTime * LerpFactor);
+        _currentColor = Color.Lerp(_currentColor, _targetColor, Time.deltaTime * LerpFactor);
 
-		if (_currentColor.Equals(_targetColor))
-		{
-			enabled = false;
-		}
+        if (isBlinking)
+        {
+            enabled = true;
+            blinkTimer -= Time.unscaledDeltaTime;
+            if (blinkTimer < 0.0f)
+            {
+                if (_targetColor == Color.black)
+                {
+                    UpdateColor(true);
+                    enabled = true;
+                }
+                else
+                {
+                    UpdateColor(false);
+                    enabled = true;
+                }
+                blinkTimer = 0.3f;
+            }
+        }
+        else
+        {
+
+            if (_currentColor.Equals(_targetColor))
+            {
+                enabled = false;
+            }
+        }
 	}
 
     private void OnDestroy()

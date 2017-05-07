@@ -124,6 +124,9 @@ public class SeqFirstMove : Sequence {
             if (GameManager.Instance.AllKeepersList[0].gameObject.GetComponent<MouseClickedOnIngameElt>() == null)
                 GameManager.Instance.AllKeepersList[0].gameObject.AddComponent<MouseClickedOnIngameElt>();
 
+            GameManager.Instance.AllKeepersList[0].GetComponent<GlowObjectCmd>().ActivateBlinkBehaviour(true);
+            GameManager.Instance.AllKeepersList[0].GetComponent<GlowObjectCmd>().enabled = true;
+
             TutoManager.s_instance.EcrireMessage(str);
             TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.WaitingForClickInGame;
         }
@@ -131,6 +134,7 @@ public class SeqFirstMove : Sequence {
         public override void Reverse()
         {
             Destroy(GameManager.Instance.AllKeepersList[0].gameObject.GetComponent<MouseClickedOnIngameElt>());
+            GameManager.Instance.AllKeepersList[0].GetComponent<GlowObjectCmd>().ActivateBlinkBehaviour(false);
             alreadyPlayed = false;
         }
     }
@@ -182,7 +186,9 @@ public class SeqFirstMove : Sequence {
             if (portal.GetComponent<GlowObjectCmd>() == null)
                 portal.AddComponent<GlowObjectCmd>();
             portal.transform.parent.gameObject.SetActive(true);
-            portal.GetComponent<GlowObjectCmd>().UpdateColor(true);
+
+            portal.GetComponent<GlowObjectCmd>().ActivateBlinkBehaviour(true);
+            portal.GetComponent<GlowObjectCmd>().enabled = true;
 
             TutoManager.s_instance.EcrireMessage(str);
             TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.WaitingForClickInGame;
