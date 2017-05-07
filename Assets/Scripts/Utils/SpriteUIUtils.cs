@@ -74,6 +74,8 @@ public class SpriteUIUtils : MonoBehaviour {
     public Sprite spriteAttackSymbol;
     public Sprite spriteDefenseSymbol;
     public Sprite spriteMagicSymbol;
+    public Sprite spriteAtkBuff;
+    public Sprite spriteDefBuff;
 
 }
 

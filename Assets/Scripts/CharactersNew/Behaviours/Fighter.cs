@@ -464,11 +464,17 @@ namespace Behaviour
                     effectiveBoeufs.Remove(effectiveBoeufs[i]);
                 }
             }
+            BuffFeedback bf = GetComponentInChildren<BuffFeedback>();
+            if (bf != null)
+                bf.UpdateCurrentBoeufsList(effectiveBoeufs);
         }
 
         public void AddBoeuf(BattleBoeuf _newBoeuf)
         {
             effectiveBoeufs.Add(_newBoeuf);
+            BuffFeedback bf = GetComponentInChildren<BuffFeedback>();
+            if (bf != null)
+                bf.UpdateCurrentBoeufsList(effectiveBoeufs);
         }
 
         // TODO: externalize this in Monster
