@@ -195,7 +195,7 @@ public class EventManager : MonoBehaviour {
             if (GameManager.Instance.NbTurn % nbDayInMonth < 5 || GameManager.Instance.NbTurn % nbDayInMonth > nbDayInMonth - 5)
             {
 
-                if (currentTile.Type == TileType.Snow && currentTile.State == TileState.Discovered)
+                if ((currentTile.Type == TileType.Snow || currentTile.Type == TileType.Forest) && currentTile.State == TileState.Discovered)
                 {
                     if (currentTile.gameObject.GetComponentInChildren<Climat>() == null)
                     {
@@ -213,7 +213,7 @@ public class EventManager : MonoBehaviour {
         }
         else
         {
-            if (currentTile.Type == TileType.Snow && currentTile.State == TileState.Discovered)
+            if ((currentTile.Type == TileType.Snow || currentTile.Type == TileType.Forest) && currentTile.State == TileState.Discovered)
             {
                 if (currentTile.gameObject.GetComponentInChildren<Climat>() == null)
                 {
