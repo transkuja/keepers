@@ -29,7 +29,11 @@ public class CharactersInitializer : MonoBehaviour {
 
         // Next step, init NPCs
         // TODO: init quests and call this properly
+        if (TutoManager.s_instance != null)
+            TutoManager.s_instance.InitDataTuto();
         InitNPCs();
+        if (TutoManager.s_instance != null)
+            TutoManager.s_instance.InitTuto();
     }
 
     private void InitNPCs()
@@ -108,6 +112,9 @@ public class CharactersInitializer : MonoBehaviour {
         {
             switch (GameManager.Instance.QuestManager.CurrentQuestDeck.LevelId)
             {
+                case "tuto":
+                    GameManager.Instance.QuestSources.GetComponent<QuestInitializer_Level1>().InitializeQuests();
+                    break;
                 case "level1":
                     GameManager.Instance.QuestSources.GetComponent<QuestInitializer_Level1>().InitializeQuests();
                     break;

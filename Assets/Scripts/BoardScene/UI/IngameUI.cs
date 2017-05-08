@@ -103,7 +103,8 @@ public class IngameUI : MonoBehaviour
 
     public void ResetActionPanelPosition()
     {
-        goActionPanelQ.transform.parent.SetParent(transform);
+        if (goActionPanelQ != null)
+            goActionPanelQ.transform.parent.SetParent(transform);
     }
 
     public void ResetIngameUI()

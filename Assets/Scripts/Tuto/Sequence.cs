@@ -154,6 +154,40 @@ public abstract class Sequence : MonoBehaviour
         endTurnButt.interactable = true;
 
         GameManager.Instance.Ui.ClearActionPanel();
+
+        Debug.Log(TutoManager.s_instance.PlayingSequence.GetType().ToString().ToLower());
+        GameManager.Instance.PersistenceLoader.SetSequenceUnlocked(TutoManager.s_instance.PlayingSequence.GetType().ToString().ToLower(), true);
+        GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences[TutoManager.s_instance.PlayingSequence.GetType().ToString().ToLower()] = true;
+        if (TutoManager.s_instance.PlayingSequence.GetType() == typeof(SeqFirstMove))
+        {
+            GameManager.Instance.PersistenceLoader.SetPawnUnlocked("grekhan", true);
+            GameManager.Instance.PersistenceLoader.SetPawnUnlocked("lupus", true);
+            GameManager.Instance.PersistenceLoader.SetPawnUnlocked("swag", true);
+            GameManager.Instance.PersistenceLoader.Pd.dicPersistencePawns["grekhan"] = true;
+            GameManager.Instance.PersistenceLoader.Pd.dicPersistencePawns["lupus"] = true;
+            GameManager.Instance.PersistenceLoader.Pd.dicPersistencePawns["swag"] = true;
+
+            GameManager.Instance.PersistenceLoader.SetLevelUnlocked("4", true);
+            GameManager.Instance.PersistenceLoader.SetLevelUnlocked("2", true);
+            GameManager.Instance.PersistenceLoader.SetLevelUnlocked("1", false);
+            GameManager.Instance.PersistenceLoader.Pd.dicPersistenceLevels["4"] = true;
+            GameManager.Instance.PersistenceLoader.Pd.dicPersistenceLevels["2"] = true;
+            GameManager.Instance.PersistenceLoader.Pd.dicPersistenceLevels["1"] = false;
+
+            GameManager.Instance.PersistenceLoader.SetEventUnlocked("1", true);
+            GameManager.Instance.PersistenceLoader.SetEventUnlocked("2", true);
+            GameManager.Instance.PersistenceLoader.SetEventUnlocked("3", true);
+            GameManager.Instance.PersistenceLoader.Pd.dicPersistenceEvents["1"] = true;
+            GameManager.Instance.PersistenceLoader.Pd.dicPersistenceEvents["2"] = true;
+            GameManager.Instance.PersistenceLoader.Pd.dicPersistenceEvents["3"] = true;
+
+            GameManager.Instance.PersistenceLoader.SetDeckUnlocked("deck_04", true);
+            GameManager.Instance.PersistenceLoader.SetDeckUnlocked("deck_01", false);
+            GameManager.Instance.PersistenceLoader.SetDeckUnlocked("deck_02", true);
+            GameManager.Instance.PersistenceLoader.Pd.dicPersistenceDecks["deck_04"] = true;
+            GameManager.Instance.PersistenceLoader.Pd.dicPersistenceDecks["deck_01"] = false;
+            GameManager.Instance.PersistenceLoader.Pd.dicPersistenceDecks["deck_02"] = true;
+        }
     }
 
     public bool isLastSequence()

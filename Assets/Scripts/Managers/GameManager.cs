@@ -89,11 +89,8 @@ public class GameManager : MonoBehaviour
         }
 
         else if (instance != this)
-
         {
-
             Destroy(gameObject);
-
         }
 
         ResetInstance();
@@ -104,11 +101,11 @@ public class GameManager : MonoBehaviour
                 AllKeepersList.Add(k.GetComponent<PawnInstance>());
             }
 
-            listEventSelected.Add("1");
+            //listEventSelected.Add("1");
 
-            listEventSelected.Add("2");
+            //listEventSelected.Add("2");
 
-            listEventSelected.Add("3");
+            //listEventSelected.Add("3");
 
         }
         DontDestroyOnLoad(gameObject);
@@ -172,14 +169,15 @@ public class GameManager : MonoBehaviour
 
         } else
         {
+            instance.allKeepersList.Clear();
+            Debug.Log("reload");
             persistenceLoader.Load();
         }
-        //instance.allKeepersList.Clear();
+
         instance.nbTurn = 1;
         instance.currentState = GameState.Normal;
         instance.ui.gameObject.SetActive(false);
         instance.ui.ResetIngameUI();
-
     }
 
 
@@ -545,15 +543,9 @@ public class GameManager : MonoBehaviour
 
     void InitQuests()
     {
-        if(GameManager.instance.isDebugGameManager)
-        {
-            questManagerReference.Init("deck_02");
-        }
-        else
-        {
-            // Give choosen deck ID here
-            questManagerReference.Init(GameManager.Instance.DeckSelected);
-        }
+
+        // Give choosen deck ID here
+        questManagerReference.Init(GameManager.Instance.DeckSelected);
 
 
         // Next step, init keepers 

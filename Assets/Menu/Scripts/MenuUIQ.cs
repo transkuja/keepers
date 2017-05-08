@@ -69,7 +69,8 @@ public class MenuUIQ: MonoBehaviour {
 
     public void UpdateStartButton()
     {
-        if (menuManager.ListeSelectedKeepers.Count == 0 || menuManager.CardLevelSelected == -1 || menuManager.DeckOfCardsSelected == string.Empty)
+        if (menuManager.ListeSelectedKeepers.Count == 0 || menuManager.CardLevelSelected == -1 || menuManager.DeckOfCardsSelected == string.Empty
+            || (menuManager.DeckOfCardsSelected == "deck_04" && menuManager.ListeSelectedKeepers.Count != 3))
         {
             startButtonImg.enabled = false;
         }

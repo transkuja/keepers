@@ -15,7 +15,6 @@ public class Arrival : MonoBehaviour {
         if (TileManager.Instance.PrisonerTile == TileManager.Instance.EndTile)
         {
             Debug.Log("You win");
-           
         }
         else
         {
@@ -29,7 +28,7 @@ public class Arrival : MonoBehaviour {
         //((PrisonerEscortObjective)GameManager.Instance.QuestManager.MainQuest.Objectives[0]).prisoner = GameManager.Instance.PrisonerInstance.gameObject;
         //((PrisonerEscortObjective)GameManager.Instance.QuestManager.MainQuest.Objectives[0]).destination = TileManager.Instance.EndTile;
 
-
+        GameManager.Instance.Ui.GoActionPanelQ.transform.parent.SetParent(GameManager.Instance.Ui.transform);
         GameManager.Instance.QuestManager.MainQuest.CheckAndComplete();
     }
 

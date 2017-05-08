@@ -398,7 +398,6 @@ public class SeqTutoCombat : Sequence
         base.End();
         if (TutoManager.s_instance.TutoPanelInstance != null)
             Destroy(TutoManager.s_instance.TutoPanelInstance);
-        TutoManager.s_instance.PlayingSequence = null;
         BattleHandler.ResetBattleHandlerForTuto();
         GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().ChangeState(UIBattleState.WaitForDiceThrow);
 
@@ -412,5 +411,6 @@ public class SeqTutoCombat : Sequence
         }
 
         TutoManager.s_instance.GetComponent<SeqTutoCombat>().AlreadyPlayed = true;
+        TutoManager.s_instance.PlayingSequence = null;
     }
 }

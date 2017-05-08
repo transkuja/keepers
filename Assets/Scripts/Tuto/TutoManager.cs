@@ -50,7 +50,7 @@ public class TutoManager : MonoBehaviour {
         s_instance = this;
     }
 
-    void Start()
+    public void InitTuto()
     {
         mouseClicked = false;
         secondMouseClicked = false;
@@ -63,6 +63,18 @@ public class TutoManager : MonoBehaviour {
         {
             InitSecondLevel();
         }
+    }
+
+    public void InitDataTuto()
+    {
+        GetComponent<SeqFirstMove>().AlreadyPlayed = GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqfirstmove"];
+        GetComponent<SeqTutoCombat>().AlreadyPlayed = GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqtutocombat"];
+        GetComponent<SeqMultiCharacters>().AlreadyPlayed = GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqmulticharacters"];
+        GetComponent<SeqMoraleExplained>().AlreadyPlayed = GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqmoraleexplained"];
+        GetComponent<SeqLowHunger>().AlreadyPlayed = GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqlowhunger"];
+        GetComponent<SeqLowMorale>().AlreadyPlayed = GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqlowmorale"];
+        GetComponent<SeqAshleyLowHunger>().AlreadyPlayed = GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqashleylowhunger"];
+        GetComponent<SeqAshleyEscort>().AlreadyPlayed = GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqashleyescort"];
     }
 
     void InitTutoScene()
@@ -82,8 +94,6 @@ public class TutoManager : MonoBehaviour {
         selectedKeepersFirstCharUI.GetChild(2).gameObject.SetActive(false); // Inventory
 
         GameManager.Instance.AllKeepersList[0].GetComponent<Keeper>().GoListCharacterFollowing.Add(GameManager.Instance.PrisonerInstance.gameObject);
-        // No mental health for first sequence
-        Destroy(GameManager.Instance.AllKeepersList[0].GetComponent<MentalHealthHandler>());
         // No hunger for Ashley on first sequence
         Destroy(GameManager.Instance.PrisonerInstance.GetComponent<HungerHandler>());
 

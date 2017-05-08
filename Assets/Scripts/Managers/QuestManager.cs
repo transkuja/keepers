@@ -23,22 +23,26 @@ public class QuestManager : MonoBehaviour
 
     public void Init(string questDeckID)
     {
-        if (TutoManager.s_instance != null && TutoManager.s_instance.enableTuto)
-        {
-            CurrentQuestDeck = GameManager.Instance.QuestDeckDataBase.GetDeckByID("deck_01");
-            if (TutoManager.s_instance.GetComponent<SeqFirstMove>().AlreadyPlayed == false)
-                CurrentQuestDeck.SideQuests.Clear();
-        }
+        // FIX: holy shit. Init tutoData should be done before this init
+        //if (TutoManager.s_instance != null && TutoManager.s_instance.enableTuto && GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqfirstmove"] == false)
+        //{
+        //    CurrentQuestDeck = GameManager.Instance.QuestDeckDataBase.GetDeckByID("deck_01");
+        //    CurrentQuestDeck.SideQuests.Clear();
+        //}
+        if (isDebugQuestManager || GameManager.Instance.IsDebugGameManager)
+
+            CurrentQuestDeck = GameManager.Instance.QuestDeckDataBase.GetDeckByID(questDeckToLoadDebug);
         else
         {
-            if (questDeckID == "deck_03")
-                CurrentQuestDeck.SideQuests.Clear();
-
+            Debug.LogWarning("T'as pas lancé depuis le menu et t'as ni coché isDebugQuestManager ou pire encore ... le isDebugGameManager. Troudbal.");
             CurrentQuestDeck = GameManager.Instance.QuestDeckDataBase.GetDeckByID(questDeckID);
-            if(isDebugQuestManager)
-                CurrentQuestDeck = GameManager.Instance.QuestDeckDataBase.GetDeckByID(questDeckToLoadDebug);
         }
-    
+
+
+        if (questDeckID == "deck_03" || questDeckID == "deck_01")
+            CurrentQuestDeck.SideQuests.Clear();
+
+           
         ActiveQuests = new List<Quest>();
         CompletedQuests = new List<Quest>();
         Quests = new List<Quest>();

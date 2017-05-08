@@ -76,15 +76,15 @@
 			"alreadyPlayed":false
 		},
 		{
-			"id":"seqmulticharacter",
+			"id":"seqmulticharacters",
 			"alreadyPlayed":false
 		},
 		{
-			"id":"seqmoralexplained",
+			"id":"seqmoraleexplained",
 			"alreadyPlayed":false
 		},
 		{
-			"id":"seqlowmoral",
+			"id":"seqlowmorale",
 			"alreadyPlayed":false
 		},
 		{
@@ -96,7 +96,7 @@
 			"alreadyPlayed":false
 		},
 		{
-			"id":"seqactioncost",
+			"id":"seqashleylowhunger",
 			"alreadyPlayed":false
 		}
 	]

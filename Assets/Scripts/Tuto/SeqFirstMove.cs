@@ -449,7 +449,7 @@ public class SeqFirstMove : Sequence {
             TutoManager.UnSpawn(pawnMrResetti);
         if (TutoManager.s_instance.TutoPanelInstance != null)
             Destroy(TutoManager.s_instance.TutoPanelInstance);
-        TutoManager.s_instance.PlayingSequence = null;
         TutoManager.s_instance.GetComponent<SeqFirstMove>().AlreadyPlayed = true;
+        TutoManager.s_instance.PlayingSequence = null;
     }
 }
