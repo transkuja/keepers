@@ -93,7 +93,7 @@ public class SkillDescriptionUI : MonoBehaviour, IPointerEnterHandler, IPointerE
                     }
                     descriptionPanel.GetComponentInChildren<Text>().text += "gauges by " + curBoeuf.EffectValue;
                 }
-                descriptionPanel.GetComponentInChildren<Text>().text += " for " + curBoeuf.Duration + " turns. ";
+                descriptionPanel.GetComponentInChildren<Text>().text += " for " + (curBoeuf.Duration + 1) + " turns. ";
             }
         }
 
