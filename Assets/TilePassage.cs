@@ -326,10 +326,16 @@ public class TilePassage : MonoBehaviour {
 
 
             PawnInstance toMove = GameManager.Instance.GetFirstSelectedKeeper();
+            if (toMove.GetComponent<Keeper>() == null) return;
 
-            if (toMove.GetComponent<Keeper>() != null
 
-                && toMove.GetComponent<Keeper>().ActionPoints >= actionCostExplore)
+            int actionCostExploreTmp = actionCostExplore;
+            if (toMove.Data.Behaviours[(int)BehavioursEnum.Explorateur] == true)
+            {
+                actionCostExploreTmp -= 1;
+            }
+
+            if ( toMove.GetComponent<Keeper>().ActionPoints >= actionCostExploreTmp)
 
             {
 

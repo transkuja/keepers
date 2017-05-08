@@ -11,7 +11,6 @@ public class MonstersBattleSkillsSelection  {
 
     public SkillDecisionAlgo GetDecisionAlgorithm(string pawnId)
     {
-        Debug.Log(pawnId);
         switch (pawnId)
         {
             case "ducky":

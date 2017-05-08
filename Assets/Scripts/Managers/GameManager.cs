@@ -164,13 +164,13 @@ public class GameManager : MonoBehaviour
         {
 
             instance.listOfSelectedKeepers.Clear();
-            instance.listEventSelected.Clear();
+
             instance.deckSelected = string.Empty;
 
         } else
         {
+            instance.listEventSelected.Clear();
             instance.allKeepersList.Clear();
-            Debug.Log("reload");
             persistenceLoader.Load();
         }
 
