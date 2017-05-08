@@ -130,11 +130,12 @@ public class BattleHandler {
         // Move pawns to battle positions and initialize ui info panel
         int offsetIndex = 0;
         GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().OccupiedCharacterPanelIndex = new bool[3];
+        bool isBeachTile = GameManager.Instance.ActiveTile.Type == TileType.Beach;
 
         if (isPrisonerOnTile)
         {
             Transform newTransform = TileManager.Instance.BattlePositions.GetChild(offsetIndex);
-            GameManager.Instance.PrisonerInstance.GetComponent<AnimatedPawn>().StartMoveToBattlePositionAnimation(newTransform.localPosition, newTransform.localRotation);
+            GameManager.Instance.PrisonerInstance.GetComponent<AnimatedPawn>().StartMoveToBattlePositionAnimation(newTransform.localPosition + ((isBeachTile) ? (-Vector3.up *0.11f) : Vector3.zero), newTransform.localRotation);
             offsetIndex = 1;
             GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().CharacterPanelInit(GameManager.Instance.PrisonerInstance);
         }
@@ -143,7 +144,7 @@ public class BattleHandler {
         for (int i = offsetIndex; i < offsetIndex + currentBattleKeepers.Length; i++)
         {
             Transform newTransform = TileManager.Instance.BattlePositions.GetChild(i);
-            currentBattleKeepers[keeperIndex].GetComponent<AnimatedPawn>().StartMoveToBattlePositionAnimation(newTransform.localPosition, newTransform.localRotation);
+            currentBattleKeepers[keeperIndex].GetComponent<AnimatedPawn>().StartMoveToBattlePositionAnimation(newTransform.localPosition + ((isBeachTile) ? (-Vector3.up * 0.11f) : Vector3.zero), newTransform.localRotation);
             GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().CharacterPanelInit(currentBattleKeepers[keeperIndex]);
             keeperIndex++;
         }
@@ -152,7 +153,7 @@ public class BattleHandler {
         for (int i = 3; i < 3 + currentBattleMonsters.Length; i++)
         {
             Transform newTransform = TileManager.Instance.BattlePositions.GetChild(i);
-            currentBattleMonsters[monsterIndex].GetComponent<AnimatedPawn>().StartMoveToBattlePositionAnimation(newTransform.localPosition, newTransform.localRotation);
+            currentBattleMonsters[monsterIndex].GetComponent<AnimatedPawn>().StartMoveToBattlePositionAnimation(newTransform.localPosition + ((isBeachTile) ? (-Vector3.up * 0.11f) : Vector3.zero), newTransform.localRotation);
             monsterIndex++;
         }
 
