@@ -515,6 +515,9 @@ public class BattleHandler {
                     currentBattleMonsters[i].GetComponent<Fighter>().HasRecentlyBattled = true;
                     currentBattleMonsters[i].transform.GetChild(1).gameObject.SetActive(true);
                     GlowController.UnregisterObject(currentBattleMonsters[i].GetComponent<GlowObjectCmd>());
+                    currentBattleMonsters[i].GetComponent<Fighter>().EffectiveBoeufs.Clear();
+                    currentBattleMonsters[i].GetComponent<Fighter>().UpdateActiveBoeufs();
+                    currentBattleMonsters[i].GetComponentInChildren<BuffFeedback>().ShowBuffs(false);
                 }
                 else
                 {
@@ -531,8 +534,19 @@ public class BattleHandler {
             {
                 GameManager.Instance.AddKeeperToSelectedList(currentBattleKeepers[i]);
                 currentBattleKeepers[i].GetComponent<Keeper>().IsSelected = true;
+                currentBattleKeepers[i].GetComponent<Fighter>().EffectiveBoeufs.Clear();
+                currentBattleKeepers[i].GetComponent<Fighter>().UpdateActiveBoeufs();
+                currentBattleKeepers[i].GetComponentInChildren<BuffFeedback>().ShowBuffs(false);
             }
         }
+
+        if (isPrisonerOnTile)
+        {
+            GameManager.Instance.PrisonerInstance.GetComponent<Fighter>().EffectiveBoeufs.Clear();
+            GameManager.Instance.PrisonerInstance.GetComponent<Fighter>().UpdateActiveBoeufs();
+            GameManager.Instance.PrisonerInstance.GetComponentInChildren<BuffFeedback>().ShowBuffs(false);
+        }
+
 
         AudioManager.Instance.StopBattleMusic();
 
@@ -898,6 +912,8 @@ public class BattleHandler {
             {
                 if (currentBattleKeepers[i].GetComponent<Mortal>().IsAlive)
                     currentBattleKeepers[i].GetComponent<Fighter>().UpdateActiveBoeufs();
+                if (isPrisonerOnTile)
+                    GameManager.Instance.PrisonerInstance.GetComponent<Fighter>().UpdateActiveBoeufs();
             }
             for (int i = 0; i < currentBattleMonsters.Length; i++)
             {

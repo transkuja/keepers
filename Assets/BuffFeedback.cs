@@ -28,7 +28,7 @@ public class BuffFeedback : MonoBehaviour
         nextIndex = 0;
     }
 
-    void ShowBuffs(bool _show)
+    public void ShowBuffs(bool _show)
     {
         for (int i = 0; i < transform.childCount; i++)
             transform.GetChild(i).gameObject.SetActive(_show);
@@ -73,7 +73,6 @@ public class BuffFeedback : MonoBehaviour
                     imgChild.sprite = GameManager.Instance.SpriteUtils.spriteDefBuff;
 
                 nextIndex++;
-                Debug.Log(nextIndex);
                 nextIndex = nextIndex % curBoeufs.Count;
             }
         }
