@@ -34,6 +34,8 @@ public class CharactersInitializer : MonoBehaviour {
         InitNPCs();
         if (TutoManager.s_instance != null)
             TutoManager.s_instance.InitTuto();
+
+        EventManager.HandleWeather();
     }
 
     private void InitNPCs()
