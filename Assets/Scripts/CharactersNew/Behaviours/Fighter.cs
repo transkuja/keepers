@@ -477,8 +477,16 @@ namespace Behaviour
                 bf.UpdateCurrentBoeufsList(effectiveBoeufs);
         }
 
+        public void RemoveBoeuf(BattleBoeuf _oldBoeuf)
+        {
+            effectiveBoeufs.Remove(_oldBoeuf);
+            BuffFeedback bf = GetComponentInChildren<BuffFeedback>();
+            if (bf != null)
+                bf.UpdateCurrentBoeufsList(effectiveBoeufs);
+        }
+
         // TODO: externalize this in Monster
-            #region Monster functions
+        #region Monster functions
         public void RestAfterBattle()
         {
             foreach (BoxCollider bc in GetComponentsInChildren<BoxCollider>())

@@ -278,10 +278,20 @@ public class SkillBattle {
                 {
                     if (boeufs[i].BoeufType == curTargetFighter.EffectiveBoeufs[j].BoeufType)
                     {
-                        if ((boeufs[i].EffectValue > 0 && curTargetFighter.EffectiveBoeufs[j].EffectValue > 0) || (boeufs[i].EffectValue < 0 && curTargetFighter.EffectiveBoeufs[j].EffectValue < 0))
+                        if ((boeufs[i].EffectValue > 0 && curTargetFighter.EffectiveBoeufs[j].EffectValue > 0 && boeufs[i].EffectValue <= curTargetFighter.EffectiveBoeufs[j].EffectValue) 
+                            || (boeufs[i].EffectValue < 0 && curTargetFighter.EffectiveBoeufs[j].EffectValue < 0 && boeufs[i].EffectValue >= curTargetFighter.EffectiveBoeufs[j].EffectValue))
                         {
-                            boeufMustBeAdded = false;
+                            curTargetFighter.RemoveBoeuf(curTargetFighter.EffectiveBoeufs[j]);
                             break;
+                        }
+                        else
+                        {
+                            if ((boeufs[i].EffectValue > 0 && curTargetFighter.EffectiveBoeufs[j].EffectValue > 0)
+                                    || (boeufs[i].EffectValue < 0 && curTargetFighter.EffectiveBoeufs[j].EffectValue < 0))
+                            {
+                                boeufMustBeAdded = false;
+                                break;
+                            }
                         }
                     }
                 }
