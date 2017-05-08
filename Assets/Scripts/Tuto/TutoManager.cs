@@ -111,13 +111,6 @@ public class TutoManager : MonoBehaviour {
         SeqFirstMove seqIntro = s_instance.GetComponent<SeqFirstMove>();
         seqIntro.shortcutBtn.SetActive(false);
 
-        for (int i = 0; i < GameManager.Instance.AllKeepersList.Count; i++)
-        {
-            Transform selectedKeepersFirstCharUI = seqIntro.selectedKeepersPanel.transform.GetChild(i);
-            selectedKeepersFirstCharUI.GetChild(0).GetChild((int)PanelSelectedKeeperStatChildren.Mortal).gameObject.SetActive(false);
-            selectedKeepersFirstCharUI.GetChild(0).GetChild((int)PanelSelectedKeeperStatChildren.MentalHealth).gameObject.SetActive(false);
-        }
-
         GameManager.Instance.AllKeepersList[0].GetComponent<Keeper>().GoListCharacterFollowing.Add(GameManager.Instance.PrisonerInstance.gameObject);
         Escortable escortComponent = GameManager.Instance.PrisonerInstance.GetComponent<Escortable>();
         escortComponent.escort = GameManager.Instance.AllKeepersList[0].GetComponent<Keeper>();
@@ -183,13 +176,11 @@ public class TutoManager : MonoBehaviour {
             playingSequence = value;
             if (playingSequence != null)
             {
-                stateBeforeTutoStarts = GameManager.Instance.CurrentState;
+                stateBeforeTutoStarts = (GameManager.Instance.CurrentState == GameState.InPause) ? GameState.Normal : GameManager.Instance.CurrentState;
                 GameManager.Instance.CurrentState = GameState.InTuto;
-                Debug.Log(GameManager.Instance.CurrentState);
             } else
             {
                 GameManager.Instance.CurrentState = stateBeforeTutoStarts;
-                //TutoManager.s_instance.StopAllCoroutines();
             }
         }
     }
