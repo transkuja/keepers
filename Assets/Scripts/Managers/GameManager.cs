@@ -175,6 +175,7 @@ public class GameManager : MonoBehaviour
         }
 
         instance.nbTurn = 1;
+        GameManager.instance.Ui.UpdateDay();
         instance.currentState = GameState.Normal;
         instance.ui.gameObject.SetActive(false);
         instance.ui.ResetIngameUI();

@@ -76,7 +76,8 @@ public class AnimationButtonClick : MonoBehaviour {
 
     // Update is called once per frame
     public void HandleAnimation() {
-        GameManager.Instance.Ui.TurnPanel.transform.GetChild(2).GetComponentInChildren<Text>().text = "Day " + ++GameManager.Instance.NbTurn;
+        GameManager.Instance.NbTurn++;
+        GameManager.Instance.Ui.UpdateDay();
 
         GameManager.Instance.Ui.isTurnEnding = false;
         EventManager.EndTurnEvent();

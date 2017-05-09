@@ -230,6 +230,11 @@ public class IngameUI : MonoBehaviour
         anim_button.enabled = true;
         isTurnEnding = false;
     }
+
+    public void UpdateDay()
+    {
+       TurnPanel.transform.GetChild(2).GetComponentInChildren<Text>().text = "Day " + GameManager.Instance.NbTurn;
+    }
     #endregion
 
     #region ShortcutPanel
