@@ -1,0 +1,48 @@
+Lancement du jeu:
+Les Quality settings de Fastest à Good (inclut) font planter le jeu à peine lancé
+Bon y'a la possibilité de changer les touches, mais je suis pas sûr qu'on en prenne compte
+
+Rajouter un splash screen (Créajeux, ...)
+
+Dans le menu 1ère fois:
+Le glow est présent même quand la boite est fermée
+Il est possible de cliquer sur les objets dans la boite quand elle est fermée aussi
+Je sais pas trop ce que j'ai fait mais j'ai eu plein de null reference exception:
+Notemment quand:
+- On clique sur Levels, on choisit le level, on clique sur le deck, puis on reclique sur le level et sur Levels. Quand on veut réouvrir Levels, l'exception est lancée.
+à partir de là y'en a sur plusieurs actions comme cliquer sur le deck choisi à droite
+Des bugs de glow qui s'affiche à deux endroits
+
+Quand on choisit un level, puis un deck, recliquer sur le même level déselectionne le deck
+
+J'avoue que j'ai été confus lorsque j'ai essayé d'utiliser le menu
+
+Tutoriel:
+Le cookie peut être jeté, mais pas ramassé quand on demande de le manger
+Le retour au menu ne fonctionne pas le tuto reprend à la dernière séquence jouée
+Cliquer sur le bouton qui montre l'objectif (le jaune à gauche), après avoir mangé le cookie lance la séquence où on est censé avoir pusieurs personnages.
+Cliquer sur un tile grisé sur la première map tuto lance une Transform child out of bounds exception.
+(Le drapeau de fin et le panneau volent)
+
+On retourne au menu avec tous les pions débloqués.
+
+Dans le menu 2ème fois:
+Duplication des pions (je ne sais pas dans quelles circonstances)
+Très très confus
+
+Combats:
+NullReferenceException at UIBattleHandler.CharacterPanelInit (UIBattleHandler.cs:179) 
+
+Niveau 1:
+NullReference Exception lors de la fin du tour sur ChangeLight() (AnimationButtonClick.cs:41)
+
+Niveau Level4:
+
+
+
+Autres:
+Le tooltip des items reste en plein mileu de l'écran
+DustStorm à revoir (Trop de particule? Les FPS sont visiblement bien meileurs lorsque l'effet s'arrête)
+L'UI des monstres (le boutton attaque) ne se met pas à jour lorsqu'il se déplace donc il "s'écrase"
+NullReference TooltipAtiopn.cs:15
+
