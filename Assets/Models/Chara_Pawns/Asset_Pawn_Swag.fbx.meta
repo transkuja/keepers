@@ -1,32 +1,32 @@
 fileFormatVersion: 2
-guid: b6d787abd4ca7ad44bc9b58c93228113
-timeCreated: 1490805863
+guid: 01587f63366fd8446a77582b5f69e94f
+timeCreated: 1494337115
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
     100000: //RootNode
-    100002: body
-    100004: heart
-    100006: staff
-    100008: stand
+    100002: staff
+    100004: STP_body
+    100006: STP_heart
+    100008: Swag_Stand
     400000: //RootNode
-    400002: body
-    400004: heart
-    400006: staff
-    400008: stand
-    2300000: body
-    2300002: heart
-    2300004: staff
-    2300006: stand
-    3300000: body
-    3300002: heart
-    3300004: staff
-    3300006: stand
-    4300000: stand
-    4300002: body
-    4300004: staff
-    4300006: heart
+    400002: staff
+    400004: STP_body
+    400006: STP_heart
+    400008: Swag_Stand
+    2300000: staff
+    2300002: STP_body
+    2300004: STP_heart
+    2300006: Swag_Stand
+    3300000: staff
+    3300002: STP_body
+    3300004: STP_heart
+    3300006: Swag_Stand
+    4300000: STP_body
+    4300002: STP_heart
+    4300004: Swag_Stand
+    4300006: staff
     9500000: //RootNode
   materials:
     importMaterials: 1

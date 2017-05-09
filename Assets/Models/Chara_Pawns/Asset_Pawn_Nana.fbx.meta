@@ -1,22 +1,32 @@
 fileFormatVersion: 2
-guid: b4e6a81359a8e704fa5cfaa94bd77d7d
-timeCreated: 1490805863
+guid: 5db5e8b93cd2645469ecbe161e763185
+timeCreated: 1494337116
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
     100000: //RootNode
-    100002: Nana_Body
-    100004: Nana_Stand
+    100002: nana_body
+    100004: Nana_stand
+    100006: Nana_stand1
+    100008: nana_sword
     400000: //RootNode
-    400002: Nana_Body
-    400004: Nana_Stand
-    2300000: Nana_Body
-    2300002: Nana_Stand
-    3300000: Nana_Body
-    3300002: Nana_Stand
-    4300000: Nana_Body
-    4300002: Nana_Stand
+    400002: nana_body
+    400004: Nana_stand
+    400006: Nana_stand1
+    400008: nana_sword
+    2300000: nana_body
+    2300002: Nana_stand
+    2300004: Nana_stand1
+    2300006: nana_sword
+    3300000: nana_body
+    3300002: Nana_stand
+    3300004: Nana_stand1
+    3300006: nana_sword
+    4300000: nana_body
+    4300002: nana_sword
+    4300004: Nana_stand
+    4300006: Nana_stand1
     9500000: //RootNode
   materials:
     importMaterials: 1

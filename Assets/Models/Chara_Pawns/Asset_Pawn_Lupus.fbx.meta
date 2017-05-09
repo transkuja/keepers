@@ -1,27 +1,32 @@
 fileFormatVersion: 2
-guid: 0f83c67de8a3a5c4da24a2f4d5f8add4
-timeCreated: 1490805862
+guid: 92a9318d90860d842aa3ddd47ba99b25
+timeCreated: 1494337116
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
     100000: //RootNode
-    100002: Dog_bag
-    100004: dog_body
-    100006: dog_stand
+    100002: Lupus_Stand
+    100004: LupusHat
+    100006: STP_Dog_bag
+    100008: STP_dog_body
     400000: //RootNode
-    400002: Dog_bag
-    400004: dog_body
-    400006: dog_stand
-    2300000: Dog_bag
-    2300002: dog_body
-    2300004: dog_stand
-    3300000: Dog_bag
-    3300002: dog_body
-    3300004: dog_stand
-    4300000: dog_body
-    4300002: dog_stand
-    4300004: Dog_bag
+    400002: Lupus_Stand
+    400004: LupusHat
+    400006: STP_Dog_bag
+    400008: STP_dog_body
+    2300000: Lupus_Stand
+    2300002: LupusHat
+    2300004: STP_Dog_bag
+    2300006: STP_dog_body
+    3300000: Lupus_Stand
+    3300002: LupusHat
+    3300004: STP_Dog_bag
+    3300006: STP_dog_body
+    4300000: STP_dog_body
+    4300002: STP_Dog_bag
+    4300004: LupusHat
+    4300006: Lupus_Stand
     9500000: //RootNode
   materials:
     importMaterials: 1
