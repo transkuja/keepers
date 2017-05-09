@@ -96,6 +96,8 @@ namespace Behaviour
         private GameObject selectedStatPanelUI;
         private GameObject selectedActionPointsUI;
         private GameObject selectedEquipementUI;
+        private GameObject btnLeft;
+        private GameObject btnRight;
 
 
         void Awake()
@@ -233,7 +235,10 @@ namespace Behaviour
             }
 
             SelectedStatPanelUI.transform.GetChild((int)PanelSelectedKeeperStatChildren.ButtonCycleLeft).GetComponent<Button>().onClick.AddListener(() => GoToKeeper(-1));
+            btnLeft = SelectedStatPanelUI.transform.GetChild((int)PanelSelectedKeeperStatChildren.ButtonCycleLeft).gameObject;
+
             SelectedStatPanelUI.transform.GetChild((int)PanelSelectedKeeperStatChildren.ButtonCycleRight).GetComponent<Button>().onClick.AddListener(() => GoToKeeper(+1));
+            btnRight = SelectedStatPanelUI.transform.GetChild((int)PanelSelectedKeeperStatChildren.ButtonCycleRight).gameObject;
 
             selectedEquipementUI = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabSelectedEquipementUIPanel, GameManager.Instance.PrefabUIUtils.PrefabSelectedEquipementUIPanel.transform.position, GameManager.Instance.PrefabUIUtils.PrefabSelectedEquipementUIPanel.transform.rotation);
             selectedEquipementUI.transform.GetComponent<InventoryOwner>().Owner = gameObject;
