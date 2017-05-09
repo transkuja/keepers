@@ -239,5 +239,18 @@ namespace Behaviour
                 shortcutMentalHealthUI = value;
             }
         }
+
+        public GameObject SelectedMentalHealthUI
+        {
+            get
+            {
+                return selectedMentalHealthUI;
+            }
+
+            set
+            {
+                selectedMentalHealthUI = value;
+            }
+        }
     }
 }
