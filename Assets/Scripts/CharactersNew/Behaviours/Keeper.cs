@@ -539,6 +539,32 @@ namespace Behaviour
                 return feedbackSelection;
             }
         }
+
+        public GameObject BtnLeft
+        {
+            get
+            {
+                return btnLeft;
+            }
+
+            set
+            {
+                btnLeft = value;
+            }
+        }
+
+        public GameObject BtnRight
+        {
+            get
+            {
+                return btnRight;
+            }
+
+            set
+            {
+                btnRight = value;
+            }
+        }
         #endregion
     }
 }
