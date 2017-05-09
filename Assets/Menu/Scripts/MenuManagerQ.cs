@@ -16,6 +16,7 @@ public class MenuManagerQ : MonoBehaviour {
 
     public Transform questDecksPosition;
     public Transform[] keepersPosition;
+    public List<Transform> keepersPositionTarget = new List<Transform>();
     public Transform levelDeckPosition;
 
     public GameObject GoPrefabLevelCard;
@@ -128,10 +129,19 @@ public class MenuManagerQ : MonoBehaviour {
 
 
                     OpenerContent oc = goKeeper.AddComponent<OpenerContent>();
+
+                    int iRandPos = Random.Range(0, keepersPositionTarget.Count);
+
+                    oc.bLocal = false;
                     oc.fSpeed = 5;
                     oc.AddKeyPose(keepersPosition[iKeeper].position, keepersPosition[iKeeper].rotation);
-                    oc.AddKeyPose(keepersPosition[iKeeper].position + new Vector3(1.5f, 1, 0), keepersPosition[iKeeper].rotation);
-                    oc.AddKeyPose(keepersPosition[iKeeper].position + new Vector3(3.5f, 0, 0), keepersPosition[iKeeper].rotation);
+
+                    oc.AddKeyPose(keepersPosition[iKeeper].position + (keepersPositionTarget[iRandPos].position - keepersPosition[iKeeper].position)/2.0f + new Vector3(0,1,0), keepersPosition[iKeeper].rotation);
+
+                    oc.AddKeyPose(keepersPositionTarget[iRandPos].position, keepersPositionTarget[iRandPos].rotation);
+
+                    keepersPositionTarget.Remove(keepersPositionTarget[iRandPos]);
+
                     oc.Init();
                     //oc.rd.enabled = true;
                     iKeeper++;

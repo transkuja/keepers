@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d3966ac4b36c4fa408fb2561a9e10f21
+guid: ab939bd4722b1374a97350c1472b386e
 timeCreated: 1494318219
 licenseType: Free
 ModelImporter:
@@ -9,8 +9,7 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: Asset_Carte_Event_05
-    4300002: Asset_Card_Event_05
+    4300000: Asset_DeckEvents_02
     9500000: //RootNode
   materials:
     importMaterials: 1

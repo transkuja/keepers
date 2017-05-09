@@ -3,7 +3,7 @@
     { 
       "id": 1, 
       "name" : "niveau 1", 
-      "cardModelName" : "Asset_Carte_Level_01", 
+      "cardModelName" : "Asset_Carte_LevelTuto", 
       "questDecks" : [
 		{
 			"id" : "deck_01",
@@ -23,7 +23,7 @@
     { 
       "id": 4, 
       "name" : "niveau 4", 
-      "cardModelName" : "Asset_Carte_Level_02", 
+      "cardModelName" : "Asset_Carte_Level_03", 
       "questDecks" : [
 		{
 			"id" : "deck_04",

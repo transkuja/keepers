@@ -21,6 +21,7 @@ public class OpenerContent : MonoBehaviour {
     Opener openerParent;
 
     public float fSpeed;
+    public bool bLocal = true;
 
     float fLerp = 0;
 
@@ -173,10 +174,13 @@ public class OpenerContent : MonoBehaviour {
             }
         }
 
-        Displayer displayer = GetComponent<Displayer>();
-        if(displayer != null)
+        if(this != null)
         {
-            displayer.Hide();
+            Displayer displayer = GetComponent<Displayer>();
+            if(displayer != null)
+            {
+                displayer.Hide();
+            }
         }
     }
 
@@ -191,8 +195,16 @@ public class OpenerContent : MonoBehaviour {
 
         int iIndexOrigin = iKeyPoseTarget + (-iWay);
 
-        transform.localPosition = Vector3.Lerp(listKeyPose[iIndexOrigin].v3Pos , listKeyPose[iKeyPoseTarget].v3Pos, fLerp);
-        transform.localRotation = Quaternion.Lerp(listKeyPose[iIndexOrigin].quatRot, listKeyPose[iKeyPoseTarget].quatRot, fLerp);
+        if (bLocal)
+        {
+            transform.localPosition = Vector3.Lerp(listKeyPose[iIndexOrigin].v3Pos , listKeyPose[iKeyPoseTarget].v3Pos, fLerp);
+            transform.localRotation = Quaternion.Lerp(listKeyPose[iIndexOrigin].quatRot, listKeyPose[iKeyPoseTarget].quatRot, fLerp);
+        }
+        else
+        {
+            transform.position = Vector3.Lerp(listKeyPose[iIndexOrigin].v3Pos, listKeyPose[iKeyPoseTarget].v3Pos, fLerp);
+            transform.rotation = Quaternion.Lerp(listKeyPose[iIndexOrigin].quatRot, listKeyPose[iKeyPoseTarget].quatRot, fLerp);
+        }
 
         if(fLerp == 1)
         {

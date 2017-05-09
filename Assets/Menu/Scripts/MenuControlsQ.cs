@@ -220,7 +220,8 @@ public class MenuControlsQ : MonoBehaviour {
 
                     GlowController.RegisterObject(newCard.GetComponent<GlowObjectCmd>());
 
-                    menuUI.UpdateCardLevelSelection();
+                    //menuUI.UpdateCardLevelSelection();
+                    menuUI.UpdateStartButton();
                     UpdateLockAspect();
                 }
             }
@@ -278,7 +279,8 @@ public class MenuControlsQ : MonoBehaviour {
                         menuManager.dicPawnChatBox[pi.gameObject].SetMode(ChatBox.ChatMode.picked);
                         menuManager.dicPawnChatBox[pi.gameObject].Say("Yahouuuu !");
                     }
-                    menuUI.UpdateSelectedKeepers();
+                    //menuUI.UpdateSelectedKeepers();
+                    menuUI.UpdateStartButton();
                     UpdateLockAspect();
                 }
             }
@@ -313,7 +315,6 @@ public class MenuControlsQ : MonoBehaviour {
             }
         }
 
-        Debug.Log(menuManager.DeckOfCardsSelected);
         GameManager.Instance.DeckSelected = menuManager.DeckOfCardsSelected;
 
         if (AudioManager.Instance != null)
@@ -358,6 +359,7 @@ public class MenuControlsQ : MonoBehaviour {
         GameManager.Instance.ListEventSelected.Add(goCard.GetComponent<EventCard>().id);
 
         EventDeck.bNeedReload = true;
+        EventDeck.LoadChilds();
     }
 
     public void RemoveEventCardFromSelection(GameObject goCard)
@@ -377,6 +379,7 @@ public class MenuControlsQ : MonoBehaviour {
         oc.bNeedCompute = true;
 
         EventCardSelectedOpener.bNeedReload = true;
+        EventCardSelectedOpener.LoadChilds();
 
         if (GameManager.Instance.ListEventSelected.Count == 0)
         {

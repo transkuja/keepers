@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: b18b2f9ed6372fb41b19324d5a544275
-timeCreated: 1492775996
+guid: 176d5c4a0887ab247826bd855137ce56
+timeCreated: 1494318218
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -10,6 +10,7 @@ ModelImporter:
     2300000: //RootNode
     3300000: //RootNode
     4300000: Asset_Carte_Event_06
+    4300002: Asset_Card_Event_06
     9500000: //RootNode
   materials:
     importMaterials: 1
