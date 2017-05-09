@@ -27,15 +27,7 @@ public class ShowAssociatedDice : MonoBehaviour, IPointerEnterHandler, IPointerE
     private void OnDisable()
     {
         feedbackAboveDice.SetActive(false);
-        if (pawn != null)
-        {
-            foreach (GameObject die in pawn.GetComponent<Behaviour.Fighter>().LastThrowDiceInstance)
-            {
-                die.GetComponent<GlowObjectCmd>().UpdateColor(false);
-                die.GetComponent<GlowObjectCmd>().enabled = true;
-            }
-        }
-        feedbackAboveDice.SetActive(false);
+        pawn = null;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -43,6 +35,10 @@ public class ShowAssociatedDice : MonoBehaviour, IPointerEnterHandler, IPointerE
         if (pawn == null)
         {
             pawn = GetComponent<SkillContainer>().SkillData.SkillUser.GetComponent<PawnInstance>();
+
+            if (feedbackAboveDice == null)
+                feedbackAboveDice = Instantiate(GameManager.Instance.PrefabUIUtils.diceFeedbackOnPointerEnter, GameManager.Instance.Ui.transform.GetChild(0));
+
             attackTotal = 0;
             foreach (Face face in pawn.GetComponent<Behaviour.Fighter>().LastThrowResult)
             {
