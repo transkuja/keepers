@@ -48,17 +48,29 @@ public class MenuManagerQ : MonoBehaviour {
 
     public void InitEventCards()
     {
-      
+
+
+        bool allFalse = true;
         for (int i = 0; i < GameManager.Instance.EventDataBase.listEvents.Count; i++)
         {
             if(GameManager.Instance.PersistenceLoader.Pd.dicPersistenceEvents[GameManager.Instance.EventDataBase.listEvents[i].id] == true)
             {
+                allFalse = false;
                 GameObject goEventCard = Instantiate(GoPrefabEventCard, questDecksPosition);
                 goEventCard.transform.localPosition = Vector3.zero;
                 goEventCard.GetComponent<MeshFilter>().mesh = GetCardModel(GameManager.Instance.EventDataBase.listEvents[i].cardModelName).GetComponent<MeshFilter>().sharedMesh;
                 goEventCard.GetComponent<EventCard>().id = GameManager.Instance.EventDataBase.listEvents[i].id;
             }
 
+        }
+
+        if (allFalse)
+        {
+            questDecksPosition.gameObject.SetActive(false);
+        }
+        else
+        {
+            questDecksPosition.gameObject.SetActive(true);
         }
     }
 
