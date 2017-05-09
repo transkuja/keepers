@@ -17,6 +17,7 @@ public class SpriteUIUtils : MonoBehaviour {
     public Sprite spriteTrade;
     public Sprite spriteEscort;
     public Sprite spriteUnescort;
+    public Sprite spriteExamine;
 
     public Sprite spriteLoot;
     public Sprite spriteQuest;

@@ -14,7 +14,7 @@ public class TriggerPanneau : MonoBehaviour {
         goPanneau.transform.localPosition = Vector3.zero;
         goPanneau.transform.localScale = Vector3.one;
 
-        GetComponent<Interactable>().Interactions.Add(new Interaction(Look), 0, "Look", GameManager.Instance.SpriteUtils.spriteExplore, true);
+        GetComponent<Interactable>().Interactions.Add(new Interaction(Look), 0, "Look", GameManager.Instance.SpriteUtils.spriteExamine, true);
     }
 
     void Look(int _i)
