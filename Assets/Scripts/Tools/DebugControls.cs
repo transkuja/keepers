@@ -203,9 +203,9 @@ public class DebugControls : MonoBehaviour {
             // Pop a monster
             if (Input.GetKeyDown(KeyCode.Alpha7))
             {
-                GameObject go = Instantiate(monsterToPopPrefab,
-                    GameManager.Instance.GetFirstSelectedKeeper().CurrentTile.transform.position,
-                    Quaternion.identity, GameManager.Instance.GetFirstSelectedKeeper().CurrentTile.transform);
+                Instantiate(monsterToPopPrefab,
+                GameManager.Instance.GetFirstSelectedKeeper().CurrentTile.transform.position,
+                Quaternion.identity, GameManager.Instance.GetFirstSelectedKeeper().CurrentTile.transform);
             }
 
             // Pop an item on the ground

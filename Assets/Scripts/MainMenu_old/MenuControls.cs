@@ -113,7 +113,7 @@ public class MenuControls : MonoBehaviour {
                     toPlay = AudioManager.Instance.Scene2Clip;
                     break;
                 default:
-                    toPlay = toPlay = AudioManager.Instance.menuMusic;
+                    toPlay = AudioManager.Instance.menuMusic;
                     break;
             }
             AudioManager.Instance.Fade(toPlay);

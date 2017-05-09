@@ -7,9 +7,9 @@ using Behaviour;
 public class BuffFeedback : MonoBehaviour
 {
 
-    Fighter pawnFighter;
+    //Fighter pawnFighter;
     public List<BattleBoeuf> curBoeufs;
-    bool listUpdated = false;
+    //bool listUpdated = false;
     int nextIndex = 0;
     float timerPop = 0.0f;
     public Color positive;
@@ -17,7 +17,7 @@ public class BuffFeedback : MonoBehaviour
 
     private void Start()
     {
-        pawnFighter = GetComponentInParent<Fighter>();
+        //pawnFighter = GetComponentInParent<Fighter>();
         curBoeufs = new List<BattleBoeuf>();
         nextIndex = 0;
     }

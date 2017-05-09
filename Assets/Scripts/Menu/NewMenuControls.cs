@@ -35,7 +35,7 @@ public class NewMenuControls : MonoBehaviour {
         if (Input.GetMouseButtonDown(0))
         {
             RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
             LayerMask DeckOfCardsLayerMask = 1 << LayerMask.NameToLayer("DeckOfCards");
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, DeckOfCardsLayerMask) == true)
@@ -62,7 +62,7 @@ public class NewMenuControls : MonoBehaviour {
         if (Input.GetMouseButtonDown(0))
         {
             RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
             LayerMask cardLevelLayerMask = 1 << LayerMask.NameToLayer("CardLevel"); ;
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, cardLevelLayerMask) == true)
@@ -90,7 +90,7 @@ public class NewMenuControls : MonoBehaviour {
         if (Input.GetMouseButtonDown(0))
         {
             RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
             LayerMask keeperLayerMask = 1 << LayerMask.NameToLayer("KeeperInstance"); ;
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, keeperLayerMask) == true)
@@ -119,7 +119,7 @@ public class NewMenuControls : MonoBehaviour {
         if (Input.GetMouseButtonDown(0))
         {
             RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
             LayerMask ruleBookLayer = 1 << LayerMask.NameToLayer("RuleBook"); ;
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, ruleBookLayer) == true)
@@ -151,7 +151,7 @@ public class NewMenuControls : MonoBehaviour {
                     toPlay = AudioManager.Instance.Scene2Clip;
                     break;
                 default:
-                    toPlay = toPlay = AudioManager.Instance.menuMusic;
+                    toPlay = AudioManager.Instance.menuMusic;
                     break;
             }
             AudioManager.Instance.Fade(toPlay);

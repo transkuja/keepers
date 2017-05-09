@@ -145,7 +145,7 @@ public class SeqTutoCombat : Sequence
 
             if (feedback == null)
             {
-                SeqTutoCombat seqTutoCombat = TutoManager.s_instance.GetComponent<SeqTutoCombat>();
+                //SeqTutoCombat seqTutoCombat = TutoManager.s_instance.GetComponent<SeqTutoCombat>();
                 feedback = Instantiate(TutoManager.s_instance.uiPointer, GameManager.Instance.Ui.transform.GetChild(0));
                 feedback.GetComponent<FlecheQuiBouge>().PointToPoint = Camera.main.WorldToScreenPoint(skillButton.transform.position);
                 feedback.GetComponent<FlecheQuiBouge>().distanceOffset = 100.0f;

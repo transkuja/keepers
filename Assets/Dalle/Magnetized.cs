@@ -13,7 +13,7 @@ public class Magnetized : MonoBehaviour {
 
     private Vector3 storedrotation;
 
-    private float storedmass;
+    //private float storedmass;
 
 
     /* Magnetized object rigidbody. */
@@ -24,7 +24,7 @@ public class Magnetized : MonoBehaviour {
         magnetizedRigidbody = GetComponent<Rigidbody>();
         magnetizedRigidbody.useGravity = true;
         magnetizedVelocity *= 50;
-		storedmass = magnetizedRigidbody.mass;
+		//storedmass = magnetizedRigidbody.mass;
 		storedrotation = magnetizedRigidbody.transform.localEulerAngles;
     }
     

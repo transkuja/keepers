@@ -14,7 +14,7 @@ public class VolePetitPapillon : MonoBehaviour {
     float offsetX;
     float offsetY;
     float offsetZ;
-    Vector3 startPos;
+    public Vector3 startPos;
     // Use this for initialization
     void Start()
     {
