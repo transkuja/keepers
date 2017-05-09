@@ -50,7 +50,7 @@ public class RightMouseClickExpected : MonoBehaviour {
                             hitInfo.collider.GetComponentInParent<Escortable>().UpdateEscortableInteractions();
 
                         GameManager.Instance.GoTarget = hitInfo.collider.GetComponentInParent<Interactable>();
-                        GameManager.Instance.Ui.UpdateActionPanelUIQ(hitInfo.collider.GetComponentInParent<PawnInstance>().Interactions);
+                        GameManager.Instance.Ui.UpdateActionPanelUIQ(hitInfo.collider.GetComponentInParent<PawnInstance>().GetComponent<Interactable>().Interactions);
                     }
                 }
             }

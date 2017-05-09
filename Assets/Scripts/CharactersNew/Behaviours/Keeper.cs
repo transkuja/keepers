@@ -83,7 +83,7 @@ namespace Behaviour
         [SerializeField]
         [System.Obsolete("remove this with old menu")]
         private bool isSelectedInMenu = false;
-        NavMeshAgent agent;
+        //NavMeshAgent agent;
 
         private List<GameObject> goListCharacterFollowing = new List<GameObject>();
 
@@ -109,9 +109,9 @@ namespace Behaviour
         void Start()
         {
             if (instance.Data.Behaviours[(int)BehavioursEnum.CanSpeak])
-                instance.Interactions.Add(new Interaction(MoralBuff), 1, "Talk", GameManager.Instance.SpriteUtils.spriteMoral);
+                GetComponent<Interactable>().Interactions.Add(new Interaction(MoralBuff), 1, "Talk", GameManager.Instance.SpriteUtils.spriteMoral);
 
-            agent = GetComponent<NavMeshAgent>();
+            //agent = GetComponent<NavMeshAgent>();
 
             actionPoints = MaxActionPoints;
         }
@@ -143,7 +143,7 @@ namespace Behaviour
 
         public void MoralBuff(int _i = 0)
         {
-            int costAction = instance.Interactions.Get("Talk").costAction;
+            int costAction = GetComponent<Interactable>().Interactions.Get("Talk").costAction;
             Keeper from = GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Keeper>();
             if (from.ActionPoints >= costAction)
             {

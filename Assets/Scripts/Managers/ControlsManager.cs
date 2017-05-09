@@ -176,7 +176,7 @@ public class ControlsManager : MonoBehaviour
                                 }
                                 else
                                 {
-                                    ui.UpdateActionPanelUIQ(clickTarget.GetComponentInParent<PawnInstance>().Interactions);
+                                    ui.UpdateActionPanelUIQ(clickTarget.GetComponentInParent<PawnInstance>().GetComponent<Interactable>().Interactions);
                                 }
                             }
                         }

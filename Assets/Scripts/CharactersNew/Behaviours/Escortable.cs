@@ -33,12 +33,12 @@ namespace Behaviour
             if (GetComponent<Prisoner>() == null)
                 TileManager.Instance.AddEscortableOnTile(GetComponentInParent<Tile>(), instance);
             if (GetComponent<HungerHandler>() != null && GetComponent<MentalHealthHandler>() != null)
-                instance.Interactions.Add(new Interaction(InitFeeding), 1, "Feed", GameManager.Instance.SpriteUtils.spriteHarvest);
+                GetComponent<Interactable>().Interactions.Add(new Interaction(InitFeeding), 1, "Feed", GameManager.Instance.SpriteUtils.spriteHarvest);
 
             if (isEscorted)
-                instance.Interactions.Add(new Interaction(UnEscort), 0, "Unescort", GameManager.Instance.SpriteUtils.spriteUnescort);
+                GetComponent<Interactable>().Interactions.Add(new Interaction(UnEscort), 0, "Unescort", GameManager.Instance.SpriteUtils.spriteUnescort);
             else
-                instance.Interactions.Add(new Interaction(Escort), 0, "Escort", GameManager.Instance.SpriteUtils.spriteEscort);
+                GetComponent<Interactable>().Interactions.Add(new Interaction(Escort), 0, "Escort", GameManager.Instance.SpriteUtils.spriteEscort);
         }
 
         void OnDestroy()
@@ -190,19 +190,19 @@ namespace Behaviour
 
         private void ActivateEscortAction()
         {
-            if (instance.Interactions.Get("Escort") == null)
+            if (GetComponent<Interactable>().Interactions.Get("Escort") == null)
             {
-                instance.Interactions.Add(new Interaction(Escort), 0, "Escort", GameManager.Instance.SpriteUtils.spriteEscort);
-                instance.Interactions.Remove("Unescort");
+                GetComponent<Interactable>().Interactions.Add(new Interaction(Escort), 0, "Escort", GameManager.Instance.SpriteUtils.spriteEscort);
+                GetComponent<Interactable>().Interactions.Remove("Unescort");
             }
         }
 
         private void ActivateUnescortAction()
         {
-            if (instance.Interactions.Get("Unescort") == null)
+            if (GetComponent<Interactable>().Interactions.Get("Unescort") == null)
             {
-                instance.Interactions.Add(new Interaction(UnEscort), 0, "Unescort", GameManager.Instance.SpriteUtils.spriteUnescort, false);
-                instance.Interactions.Remove("Escort");
+                GetComponent<Interactable>().Interactions.Add(new Interaction(UnEscort), 0, "Unescort", GameManager.Instance.SpriteUtils.spriteUnescort, false);
+                GetComponent<Interactable>().Interactions.Remove("Escort");
             }
         }
 

@@ -10,12 +10,12 @@ namespace Behaviour
     public class Fighter : MonoBehaviour
     {
         // Balance variables
-        private int effectiveAttackValue = 3;
+        //private int effectiveAttackValue = 3;
 
         // Warning, UI is not think for values above 9, so ask before changing this setting
         public static int StockMaxValue = 9;
 
-        PawnInstance instance;
+        //PawnInstance instance;
         private Transform interactionsPosition;
 
         // TODO: externalize this in Monster
@@ -65,7 +65,7 @@ namespace Behaviour
 
         void Awake()
         {
-            instance = GetComponent<PawnInstance>();
+            //instance = GetComponent<PawnInstance>();
             foreach (Transform child in transform)
             {
                 if (child.CompareTag("FeedbackTransform"))

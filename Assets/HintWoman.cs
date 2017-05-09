@@ -19,7 +19,7 @@ public class HintWoman : MonoBehaviour {
     // Use this for initialization
     void Start () {
         if (instance.Data.Behaviours[(int)BehavioursEnum.CanSpeak])
-            instance.Interactions.Add(new Interaction(Hint), 0, "Talk", GameManager.Instance.SpriteUtils.spriteMoral);
+            GetComponent<Interactable>().Interactions.Add(new Interaction(Hint), 0, "Talk", GameManager.Instance.SpriteUtils.spriteMoral);
 
 
         goHint = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabContentQuestUI, GameManager.Instance.Ui.goContentQuestParent.transform);

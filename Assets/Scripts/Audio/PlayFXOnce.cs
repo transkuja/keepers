@@ -6,7 +6,6 @@ public class PlayFXOnce : MonoBehaviour {
     AudioSource source;
     [SerializeField]
     float volume = 1.0f;
-    bool firstframe = true;
 	// Use this for initialization
 	void Start () {
         source = GetComponent<AudioSource>();

@@ -11,7 +11,7 @@ public class ThrownDiceHandler : MonoBehaviour {
 
     Dictionary<PawnInstance, Die[]> diceForCurrentThrow = new Dictionary<PawnInstance, Die[]>();
     bool isRunning = false;
-    int stoppedDice = 0;
+    //int stoppedDice = 0;
     Dictionary<PawnInstance, List<GameObject>> diceInstance = new Dictionary<PawnInstance, List<GameObject>>();
     Dictionary<PawnInstance, Face[]> throwResult = new Dictionary<PawnInstance, Face[]>();
     float timerAnimation = 0.0f;

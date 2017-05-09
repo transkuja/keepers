@@ -68,8 +68,6 @@ public class ItemInstance : MonoBehaviour, IHavestable
             itemContainer = value;
         }
     }
-
-    [System.Obsolete("Use interactable component instead")]
     public InteractionImplementer InteractionImplementer
     {
         get

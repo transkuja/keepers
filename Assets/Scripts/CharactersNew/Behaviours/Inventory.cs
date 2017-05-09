@@ -72,6 +72,7 @@ namespace Behaviour
         public void ComputeItems()
         {
             List<ItemContainer> tmpItems = new List<ItemContainer>();
+            GetComponent<Interactable>().Interactions.Add(new Interaction(Trade), 0, "Trade", GameManager.Instance.SpriteUtils.spriteTrade);
             Item it = null;
             int computedNbSlots = 0;
             foreach (string _IdItem in possibleItems)
@@ -107,7 +108,7 @@ namespace Behaviour
 
             if (instance != null)
             {
-                instance.Interactions.Add(new Interaction(Trade), 0, "Trade", GameManager.Instance.SpriteUtils.spriteTrade);
+                GetComponent<Interactable>().Interactions.Add(new Interaction(Trade), 0, "Trade", GameManager.Instance.SpriteUtils.spriteTrade);
 
                 if (instance.GetComponent<Keeper>() != null)
                 {

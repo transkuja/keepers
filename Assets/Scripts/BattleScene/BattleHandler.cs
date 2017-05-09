@@ -22,7 +22,7 @@ public class BattleHandler {
     private static PawnInstance currentTargetMonster;
     // Default value is false because ShiftTurn is called at the beginning of battle
     private static bool isKeepersTurn = false;
-    private static Die[] currentTurnDice;
+    //private static Die[] currentTurnDice;
     private static Dictionary<PawnInstance, List<GameObject>> currentTurnDiceInstance;
     private static bool hasDiceBeenThrown = false;
 
@@ -569,7 +569,7 @@ public class BattleHandler {
         isVictorious = false;
         currentTargetMonster = null;
         isKeepersTurn = false;
-        currentTurnDice = null;
+        //currentTurnDice = null;
         hasDiceBeenThrown = false;
         wasTheLastToPlay = false;
         PendingSkill = null;

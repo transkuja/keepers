@@ -285,11 +285,11 @@ public class TutoManager : MonoBehaviour {
 
     public class Message : Step
     {
-        GameObject mrresetti;
+        //GameObject mrresetti;
         string str;
         public Message(GameObject _mrresetti, string _str)
         {
-            mrresetti = _mrresetti;
+            //mrresetti = _mrresetti;
             stepFunction += Message_fct;
             str = _str;
         }
@@ -367,12 +367,12 @@ public class TutoManager : MonoBehaviour {
     public class Spawn : Step
     {
         GameObject mrresetti;
-        AnimationClip jump;
+        //AnimationClip jump;
 
         public Spawn(GameObject _mrresetti, AnimationClip _jump)
         {
             mrresetti = _mrresetti;
-            jump = _jump;
+            //jump = _jump;
             stepFunction += Spawn_fct;
             isReachableByClickOnPrevious = false;
         }

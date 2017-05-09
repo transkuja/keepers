@@ -72,7 +72,7 @@ namespace Behaviour
             if (GetComponent<Keeper>() != null || GetComponent<Monster>() != null)
             {
                 Keeper keeper = GetComponent<Keeper>();
-                Monster monster = GetComponent<Monster>();
+                //Monster monster = GetComponent<Monster>();
 
                 Debug.Log("Blaeuurgh... *dead*");
                 PawnInstance pawnInstance = GetComponent<PawnInstance>();

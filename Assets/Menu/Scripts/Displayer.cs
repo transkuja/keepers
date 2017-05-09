@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Displayer : MonoBehaviour {
 
-    bool bIsOver = false;
+    //bool bIsOver = false;
     bool bIsShown = false;
     bool bIsMoving = false;
     float fLerp = 0;

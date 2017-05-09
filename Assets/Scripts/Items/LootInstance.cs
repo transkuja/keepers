@@ -15,8 +15,6 @@ public class LootInstance : MonoBehaviour, IPickable {
         InteractionImplementer.Add(new Interaction(Pick), 0, "Pick", GameManager.Instance.SpriteUtils.spritePick);
     }
 
-
-    [System.Obsolete("Use interactable component instead")]
     public InteractionImplementer InteractionImplementer
     {
         get
