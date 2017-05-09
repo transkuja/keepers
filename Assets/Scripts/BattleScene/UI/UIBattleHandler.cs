@@ -186,7 +186,9 @@ public class UIBattleHandler : MonoBehaviour {
 
         if (lifeBarImg.fillAmount < 0.33f)
         {
-            lifeBarImg.color = Color.red;
+            lifeBarImg.color = Color.white;
+            // TODO:Reset when bar is available
+            //lifeBarImg.color = Color.red;
         }
         else
         {
@@ -303,7 +305,10 @@ public class UIBattleHandler : MonoBehaviour {
 
                 if (lifeBarImg.fillAmount < 0.33f)
                 {
-                    lifeBarImg.color = Color.red;
+                    lifeBarImg.color = Color.white;
+
+                    // TODO:get a white lifebar
+                    //lifeBarImg.color = Color.red;
                 }
                 else
                 {
