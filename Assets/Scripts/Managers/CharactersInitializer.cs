@@ -102,6 +102,19 @@ public class CharactersInitializer : MonoBehaviour {
                     }
                 }
             }
+
+            if (GetComponentsInChildren<HintWoman>() != null)
+            {
+                for (int i = 0; i < t.transform.childCount; i++)
+                {
+                    if (t.transform.GetChild(i).GetComponent<HintWoman>() != null)
+                    {
+                        HintWoman ta = t.transform.GetChild(i).GetComponent<HintWoman>();
+                        ta.GetComponent<PawnInstance>().CurrentTile = t;
+                        InitCharacterUI(ta.GetComponent<PawnInstance>());
+                    }
+                }
+            }
         }
 
         // TODO this should not be handled like, especially if there is more prisoner in scene
@@ -164,6 +177,10 @@ public class CharactersInitializer : MonoBehaviour {
         else if (newCharacter.GetComponent<Trader>() != null)
         {
             // Do nothing yet but has to reach init for inventory
+        }
+        else if (newCharacter.GetComponent<HintWoman>() != null)
+        {
+            // Do nothing yet but has to reach init for interactable
         }
         else
         {
