@@ -15,8 +15,10 @@ public class ChatBox : MonoBehaviour {
     public enum ChatMode
     {
         mute = -1,
-        pickme,
+        awaiting,
+        chosen,
         picked,
+        unchosen,
     }
 
     RectTransform trBox;
@@ -70,7 +72,8 @@ public class ChatBox : MonoBehaviour {
                 {
                     if (fTimer <= 0)
                     {
-                        txt.text = tabEmotes[(int)mode][Random.Range(0, tabEmotes[(int)mode].Count)];
+                        //txt.text = tabEmotes[(int)mode][Random.Range(0, tabEmotes[(int)mode].Count)];
+                        txt.text = ChatBoxDatabase.tabEmotes[(int)mode][Random.Range(0, ChatBoxDatabase.tabEmotes[(int)mode].Count)];
                         TriggerScale();
                     }
                     else
@@ -155,7 +158,7 @@ public class ChatBox : MonoBehaviour {
                     TriggerUnscale();
                 }
                 break;
-            case ChatMode.pickme:
+            case ChatMode.awaiting:
                 break;
             case ChatMode.picked:
                 break;
@@ -184,6 +187,12 @@ public class ChatBox : MonoBehaviour {
     public void Say(string message)
     {
         txt.text = message;
+        TriggerScale();
+    }
+
+    public void Say(ChatBox.ChatMode mode)
+    {
+        txt.text = ChatBoxDatabase.tabEmotes[(int)mode][Random.Range(0, ChatBoxDatabase.tabEmotes[(int)mode].Count)];
         TriggerScale();
     }
 }

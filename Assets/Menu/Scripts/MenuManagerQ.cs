@@ -24,6 +24,7 @@ public class MenuManagerQ : MonoBehaviour {
     public GameObject GoPrefabQuestCard;
     public GameObject GoPrefabDeck;
 
+
     [SerializeField] public List<GameObject> listCardModels = new List<GameObject>();
     [SerializeField] public List<GameObject> listDeckModels = new List<GameObject>();
 
@@ -35,7 +36,9 @@ public class MenuManagerQ : MonoBehaviour {
 
         InitEventCards();
         InitLevelsCard();
-        InitKeepers(); 
+        InitKeepers();
+
+        ChatBoxDatabase.Load();
     }
 
     void Update()
@@ -123,7 +126,7 @@ public class MenuManagerQ : MonoBehaviour {
 
                     ChatBox newChatBox = Instantiate(prefabChatox, GetComponentInChildren<Canvas>().transform).GetComponent<ChatBox>();
                     newChatBox.trTarget = goKeeper.transform;
-                    newChatBox.SetMode(ChatBox.ChatMode.pickme);
+                    newChatBox.SetMode(ChatBox.ChatMode.awaiting);
                     newChatBox.SetEnable(false);
                     dicPawnChatBox.Add(goKeeper, newChatBox);
 

@@ -257,8 +257,8 @@ public class MenuControlsQ : MonoBehaviour {
                 AudioManager.Instance.PlayOneShot(AudioManager.Instance.deselectSound, 0.25f);
                 pi.GetComponent<OpenerContent>().Hide();
                 menuManager.RemoveFromSelectedKeepers(pi);
-                menuManager.dicPawnChatBox[pi.gameObject].SetMode(ChatBox.ChatMode.pickme);
-                menuManager.dicPawnChatBox[pi.gameObject].Say("Oh no ...");
+                menuManager.dicPawnChatBox[pi.gameObject].SetMode(ChatBox.ChatMode.awaiting);
+                menuManager.dicPawnChatBox[pi.gameObject].Say(ChatBox.ChatMode.unchosen);
             }
             else    // ADD
             {
@@ -267,7 +267,7 @@ public class MenuControlsQ : MonoBehaviour {
 
                 menuManager.AddToSelectedKeepers(pi);
                 menuManager.dicPawnChatBox[pi.gameObject].SetMode(ChatBox.ChatMode.picked);
-                menuManager.dicPawnChatBox[pi.gameObject].Say("Yahouuuu !");
+                menuManager.dicPawnChatBox[pi.gameObject].Say(ChatBox.ChatMode.chosen);
             }
             //menuUI.UpdateSelectedKeepers();
             menuUI.UpdateStartButton();
