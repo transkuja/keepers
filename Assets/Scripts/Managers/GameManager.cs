@@ -165,10 +165,11 @@ public class GameManager : MonoBehaviour
 
             instance.listOfSelectedKeepers.Clear();
 
-            instance.deckSelected = string.Empty;
+
 
         } else
         {
+            instance.deckSelected = string.Empty;
             instance.listEventSelected.Clear();
             instance.allKeepersList.Clear();
             persistenceLoader.Load();
@@ -544,7 +545,6 @@ public class GameManager : MonoBehaviour
 
     void InitQuests()
     {
-
         // Give choosen deck ID here
         questManagerReference.Init(GameManager.Instance.DeckSelected);
 
