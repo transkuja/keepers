@@ -179,8 +179,8 @@ namespace Behaviour
             ShorcutUI.transform.localScale = Vector3.one;
             ShorcutUI.GetComponent<Button>().onClick.AddListener(() => GoToKeeper());
 
-            int row = 29;
-            int column = 6;
+            int row = 21;
+            int column = 10;
             for (int i = 0; i < Data.MaxActionPoint; i++)
             {
                 GameObject pa = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabShortcutActionPAUI, ShorcutUI.transform.position, ShorcutUI.transform.rotation);
@@ -188,10 +188,10 @@ namespace Behaviour
                 // Attention ça c'est de la merde
                 if( i < 2)
                 {
-                    pa.transform.localPosition = new Vector3(-17 + i * column, -42 + i * row, 0);
+                    pa.transform.localPosition = new Vector3(-17 + i * column, -40 + i * row, 0);
                 } else
                 {
-                    pa.transform.localPosition = new Vector3(8 + ((i-2) * 26.5f), 9 + ((i-2) * 12.5f), 0);
+                    pa.transform.localPosition = new Vector3(9 + ((i-2) * 20f), 1 + ((i-2) * 11f), 0);
                 }
                 // Fin lol
                 pa.transform.localScale = Vector3.one;
