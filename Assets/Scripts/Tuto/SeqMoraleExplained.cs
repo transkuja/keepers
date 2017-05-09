@@ -25,6 +25,12 @@ public class SeqMoraleExplained : Sequence {
             TutoManager.UnSpawn(pawnMrResetti);
         if (TutoManager.s_instance.TutoPanelInstance != null)
             Destroy(TutoManager.s_instance.TutoPanelInstance);
+
+        for (int i = 0; i < GameManager.Instance.AllKeepersList.Count; i++)
+        {
+            GameManager.Instance.AllKeepersList[i].GetComponent<Behaviour.MentalHealthHandler>().SelectedMentalHealthUI.SetActive(true);
+        }
+
         TutoManager.s_instance.GetComponent<SeqMoraleExplained>().AlreadyPlayed = true;
         TutoManager.s_instance.PlayingSequence = null;
     }

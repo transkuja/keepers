@@ -155,9 +155,11 @@ public abstract class Sequence : MonoBehaviour
 
         GameManager.Instance.Ui.ClearActionPanel();
 
-        Debug.Log(TutoManager.s_instance.PlayingSequence.GetType().ToString().ToLower());
         GameManager.Instance.PersistenceLoader.SetSequenceUnlocked(TutoManager.s_instance.PlayingSequence.GetType().ToString().ToLower(), true);
+        Debug.Log(TutoManager.s_instance.PlayingSequence.GetType().ToString().ToLower());
+        Debug.Log(GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences[TutoManager.s_instance.PlayingSequence.GetType().ToString().ToLower()]);
         GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences[TutoManager.s_instance.PlayingSequence.GetType().ToString().ToLower()] = true;
+        Debug.Log(GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences[TutoManager.s_instance.PlayingSequence.GetType().ToString().ToLower()]);
         if (TutoManager.s_instance.PlayingSequence.GetType() == typeof(SeqFirstMove))
         {
             GameManager.Instance.PersistenceLoader.SetPawnUnlocked("grekhan", true);

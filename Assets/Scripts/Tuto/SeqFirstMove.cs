@@ -221,7 +221,7 @@ public class SeqFirstMove : Sequence {
         {
             // Feedback sur les points d'action
             // show text
-            GameObject actionPoints = ((SeqFirstMove)TutoManager.s_instance.PlayingSequence).selectedKeepersPanel.transform.GetChild(0).GetChild(0).GetChild((int)PanelSelectedKeeperStatChildren.ActionPoints).gameObject;
+            GameObject actionPoints = GameManager.Instance.AllKeepersList[0].GetComponent<Keeper>().SelectedActionPointsUI;
 
             if (feedbackPointer == null)
             {
@@ -361,7 +361,7 @@ public class SeqFirstMove : Sequence {
 
         public void Message_fct()
         {
-            GameObject hungerPanel = ((SeqFirstMove)TutoManager.s_instance.PlayingSequence).selectedKeepersPanel.transform.GetChild(0).GetChild(0).GetChild((int)PanelSelectedKeeperStatChildren.Hunger).gameObject;
+            GameObject hungerPanel = GameManager.Instance.AllKeepersList[0].GetComponent<HungerHandler>().SelectedHungerUI;
             hungerPanel.SetActive(true);
 
             if (feedback == null)

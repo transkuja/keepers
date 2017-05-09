@@ -70,11 +70,14 @@ public class ShowMainQuest : MonoBehaviour {
             isFirstStepFinished = false;
 
             gameObject.SetActive(false);
+            Debug.Log(TutoManager.s_instance);
             if (TutoManager.s_instance != null && TutoManager.s_instance.enableTuto)
             {
-                if (TutoManager.s_instance.GetComponent<SeqFirstMove>().AlreadyPlayed == false)
+                Debug.Log(GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqfirstmove"]);
+                Debug.Log(GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqmulticharacters"]);
+                if (GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqfirstmove"] == false)
                     TutoManager.s_instance.playSequence(TutoManager.s_instance.GetComponent<SeqFirstMove>());
-                else if (TutoManager.s_instance.GetComponent<SeqMultiCharacters>().AlreadyPlayed == false)
+                else if (GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqmulticharacters"] == false)
                     TutoManager.s_instance.playSequence(TutoManager.s_instance.GetComponent<SeqMultiCharacters>());
             }
             GameManager.Instance.UpdateCameraPosition(TileManager.Instance.BeginTile);
@@ -105,9 +108,11 @@ public class ShowMainQuest : MonoBehaviour {
                 gameObject.SetActive(false);
                 if (TutoManager.s_instance != null && TutoManager.s_instance.enableTuto)
                 {
-                    if (TutoManager.s_instance.GetComponent<SeqFirstMove>().AlreadyPlayed == false)
+                    Debug.Log(GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqfirstmove"]);
+                    Debug.Log(GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqmulticharacters"]);
+                    if (GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqfirstmove"] == false)
                         TutoManager.s_instance.playSequence(TutoManager.s_instance.GetComponent<SeqFirstMove>());
-                    else if (TutoManager.s_instance.GetComponent<SeqMultiCharacters>().AlreadyPlayed == false)
+                    else if (GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqmulticharacters"] == false)
                         TutoManager.s_instance.playSequence(TutoManager.s_instance.GetComponent<SeqMultiCharacters>());
                 }
 

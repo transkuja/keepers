@@ -348,13 +348,9 @@ public class SeqTutoCombat : Sequence
         BattleHandler.ResetBattleHandlerForTuto();
         GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().ChangeState(UIBattleState.WaitForDiceThrow);
 
-        SeqFirstMove seqIntro = TutoManager.s_instance.GetComponent<SeqFirstMove>();
-
         for (int i = 0; i < GameManager.Instance.AllKeepersList.Count; i++)
         {
-            Transform selectedKeepersFirstCharUI = seqIntro.selectedKeepersPanel.transform.GetChild(i);
-            selectedKeepersFirstCharUI.GetChild(0).GetChild((int)PanelSelectedKeeperStatChildren.Mortal).gameObject.SetActive(true);
-            selectedKeepersFirstCharUI.GetChild(0).GetChild((int)PanelSelectedKeeperStatChildren.MentalHealth).gameObject.SetActive(true);
+            GameManager.Instance.AllKeepersList[i].GetComponent<Behaviour.Mortal>().SelectedHPUI.SetActive(true);
         }
 
         TutoManager.s_instance.GetComponent<SeqTutoCombat>().AlreadyPlayed = true;

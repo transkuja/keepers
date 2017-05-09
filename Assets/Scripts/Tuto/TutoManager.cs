@@ -47,7 +47,10 @@ public class TutoManager : MonoBehaviour {
 
     private void Awake()
     {
-        s_instance = this;
+        if (s_instance == null)
+            s_instance = this;
+        else
+            Destroy(this);
     }
 
     public void InitTuto()
@@ -84,12 +87,13 @@ public class TutoManager : MonoBehaviour {
         seqIntro.endTurnBtn.SetActive(false);
         seqIntro.shortcutBtn.SetActive(false);
 
+        GameManager.Instance.AllKeepersList[0].GetComponent<Mortal>().SelectedHPUI.SetActive(false);
+        GameManager.Instance.AllKeepersList[0].GetComponent<HungerHandler>().SelectedHungerUI.SetActive(false);
+        GameManager.Instance.AllKeepersList[0].GetComponent<MentalHealthHandler>().SelectedMentalHealthUI.SetActive(false);
+        GameManager.Instance.AllKeepersList[0].GetComponent<Keeper>().BtnLeft.SetActive(false);
+        GameManager.Instance.AllKeepersList[0].GetComponent<Keeper>().BtnRight.SetActive(false);
+
         Transform selectedKeepersFirstCharUI = seqIntro.selectedKeepersPanel.transform.GetChild(0);
-        selectedKeepersFirstCharUI.GetChild(0).GetChild((int)PanelSelectedKeeperStatChildren.ButtonCycleLeft).gameObject.SetActive(false);
-        selectedKeepersFirstCharUI.GetChild(0).GetChild((int)PanelSelectedKeeperStatChildren.ButtonCycleRight).gameObject.SetActive(false);
-        selectedKeepersFirstCharUI.GetChild(0).GetChild((int)PanelSelectedKeeperStatChildren.Mortal).gameObject.SetActive(false);
-        selectedKeepersFirstCharUI.GetChild(0).GetChild((int)PanelSelectedKeeperStatChildren.Hunger).gameObject.SetActive(false);
-        selectedKeepersFirstCharUI.GetChild(0).GetChild((int)PanelSelectedKeeperStatChildren.MentalHealth).gameObject.SetActive(false);
         selectedKeepersFirstCharUI.GetChild(1).gameObject.SetActive(false); // Equipements
         selectedKeepersFirstCharUI.GetChild(2).gameObject.SetActive(false); // Inventory
 
@@ -110,6 +114,12 @@ public class TutoManager : MonoBehaviour {
     {
         SeqFirstMove seqIntro = s_instance.GetComponent<SeqFirstMove>();
         seqIntro.shortcutBtn.SetActive(false);
+
+        for (int i = 0; i < GameManager.Instance.AllKeepersList.Count; i++)
+        {
+            GameManager.Instance.AllKeepersList[i].GetComponent<MentalHealthHandler>().SelectedMentalHealthUI.SetActive(false);
+            GameManager.Instance.AllKeepersList[i].GetComponent<Mortal>().SelectedHPUI.SetActive(false);
+        }
 
         GameManager.Instance.AllKeepersList[0].GetComponent<Keeper>().GoListCharacterFollowing.Add(GameManager.Instance.PrisonerInstance.gameObject);
         Escortable escortComponent = GameManager.Instance.PrisonerInstance.GetComponent<Escortable>();
