@@ -192,7 +192,7 @@ public class EventManager : MonoBehaviour {
         // Snow events
         if (GameManager.Instance.ListEventSelected.Contains("1"))
         {
-            if (GameManager.Instance.NbTurn % nbDayInMonth < 5 || GameManager.Instance.NbTurn % nbDayInMonth > nbDayInMonth - 5)
+            if (GameManager.Instance.NbTurn % nbDayInMonth < 5)
             {
                 if ((currentTile.Type == TileType.Snow || currentTile.Type == TileType.Forest) && currentTile.State == TileState.Discovered)
                 {
