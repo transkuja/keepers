@@ -1039,7 +1039,7 @@ public class GameManager : MonoBehaviour
         Transform tilePortals = currentFighters[0].CurrentTile.transform.GetChild(0).GetChild((int)TilePrefabChildren.PortalTriggers);
         for (int i = 0; i < tilePortals.childCount; i++)
         {
-            if (tilePortals.GetChild(i).gameObject.activeInHierarchy)
+            if (tilePortals.GetChild(i).gameObject.activeSelf)
             {
                 tilePortalsDisabled.Add(tilePortals.GetChild(i).gameObject);
                 tilePortals.GetChild(i).gameObject.SetActive(false);

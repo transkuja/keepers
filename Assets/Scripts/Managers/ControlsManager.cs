@@ -270,7 +270,7 @@ public class ControlsManager : MonoBehaviour
                     if (!EventSystem.current.IsPointerOverGameObject())
                     {
                         RaycastHit hitInfo;
-                        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo) == true)
+                        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo, Mathf.Infinity, ~layerMaskClickGauche) == true)
                         {
                             GameObject clickTarget = hitInfo.collider.gameObject;
                             if (GameManager.Instance.ListOfSelectedKeepers != null && GameManager.Instance.ListOfSelectedKeepers.Count > 0)
@@ -348,7 +348,7 @@ public class ControlsManager : MonoBehaviour
         if (!EventSystem.current.IsPointerOverGameObject())
         {
             RaycastHit hitInfo;
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo) == true)
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo, Mathf.Infinity, ~layerMaskClickGauche) == true)
             {
                 GameObject clickTarget = hitInfo.collider.gameObject;
                 if (clickTarget.GetComponentInParent<PawnInstance>() != null)

@@ -24,6 +24,8 @@ public class EventManager : MonoBehaviour {
     public static int nbDayInWeek = 7;
     public static int nbDayInMonth = 20;
 
+    private static float weatherFrequency = 50.0f;
+
     //private static short actionPointsResetValue = 3;
 
     public static void EndTurnEvent()
@@ -176,6 +178,8 @@ public class EventManager : MonoBehaviour {
         if (GameManager.Instance.ListEventSelected.Count <= 0)
             return;
 
+        weatherFrequency = 50.0f;
+
         Tile[] tiles = TileManager.Instance.Tiles.GetComponentsInChildren<Tile>();
 
         foreach (Tile tile in tiles)
@@ -204,7 +208,16 @@ public class EventManager : MonoBehaviour {
                     Climat climat = currentTile.gameObject.GetComponentInChildren<Climat>();
                     if (climat != null)
                     {
-                        climat.TypeClimat = TypeClimat.Snow;
+                        if (Random.Range(0, 100) <= weatherFrequency)
+                        {
+                            climat.TypeClimat = TypeClimat.Snow;
+                            weatherFrequency /= 2.0f;
+                        }
+                        else
+                        {
+                            climat.TypeClimat = TypeClimat.None;
+                            weatherFrequency += 20.0f;
+                        }
                     }
 
                 }
@@ -282,7 +295,16 @@ public class EventManager : MonoBehaviour {
                     Climat climat = currentTile.gameObject.GetComponentInChildren<Climat>();
                     if (climat != null)
                     {
-                        climat.TypeClimat = TypeClimat.HeatDistorsion;
+                        if (Random.Range(0, 100) <= weatherFrequency)
+                        {
+                            climat.TypeClimat = TypeClimat.HeatDistorsion;
+                            weatherFrequency /= 2.0f;
+                        }
+                        else
+                        {
+                            climat.TypeClimat = TypeClimat.None;
+                            weatherFrequency += 20.0f;
+                        }
                     }
                 }
             }

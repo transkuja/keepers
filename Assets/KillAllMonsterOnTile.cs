@@ -22,7 +22,8 @@ public class KillAllMonsterOnTile : MonoBehaviour {
         {
             foreach (Monster monster in listMonstertoKill)
             {
-                monster.GetComponent<Mortal>().Die();
+                if (monster.GetMType == MonsterType.Common)
+                    monster.GetComponent<Mortal>().Die();
             }
         }
 

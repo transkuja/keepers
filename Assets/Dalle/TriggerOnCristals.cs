@@ -58,7 +58,13 @@ public class TriggerOnCristals : MonoBehaviour {
 
     public void Update()
     {
-		if (!triggerActif) {
+        // Hell yeah
+        if (GameManager.Instance.CurrentState == GameState.InBattle)
+            GetComponentInChildren<MeshRenderer>().enabled = false;
+        else
+            GetComponentInChildren<MeshRenderer>().enabled = true;
+
+        if (!triggerActif) {
 			mat.SetColor ("_EmissionColor", storedColor);
 		} else {
 			mat.SetColor ("_EmissionColor", Color.blue);
