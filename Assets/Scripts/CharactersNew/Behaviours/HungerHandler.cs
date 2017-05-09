@@ -82,7 +82,7 @@ namespace Behaviour
                 SelectedHungerUI.name = "Hunger";
                 SelectedHungerUI.transform.SetParent(instance.GetComponent<Keeper>().SelectedStatPanelUI.transform, false);
                 SelectedHungerUI.transform.localScale = Vector3.one;
-
+                SelectedHungerUI.transform.SetAsFirstSibling();
 
                 ShortcutHungerUI.transform.SetParent(instance.GetComponent<Keeper>().ShorcutUI.transform);
                 ShortcutHungerUI.transform.localScale = Vector3.one;

@@ -183,6 +183,7 @@ namespace Behaviour
                 SelectedHPUI.name = "Mortal";
                 SelectedHPUI.transform.SetParent(instance.GetComponent<Keeper>().SelectedStatPanelUI.transform, false);
                 SelectedHPUI.transform.localScale = Vector3.one;
+                SelectedHPUI.transform.SetAsFirstSibling();
                 //SelectedHPUI.transform.localPosition = Vector3.zero;
 
                 ShortcutHPUI.transform.SetParent(instance.GetComponent<Keeper>().ShorcutUI.transform);

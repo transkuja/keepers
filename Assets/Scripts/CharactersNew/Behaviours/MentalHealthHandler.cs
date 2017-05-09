@@ -80,7 +80,7 @@ namespace Behaviour
                 selectedMentalHealthUI.name = "MentalHealth";
                 selectedMentalHealthUI.transform.SetParent(instance.GetComponent<Keeper>().SelectedStatPanelUI.transform, false);
                 selectedMentalHealthUI.transform.localScale = Vector3.one;
-
+                selectedMentalHealthUI.transform.SetAsFirstSibling();
 
                 ShortcutMentalHealthUI.transform.SetParent(instance.GetComponent<Keeper>().ShorcutUI.transform);
                 ShortcutMentalHealthUI.transform.localScale = Vector3.one;
@@ -121,20 +121,20 @@ namespace Behaviour
                 {
                     ShortcutMentalHealthUI.transform.GetChild(0).gameObject.GetComponent<Image>().color = red;
                     selectedMentalHealthUI.transform.GetChild(0).gameObject.GetComponent<Image>().color = red;
-                    selectedMentalHealthUI.transform.GetChild(1).gameObject.GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteMentalDown;
+                    //selectedMentalHealthUI.transform.GetChild(1).gameObject.GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteMentalDown;
                 }
                 else if (mentalHealth < (2*Data.MaxMentalHealth / 3.0f))
                 {
                     ShortcutMentalHealthUI.transform.GetChild(0).gameObject.GetComponent<Image>().color = yellow;
                     selectedMentalHealthUI.transform.GetChild(0).gameObject.GetComponent<Image>().color = yellow;
-                    selectedMentalHealthUI.transform.GetChild(1).gameObject.GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteMentalNormal;
+                    //selectedMentalHealthUI.transform.GetChild(1).gameObject.GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteMentalNormal;
                 }
 
                 else
                 {
                     ShortcutMentalHealthUI.transform.GetChild(0).gameObject.GetComponent<Image>().color = green;
                     selectedMentalHealthUI.transform.GetChild(0).gameObject.GetComponent<Image>().color = green;
-                    selectedMentalHealthUI.transform.GetChild(1).gameObject.GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteMentalUp;
+                    //selectedMentalHealthUI.transform.GetChild(1).gameObject.GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteMentalUp;
                 }
                 selectedMentalHealthUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)mentalHealth / (float)data.MaxMentalHealth;
                 ShortcutMentalHealthUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)mentalHealth / (float)data.MaxMentalHealth;

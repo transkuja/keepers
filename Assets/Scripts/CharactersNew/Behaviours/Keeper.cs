@@ -539,4 +539,4 @@ namespace Behaviour
 }
 
 public enum PanelShortcutChildren { Image2, ActionPoints, Image,  HpGauge, HungerGauge, MentalHealthGauge };
-public enum PanelSelectedKeeperStatChildren { Image, ButtonCycleRight, ButtonCycleLeft, ActionPoints, Mortal, Hunger, MentalHealth };
+public enum PanelSelectedKeeperStatChildren { Cover , Image, ButtonCycleRight, ButtonCycleLeft, ActionPoints, Mortal, Hunger, MentalHealth };
