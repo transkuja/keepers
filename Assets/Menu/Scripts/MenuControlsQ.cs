@@ -115,6 +115,11 @@ public class MenuControlsQ : MonoBehaviour {
                 else if (hit.transform.gameObject.layer == LayerMask.NameToLayer("KeeperInstance"))
                 {
                     KeeperSelectionControls(hit.transform.gameObject);
+                    for (int i = 0; i < EventDeck.listOpenerSiblings.Count; i++)
+                    {
+                        EventDeck.listOpenerSiblings[i].Fold();
+                    }
+                    EventDeck.Fold();
                 }
                 else if (hit.transform.gameObject.layer == LayerMask.NameToLayer("RuleBook"))
                 {
