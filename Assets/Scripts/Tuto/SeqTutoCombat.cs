@@ -107,7 +107,6 @@ public class SeqTutoCombat : Sequence
     public class StandardAtkExplain : Step
     {
         string str;
-        GameObject feedback;
         public StandardAtkExplain(string _str)
         {
             stepFunction = Message_fct;
@@ -116,24 +115,9 @@ public class SeqTutoCombat : Sequence
 
         public void Message_fct()
         {
-            foreach (Button b in GameManager.Instance.Ui.GoActionPanelQ.GetComponentsInChildren<Button>())
-            {
-                ColorBlock cb = b.colors;
-                cb.disabledColor = Color.white;
-                b.colors = cb;
+            SeqTutoCombat seqTutoCombat = TutoManager.s_instance.GetComponent<SeqTutoCombat>();
+            foreach (Button b in seqTutoCombat.skillPanel.GetComponentsInChildren<Button>())
                 b.interactable = false;
-            }
-
-            if (feedback == null)
-            {
-                SeqTutoCombat seqTutoCombat = TutoManager.s_instance.GetComponent<SeqTutoCombat>();
-                feedback = Instantiate(TutoManager.s_instance.uiPointer, GameManager.Instance.Ui.transform.GetChild(0));
-                if (GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>() != null) // fix for build
-                    feedback.GetComponent<FlecheQuiBouge>().PointToPoint = Camera.main.WorldToScreenPoint(GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().transform.position);
-                feedback.GetComponent<FlecheQuiBouge>().distanceOffset = 80.0f;
-
-                feedback.transform.localEulerAngles = new Vector3(0, 0, 75);
-            }
 
             TutoManager.s_instance.EcrireMessage(str);
             TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.Idle;
@@ -141,41 +125,6 @@ public class SeqTutoCombat : Sequence
 
         public override void Reverse()
         {
-            Destroy(feedback);
-            alreadyPlayed = false;
-        }
-    }
-
-    public class StandardAtkShowDice : Step
-    {
-        string str;
-        GameObject feedback;
-        public StandardAtkShowDice(string _str)
-        {
-            stepFunction = Message_fct;
-            str = _str;
-        }
-
-        public void Message_fct()
-        {
-            if (feedback == null)
-            {
-                SeqTutoCombat seqTutoCombat = TutoManager.s_instance.GetComponent<SeqTutoCombat>();
-                feedback = Instantiate(TutoManager.s_instance.uiPointer, GameManager.Instance.Ui.transform.GetChild(0));
-                feedback.GetComponent<FlecheQuiBouge>().PointToPoint = Camera.main.WorldToScreenPoint(TileManager.Instance.DicePositionsOnTile.GetChild(0).transform.position + GameManager.Instance.ActiveTile.transform.position);
-                feedback.GetComponent<FlecheQuiBouge>().distanceOffset = 80.0f;
-
-                feedback.transform.localEulerAngles = new Vector3(0, 0, 45);
-            }
-            TutoManager.s_instance.EcrireMessage(str);
-            TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.Idle;
-        }
-
-        public override void Reverse()
-        {
-            Button skillButton = GameManager.Instance.Ui.GoActionPanelQ.GetComponentsInChildren<Button>()[1];
-            skillButton.interactable = true;
-            Destroy(feedback);
             alreadyPlayed = false;
         }
     }
@@ -382,9 +331,7 @@ public class SeqTutoCombat : Sequence
         Etapes.Add(new ShowCharactersStocks("Good. The value of each dice is added to the characters' stocks."));
         Etapes.Add(new ShowCharactersStocks("These stocks allow you to perform skills when you have enough of each required symbol."));
         Etapes.Add(new PawnSelection("Select a pawn by clicking on it to perform an action."));
-        //Etapes.Add(new StandardAtkExplain("This button allows you to perform a standard attack based on your current roll,"));
-        //Etapes.Add(new StandardAtkShowDice("the more swords you have on the dice, the more damage you'll do."));
-        Etapes.Add(new TutoManager.Message(null, "Here are your characters' skills list"));
+        Etapes.Add(new StandardAtkExplain("Here are your characters' skills list"));
         Etapes.Add(new SkillCostExplain("This is the skill cost. You need at least all the required symbols to use a skill."));
         Etapes.Add(new SkillSelectionStep("Now click on this skill, then on the monster to unleash your power!"));
 
