@@ -318,21 +318,30 @@ public class SkillBattle {
 
         if (targetType == TargetType.FoeAll)
         {
+            BattleHandler.ExpectedAnswers = BattleHandler.CurrentBattleMonsters.Length;
             for (int i = 0; i < BattleHandler.CurrentBattleMonsters.Length; i++)
             {
-                ApplySkillEffectOnTarget(BattleHandler.CurrentBattleMonsters[i], effectiveDamage);
+                if (BattleHandler.CurrentBattleMonsters[i].GetComponent<Mortal>().CurrentHp > 0)
+                    ApplySkillEffectOnTarget(BattleHandler.CurrentBattleMonsters[i], effectiveDamage);
+                else
+                    BattleHandler.ExpectedAnswers--;
             }
-             BattleHandler.ExpectedAnswers = BattleHandler.CurrentBattleMonsters.Length;
         }
         else if (targetType == TargetType.FriendAll)
         {
+            BattleHandler.ExpectedAnswers = BattleHandler.CurrentBattleKeepers.Length;
             for (int i = 0; i < BattleHandler.CurrentBattleKeepers.Length; i++)
             {
-                ApplySkillEffectOnTarget(BattleHandler.CurrentBattleKeepers[i], effectiveDamage);
+                if (BattleHandler.CurrentBattleKeepers[i].GetComponent<Mortal>().CurrentHp > 0)
+                    ApplySkillEffectOnTarget(BattleHandler.CurrentBattleKeepers[i], effectiveDamage);
+                else
+                    BattleHandler.ExpectedAnswers--;
             }
             if (BattleHandler.isPrisonerOnTile)
+            {
                 ApplySkillEffectOnTarget(GameManager.Instance.PrisonerInstance, effectiveDamage);
-            BattleHandler.ExpectedAnswers = BattleHandler.CurrentBattleKeepers.Length + ((BattleHandler.isPrisonerOnTile) ? 1 : 0);
+                BattleHandler.ExpectedAnswers++;
+            }
         }
         else if (targetType == TargetType.Self)
         {
