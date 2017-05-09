@@ -565,6 +565,19 @@ namespace Behaviour
                 btnRight = value;
             }
         }
+
+        public GameObject ShortcutActionPointUi
+        {
+            get
+            {
+                return shortcutActionPointUi;
+            }
+
+            set
+            {
+                shortcutActionPointUi = value;
+            }
+        }
         #endregion
     }
 }

@@ -248,7 +248,7 @@ public class IngameUI : MonoBehaviour
 
     public void ZeroActionTextAnimation(Behaviour.Keeper ki)
     {
-        foreach(Image i in ki.ShorcutUI.transform.GetChild((int)PanelShortcutChildren.ActionPoints).GetComponentsInChildren<Image>())
+        foreach(Image i in ki.ShortcutActionPointUi.GetComponentsInChildren<Image>())
         {
             i.color = Color.red;
             //i.transform.localScale = new Vector3(1.1f, 1.1f, 1.1f);
@@ -267,7 +267,7 @@ public class IngameUI : MonoBehaviour
     {
         yield return new WaitForSeconds(1);
 
-        foreach (Image i in ki.ShorcutUI.transform.GetChild((int)PanelShortcutChildren.ActionPoints).GetComponentsInChildren<Image>())
+        foreach (Image i in ki.ShortcutActionPointUi.GetComponentsInChildren<Image>())
         {
             i.color = Color.white;
             //i.transform.localScale = Vector3.one;
