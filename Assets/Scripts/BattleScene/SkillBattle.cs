@@ -13,7 +13,7 @@ public enum SkillType { Physical, Magical, Defensive }
  */
 [System.Serializable]
 public class SkillBattle {
-    public int effectiveAttackValue = 3;
+    public int effectiveAttackValue = 4;
 
     [SerializeField]
     private Fighter skillUser;
@@ -64,7 +64,7 @@ public class SkillBattle {
             }
             else
             {
-                attackDamage += 1;
+                attackDamage += 3;
             }
         }
 
@@ -310,10 +310,13 @@ public class SkillBattle {
 
         int effectiveDamage = Damage;
 
-        foreach (BattleBoeuf boeuf in skillUser.EffectiveBoeufs)
+        if (!isMeantToHeal && !isMeantToBuff)
         {
-            if (boeuf.BoeufType == BoeufType.Damage)
-                effectiveDamage += boeuf.EffectValue;
+            foreach (BattleBoeuf boeuf in skillUser.EffectiveBoeufs)
+            {
+                if (boeuf.BoeufType == BoeufType.Damage)
+                    effectiveDamage += boeuf.EffectValue;
+            }
         }
 
         if (targetType == TargetType.FoeAll)
@@ -366,10 +369,13 @@ public class SkillBattle {
 
         int effectiveDamage = Damage;
 
-        foreach (BattleBoeuf boeuf in skillUser.EffectiveBoeufs)
+        if (!isMeantToHeal && !isMeantToBuff)
         {
-            if (boeuf.BoeufType == BoeufType.Damage)
-                effectiveDamage += boeuf.EffectValue;
+            foreach (BattleBoeuf boeuf in skillUser.EffectiveBoeufs)
+            {
+                if (boeuf.BoeufType == BoeufType.Damage)
+                    effectiveDamage += boeuf.EffectValue;
+            }
         }
 
         ApplySkillEffectOnTarget(_target, effectiveDamage);
