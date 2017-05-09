@@ -60,8 +60,8 @@ public class SeqTutoCombat : Sequence
             if (feedback == null)
             {
                 feedback = Instantiate(TutoManager.s_instance.uiPointer, GameManager.Instance.Ui.transform.GetChild(0));
-                feedback.GetComponent<FlecheQuiBouge>().PointToPoint = seqTutoCombat.charactersStock.transform.position;
-                feedback.GetComponent<FlecheQuiBouge>().distanceOffset = 20.0f;
+                feedback.GetComponent<FlecheQuiBouge>().PointToPoint = seqTutoCombat.charactersStock.transform.GetChild(2).GetChild(0).transform.position;
+                feedback.GetComponent<FlecheQuiBouge>().distanceOffset = 10.0f;
 
                 feedback.transform.localEulerAngles = new Vector3(0, 0, -90);
             }
@@ -328,7 +328,7 @@ public class SeqTutoCombat : Sequence
         // Content
         Etapes.Add(new TutoManager.Message(null, "You have to roll dice to defeat monsters in this world"));
         Etapes.Add(new RollDiceButtonExplain("Click on the Dice button here to roll the dice of all your characters."));
-        Etapes.Add(new ShowCharactersStocks("Good. The value of each dice is added to the characters' stocks."));
+        Etapes.Add(new ShowCharactersStocks("Good. The value of each die is added to the characters' stocks."));
         Etapes.Add(new ShowCharactersStocks("These stocks allow you to perform skills when you have enough of each required symbol."));
         Etapes.Add(new PawnSelection("Select a pawn by clicking on it to perform an action."));
         Etapes.Add(new StandardAtkExplain("Here are your characters' skills list"));
