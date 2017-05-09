@@ -67,14 +67,14 @@ public class MenuManagerQ : MonoBehaviour {
             if (GameManager.Instance.PersistenceLoader.Pd.dicPersistenceLevels[leveldb.listLevels[i].id.ToString()] == true)
             {
 
-                // Instanciation du deck
+                // Instanciation des cartes de level
                 GameObject goCardLevel = Instantiate(GoPrefabLevelCard, levelDeckPosition);
                 goCardLevel.transform.localPosition = Vector3.zero;
 
                 goCardLevel.GetComponent<MeshFilter>().mesh = GetLevelCardModel(leveldb.listLevels[i].cardModelName).GetComponent<MeshFilter>().sharedMesh;
                 goCardLevel.GetComponent<CardLevel>().levelIndex = leveldb.listLevels[i].id;
 
-                for (int j = 0; j < leveldb.listLevels[i].listDeckId.Count; j++)
+                for (int j = 0; j < leveldb.listLevels[i].listDeckId.Count; j++)    //  Instanciations des decks de quetes
                 {
                     if (GameManager.Instance.PersistenceLoader.Pd.dicPersistenceDecks[leveldb.listLevels[i].listDeckId[j].ToString()] == true)
                     {
@@ -88,9 +88,15 @@ public class MenuManagerQ : MonoBehaviour {
 
                         goDeck.GetComponent<DeckOfCards>().idQuestDeck = leveldb.listLevels[i].listDeckId[j];
 
-                        for (int k = 0; k < qdd.secondaryQuests.Count; k++)
+                        // Instantiation de la carte de quete principale
+                        GameObject goQuestCard = Instantiate(GoPrefabQuestCard, goDeck.transform);      
+                        goQuestCard.transform.localPosition = Vector3.zero;
+
+                        goQuestCard.GetComponent<MeshFilter>().mesh = GetCardModel(qdd.mainQuestCardModel).GetComponent<MeshFilter>().sharedMesh;
+
+                        for (int k = 0; k < qdd.secondaryQuests.Count; k++) // Instantiations des cartes de quete annexe
                         {
-                            GameObject goQuestCard = Instantiate(GoPrefabQuestCard, goDeck.transform);
+                            goQuestCard = Instantiate(GoPrefabQuestCard, goDeck.transform);
                             goQuestCard.transform.localPosition = Vector3.zero;
 
                             goQuestCard.GetComponent<MeshFilter>().mesh = GetCardModel(qdd.secondaryQuests[k].cardModelname).GetComponent<MeshFilter>().sharedMesh;

@@ -26,6 +26,7 @@ namespace QuestDeckLoader
         public string nameQuestDeck;
         public string deckModelName;
         public string idMainQuest;
+        public string mainQuestCardModel;
         public List<QuestAssociationDealer> secondaryQuests;
 
         public QuestDeckData()
@@ -91,6 +92,9 @@ namespace QuestDeckLoader
                         case "main":
                             newQuestDeckDataContainer.idMainQuest = deckQuestEntry.Value.Str;
                             newDeck.MainQuest = deckQuestEntry.Value.Str;
+                            break;
+                        case "mainQuestCardModel":
+                            newQuestDeckDataContainer.mainQuestCardModel = deckQuestEntry.Value.Str;
                             break;
                         case "secondary":
                             JSONArray secondaryQuestArray = deckQuestEntry.Value.Array;

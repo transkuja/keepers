@@ -4,15 +4,17 @@
       "id": "deck_01",
       "name" : "tuto",
 	  "level" : "tuto",
-      "deckModelName" : "Asset_Deck_Levels", 
-      "main" : "main_quest_01"
+      "deckModelName" : "Asset_Deck_Levels",
+      "main" : "main_quest_01",
+	  "mainQuestCardModel" : "Asset_Carte_Event_01"
     },  
     { 
       "id": "deck_02", 
       "name" : "The last phoque unicorn",
 	  "level" : "level1",
       "deckModelName" : "Asset_Deck_Levels", 
-      "main" : "main_quest_01", 
+      "main" : "main_quest_01",
+	  "mainQuestCardModel" : "Asset_Carte_Event_01",
       "secondary" : [ 
         { 
           "idQuest": "side_quest_01", 
@@ -31,7 +33,8 @@
  
       "deckModelName" : "Asset_Deck_Levels", 
  
-      "main" : "main_quest_01"
+      "main" : "main_quest_01",
+	  "mainQuestCardModel" : "Asset_Carte_Event_01"
  
     },
 	{
@@ -44,6 +47,7 @@
       "deckModelName" : "Asset_Deck_Levels", 
  
       "main" : "main_quest_01",
+	  "mainQuestCardModel" : "Asset_Carte_Event_01",
  
     "secondary" : [ 
 		{
