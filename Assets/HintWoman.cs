@@ -7,11 +7,13 @@ public class HintWoman : MonoBehaviour {
 
     PawnInstance instance;
     private GameObject goHint;
-    public string commeSurLePanneau;
+    public string[] commeSurLePanneau;
+    private int indiceMsg;
 
     void Awake()
     {
         instance = GetComponent<PawnInstance>();
+        indiceMsg = 0;
     }
 
     // Use this for initialization
@@ -24,7 +26,14 @@ public class HintWoman : MonoBehaviour {
         goHint.transform.localPosition = Vector3.zero;
         goHint.transform.localScale = Vector3.one;
         goHint.transform.GetChild(1).GetComponent<Image>().sprite = instance.Data.AssociatedSprite;
-        goHint.transform.GetChild(3).GetComponentInChildren<Text>().text = commeSurLePanneau;
+        if(commeSurLePanneau.Length > 0)
+        {
+            goHint.transform.GetChild(3).GetComponentInChildren<Text>().text = commeSurLePanneau[indiceMsg];
+        } else
+        {
+            goHint.transform.GetChild(3).GetComponentInChildren<Text>().text = "Debug Hint Message";
+        }
+
         goHint.transform.GetChild(4).GetComponent<Text>().text = "Hint";
         Button close = goHint.transform.GetChild(0).GetComponent<Button>();
         close.onClick.RemoveAllListeners();
@@ -59,6 +68,16 @@ public class HintWoman : MonoBehaviour {
     void CloseBox()
     {
         GameManager.Instance.CurrentState = GameState.Normal;
+        indiceMsg++;
+        if ( indiceMsg < commeSurLePanneau.Length)
+        {
+            goHint.transform.GetChild(3).GetComponentInChildren<Text>().text = commeSurLePanneau[indiceMsg];
+        } else
+        {
+            indiceMsg = 0;
+            goHint.transform.GetChild(3).GetComponentInChildren<Text>().text = commeSurLePanneau[indiceMsg];
+        }
+ 
         goHint.SetActive(false);
     }
 }
