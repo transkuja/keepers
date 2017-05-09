@@ -349,7 +349,7 @@ public class Opener : MonoBehaviour {
             }
         }
 
-        if(transform.parent != null && transform.parent.GetComponent<Opener>() == null)
+        if(this != null && transform.parent != null && transform.parent.GetComponent<Opener>() == null)
         {
             GameObject.FindObjectOfType<MenuManagerQ>().SetActiveChatBoxes(true);
         }
