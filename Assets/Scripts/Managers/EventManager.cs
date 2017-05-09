@@ -180,11 +180,11 @@ public class EventManager : MonoBehaviour {
 
         foreach (Tile tile in tiles)
         {
-            HandleWeather(tile);
+            HandleWeather(tile, false);
         }
     }
 
-    public static void HandleWeather(Tile currentTile)
+    public static void HandleWeather(Tile currentTile, bool wasJustDiscoveredByAKeeper)
     {
         if (GameManager.Instance.ListEventSelected.Count <= 0)
             return;
@@ -229,39 +229,43 @@ public class EventManager : MonoBehaviour {
         // HButterfly events
         if (GameManager.Instance.ListEventSelected.Contains("2"))
         {
-            if (GameManager.Instance.NbTurn % nbDayInWeek == 5 || GameManager.Instance.NbTurn % nbDayInWeek == 6)
+            if (wasJustDiscoveredByAKeeper)
             {
-                if (currentTile.Type == TileType.Plain && currentTile.State == TileState.Discovered)
+                if (GameManager.Instance.NbTurn % nbDayInWeek == 5 || GameManager.Instance.NbTurn % nbDayInWeek == 6)
                 {
-                    if (currentTile.gameObject.GetComponentInChildren<Climat>() == null)
+                    if (currentTile.Type == TileType.Plain && currentTile.State == TileState.Discovered)
                     {
-                        Debug.Log(currentTile.name + "n'a pas de climat en enfant");
-                        return;
-                    }
-                    Climat climat = currentTile.gameObject.GetComponentInChildren<Climat>();
-                    if (climat != null)
-                    {
-                        climat.TypeClimat = TypeClimat.Butterfly;
-                    }
+                        if (currentTile.gameObject.GetComponentInChildren<Climat>() == null)
+                        {
+                            Debug.Log(currentTile.name + "n'a pas de climat en enfant");
+                            return;
+                        }
+                        Climat climat = currentTile.gameObject.GetComponentInChildren<Climat>();
+                        if (climat != null)
+                        {
+                            climat.TypeClimat = TypeClimat.Butterfly;
+                        }
 
+                    }
                 }
-            }
-            else
-            {
-                if (currentTile.Type == TileType.Plain && currentTile.State == TileState.Discovered)
+                else
                 {
-                    if (currentTile.gameObject.GetComponentInChildren<Climat>() == null)
+                    if (currentTile.Type == TileType.Plain && currentTile.State == TileState.Discovered)
                     {
-                        Debug.Log(currentTile.name + "n'a pas de climat en enfant");
-                        return;
-                    }
-                    Climat climat = currentTile.gameObject.GetComponentInChildren<Climat>();
-                    if (climat != null)
-                    {
-                        climat.TypeClimat = TypeClimat.None;
+                        if (currentTile.gameObject.GetComponentInChildren<Climat>() == null)
+                        {
+                            Debug.Log(currentTile.name + "n'a pas de climat en enfant");
+                            return;
+                        }
+                        Climat climat = currentTile.gameObject.GetComponentInChildren<Climat>();
+                        if (climat != null)
+                        {
+                            climat.TypeClimat = TypeClimat.None;
+                        }
                     }
                 }
             }
+   
         }
         // HEat distorsion
         if (GameManager.Instance.ListEventSelected.Contains("3"))

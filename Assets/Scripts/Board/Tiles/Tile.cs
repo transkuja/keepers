@@ -230,7 +230,7 @@ public class Tile : MonoBehaviour{
         {
             state = value;
             UpdateTileVisual();
-            EventManager.HandleWeather(this);
+            EventManager.HandleWeather(this, true);
         }
     }
 
