@@ -25,6 +25,7 @@ public class ChatBox : MonoBehaviour {
     public Transform trTarget;    
     public List<string>[] tabEmotes;
     public bool bEnable = false;
+    public AnimationCurve curve;
 
     public bool bIsShown = false;
     public ScaleState state = ScaleState.idle;
@@ -112,7 +113,7 @@ public class ChatBox : MonoBehaviour {
     {
         fLerp += Time.deltaTime * (int)state * fScaleSpeed;
 
-        trBox.transform.localScale = Vector3.Lerp(Vector3.zero, Vector3.one, Mathf.Clamp(fLerp,0, 1));
+        trBox.transform.localScale = Vector3.Lerp(Vector3.zero, new Vector3(1.1f,1.1f,1.1f), curve.Evaluate(fLerp));
 
         if(state == ScaleState.scale && fLerp >= 1)
         {
