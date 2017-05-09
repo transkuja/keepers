@@ -33,7 +33,7 @@ public class MonstersBattleSkillsSelection  {
         List<SkillBattle> skills = _fighter.BattleSkills;
 
         Debug.Log(BattleHandler.NbTurn);
-        if (BattleHandler.NbTurn % 4 == 0)
+        if (_fighter.EffectiveBoeufs == null || _fighter.EffectiveBoeufs.Count == 0)
             return skills[(int)BirdSkills.WingsOfFury];
         
         return skills[(int)BirdSkills.Nosedive];
