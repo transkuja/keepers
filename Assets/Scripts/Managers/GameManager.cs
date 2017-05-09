@@ -1058,6 +1058,28 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        // Make escortable disappear
+        if (TileManager.Instance.EscortablesOnTile.ContainsKey(ActiveTile))
+        {
+            foreach (PawnInstance pi in TileManager.Instance.EscortablesOnTile[ActiveTile])
+            {
+                pi.gameObject.SetActive(false);
+                disabledModels.Add(pi.gameObject);
+            }
+        }
+
+        // Hide item instance
+        for (int i = 1; i < ActiveTile.transform.childCount; i++)
+        {
+            ItemInstance curItem = ActiveTile.transform.GetChild(i).GetComponentInChildren<ItemInstance>();
+            if (curItem != null)
+            {
+                curItem.transform.parent.gameObject.SetActive(false);
+                disabledModels.Add(curItem.transform.parent.gameObject);
+            }
+
+        }
+
         Ui.GoActionPanelQ.transform.parent.SetParent(Ui.transform);
     }
 
