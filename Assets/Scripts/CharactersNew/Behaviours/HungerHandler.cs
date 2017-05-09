@@ -74,6 +74,7 @@ namespace Behaviour
                 ShortcutHungerUI.transform.SetParent(instance.GetComponent<Escortable>().ShorcutUI.transform);
                 ShortcutHungerUI.transform.localScale = Vector3.one;
                 ShortcutHungerUI.transform.localPosition = Vector3.zero;
+                ShortcutHungerUI.transform.SetAsFirstSibling();
             }
             else if (instance.GetComponent<Keeper>() != null)
             {
@@ -86,6 +87,7 @@ namespace Behaviour
                 ShortcutHungerUI.transform.SetParent(instance.GetComponent<Keeper>().ShorcutUI.transform);
                 ShortcutHungerUI.transform.localScale = Vector3.one;
                 ShortcutHungerUI.transform.localPosition = Vector3.zero;
+                ShortcutHungerUI.transform.SetAsFirstSibling();
             }
             UpdateHungerPanel(Data.MaxHunger);
         }

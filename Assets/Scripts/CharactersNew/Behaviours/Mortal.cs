@@ -174,6 +174,7 @@ namespace Behaviour
                 ShortcutHPUI.transform.SetParent(instance.GetComponent<Escortable>().ShorcutUI.transform);
                 ShortcutHPUI.transform.localScale = Vector3.one;
                 ShortcutHPUI.transform.localPosition = Vector3.zero;
+                ShortcutHPUI.transform.SetAsFirstSibling();
             }
             else if (instance.GetComponent<Keeper>() != null)
             {
@@ -187,6 +188,7 @@ namespace Behaviour
                 ShortcutHPUI.transform.SetParent(instance.GetComponent<Keeper>().ShorcutUI.transform);
                 ShortcutHPUI.transform.localScale = Vector3.one;
                 ShortcutHPUI.transform.localPosition = Vector3.zero;
+                ShortcutHPUI.transform.SetAsFirstSibling();
             }
 
             UpdateHPPanel(MaxHp);

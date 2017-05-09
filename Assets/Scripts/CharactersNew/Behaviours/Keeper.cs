@@ -91,6 +91,7 @@ namespace Behaviour
 
         // UI
         private GameObject shorcutUI;
+        private GameObject shortcutActionPointUi;
         private GameObject selectedPanelUI;
         private GameObject selectedStatPanelUI;
         private GameObject selectedActionPointsUI;
@@ -174,7 +175,7 @@ namespace Behaviour
             ShorcutUI = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabShorcutCharacter, GameManager.Instance.Ui.goShortcutKeepersPanel.transform);
 
             ShorcutUI.name = "Panel_Shortcut_" + instance.Data.PawnName;
-            ShorcutUI.transform.GetChild(0).GetComponent<Image>().sprite = associatedSprite;
+            ShorcutUI.transform.GetChild((int)PanelShortcutChildren.Image).GetComponent<Image>().sprite = associatedSprite;
             ShorcutUI.transform.localScale = Vector3.one;
             ShorcutUI.GetComponent<Button>().onClick.AddListener(() => GoToKeeper());
 
@@ -183,7 +184,7 @@ namespace Behaviour
             for (int i = 0; i < Data.MaxActionPoint; i++)
             {
                 GameObject pa = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabShortcutActionPAUI, ShorcutUI.transform.position, ShorcutUI.transform.rotation);
-                pa.transform.SetParent(ShorcutUI.transform.GetChild(1), false);
+                pa.transform.SetParent(ShorcutUI.transform.GetChild((int)PanelShortcutChildren.ActionPoints), false);
                 // Attention ça c'est de la merde
                 if( i < 2)
                 {
@@ -196,6 +197,8 @@ namespace Behaviour
                 pa.transform.localScale = Vector3.one;
 
             }
+
+            shortcutActionPointUi = ShorcutUI.transform.GetChild((int)PanelShortcutChildren.ActionPoints).gameObject;
         }
 
         public void CreateSelectedPanel()
@@ -279,9 +282,9 @@ namespace Behaviour
             SelectedPanelUI.SetActive(isShow);
             if (!isShow)
             {
-                if(GameManager.Instance.Ui.tooltipItem.activeSelf)
+                if(GameManager.Instance.Ui.tooltipItem != null && GameManager.Instance.Ui.tooltipItem.activeSelf)
                     GameManager.Instance.Ui.tooltipItem.SetActive(false);
-                if (GameManager.Instance.Ui.tooltipJauge.activeSelf)
+                if (GameManager.Instance.Ui.tooltipJauge != null && GameManager.Instance.Ui.tooltipJauge.activeSelf)
                     GameManager.Instance.Ui.tooltipJauge.SetActive(false);
             }
         }
@@ -334,15 +337,15 @@ namespace Behaviour
                 {
                     if (SelectedActionPointsUI.transform.childCount > i) 
                         SelectedActionPointsUI.transform.GetChild(i).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteTokenAction;
-                    if (ShorcutUI.transform.GetChild(1).childCount > i)
-                        ShorcutUI.transform.GetChild(1).GetChild(i).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteTokenAction;
+                    if (shortcutActionPointUi.transform.childCount > i)
+                        shortcutActionPointUi.transform.GetChild(i).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteTokenAction;
                 }
                 else
                 {
                     if (SelectedActionPointsUI.transform.childCount > i)
                         SelectedActionPointsUI.transform.GetChild(i).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteNoAction;
-                    if (ShorcutUI.transform.GetChild(1).childCount > i)
-                        ShorcutUI.transform.GetChild(1).GetChild(i).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteNoAction;
+                    if (shortcutActionPointUi.transform.childCount > i)
+                        shortcutActionPointUi.transform.GetChild(i).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteNoAction;
                 }
             }
         }
@@ -535,5 +538,5 @@ namespace Behaviour
     }
 }
 
-public enum PanelShortcutChildren { Image, ActionPoints, HpGauge, HungerGauge, MentalHealthGauge };
+public enum PanelShortcutChildren { Image2, ActionPoints, Image,  HpGauge, HungerGauge, MentalHealthGauge };
 public enum PanelSelectedKeeperStatChildren { Image, ButtonCycleRight, ButtonCycleLeft, ActionPoints, Mortal, Hunger, MentalHealth };

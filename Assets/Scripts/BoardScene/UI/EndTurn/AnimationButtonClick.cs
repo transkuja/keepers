@@ -31,7 +31,7 @@ public class AnimationButtonClick : MonoBehaviour {
         temps = ac.length;
         baseColor = new Color32(0xFF, 0xF4, 0xD6, 0xFF);
         nightColor = new Color32(0x01, 0x16, 0x56, 0xFF);
-        baseExposure = RenderSettings.skybox.GetFloat("_Exposure");
+        baseExposure = 2.5f;
         nightExposure = 1.0f;
     }
 

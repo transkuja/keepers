@@ -85,6 +85,7 @@ namespace Behaviour
                 ShortcutMentalHealthUI.transform.SetParent(instance.GetComponent<Keeper>().ShorcutUI.transform);
                 ShortcutMentalHealthUI.transform.localScale = Vector3.one;
                 ShortcutMentalHealthUI.transform.localPosition = Vector3.zero;
+                ShortcutMentalHealthUI.transform.SetAsFirstSibling();
             }
 
             UpdateMentalHealthPanel(Data.MaxMentalHealth);

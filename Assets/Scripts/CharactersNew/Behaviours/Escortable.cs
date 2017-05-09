@@ -112,7 +112,7 @@ namespace Behaviour
             ShorcutUI = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabShorcutCharacter, GameManager.Instance.Ui.goShortcutKeepersPanel.transform);
             ShorcutUI.transform.localScale = Vector3.one;
             ShorcutUI.transform.localPosition = Vector3.zero;
-            ShorcutUI.transform.GetChild(0).GetComponent<Image>().sprite = associatedSprite;
+            ShorcutUI.transform.GetChild((int)PanelShortcutChildren.Image).GetComponent<Image>().sprite = associatedSprite;
 
             // ? ? 
             ShorcutUI.transform.SetAsFirstSibling();
