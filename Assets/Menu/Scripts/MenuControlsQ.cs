@@ -25,12 +25,12 @@ public class MenuControlsQ : MonoBehaviour {
     public Animator animatorBox;
     public Animator animatorCam;
      
-    [SerializeField]
-    public LayerMask layerToCheck;
+    [SerializeField] public LayerMask layerToCheck;
 
     [SerializeField] Color colorLockOpen;
     [SerializeField] Color colorLockClosed;
 
+    [SerializeField] public LayerMask layerControls;
     public GameObject boxLock;
 
     // Use this for initialization
@@ -46,15 +46,6 @@ public class MenuControlsQ : MonoBehaviour {
     void Update()
     {
         MenuControls();
-
-        if (bIsOpen)
-        {
-            DeckSelectionControls();
-            LevelSelectionControls();
-            KeeperSelectionControls();
-            RuleBookControls();
-            EventCardsSelectionControls();
-        }
 
         BoxControls();
     }
@@ -94,210 +85,199 @@ public class MenuControlsQ : MonoBehaviour {
 
             }
         }
-
     }
 
     public void MenuControls()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
+        {
             Application.Quit();
-    }
+        }
 
-    public void DeckSelectionControls()
-    {
-        if (Input.GetMouseButtonDown(0))
+        if (bIsOpen && Input.GetMouseButtonDown(0))
         {
             RaycastHit hit;
-            LayerMask DeckOfCardsLayerMask = 1 << LayerMask.NameToLayer("DeckOfCards");
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, DeckOfCardsLayerMask) == true)
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, layerControls) == true)
             {
-                DeckOfCards deck = hit.transform.gameObject.GetComponent<DeckOfCards>();
-                if (deck != null && deck.gameObject != deckSelected)
+
+                if (hit.transform.gameObject.layer == LayerMask.NameToLayer("DeckOfCards"))
                 {
-                    if (menuManager.DeckOfCardsSelected == deck.idQuestDeck)
-                    {
-                        menuManager.DeckOfCardsSelected = string.Empty;
-                    }
-                    else
-                    {
-                        menuManager.DeckOfCardsSelected = deck.idQuestDeck;
-                    }
-                    menuUI.UpdateDeckSelection();
-
-                    if (deckSelected != null)
-                    {
-                        OpenerContent oc = deckSelected.GetComponent<OpenerContent>();
-                        oc.listKeyPose.Clear();
-                        oc.AddKeyPose(oc.transform.position, oc.transform.rotation);
-                        oc.AddKeyPose(oc.transform.position + new Vector3(2,2,2), Quaternion.Inverse(oc.transform.rotation));
-                        oc.bNeedShow = true;
-                        oc.bKill = true;
-                    }
-
-                    OpenerContent newDeck = Instantiate(deck.gameObject, deck.transform.position, deck.transform.rotation).GetComponent<OpenerContent>();
-
-                    newDeck.GetComponent<MeshFilter>().mesh = deck.GetComponent<MeshFilter>().sharedMesh;
-
-                    newDeck.Init();
-
-                    newDeck.listKeyPose.Clear();
-                    newDeck.AddKeyPose(deck.transform.position, deck.transform.rotation);
-                    newDeck.AddKeyPose(trQuestDeckTarget.position, trQuestDeckTarget.rotation);
-                    newDeck.bNeedShow = true;
-
-                    newDeck.fSpeed = 5;
-
-                    Opener p = newDeck.GetComponent<Opener>();
-
-                    p.listOpenerSiblings.Clear();
-                    for(int i = 0; i < EventDeck.listOpenerSiblings.Count; i++)
-                    {
-                        p.listOpenerSiblings.Add(EventDeck.listOpenerSiblings[i]);
-                        EventDeck.listOpenerSiblings[i].listOpenerSiblings.Add(p);
-                    }
-
-                    deckSelected = newDeck.gameObject;
-                    UpdateLockAspect();
+                    DeckSelectionControls(hit.transform.gameObject);
+                }
+                else if (hit.transform.gameObject.layer == LayerMask.NameToLayer("CardLevel"))
+                {
+                    LevelSelectionControls(hit.transform.gameObject);
+                }
+                else if (hit.transform.gameObject.layer == LayerMask.NameToLayer("EventCard"))
+                {
+                    EventCardsSelectionControls(hit.transform.gameObject);
+                }
+                else if (hit.transform.gameObject.layer == LayerMask.NameToLayer("KeeperInstance"))
+                {
+                    KeeperSelectionControls(hit.transform.gameObject);
+                }
+                else if (hit.transform.gameObject.layer == LayerMask.NameToLayer("RuleBook"))
+                {
+                    RuleBookControls(hit.transform.gameObject);
                 }
             }
         }
     }
 
-    public void LevelSelectionControls()
+    public void DeckSelectionControls(GameObject hit)
     {
-        if (Input.GetMouseButtonDown(0))
+        DeckOfCards deck = hit.transform.gameObject.GetComponent<DeckOfCards>();
+        if (deck != null && deck.gameObject != deckSelected)
         {
-            RaycastHit hit;
-            LayerMask cardLevelLayerMask = 1 << LayerMask.NameToLayer("CardLevel");
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, cardLevelLayerMask) == true)
+            if (menuManager.DeckOfCardsSelected == deck.idQuestDeck)
             {
-                CardLevel card = hit.transform.gameObject.GetComponent<CardLevel>();
-                if (card != null && card.gameObject != levelCardSelected)
-                {
-                    AudioManager.Instance.PlayOneShot(AudioManager.Instance.paperSelectSound, 0.5f);
-                    // TODO Maybe change selection criterias
-                    /*if (menuManager.CardLevelSelected == card.levelIndex)
-                    {
-                        menuManager.CardLevelSelected = -1;
-                    }
-                    else*/
-                    {
-                        menuManager.CardLevelSelected = card.levelIndex;
-                    }
-
-                    if (deckSelected != null)
-                    {
-                        OpenerContent oc = deckSelected.GetComponent<OpenerContent>();
-                        oc.listKeyPose.Clear();
-                        oc.AddKeyPose(oc.transform.position, oc.transform.rotation);
-                        oc.AddKeyPose(oc.transform.position + new Vector3(2, 2, 2), Quaternion.Inverse(oc.transform.rotation));
-                        oc.bNeedShow = true;
-                        oc.bKill = true;
-                    }
-
-                    if (levelCardSelected != null)
-                    {
-                        OpenerContent oc = levelCardSelected.GetComponent<OpenerContent>();
-                        oc.listKeyPose.Clear();
-                        oc.AddKeyPose(oc.transform.position, oc.transform.rotation);
-                        oc.AddKeyPose(oc.transform.position + new Vector3(2, 2, 2), Quaternion.Inverse(oc.transform.rotation));
-                        oc.bNeedShow = true;
-                        oc.bKill = true;
-                    }
-
-                    OpenerContent newCard = Instantiate(prefabLevelCardSelected, card.transform.position, card.transform.rotation).GetComponent<OpenerContent>();
-
-                    newCard.GetComponent<MeshFilter>().mesh = card.GetComponent<MeshFilter>().sharedMesh;
-
-                    newCard.Init();
-
-                    newCard.listKeyPose.Clear();
-                    newCard.AddKeyPose(card.transform.position, card.transform.rotation);
-                    newCard.AddKeyPose(trLevelCardTarget.position, trLevelCardTarget.rotation);
-                    newCard.bNeedShow = true;
-
-                    levelCardSelected = newCard.gameObject;
-
-                    GlowController.RegisterObject(newCard.GetComponent<GlowObjectCmd>());
-
-                    //menuUI.UpdateCardLevelSelection();
-                    menuUI.UpdateStartButton();
-                    UpdateLockAspect();
-                }
+                menuManager.DeckOfCardsSelected = string.Empty;
             }
+            else
+            {
+                menuManager.DeckOfCardsSelected = deck.idQuestDeck;
+            }
+            menuUI.UpdateDeckSelection();
+
+            if (deckSelected != null)
+            {
+                OpenerContent oc = deckSelected.GetComponent<OpenerContent>();
+                oc.listKeyPose.Clear();
+                oc.AddKeyPose(oc.transform.position, oc.transform.rotation);
+                oc.AddKeyPose(oc.transform.position + new Vector3(2,2,2), Quaternion.Inverse(oc.transform.rotation));
+                oc.bNeedShow = true;
+                oc.bKill = true;
+            }
+
+            OpenerContent newDeck = Instantiate(deck.gameObject, deck.transform.position, deck.transform.rotation).GetComponent<OpenerContent>();
+
+            //newDeck.GetComponent<MeshFilter>().mesh = deck.GetComponent<MeshFilter>().sharedMesh;
+
+            newDeck.Init();
+
+            newDeck.listKeyPose.Clear();
+            newDeck.AddKeyPose(deck.transform.position, deck.transform.rotation);
+            newDeck.AddKeyPose(trQuestDeckTarget.position, trQuestDeckTarget.rotation);
+            newDeck.bNeedShow = true;
+
+            newDeck.fSpeed = 5;
+
+            Opener p = newDeck.GetComponent<Opener>();
+
+            p.listOpenerSiblings.Clear();
+            for(int i = 0; i < EventDeck.listOpenerSiblings.Count; i++)
+            {
+                p.listOpenerSiblings.Add(EventDeck.listOpenerSiblings[i]);
+                EventDeck.listOpenerSiblings[i].listOpenerSiblings.Add(p);
+            }
+
+            deckSelected = newDeck.gameObject;
+            UpdateLockAspect();
         }
     }
 
-    public void EventCardsSelectionControls()
+    public void LevelSelectionControls(GameObject hit)
     {
-        if (Input.GetMouseButtonDown(0))
+        CardLevel card = hit.transform.gameObject.GetComponent<CardLevel>();
+        if (card != null && card.gameObject != levelCardSelected)
         {
-            LayerMask mask = 1 << LayerMask.NameToLayer("EventCard");
-            RaycastHit hit;
-            Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, mask);
-            if(hit.transform != null)
+            AudioManager.Instance.PlayOneShot(AudioManager.Instance.paperSelectSound, 0.5f);
+            // TODO Maybe change selection criterias
+            /*if (menuManager.CardLevelSelected == card.levelIndex)
             {
-                EventCard ec = hit.transform.GetComponent<EventCard>();
-                if (ec.bSelected == true)
-                {
-                    RemoveEventCardFromSelection(hit.transform.gameObject);
-                }
-                else
-                {
-                    AddEventCardToSelection(hit.transform.gameObject);
-                }
-                UpdateLockAspect();
+                menuManager.CardLevelSelected = -1;
             }
+            else*/
+            {
+                menuManager.CardLevelSelected = card.levelIndex;
+            }
+
+            if (deckSelected != null)
+            {
+                OpenerContent oc = deckSelected.GetComponent<OpenerContent>();
+                oc.listKeyPose.Clear();
+                oc.AddKeyPose(oc.transform.position, oc.transform.rotation);
+                oc.AddKeyPose(oc.transform.position + new Vector3(2, 2, 2), Quaternion.Inverse(oc.transform.rotation));
+                oc.bNeedShow = true;
+                oc.bKill = true;
+            }
+
+            if (levelCardSelected != null)
+            {
+                OpenerContent oc = levelCardSelected.GetComponent<OpenerContent>();
+                oc.listKeyPose.Clear();
+                oc.AddKeyPose(oc.transform.position, oc.transform.rotation);
+                oc.AddKeyPose(oc.transform.position + new Vector3(2, 2, 2), Quaternion.Inverse(oc.transform.rotation));
+                oc.bNeedShow = true;
+                oc.bKill = true;
+            }
+
+            OpenerContent newCard = Instantiate(prefabLevelCardSelected, card.transform.position, card.transform.rotation).GetComponent<OpenerContent>();
+
+            newCard.GetComponent<MeshFilter>().mesh = card.GetComponent<MeshFilter>().sharedMesh;
+
+            newCard.Init();
+
+            newCard.listKeyPose.Clear();
+            newCard.AddKeyPose(card.transform.position, card.transform.rotation);
+            newCard.AddKeyPose(trLevelCardTarget.position, trLevelCardTarget.rotation);
+            newCard.bNeedShow = true;
+
+            levelCardSelected = newCard.gameObject;
+
+            GlowController.RegisterObject(newCard.GetComponent<GlowObjectCmd>());
+
+            //menuUI.UpdateCardLevelSelection();
+            menuUI.UpdateStartButton();
+            UpdateLockAspect();
         }
     }
 
-    public void KeeperSelectionControls()
+    public void EventCardsSelectionControls(GameObject hit)
     {
-        if (Input.GetMouseButtonDown(0))
+        EventCard ec = hit.transform.GetComponent<EventCard>();
+        if (ec.bSelected == true)
         {
-            RaycastHit hit;
-            LayerMask keeperLayerMask = 1 << LayerMask.NameToLayer("KeeperInstance"); ;
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, keeperLayerMask) == true)
-            {
-                PawnInstance pi = hit.transform.gameObject.GetComponent<PawnInstance>();
-                if (pi != null)
-                {
-                    if (menuManager.ContainsSelectedKeepers(pi)) // REMOVE
-                    {
-                        AudioManager.Instance.PlayOneShot(AudioManager.Instance.deselectSound, 0.25f);
-                        pi.GetComponent<OpenerContent>().Hide();
-                        menuManager.RemoveFromSelectedKeepers(pi);
-                        menuManager.dicPawnChatBox[pi.gameObject].SetMode(ChatBox.ChatMode.pickme);
-                        menuManager.dicPawnChatBox[pi.gameObject].Say("Oh no ...");
-                    }
-                    else    // ADD
-                    {
-                        AudioManager.Instance.PlayOneShot(AudioManager.Instance.selectSound, 0.25f);
-                        pi.GetComponent<OpenerContent>().Show();
+            RemoveEventCardFromSelection(hit.transform.gameObject);
+        }
+        else
+        {
+            AddEventCardToSelection(hit.transform.gameObject);
+        }
+        UpdateLockAspect();
+    }
 
-                        menuManager.AddToSelectedKeepers(pi);
-                        menuManager.dicPawnChatBox[pi.gameObject].SetMode(ChatBox.ChatMode.picked);
-                        menuManager.dicPawnChatBox[pi.gameObject].Say("Yahouuuu !");
-                    }
-                    //menuUI.UpdateSelectedKeepers();
-                    menuUI.UpdateStartButton();
-                    UpdateLockAspect();
-                }
+    public void KeeperSelectionControls(GameObject hit)
+    {
+        PawnInstance pi = hit.transform.gameObject.GetComponent<PawnInstance>();
+        if (pi != null)
+        {
+            if (menuManager.ContainsSelectedKeepers(pi)) // REMOVE
+            {
+                AudioManager.Instance.PlayOneShot(AudioManager.Instance.deselectSound, 0.25f);
+                pi.GetComponent<OpenerContent>().Hide();
+                menuManager.RemoveFromSelectedKeepers(pi);
+                menuManager.dicPawnChatBox[pi.gameObject].SetMode(ChatBox.ChatMode.pickme);
+                menuManager.dicPawnChatBox[pi.gameObject].Say("Oh no ...");
             }
+            else    // ADD
+            {
+                AudioManager.Instance.PlayOneShot(AudioManager.Instance.selectSound, 0.25f);
+                pi.GetComponent<OpenerContent>().Show();
+
+                menuManager.AddToSelectedKeepers(pi);
+                menuManager.dicPawnChatBox[pi.gameObject].SetMode(ChatBox.ChatMode.picked);
+                menuManager.dicPawnChatBox[pi.gameObject].Say("Yahouuuu !");
+            }
+            //menuUI.UpdateSelectedKeepers();
+            menuUI.UpdateStartButton();
+            UpdateLockAspect();
         }
     }
 
-    public void RuleBookControls()
+    public void RuleBookControls(GameObject hit)
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            RaycastHit hit;
-            LayerMask ruleBookLayer = 1 << LayerMask.NameToLayer("RuleBook"); ;
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, ruleBookLayer) == true)
-            {
-                Debug.Log("Click on rule book");
-            }
-        }
+        // TODO Rulebook controls
     }
 
     public void StartGame()
@@ -360,10 +340,21 @@ public class MenuControlsQ : MonoBehaviour {
 
         EventDeck.bNeedReload = true;
         EventDeck.LoadChilds();
+        if(EventDeck.listChilds.Count == 0)
+        {
+            EventDeck.GetComponent<MeshRenderer>().enabled = false;
+            EventDeck.GetComponent<MeshCollider>().enabled = false;
+        }
     }
 
     public void RemoveEventCardFromSelection(GameObject goCard)
     {
+        if (EventDeck.listChilds.Count == 0)
+        {
+            EventDeck.GetComponent<MeshRenderer>().enabled = true;
+            EventDeck.GetComponent<MeshCollider>().enabled = true;
+        }
+
         GameManager.Instance.ListEventSelected.Remove(goCard.GetComponent<EventCard>().id);
 
         goCard.GetComponent<EventCard>().bSelected = false;
@@ -386,18 +377,6 @@ public class MenuControlsQ : MonoBehaviour {
             EventCardSelectedOpener.GetComponent<MeshRenderer>().enabled = false;
             EventCardSelectedOpener.GetComponent<MeshCollider>().enabled = false;
         }
-    }
-
-    bool FindEventCard(string id)
-    {
-        for(int i=0; i < GameManager.Instance.ListEventSelected.Count; i++)
-        {
-            if(string.Compare(GameManager.Instance.ListEventSelected[i],id) == 0)
-            {
-                return true;
-            }
-        }
-        return false;
     }
 
     public void UpdateLockAspect()
