@@ -59,7 +59,7 @@ public class TriggerOnCristals : MonoBehaviour {
     public void Update()
     {
         // Hell yeah
-        if (GameManager.Instance.CurrentState == GameState.InBattle)
+        if (GameManager.Instance.CurrentState == GameState.InBattle || GameManager.Instance.CurrentState == GameState.InTuto)
             GetComponentInChildren<MeshRenderer>().enabled = false;
         else
             GetComponentInChildren<MeshRenderer>().enabled = true;
