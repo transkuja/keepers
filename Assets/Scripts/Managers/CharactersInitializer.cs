@@ -111,7 +111,6 @@ public class CharactersInitializer : MonoBehaviour {
                     {
                         HintWoman ta = t.transform.GetChild(i).GetComponent<HintWoman>();
                         ta.GetComponent<PawnInstance>().CurrentTile = t;
-                        InitCharacterUI(ta.GetComponent<PawnInstance>());
                     }
                 }
             }
@@ -177,10 +176,6 @@ public class CharactersInitializer : MonoBehaviour {
         else if (newCharacter.GetComponent<Trader>() != null)
         {
             // Do nothing yet but has to reach init for inventory
-        }
-        else if (newCharacter.GetComponent<HintWoman>() != null)
-        {
-            // Do nothing yet but has to reach init for interactable
         }
         else
         {
