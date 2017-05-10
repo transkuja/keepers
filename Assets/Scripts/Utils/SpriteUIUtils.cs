@@ -77,6 +77,7 @@ public class SpriteUIUtils : MonoBehaviour {
     public Sprite spriteMagicSymbol;
     public Sprite spriteAtkBuff;
     public Sprite spriteDefBuff;
-
+    public Sprite spriteAtkDesBoeufs;
+    public Sprite spriteDefDesBoeufs;
 }
 
