@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 [ExecuteInEditMode]
 public class PortalPassageAdder : MonoBehaviour {
@@ -24,7 +25,8 @@ public class PortalPassageAdder : MonoBehaviour {
         int l = portals.Length;
         for(int i = 0; i < l; i++)
         {
-            GameObject go = PrefabUtils.Instantiate(portalPassagesPrefab, portals[i].transform.parent.parent);
+            GameObject go = PrefabUtility.InstantiatePrefab(portalPassagesPrefab) as GameObject;
+            go.transform.parent = portals[i].transform.parent.parent;
             int sibIndex = portals[i].transform.parent.GetSiblingIndex();
             DestroyImmediate(portals[i].transform.parent.gameObject);
             go.transform.SetSiblingIndex(sibIndex);
