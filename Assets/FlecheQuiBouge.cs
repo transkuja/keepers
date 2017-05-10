@@ -8,12 +8,12 @@ public class FlecheQuiBouge : MonoBehaviour {
     public float speed = 3;
     private float timer = 0.0f;
     public float distanceOffset = 20.0f;
-	// Use this for initialization
+
 	void Start () {
         timer = 0.0f;
-	}
+        GetComponent<RectTransform>().sizeDelta = new Vector2((Screen.width * 1.2f) / 10.0f, (Screen.width *1.2f) / 10.0f);
+    }
 	
-	// Update is called once per frame
 	void Update () {
         timer += Time.unscaledDeltaTime;
         transform.position = transform.up * distanceOffset + PointToPoint + transform.up * ((Mathf.Sin(timer * speed)+1)/2) * magnitude;
