@@ -35,6 +35,26 @@ public class AnimationButtonClick : MonoBehaviour {
         nightExposure = 1.0f;
     }
 
+    public void OnEnable()
+    {
+        directionalLight = GameObject.Find("Directional Light").GetComponent<Light>();
+
+        AnimationClip ac = null;
+        for (int i = 0; i < GetComponent<Animator>().runtimeAnimatorController.animationClips.Length; i++)
+        {
+            if (GetComponent<Animator>().runtimeAnimatorController.animationClips[i].name == "NewTurn")
+            {
+                ac = GetComponent<Animator>().runtimeAnimatorController.animationClips[i];
+                break;
+            }
+
+        }
+        temps = ac.length;
+        baseColor = new Color32(0xFF, 0xF4, 0xD6, 0xFF);
+        nightColor = new Color32(0x01, 0x16, 0x56, 0xFF);
+        baseExposure = 2.5f;
+        nightExposure = 1.0f;
+    }
 
     public void ChangeLight()
     {

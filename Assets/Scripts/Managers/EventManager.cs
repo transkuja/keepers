@@ -31,13 +31,11 @@ public class EventManager : MonoBehaviour {
     public static void EndTurnEvent()
     {
 
-        HandleWeather();
-
-
         IncreaseHunger();
         DecreaseMentalHealth();
         ApplyEndTurnHungerPenalty();
         ApplyEndTurnMentalHealthPenalty();
+        HandleWeather();
 
         ResetActionPointsForNextTurn();
         GameManager.Instance.Ui.ClearUiOnTurnEnding();
@@ -283,7 +281,7 @@ public class EventManager : MonoBehaviour {
         // HEat distorsion
         if (GameManager.Instance.ListEventSelected.Contains("3"))
         {
-            if (GameManager.Instance.NbTurn % nbDayInWeek == 1 || GameManager.Instance.NbTurn % nbDayInWeek == 2)
+            if (GameManager.Instance.NbTurn % nbDayInWeek == 2 || GameManager.Instance.NbTurn % nbDayInWeek == 3)
             {
                 if (currentTile.Type == TileType.Desert && currentTile.State == TileState.Discovered)
                 {
