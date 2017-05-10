@@ -15,6 +15,8 @@ public class AudioManager : MonoBehaviour {
     public AudioClip Scene1Clip;
 
     public AudioClip Scene2Clip;
+    public AudioClip Scene3Clip;
+    public AudioClip Scene4Clip;
 
     public AudioClip walkSound;
 
