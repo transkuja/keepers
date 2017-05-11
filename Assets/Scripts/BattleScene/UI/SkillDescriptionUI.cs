@@ -108,6 +108,7 @@ public class SkillDescriptionUI : MonoBehaviour, IPointerEnterHandler, IPointerE
         {
             descriptionPanel = Instantiate(GameManager.Instance.PrefabUIUtils.skillDescriptionPanel, GameManager.Instance.Ui.transform.GetChild(0));
         }
+        descriptionPanel.SetActive(false);
         descriptionPanel.GetComponentInChildren<Text>().text = skillData.Description;
 
         if (skillData.TargetType == TargetType.FoeAll)
