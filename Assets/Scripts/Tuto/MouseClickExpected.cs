@@ -17,7 +17,10 @@ public class MouseClickExpected : MonoBehaviour, IPointerClickHandler {
             && TutoManager.s_instance.PlayingSequence.CurrentStep.GetType() == typeof(SeqMultiCharacters.ShortcutPanelTeaching))
         {
             if (Input.GetKeyDown(KeyCode.A))
+            {
                 TutoManager.MouseClicked = true;
+                GameManager.Instance.Ui.ToggleShortcutPanel();
+            }
         }
 
     }
