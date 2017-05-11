@@ -44,9 +44,6 @@ public class QuestManager : MonoBehaviour
                 CurrentQuestDeck.SideQuests.Clear();
         }
 
-
-
-
         ActiveQuests = new List<Quest>();
         CompletedQuests = new List<Quest>();
         Quests = new List<Quest>();

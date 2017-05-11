@@ -313,6 +313,12 @@ public class MenuControlsQ : MonoBehaviour {
                 case 2:
                     toPlay = AudioManager.Instance.Scene2Clip;
                     break;
+                case 3:
+                    toPlay = AudioManager.Instance.Scene3Clip;
+                    break;
+                case 4:
+                    toPlay = AudioManager.Instance.Scene4Clip;
+                    break;
                 default:
                     toPlay = AudioManager.Instance.menuMusic;
                     break;
