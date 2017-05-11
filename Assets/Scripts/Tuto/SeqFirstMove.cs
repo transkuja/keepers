@@ -450,7 +450,7 @@ public class SeqFirstMove : Sequence {
                 feedbackCircle = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabImageUI);
                 feedbackCircle.transform.SetParent(GameManager.Instance.AllKeepersList[0].GetComponent<Inventory>().SelectedInventoryPanel.transform.GetChild(0).GetChild(0));
                 feedbackCircle.transform.localPosition = Vector3.zero;
-                feedbackCircle.transform.localScale = Vector3.one;
+                feedbackCircle.transform.localScale = Vector3.one * 1.5f;
                 feedbackCircle.GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteTutoCircleFeedback;
                 feedbackCircle.AddComponent<ThrowDiceButtonFeedback>();
             }
