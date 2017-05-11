@@ -11,6 +11,9 @@ public class TooltipJauge : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     [SerializeField]
     private TypeOfJauge typeJauge;
 
+    private bool needToBeShown;
+    private float timer;
+
     public void OnPointerEnter(PointerEventData eventData)
     {
 
@@ -33,24 +36,57 @@ public class TooltipJauge : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
                 break;
 
         }
-        Invoke("showTooltip", 0.5f);
+        needToBeShown = true;
     }
 
     public void showTooltip()
     {
-        if (!tooltip.activeSelf)
+        if (!tooltip.activeSelf && needToBeShown)
+        {
             tooltip.SetActive(true);
+        }
+    }
+
+    public void hideTooltip()
+    {
+        if (tooltip.activeSelf)
+        {
+            tooltip.SetActive(false);
+            timer = 0.0f;
+
+        }
+        needToBeShown = false;
+
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (tooltip.activeSelf)
-            tooltip.SetActive(false);
+        hideTooltip();
     }
 
     // Use this for initialization
     void Start()
     {
         tooltip = GameManager.Instance.Ui.tooltipJauge;
+        needToBeShown = false;
+        timer = 0.0f;
+    }
+
+    void Update()
+    {
+        if (needToBeShown)
+        {
+            timer += Time.deltaTime;
+            {
+                if ( timer > 1000.0f)
+                {
+                    hideTooltip();
+                }
+                if (timer > 1.0f)
+                {
+                    showTooltip();
+                }
+            }
+        }
     }
 }
