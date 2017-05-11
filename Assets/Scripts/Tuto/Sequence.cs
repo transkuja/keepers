@@ -156,7 +156,6 @@ public abstract class Sequence : MonoBehaviour
         GameManager.Instance.Ui.ClearActionPanel();
 
         GameManager.Instance.PersistenceLoader.SetSequenceUnlocked(TutoManager.s_instance.PlayingSequence.GetType().ToString().ToLower(), true);
-        Debug.Log(TutoManager.s_instance.PlayingSequence.GetType().ToString().ToLower());
         Debug.Log(GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences[TutoManager.s_instance.PlayingSequence.GetType().ToString().ToLower()]);
         GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences[TutoManager.s_instance.PlayingSequence.GetType().ToString().ToLower()] = true;
         Debug.Log(GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences[TutoManager.s_instance.PlayingSequence.GetType().ToString().ToLower()]);
@@ -164,10 +163,8 @@ public abstract class Sequence : MonoBehaviour
         {
             GameManager.Instance.PersistenceLoader.SetPawnUnlocked("grekhan", true);
             GameManager.Instance.PersistenceLoader.SetPawnUnlocked("lupus", true);
-            GameManager.Instance.PersistenceLoader.SetPawnUnlocked("swag", true);
             GameManager.Instance.PersistenceLoader.Pd.dicPersistencePawns["grekhan"] = true;
             GameManager.Instance.PersistenceLoader.Pd.dicPersistencePawns["lupus"] = true;
-            GameManager.Instance.PersistenceLoader.Pd.dicPersistencePawns["swag"] = true;
 
             GameManager.Instance.PersistenceLoader.SetLevelUnlocked("4", true);
             GameManager.Instance.PersistenceLoader.SetLevelUnlocked("2", true);
