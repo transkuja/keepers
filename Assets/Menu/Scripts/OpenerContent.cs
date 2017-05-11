@@ -29,6 +29,7 @@ public class OpenerContent : MonoBehaviour {
     bool bIsMoving = false;
 
     public MeshCollider col;
+    public Canvas cvs;
     public Renderer rd;
 
     public bool bNeedCompute = false;
@@ -49,6 +50,7 @@ public class OpenerContent : MonoBehaviour {
 
         col = GetComponent<MeshCollider>();
         rd = GetComponent<Renderer>();
+        cvs = GetComponentInChildren<Canvas>();
         if(col != null)
         {
             col.enabled = false;
@@ -56,6 +58,10 @@ public class OpenerContent : MonoBehaviour {
         if (rd != null)
         {
             rd.enabled = false;
+        }
+        if (openerParent != null && cvs != null)
+        {
+            cvs.enabled = false;
         }
     }
 
@@ -104,6 +110,10 @@ public class OpenerContent : MonoBehaviour {
                 {
                     rd.enabled = true;
                 }
+                if(cvs != null)
+                {
+                    cvs.enabled = true;
+                }
             }else
             {
                 if(col != null)
@@ -128,6 +138,10 @@ public class OpenerContent : MonoBehaviour {
             {
                 rd.enabled = true;
             }
+            if(cvs != null)
+            {
+                cvs.enabled = true;
+            }
         }
         else
         {
@@ -149,6 +163,10 @@ public class OpenerContent : MonoBehaviour {
         if (force && rd != null)
         {
             rd.enabled = true;
+            if(cvs != null)
+            {
+                cvs.enabled = true;
+            }
         }
         if (!bIsMoving || force)
         {
@@ -215,6 +233,10 @@ public class OpenerContent : MonoBehaviour {
                     if(rd != null)
                     {
                         rd.enabled = false;
+                        if (cvs != null)
+                        {
+                            cvs.enabled = false;
+                        }
                     }
                     if(openerParent != null)
                     {
@@ -256,5 +278,13 @@ public class OpenerContent : MonoBehaviour {
     public void AddKeyPose(Vector3 _v3Pos, Quaternion _quatRot)
     {
         listKeyPose.Add(new OpenerContent.keyPose(_v3Pos, _quatRot));
+    }
+
+    void OnMouseOver()
+    {
+        if(openerParent!= null && openerParent.bOverMode)
+        {
+            openerParent.fOverTimer = openerParent.fOverTime;
+        }
     }
 }

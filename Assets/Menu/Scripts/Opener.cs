@@ -10,11 +10,12 @@ public class Opener : MonoBehaviour {
 
     [HideInInspector] public List<Opener> listOpenerSiblings;
     [HideInInspector] public List<OpenerContent> listChilds;
-    [HideInInspector] public bool bOpened = false;
+    /*[HideInInspector]*/ public bool bOpened = false;
     [HideInInspector] public bool bDontClose = false;
     [HideInInspector] public bool bNeedReload = false;
 
-    float fOverTimer = 0;
+    [HideInInspector] public float fOverTimer = 0;
+
     LayerMask layerToCheck;
 
     public List<Transform> listTrSpots;
@@ -50,66 +51,48 @@ public class Opener : MonoBehaviour {
 
     }
 
-    void LoadSiblings()
-
+    public void Reset()
     {
-
-        if (transform.parent != null)
-
-        {
-
-            Opener openerTemp;
-
-            for (int i = 0; i < transform.parent.childCount; i++)
-
-            {
-
-                openerTemp = transform.parent.GetChild(i).gameObject.GetComponent<Opener>();
-
-                if (openerTemp != null && openerTemp != this)
-
-                {
-
-                    if (listOpenerSiblings == null)
-
-                    {
-
-                        listOpenerSiblings = new List<Opener>();
-
-                    }
-
-                    listOpenerSiblings.Add(openerTemp);
-
-                }
-
-            }
-
-        }
+        Fold();
+        LoadChilds();
 
     }
 
-    public void LoadChilds()
-
+    void LoadSiblings()
     {
+        if (transform.parent != null)
+        {
+            Opener openerTemp;
+            for (int i = 0; i < transform.parent.childCount; i++)
+            {
+                openerTemp = transform.parent.GetChild(i).gameObject.GetComponent<Opener>();
+                if (openerTemp != null && openerTemp != this)
+                {
+                    if (listOpenerSiblings == null)
+                    {
+                        listOpenerSiblings = new List<Opener>();
+                    }
+                    listOpenerSiblings.Add(openerTemp);
+                }
+            }
+        }
+    }
 
+    public void LoadChilds()
+    {
         listChilds = new List<OpenerContent>();
 
-
-
         for (int i = 0; i < transform.childCount; i++)
-
         {
-
             if (transform.GetChild(i).tag == "OpenerContent")
-
             {
-
                 listChilds.Add(transform.GetChild(i).gameObject.GetComponent<OpenerContent>());
-
+                if (transform.GetChild(i).GetComponent<Displayer>() != null)
+                {
+                    transform.GetChild(i).GetComponent<Displayer>().LoadSiblings();
+                }
             }
-
         }
-
     }
 
     public void ComputeContentPositions()
@@ -181,53 +164,30 @@ public class Opener : MonoBehaviour {
     }
 
     void Update()
-
     {
-
         if(bOpened == true && Input.GetMouseButtonDown(0))
-
         {
-
             RaycastHit hit;
-
             Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, layerToCheck);
-
             if(hit.transform == null)
-
             {
-
                 Fold();
-
             }
-
         }
 
-
-
-        if (bOverMode)
-
+        if (bOverMode && bOpened)
         {
-
             if(fOverTimer > 0)
-
             {
-
                 fOverTimer -= Time.unscaledDeltaTime;
-
             }
 
-
-
-            if(fOverTimer < 0 && !bDontClose)
-
+            if(fOverTimer < 0 && !bDontClose )
             {
-
+                fOverTimer = 0;
                 Fold();
-
             }
-
         }
-
     }
 
     #region OverMode
@@ -235,54 +195,32 @@ public class Opener : MonoBehaviour {
 
 
     void OnMouseEnter()
-
     {
-
-        if (bOverMode && !bOpened)
-
-        {
-
-            Unfold();
-
-            CloseSiblings();
-
+        if (bOverMode) {
+            //if (!bOpened){
+                Unfold();
+                CloseSiblings();
+            //}
             fOverTimer = 0;
-
         }
-
     }
 
 
 
     void OnMouseExit()
-
     {
-
         if (bOverMode)
-
         {
-
             if (bDontClose)
-
             {
-
                 fOverTimer = 0;
-
             }
-
             else
-
             {
-
                 fOverTimer = fOverTime;
-
             }
-
         }
-
     }
-
-
 
     #endregion
 
@@ -327,6 +265,8 @@ public class Opener : MonoBehaviour {
 
     public void Fold(bool force = false) // Rangement du contenu
     {
+        bDontClose = false;
+
         if (bNeedReload)
         {
             LoadChilds();
@@ -334,7 +274,7 @@ public class Opener : MonoBehaviour {
             bNeedReload = false;
         }
 
-        for (int i = 0; (bOpened || force) && i < listChilds.Count; i++)
+        for (int i = 0; /*(bOpened || force) &&*/ i < listChilds.Count; i++)
         {
             listChilds[i].Hide(force);
             if (!bIsLast)

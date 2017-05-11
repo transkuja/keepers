@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using QuestDeckLoader;
+using UnityEngine.UI;
 
 public class MenuManagerQ : MonoBehaviour {
 
-    [SerializeField]
-    GameObject prefabChatox;
+    [SerializeField] GameObject prefabChatox;
 
     [HideInInspector] public  Dictionary<GameObject, ChatBox> dicPawnChatBox;
 
@@ -14,7 +14,7 @@ public class MenuManagerQ : MonoBehaviour {
     private string deckOfCardsSelected = string.Empty;
     private List<PawnInstance> listeSelectedKeepers;
 
-    public Transform questDecksPosition;
+    //public Transform questDecksPosition;
     public Transform[] keepersPosition;
     public List<Transform> keepersPositionTarget = new List<Transform>();
     public Transform levelDeckPosition;
@@ -22,7 +22,9 @@ public class MenuManagerQ : MonoBehaviour {
     public GameObject GoPrefabLevelCard;
     public GameObject GoPrefabEventCard;
     public GameObject GoPrefabQuestCard;
-    public GameObject GoPrefabDeck;
+    public GameObject GoPrefabMainQuestCard;
+    public GameObject GoPrefabSideQuestCard;
+    //public GameObject GoPrefabDeck;
 
     [HideInInspector] public LevelDataBase leveldb;
 
@@ -31,13 +33,19 @@ public class MenuManagerQ : MonoBehaviour {
 
     [SerializeField] public List<GameObject> listLevelCards = new List<GameObject>();
 
+    [SerializeField] GameObject prefabLevelCard;
+    [SerializeField] GameObject prefabEventCard;
+    [SerializeField] GameObject prefabMainQuestCard;
+    [SerializeField] GameObject prefabSideQuestCard;
+    [SerializeField] GameObject prefabDeck;
+
     void Start()
     {
         listeSelectedKeepers = new List<PawnInstance>();
         leveldb = new LevelDataBase();
         ChatBoxDatabase.Load();
 
-        InitEventCards();
+        //InitEventCards();
         InitCards();
         InitKeepers();
     }
@@ -47,7 +55,7 @@ public class MenuManagerQ : MonoBehaviour {
 
     }
 
-    public void InitEventCards()
+    /*public void InitEventCards()
     {
 
 
@@ -73,7 +81,7 @@ public class MenuManagerQ : MonoBehaviour {
         {
             questDecksPosition.gameObject.SetActive(true);
         }
-    }
+    }*/
 
     public void InitCards()
     {
@@ -83,10 +91,12 @@ public class MenuManagerQ : MonoBehaviour {
             {
 
                 // Instanciation des cartes de level
-                GameObject goCardLevel = Instantiate(GoPrefabLevelCard, levelDeckPosition);
+                GameObject goCardLevel = Instantiate(prefabLevelCard, levelDeckPosition);
                 goCardLevel.transform.localPosition = Vector3.zero;
+                goCardLevel.GetComponentInChildren<Text>().text = leveldb.listLevels[i].name;
+                // TODO Maybe add description to level
 
-                goCardLevel.GetComponent<MeshFilter>().mesh = GetLevelCardModel(leveldb.listLevels[i].cardModelName).GetComponent<MeshFilter>().sharedMesh;
+                //goCardLevel.GetComponent<MeshFilter>().mesh = GetLevelCardModel(leveldb.listLevels[i].cardModelName).GetComponent<MeshFilter>().sharedMesh;
                 goCardLevel.GetComponent<CardLevel>().levelIndex = leveldb.listLevels[i].id;
 
                 if (GameManager.Instance.PersistenceLoader.Pd.dicPersistenceDecks[leveldb.listLevels[i].deckId.ToString()] == true)
@@ -101,25 +111,30 @@ public class MenuManagerQ : MonoBehaviour {
                     goDeck.GetComponent<DeckOfCards>().idQuestDeck = leveldb.listLevels[i].listDeckId[j];*/
 
                     // Instantiation de la carte de quete principale
-                    GameObject goQuestCard = Instantiate(GoPrefabQuestCard, goCardLevel.transform);      
+                    GameObject goQuestCard = Instantiate(prefabMainQuestCard, goCardLevel.transform);      
                     goQuestCard.transform.localPosition = Vector3.zero;
+                    goQuestCard.GetComponentInChildren<Text>().text = GameManager.Instance.QuestDeckDataBase.GetDeckByID(leveldb.listLevels[i].deckId).MainQuest;
+                    // TODO Add real name and description to quests
 
-                    goQuestCard.GetComponent<MeshFilter>().mesh = GetCardModel(qdd.mainQuestCardModel).GetComponent<MeshFilter>().sharedMesh;
+                    //goQuestCard.GetComponent<MeshFilter>().mesh = GetCardModel(qdd.mainQuestCardModel).GetComponent<MeshFilter>().sharedMesh;
 
                     for (int k = 0; k < qdd.secondaryQuests.Count; k++) // Instantiations des cartes de quete annexe
                     {
-                        goQuestCard = Instantiate(GoPrefabQuestCard, goCardLevel.transform);
+                        goQuestCard = Instantiate(prefabSideQuestCard, goCardLevel.transform);
                         goQuestCard.transform.localPosition = Vector3.zero;
+                        goQuestCard.GetComponentInChildren<Text>().text = qdd.secondaryQuests[k].idQuest; // TODO Add real name and description to quests
 
-                        goQuestCard.GetComponent<MeshFilter>().mesh = GetCardModel(qdd.secondaryQuests[k].cardModelname).GetComponent<MeshFilter>().sharedMesh;
+                        //goQuestCard.GetComponent<MeshFilter>().mesh = GetCardModel(qdd.secondaryQuests[k].cardModelname).GetComponent<MeshFilter>().sharedMesh;
                     }
 
                     for (int l = 0; l < leveldb.listLevels[i].listEventsId.Count; l++)
                     {
-                        GameObject goEventCard = Instantiate(GoPrefabEventCard, goCardLevel.transform);
+                        GameObject goEventCard = Instantiate(prefabEventCard, goCardLevel.transform);
                         goEventCard.transform.localPosition = Vector3.zero;
-                        goEventCard.GetComponent<MeshFilter>().mesh = GetCardModel(GameManager.Instance.EventDataBase.GetEventById(leveldb.listLevels[i].listEventsId[l]).cardModelName).GetComponent<MeshFilter>().sharedMesh;
+                        //goEventCard.GetComponent<MeshFilter>().mesh = GetCardModel(GameManager.Instance.EventDataBase.GetEventById(leveldb.listLevels[i].listEventsId[l]).cardModelName).GetComponent<MeshFilter>().sharedMesh;
                         goEventCard.GetComponent<EventCard>().id = leveldb.listLevels[i].listEventsId[l];
+                        goEventCard.GetComponentInChildren<Text>().text = GameManager.Instance.EventDataBase.GetEventById(leveldb.listLevels[i].listEventsId[l]).name
+                                                                            + "\n\n" + GameManager.Instance.EventDataBase.GetEventById(leveldb.listLevels[i].listEventsId[l]).description;
                     }
                 }
             }
@@ -182,19 +197,6 @@ public class MenuManagerQ : MonoBehaviour {
         }
     }
 
-    public string DeckOfCardsSelected
-    {
-        get
-        {
-            return deckOfCardsSelected;
-        }
-
-        set
-        {
-            deckOfCardsSelected = value;
-        }
-    }
-
     public List<PawnInstance> ListeSelectedKeepers
     {
         get
@@ -205,6 +207,19 @@ public class MenuManagerQ : MonoBehaviour {
         set
         {
             listeSelectedKeepers = value;
+        }
+    }
+
+    public string DeckOfCardsSelected
+    {
+        get
+        {
+            return deckOfCardsSelected;
+        }
+
+        set
+        {
+            deckOfCardsSelected = value;
         }
     }
 

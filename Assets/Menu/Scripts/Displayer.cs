@@ -51,12 +51,32 @@ public class Displayer : MonoBehaviour {
             }
         }*/
 
-        Displayer[] tabDisplayers = GameObject.FindObjectsOfType<Displayer>();
+        LoadSiblings();
+    }
+
+    public void LoadSiblings()
+    {
+        /*Displayer[] tabDisplayers = GameObject.FindObjectsOfType<Displayer>();
         for (int i = 0; i < tabDisplayers.Length; i++)
         {
-            if(tabDisplayers[i].gameObject != gameObject)
+            if (tabDisplayers[i].gameObject != gameObject)
             {
                 listDisplayerSiblings.Add(tabDisplayers[i]);
+            }
+        }*/
+
+        listDisplayerSiblings = new List<Displayer>();
+
+        if (transform.parent != null)
+        {
+            Displayer displayerTemp;
+            for (int i = 0; i < transform.parent.childCount; i++)
+            {
+                displayerTemp = transform.parent.GetChild(i).gameObject.GetComponent<Displayer>();
+                if (displayerTemp != null && displayerTemp != this)
+                {
+                    listDisplayerSiblings.Add(displayerTemp);
+                }
             }
         }
     }
