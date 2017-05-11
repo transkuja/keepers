@@ -200,6 +200,17 @@ public class MenuControlsQ : MonoBehaviour {
             menuManager.CardLevelSelected = card.levelIndex;
             menuManager.DeckOfCardsSelected = menuManager.leveldb.GetLevelById(card.levelIndex).deckId;
 
+            GameManager.Instance.ListEventSelected.Clear();
+
+            for (int i = 0; i < menuManager.leveldb.GetLevelById(card.levelIndex).listEventsId.Count; i++)
+            {
+                if (GameManager.Instance.PersistenceLoader.Pd.dicPersistenceEvents[menuManager.leveldb.GetLevelById(card.levelIndex).listEventsId[i]] == true)
+                {
+                    GameManager.Instance.ListEventSelected.Add(menuManager.leveldb.GetLevelById(card.levelIndex).listEventsId[i]);
+                }
+            }
+
+
             /*if (deckSelected != null)
             {
                 OpenerContent oc = deckSelected.GetComponent<OpenerContent>();

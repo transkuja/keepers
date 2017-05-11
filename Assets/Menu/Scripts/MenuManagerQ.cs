@@ -127,14 +127,19 @@ public class MenuManagerQ : MonoBehaviour {
                         //goQuestCard.GetComponent<MeshFilter>().mesh = GetCardModel(qdd.secondaryQuests[k].cardModelname).GetComponent<MeshFilter>().sharedMesh;
                     }
 
+
                     for (int l = 0; l < leveldb.listLevels[i].listEventsId.Count; l++)
                     {
-                        GameObject goEventCard = Instantiate(prefabEventCard, goCardLevel.transform);
-                        goEventCard.transform.localPosition = Vector3.zero;
-                        //goEventCard.GetComponent<MeshFilter>().mesh = GetCardModel(GameManager.Instance.EventDataBase.GetEventById(leveldb.listLevels[i].listEventsId[l]).cardModelName).GetComponent<MeshFilter>().sharedMesh;
-                        goEventCard.GetComponent<EventCard>().id = leveldb.listLevels[i].listEventsId[l];
-                        goEventCard.GetComponentInChildren<Text>().text = GameManager.Instance.EventDataBase.GetEventById(leveldb.listLevels[i].listEventsId[l]).name
-                                                                            + "\n\n" + GameManager.Instance.EventDataBase.GetEventById(leveldb.listLevels[i].listEventsId[l]).description;
+                        if (GameManager.Instance.PersistenceLoader.Pd.dicPersistenceEvents[GameManager.Instance.EventDataBase.listEvents[l].id] == true)
+                        {
+                            GameObject goEventCard = Instantiate(prefabEventCard, goCardLevel.transform);
+                            goEventCard.transform.localPosition = Vector3.zero;
+                            //goEventCard.GetComponent<MeshFilter>().mesh = GetCardModel(GameManager.Instance.EventDataBase.GetEventById(leveldb.listLevels[i].listEventsId[l]).cardModelName).GetComponent<MeshFilter>().sharedMesh;
+                            goEventCard.GetComponent<EventCard>().id = leveldb.listLevels[i].listEventsId[l];
+                            goEventCard.GetComponentInChildren<Text>().text = GameManager.Instance.EventDataBase.GetEventById(leveldb.listLevels[i].listEventsId[l]).id + "\n" +
+                                                                                GameManager.Instance.EventDataBase.GetEventById(leveldb.listLevels[i].listEventsId[l]).name
+                                                                                + "\n\n" + GameManager.Instance.EventDataBase.GetEventById(leveldb.listLevels[i].listEventsId[l]).description;
+                        }
                     }
                 }
             }
