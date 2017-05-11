@@ -12,6 +12,8 @@ public class DragHandler : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (GameManager.Instance.CurrentState == GameState.InTuto)
+            return;
         //if (GameManager.Instance.IsShiftPressed)
         //{
         //    if(eventData.pointerDrag.GetType() == typeof(ItemConsumable))
@@ -38,14 +40,17 @@ public class DragHandler : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
 
     public void OnDrag(PointerEventData eventData)
     {
-
+        if (GameManager.Instance.CurrentState == GameState.InTuto)
+            return;
         transform.position = Input.mousePosition;
 
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-  
+        if (GameManager.Instance.CurrentState == GameState.InTuto)
+            return;
+
         if (eventData.pointerEnter == null)
         {
             InventoryOwner inventaireDequi = startParent.parent.GetComponent<InventoryOwner>();
