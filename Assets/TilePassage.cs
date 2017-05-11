@@ -18,6 +18,8 @@ public class TilePassage : MonoBehaviour {
 
     int actionCostMove = 2;
 
+    public Direction dir;
+
 
 
     // Use this for initialization
@@ -25,8 +27,6 @@ public class TilePassage : MonoBehaviour {
     void Start () {
 
         string strTag = tag;
-
-        Direction dir;
 
 
 
@@ -448,7 +448,7 @@ public class TilePassage : MonoBehaviour {
     public void OnTriggerStay(Collider other)
 
     {
-        if (other.GetComponentInParent<Keeper>() != null && other.isTrigger)
+        if (other.GetComponentInParent<Keeper>() != null && other.GetComponentInParent<AnimatedPawn>().WhereMove == (int)dir)
 
         {
             if (other.GetComponentInParent<AnimatedPawn>().CmdExplore == true)
