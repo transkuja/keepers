@@ -1,26 +1,41 @@
 ﻿using UnityEngine;
 using Behaviour;
+using System.Collections.Generic;
 
 public class BattleLauncher : MonoBehaviour {
 
-    private void OnTriggerEnter(Collider other)
+    PawnInstance instance;
+
+    void Start()
     {
-        if (GameManager.Instance.CurrentState == GameState.Normal)
+        instance = GetComponentInParent<PawnInstance>();
+    }
+
+    void LaunchBattle(PawnInstance _aggroTarget)
+    {
+        if (GetComponentInParent<Monster>().BattleOnCollision && _aggroTarget.GetComponentInParent<Fighter>() != null && _aggroTarget.GetComponentInParent<Fighter>().IsTargetableByMonster == true)
         {
-            if (other.gameObject.GetComponentInParent<Monster>() != null && other.gameObject.GetComponent<AggroBehaviour>() == null && other.gameObject.GetComponentInParent<Monster>().BattleOnCollision)
+            BattleHandler.StartBattleProcess(instance.CurrentTile);
+            GameManager.Instance.UpdateCameraPosition(_aggroTarget);
+        }
+    }
+
+    void Update()
+    {
+        if (GameManager.Instance.CurrentState == GameState.Normal && !BattleHandler.IsABattleAlreadyInProcess())
+        {
+            if (instance == null) instance = GetComponentInParent<PawnInstance>();
+
+            // If an error appears here, call the 0646440132, thanks
+            if (TileManager.Instance.KeepersOnTile.ContainsKey(instance.CurrentTile))
             {
-                if (GetComponentInParent<Fighter>() != null && GetComponentInParent<Fighter>().IsTargetableByMonster == true)
+                List<PawnInstance> keepers = TileManager.Instance.KeepersOnTile[instance.CurrentTile];
+                for (int i = 0; i < keepers.Count; i++)
                 {
-                    if (other.gameObject.GetComponentInParent<PawnInstance>().CurrentTile == GetComponentInParent<PawnInstance>().CurrentTile)
+                    if (keepers[i].CurrentTile == instance.CurrentTile)
                     {
-                        if (BattleHandler.IsABattleAlreadyInProcess())
-                            return;
-
-                        Tile tile = GetComponentInParent<PawnInstance>().CurrentTile;
-
-                        BattleHandler.StartBattleProcess(tile);
-
-                        GameManager.Instance.UpdateCameraPosition(GetComponentInParent<PawnInstance>());
+                        if (Vector3.Distance(keepers[i].transform.position, transform.position) < 0.5f)
+                            LaunchBattle(keepers[i]);
                     }
                 }
             }

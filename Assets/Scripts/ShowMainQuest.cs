@@ -70,11 +70,8 @@ public class ShowMainQuest : MonoBehaviour {
             isFirstStepFinished = false;
 
             gameObject.SetActive(false);
-            Debug.Log(TutoManager.s_instance);
             if (TutoManager.s_instance != null && TutoManager.s_instance.enableTuto)
             {
-                Debug.Log(GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqfirstmove"]);
-                Debug.Log(GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqmulticharacters"]);
                 if (GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqfirstmove"] == false)
                     TutoManager.s_instance.playSequence(TutoManager.s_instance.GetComponent<SeqFirstMove>());
                 else if (GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqmulticharacters"] == false)
