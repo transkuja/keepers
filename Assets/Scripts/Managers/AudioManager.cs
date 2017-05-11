@@ -34,7 +34,7 @@ public class AudioManager : MonoBehaviour {
 
     public AudioClip winningSound;
 
-    private AudioClip musicToPlay;
+    public AudioClip crystalOnSound;
 
     public AudioClip commonBattleMusic;
 
@@ -42,6 +42,7 @@ public class AudioManager : MonoBehaviour {
 
     public AudioClip epicFightMusic;
 
+    private AudioClip musicToPlay;
     private AudioClip previousMusic;
 
     [SerializeField]
@@ -182,6 +183,6 @@ public class AudioManager : MonoBehaviour {
 
     public void PlayButtonClickSound(int i = 0)
     {
-        PlayOneShot(interactionButtonClick);
+        PlayOneShot(interactionButtonClick, 0.5f);
     }
 }

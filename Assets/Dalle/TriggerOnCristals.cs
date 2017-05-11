@@ -44,7 +44,11 @@ public class TriggerOnCristals : MonoBehaviour {
 	public void OnTriggerEnter(Collider col){
         if (col.GetComponentInParent<Keeper>() != null && col.isTrigger)
         {
-            TriggerActif = true;
+            if(!TriggerActif)
+            {
+                AudioManager.Instance.PlayOneShot(AudioManager.Instance.crystalOnSound, 0.5f);
+                TriggerActif = true;
+            }
 		}
 	}
 
@@ -68,6 +72,7 @@ public class TriggerOnCristals : MonoBehaviour {
 			mat.SetColor ("_EmissionColor", storedColor);
 		} else {
 			mat.SetColor ("_EmissionColor", Color.blue);
+            //GetComponentInChildren<ParticleSystem>().main.startColor.color = Color.blue;
 		}
 
         transform.Rotate(Vector3.up, 0.5f);
