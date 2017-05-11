@@ -30,6 +30,8 @@ public class SeqTutoCombat : Sequence
             rdButton.GetComponent<ThrowDiceButtonFeedback>().enabled = true;
             rdButton.interactable = true;
 
+            rdButton.transform.parent.SetParent(GameManager.Instance.Ui.transform.GetChild(0));
+            
             TutoManager.s_instance.EcrireMessage(str);
             TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.WaitingForClickUI;
         }
@@ -40,6 +42,9 @@ public class SeqTutoCombat : Sequence
             Button rdButton = seqTutoCombat.rollDiceButton.GetComponentInChildren<Button>();
             if (rdButton.gameObject.GetComponent<MouseClickExpected>() != null)
                 Destroy(rdButton.gameObject.GetComponent<MouseClickExpected>());
+
+            rdButton.transform.parent.SetParent(GameManager.Instance.GetBattleUI.transform);
+            rdButton.transform.parent.SetSiblingIndex(1);
             alreadyPlayed = false;
         }
     }
@@ -80,6 +85,7 @@ public class SeqTutoCombat : Sequence
     public class PawnSelection : Step
     {
         string str;
+        GameObject feedbackMouse;
         public PawnSelection(string _str)
         {
             stepFunction = Message_fct;
@@ -91,6 +97,18 @@ public class SeqTutoCombat : Sequence
             if (BattleHandler.CurrentBattleKeepers[0].gameObject.GetComponent<MouseClickedOnIngameElt>() == null)
                 BattleHandler.CurrentBattleKeepers[0].gameObject.AddComponent<MouseClickedOnIngameElt>();
 
+            BattleHandler.CurrentBattleKeepers[0].GetComponent<GlowObjectCmd>().ActivateBlinkBehaviour(true);
+            BattleHandler.CurrentBattleKeepers[0].GetComponent<GlowObjectCmd>().enabled = true;
+
+            if (feedbackMouse == null)
+            {
+                feedbackMouse = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabImageUI, GameManager.Instance.Ui.transform.GetChild(0));
+                feedbackMouse.transform.position = Camera.main.WorldToScreenPoint(BattleHandler.CurrentBattleKeepers[0].GetComponent<Interactable>().Feedback.position) + Vector3.up * (50 * (Screen.height / 1080.0f));
+                feedbackMouse.transform.localScale = Vector3.one;
+                feedbackMouse.AddComponent<ShowClickIsExpected>();
+                feedbackMouse.GetComponent<ShowClickIsExpected>().IsLeftClick = true;
+            }
+
             TutoManager.s_instance.EcrireMessage(str);
             TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.WaitingForClickInGame;
         }
@@ -99,7 +117,8 @@ public class SeqTutoCombat : Sequence
         {
             if (BattleHandler.CurrentBattleKeepers[0].gameObject.GetComponent<MouseClickedOnIngameElt>() != null)
                 Destroy(BattleHandler.CurrentBattleKeepers[0].gameObject.GetComponent<MouseClickedOnIngameElt>());
-
+            Destroy(feedbackMouse);
+            GameManager.Instance.AllKeepersList[0].GetComponent<GlowObjectCmd>().ActivateBlinkBehaviour(false);
             alreadyPlayed = false;
         }
     }
