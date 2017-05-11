@@ -59,6 +59,7 @@ public class SpriteUIUtils : MonoBehaviour {
     public Sprite spriteMouseLeftClicked;
     public Sprite spriteMouseMiddleClicked;
     public Sprite spriteCookie;
+    public Sprite spriteTutoCircleFeedback;
 
     // Life bars
     [Header("Battle")]

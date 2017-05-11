@@ -11,8 +11,11 @@ public class ThrowDiceButtonFeedback : MonoBehaviour {
     [SerializeField]
     private Image highlightFeedback;
 
+    Vector3 standardScale;
+
     private void OnEnable()
     {
+        standardScale = transform.localScale;
         if (highlightFeedback != null && GameManager.Instance.CurrentState == GameState.InTuto && TutoManager.s_instance.GetComponent<SeqTutoCombat>().AlreadyPlayed == false)
             highlightFeedback.enabled = true;
         timer = 0.0f;
@@ -21,14 +24,14 @@ public class ThrowDiceButtonFeedback : MonoBehaviour {
     {
         if (highlightFeedback != null)
             highlightFeedback.enabled = false;
-        transform.localScale = Vector3.one;
+        transform.localScale = standardScale;
     }
 
     void Update()
     {
         timer += Time.deltaTime;
         float variableQ = Mathf.Cos(timer * speed);
-        transform.localScale = new Vector3(1 + variableQ / magnitude, 1 + variableQ / magnitude, 0);
+        transform.localScale = new Vector3(standardScale.x + variableQ / magnitude, standardScale.x + variableQ / magnitude, 0);
 
         if (timer >= 2 * Mathf.PI)
         {

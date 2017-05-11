@@ -112,6 +112,7 @@ public class SeqFirstMove : Sequence {
     public class SelectCharacterStep : Step
     {
         string str;
+        GameObject feedbackMouse;
         public SelectCharacterStep(string _str)
         {
             stepFunction = Message_fct;
@@ -127,6 +128,15 @@ public class SeqFirstMove : Sequence {
             GameManager.Instance.AllKeepersList[0].GetComponent<GlowObjectCmd>().ActivateBlinkBehaviour(true);
             GameManager.Instance.AllKeepersList[0].GetComponent<GlowObjectCmd>().enabled = true;
 
+            if (feedbackMouse == null)
+            {
+                feedbackMouse = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabImageUI, GameManager.Instance.Ui.transform.GetChild(0));
+                feedbackMouse.transform.position = Camera.main.WorldToScreenPoint(GameManager.Instance.AllKeepersList[0].GetComponent<Interactable>().Feedback.position) + Vector3.up * (50 * (Screen.height/1080.0f));
+                feedbackMouse.transform.localScale = Vector3.one;
+                feedbackMouse.AddComponent<ShowClickIsExpected>();
+                feedbackMouse.GetComponent<ShowClickIsExpected>().IsLeftClick = true;
+            }
+
             TutoManager.s_instance.EcrireMessage(str);
             TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.WaitingForClickInGame;
         }
@@ -134,6 +144,7 @@ public class SeqFirstMove : Sequence {
         public override void Reverse()
         {
             Destroy(GameManager.Instance.AllKeepersList[0].gameObject.GetComponent<MouseClickedOnIngameElt>());
+            Destroy(feedbackMouse);
             GameManager.Instance.AllKeepersList[0].GetComponent<GlowObjectCmd>().ActivateBlinkBehaviour(false);
             alreadyPlayed = false;
         }
@@ -142,6 +153,7 @@ public class SeqFirstMove : Sequence {
     public class MovePawnOnTileStep : Step
     {
         string str;
+        GameObject feedbackMouse;
         public MovePawnOnTileStep(string _str)
         {
             stepFunction = Message_fct;
@@ -155,6 +167,16 @@ public class SeqFirstMove : Sequence {
                 GameManager.Instance.AllKeepersList[0].CurrentTile.gameObject.AddComponent<RightMouseClickExpected>();
             GameManager.Instance.AllKeepersList[0].CurrentTile.gameObject.GetComponent<RightMouseClickExpected>().TargetExpected = "Tile";
 
+
+            if (feedbackMouse == null)
+            {
+                feedbackMouse = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabImageUI, GameManager.Instance.Ui.transform.GetChild(0));
+                feedbackMouse.transform.position = Camera.main.WorldToScreenPoint(GameManager.Instance.AllKeepersList[0].CurrentTile.transform.position) + Vector3.left * (150 * (Screen.width / 1920.0f)) + Vector3.up * (50 * (Screen.height / 1080.0f));
+                feedbackMouse.transform.localScale = Vector3.one;
+                feedbackMouse.AddComponent<ShowClickIsExpected>();
+                feedbackMouse.GetComponent<ShowClickIsExpected>().IsLeftClick = false;
+            }
+
             TutoManager.s_instance.EcrireMessage(str);
             TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.WaitingForClickInGame;
         }
@@ -162,6 +184,7 @@ public class SeqFirstMove : Sequence {
         public override void Reverse()
         {
             Destroy(GameManager.Instance.AllKeepersList[0].CurrentTile.gameObject.GetComponent<RightMouseClickExpected>());
+            Destroy(feedbackMouse);
             alreadyPlayed = false;
         }
     }
@@ -169,6 +192,7 @@ public class SeqFirstMove : Sequence {
     public class MovePawnToAnotherTileExplanation : Step
     {
         string str;
+        GameObject feedbackMouse;
         public MovePawnToAnotherTileExplanation(string _str)
         {
             stepFunction = Message_fct;
@@ -190,6 +214,15 @@ public class SeqFirstMove : Sequence {
             portal.GetComponent<GlowObjectCmd>().ActivateBlinkBehaviour(true);
             portal.GetComponent<GlowObjectCmd>().enabled = true;
 
+            if (feedbackMouse == null)
+            {
+                feedbackMouse = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabImageUI, GameManager.Instance.Ui.transform.GetChild(0));
+                feedbackMouse.transform.position = Camera.main.WorldToScreenPoint(portal.transform.position) + Vector3.up * (150 * (Screen.height / 1080.0f));
+                feedbackMouse.transform.localScale = Vector3.one;
+                feedbackMouse.AddComponent<ShowClickIsExpected>();
+                feedbackMouse.GetComponent<ShowClickIsExpected>().IsLeftClick = false;
+            }
+
             TutoManager.s_instance.EcrireMessage(str);
             TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.WaitingForClickInGame;
         }
@@ -203,6 +236,8 @@ public class SeqFirstMove : Sequence {
             if (portal.GetComponent<GlowObjectCmd>() != null)
                 Destroy(portal.GetComponent<GlowObjectCmd>());
 
+            Destroy(feedbackMouse);
+
             alreadyPlayed = false;
         }
     }
@@ -211,6 +246,7 @@ public class SeqFirstMove : Sequence {
     {
         string str;
         GameObject feedbackPointer;
+        GameObject feedbackCircle;
         public ActionPointsExplanationStep(string _str)
         {
             stepFunction = Message_fct;
@@ -234,6 +270,16 @@ public class SeqFirstMove : Sequence {
                 feedbackPointer.SetActive(true);
             }
 
+
+            if (feedbackCircle == null)
+            {
+                feedbackCircle = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabImageUI, GameManager.Instance.Ui.transform.GetChild(0));
+                feedbackCircle.transform.position = (actionPoints.transform.GetChild(0).position + actionPoints.transform.GetChild(1).position + actionPoints.transform.GetChild(2).position) / 3.0f;
+                feedbackCircle.transform.localScale = Vector3.one * 2.0f;
+                feedbackCircle.GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteTutoCircleFeedback;
+                feedbackCircle.AddComponent<ThrowDiceButtonFeedback>();
+            }
+
             TutoManager.s_instance.EcrireMessage(str);
             TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.Idle;
         }
@@ -242,6 +288,7 @@ public class SeqFirstMove : Sequence {
         {
             // Desactive le feedback sur les points d'action
             Destroy(feedbackPointer);
+            Destroy(feedbackCircle);
             alreadyPlayed = false;
         }
     }
@@ -387,6 +434,7 @@ public class SeqFirstMove : Sequence {
     public class UseAnObjectStep : Step
     {
         string str;
+        GameObject feedbackCircle;
         public UseAnObjectStep(string _str)
         {
             stepFunction = Message_fct;
@@ -397,12 +445,23 @@ public class SeqFirstMove : Sequence {
         {
             GameManager.Instance.AllKeepersList[0].GetComponent<Inventory>().SelectedInventoryPanel.gameObject.SetActive(true); // Inventory
 
+            if (feedbackCircle == null)
+            {
+                feedbackCircle = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabImageUI);
+                feedbackCircle.transform.SetParent(GameManager.Instance.AllKeepersList[0].GetComponent<Inventory>().SelectedInventoryPanel.transform.GetChild(0).GetChild(0));
+                feedbackCircle.transform.localPosition = Vector3.zero;
+                feedbackCircle.transform.localScale = Vector3.one;
+                feedbackCircle.GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteTutoCircleFeedback;
+                feedbackCircle.AddComponent<ThrowDiceButtonFeedback>();
+            }
+
             TutoManager.s_instance.EcrireMessage(str);
             TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.WaitingForClickUI;
         }
 
         public override void Reverse()
         {
+            Destroy(feedbackCircle);
             alreadyPlayed = false;
         }
     }

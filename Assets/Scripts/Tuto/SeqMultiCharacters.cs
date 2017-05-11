@@ -45,6 +45,7 @@ public class SeqMultiCharacters : Sequence
     public class InteractWithAnotherCharacter : Step
     {
         string str;
+        List<GameObject> feedbacksMouse;
         public InteractWithAnotherCharacter(string _str)
         {
             stepFunction = Message_fct;
@@ -53,6 +54,7 @@ public class SeqMultiCharacters : Sequence
 
         public void Message_fct()
         {
+            feedbacksMouse = new List<GameObject>();
             for (int i = 1; i < GameManager.Instance.AllKeepersList.Count; i++)
             {
                 if (GameManager.Instance.AllKeepersList[i] != GameManager.Instance.GetFirstSelectedKeeper())
@@ -62,6 +64,15 @@ public class SeqMultiCharacters : Sequence
                         GameManager.Instance.AllKeepersList[i].gameObject.AddComponent<RightMouseClickExpected>();
                         GameManager.Instance.AllKeepersList[i].gameObject.GetComponent<RightMouseClickExpected>().TargetExpected = "Keeper";
                     }
+                    GameManager.Instance.AllKeepersList[i].GetComponent<GlowObjectCmd>().ActivateBlinkBehaviour(true);
+                    GameManager.Instance.AllKeepersList[i].GetComponent<GlowObjectCmd>().enabled = true;
+
+                    GameObject curKeeperFeedbackMouse = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabImageUI, GameManager.Instance.Ui.transform.GetChild(0));
+                    curKeeperFeedbackMouse.transform.position = Camera.main.WorldToScreenPoint(GameManager.Instance.AllKeepersList[i].GetComponent<Interactable>().Feedback.position) + Vector3.up * (50 * (Screen.height / 1080.0f));
+                    curKeeperFeedbackMouse.transform.localScale = Vector3.one;
+                    curKeeperFeedbackMouse.AddComponent<ShowClickIsExpected>();
+                    curKeeperFeedbackMouse.GetComponent<ShowClickIsExpected>().IsLeftClick = false;
+                    feedbacksMouse.Add(curKeeperFeedbackMouse);
                 }
    
             }
@@ -82,11 +93,16 @@ public class SeqMultiCharacters : Sequence
             {
                 if (GameManager.Instance.AllKeepersList[i].gameObject.GetComponent<RightMouseClickExpected>() != null)
                     Destroy(GameManager.Instance.AllKeepersList[i].gameObject.GetComponent<RightMouseClickExpected>());
+                GameManager.Instance.AllKeepersList[i].GetComponent<GlowObjectCmd>().ActivateBlinkBehaviour(false);
             }
             if (GameManager.Instance.PrisonerInstance.gameObject.GetComponent<RightMouseClickExpected>() != null)
             {
                 Destroy(GameManager.Instance.PrisonerInstance.gameObject.GetComponent<RightMouseClickExpected>());
             }
+
+            foreach (GameObject go in feedbacksMouse)
+                Destroy(go);
+            feedbacksMouse.Clear();
             alreadyPlayed = false;
         }
     }
