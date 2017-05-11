@@ -328,11 +328,20 @@ public class TutoManager : MonoBehaviour {
     public static void EnableNextButton(bool _enable = true)
     {
         s_instance.tutoPanelInstance.transform.GetChild(3).gameObject.SetActive(_enable);
-        if (_enable)
+
+        for (int i = 0; i < s_instance.tutoPanelInstance.transform.childCount; i++)
         {
-            s_instance.tutoPanelInstance.transform.GetChild(3).GetComponent<Button>().onClick.RemoveAllListeners();
-            s_instance.tutoPanelInstance.transform.GetChild(3).GetComponent<Button>().onClick.AddListener(() => s_instance.PlayNextStep());
-        }
+            if (i == 2) i++;
+            Button curButton = s_instance.tutoPanelInstance.transform.GetChild(i).GetComponent<Button>();
+
+            if (_enable)
+            {
+                curButton.onClick.RemoveAllListeners();
+                curButton.onClick.AddListener(() => s_instance.PlayNextStep());
+            }
+
+            curButton.interactable = _enable;
+        }            
     }
 
     public void PlayNextStep()
