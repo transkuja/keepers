@@ -28,6 +28,8 @@ public class AudioManager : MonoBehaviour {
 
     public AudioClip buttonClick;
 
+    public AudioClip interactionButtonClick;
+
     public AudioClip battleSound;
 
     public AudioClip winningSound;
@@ -171,5 +173,15 @@ public class AudioManager : MonoBehaviour {
     public void PlayOneShot(AudioClip clip, float volumeMultiplier)
     {
         sourceFX.PlayOneShot(clip, volumeFXs * volumeMultiplier);
+    }
+
+    public void PlayButtonClickSound()
+    {
+        PlayOneShot(interactionButtonClick);
+    }
+
+    public void PlayButtonClickSound(int i = 0)
+    {
+        PlayOneShot(interactionButtonClick);
     }
 }

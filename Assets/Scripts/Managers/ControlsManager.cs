@@ -226,7 +226,6 @@ public class ControlsManager : MonoBehaviour
                             }
                             else
                             {
-                                //TODO: Change this to show the button BEFORE moving
                                 if (Array.Exists(GameManager.Instance.GetFirstSelectedKeeper().CurrentTile.Neighbors, x => x == tileHit))
                                 {
                                     int neighbourIndex = Array.FindIndex(GameManager.Instance.GetFirstSelectedKeeper().CurrentTile.Neighbors, x => x == tileHit);

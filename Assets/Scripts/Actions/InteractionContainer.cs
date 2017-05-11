@@ -37,5 +37,6 @@ public class InteractionContainer {
         isAllowed = _isAllowed;
         iParam = _iParam;
         costAction = _costAction;
+        action += AudioManager.Instance.PlayButtonClickSound;
     }
 }
