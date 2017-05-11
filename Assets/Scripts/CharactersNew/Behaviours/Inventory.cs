@@ -108,7 +108,8 @@ namespace Behaviour
 
             if (instance != null)
             {
-                GetComponent<Interactable>().Interactions.Add(new Interaction(Trade), 0, "Trade", GameManager.Instance.SpriteUtils.spriteTrade);
+                if(!GetComponent<Interactable>().Interactions.listActionContainers.Exists(x => x.strName == "Trade"))
+                    GetComponent<Interactable>().Interactions.Add(new Interaction(Trade), 0, "Trade", GameManager.Instance.SpriteUtils.spriteTrade);
 
                 if (instance.GetComponent<Keeper>() != null)
                 {

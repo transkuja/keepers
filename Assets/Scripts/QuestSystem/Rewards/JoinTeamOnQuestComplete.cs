@@ -12,14 +12,25 @@ public class JoinTeamOnQuestComplete : MonoBehaviour {
     private Quest toSubscribe;
 
 	void Start () {
-        toSubscribe = GameManager.Instance.QuestManager.GetQuestByID(idQuest);
-        toSubscribe.OnQuestComplete += BecomeAKeeper;
+        if (GameManager.Instance.PersistenceLoader.Pd.dicPersistencePawns.ContainsKey(idKeeper) && GameManager.Instance.PersistenceLoader.Pd.dicPersistencePawns[idKeeper] == true)
+        {
+            DestroyImmediate(gameObject);
+        }
+        else
+        {
+            toSubscribe = GameManager.Instance.QuestManager.GetQuestByID(idQuest);
+            toSubscribe.OnQuestComplete += BecomeAKeeper;
+        }
 	}
 
     void BecomeAKeeper()
     {
         toSubscribe.OnQuestComplete -= BecomeAKeeper;
         PawnInstance pawn = GameManager.Instance.PawnDataBase.CreatePawn(idKeeper, transform.position, transform.rotation, null).GetComponent<PawnInstance>();
+        GameManager.Instance.PersistenceLoader.SetPawnUnlocked(idKeeper, true);
+        if (GameManager.Instance.PersistenceLoader.Pd.dicPersistencePawns.ContainsKey(idKeeper)){
+            GameManager.Instance.PersistenceLoader.Pd.dicPersistencePawns[idKeeper] = true;
+        }
         GameManager.Instance.PawnDataBase.InitPawn(pawn);
         GameManager.Instance.CharacterInitializer.InitCharacterUI(pawn);
         TileManager.Instance.AddKeeperOnTile(GetComponentInParent<Tile>(), pawn);
