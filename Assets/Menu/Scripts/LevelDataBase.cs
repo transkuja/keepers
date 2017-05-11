@@ -11,11 +11,12 @@ public class LevelDataBase {
         public int id;
         public string name;
         public string cardModelName;
-        public List<string> listDeckId;
+        public string deckId;
+        public List<string> listEventsId;
 
         public Level()
         {
-            listDeckId = new List<string>();
+            listEventsId = new List<string>();
         }
     }
 
@@ -55,20 +56,14 @@ public class LevelDataBase {
                     case "cardModelName":
                         newLevel.cardModelName = levelEntry.Value.Str;
                         break;
-                    case "questDecks":
-                        JSONArray questDecksArray = levelEntry.Value.Array;
-                        foreach (JSONValue questDeck in questDecksArray)
+                    case "questDeckId":
+                        newLevel.deckId = levelEntry.Value.Str;
+                        break;
+                    case "events":
+                        JSONArray Array = levelEntry.Value.Array;
+                        foreach (JSONValue entry in Array)
                         {
-                            foreach (KeyValuePair<string, JSONValue> questEntry in questDeck.Obj)
-                            {
-                                switch (questEntry.Key)
-                                {
-                                    // SECONDARY QUEST DATA
-                                    case "id":
-                                        newLevel.listDeckId.Add(questEntry.Value.Str);
-                                        break;
-                                }
-                            }
+                            newLevel.listEventsId.Add(entry.Str);
                         }
                         break;
                 }

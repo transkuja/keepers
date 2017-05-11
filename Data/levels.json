@@ -1,34 +1,31 @@
 { 
-  "Levels": [   
-    { 
-      "id": 1, 
-      "name" : "niveau 1", 
-      "cardModelName" : "Asset_Carte_LevelTuto", 
-      "questDecks" : [
-		{
-			"id" : "deck_01",
+	"Levels": [   
+		{ 
+			"id": 1, 
+			"name" : "niveau 1", 
+			"cardModelName" : "Asset_Carte_LevelTuto", 
+			"questDeckId" : "deck_01",
+			"events" : [
+				"1"
+			]
+		},
+		{ 
+			"id": 2, 
+			"name" : "niveau 2", 
+			"cardModelName" : "Asset_Carte_Level_02", 
+			"questDeckId" : "deck_02",
+			"events" : [
+				"2"
+			]
+		},
+		{ 
+			"id": 4, 
+			"name" : "niveau 4", 
+			"cardModelName" : "Asset_Carte_Level_03", 
+			"questDeckId" : "deck_04",
+			"events" : [
+				"3"
+			]
 		}
-	]
-    },
-    { 
-      "id": 2, 
-      "name" : "niveau 2", 
-      "cardModelName" : "Asset_Carte_Level_02", 
-      "questDecks" : [
-		{
-			"id" : "deck_02",
-		}
-	]
-    },
-    { 
-      "id": 4, 
-      "name" : "niveau 4", 
-      "cardModelName" : "Asset_Carte_Level_03", 
-      "questDecks" : [
-		{
-			"id" : "deck_04",
-		}
-	]
-    },
-  ] 
- }
+	] 
+}

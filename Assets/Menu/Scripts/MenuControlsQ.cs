@@ -187,15 +187,9 @@ public class MenuControlsQ : MonoBehaviour {
         if (card != null && card.gameObject != levelCardSelected)
         {
             AudioManager.Instance.PlayOneShot(AudioManager.Instance.paperSelectSound, 0.5f);
-            // TODO Maybe change selection criterias
-            /*if (menuManager.CardLevelSelected == card.levelIndex)
-            {
-                menuManager.CardLevelSelected = -1;
-            }
-            else*/
-            {
-                menuManager.CardLevelSelected = card.levelIndex;
-            }
+
+            menuManager.CardLevelSelected = card.levelIndex;
+            menuManager.DeckOfCardsSelected = menuManager.leveldb.GetLevelById(card.levelIndex).deckId;
 
             if (deckSelected != null)
             {

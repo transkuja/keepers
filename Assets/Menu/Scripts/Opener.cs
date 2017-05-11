@@ -8,26 +8,21 @@ using UnityEngine;
 
 public class Opener : MonoBehaviour {
 
-    public List<Opener> listOpenerSiblings;
+    [HideInInspector] public List<Opener> listOpenerSiblings;
+    [HideInInspector] public List<OpenerContent> listChilds;
+    [HideInInspector] public bool bOpened = false;
+    [HideInInspector] public bool bDontClose = false;
+    [HideInInspector] public bool bNeedReload = false;
 
+    float fOverTimer = 0;
     LayerMask layerToCheck;
 
-    /*[HideInInspector]*/ public bool bOpened = false;
-
-    /*[HideInInspector]*/ public List<OpenerContent> listChilds;
-
-    public bool bDontClose = false;
-    public bool bNeedReload = false;
-
+    public List<Transform> listTrSpots;
     public bool bIsLast;
     public bool bOverMode = false;
     public float fOverTime = 0;
     public float fOffsetX = .1f;
     public float fOffsetZ = .1f;
-
-    float fOverTimer = 0;
-
-    public List<Transform> listTrSpots;
 
     void Start () {
 
