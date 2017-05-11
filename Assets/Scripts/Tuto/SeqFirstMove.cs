@@ -32,7 +32,7 @@ public class SeqFirstMove : Sequence {
             {
                 feedbackPointer = Instantiate(TutoManager.s_instance.uiPointer, GameManager.Instance.Ui.transform.GetChild(0));
                 feedbackPointer.GetComponent<FlecheQuiBouge>().PointToPoint = Camera.main.WorldToScreenPoint(GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().transform.GetChild(0).position);
-                feedbackPointer.GetComponent<FlecheQuiBouge>().distanceOffset = 30.0f;
+                feedbackPointer.GetComponent<FlecheQuiBouge>().distanceOffset = 80.0f;
 
                 feedbackPointer.transform.localEulerAngles = new Vector3(0, 0, -80);
             }
@@ -227,7 +227,7 @@ public class SeqFirstMove : Sequence {
             {
                 feedbackPointer = Instantiate(TutoManager.s_instance.uiPointer, GameManager.Instance.Ui.transform.GetChild(0));
                 feedbackPointer.SetActive(false);
-                feedbackPointer.GetComponent<FlecheQuiBouge>().PointToPoint = actionPoints.transform.GetChild(2).position;
+                feedbackPointer.GetComponent<FlecheQuiBouge>().PointToPoint = actionPoints.transform.GetChild(1).position;
                 feedbackPointer.GetComponent<FlecheQuiBouge>().distanceOffset = 30.0f;
 
                 feedbackPointer.transform.localEulerAngles = new Vector3(0, 0, -80);
@@ -327,7 +327,7 @@ public class SeqFirstMove : Sequence {
             {
                 feedback = Instantiate(TutoManager.s_instance.uiPointer, GameManager.Instance.Ui.transform.GetChild(0)); // Fix: reference to end turn button may need to be stocked somewhere
                 feedback.GetComponent<FlecheQuiBouge>().PointToPoint = endTurnButton.transform.GetChild(1).position;
-                feedback.GetComponent<FlecheQuiBouge>().distanceOffset = 75.0f;
+                feedback.GetComponent<FlecheQuiBouge>().distanceOffset = 125.0f;
 
                 feedback.transform.localEulerAngles = new Vector3(0, 0, 20);
             }
@@ -368,7 +368,7 @@ public class SeqFirstMove : Sequence {
             {
                 feedback = Instantiate(TutoManager.s_instance.uiPointer, GameManager.Instance.Ui.transform.GetChild(0)); // Fix: reference to end turn button may need to be stocked somewhere
                 feedback.GetComponent<FlecheQuiBouge>().PointToPoint = hungerPanel.transform.GetChild(0).position;
-                feedback.GetComponent<FlecheQuiBouge>().distanceOffset = 20.0f;
+                feedback.GetComponent<FlecheQuiBouge>().distanceOffset = 70.0f;
 
                 feedback.transform.localEulerAngles = new Vector3(0, 0, -45);
             }

@@ -52,7 +52,7 @@ public class SeqAshleyEscort : Sequence {
             {
                 feedback = Instantiate(TutoManager.s_instance.uiPointer, GameManager.Instance.Ui.transform.GetChild(0));
                 feedback.GetComponent<FlecheQuiBouge>().PointToPoint = Camera.main.WorldToScreenPoint(GameManager.Instance.Ui.GoActionPanelQ.transform.GetChild(1).position);
-                feedback.GetComponent<FlecheQuiBouge>().distanceOffset = 70.0f;
+                feedback.GetComponent<FlecheQuiBouge>().distanceOffset = 120.0f;
 
                 feedback.transform.localEulerAngles = new Vector3(0, 0, -45);
             }
@@ -84,7 +84,7 @@ public class SeqAshleyEscort : Sequence {
             {
                 feedback = Instantiate(TutoManager.s_instance.uiPointer, GameManager.Instance.Ui.transform.GetChild(0));
                 feedback.GetComponent<FlecheQuiBouge>().PointToPoint = Camera.main.WorldToScreenPoint(GameManager.Instance.Ui.GoActionPanelQ.transform.GetChild(0).position);
-                feedback.GetComponent<FlecheQuiBouge>().distanceOffset = 70.0f;
+                feedback.GetComponent<FlecheQuiBouge>().distanceOffset = 120.0f;
 
                 feedback.transform.localEulerAngles = new Vector3(0, 0, -45);
             }

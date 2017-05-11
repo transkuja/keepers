@@ -28,6 +28,7 @@ public class SeqAshleyLowHunger : Sequence {
                 feedback = Instantiate(TutoManager.s_instance.uiPointer, GameManager.Instance.Ui.transform.GetChild(0));
                 feedback.GetComponent<FlecheQuiBouge>().PointToPoint = seqAshleyLowHunger.shortcutPanels.transform.GetChild(0).position; // ugly, need fix
                 feedback.GetComponent<FlecheQuiBouge>().distanceOffset = 180.0f;
+                feedback.GetComponent<FlecheQuiBouge>().speed = 12.0f;
 
                 feedback.transform.localEulerAngles = new Vector3(0, 0, -135);
             }
