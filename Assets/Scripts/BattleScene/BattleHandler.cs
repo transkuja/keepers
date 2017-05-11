@@ -39,6 +39,7 @@ public class BattleHandler {
 
     private static int expectedAnswers = 0;
     private static int answersReceived = 0;
+    private static List<ItemContainer> currentBattleLoot = new List<ItemContainer>();
 
     public static bool IsABattleAlreadyInProcess()
     {
@@ -548,7 +549,7 @@ public class BattleHandler {
             GameManager.Instance.PrisonerInstance.GetComponentInChildren<BuffFeedback>().ShowBuffs(false);
         }
 
-
+        ItemManager.AddItemOnTheGround(GameManager.Instance.ActiveTile, GameManager.Instance.ActiveTile.transform, currentBattleLoot.ToArray());
         AudioManager.Instance.StopBattleMusic();
 
         ResetBattleHandler();
@@ -575,6 +576,7 @@ public class BattleHandler {
         PendingSkill = null;
         isWaitingForSkillEnd = false;
         battleEndConditionsReached = false;
+        currentBattleLoot.Clear();
     }
 
     public static void ResetBattleHandlerForTuto()
@@ -582,6 +584,7 @@ public class BattleHandler {
         nbTurn = 0;
         isKeepersTurn = false;
         PendingSkill = null;
+        currentBattleLoot.Clear();
         ShiftTurn();
     }
 
@@ -935,6 +938,19 @@ public class BattleHandler {
         {
             expectedAnswers = value;
             answersReceived = 0;
+        }
+    }
+
+    public static List<ItemContainer> CurrentBattleLoot
+    {
+        get
+        {
+            return currentBattleLoot;
+        }
+
+        set
+        {
+            currentBattleLoot = value;
         }
     }
 }

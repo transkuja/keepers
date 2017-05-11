@@ -128,7 +128,7 @@ public class TileManager : MonoBehaviour {
 
         if (lootList.Count > 0)
         {
-            ItemManager.AddItemOnTheGround(_deadMonster.CurrentTile, lastMonsterPosition, lootList.ToArray());
+            BattleHandler.CurrentBattleLoot.AddRange(lootList);
         }
 
         if (monstersOnTile[_deadMonster.CurrentTile].Count == 0)
