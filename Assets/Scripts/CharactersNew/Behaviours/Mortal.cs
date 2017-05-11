@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -211,7 +212,7 @@ namespace Behaviour
             {     
                 if (currentHp <= 0)
                 {
-                    GetComponent<Escortable>().ShorcutUI.transform.GetChild((int)PanelShortcutChildren.Image).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteDeath;
+                    GetComponent<Escortable>().ShorcutUI.transform.GetChild(GetComponent<Escortable>().ShorcutUI.transform.childCount-1).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteDeath;
                     GetComponent<HungerHandler>().ShortcutHungerUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = 0;
                     GetComponent<Escortable>().ShorcutUI.GetComponent<Button>().interactable = false;
                 }
@@ -227,7 +228,7 @@ namespace Behaviour
             {
                 if (currentHp <= 0)
                 {
-                    GetComponent<Keeper>().ShorcutUI.transform.GetChild((int)PanelShortcutChildren.Image).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteDeath;
+                    GetComponent<Keeper>().ShorcutUI.transform.GetChild(GetComponent<Keeper>().ShorcutUI.transform.childCount - 1).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteDeath;
                     GetComponent<Keeper>().UpdateActionPoint(0);
                     GetComponent<MentalHealthHandler>().ShortcutMentalHealthUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = 0;
                     GetComponent<HungerHandler>().ShortcutHungerUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = 0;
