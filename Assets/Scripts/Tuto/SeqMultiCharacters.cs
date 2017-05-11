@@ -200,6 +200,19 @@ public class SeqMultiCharacters : Sequence
         GameManager.Instance.AllKeepersList[0].GetComponent<Behaviour.Keeper>().IsSelected = true;
         GameManager.Instance.AddKeeperToSelectedList(GameManager.Instance.AllKeepersList[0]);
 
+        Button leftBtn = GameManager.Instance.AllKeepersList[0].GetComponent<Behaviour.Keeper>().BtnLeft.GetComponent<Button>();
+        leftBtn.interactable = false;
+        Button rightBtn = GameManager.Instance.AllKeepersList[0].GetComponent<Behaviour.Keeper>().BtnRight.GetComponent<Button>();
+        rightBtn.interactable = false;
+
+        ColorBlock cb = leftBtn.colors;
+        cb.disabledColor = Color.white;
+        leftBtn.colors = cb;
+
+        cb = rightBtn.colors;
+        cb.disabledColor = Color.white;
+        rightBtn.colors = cb;
+
         Etapes = new List<Step>();
         Etapes.Add(new TutoManager.Spawn(pawnMrResetti, jumpAnimationClip));
 
@@ -215,6 +228,9 @@ public class SeqMultiCharacters : Sequence
     public override void End()
     {
         base.End();
+        GameManager.Instance.AllKeepersList[0].GetComponent<Behaviour.Keeper>().BtnLeft.GetComponent<Button>().interactable = true;
+        GameManager.Instance.AllKeepersList[0].GetComponent<Behaviour.Keeper>().BtnRight.GetComponent<Button>().interactable = true;
+
         if (pawnMrResetti != null)
             TutoManager.UnSpawn(pawnMrResetti);
         if (TutoManager.s_instance.TutoPanelInstance != null)
