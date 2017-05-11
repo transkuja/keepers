@@ -103,7 +103,7 @@ namespace Behaviour
         void Awake()
         {
             instance = GetComponent<PawnInstance>();
-            equipements = new ItemContainer[1];
+            equipements = new ItemContainer[0];
         }
 
         void Start()
@@ -240,11 +240,15 @@ namespace Behaviour
             SelectedStatPanelUI.transform.GetChild((int)PanelSelectedKeeperStatChildren.ButtonCycleRight).GetComponent<Button>().onClick.AddListener(() => GoToKeeper(+1));
             btnRight = SelectedStatPanelUI.transform.GetChild((int)PanelSelectedKeeperStatChildren.ButtonCycleRight).gameObject;
 
-            selectedEquipementUI = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabSelectedEquipementUIPanel, GameManager.Instance.PrefabUIUtils.PrefabSelectedEquipementUIPanel.transform.position, GameManager.Instance.PrefabUIUtils.PrefabSelectedEquipementUIPanel.transform.rotation);
-            selectedEquipementUI.transform.GetComponent<InventoryOwner>().Owner = gameObject;
-            selectedEquipementUI.transform.SetParent(SelectedPanelUI.transform, false);
-            selectedEquipementUI.transform.localScale = Vector3.one;
-            selectedEquipementUI.name = "Equipment";
+            if (equipements.Length > 0)
+            {
+                selectedEquipementUI = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabSelectedEquipementUIPanel, GameManager.Instance.PrefabUIUtils.PrefabSelectedEquipementUIPanel.transform.position, GameManager.Instance.PrefabUIUtils.PrefabSelectedEquipementUIPanel.transform.rotation);
+                selectedEquipementUI.transform.GetComponent<InventoryOwner>().Owner = gameObject;
+                selectedEquipementUI.transform.SetParent(SelectedPanelUI.transform, false);
+                selectedEquipementUI.transform.localScale = Vector3.one;
+                selectedEquipementUI.name = "Equipment";
+
+            }
 
             SelectedPanelUI.name = "Keeper_" + instance.Data.PawnName;
         }
