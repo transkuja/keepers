@@ -1,0 +1,28 @@
+Liste des sons à intégrer
+
+- Sélection perso
+- Clic déplacement perso?
+- Un son sur TOUS LES BOUTONS
+
+- Cristal on		-DONE
+- Interaction avec un autre keeper (discussion)
+- Manger un item
+- Bruit de faim
+- Bruit de moral bas (dépression)
+
+- Fin de tour
+
+-Bruits de pas dans l'eau
+
+Climat:
+- DustStorm		-DONE
+- Neige
+
+
+Combat:
+- Un son par attaque (soin, attaque, magie...)
+- GetHit
+- Jet de dés
+- Fuir
+- Victoire
+- Défaite

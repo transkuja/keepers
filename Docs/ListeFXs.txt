@@ -1,0 +1,10 @@
+Liste des FXs à intégrer
+
+- Particules de pas (eau, sable, ...)
+
+- Cristaux		- En cours
+
+Combat:
+- Prendre un coup
+- Soin
+- Magie
