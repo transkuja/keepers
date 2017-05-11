@@ -5,9 +5,6 @@
 			"name" : "niveau 1", 
 			"cardModelName" : "Asset_Carte_LevelTuto", 
 			"questDeckId" : "deck_01",
-			"events" : [
-				"1"
-			]
 		},
 		{ 
 			"id": 2, 
@@ -15,6 +12,7 @@
 			"cardModelName" : "Asset_Carte_Level_02", 
 			"questDeckId" : "deck_02",
 			"events" : [
+				"1",
 				"2"
 			]
 		},
