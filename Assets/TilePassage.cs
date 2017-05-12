@@ -94,8 +94,7 @@ public class TilePassage : MonoBehaviour {
                 dir = Direction.None;
                 break;
         }
-        if (SceneManager.GetActiveScene().buildIndex != 1)
-            return;
+
         if (parentTile.Neighbors[(int)dir] == null)
         {
             gameObject.SetActive(false);
