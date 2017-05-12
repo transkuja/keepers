@@ -1,8 +1,0 @@
-﻿Créer un bouton pour valider la fin du lancer de dés
-Tester le lancer de dés dans sa totalité
-Ajouter une méthode de lancer de dés (avec des addforce etc.)
-Revoir la méthode de réception des infos sur le lancer de dés (les infos devraient être envoyées au Handler)
-
-Déselectionner le keeper actif lorsque le combat se déclenche
-Trouver un moyen de set les positions de combat relativement au tile
-L'auto selection de keeper semble être cassée

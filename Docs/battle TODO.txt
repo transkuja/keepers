@@ -1,23 +1,4 @@
-UI
-- Clic on monster
---	Open panel info monster (details on pv, skills, defense, etc.)
-
-Monster do not attack a 0hp target
-
-error with inventory panel when 0 items computed??
-
-empty loot box
-
 
 bug sur le friendly feedback
 friend should feedback on everyone
 
-
-Bugs
-private static void ShiftToNextMonsterTurn()
-{
-        if (currentBattleMonsters[nextMonsterIndex] == null)
-        {
-====> IndexOutOfRangeException (kill 1st and 3rd monster)
-
-==> Bug sur resume d'agent??

@@ -13,11 +13,14 @@ public class CharactersInitializer : MonoBehaviour {
     {
         for (int i = 0; i < GameManager.Instance.AllKeepersList.Count; i++)
         {
-            GameManager.Instance.AllKeepersList[i].transform.position = beginPositionsKeepers[i].position;
-            GameManager.Instance.AllKeepersList[i].transform.SetParent(null);
-            GameManager.Instance.AllKeepersList[i].transform.rotation = Quaternion.identity;
-            GameManager.Instance.AllKeepersList[i].transform.localScale = Vector3.one;
-            GameManager.Instance.AllKeepersList[i].transform.GetComponent<NavMeshAgent>().enabled = true;
+            PawnInstance curKeeper = GameManager.Instance.AllKeepersList[i];
+            curKeeper.transform.position = beginPositionsKeepers[i].position;
+            curKeeper.transform.SetParent(null);
+            curKeeper.transform.rotation = Quaternion.identity;
+            curKeeper.transform.localScale = Vector3.one;
+            curKeeper.transform.GetComponent<NavMeshAgent>().enabled = true;
+            if (curKeeper.Data.Behaviours[(int)BehavioursEnum.Archer] == true)
+                GameManager.Instance.ArcherInstance = curKeeper;
 
             InitCharacterUI(GameManager.Instance.AllKeepersList[i]);
             GameManager.Instance.RegisterKeeperPosition(GameManager.Instance.AllKeepersList[i]);

@@ -43,6 +43,20 @@ public class SelectBattleCharactersPanelHandler : MonoBehaviour {
             
             j++;
         }
+
+        PawnInstance archer = GameManager.Instance.ArcherInstance;
+        if (archer != null && archer.CurrentTile == activeTile)
+        {
+            GameObject kiImage = Instantiate(imagePrefab, transform.GetChild((int)SelectBattleCharactersScreenChildren.CharactersOnTile).GetChild(j));
+            kiImage.AddComponent<UIKeeperInstance>();
+            kiImage.GetComponent<UIKeeperInstance>().keeperInstance = archer;
+            kiImage.AddComponent<DragHandler>();
+            kiImage.AddComponent<CanvasGroup>();
+
+            kiImage.transform.localScale = Vector3.one;
+            kiImage.transform.localPosition = Vector3.zero;
+            kiImage.GetComponent<Image>().sprite = archer.Data.AssociatedSprite;
+        }
         
         if (TileManager.Instance.PrisonerTile != null && TileManager.Instance.PrisonerTile == activeTile)
         {

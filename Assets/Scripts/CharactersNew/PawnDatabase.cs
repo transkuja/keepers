@@ -111,6 +111,17 @@ public class PawnDatabase {
                                 break;
                         }
                         break;
+                    case "archer":
+                        switch (pawnEntry.Value.Str)
+                        {
+                            case "true":
+                                newPawnDataContainer.pawnData.Behaviours[(int)BehavioursEnum.Archer] = true;
+                                break;
+                            case "false":
+                                newPawnDataContainer.pawnData.Behaviours[(int)BehavioursEnum.Archer] = false;
+                                break;
+                        }
+                        break;
                     // COMPONENTS DATA
                     case "Fighter":
                         newPawnDataContainer.dicComponentData.Add(typeof(Behaviour.Fighter), null);

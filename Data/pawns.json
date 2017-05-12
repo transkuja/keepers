@@ -10,6 +10,7 @@
 			"gaga" : "false",
 			"explorateur" : "false",
 			"sensible" : "false",
+			"archer" : "false",
 			
 			"HungerHandler" : {
 				"maxHunger" : 100
@@ -37,6 +38,7 @@
 			"gaga" : "true",
 			"explorateur" : "false",
 			"sensible" : "false",
+			"archer" : "false",
 			
 			"Fighter" : {},
 			
@@ -72,6 +74,7 @@
 			"gaga" : "false",
 			"explorateur" : "true",
 			"sensible" : "false",
+			"archer" : "false",
 			
 			"Fighter" : {},
 			
@@ -107,7 +110,8 @@
 			"gaga" : "false",
 			"explorateur" : "false",
 			"sensible" : "false",
-
+			"archer" : "false",
+			
 			"Fighter" : {},
 			
 			"HungerHandler" : {
@@ -142,6 +146,7 @@
 			"gaga" : "false",
 			"explorateur" : "false",
 			"sensible" : "true",
+			"archer" : "false",
 
 			"HungerHandler" : {
 				"maxHunger" : 100

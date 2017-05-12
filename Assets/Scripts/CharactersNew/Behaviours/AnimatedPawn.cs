@@ -343,27 +343,21 @@ namespace Behaviour
 
 
         public bool IsMovingToBattlePosition
-
         {
-
             get
-
             {
-
                 return isMovingToBattlePosition;
-
             }
 
-
-
             set
-
             {
-
                 isMovingToBattlePosition = value;
-
                 anim.SetFloat("velocity", 0.0f);
-
+                if (isMovingToBattlePosition == false && GameManager.Instance.CurrentState != GameState.InBattle)
+                {
+                    if (agent != null)
+                        agent.enabled = true;
+                }
             }
 
         }

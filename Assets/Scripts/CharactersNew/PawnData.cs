@@ -123,5 +123,7 @@ public enum BehavioursEnum
     Explorateur,
     Sensible,
     CanSpeak,
+    Archer,
+    Stinks,
     Size
 };

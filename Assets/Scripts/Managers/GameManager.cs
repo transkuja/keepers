@@ -64,11 +64,11 @@ public class GameManager : MonoBehaviour
 
     private Interactable goTarget;
     private PawnInstance prisonerInstance;
+    private PawnInstance archerInstance;
     private int nbTurn = 1;
 
     // Change game state variables
     private List<NavMeshAgent> pausedAgents = new List<NavMeshAgent>();
-    private List<NavMeshAgent> disabledAgents = new List<NavMeshAgent>();
     private List<GameObject> disabledModels = new List<GameObject>();
     private List<GlowObjectCmd> unregisteredGlows = new List<GlowObjectCmd>();
     private PawnInstance[] currentFighters;
@@ -100,13 +100,6 @@ public class GameManager : MonoBehaviour
             {
                 AllKeepersList.Add(k.GetComponent<PawnInstance>());
             }
-
-            //listEventSelected.Add("1");
-
-            //listEventSelected.Add("2");
-
-            //listEventSelected.Add("3");
-
         }
         DontDestroyOnLoad(gameObject);
 
@@ -162,17 +155,16 @@ public class GameManager : MonoBehaviour
     {
         if( SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Menu"))
         {
-
             instance.listOfSelectedKeepers.Clear();
 
-
-
-        } else
+        }
+        else
         {
             instance.deckSelected = string.Empty;
             instance.listEventSelected.Clear();
             instance.allKeepersList.Clear();
             persistenceLoader.Load();
+            instance.archerInstance = null;
         }
 
         instance.nbTurn = 1;
@@ -792,6 +784,19 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public PawnInstance ArcherInstance
+    {
+        get
+        {
+            return archerInstance;
+        }
+
+        set
+        {
+            archerInstance = value;
+        }
+    }
+
     public void RegisterGreyTileCameraAdapter(GreyTileCameraAdapter _cameraAdapter)
 
     {
@@ -945,10 +950,7 @@ public class GameManager : MonoBehaviour
             }
 
             if (mustBeDisabled)
-            {
-                disabledAgents.Add(pi.GetComponent<NavMeshAgent>());
                 pi.GetComponent<NavMeshAgent>().enabled = false;
-            }
             else
             {
                 NavMeshAgent currentAgent = pi.GetComponent<NavMeshAgent>();
@@ -978,10 +980,7 @@ public class GameManager : MonoBehaviour
         {
             NavMeshAgent prisonerAgent = currentFighters[currentFighters.Length - 1].GetComponent<NavMeshAgent>();
             if (prisonerAgent != null && prisonerAgent.isActiveAndEnabled)
-            {
-                disabledAgents.Add(prisonerAgent);
                 prisonerAgent.enabled = false;
-            }
         }
         else
         {
@@ -1019,10 +1018,7 @@ public class GameManager : MonoBehaviour
                 {
                     NavMeshAgent currentAgent = pi.GetComponent<NavMeshAgent>();
                     if (currentAgent != null && currentAgent.isActiveAndEnabled)
-                    {
-                        disabledAgents.Add(currentAgent);
                         currentAgent.enabled = false;
-                    }
 
                     if (pi.GetComponent<GlowObjectCmd>() != null)
                     {
@@ -1092,13 +1088,6 @@ public class GameManager : MonoBehaviour
                 agent.Resume();
         }
         pausedAgents.Clear();
-
-        foreach (NavMeshAgent agent in disabledAgents)
-        {
-            if (agent != null)
-                agent.enabled = true;
-        }
-        disabledAgents.Clear();
 
         foreach (GameObject go in disabledModels)
             go.SetActive(true);

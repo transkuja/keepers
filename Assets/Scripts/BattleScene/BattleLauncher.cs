@@ -27,7 +27,7 @@ public class BattleLauncher : MonoBehaviour {
             if (instance == null) instance = GetComponentInParent<PawnInstance>();
 
             // If an error appears here, call the 0646440132, thanks
-            if (TileManager.Instance.KeepersOnTile.ContainsKey(instance.CurrentTile))
+            if (instance.CurrentTile != null && TileManager.Instance.KeepersOnTile.ContainsKey(instance.CurrentTile))
             {
                 List<PawnInstance> keepers = TileManager.Instance.KeepersOnTile[instance.CurrentTile];
                 for (int i = 0; i < keepers.Count; i++)

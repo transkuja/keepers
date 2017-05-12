@@ -40,6 +40,7 @@ public class BattleHandler {
     private static int expectedAnswers = 0;
     private static int answersReceived = 0;
     private static List<ItemContainer> currentBattleLoot = new List<ItemContainer>();
+    private static Tile archerPreviousTile;
 
     public static bool IsABattleAlreadyInProcess()
     {
@@ -62,6 +63,7 @@ public class BattleHandler {
             && TutoManager.s_instance.GetComponent<SeqTutoCombat>().AlreadyPlayed == false)
         {
             List<PawnInstance> keepersForBattle = new List<PawnInstance>();
+            // Only one keeper for tuto, TODO: ptet mettre celui qui déclenche le combat
             keepersForBattle.Add(TileManager.Instance.KeepersOnTile[tile][0]);
             if (TileManager.Instance.PrisonerTile == tile)
             {
@@ -77,6 +79,24 @@ public class BattleHandler {
         {
             if (TileManager.Instance.KeepersOnTile[tile].Count <= 1)
             {
+                if (GameManager.Instance.ArcherInstance != null)
+                {
+                    Tile archerTile = GameManager.Instance.ArcherInstance.CurrentTile;
+                    if (archerTile != null)
+                    {
+                        for (int i = 0; i < 6; i++)
+                        {
+                            if (archerTile == tile.Neighbors[i])
+                            {
+                                archerPreviousTile = archerTile;
+                                GameManager.Instance.ArcherInstance.CurrentTile = tile;
+                                GameManager.Instance.OpenSelectBattleCharactersScreen(tile);
+                                return;
+                            }
+                        }
+                    }
+                }
+
                 List<PawnInstance> keepersForBattle = TileManager.Instance.KeepersOnTile[tile];
                 if (TileManager.Instance.PrisonerTile == tile)
                 {
@@ -500,6 +520,12 @@ public class BattleHandler {
         for (int i = 0; i < currentBattleKeepers.Length; i++)
         {
             currentBattleKeepers[i].GetComponent<Fighter>().ResetValuesAfterBattle();
+            if (currentBattleKeepers[i].Data.Behaviours[(int)BehavioursEnum.Archer])
+            {
+                Debug.Log(currentBattleKeepers[i].CurrentTile);
+                currentBattleKeepers[i].CurrentTile = archerPreviousTile;
+                Debug.Log(currentBattleKeepers[i].CurrentTile);
+            }
             currentBattleKeepers[i].GetComponent<AnimatedPawn>().StartMoveFromBattlePositionAnimation();
         }
 
@@ -577,6 +603,7 @@ public class BattleHandler {
         isWaitingForSkillEnd = false;
         battleEndConditionsReached = false;
         currentBattleLoot.Clear();
+        archerPreviousTile = null;
     }
 
     public static void ResetBattleHandlerForTuto()
