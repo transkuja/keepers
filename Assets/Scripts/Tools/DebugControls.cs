@@ -300,6 +300,9 @@ public class DebugControls : MonoBehaviour {
                 GameManager.Instance.PersistenceLoader.SetSequenceUnlocked("seqlowmorale", false);
                 GameManager.Instance.PersistenceLoader.SetSequenceUnlocked("seqashleylowhunger", false);
                 GameManager.Instance.PersistenceLoader.SetSequenceUnlocked("seqashleyescort", false);
+                GameManager.Instance.CurrentState = GameState.Normal;
+                AudioManager.Instance.Fade(AudioManager.Instance.menuMusic);
+                GameManager.Instance.Ui.GoActionPanelQ.transform.parent.SetParent(GameManager.Instance.Ui.transform);
                 SceneManager.LoadScene(0);
             }
         }
