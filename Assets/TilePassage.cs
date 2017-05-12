@@ -482,7 +482,7 @@ public class TilePassage : MonoBehaviour {
                     PawnInstance toMove = other.GetComponentInParent<PawnInstance>();
 
                     Direction dirToMove = (Direction)other.GetComponentInParent<AnimatedPawn>().WhereMove;
-                    toMove.CurrentTile.GetPassage(dirToMove).Status = PassageStatus.On;
+                    //toMove.CurrentTile.GetPassage(dirToMove).Status = PassageStatus.On;
                     // Move to explored tile
                     int actionCostExploreTmp = actionCostExplore;
                     if (toMove.Data.Behaviours[(int)BehavioursEnum.Explorateur] == true)
@@ -497,8 +497,8 @@ public class TilePassage : MonoBehaviour {
                     Tile exploredTile = toMove.CurrentTile;
 
                     exploredTile.State = TileState.Discovered;
-                    exploredTile.GetPassage(Utils.GetOppositeDirection(dirToMove)).Status = PassageStatus.On;
-                    Status = PassageStatus.On;
+                    //exploredTile.GetPassage(Utils.GetOppositeDirection(dirToMove)).Status = PassageStatus.On;
+                    //Status = PassageStatus.On;
 
                     foreach (Tile t in exploredTile.Neighbors)
                     {

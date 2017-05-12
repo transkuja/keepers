@@ -95,9 +95,25 @@ public class Tile : MonoBehaviour{
         {
             for (int i = 0; i < transform.childCount; i++)
                 transform.GetChild(i).gameObject.SetActive(true);
+            UpdatePassages();
         }
         if(StateChanged != null)
             StateChanged();
+    }
+
+    void UpdatePassages()
+    {
+        for(int i = 0; i < neighbors.Length; i++)
+        {
+            if(neighbors[i] != null && neighbors[i].State == TileState.Discovered)
+            {
+                if (GetPassage((Direction)i).Status != PassageStatus.Disabled && neighbors[i].GetPassage(Utils.GetOppositeDirection((Direction)i)).Status != PassageStatus.Disabled)
+                {
+                    neighbors[i].GetPassage(Utils.GetOppositeDirection((Direction)i)).Status = PassageStatus.On;
+                    GetPassage((Direction)i).Status = PassageStatus.On;
+                }
+            }
+        }
     }
 
     public TilePassage GetPassage(Direction dir)
