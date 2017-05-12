@@ -6,6 +6,7 @@ public class BoxOpener : MonoBehaviour {
 
     private bool isBoxOpen;
     private MenuManager menuManager;
+    private MenuUI menuUi;
 
 
     public Animator animatorBox;
@@ -39,9 +40,10 @@ public class BoxOpener : MonoBehaviour {
                 menuManager.HasBeenInit = true;
                 menuManager.InitCards();
                 menuManager.InitKeepers();
+                menuUi.ComputeContentPositions(menuManager.GoCardsLevels);
 
             }
-            menuManager.goDeck.SetActive(isBoxOpen);
+            menuManager.GoDeck.SetActive(isBoxOpen);
             for (int i = 0; i < GameManager.Instance.AllKeepersList.Count; i++)
             {
                 GameManager.Instance.AllKeepersList[i].gameObject.SetActive(isBoxOpen);
@@ -56,6 +58,7 @@ public class BoxOpener : MonoBehaviour {
     void Start () {
         isBoxOpen = false;
         menuManager = GetComponent<MenuManager>();
+        menuUi = GetComponent<MenuUI>();
     }
 
     public void BoxControls()

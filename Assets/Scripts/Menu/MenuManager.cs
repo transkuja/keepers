@@ -11,7 +11,8 @@ public class MenuManager : MonoBehaviour {
     private LevelDataBase leveldb;
     private MenuUI menuUi;
 
-    public GameObject goDeck;
+    private GameObject goDeck;
+    private List<GameObject> goCardsLevels;
 
     private Dictionary<GameObject, ChatBox> dicPawnChatBox;
 
@@ -43,6 +44,7 @@ public class MenuManager : MonoBehaviour {
     void Start()
     {
         listeSelectedKeepers = new List<PawnInstance>();
+        goCardsLevels = new List<GameObject>();
         leveldb = GameManager.Instance.leveldb;
         menuUi = GetComponent<MenuUI>();
         hasBeenInit = false;
@@ -63,6 +65,9 @@ public class MenuManager : MonoBehaviour {
                 goCardLevel.GetComponentInChildren<Text>().text = leveldb.listLevels[i].name;
                 // TODO Maybe add description to level
                 goCardLevel.GetComponent<CardLevel>().levelIndex = leveldb.listLevels[i].id;
+                goCardLevel.SetActive(false);
+                goCardsLevels.Add(goCardLevel);
+
 
                 //if (GameManager.Instance.PersistenceLoader.Pd.dicPersistenceDecks[leveldb.listLevels[i].deckId.ToString()] == true)
                 //{
@@ -120,7 +125,6 @@ public class MenuManager : MonoBehaviour {
                     dicPawnChatBox.Add(goKeeper, newChatBox);
 
                     GameManager.Instance.AllKeepersList.Add(goKeeper.GetComponent<PawnInstance>());
-
 
                     iKeeper++;
                 }
@@ -207,6 +211,32 @@ public class MenuManager : MonoBehaviour {
         }
     }
 
+    public GameObject GoDeck
+    {
+        get
+        {
+            return goDeck;
+        }
+
+        set
+        {
+            goDeck = value;
+        }
+    }
+
+    public List<GameObject> GoCardsLevels
+    {
+        get
+        {
+            return goCardsLevels;
+        }
+
+        set
+        {
+            goCardsLevels = value;
+        }
+    }
+
     public void AddToSelectedKeepers(PawnInstance pi)
     {
         listeSelectedKeepers.Add(pi);
@@ -273,4 +303,7 @@ public class MenuManager : MonoBehaviour {
         }
         SceneManager.LoadScene(CardLevelSelected);
     }
+
+
+
 }

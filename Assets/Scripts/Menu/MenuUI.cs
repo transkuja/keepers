@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class MenuUI : MonoBehaviour {
@@ -9,6 +10,15 @@ public class MenuUI : MonoBehaviour {
     public GameObject keepersPositionTarget;
     public Transform levelDeckPosition;
 
+    // Position for levelCards
+    private bool isACardMoving;
+    private List<Vector3> levelCardsPositions;
+    private List<Quaternion> levelCardsRotations;
+
+    public Transform cameraWhere;
+    
+
+    // Pawn
     private bool isAPawnMoving;
     private PawnInstance pawnMoving;
     private Transform previousTransform;
@@ -19,7 +29,10 @@ public class MenuUI : MonoBehaviour {
     void Start()
     {
         menuManager = GetComponent<MenuManager>();
+        levelCardsPositions = new List<Vector3>();
+        levelCardsRotations = new List<Quaternion>();
         isAPawnMoving = false;
+        isACardMoving = false;
     }
 
     void Update()
@@ -27,6 +40,12 @@ public class MenuUI : MonoBehaviour {
         if (isAPawnMoving)
         {
             UpdateKeepersPosition();
+        }
+
+        if (isACardMoving)
+        {
+
+            UpdateCardLevelPositions();
         }
     }
 
@@ -66,6 +85,7 @@ public class MenuUI : MonoBehaviour {
     public void UpdateDeckSelected()
     {
 
+        isACardMoving = true;
     }
 
     public void UpdateStartButton()
@@ -98,6 +118,9 @@ public class MenuUI : MonoBehaviour {
         }
         // end TODO
     }
+
+
+
 
     void UpdateKeepersPosition()
     {
@@ -133,4 +156,66 @@ public class MenuUI : MonoBehaviour {
         }
     }
 
+ 
+    void UpdateCardLevelPositions()
+    {
+        fLerp += Time.unscaledDeltaTime * 5;
+
+        if (fLerp > 1)
+        {
+            fLerp = 1;
+        }
+
+        for (int i=0; i<menuManager.GoCardsLevels.Count; i++)
+        {
+
+            if (menuManager.GoCardsLevels[i].transform.parent == null)
+            {
+                menuManager.GoCardsLevels[i].transform.localPosition = Vector3.Lerp(menuManager.GoDeck.transform.position, levelCardsPositions[i], fLerp);
+                menuManager.GoCardsLevels[i].transform.localRotation = Quaternion.Lerp(menuManager.GoDeck.transform.rotation, levelCardsRotations[i], fLerp);
+            }
+            else
+            {
+                menuManager.GoCardsLevels[i].transform.localPosition = Vector3.Lerp(levelCardsPositions[i], menuManager.GoDeck.transform.position, fLerp);
+                menuManager.GoCardsLevels[i].transform.localRotation = Quaternion.Lerp(levelCardsRotations[i], menuManager.GoDeck.transform.rotation, fLerp);
+            }
+        }
+ 
+
+        if (fLerp == 1)
+        {
+            //if (previousTransform == keepersPositions.transform.GetChild(previousIndex))
+            //    menuManager.GoCardsLevels[i].transform.SetParent(keepersPositionTarget.transform.GetChild(firstFreeIndex));
+            //else if (previousTransform = keepersPositionTarget.transform.GetChild(previousIndex))
+            //{
+            //    pawnMoving.transform.SetParent(keepersPositions.transform.GetChild(firstFreeIndex));
+            //}
+            isACardMoving = false;
+            fLerp = 0;
+        }
+    }
+
+    public void ComputeContentPositions(List<GameObject> contentToCompute)
+    {
+        levelCardsPositions.Clear();
+        Vector3 size = Vector3.zero;
+        for (int i = 0; i < contentToCompute.Count; i++)
+        {
+            if (contentToCompute[i].GetComponent<MeshRenderer>() == null)
+            {
+                Debug.Log("Bug"); return;
+            }
+
+            size = contentToCompute[i].GetComponent<MeshRenderer>().bounds.size;
+
+
+            float fOrigin = (contentToCompute.Count % 2 == 1) ? -((contentToCompute.Count / 2) * (size.x)) : -((((contentToCompute.Count / 2) - 1) * (size.x)) + (size.x) / 2.0f);
+
+            float fIncrement = size.x + 0.1f;
+
+            levelCardsPositions.Add(new Vector3(cameraWhere.position.x + fOrigin + i * fIncrement, cameraWhere.position.y, cameraWhere.position.z ));
+            levelCardsRotations.Add(new Quaternion(cameraWhere.rotation.x, cameraWhere.rotation.y, cameraWhere.rotation.z, cameraWhere.rotation.w));
+        }
+
+    }
 }

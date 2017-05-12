@@ -108,32 +108,32 @@ public class MenuController : MonoBehaviour {
                 }
             }
 
-            if (levelCardSelected != null)
-            {
-                OpenerContent oc = levelCardSelected.GetComponent<OpenerContent>();
-                oc.listKeyPose.Clear();
-                oc.AddKeyPose(oc.transform.position, oc.transform.rotation);
-                oc.AddKeyPose(oc.transform.position + new Vector3(2, 2, 2), Quaternion.Inverse(oc.transform.rotation));
-                oc.bNeedShow = true;
-                oc.bKill = true;
-            }
+            //if (levelCardSelected != null)
+            //{
+            //    OpenerContent oc = levelCardSelected.GetComponent<OpenerContent>();
+            //    oc.listKeyPose.Clear();
+            //    oc.AddKeyPose(oc.transform.position, oc.transform.rotation);
+            //    oc.AddKeyPose(oc.transform.position + new Vector3(2, 2, 2), Quaternion.Inverse(oc.transform.rotation));
+            //    oc.bNeedShow = true;
+            //    oc.bKill = true;
+            //}
 
-            OpenerContent newCard = Instantiate(card, card.transform.position, card.transform.rotation).GetComponent<OpenerContent>();
+            //OpenerContent newCard = Instantiate(card, card.transform.position, card.transform.rotation).GetComponent<OpenerContent>();
            
-            newCard.Init();
+            //newCard.Init();
 
-            newCard.listKeyPose.Clear();
-            newCard.AddKeyPose(card.transform.position, card.transform.rotation);
-            newCard.AddKeyPose(trLevelCardTarget.position, trLevelCardTarget.rotation);
-            newCard.bNeedShow = true;
+            //newCard.listKeyPose.Clear();
+            //newCard.AddKeyPose(card.transform.position, card.transform.rotation);
+            //newCard.AddKeyPose(trLevelCardTarget.position, trLevelCardTarget.rotation);
+            //newCard.bNeedShow = true;
 
-            levelCardSelected = newCard.gameObject;
+            //levelCardSelected = newCard.gameObject;
 
-            newCard.GetComponent<Opener>().Reset();
+            //newCard.GetComponent<Opener>().Reset();
 
-            card.GetComponent<Opener>().Fold();
+            //card.GetComponent<Opener>().Fold();
 
-            GlowController.RegisterObject(newCard.GetComponent<GlowObjectCmd>());
+            //GlowController.RegisterObject(newCard.GetComponent<GlowObjectCmd>());
 
             //menuUI.UpdateCardLevelSelection();
             menuUI.UpdateStartButton();
@@ -143,7 +143,17 @@ public class MenuController : MonoBehaviour {
 
     public void DeckSelectionControls(GameObject hit)
     {
+     
+        menuUI.UpdateDeckSelected();
+        foreach (GameObject go in menuManager.GoCardsLevels)
+        {
+            if (go.transform.parent == menuManager.GoDeck.transform)
+            {
+                go.transform.SetParent(null);
+                go.SetActive(true);
+            }
 
+        }
 
 
     }
