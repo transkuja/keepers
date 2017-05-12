@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.EventSystems;
 using Behaviour;
+using UnityEngine.SceneManagement;
 public class ControlsManager : MonoBehaviour
 {
     public GameObject goPreviousLeftclicked;
@@ -230,8 +231,21 @@ public class ControlsManager : MonoBehaviour
                                 {
                                     int neighbourIndex = Array.FindIndex(GameManager.Instance.GetFirstSelectedKeeper().CurrentTile.Neighbors, x => x == tileHit);
                                     Tile currentTile = GameManager.Instance.GetFirstSelectedKeeper().CurrentTile;
-                                    TileTrigger tt = currentTile.transform.GetChild(0).GetChild(1).GetChild(neighbourIndex).GetComponent<TileTrigger>();
-                                    TilePassage tp = currentTile.transform.GetChild(0).GetChild(1).GetChild(neighbourIndex).GetComponent<TilePassage>();
+                                    TileTrigger tt;
+                                    TilePassage tp;
+                                    Debug.Log(SceneManager.GetActiveScene().buildIndex);
+                                    if (SceneManager.GetActiveScene().buildIndex == 1)
+                                    {
+                                        tt = currentTile.transform.GetChild(0).GetChild(1).GetChild(0).GetComponent<TileTrigger>();
+                                        tp = currentTile.transform.GetChild(0).GetChild(1).GetChild(0).GetComponent<TilePassage>();
+                                    }
+                                    else
+                                    {
+                                        tt = currentTile.transform.GetChild(0).GetChild(1).GetChild(neighbourIndex).GetComponent<TileTrigger>();
+                                        tp = currentTile.transform.GetChild(0).GetChild(1).GetChild(neighbourIndex).GetComponent<TilePassage>();
+                                    }
+                                    
+                                   
                                     Vector3 movePosition = Vector3.zero;
                                     if (tt != null)
                                         movePosition = tt.transform.position;

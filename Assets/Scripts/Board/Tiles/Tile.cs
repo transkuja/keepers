@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 
 
@@ -95,7 +96,8 @@ public class Tile : MonoBehaviour{
         {
             for (int i = 0; i < transform.childCount; i++)
                 transform.GetChild(i).gameObject.SetActive(true);
-            UpdatePassages();
+            if(SceneManager.GetActiveScene().buildIndex != 1)
+                UpdatePassages();
         }
         if(StateChanged != null)
             StateChanged();

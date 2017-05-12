@@ -10,6 +10,8 @@ using UnityEngine.UI;
 
 using UnityEngine.AI;
 
+using UnityEngine.SceneManagement;
+
 public enum PassageStatus
 {
     // On: Both tiles are connected and discovered 
@@ -39,6 +41,7 @@ public class TilePassage : MonoBehaviour {
 
         set
         {
+            if(SceneManager.GetActiveScene().buildIndex != 1)
             switch(value)
             {
                 case PassageStatus.On:
@@ -91,7 +94,8 @@ public class TilePassage : MonoBehaviour {
                 dir = Direction.None;
                 break;
         }
-
+        if (SceneManager.GetActiveScene().buildIndex != 1)
+            return;
         if (parentTile.Neighbors[(int)dir] == null)
         {
             gameObject.SetActive(false);
