@@ -41,7 +41,11 @@ public class BoxOpener : MonoBehaviour {
                 menuManager.InitKeepers();
 
             }
-
+            menuManager.goDeck.SetActive(isBoxOpen);
+            for (int i = 0; i < GameManager.Instance.AllKeepersList.Count; i++)
+            {
+                GameManager.Instance.AllKeepersList[i].gameObject.SetActive(isBoxOpen);
+            }
             menuManager.SetActiveChatBoxes(isBoxOpen);
         }
     }
@@ -79,6 +83,7 @@ public class BoxOpener : MonoBehaviour {
 
     public void UpdateLockAspect()
     {
+
         if (isBoxOpen && (menuManager.ListeSelectedKeepers.Count != 0 && menuManager.CardLevelSelected == -1 && menuManager.DeckOfCardsSelected == string.Empty))
         {
             boxLock.GetComponent<GlowObjectCmd>().GlowColor = colorLockClosed;

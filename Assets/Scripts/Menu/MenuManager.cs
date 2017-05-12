@@ -11,6 +11,8 @@ public class MenuManager : MonoBehaviour {
     private LevelDataBase leveldb;
     private MenuUI menuUi;
 
+    public GameObject goDeck;
+
     private Dictionary<GameObject, ChatBox> dicPawnChatBox;
 
     // Utile pour la selection en jeu
@@ -24,6 +26,8 @@ public class MenuManager : MonoBehaviour {
     [Header("Prefab")]
     [SerializeField]
     GameObject prefabLevelCard;
+    [SerializeField]
+    GameObject prefabDeck;
     [SerializeField]
     GameObject prefabMainQuestCard;
     [SerializeField]
@@ -47,12 +51,14 @@ public class MenuManager : MonoBehaviour {
 
     public void InitCards()
     {
+        goDeck = Instantiate(prefabDeck, menuUi.levelDeckPosition);
+
         for (int i = 0; i < leveldb.listLevels.Count; i++)
         {
             if (GameManager.Instance.PersistenceLoader.Pd.dicPersistenceLevels[leveldb.listLevels[i].id.ToString()] == true)
             {
                 // Instanciation des cartes de level
-                GameObject goCardLevel = Instantiate(prefabLevelCard, menuUi.levelDeckPosition);
+                GameObject goCardLevel = Instantiate(prefabLevelCard, goDeck.transform);
                 goCardLevel.transform.localPosition = Vector3.zero;
                 goCardLevel.GetComponentInChildren<Text>().text = leveldb.listLevels[i].name;
                 // TODO Maybe add description to level
@@ -112,6 +118,8 @@ public class MenuManager : MonoBehaviour {
                     newChatBox.SetMode(ChatBox.ChatMode.awaiting);
                     newChatBox.SetEnable(false);
                     dicPawnChatBox.Add(goKeeper, newChatBox);
+
+                    GameManager.Instance.AllKeepersList.Add(goKeeper.GetComponent<PawnInstance>());
 
 
                     iKeeper++;
