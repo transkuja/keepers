@@ -14,6 +14,16 @@ public class MenuUIQ: MonoBehaviour {
         startButtonImg.enabled = false;
     }
 
+    public void UpdateKeepers()
+    {
+
+    }
+
+    public void UpdateDeckSelected()
+    {
+
+    }
+
     public void UpdateStartButton()
     {
         // TODO : refaire ça

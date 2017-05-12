@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EventCard : MonoBehaviour {
-
-    public string id;
-    public bool bSelected = false;
+public class CharactersInfoOpener : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
