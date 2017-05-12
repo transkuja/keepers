@@ -43,10 +43,26 @@ public class BoxOpener : MonoBehaviour {
                 menuUi.ComputeContentPositions(menuManager.GoCardsLevels);
 
             }
-            menuManager.GoDeck.SetActive(isBoxOpen);
+            //menuManager.GoDeck.SetActive(isBoxOpen);
+            if (isBoxOpen == false)
+            {
+                GlowController.UnregisterObject(menuManager.GoDeck.GetComponent<GlowObjectCmd>());
+            }
+            else
+            {
+                GlowController.RegisterObject(menuManager.GoDeck.GetComponent<GlowObjectCmd>());
+            }
             for (int i = 0; i < GameManager.Instance.AllKeepersList.Count; i++)
             {
-                GameManager.Instance.AllKeepersList[i].gameObject.SetActive(isBoxOpen);
+                if (isBoxOpen == false)
+                {
+                    GlowController.UnregisterObject(GameManager.Instance.AllKeepersList[i].GetComponent<GlowObjectCmd>());
+                } else
+                {
+                    GlowController.RegisterObject(GameManager.Instance.AllKeepersList[i].GetComponent<GlowObjectCmd>());
+                }
+            //    GameManager.Instance.AllKeepersList[i].gameObject.SetActive(isBoxOpen);
+                    
             }
             menuManager.SetActiveChatBoxes(isBoxOpen);
         }

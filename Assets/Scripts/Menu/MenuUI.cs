@@ -169,7 +169,7 @@ public class MenuUI : MonoBehaviour {
         for (int i=0; i<menuManager.GoCardsLevels.Count; i++)
         {
 
-            if (menuManager.GoCardsLevels[i].transform.parent == null)
+            if (!menuManager.GoDeck.GetComponent<Deck>().IsOpen)
             {
                 menuManager.GoCardsLevels[i].transform.localPosition = Vector3.Lerp(menuManager.GoDeck.transform.position, levelCardsPositions[i], fLerp);
                 menuManager.GoCardsLevels[i].transform.localRotation = Quaternion.Lerp(menuManager.GoDeck.transform.rotation, levelCardsRotations[i], fLerp);
@@ -184,6 +184,21 @@ public class MenuUI : MonoBehaviour {
 
         if (fLerp == 1)
         {
+            menuManager.GoDeck.GetComponent<Deck>().IsOpen = !menuManager.GoDeck.GetComponent<Deck>().IsOpen;
+            if (!menuManager.GoDeck.GetComponent<Deck>().IsOpen)
+            {
+                for (int i = 0; i < menuManager.GoCardsLevels.Count; i++)
+                {
+                    GlowController.UnregisterObject(menuManager.GoCardsLevels[i].GetComponent<GlowObjectCmd>());
+                }
+            } else
+            {
+                for (int i = 0; i < menuManager.GoCardsLevels.Count; i++)
+                {
+                    GlowController.RegisterObject(menuManager.GoCardsLevels[i].GetComponent<GlowObjectCmd>());
+                }
+            }
+         
             //if (previousTransform == keepersPositions.transform.GetChild(previousIndex))
             //    menuManager.GoCardsLevels[i].transform.SetParent(keepersPositionTarget.transform.GetChild(firstFreeIndex));
             //else if (previousTransform = keepersPositionTarget.transform.GetChild(previousIndex))
