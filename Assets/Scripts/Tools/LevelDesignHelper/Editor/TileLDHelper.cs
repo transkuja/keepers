@@ -228,6 +228,17 @@ public class TileLDHelper : EditorWindow {
                 }
             }
 
+            if (GUILayout.Button("Refresh passages"))
+            {
+                for (int i = 0; i < selectedObjects.Length; i++)
+                {
+                    if (selectedObjects[i].GetComponentInParent<Tile>() != null)
+                    {
+                        RefreshPassages(selectedObjects[i].GetComponentInParent<Tile>());
+                    }
+                }
+            }
+
             GUI.enabled = true;
             EditorGUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
@@ -257,6 +268,21 @@ public class TileLDHelper : EditorWindow {
         GUILayout.FlexibleSpace();
         EditorGUILayout.EndHorizontal();
         EditorGUILayout.HelpBox("Information Warning: the \"TilePrefab\" object must stay the first child of its parent (a Tile). Same goes for the model object, which must stay the first child of the \"TilePrefab\" object.", MessageType.Info);
+    }
+
+    void RefreshPassages(Tile tile)
+    {
+        if (emptyTilePrefab == null)
+            LoadEmptyTilePrefab();
+        GameObject prefab = PrefabUtility.InstantiatePrefab(emptyTilePrefab) as GameObject;
+        Transform passages = tile.transform.GetChild(0).GetChild(1);
+        int sibIndex = passages.GetSiblingIndex();
+        Undo.DestroyObjectImmediate(passages.gameObject);
+        Transform newPassages = prefab.transform.GetChild(1);
+        newPassages.parent = tile.transform.GetChild(0);
+        newPassages.SetSiblingIndex(sibIndex);
+        newPassages.localPosition = Vector3.zero;
+        DestroyImmediate(prefab);
     }
 
     void RefreshTile(Tile tile)

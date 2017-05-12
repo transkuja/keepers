@@ -1,13 +1,18 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 using Behaviour;
 
 public class TriggerOnCristals : MonoBehaviour {
+    [SerializeField]
     private bool triggerActif;
 
     public TriggerOnCristals monCopain;
 
-    private Material mat;
+    public Color unactiveColor;
+    public Color activeColor;
+    public ParticleSystem particles;
+
+    private List<Material> mat;
     private Color storedColor;
 
     public bool TriggerActif
@@ -34,15 +39,17 @@ public class TriggerOnCristals : MonoBehaviour {
 
     public void Start()
     {
-        mat = this.GetComponentInChildren<MeshRenderer>().material;
+        mat = new List<Material>();
+        foreach(MeshRenderer mr in GetComponentsInChildren<MeshRenderer>())
+            mat.Add(mr.material);
 		triggerActif = false;
-
-		storedColor = mat.GetColor ("_EmissionColor");
+        particles = GetComponentInChildren<ParticleSystem>();
+        ParticleSystem.EmissionModule em = particles.emission;
+        em.enabled = false;
     }
 		
-	// Quand le papillon ou le double se trouve a l'interieur
 	public void OnTriggerEnter(Collider col){
-        if (col.GetComponentInParent<Keeper>() != null && col.isTrigger)
+        if (col.GetComponentInParent<Keeper>() != null)
         {
             if(!TriggerActif)
             {
@@ -54,7 +61,7 @@ public class TriggerOnCristals : MonoBehaviour {
 
     public void OnTriggerExit(Collider col)
     {
-        if (col.GetComponentInParent<Keeper>() != null && col.isTrigger)
+        if (col.GetComponentInParent<Keeper>() != null)
         {
             TriggerActif = false;
         }
@@ -64,16 +71,31 @@ public class TriggerOnCristals : MonoBehaviour {
     {
         // Hell yeah
         if (GameManager.Instance.CurrentState == GameState.InBattle || GameManager.Instance.CurrentState == GameState.InTuto)
-            GetComponentInChildren<MeshRenderer>().enabled = false;
+            transform.GetChild(0).gameObject.SetActive(false);
         else
-            GetComponentInChildren<MeshRenderer>().enabled = true;
+            transform.GetChild(0).gameObject.SetActive(true);
 
         if (!triggerActif) {
-			mat.SetColor ("_EmissionColor", storedColor);
-		} else {
-			mat.SetColor ("_EmissionColor", Color.blue);
-            //GetComponentInChildren<ParticleSystem>().main.startColor.color = Color.blue;
-		}
+            foreach(Material m in mat)
+            {
+                m.SetColor("_EmissionColor", unactiveColor);
+            }
+            if (particles.emission.enabled)
+            {
+                ParticleSystem.EmissionModule em = particles.emission;
+                em.enabled = false;
+            }
+        } else {
+            foreach (Material m in mat)
+            {
+                m.SetColor("_EmissionColor", activeColor);
+            }
+            if (!particles.emission.enabled)
+            {
+                ParticleSystem.EmissionModule em = particles.emission;
+                em.enabled = true;
+            }
+        }
 
         transform.Rotate(Vector3.up, 0.5f);
     }

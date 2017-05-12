@@ -10,7 +10,13 @@ using UnityEngine.UI;
 
 using UnityEngine.AI;
 
-
+public enum PassageStatus
+{
+    // On: Both tiles are connected and discovered 
+    // Off: Both tile are connected but one is greyed 
+    // Disabled: The path is blocked
+    On, Off, Disabled  
+}
 
 public class TilePassage : MonoBehaviour {
 
@@ -20,74 +26,84 @@ public class TilePassage : MonoBehaviour {
 
     public Direction dir;
 
+    private PassageStatus status;
+
+    Tile parentTile;
+
+    public PassageStatus Status
+    {
+        get
+        {
+            return status;
+        }
+
+        set
+        {
+            switch(value)
+            {
+                case PassageStatus.On:
+                    transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
+                    transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
+                    transform.GetChild(0).GetChild(2).gameObject.SetActive(false);
+                    break;
+                case PassageStatus.Off:
+                    transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
+                    transform.GetChild(0).GetChild(1).gameObject.SetActive(true);
+                    transform.GetChild(0).GetChild(2).gameObject.SetActive(false);
+                    break;
+                case PassageStatus.Disabled:
+                    transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
+                    transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
+                    transform.GetChild(0).GetChild(2).gameObject.SetActive(true);
+                    break;
+            }
+            status = value;
+        }
+    }
 
 
     // Use this for initialization
 
     void Start () {
-
         string strTag = tag;
-
-
-
+        parentTile = GetComponentInParent<Tile>();
         switch (strTag)
-
         {
-
             case "NorthTrigger":
-
                 dir = Direction.North;
-
                 break;
-
             case "NorthEastTrigger":
-
                 dir = Direction.North_East;
-
                 break;
-
             case "SouthEastTrigger":
-
                 dir = Direction.South_East;
-
                 break;
-
             case "SouthTrigger":
-
                 dir = Direction.South;
-
                 break;
-
             case "SouthWestTrigger":
-
                 dir = Direction.South_West;
-
                 break;
-
             case "NorthWestTrigger":
-
                 dir = Direction.North_West;
-
                 break;
-
             default:
-
                 dir = Direction.None;
-
                 break;
-
         }
 
-
-
-        if (GetComponentInParent<Tile>().Neighbors[(int)dir] == null)
-
+        if (parentTile.Neighbors[(int)dir] == null)
         {
-
             gameObject.SetActive(false);
-
         }
-
+        else if(parentTile.Neighbors[(int)dir].State == TileState.Discovered && parentTile.State == TileState.Discovered)
+        {
+            Status = PassageStatus.On;
+        }
+        else
+        {
+            Status = PassageStatus.Off;
+        }
     }
 
 
@@ -97,6 +113,8 @@ public class TilePassage : MonoBehaviour {
     public void HandleClick()
 
     {
+        if (Status == PassageStatus.Disabled)
+            return;
 
         PawnInstance k = GameManager.Instance.ListOfSelectedKeepers[0];
 
@@ -463,15 +481,15 @@ public class TilePassage : MonoBehaviour {
 
                     PawnInstance toMove = other.GetComponentInParent<PawnInstance>();
 
-
-
+                    Direction dirToMove = (Direction)other.GetComponentInParent<AnimatedPawn>().WhereMove;
+                    toMove.CurrentTile.GetPassage(dirToMove).Status = PassageStatus.On;
                     // Move to explored tile
                     int actionCostExploreTmp = actionCostExplore;
                     if (toMove.Data.Behaviours[(int)BehavioursEnum.Explorateur] == true)
                     {
                         actionCostExploreTmp -= 1;
                     }
-
+                    
                     TileManager.Instance.MoveKeeper(toMove, toMove.CurrentTile, (Direction)other.GetComponentInParent<AnimatedPawn>().WhereMove, actionCostExploreTmp);
 
                     // Tell the tile it has been discovered (and watch it panic)
@@ -479,9 +497,10 @@ public class TilePassage : MonoBehaviour {
                     Tile exploredTile = toMove.CurrentTile;
 
                     exploredTile.State = TileState.Discovered;
+                    exploredTile.GetPassage(Utils.GetOppositeDirection(dirToMove)).Status = PassageStatus.On;
+                    Status = PassageStatus.On;
 
                     foreach (Tile t in exploredTile.Neighbors)
-
                     {
 
                         if (t != null && t.State == TileState.Hidden)

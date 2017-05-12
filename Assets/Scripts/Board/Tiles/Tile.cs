@@ -100,6 +100,11 @@ public class Tile : MonoBehaviour{
             StateChanged();
     }
 
+    public TilePassage GetPassage(Direction dir)
+    {
+        return transform.GetChild(0).GetChild(1).GetChild((int)dir).GetComponent<TilePassage>();
+    }
+
     //Accessors
     public TileType Type
     {

@@ -8,7 +8,7 @@ namespace Behaviour
     {
         [SerializeField]
         Direction[] pathsBlocked;
-        GameObject[] pathBlockedPortals;
+        TilePassage[] pathBlockedPortals;
         Tile effectiveTile;
 
         void Start()
@@ -18,14 +18,14 @@ namespace Behaviour
             // Check if is blocking paths and deactivate concerned colliders
             if (pathsBlocked != null)
             {
-                pathBlockedPortals = new GameObject[2 * pathsBlocked.Length];
+                pathBlockedPortals = new TilePassage[2 * pathsBlocked.Length];
 
                 for (int i = 0; i < pathsBlocked.Length; i++)
                 {
-                    pathBlockedPortals[2 * i] = effectiveTile.GetTileTriggerFromDirection(pathsBlocked[i]);
-                    pathBlockedPortals[2 * i].SetActive(false);
-                    pathBlockedPortals[2 * i + 1] = effectiveTile.Neighbors[(int)pathsBlocked[i]].GetTileTriggerFromDirection(Utils.GetOppositeDirection(pathsBlocked[i]));
-                    pathBlockedPortals[2 * i + 1].SetActive(false);
+                    pathBlockedPortals[2 * i] = effectiveTile.GetPassage(pathsBlocked[i]);
+                    pathBlockedPortals[2 * i].Status = PassageStatus.Disabled;
+                    pathBlockedPortals[2 * i + 1] = effectiveTile.Neighbors[(int)pathsBlocked[i]].GetPassage(Utils.GetOppositeDirection(pathsBlocked[i]));
+                    pathBlockedPortals[2 * i + 1].Status = PassageStatus.Disabled;
                 }
             }
         }
@@ -37,7 +37,7 @@ namespace Behaviour
             {
                 for (int i = 0; i < pathBlockedPortals.Length; i++)
                 {
-                    pathBlockedPortals[i].SetActive(true);
+                    pathBlockedPortals[i].Status = PassageStatus.Off;
                 }
             }
         }

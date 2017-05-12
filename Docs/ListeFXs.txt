@@ -3,6 +3,8 @@ Liste des FXs à intégrer
 - Particules de pas (eau, sable, ...)
 
 - Cristaux		- En cours
+- Ouverture de passage
+- Pont
 
 Combat:
 - Prendre un coup
