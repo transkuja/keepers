@@ -15,7 +15,7 @@ public class TooltipItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     {
         tooltip.transform.position = transform.position;
         tooltip.GetComponentInChildren<Text>().text = GetComponent<ItemInstance>().ItemContainer.Item.Description;
-        Invoke("showTooltip", 0.5f);
+        needToBeShown = true;
     }
     public void showTooltip()
     {
