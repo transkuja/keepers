@@ -163,7 +163,7 @@ public class GameManager : MonoBehaviour
 
     public void ResetInstance()
     {
-        if( SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Menu"))
+        if( SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Menu new"))
         {
 
             instance.listOfSelectedKeepers.Clear();

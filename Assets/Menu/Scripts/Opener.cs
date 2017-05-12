@@ -28,9 +28,6 @@ public class Opener : MonoBehaviour {
     void Start () {
 
         Init();
-
-
-
         layerToCheck = GameObject.Find("Menu").GetComponent<MenuControlsQ>().layerToCheck;
 
     }
@@ -41,11 +38,7 @@ public class Opener : MonoBehaviour {
 
         LoadSiblings();
 
-
-
         LoadChilds();
-
-
 
         ComputeContentPositions();
 
@@ -66,6 +59,7 @@ public class Opener : MonoBehaviour {
             for (int i = 0; i < transform.parent.childCount; i++)
             {
                 openerTemp = transform.parent.GetChild(i).gameObject.GetComponent<Opener>();
+     
                 if (openerTemp != null && openerTemp != this)
                 {
                     if (listOpenerSiblings == null)
@@ -165,7 +159,7 @@ public class Opener : MonoBehaviour {
 
     void Update()
     {
-        if(bOpened == true && Input.GetMouseButtonDown(0))
+        if (bOpened == true && Input.GetMouseButtonDown(0))
         {
             RaycastHit hit;
             Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, layerToCheck);
@@ -293,17 +287,12 @@ public class Opener : MonoBehaviour {
     void CloseSiblings()
 
     {
-
         for (int i = 0; listOpenerSiblings != null && i < listOpenerSiblings.Count; i++)
 
         {
-
             if (listOpenerSiblings[i].bOpened == true)
-
             {
-
                 listOpenerSiblings[i].Fold();
-
             }
 
         }
