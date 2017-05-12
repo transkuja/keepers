@@ -65,6 +65,10 @@ public class MenuController : MonoBehaviour {
                         KeeperSelectionControls(hit.transform.gameObject);
                         //FoldEverything();
                     }
+                    else if (hit.transform.gameObject.layer == LayerMask.NameToLayer("DeckOfCards"))
+                    {
+                        DeckSelectionControls(hit.transform.gameObject);
+                    }
                     else
                     {
                         //FoldEverything();
@@ -84,6 +88,7 @@ public class MenuController : MonoBehaviour {
 
     public void LevelSelectionControls(GameObject hit)
     {
+
         CardLevel card = hit.transform.gameObject.GetComponent<CardLevel>();
         if (card != null && card.gameObject != levelCardSelected)
         {
@@ -134,6 +139,13 @@ public class MenuController : MonoBehaviour {
             menuUI.UpdateStartButton();
             boxOpener.UpdateLockAspect();
         }
+    }
+
+    public void DeckSelectionControls(GameObject hit)
+    {
+
+
+
     }
 
     public void KeeperSelectionControls(GameObject hit)
