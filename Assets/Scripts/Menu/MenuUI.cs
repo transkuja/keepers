@@ -190,12 +190,14 @@ public class MenuUI : MonoBehaviour {
                 for (int i = 0; i < menuManager.GoCardsLevels.Count; i++)
                 {
                     GlowController.UnregisterObject(menuManager.GoCardsLevels[i].GetComponent<GlowObjectCmd>());
+                    menuManager.SetActiveChatBoxes(true);
                 }
             } else
             {
                 for (int i = 0; i < menuManager.GoCardsLevels.Count; i++)
                 {
                     GlowController.RegisterObject(menuManager.GoCardsLevels[i].GetComponent<GlowObjectCmd>());
+                    menuManager.SetActiveChatBoxes(false);
                 }
             }
          
