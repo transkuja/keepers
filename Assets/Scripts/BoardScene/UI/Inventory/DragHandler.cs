@@ -76,13 +76,15 @@ public class DragHandler : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
 
         if (transform.parent == absoluteParent)
         {
-            transform.position = startPosition;
+            if (!GameManager.Instance.Ui.itemSplitter.activeSelf)
+            {
+                transform.position = startPosition;
 
-            // force the item being drag to reset on his starting position
-            transform.SetParent(startParent);
+                // force the item being drag to reset on his starting position
+                transform.SetParent(startParent);
+            }
         }
-
-            
+        
         GetComponent<CanvasGroup>().blocksRaycasts = true;
     }
 

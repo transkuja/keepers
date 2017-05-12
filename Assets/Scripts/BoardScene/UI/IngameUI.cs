@@ -38,6 +38,8 @@ public class IngameUI : MonoBehaviour
     [Header("Confirmation Panel")]
     public GameObject goConfirmationPanel;
 
+    public GameObject itemSplitter;
+
 
     // Quentin
     [Header("Foreign UI Components")]

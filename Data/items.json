@@ -1,19 +1,6 @@
 {
 	"items": [
 		{
-			"type": "Equipment",
-			"item" : {
-				"id": "equip01",
-				"itemName": "Plastic Spoon",
-				"description": "You can't kill anything with this they said.",
-				"inventorySprite": "Equip_3",
-				"ingameVisual": "",
-				"slot": "Weapon",
-				"stat": "Strength",
-				"bonusStat": 1
-			}
-		},
-		{
 			"type": "Ressource",
 			"item" : { 
 				"id": "resource01",
