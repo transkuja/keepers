@@ -78,15 +78,8 @@ namespace Behaviour
         private GameObject feedbackSelection;
         private bool isSelected = false;
 
-
-        // TODO remove
-        [SerializeField]
-        [System.Obsolete("remove this with old menu")]
-        private bool isSelectedInMenu = false;
-        //NavMeshAgent agent;
-
         private List<GameObject> goListCharacterFollowing = new List<GameObject>();
-
+        // OLD can be use
         private ItemContainer[] equipements;
 
         // UI
@@ -442,19 +435,6 @@ namespace Behaviour
             set
             {
                 Data.MaxActionPoint = value;
-            }
-        }
-
-        public bool IsSelectedInMenu
-        {
-            get
-            {
-                return isSelectedInMenu;
-            }
-
-            set
-            {
-                isSelectedInMenu = value;
             }
         }
 

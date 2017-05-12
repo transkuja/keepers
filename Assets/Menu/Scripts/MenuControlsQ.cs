@@ -36,11 +36,14 @@ public class MenuControlsQ : MonoBehaviour {
     [SerializeField] public LayerMask layerControls;
     public GameObject boxLock;
 
+    private LevelDataBase leveldb;
+
     // Use this for initialization
     void Start () {
         menuManager = GetComponent<MenuManagerQ>();
         menuUI = GetComponent<MenuUIQ>();
 
+        leveldb = GameManager.Instance.leveldb;
         //EventCardSelectedOpener.GetComponent<MeshRenderer>().enabled = false;
         //EventCardSelectedOpener.GetComponent<MeshCollider>().enabled = false;
     }
@@ -96,18 +99,10 @@ public class MenuControlsQ : MonoBehaviour {
             {
                 if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit/*, Mathf.Infinity, layerControls*/) == true)
                 {
-                    /*if (hit.transform.gameObject.layer == LayerMask.NameToLayer("DeckOfCards"))
-                    {
-                        DeckSelectionControls(hit.transform.gameObject);
-                    }
-                    else*/ if (hit.transform.gameObject.layer == LayerMask.NameToLayer("CardLevel"))
+                    if (hit.transform.gameObject.layer == LayerMask.NameToLayer("CardLevel"))
                     {
                         LevelSelectionControls(hit.transform.gameObject);
                     }
-                    /*else if (hit.transform.gameObject.layer == LayerMask.NameToLayer("EventCard"))
-                    {
-                        EventCardsSelectionControls(hit.transform.gameObject);
-                    }*/
                     else if (hit.transform.gameObject.layer == LayerMask.NameToLayer("KeeperInstance"))
                     {
                         KeeperSelectionControls(hit.transform.gameObject);
@@ -192,21 +187,24 @@ public class MenuControlsQ : MonoBehaviour {
 
     public void LevelSelectionControls(GameObject hit)
     {
+
+
         CardLevel card = hit.transform.gameObject.GetComponent<CardLevel>();
         if (card != null && card.gameObject != levelCardSelected)
         {
             AudioManager.Instance.PlayOneShot(AudioManager.Instance.paperSelectSound, 0.5f);
 
+
             menuManager.CardLevelSelected = card.levelIndex;
-            menuManager.DeckOfCardsSelected = menuManager.leveldb.GetLevelById(card.levelIndex).deckId;
+            menuManager.DeckOfCardsSelected = leveldb.GetLevelById(card.levelIndex).deckId;
 
             GameManager.Instance.ListEventSelected.Clear();
 
-            for (int i = 0; i < menuManager.leveldb.GetLevelById(card.levelIndex).listEventsId.Count; i++)
+            for (int i = 0; i < leveldb.GetLevelById(card.levelIndex).listEventsId.Count; i++)
             {
-                if (GameManager.Instance.PersistenceLoader.Pd.dicPersistenceEvents[menuManager.leveldb.GetLevelById(card.levelIndex).listEventsId[i]] == true)
+                if (GameManager.Instance.PersistenceLoader.Pd.dicPersistenceEvents[leveldb.GetLevelById(card.levelIndex).listEventsId[i]] == true)
                 {
-                    GameManager.Instance.ListEventSelected.Add(menuManager.leveldb.GetLevelById(card.levelIndex).listEventsId[i]);
+                    GameManager.Instance.ListEventSelected.Add(leveldb.GetLevelById(card.levelIndex).listEventsId[i]);
                 }
             }
 
