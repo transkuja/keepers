@@ -104,7 +104,7 @@ public class SeqTutoCombat : Sequence
             if (feedbackMouse == null)
             {
                 feedbackMouse = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabImageUI, GameManager.Instance.Ui.transform.GetChild(0));
-                feedbackMouse.transform.position = Camera.main.WorldToScreenPoint(BattleHandler.CurrentBattleKeepers[0].GetComponent<Interactable>().Feedback.position) + Vector3.up * (50 * (Screen.height / 1080.0f));
+                feedbackMouse.transform.position = Camera.main.WorldToScreenPoint(BattleHandler.CurrentBattleKeepers[0].GetComponent<Interactable>().Feedback.position) + Vector3.up * (50 * (Screen.height / 1080.0f)) + Vector3.right * (50 * (Screen.width / 1920.0f));
                 feedbackMouse.transform.localScale = Vector3.one;
                 feedbackMouse.AddComponent<ShowClickIsExpected>();
                 feedbackMouse.GetComponent<ShowClickIsExpected>().IsLeftClick = true;
