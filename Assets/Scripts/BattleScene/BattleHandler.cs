@@ -869,6 +869,7 @@ public class BattleHandler {
                     return;
 
                 GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().SkillName.SetActive(false);
+                GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().UnlockCharactersPanelButtons();
                 if (pendingSkill != null && pendingSkill.SkillUser != null && pendingSkill.SkillUser.GetComponent<Keeper>() != null)
                 {
                     pendingSkill.SkillUser.HasPlayedThisTurn = true;
@@ -877,7 +878,9 @@ public class BattleHandler {
                 }
 
                 if (wasLaunchedDuringKeepersTurn)
+                {
                     ActivateFeedbackSelection(true, false);
+                }
                 else
                 {
                     if (BattleEndConditionsReached())

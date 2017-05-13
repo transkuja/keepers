@@ -40,6 +40,8 @@ public class UIBattleHandler : MonoBehaviour {
 
     private Dictionary<PawnInstance, Transform> associatedSkillsPanel = new Dictionary<PawnInstance, Transform>();
 
+    public bool isCharactersPanelLocked = false;
+
     public GameObject SkillName
     {
         get
@@ -361,8 +363,8 @@ public class UIBattleHandler : MonoBehaviour {
             }
         }
         associatedCharacterPanel[_toUpdate].GetChild((int)CharactersPanelChildren.Avatar).GetComponent<Image>().enabled = enableHighlightFeedback;
-        associatedCharacterPanel[_toUpdate].GetChild((int)CharactersPanelChildren.Avatar).GetComponentInChildren<Button>().interactable = enableHighlightFeedback;
-        associatedCharacterPanel[_toUpdate].GetChild((int)CharactersPanelChildren.Avatar).GetComponentInParent<Button>().interactable = enableHighlightFeedback;
+        associatedCharacterPanel[_toUpdate].GetChild((int)CharactersPanelChildren.Avatar).GetComponentInChildren<Button>().interactable = enableHighlightFeedback && !isCharactersPanelLocked;
+        associatedCharacterPanel[_toUpdate].GetChild((int)CharactersPanelChildren.Avatar).GetComponentInParent<Button>().interactable = enableHighlightFeedback && !isCharactersPanelLocked;
     }
 
     public void UpdateAttributesStocks(Fighter _toUpdate)
@@ -527,5 +529,23 @@ public class UIBattleHandler : MonoBehaviour {
 
         // Disable UI battle
         ChangeState(UIBattleState.Disabled);
+    }
+
+    public void LockCharactersPanelButtons()
+    {
+        for (int i = 0; i < charactersPanel.transform.childCount; i++)
+        {
+            Button[] buttons = charactersPanel.transform.GetChild(i).GetComponentsInChildren<Button>();
+            for (int j = 0; j < buttons.Length; j++)
+            {
+                buttons[j].interactable = false;
+            }
+        }
+        isCharactersPanelLocked = true;
+    }
+
+    public void UnlockCharactersPanelButtons()
+    {
+        isCharactersPanelLocked = false;
     }
 }

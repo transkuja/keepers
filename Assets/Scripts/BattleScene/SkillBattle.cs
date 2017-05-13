@@ -302,6 +302,7 @@ public class SkillBattle {
 
     public void UseSkill()
     {
+        GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().LockCharactersPanelButtons();
         ConsumeCost();
 
         GameObject skillNameUI = GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().SkillName;
@@ -362,6 +363,7 @@ public class SkillBattle {
 
     public void UseSkill(PawnInstance _target)
     {
+        GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().LockCharactersPanelButtons();
         ConsumeCost();
 
         GameObject skillNameUI = GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().SkillName;
