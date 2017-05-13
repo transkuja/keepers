@@ -34,6 +34,7 @@ public class SeqTutoCombat : Sequence
             
             TutoManager.s_instance.EcrireMessage(str);
             TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.WaitingForClickUI;
+            TutoManager.EnablePreviousButton(false);
         }
 
         public override void Reverse()
