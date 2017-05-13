@@ -79,6 +79,19 @@ public class UIBattleHandler : MonoBehaviour {
         }
     }
 
+    public GameObject CharactersPanel
+    {
+        get
+        {
+            return charactersPanel;
+        }
+
+        set
+        {
+            charactersPanel = value;
+        }
+    }
+
     public Transform GetCharacterPanelIndex(PawnInstance _fromPawn)
     {
         return associatedCharacterPanel[_fromPawn];

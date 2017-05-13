@@ -87,6 +87,7 @@ public class SeqTutoCombat : Sequence
     {
         string str;
         GameObject feedbackMouse;
+        Button[] characterPanelButtons;
         public PawnSelection(string _str)
         {
             stepFunction = Message_fct;
@@ -100,6 +101,13 @@ public class SeqTutoCombat : Sequence
 
             BattleHandler.CurrentBattleKeepers[0].GetComponent<GlowObjectCmd>().ActivateBlinkBehaviour(true);
             BattleHandler.CurrentBattleKeepers[0].GetComponent<GlowObjectCmd>().enabled = true;
+
+            characterPanelButtons = GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().CharactersPanel.transform.GetChild(0).GetComponentsInChildren<Button>();
+            for (int i = 0; i < characterPanelButtons.Length; i++)
+            {
+                characterPanelButtons[i].interactable = true;
+                characterPanelButtons[i].transform.gameObject.AddComponent<MouseClickExpected>();
+            }
 
             if (feedbackMouse == null)
             {
@@ -120,6 +128,12 @@ public class SeqTutoCombat : Sequence
                 Destroy(BattleHandler.CurrentBattleKeepers[0].gameObject.GetComponent<MouseClickedOnIngameElt>());
             Destroy(feedbackMouse);
             GameManager.Instance.AllKeepersList[0].GetComponent<GlowObjectCmd>().ActivateBlinkBehaviour(false);
+            for (int i = 0; i < characterPanelButtons.Length; i++)
+            {
+                characterPanelButtons[i].interactable = false;
+                Destroy(characterPanelButtons[i].transform.gameObject.GetComponent<MouseClickExpected>());
+            }
+
             alreadyPlayed = false;
         }
     }
@@ -342,7 +356,6 @@ public class SeqTutoCombat : Sequence
         BattleHandler.CurrentBattleKeepers[0].GetComponent<Behaviour.Fighter>().BattleSkills.Add(tutoSkill);
         GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().TutoReloadSkillPanel(BattleHandler.CurrentBattleKeepers[0]);
 
-        //pointer2 = SpawnPointer2();
         Etapes = new List<Step>();
 
         // Content
@@ -365,6 +378,7 @@ public class SeqTutoCombat : Sequence
         base.End();
         if (TutoManager.s_instance.TutoPanelInstance != null)
             Destroy(TutoManager.s_instance.TutoPanelInstance);
+        BattleHandler.CurrentBattleKeepers[0].GetComponent<GlowObjectCmd>().ActivateBlinkBehaviour(false);
         BattleHandler.ResetBattleHandlerForTuto();
         GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().ChangeState(UIBattleState.WaitForDiceThrow);
 
