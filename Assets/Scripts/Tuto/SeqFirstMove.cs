@@ -434,6 +434,7 @@ public class SeqFirstMove : Sequence {
     public class UseAnObjectStep : Step
     {
         string str;
+        GameObject feedback;
         GameObject feedbackCircle;
         public UseAnObjectStep(string _str)
         {
@@ -445,23 +446,34 @@ public class SeqFirstMove : Sequence {
         {
             GameManager.Instance.AllKeepersList[0].GetComponent<Inventory>().SelectedInventoryPanel.gameObject.SetActive(true); // Inventory
 
+            if (feedback == null)
+            {
+                feedback = Instantiate(TutoManager.s_instance.uiPointer, GameManager.Instance.Ui.transform.GetChild(0));
+                feedback.GetComponent<FlecheQuiBouge>().PointToPoint = GameManager.Instance.AllKeepersList[0].GetComponent<Inventory>().SelectedInventoryPanel.transform.position + Vector3.up * (100 * (Screen.height/1080.0f));
+                feedback.GetComponent<FlecheQuiBouge>().distanceOffset = 200.0f;
+
+                feedback.transform.localEulerAngles = new Vector3(0, 0, 90);
+            }
+
             if (feedbackCircle == null)
             {
                 feedbackCircle = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabImageUI);
                 feedbackCircle.transform.SetParent(GameManager.Instance.AllKeepersList[0].GetComponent<Inventory>().SelectedInventoryPanel.transform.GetChild(0).GetChild(0));
                 feedbackCircle.transform.localPosition = Vector3.zero;
-                feedbackCircle.transform.localScale = Vector3.one * 1.5f;
+                feedbackCircle.transform.localScale = Vector3.one * 2.0f;
                 feedbackCircle.GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteTutoCircleFeedback;
                 feedbackCircle.AddComponent<ThrowDiceButtonFeedback>();
             }
 
             TutoManager.s_instance.EcrireMessage(str);
             TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.WaitingForClickUI;
+            TutoManager.EnablePreviousButton(false);
         }
 
         public override void Reverse()
         {
             Destroy(feedbackCircle);
+            Destroy(feedback);
             alreadyPlayed = false;
         }
     }
@@ -470,12 +482,8 @@ public class SeqFirstMove : Sequence {
     {
         base.Init();
         pawnMrResetti = TutoManager.s_instance.SpawnMmeResetti(new Vector3(0.0f, 0.15f, -0.7f));
-        //pointer = SpawnPointer();
-        // hide
 
-        //pointer2 = SpawnPointer2();
         Etapes = new List<Step>();
-        // First
         Etapes.Add(new TutoManager.Spawn(pawnMrResetti, jumpAnimationClip));
 
         // Content
