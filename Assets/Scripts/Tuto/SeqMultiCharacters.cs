@@ -230,6 +230,8 @@ public class SeqMultiCharacters : Sequence
         base.End();
         GameManager.Instance.AllKeepersList[0].GetComponent<Behaviour.Keeper>().BtnLeft.GetComponent<Button>().interactable = true;
         GameManager.Instance.AllKeepersList[0].GetComponent<Behaviour.Keeper>().BtnRight.GetComponent<Button>().interactable = true;
+        for (int i = 0; i < GameManager.Instance.AllKeepersList.Count; i++)
+            GameManager.Instance.AllKeepersList[i].GetComponent<GlowObjectCmd>().ActivateBlinkBehaviour(false);
 
         if (pawnMrResetti != null)
             TutoManager.UnSpawn(pawnMrResetti);
