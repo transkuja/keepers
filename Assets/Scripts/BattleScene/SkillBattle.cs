@@ -317,6 +317,7 @@ public class SkillBattle {
                 if (boeuf.BoeufType == BoeufType.Damage)
                     effectiveDamage += boeuf.EffectValue;
             }
+            effectiveDamage = Mathf.Max(0, effectiveDamage);
         }
 
         if (targetType == TargetType.FoeAll)
@@ -376,6 +377,7 @@ public class SkillBattle {
                 if (boeuf.BoeufType == BoeufType.Damage)
                     effectiveDamage += boeuf.EffectValue;
             }
+            effectiveDamage = Mathf.Max(0, effectiveDamage);
         }
 
         ApplySkillEffectOnTarget(_target, effectiveDamage);
