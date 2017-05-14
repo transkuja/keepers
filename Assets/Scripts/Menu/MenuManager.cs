@@ -73,7 +73,8 @@ public class MenuManager : MonoBehaviour {
                 // Instanciation des cartes de level
                 GameObject goCardLevel = Instantiate(prefabLevelCard, goDeck.transform);
                 goCardLevel.transform.localPosition = Vector3.zero;
-                goCardLevel.GetComponentInChildren<Text>().text = leveldb.listLevels[i].name + "\n" + leveldb.listLevels[i].nbPawn;
+                goCardLevel.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = leveldb.listLevels[i].name;
+                goCardLevel.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = leveldb.listLevels[i].nbPawn + " pawns required.";
                 // TODO Maybe add description to level
                 goCardLevel.GetComponent<CardLevel>().levelIndex = leveldb.listLevels[i].id;
                 goCardLevel.SetActive(false);

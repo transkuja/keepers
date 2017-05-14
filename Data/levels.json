@@ -2,14 +2,14 @@
 	"Levels": [   
 		{ 
 			"id": 1, 
-			"name" : "niveau 1", 
+			"name" : "Tutorial", 
 			"cardModelName" : "Asset_Carte_LevelTuto", 
 			"questDeckId" : "deck_01",
 			"nbPawn" :"1"
 		},
 		{ 
 			"id": 2, 
-			"name" : "niveau 2", 
+			"name" : "The journey", 
 			"cardModelName" : "Asset_Carte_Level_02", 
 			"questDeckId" : "deck_02",
 			"nbPawn" :"3",
@@ -20,7 +20,7 @@
 		},
 		{ 
 			"id": 4, 
-			"name" : "niveau 4", 
+			"name" : "Mother", 
 			"cardModelName" : "Asset_Carte_Level_03", 
 			"questDeckId" : "deck_04",
 			"nbPawn" :"3",
