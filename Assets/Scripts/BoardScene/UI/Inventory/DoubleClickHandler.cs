@@ -23,10 +23,8 @@ public class DoubleClickHandler : MonoBehaviour, IPointerClickHandler
 
         if (tap == 2)
         {
-
-
             // Only keeper can use items
-             Behaviour.Keeper owner = eventData.pointerPress.GetComponentInParent<InventoryOwner>().Owner.GetComponent<Behaviour.Keeper>();
+            Behaviour.Keeper owner = eventData.pointerPress.GetComponentInParent<InventoryOwner>().Owner.GetComponent<Behaviour.Keeper>();
             if (owner == null 
                     || owner != GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Keeper>())
             {
@@ -34,12 +32,7 @@ public class DoubleClickHandler : MonoBehaviour, IPointerClickHandler
                 ItemContainer[] selectedKeeperInventory = GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Inventory>().Items;
                 Behaviour.Inventory ownerInventory = goOwner.GetComponent<Behaviour.Inventory>();
 
-
                 ItemContainer itemDragged = eventData.pointerPress.GetComponent<ItemInstance>().ItemContainer;
-
-
-
-               
 
                 if (InventoryManager.AddItemToInventory(selectedKeeperInventory, itemDragged))
                     InventoryManager.RemoveItem(ownerInventory.Items, itemDragged);
@@ -87,20 +80,41 @@ public class DoubleClickHandler : MonoBehaviour, IPointerClickHandler
                 return;
             }
 
-
-            ii.ItemContainer.UseItem(owner.GetComponent<PawnInstance>());
-
-            if (ii.ItemContainer.Quantity <= 0)
+            Behaviour.Inventory openInventory = null;
+            for (int i = 0; i < GameManager.Instance.Ui.Panel_Inventories.transform.childCount; i++)
             {
-                if (GameManager.Instance.Ui.tooltipItem.activeSelf)
+                if (GameManager.Instance.Ui.Panel_Inventories.transform.GetChild(i).gameObject.activeSelf)
                 {
-                    GameManager.Instance.Ui.tooltipItem.SetActive(false);
+                    openInventory = GameManager.Instance.Ui.Panel_Inventories.transform.GetChild(i).GetComponentInChildren<InventoryOwner>().Owner.GetComponent<Behaviour.Inventory>();
+                    break;
                 }
-                InventoryManager.RemoveItem(owner.GetComponent<Behaviour.Inventory>().Items, ii.ItemContainer);
-                if (GameManager.Instance.CurrentState == GameState.InTuto)
+            }
+
+            if (openInventory == null)
+            {
+                ii.ItemContainer.UseItem(owner.GetComponent<PawnInstance>());
+
+                if (ii.ItemContainer.Quantity <= 0)
                 {
-                    TutoManager.MouseClicked = true;
+                    if (GameManager.Instance.Ui.tooltipItem.activeSelf)
+                    {
+                        GameManager.Instance.Ui.tooltipItem.SetActive(false);
+                    }
+                    InventoryManager.RemoveItem(owner.GetComponent<Behaviour.Inventory>().Items, ii.ItemContainer);
+                    if (GameManager.Instance.CurrentState == GameState.InTuto)
+                    {
+                        TutoManager.MouseClicked = true;
+                    }
                 }
+            }
+            else
+            {
+                ItemContainer itemDoubleClicked = eventData.pointerPress.GetComponent<ItemInstance>().ItemContainer;
+
+                if (InventoryManager.AddItemToInventory(openInventory.Items, itemDoubleClicked))
+                    InventoryManager.RemoveItem(GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Inventory>().Items, itemDoubleClicked);
+
+                openInventory.UpdateInventories();
             }
 
             owner.GetComponent<Behaviour.Inventory>().UpdateInventories();
