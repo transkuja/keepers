@@ -80,6 +80,7 @@ public class DoubleClickHandler : MonoBehaviour, IPointerClickHandler
                 return;
             }
 
+            // Check if an inventory is opened
             Behaviour.Inventory openInventory = null;
             for (int i = 0; i < GameManager.Instance.Ui.Panel_Inventories.transform.childCount; i++)
             {
@@ -90,6 +91,7 @@ public class DoubleClickHandler : MonoBehaviour, IPointerClickHandler
                 }
             }
 
+            // Use the item if no inventory opened
             if (openInventory == null)
             {
                 ii.ItemContainer.UseItem(owner.GetComponent<PawnInstance>());
@@ -107,6 +109,7 @@ public class DoubleClickHandler : MonoBehaviour, IPointerClickHandler
                     }
                 }
             }
+            // Change item owner if an inventory is opened when double clicking
             else
             {
                 ItemContainer itemDoubleClicked = eventData.pointerPress.GetComponent<ItemInstance>().ItemContainer;

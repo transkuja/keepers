@@ -73,15 +73,41 @@ public class ItemSplitter : MonoBehaviour {
         }
         else
         {
-            selectedItem.Quantity -= quantityToSend;
-            quantityLeft = selectedItem.Quantity;
             if (quantityToSend > 0)
-                InventoryManager.AddItemToInventory(inventoryTo.Owner.GetComponent<Behaviour.Inventory>().Items, new ItemContainer(selectedItem.Item, quantityToSend));
+            {
+                if (InventoryManager.AddItemToInventory(inventoryTo.Owner.GetComponent<Behaviour.Inventory>().Items, new ItemContainer(selectedItem.Item, quantityToSend)))
+                {
+                    selectedItem.Quantity -= quantityToSend;
+                    quantityLeft = selectedItem.Quantity;
+                }
+            }
         }
 
         if (quantityLeft <= 0)
         {
             InventoryManager.RemoveItem(inventoryFrom.Owner.GetComponent<Behaviour.Inventory>().Items, selectedItem);
+        }
+
+        if (inventoryFrom.Owner.GetComponent<LootInstance>() != null)
+        {
+            bool isEmpty = true;
+            for (int i = 0; i < inventoryFrom.Owner.GetComponent<Behaviour.Inventory>().Items.Length; i++)
+            {
+                if (inventoryFrom.Owner.GetComponent<Behaviour.Inventory>().Items[i] != null)
+                {
+                    isEmpty = false;
+                    break;
+                }
+            }
+            if (isEmpty)
+            {
+                if (inventoryFrom.Owner.gameObject.GetComponentInChildren<Canvas>() != null)
+                {
+                    inventoryFrom.Owner.gameObject.GetComponentInChildren<Canvas>().transform.SetParent(null);
+                }
+                Destroy(inventoryFrom.Owner.gameObject);
+                Destroy(inventoryFrom.GetComponentInParent<DragHandlerInventoryPanel>().gameObject);
+            }
         }
 
         gameObject.SetActive(false);
