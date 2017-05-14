@@ -103,7 +103,7 @@ public class BoxOpener : MonoBehaviour {
 
     public void BoxControls()
     {
-        if (!menuUi.ACardIsShown && (menuManager.ListeSelectedKeepers.Count == 0 && menuManager.CardLevelSelected == -1 && menuManager.DeckOfCardsSelected == string.Empty))
+        if (!menuUi.ACardIsShown && !menuUi.ACardInfoIsShown && (menuManager.ListeSelectedKeepers.Count == 0 && menuManager.CardLevelSelected == -1 && menuManager.DeckOfCardsSelected == string.Empty))
         {
             //if (isBoxOpen)
             //{
@@ -132,6 +132,7 @@ public class BoxOpener : MonoBehaviour {
                     menuUi.hasReachStepTwoInfo = false;
                     menuUi.indexInfo = 0;
                     menuUi.cardInfofLerp = 0;
+                    menuUi.cardsInfoAreReady = false;
 
                     menuManager.GoCardsInfo[i].transform.localPosition = menuUi.levelCardInfoKeyPoses[i][0].v3Pos + new Vector3(0, i * 0.02f, 0);
                     menuManager.GoCardsInfo[i].transform.localRotation = menuUi.levelCardInfoKeyPoses[i][0].quatRot;
@@ -145,8 +146,7 @@ public class BoxOpener : MonoBehaviour {
 
     public void UpdateLockAspect()
     {
-        Debug.Log(menuManager.GoDeck.GetComponent<Deck>().IsOpen);
-        if (isBoxOpen && (menuUi.ACardIsShown || (menuManager.ListeSelectedKeepers.Count != 0 && menuManager.CardLevelSelected == -1 && menuManager.DeckOfCardsSelected == string.Empty)))
+        if (isBoxOpen && (menuUi.ACardIsShown || menuUi.ACardInfoIsShown || (menuManager.ListeSelectedKeepers.Count != 0 && menuManager.CardLevelSelected == -1 && menuManager.DeckOfCardsSelected == string.Empty)))
         {
             boxLock.GetComponent<GlowObjectCmd>().GlowColor = colorLockClosed;
         }

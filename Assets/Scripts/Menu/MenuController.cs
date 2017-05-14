@@ -143,19 +143,18 @@ public class MenuController : MonoBehaviour {
 
     public void DeckSelectionControls(GameObject hit)
     {
-     
-        menuUI.UpdateDeckSelected();
-        foreach (GameObject go in menuManager.GoCardsLevels)
+        if(menuUI.cardsInfoAreReady && !menuUI.ACardInfoIsShown)
         {
-            if (go.transform.parent == menuManager.GoDeck.transform)
+            menuUI.UpdateDeckSelected();
+            foreach (GameObject go in menuManager.GoCardsLevels)
             {
-                go.transform.SetParent(null);
-                go.SetActive(true);
+                if (go.transform.parent == menuManager.GoDeck.transform)
+                {
+                    go.transform.SetParent(null);
+                    go.SetActive(true);
+                }
             }
-
         }
-
-
     }
 
     public void KeeperSelectionControls(GameObject hit)

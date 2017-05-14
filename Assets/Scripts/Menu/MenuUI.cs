@@ -41,6 +41,7 @@ public class MenuUI : MonoBehaviour {
 
     // CardInfo
     public bool isACardInfoMoving;
+
     public List<List<keyPose>> levelCardInfoKeyPoses;
     public List<Vector3> whereTheCardInfoiS;
     public List<Quaternion> whereTheCardInfoiSrotation;
@@ -48,8 +49,13 @@ public class MenuUI : MonoBehaviour {
     public bool hasReachStepTwoInfo = false;
     public  int indexInfo = 0;
     public float cardInfofLerp = 0.0f;
+    private bool aCardInfoIsReady;
 
-
+    // Card Info Shown
+    private bool aCardInfoIsShown;
+    private bool isACardInfoMovingForShowing;
+    private float cardInfoShownfLerp;
+    private int indexInfoShown = 0;
 
     // Pawn
     private bool isAPawnMoving;
@@ -72,6 +78,45 @@ public class MenuUI : MonoBehaviour {
         }
     }
 
+    public bool cardsInfoAreReady
+    {
+        get
+        {
+            return aCardInfoIsReady;
+        }
+
+        set
+        {
+            aCardInfoIsReady = value;
+        }
+    }
+
+    public bool ACardInfoIsShown
+    {
+        get
+        {
+            return aCardInfoIsShown;
+        }
+
+        set
+        {
+            aCardInfoIsShown = value;
+        }
+    }
+
+    public bool IsACardInfoMovingForShowing
+    {
+        get
+        {
+            return isACardInfoMovingForShowing;
+        }
+
+        set
+        {
+            isACardInfoMovingForShowing = value;
+        }
+    }
+
     void Start()
     {
         menuManager = GetComponent<MenuManager>();
@@ -88,6 +133,8 @@ public class MenuUI : MonoBehaviour {
         isACardMoving = false;
         isACardInfoMoving = false;
         aCardIsShown = false;
+        aCardInfoIsShown = false;
+        aCardInfoIsReady = false;
     }
 
     void Update()
@@ -105,6 +152,11 @@ public class MenuUI : MonoBehaviour {
         if (box.BoxIsReady && isACardInfoMoving)
         {
             UpdateCardInfoPositions();
+        }
+
+        if (aCardInfoIsReady && isACardInfoMovingForShowing)
+        {
+            UpdateCardInfoShowingPositions();
         }
     }
 
@@ -404,12 +456,12 @@ public class MenuUI : MonoBehaviour {
 
         if (cardInfofLerp == 1)
         {
-
             isACardInfoMoving = false;
             cardInfofLerp = 0;
             indexInfo = 0;
             hasReachStepOneInfo = false;
             hasReachStepTwoInfo = false;
+            aCardInfoIsReady = !aCardInfoIsReady;
         }
     }
 
@@ -426,5 +478,49 @@ public class MenuUI : MonoBehaviour {
             levelCardInfoKeyPoses.Add(listKeyPose);
         }
 
+    }
+
+    public void UpdateCardInfoShowingPositions()
+    {
+        cardInfoShownfLerp += Time.unscaledDeltaTime * 1f;
+
+        if (cardInfoShownfLerp > 1)
+        {
+            cardInfoShownfLerp = 1;
+        }
+
+
+        for (int i = 0; i < menuManager.GoCardsInfo.Count; i++)
+        {
+            if (menuManager.GoCardsInfo[i].GetComponentInChildren<Displayer>().NeedToBeShown)
+            {
+
+                menuManager.GoCardsInfo[i].transform.position = Vector3.Lerp(levelCardInfoKeyPoses[i][2].v3Pos, cameraWhere.transform.position, cardInfoShownfLerp);
+                menuManager.GoCardsInfo[i].transform.rotation = Quaternion.Lerp(levelCardInfoKeyPoses[i][2].quatRot, cameraWhere.transform.rotation, cardInfoShownfLerp);
+            }
+            else if (ACardIsShown && menuManager.GoCardsInfo[i].GetComponentInChildren<Displayer>().NeedToBeHide)
+            {
+                menuManager.GoCardsInfo[i].transform.position = Vector3.Lerp(cameraWhere.transform.position, levelCardInfoKeyPoses[i][2].v3Pos, cardInfoShownfLerp);
+                menuManager.GoCardsInfo[i].transform.rotation = Quaternion.Lerp(cameraWhere.transform.rotation, levelCardInfoKeyPoses[i][2].quatRot, cardInfoShownfLerp);
+            }
+        }
+
+
+        if (cardInfoShownfLerp == 1)
+        {
+            isACardInfoMovingForShowing = false;
+            cardInfoShownfLerp = 0;
+            indexInfoShown = 0;
+            for (int i = 0; i < menuManager.GoCardsInfo.Count; i++)
+            {
+                menuManager.GoCardsInfo[i].GetComponentInChildren<Displayer>().NeedToBeShown = false;
+
+                if (menuManager.GoCardsInfo[i].GetComponentInChildren<Displayer>().NeedToBeHide)
+                {
+                    ACardIsShown = false;
+                    menuManager.GoCardsInfo[i].GetComponentInChildren<Displayer>().NeedToBeHide = false;
+                }
+            }
+        }
     }
 }
