@@ -48,31 +48,49 @@ public class Slot : MonoBehaviour, IDropHandler
                 //Si les inventaires sont differents
                 if (inventaireDequi != inventaireversqui)
                 {
+                    ItemSplitter itemSplitter = GameManager.Instance.Ui.itemSplitter.GetComponent<ItemSplitter>();
+                    itemSplitter.inventoryFrom = inventaireDequi;
+                    itemSplitter.inventoryTo = inventaireversqui;
+                    itemSplitter.originSlot = previous;
+                    itemSplitter.targetSlot = transform;
+                    itemSplitter.selectedItem = eventData.pointerDrag.GetComponent<ItemInstance>().ItemContainer;
+                    itemSplitter.uiItem = eventData.pointerDrag.gameObject;
+
+                    ItemContainer itemDragged = eventData.pointerDrag.GetComponent<ItemInstance>().ItemContainer;
+
+                    // Split items only if on the same item
                     if (hasAlreadyAnItem)
                     {
-                        ItemContainer itemDragged = eventData.pointerDrag.GetComponent<ItemInstance>().ItemContainer;
                         ItemContainer itemOn = currentItem.GetComponent<ItemInstance>().ItemContainer;
 
                         if (itemOn.Item.Id == itemDragged.Item.Id)
                         {
-                            int quantityLeft = InventoryManager.MergeStackables(currentItem.GetComponent<ItemInstance>().ItemContainer, eventData.pointerDrag.GetComponent<ItemInstance>().ItemContainer);
-                            if (quantityLeft <= 0)
+                            if (itemDragged.Quantity > 1)
+                                itemSplitter.gameObject.SetActive(true);
+                            else
                             {
+                                InventoryManager.MergeStackables(currentItem.GetComponent<ItemInstance>().ItemContainer, eventData.pointerDrag.GetComponent<ItemInstance>().ItemContainer);
                                 InventoryManager.RemoveItem(inventoryKeeperDequi, eventData.pointerDrag.GetComponent<ItemInstance>().ItemContainer);
                             }
                         }
                         else
                         {
-                            // Swap
+                            // Auto swap
                             InventoryManager.SwapItemBeetweenInventories(inventoryKeeperDequi, previous.GetSiblingIndex(), inventoryKeeperVersqui, transform.GetSiblingIndex());
-
                         }
                     }
                     else
                     {
                         //Move the item to the slot
                         //eventData.pointerDrag.transform.SetParent(transform);
-                        InventoryManager.SwapItemBeetweenInventories(inventoryKeeperDequi, previous.GetSiblingIndex(), inventoryKeeperVersqui, transform.GetSiblingIndex());
+                        if (itemDragged.Quantity > 1)
+                        {
+                            itemSplitter.gameObject.SetActive(true);
+                        }
+                        else
+                        {
+                            InventoryManager.SwapItemBeetweenInventories(inventoryKeeperDequi, previous.GetSiblingIndex(), inventoryKeeperVersqui, transform.GetSiblingIndex());
+                        }
                     }
 
                     // Destroy inventory if it is empty for loot
@@ -98,7 +116,7 @@ public class Slot : MonoBehaviour, IDropHandler
                         }
                     }
                 }
-                // Si l'inventaire est le m�me
+                // Si l'inventaire est le meme
                 else
                 {
                     if (hasAlreadyAnItem)
@@ -129,10 +147,13 @@ public class Slot : MonoBehaviour, IDropHandler
                     }
                 }
 
-                Destroy(eventData.pointerDrag.gameObject);
+                if (!GameManager.Instance.Ui.itemSplitter.activeSelf)
+                {
+                    Destroy(eventData.pointerDrag.gameObject);
 
-                inventaireDequi.Owner.GetComponent<Behaviour.Inventory>().UpdateInventories();
-                inventaireversqui.Owner.GetComponent<Behaviour.Inventory>().UpdateInventories();
+                    inventaireDequi.Owner.GetComponent<Behaviour.Inventory>().UpdateInventories();
+                    inventaireversqui.Owner.GetComponent<Behaviour.Inventory>().UpdateInventories();
+                }
             }
             // Drag Characters in battle scene
             else

@@ -92,6 +92,22 @@ public class InventoryManager {
             return src.Quantity;
         }
 
+        return 0;
+    }
+
+    public static int MergeStackables(ItemContainer dest, ItemContainer src, int quantityToMove)
+    {
+        if (quantityToMove > src.Quantity)
+            Debug.LogWarning("This case should not happen: quantity to move requested > item quantity.");
+
+        int newAmount = Mathf.Clamp(dest.Quantity + quantityToMove, 0, maxItemsInSameSlot);
+        dest.Quantity = newAmount;
+        src.Quantity -= quantityToMove;
+
+        if (src.Quantity > 0)
+        {
+            return src.Quantity;
+        }
 
         return 0;
     }
