@@ -13,6 +13,12 @@ public class BoxOpener : MonoBehaviour {
     public Animator animatorCam;
 
     public Light spotLight;
+    private Vector3 SpotLightTransformPos;
+    private Quaternion SpotLightTransformRot;
+
+    public Transform newSpotLightTransform;
+    public bool spotlightneedUpdate;
+    private float fLerp;
     private float spotIntensityMax;
     public Light directionnalLight;
     private float directionnalIntensityMax;
@@ -68,7 +74,11 @@ public class BoxOpener : MonoBehaviour {
         }
     }
 
-
+    private void Awake()
+    {
+        SpotLightTransformPos = spotLight.transform.localPosition;
+        SpotLightTransformRot = spotLight.transform.localRotation;
+    }
 
     // Use this for initialization
     void Start () {
@@ -93,9 +103,9 @@ public class BoxOpener : MonoBehaviour {
             animatorBox.SetBool("bOpen", isBoxOpen);
             animatorCam.SetBool("bOpen", isBoxOpen);
 
-
-            spotLight.enabled = !isBoxOpen;
-            directionnalLight.enabled = isBoxOpen;
+                spotlightneedUpdate = true;
+            //spotLight.enabled = !isBoxOpen;
+            //directionnalLight.enabled = isBoxOpen;
             UpdateLockAspect();
         }
     }
@@ -112,5 +122,45 @@ public class BoxOpener : MonoBehaviour {
             boxLock.GetComponent<GlowObjectCmd>().GlowColor = colorLockOpen;
         }
 
+    }
+
+    public void Update()
+    {
+        if (spotlightneedUpdate)
+        {
+            UpdateSpotLightIntensity();
+        }
+    }
+
+    public void UpdateSpotLightIntensity()
+    {
+        fLerp += Time.unscaledDeltaTime * 3;
+
+        if (fLerp > 1)
+        {
+            fLerp = 1;
+        }
+
+        if (isBoxOpen)
+        {
+            spotLight.range = Mathf.Lerp(9, 12.0f, fLerp);
+            spotLight.spotAngle = Mathf.Lerp(80.0f, 100.0f, fLerp);
+            spotLight.transform.localPosition = Vector3.Lerp(SpotLightTransformPos, newSpotLightTransform.localPosition, fLerp);
+            spotLight.transform.localRotation = Quaternion.Lerp(SpotLightTransformRot, newSpotLightTransform.localRotation, fLerp);
+        }
+        else
+        {
+            spotLight.range = Mathf.Lerp(12.0f, 9.0f, fLerp);
+            spotLight.spotAngle = Mathf.Lerp(100.0f, 80.0f, fLerp);
+            spotLight.transform.localPosition = Vector3.Lerp(newSpotLightTransform.localPosition, SpotLightTransformPos, fLerp);
+            spotLight.transform.localRotation = Quaternion.Lerp(newSpotLightTransform.localRotation, SpotLightTransformRot, fLerp);
+        }
+
+        if (fLerp == 1)
+        {
+
+            spotlightneedUpdate = false;
+            fLerp = 0;
+        }
     }
 }

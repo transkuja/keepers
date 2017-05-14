@@ -10,7 +10,7 @@ public static class ChatBoxDatabase
 
     public static void Load()
     {
-        tabEmotes = new List<string>[4] {new List<string>(),new List<string>(),new List<string>(),new List<string>()};
+        tabEmotes = new List<string>[5] {new List<string>(),new List<string>(),new List<string>(),new List<string>(), new List<string>() };
 
         string pathBase = Application.dataPath + "/../Data";
 
@@ -39,6 +39,12 @@ public static class ChatBoxDatabase
         foreach (JSONValue entry in Array)
         {
             tabEmotes[3].Add(entry.Str);
+        }
+
+        Array = json["WhoAmI"].Array;
+        foreach (JSONValue entry in Array)
+        {
+            tabEmotes[4].Add(entry.Str);
         }
     }
 }

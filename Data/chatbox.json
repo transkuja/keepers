@@ -20,4 +20,19 @@
 		"Hey i'm not a toy!",
 		"Can't handle me ?",
 	],
+	"Unchosen": [   
+		"Remi...", 
+		"Hey i'm not a toy!",
+		"Can't handle me ?",
+	],	
+	"WhoAmI": [   
+		"Remi Remi", 
+		"Seb Seb",
+		"Anthony Anthony",
+		"Gwen Gwen",
+		"Quentin Quentin",
+		"Anais Anais"
+	]
+
+
  }

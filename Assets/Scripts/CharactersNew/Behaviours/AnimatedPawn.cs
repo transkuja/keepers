@@ -407,6 +407,19 @@ namespace Behaviour
             }
         }
 
+        public NavMeshAgent Agent
+        {
+            get
+            {
+                return agent;
+            }
+
+            set
+            {
+                agent = value;
+            }
+        }
+
         #endregion
 
     }

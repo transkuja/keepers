@@ -40,6 +40,11 @@ public class MenuManager : MonoBehaviour {
     [SerializeField]
     GameObject prefabChatox;
 
+    private void Awake()
+    {
+        dicPawnChatBox = new Dictionary<GameObject, ChatBox>();
+
+    }
 
     void Start()
     {
@@ -48,6 +53,7 @@ public class MenuManager : MonoBehaviour {
         leveldb = GameManager.Instance.leveldb;
         menuUi = GetComponent<MenuUI>();
         hasBeenInit = false;
+
     }
 
 
@@ -105,7 +111,7 @@ public class MenuManager : MonoBehaviour {
 
     public void InitKeepers()
     {
-        dicPawnChatBox = new Dictionary<GameObject, ChatBox>();
+
         int iKeeper = 0;
         foreach (string id in GameManager.Instance.PawnDataBase.DicPawnDataContainer.Keys)
         {
@@ -234,6 +240,19 @@ public class MenuManager : MonoBehaviour {
         set
         {
             goCardsLevels = value;
+        }
+    }
+
+    public GameObject PrefabChatox
+    {
+        get
+        {
+            return prefabChatox;
+        }
+
+        set
+        {
+            prefabChatox = value;
         }
     }
 

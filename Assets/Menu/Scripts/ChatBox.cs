@@ -9,7 +9,7 @@ public class ChatBox : MonoBehaviour {
     {
         unscale = -1,
         idle = 0,
-        scale = 1,
+        scale = 1
     }
 
     public enum ChatMode
@@ -19,6 +19,7 @@ public class ChatBox : MonoBehaviour {
         chosen,
         picked,
         unchosen,
+        whoAmI
     }
 
     RectTransform trBox;
