@@ -5,6 +5,7 @@ using UnityEngine;
 public class BoxOpener : MonoBehaviour {
 
     private bool isBoxOpen;
+    private bool boxIsReady;
     private MenuManager menuManager;
     private MenuUI menuUi;
 
@@ -47,7 +48,7 @@ public class BoxOpener : MonoBehaviour {
                 menuManager.InitCards();
                 menuManager.InitKeepers();
                 menuUi.ComputeCardLevelPositions(menuManager.GoCardsLevels);
-
+                menuUi.ComputeCardInfoPositions(menuManager.GoCardsInfo);
             }
             //menuManager.GoDeck.SetActive(isBoxOpen);
             if (isBoxOpen == false)
@@ -74,6 +75,19 @@ public class BoxOpener : MonoBehaviour {
         }
     }
 
+    public bool BoxIsReady
+    {
+        get
+        {
+            return boxIsReady;
+        }
+
+        set
+        {
+            boxIsReady = value;
+        }
+    }
+
     private void Awake()
     {
         SpotLightTransformPos = spotLight.transform.localPosition;
@@ -89,7 +103,7 @@ public class BoxOpener : MonoBehaviour {
 
     public void BoxControls()
     {
-        if ((menuManager.ListeSelectedKeepers.Count == 0 && menuManager.CardLevelSelected == -1 && menuManager.DeckOfCardsSelected == string.Empty))
+        if (!menuUi.ACardIsShown && (menuManager.ListeSelectedKeepers.Count == 0 && menuManager.CardLevelSelected == -1 && menuManager.DeckOfCardsSelected == string.Empty))
         {
             //if (isBoxOpen)
             //{
@@ -106,14 +120,33 @@ public class BoxOpener : MonoBehaviour {
             spotlightneedUpdate = true;
             //spotLight.enabled = !isBoxOpen;
             //directionnalLight.enabled = isBoxOpen;
+
+            // Force reset go cards info
+            if ( isBoxOpen == false)
+            {
+                for (int i = 0; i < menuManager.GoCardsInfo.Count; i++)
+                {
+                    boxIsReady = false;
+
+                    menuUi.hasReachStepOneInfo = false;
+                    menuUi.hasReachStepTwoInfo = false;
+                    menuUi.indexInfo = 0;
+                    menuUi.cardInfofLerp = 0;
+
+                    menuManager.GoCardsInfo[i].transform.localPosition = menuUi.levelCardInfoKeyPoses[i][0].v3Pos + new Vector3(0, i * 0.02f, 0);
+                    menuManager.GoCardsInfo[i].transform.localRotation = menuUi.levelCardInfoKeyPoses[i][0].quatRot;
+                    GlowController.UnregisterObject(menuManager.GoCardsInfo[i].GetComponentInChildren<GlowObjectCmd>());
+                }
+            }
+
             UpdateLockAspect();
         }
     }
 
     public void UpdateLockAspect()
     {
-
-        if (isBoxOpen && (menuManager.ListeSelectedKeepers.Count != 0 && menuManager.CardLevelSelected == -1 && menuManager.DeckOfCardsSelected == string.Empty))
+        Debug.Log(menuManager.GoDeck.GetComponent<Deck>().IsOpen);
+        if (isBoxOpen && (menuUi.ACardIsShown || (menuManager.ListeSelectedKeepers.Count != 0 && menuManager.CardLevelSelected == -1 && menuManager.DeckOfCardsSelected == string.Empty)))
         {
             boxLock.GetComponent<GlowObjectCmd>().GlowColor = colorLockClosed;
         }
@@ -144,20 +177,38 @@ public class BoxOpener : MonoBehaviour {
         if (isBoxOpen)
         {
             spotLight.range = Mathf.Lerp(9, 12.0f, fLerp);
-            spotLight.spotAngle = Mathf.Lerp(80.0f, 100.0f, fLerp);
+            spotLight.spotAngle = Mathf.Lerp(80.0f, 130.0f, fLerp);
             spotLight.transform.localPosition = Vector3.Lerp(SpotLightTransformPos, newSpotLightTransform.localPosition, fLerp);
             spotLight.transform.localRotation = Quaternion.Lerp(SpotLightTransformRot, newSpotLightTransform.localRotation, fLerp);
         }
         else
         {
             spotLight.range = Mathf.Lerp(12.0f, 9.0f, fLerp);
-            spotLight.spotAngle = Mathf.Lerp(100.0f, 80.0f, fLerp);
+            spotLight.spotAngle = Mathf.Lerp(130.0f, 80.0f, fLerp);
             spotLight.transform.localPosition = Vector3.Lerp(newSpotLightTransform.localPosition, SpotLightTransformPos, fLerp);
             spotLight.transform.localRotation = Quaternion.Lerp(newSpotLightTransform.localRotation, SpotLightTransformRot, fLerp);
+
         }
 
         if (fLerp == 1)
         {
+     
+
+            if (isBoxOpen)
+            {
+                menuUi.whereTheCardInfoiS.Clear();
+                menuUi.whereTheCardInfoiSrotation.Clear();
+                for (int i = 0; i < menuManager.GoCardsInfo.Count; i++)
+                {
+
+                    menuUi.whereTheCardInfoiS.Add(menuManager.GoCardsInfo[i].transform.position);
+                    menuUi.whereTheCardInfoiSrotation.Add(menuManager.GoCardsInfo[i].transform.rotation);
+                    menuManager.GoCardsInfo[i].transform.SetParent(null);
+                    GlowController.RegisterObject(menuManager.GoCardsInfo[i].GetComponentInChildren<GlowObjectCmd>());
+                }
+                boxIsReady = true;
+                menuUi.isACardInfoMoving = true;
+            }
 
             spotlightneedUpdate = false;
             fLerp = 0;

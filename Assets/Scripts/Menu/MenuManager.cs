@@ -73,7 +73,7 @@ public class MenuManager : MonoBehaviour {
                 // Instanciation des cartes de level
                 GameObject goCardLevel = Instantiate(prefabLevelCard, goDeck.transform);
                 goCardLevel.transform.localPosition = Vector3.zero;
-                goCardLevel.GetComponentInChildren<Text>().text = leveldb.listLevels[i].name;
+                goCardLevel.GetComponentInChildren<Text>().text = leveldb.listLevels[i].name + "\n" + leveldb.listLevels[i].nbPawn;
                 // TODO Maybe add description to level
                 goCardLevel.GetComponent<CardLevel>().levelIndex = leveldb.listLevels[i].id;
                 goCardLevel.SetActive(false);
@@ -136,8 +136,9 @@ public class MenuManager : MonoBehaviour {
                     dicPawnChatBox.Add(goKeeper, newChatBox);
 
 
-                    GameObject goCardInfo = Instantiate(getPawnPrefabById(id), menuUi.cardInfoPosition);
-                    goCardInfo.transform.localPosition = new Vector3(0, iKeeper * 0.01f, 0);
+                    GameObject goCardInfo = Instantiate(getPawnPrefabById(id), menuUi.cardInfoStartingPosition);
+                    goCardInfo.transform.localPosition = new Vector3(0, iKeeper * 0.02f, 0);
+                    goCardsInfo.Add(goCardInfo);
 
                     GameManager.Instance.AllKeepersList.Add(goKeeper.GetComponent<PawnInstance>());
 
@@ -262,6 +263,19 @@ public class MenuManager : MonoBehaviour {
         set
         {
             prefabChatox = value;
+        }
+    }
+
+    public List<GameObject> GoCardsInfo
+    {
+        get
+        {
+            return goCardsInfo;
+        }
+
+        set
+        {
+            goCardsInfo = value;
         }
     }
 

@@ -12,6 +12,7 @@ public class LevelDataBase {
         public string name;
         public string cardModelName;
         public string deckId;
+        public string nbPawn;
         public List<string> listEventsId;
 
         public Level()
@@ -58,6 +59,9 @@ public class LevelDataBase {
                         break;
                     case "questDeckId":
                         newLevel.deckId = levelEntry.Value.Str;
+                        break;
+                    case "nbPawn":
+                        newLevel.nbPawn = levelEntry.Value.Str;
                         break;
                     case "events":
                         JSONArray Array = levelEntry.Value.Array;

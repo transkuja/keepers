@@ -5,12 +5,14 @@
 			"name" : "niveau 1", 
 			"cardModelName" : "Asset_Carte_LevelTuto", 
 			"questDeckId" : "deck_01",
+			"nbPawn" :"1"
 		},
 		{ 
 			"id": 2, 
 			"name" : "niveau 2", 
 			"cardModelName" : "Asset_Carte_Level_02", 
 			"questDeckId" : "deck_02",
+			"nbPawn" :"3",
 			"events" : [
 				"1",
 				"2"
@@ -21,6 +23,7 @@
 			"name" : "niveau 4", 
 			"cardModelName" : "Asset_Carte_Level_03", 
 			"questDeckId" : "deck_04",
+			"nbPawn" :"3",
 			"events" : [
 				"3"
 			]
