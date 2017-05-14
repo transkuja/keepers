@@ -317,16 +317,18 @@ public class MenuUI : MonoBehaviour {
                 for (int i = 0; i < menuManager.GoCardsLevels.Count; i++)
                 {
                     GlowController.UnregisterObject(menuManager.GoCardsLevels[i].GetComponent<GlowObjectCmd>());
-                    menuManager.SetActiveChatBoxes(true);
+                 
                 }
+                menuManager.SetActiveChatBoxes(true);
             }
             else
             {
                 for (int i = 0; i < menuManager.GoCardsLevels.Count; i++)
                 {
                     GlowController.RegisterObject(menuManager.GoCardsLevels[i].GetComponent<GlowObjectCmd>());
-                    menuManager.SetActiveChatBoxes(false);
+   
                 }
+                menuManager.SetActiveChatBoxes(false);
             }
         }
 
@@ -482,7 +484,24 @@ public class MenuUI : MonoBehaviour {
 
     public void UpdateCardInfoShowingPositions()
     {
-        cardInfoShownfLerp += Time.unscaledDeltaTime * 1f;
+        if (cardInfoShownfLerp == 0)
+        {
+
+            for (int i = 0; i < menuManager.GoCardsInfo.Count; i++)
+            {
+                if (menuManager.GoCardsInfo[i].GetComponentInChildren<Displayer>().NeedToBeShown)
+                {
+                    GlowController.RegisterObject((menuManager.GoCardsInfo[i].GetComponentInChildren<GlowObjectCmd>()));
+                } else
+                {
+                    GlowController.UnregisterObject((menuManager.GoCardsInfo[i].GetComponentInChildren<GlowObjectCmd>()));
+                }
+            }
+
+            menuManager.SetActiveChatBoxes(false);
+        }
+
+        cardInfoShownfLerp += Time.unscaledDeltaTime * 1.5f;
 
         if (cardInfoShownfLerp > 1)
         {
@@ -498,10 +517,12 @@ public class MenuUI : MonoBehaviour {
                 menuManager.GoCardsInfo[i].transform.position = Vector3.Lerp(levelCardInfoKeyPoses[i][2].v3Pos, cameraWhere.transform.position, cardInfoShownfLerp);
                 menuManager.GoCardsInfo[i].transform.rotation = Quaternion.Lerp(levelCardInfoKeyPoses[i][2].quatRot, cameraWhere.transform.rotation, cardInfoShownfLerp);
             }
-            else if (ACardIsShown && menuManager.GoCardsInfo[i].GetComponentInChildren<Displayer>().NeedToBeHide)
+            else if (ACardIsShown)
             {
-                menuManager.GoCardsInfo[i].transform.position = Vector3.Lerp(cameraWhere.transform.position, levelCardInfoKeyPoses[i][2].v3Pos, cardInfoShownfLerp);
-                menuManager.GoCardsInfo[i].transform.rotation = Quaternion.Lerp(cameraWhere.transform.rotation, levelCardInfoKeyPoses[i][2].quatRot, cardInfoShownfLerp);
+                if (menuManager.GoCardsInfo[i].GetComponentInChildren<Displayer>().IsShown) { 
+                    menuManager.GoCardsInfo[i].transform.position = Vector3.Lerp(cameraWhere.transform.position, levelCardInfoKeyPoses[i][2].v3Pos, cardInfoShownfLerp);
+                    menuManager.GoCardsInfo[i].transform.rotation = Quaternion.Lerp(cameraWhere.transform.rotation, levelCardInfoKeyPoses[i][2].quatRot, cardInfoShownfLerp);
+                }
             }
         }
 
@@ -511,15 +532,34 @@ public class MenuUI : MonoBehaviour {
             isACardInfoMovingForShowing = false;
             cardInfoShownfLerp = 0;
             indexInfoShown = 0;
+
+
+
+
+            bool isACardShow = false;
             for (int i = 0; i < menuManager.GoCardsInfo.Count; i++)
             {
-                menuManager.GoCardsInfo[i].GetComponentInChildren<Displayer>().NeedToBeShown = false;
-
-                if (menuManager.GoCardsInfo[i].GetComponentInChildren<Displayer>().NeedToBeHide)
+                if (menuManager.GoCardsInfo[i].GetComponentInChildren<Displayer>().NeedToBeShown)
                 {
-                    ACardIsShown = false;
-                    menuManager.GoCardsInfo[i].GetComponentInChildren<Displayer>().NeedToBeHide = false;
+                    ACardIsShown = true;
+                    isACardShow = true;
+                    //
+                    menuManager.GoCardsInfo[i].GetComponentInChildren<Displayer>().NeedToBeShown = false;
+                } else
+                {
+                    //GlowController.UnregisterObject((menuManager.GoCardsInfo[i].GetComponentInChildren<GlowObjectCmd>()));
+                    menuManager.GoCardsInfo[i].GetComponentInChildren<Displayer>().IsShown = false;
                 }
+            }
+            if (!isACardShow)
+            {
+                for (int i = 0; i < menuManager.GoCardsInfo.Count; i++)
+                {
+                    GlowController.RegisterObject((menuManager.GoCardsInfo[i].GetComponentInChildren<GlowObjectCmd>()));
+                    menuManager.SetActiveChatBoxes(true);
+                }
+
+                    ACardIsShown = false;
             }
         }
     }

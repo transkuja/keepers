@@ -5,14 +5,16 @@ using UnityEngine;
 public class Displayer : MonoBehaviour {
 
     public MenuUI menuUI;
+    public MenuManager menumanager;
 
-    //bool bIsOver = false;
+
     private bool needToBeShown = false;
-    private bool needToBeHide = false;
+    private bool isShown = false;
 
     public void Start()
     {
         menuUI = GameObject.FindObjectOfType<MenuUI>();
+        menumanager = GameObject.FindObjectOfType<MenuManager>();
     }
 
     public bool NeedToBeShown
@@ -28,38 +30,58 @@ public class Displayer : MonoBehaviour {
         }
     }
 
-    public bool NeedToBeHide
+    public bool IsShown
     {
         get
         {
-            return needToBeHide;
+            return isShown;
         }
 
         set
         {
-            needToBeHide = value;
-
+            isShown = value;
         }
     }
 
-    void OnMouseEnter()
-    {
-        if (!needToBeHide && !NeedToBeShown && !menuUI.ACardIsShown && !menuUI.IsACardInfoMovingForShowing && menuUI.cardsInfoAreReady)
-        {
-            NeedToBeShown = true;
-            menuUI.ACardIsShown = true;
-            menuUI.IsACardInfoMovingForShowing = true;
-        }
-    }
+    //void OnMouseEnter()
+    //{
+    //    if (!NeedToBeShown && !menuUI.IsACardInfoMovingForShowing && menuUI.cardsInfoAreReady && !menumanager.GoDeck.GetComponent<Deck>().IsOpen)
+    //    {
+    //        NeedToBeShown = true;
+    //        isShown = true;
+    //        menuUI.IsACardInfoMovingForShowing = true;
+
+    //    }
+    //}
 
 
     void OnMouseExit()
     {
 
-        if (!NeedToBeShown && !needToBeHide && menuUI.ACardIsShown && !menuUI.IsACardInfoMovingForShowing && menuUI.cardsInfoAreReady)
+        if (menuUI.ACardIsShown && !menuUI.IsACardInfoMovingForShowing && menuUI.cardsInfoAreReady && !menumanager.GoDeck.GetComponent<Deck>().IsOpen)
         {
-            NeedToBeHide = true;
+            NeedToBeShown = false;
+
             menuUI.IsACardInfoMovingForShowing = true;
+        }
+    }
+
+    private void OnMouseOver()
+    {
+        if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
+        {
+            if (!NeedToBeShown && !menuUI.ACardIsShown && !menuUI.IsACardInfoMovingForShowing && menuUI.cardsInfoAreReady && !menumanager.GoDeck.GetComponent<Deck>().IsOpen)
+            {
+                NeedToBeShown = true;
+                isShown = true;
+                menuUI.IsACardInfoMovingForShowing = true;
+
+            } else if (menuUI.ACardIsShown)
+            {
+                NeedToBeShown = false;
+
+                menuUI.IsACardInfoMovingForShowing = true;
+            }
         }
     }
 }
