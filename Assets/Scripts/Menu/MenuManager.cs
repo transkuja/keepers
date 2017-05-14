@@ -13,6 +13,7 @@ public class MenuManager : MonoBehaviour {
 
     private GameObject goDeck;
     private List<GameObject> goCardsLevels;
+    private List<GameObject> goCardsInfo;
 
     private Dictionary<GameObject, ChatBox> dicPawnChatBox;
 
@@ -36,6 +37,10 @@ public class MenuManager : MonoBehaviour {
     [SerializeField]
     GameObject prefabEventCard;
 
+    [Header("cardInfo")]
+    [SerializeField]
+    public List<PawnPrefab> prefabsCardInfo;
+
     [Header("Chatbox")]
     [SerializeField]
     GameObject prefabChatox;
@@ -50,12 +55,12 @@ public class MenuManager : MonoBehaviour {
     {
         listeSelectedKeepers = new List<PawnInstance>();
         goCardsLevels = new List<GameObject>();
+        goCardsInfo = new List<GameObject>();
         leveldb = GameManager.Instance.leveldb;
         menuUi = GetComponent<MenuUI>();
         hasBeenInit = false;
 
     }
-
 
     public void InitCards()
     {
@@ -129,6 +134,10 @@ public class MenuManager : MonoBehaviour {
                     newChatBox.SetMode(ChatBox.ChatMode.awaiting);
                     newChatBox.SetEnable(false);
                     dicPawnChatBox.Add(goKeeper, newChatBox);
+
+
+                    GameObject goCardInfo = Instantiate(getPawnPrefabById(id), menuUi.cardInfoPosition);
+                    goCardInfo.transform.localPosition = new Vector3(0, iKeeper * 0.01f, 0);
 
                     GameManager.Instance.AllKeepersList.Add(goKeeper.GetComponent<PawnInstance>());
 
@@ -325,4 +334,15 @@ public class MenuManager : MonoBehaviour {
 
 
 
+    public GameObject getPawnPrefabById(string id)
+    {
+        for (int i = 0; i < prefabsCardInfo.Count; i++)
+        {
+            if (prefabsCardInfo[i].idPawn == id)
+            {
+                return prefabsCardInfo[i].prefabPawn;
+            }
+        }
+        return null;
+    }
 }

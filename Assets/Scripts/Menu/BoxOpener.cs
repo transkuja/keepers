@@ -21,7 +21,7 @@ public class BoxOpener : MonoBehaviour {
     private float fLerp;
     private float spotIntensityMax;
     public Light directionnalLight;
-    private float directionnalIntensityMax;
+    private float directionnalIntensityMax; 
 
 
     [SerializeField]
@@ -46,7 +46,7 @@ public class BoxOpener : MonoBehaviour {
                 menuManager.HasBeenInit = true;
                 menuManager.InitCards();
                 menuManager.InitKeepers();
-                menuUi.ComputeContentPositions(menuManager.GoCardsLevels);
+                menuUi.ComputeCardLevelPositions(menuManager.GoCardsLevels);
 
             }
             //menuManager.GoDeck.SetActive(isBoxOpen);
@@ -103,7 +103,7 @@ public class BoxOpener : MonoBehaviour {
             animatorBox.SetBool("bOpen", isBoxOpen);
             animatorCam.SetBool("bOpen", isBoxOpen);
 
-                spotlightneedUpdate = true;
+            spotlightneedUpdate = true;
             //spotLight.enabled = !isBoxOpen;
             //directionnalLight.enabled = isBoxOpen;
             UpdateLockAspect();

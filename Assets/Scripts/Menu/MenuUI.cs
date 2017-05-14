@@ -3,16 +3,6 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class MenuUI : MonoBehaviour {
-    private MenuManager menuManager;
-
-    // Postion ou devront aller les perso ou les deck
-    public GameObject keepersPositions;
-    public GameObject keepersPositionTarget;
-    public Transform levelDeckPosition;
-
-    // Position for levelCards
-    private bool isACardMoving;
-
     public class keyPose
     {
         public Vector3 v3Pos;
@@ -25,6 +15,16 @@ public class MenuUI : MonoBehaviour {
         }
     }
 
+    private MenuManager menuManager;
+
+    // Postion ou devront aller les perso ou les deck
+    public GameObject keepersPositions;
+    public GameObject keepersPositionTarget;
+    public Transform levelDeckPosition;
+    public Transform cardInfoPosition;
+
+    // Position for levelCards
+    private bool isACardMoving;
     private List<List<keyPose>> levelCardKeyPoses;
     private List<Vector3> whereTheCardiS;
     private List<Quaternion> whereTheCardiSrotation;
@@ -32,7 +32,11 @@ public class MenuUI : MonoBehaviour {
     bool hasReachStepTwo = false;
     private int index = 1;
     public Transform cameraWhere;
-    
+
+
+    // CardInfo
+    public bool isACardInfoMoving;
+
 
     // Pawn
     private bool isAPawnMoving;
@@ -51,6 +55,7 @@ public class MenuUI : MonoBehaviour {
 
         isAPawnMoving = false;
         isACardMoving = false;
+        isACardInfoMoving = false;
     }
 
     void Update()
@@ -62,8 +67,12 @@ public class MenuUI : MonoBehaviour {
 
         if (isACardMoving)
         {
-
             UpdateCardLevelPositions();
+        }
+
+        if (isACardInfoMoving)
+        {
+            UpdateCardInfoPositions();
         }
     }
 
@@ -181,7 +190,6 @@ public class MenuUI : MonoBehaviour {
         }
     }
 
- 
     void UpdateCardLevelPositions()
     {
         fLerp += Time.unscaledDeltaTime * 1.2f ;
@@ -258,45 +266,30 @@ public class MenuUI : MonoBehaviour {
         {
             menuManager.GoDeck.GetComponent<Deck>().IsOpen = !menuManager.GoDeck.GetComponent<Deck>().IsOpen;
 
-         
-            //if (previousTransform == keepersPositions.transform.GetChild(previousIndex))
-            //    menuManager.GoCardsLevels[i].transform.SetParent(keepersPositionTarget.transform.GetChild(firstFreeIndex));
-            //else if (previousTransform = keepersPositionTarget.transform.GetChild(previousIndex))
-            //{
-            //    pawnMoving.transform.SetParent(keepersPositions.transform.GetChild(firstFreeIndex));
-            //}
             isACardMoving = false;
             fLerp = 0;
             index = 1;
             hasReachStepOne = false;
             hasReachStepTwo = false;
-            //whereTheCardiS.Clear();
-            //whereTheCardiSrotation.Clear();
-            //for (int i = 0; i < menuManager.GoCardsLevels.Count; i++)
-            //{
-
-            //    whereTheCardiS.Add(menuManager.GoCardsLevels[i].transform.localPosition);
-            //    whereTheCardiSrotation.Add(menuManager.GoCardsLevels[i].transform.localRotation);
-            //}
         }
     }
 
-    public void ComputeContentPositions(List<GameObject> contentToCompute)
+    public void ComputeCardLevelPositions(List<GameObject> cardLevels)
     {
         levelCardKeyPoses.Clear();
         Vector3 size = Vector3.zero;
-        for (int i = 0; i < contentToCompute.Count; i++)
+        for (int i = 0; i < cardLevels.Count; i++)
         {
             List<keyPose> listKeyPose = new List<keyPose>();
-            if (contentToCompute[i].GetComponent<MeshRenderer>() == null)
+            if (cardLevels[i].GetComponent<MeshRenderer>() == null)
             {
                 Debug.Log("Bug"); return;
             }
 
-            size = contentToCompute[i].GetComponent<MeshRenderer>().bounds.size;
+            size = cardLevels[i].GetComponent<MeshRenderer>().bounds.size;
 
 
-            float fOrigin = (contentToCompute.Count % 2 == 1) ? -((contentToCompute.Count / 2) * (size.x)) : -((((contentToCompute.Count / 2) - 1) * (size.x)) + (size.x) / 2.0f);
+            float fOrigin = (cardLevels.Count % 2 == 1) ? -((cardLevels.Count / 2) * (size.x)) : -((((cardLevels.Count / 2) - 1) * (size.x)) + (size.x) / 2.0f);
 
             float fIncrement = size.x + 0.1f;
 
@@ -305,6 +298,10 @@ public class MenuUI : MonoBehaviour {
             listKeyPose.Add(new keyPose(new Vector3(cameraWhere.position.x + fOrigin + i * fIncrement, cameraWhere.position.y, cameraWhere.position.z), new Quaternion(cameraWhere.rotation.x, cameraWhere.rotation.y, cameraWhere.rotation.z, cameraWhere.rotation.w)));
             levelCardKeyPoses.Add(listKeyPose);
         }
+
+    }
+    public void UpdateCardInfoPositions()
+    {
 
     }
 }
