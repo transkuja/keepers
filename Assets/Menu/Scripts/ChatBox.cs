@@ -74,6 +74,7 @@ public class ChatBox : MonoBehaviour {
                     {
                         //txt.text = tabEmotes[(int)mode][Random.Range(0, tabEmotes[(int)mode].Count)];
                         txt.text = ChatBoxDatabase.tabEmotes[(int)mode][Random.Range(0, ChatBoxDatabase.tabEmotes[(int)mode].Count)];
+
                         TriggerScale();
                     }
                     else
@@ -110,6 +111,7 @@ public class ChatBox : MonoBehaviour {
     void UpdatePosition()
     {
         trBox.position = Camera.main.WorldToScreenPoint(trTarget.position); /*Camera.main.WorldToScreenPoint(trTarget.position)*/;
+        transform.SetAsFirstSibling();
     }
 
     void UpdateScale()
@@ -184,15 +186,17 @@ public class ChatBox : MonoBehaviour {
 
     }
 
-    public void Say(string message)
-    {
-        txt.text = message;
-        TriggerScale();
-    }
+    //public void Say(string message)
+    //{
+    //    txt.text = message;
+    //    transform.SetAsFirstSibling();
+    //    TriggerScale();
+    //}
 
     public void Say(ChatBox.ChatMode mode)
     {
         txt.text = ChatBoxDatabase.tabEmotes[(int)mode][Random.Range(0, ChatBoxDatabase.tabEmotes[(int)mode].Count)];
+        //transform.SetAsFirstSibling();
         TriggerScale();
     }
 }

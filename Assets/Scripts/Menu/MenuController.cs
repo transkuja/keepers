@@ -161,15 +161,18 @@ public class MenuController : MonoBehaviour {
     public void KeeperSelectionControls(GameObject hit)
     {
         PawnInstance pi = hit.transform.gameObject.GetComponent<PawnInstance>();
-        if (pi != null)
+        if (pi != null && !menuManager.GoDeck.GetComponent<Deck>().IsOpen)
         {
             if (menuManager.ContainsSelectedKeepers(pi)) // REMOVE
             {
                 AudioManager.Instance.PlayOneShot(AudioManager.Instance.deselectSound, 0.25f);
                 //pi.GetComponent<OpenerContent>().Hide();
                 menuManager.RemoveFromSelectedKeepers(pi);
-                menuManager.DicPawnChatBox[pi.gameObject].SetMode(ChatBox.ChatMode.awaiting);
-                menuManager.DicPawnChatBox[pi.gameObject].Say(ChatBox.ChatMode.unchosen);
+                if (menuManager.GoDeck.GetComponent<Deck>() != null && !menuManager.GoDeck.GetComponent<Deck>().IsOpen)
+                {
+                    menuManager.DicPawnChatBox[pi.gameObject].SetMode(ChatBox.ChatMode.awaiting);
+                    menuManager.DicPawnChatBox[pi.gameObject].Say(ChatBox.ChatMode.unchosen);
+                }
             }
             else    // ADD
             {
@@ -177,8 +180,12 @@ public class MenuController : MonoBehaviour {
                 //pi.GetComponent<OpenerContent>().Show();
 
                 menuManager.AddToSelectedKeepers(pi);
-                menuManager.DicPawnChatBox[pi.gameObject].SetMode(ChatBox.ChatMode.picked);
-                menuManager.DicPawnChatBox[pi.gameObject].Say(ChatBox.ChatMode.chosen);
+                if( menuManager.GoDeck.GetComponent<Deck>() != null && !menuManager.GoDeck.GetComponent<Deck>().IsOpen)
+                {
+                    menuManager.DicPawnChatBox[pi.gameObject].SetMode(ChatBox.ChatMode.picked);
+                    menuManager.DicPawnChatBox[pi.gameObject].Say(ChatBox.ChatMode.chosen);
+                }
+
             }
 
             menuUI.UpdateKeepers(pi, hit.transform.parent);

@@ -12,9 +12,21 @@ public class MenuUI : MonoBehaviour {
 
     // Position for levelCards
     private bool isACardMoving;
-    private List<Vector3> levelCardsPositions;
-    private List<Quaternion> levelCardsRotations;
 
+    public class keyPose
+    {
+        public Vector3 v3Pos;
+        public Quaternion quatRot;
+
+        public keyPose(Vector3 _v3, Quaternion _quat)
+        {
+            v3Pos = _v3;
+            quatRot = _quat;
+        }
+    }
+
+    private List<List<keyPose>> levelCardKeyPoses;
+    private int index = 1;
     public Transform cameraWhere;
     
 
@@ -29,8 +41,7 @@ public class MenuUI : MonoBehaviour {
     void Start()
     {
         menuManager = GetComponent<MenuManager>();
-        levelCardsPositions = new List<Vector3>();
-        levelCardsRotations = new List<Quaternion>();
+        levelCardKeyPoses = new List<List<keyPose>>();
         isAPawnMoving = false;
         isACardMoving = false;
     }
@@ -159,25 +170,36 @@ public class MenuUI : MonoBehaviour {
  
     void UpdateCardLevelPositions()
     {
-        fLerp += Time.unscaledDeltaTime * 5;
+        fLerp += Time.unscaledDeltaTime * 0.05f ;
 
         if (fLerp > 1)
         {
             fLerp = 1;
         }
 
+        if( fLerp > 0.2)
+        {
+            index = 1;
+        }
+
+        if (fLerp > 0.4)
+        {
+            index = 2;
+        }
+
+
         for (int i=0; i<menuManager.GoCardsLevels.Count; i++)
         {
 
             if (!menuManager.GoDeck.GetComponent<Deck>().IsOpen)
             {
-                menuManager.GoCardsLevels[i].transform.localPosition = Vector3.Lerp(menuManager.GoDeck.transform.position, levelCardsPositions[i], fLerp);
-                menuManager.GoCardsLevels[i].transform.localRotation = Quaternion.Lerp(menuManager.GoDeck.transform.rotation, levelCardsRotations[i], fLerp);
+                menuManager.GoCardsLevels[i].transform.localPosition = Vector3.Lerp(levelCardKeyPoses[i][index-1].v3Pos, levelCardKeyPoses[i][index].v3Pos, fLerp);
+                menuManager.GoCardsLevels[i].transform.localRotation = Quaternion.Lerp(levelCardKeyPoses[i][index-1].quatRot, levelCardKeyPoses[i][index].quatRot, fLerp);
             }
             else
             {
-                menuManager.GoCardsLevels[i].transform.localPosition = Vector3.Lerp(levelCardsPositions[i], menuManager.GoDeck.transform.position, fLerp);
-                menuManager.GoCardsLevels[i].transform.localRotation = Quaternion.Lerp(levelCardsRotations[i], menuManager.GoDeck.transform.rotation, fLerp);
+                menuManager.GoCardsLevels[i].transform.localPosition = Vector3.Lerp(levelCardKeyPoses[i][levelCardKeyPoses[i].Count -1 -index].v3Pos, levelCardKeyPoses[i][levelCardKeyPoses[i].Count - 1 - index -1].v3Pos, fLerp);
+                menuManager.GoCardsLevels[i].transform.localRotation = Quaternion.Lerp(levelCardKeyPoses[i][(levelCardKeyPoses[i].Count - 1) - index].quatRot, levelCardKeyPoses[i][levelCardKeyPoses[i].Count - 1 - index-1].quatRot, fLerp);
             }
         }
  
@@ -209,15 +231,17 @@ public class MenuUI : MonoBehaviour {
             //}
             isACardMoving = false;
             fLerp = 0;
+             index = 1;
         }
     }
 
     public void ComputeContentPositions(List<GameObject> contentToCompute)
     {
-        levelCardsPositions.Clear();
+        levelCardKeyPoses.Clear();
         Vector3 size = Vector3.zero;
         for (int i = 0; i < contentToCompute.Count; i++)
         {
+            List<keyPose> listKeyPose = new List<keyPose>();
             if (contentToCompute[i].GetComponent<MeshRenderer>() == null)
             {
                 Debug.Log("Bug"); return;
@@ -230,8 +254,10 @@ public class MenuUI : MonoBehaviour {
 
             float fIncrement = size.x + 0.1f;
 
-            levelCardsPositions.Add(new Vector3(cameraWhere.position.x + fOrigin + i * fIncrement, cameraWhere.position.y, cameraWhere.position.z ));
-            levelCardsRotations.Add(new Quaternion(cameraWhere.rotation.x, cameraWhere.rotation.y, cameraWhere.rotation.z, cameraWhere.rotation.w));
+            listKeyPose.Add(new keyPose(menuManager.GoDeck.transform.position, menuManager.GoDeck.transform.rotation));
+            listKeyPose.Add(new keyPose(menuManager.GoDeck.transform.GetChild(0).position, menuManager.GoDeck.transform.GetChild(0).rotation));
+            listKeyPose.Add(new keyPose(new Vector3(cameraWhere.position.x + fOrigin + i * fIncrement, cameraWhere.position.y, cameraWhere.position.z), new Quaternion(cameraWhere.rotation.x, cameraWhere.rotation.y, cameraWhere.rotation.z, cameraWhere.rotation.w)));
+            levelCardKeyPoses.Add(listKeyPose);
         }
 
     }
