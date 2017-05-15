@@ -24,9 +24,7 @@ public class Arrival : MonoBehaviour {
 
     public void ClickEnd(int i = -1)
     {
-        // Temporary, these will be set by the QuestInitializer I guess
-        //((PrisonerEscortObjective)GameManager.Instance.QuestManager.MainQuest.Objectives[0]).prisoner = GameManager.Instance.PrisonerInstance.gameObject;
-        //((PrisonerEscortObjective)GameManager.Instance.QuestManager.MainQuest.Objectives[0]).destination = TileManager.Instance.EndTile;
+        
 
         GameManager.Instance.Ui.GoActionPanelQ.transform.parent.SetParent(GameManager.Instance.Ui.transform);
         GameManager.Instance.QuestManager.MainQuest.CheckAndComplete();

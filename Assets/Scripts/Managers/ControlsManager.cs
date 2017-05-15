@@ -227,7 +227,6 @@ public class ControlsManager : MonoBehaviour
                                     Tile currentTile = GameManager.Instance.GetFirstSelectedKeeper().CurrentTile;
                                     TileTrigger tt;
                                     TilePassage tp;
-                                    Debug.Log(SceneManager.GetActiveScene().buildIndex);
                                     if (SceneManager.GetActiveScene().buildIndex == 1)
                                     {
                                         tt = currentTile.transform.GetChild(0).GetChild(1).GetChild(0).GetComponent<TileTrigger>();
