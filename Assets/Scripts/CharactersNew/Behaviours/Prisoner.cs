@@ -22,19 +22,15 @@ namespace Behaviour
         public void ProcessFeeding()
         {
             Inventory inv = GetComponent<Inventory>();
-            int i = 0;
+            inv.Items[0].Item.UseItem(inv.Items[0], GetComponent<PawnInstance>());
+            inv.Items[0].Quantity--;
 
             if (inv.Items[0] == null || inv.Items[0].Quantity <= 0)
             {
                 if (inv.Items[0] != null)
                 {
-                    InventoryManager.RemoveItem(inv.Items, inv.Items[i]);
+                    InventoryManager.RemoveItem(inv.Items, inv.Items[0]);
                 }
-            }
-            else
-            {
-                inv.Items[i].Item.UseItem(inv.Items[i], GetComponent<PawnInstance>());
-                inv.Items[i].Quantity--;
             }
 
             inv.UpdateInventories();  

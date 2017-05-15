@@ -349,6 +349,12 @@ namespace Behaviour
                 }
             }
 
+            if (GetComponent<Prisoner>() != null)
+            {
+                Button feedButt = GetComponent<Inventory>().SelectedInventoryPanel.GetComponentInChildren<Button>();
+                feedButt.interactable = (GetComponent<HungerHandler>().CurrentHunger != GetComponent<HungerHandler>().Data.MaxHunger && items.Length > 0);
+            }
+
         }
         
         #endregion

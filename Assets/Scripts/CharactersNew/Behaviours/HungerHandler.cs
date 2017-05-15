@@ -160,6 +160,8 @@ namespace Behaviour
                     IsStarving = false;
                 }
                 UpdateHungerPanel(currentHunger);
+                if (GetComponent<Prisoner>() != null)
+                    GetComponent<Inventory>().UpdateInventories();
 
                 if (TutoManager.s_instance != null && TutoManager.s_instance.enableTuto && TutoManager.s_instance.PlayingSequence == null)
                 {
