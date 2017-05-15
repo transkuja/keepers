@@ -84,17 +84,11 @@ public class ControlsManager : MonoBehaviour
                             goPreviousLeftclicked = hitInfo.transform.gameObject;
                         }
                     }
-                    else
-                    {
-                        GameManager.Instance.ClearListKeeperSelected();
-                        GameManager.Instance.Ui.HideInventoryPanels();
-                    }
-
-                    if (hitInfo.transform.gameObject.GetComponentInParent<Keeper>() == null)
-                    {
-                        GameManager.Instance.ClearListKeeperSelected();
-                        GameManager.Instance.Ui.HideInventoryPanels();
-                    }
+                }
+                else
+                {
+                    GameManager.Instance.ClearListKeeperSelected();
+                    GameManager.Instance.Ui.HideInventoryPanels();
                 }
             }
         }
