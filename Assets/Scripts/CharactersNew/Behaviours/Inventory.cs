@@ -72,7 +72,9 @@ namespace Behaviour
         public void ComputeItems()
         {
             List<ItemContainer> tmpItems = new List<ItemContainer>();
-            GetComponent<Interactable>().Interactions.Add(new Interaction(Trade), 0, "Trade", GameManager.Instance.SpriteUtils.spriteTrade);
+            if (GetComponent<Prisoner>() == null)
+                GetComponent<Interactable>().Interactions.Add(new Interaction(Trade), 0, "Trade", GameManager.Instance.SpriteUtils.spriteTrade);
+
             Item it = null;
             int computedNbSlots = 0;
             foreach (string _IdItem in possibleItems)
@@ -90,8 +92,6 @@ namespace Behaviour
 
         public void Trade(int _i = 0)
         {
-            //inventoryPanel.SetActive(true);
-            //GameManager.Instance.Ui.UpdateInventoryPanel(gameObject);
             ShowInventoryPanel(true);
         }
 
@@ -108,8 +108,7 @@ namespace Behaviour
 
             if (instance != null)
             {
-                // TODO: remove this for prisoner
-                if (!GetComponent<Interactable>().Interactions.listActionContainers.Exists(x => x.strName == "Trade"))
+                if (!GetComponent<Interactable>().Interactions.listActionContainers.Exists(x => x.strName == "Trade") && GetComponent<Prisoner>() == null)
                     GetComponent<Interactable>().Interactions.Add(new Interaction(Trade), 0, "Trade", GameManager.Instance.SpriteUtils.spriteTrade);
 
                 if (instance.GetComponent<Keeper>() != null || instance.GetComponent<Prisoner>() != null)
@@ -117,16 +116,6 @@ namespace Behaviour
                     CreateSelectedInventoryPanel();
                     InitSelectedInventoryPanel();
                 }
-                //else if (instance.GetComponent<Prisoner>() != null)
-                //{
-                //    GameObject button = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabConfimationButtonUI, inventoryPanel.transform);
-
-                //    button.GetComponent<Button>().onClick.AddListener(instance.GetComponent<Prisoner>().ProcessFeeding);
-                //    button.GetComponent<Button>().onClick.AddListener(() => inventoryPanel.SetActive(false));
-                //    button.transform.localScale = Vector3.one;
-                //    // TMP
-                //    button.transform.localPosition = new Vector3(0, -200, 0);
-                //}
             }
 
             UpdateInventories();
