@@ -118,14 +118,7 @@ public class TutoManager : MonoBehaviour {
         {
             GameManager.Instance.AllKeepersList[i].GetComponent<MentalHealthHandler>().SelectedMentalHealthUI.SetActive(false);
             GameManager.Instance.AllKeepersList[i].GetComponent<Mortal>().SelectedHPUI.SetActive(false);
-        }
-
-        GameManager.Instance.AllKeepersList[0].GetComponent<Keeper>().GoListCharacterFollowing.Add(GameManager.Instance.PrisonerInstance.gameObject);
-        Escortable escortComponent = GameManager.Instance.PrisonerInstance.GetComponent<Escortable>();
-        escortComponent.escort = GameManager.Instance.AllKeepersList[0].GetComponent<Keeper>();
-        escortComponent.IsEscorted = true;
-        escortComponent.ActivateIconNearEscort();
-        
+        }        
     }
 
     void Update()

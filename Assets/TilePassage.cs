@@ -252,86 +252,54 @@ public class TilePassage : MonoBehaviour {
 
 
     void Move(int _i)
-
     {
-
-
-
         if (GameManager.Instance.ListOfSelectedKeepers.Count > 0)
-
         {
-
             PawnInstance toMove = GameManager.Instance.GetFirstSelectedKeeper();
 
             if (toMove.GetComponent<Keeper>() != null
-
                 && toMove.GetComponent<Keeper>().ActionPoints >= actionCostMove)
-
             {
-
                 Tile currentTile = toMove.CurrentTile;
 
-
-
                 // Confirmation Panel
-
                 // TODO : refaire en mieux ? 
-
                 if (toMove.GetComponent<Keeper>().GoListCharacterFollowing.Count == 0
-
                     && currentTile == GameManager.Instance.PrisonerInstance.CurrentTile)
-
                 {
-
                     if (!toMove.GetComponent<Keeper>().IsTheLastKeeperOnTheTile())
-
                     {
-
                         MoveWithoutConfirmation(_i);
-
                     }
-
                     else
-
                     {
-
                         if (GameManager.Instance.CurrentState != GameState.InTuto || GameManager.Instance.CurrentState != GameState.InBattle)
                             GameManager.Instance.CurrentState = GameState.InPause;
 
                         GameManager.Instance.Ui.goConfirmationPanel.SetActive(true);
 
                         int n = _i;
-
                         GameManager.Instance.Ui.goConfirmationPanel.transform.GetChild(1).GetComponent<Button>().onClick.RemoveAllListeners();
-
                         GameManager.Instance.Ui.goConfirmationPanel.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(() => MoveWithoutConfirmation(n));
-
                         GameManager.Instance.Ui.goConfirmationPanel.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(() => GameManager.Instance.Ui.goConfirmationPanel.SetActive(false));
 
+                        if (TutoManager.s_instance != null && TutoManager.s_instance.enableTuto && TutoManager.s_instance.PlayingSequence == null
+                            && TutoManager.s_instance.GetComponent<SeqAshleyEscort>().AlreadyPlayed == false && TutoManager.s_instance.GetComponent<SeqMultiCharacters>().AlreadyPlayed == true)
+                        {
+                            TutoManager.s_instance.playSequence(TutoManager.s_instance.GetComponent<SeqAshleyEscort>());
+                        }
                     }
-
                 }
-
                 else
-
                 {
-
                     MoveWithoutConfirmation(_i);
-
                 }
-
             }
-
             else
-
             {
-
                 GameManager.Instance.Ui.ZeroActionTextAnimation(GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Keeper>());
-
             }
-
         }
-
     }
 
 
@@ -362,60 +330,41 @@ public class TilePassage : MonoBehaviour {
                 // TODO : refaire en mieux ? 
 
                 if (toMove.GetComponent<Keeper>().GoListCharacterFollowing.Count == 0
-
                     && currentTile == GameManager.Instance.PrisonerInstance.CurrentTile)
-
                 {
-
                     if (!toMove.GetComponent<Keeper>().IsTheLastKeeperOnTheTile())
-
                     {
-
                         ExploreWithoutConfirmation(_i);
-
                     }
-
                     else
-
                     {
-
                         if (GameManager.Instance.CurrentState != GameState.InTuto || GameManager.Instance.CurrentState != GameState.InBattle)
                             GameManager.Instance.CurrentState = GameState.InPause;
 
                         GameManager.Instance.Ui.goConfirmationPanel.SetActive(true);
-
                         int n = _i;
-
                         GameManager.Instance.Ui.goConfirmationPanel.transform.GetChild(1).GetComponent<Button>().onClick.RemoveAllListeners();
-
                         GameManager.Instance.Ui.goConfirmationPanel.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(() => ExploreWithoutConfirmation(n));
-
                         GameManager.Instance.Ui.goConfirmationPanel.transform.GetChild(1).GetComponent<Button>().onClick.AddListener(() => GameManager.Instance.Ui.goConfirmationPanel.SetActive(false));
 
+                        if (TutoManager.s_instance != null && TutoManager.s_instance.enableTuto && TutoManager.s_instance.PlayingSequence == null
+                            && TutoManager.s_instance.GetComponent<SeqAshleyEscort>().AlreadyPlayed == false && TutoManager.s_instance.GetComponent<SeqMultiCharacters>().AlreadyPlayed == true)
+                        {
+                            TutoManager.s_instance.playSequence(TutoManager.s_instance.GetComponent<SeqAshleyEscort>());
+                        }
                     }
 
                 }
-
                 else
-
                 {
-
                     ExploreWithoutConfirmation(_i);
-
                 }
-
             }
-
             else
-
             {
-
                 GameManager.Instance.Ui.ZeroActionTextAnimation(GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Keeper>());
-
             }
-
         }
-
     }
 
 

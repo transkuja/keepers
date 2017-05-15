@@ -167,13 +167,13 @@ namespace Behaviour
                 {
                     if (GetComponent<Escortable>() != null && TutoManager.s_instance.GetComponent<SeqAshleyLowHunger>().AlreadyPlayed == false)
                     {
-                        if (currentHunger < data.MaxHunger / 4.0f && diffHunger < 0)
+                        if (currentHunger < data.MaxHunger / 2.0f && diffHunger < 0)
                             TutoManager.s_instance.playSequence(TutoManager.s_instance.GetComponent<SeqAshleyLowHunger>());
                     }
 
                     if (GetComponent<Keeper>() != null && TutoManager.s_instance.GetComponent<SeqLowHunger>().AlreadyPlayed == false)
                     {
-                        if (currentHunger < data.MaxHunger / 4.0f)
+                        if (currentHunger < data.MaxHunger / 3.0f && diffHunger < 0)
                             TutoManager.s_instance.playSequence(TutoManager.s_instance.GetComponent<SeqLowHunger>());
                     }
                 }
