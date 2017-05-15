@@ -24,16 +24,15 @@ namespace Behaviour
             Inventory inv = GetComponent<Inventory>();
             int i = 0;
 
-            //if (inv.Items[i] == null || inv.Items[i].Quantity <= 0)
-            //{
-            //    if (inv.Items[i] != null)
-            //    {
-            //        InventoryManager.RemoveItem(inv.Items, inv.Items[i]);
-            //    }
-            //}
-            //else
+            if (inv.Items[0] == null || inv.Items[0].Quantity <= 0)
             {
-                // Je suis un prisonnier
+                if (inv.Items[0] != null)
+                {
+                    InventoryManager.RemoveItem(inv.Items, inv.Items[i]);
+                }
+            }
+            else
+            {
                 inv.Items[i].Item.UseItem(inv.Items[i], GetComponent<PawnInstance>());
                 inv.Items[i].Quantity--;
             }
