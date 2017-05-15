@@ -7,6 +7,7 @@ Liste des FXs à intégrer
 - End sans Ashley
 - Quête à donner
 - Quête accomplie
+- Escort
 
 Combat:
 - Prendre un coup
