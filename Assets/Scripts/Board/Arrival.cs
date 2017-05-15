@@ -8,26 +8,19 @@ public class Arrival : MonoBehaviour {
         InterationImplementer.Add(new Interaction(ClickEnd), 0, "End Game", GameManager.Instance.SpriteUtils.spriteEndAction);  
 	}
 
-    public void EndGame(int i = -1)
+    public void ClickEnd(int i = -1)
     {
-        GameManager.Instance.CheckGameState();
 
-        if (TileManager.Instance.PrisonerTile == TileManager.Instance.EndTile)
+        bool completed = GameManager.Instance.QuestManager.MainQuest.CheckIfComplete();
+        if(completed)
         {
-            Debug.Log("You win");
+            GameManager.Instance.Ui.GoActionPanelQ.transform.parent.SetParent(GameManager.Instance.Ui.transform);
+            GameManager.Instance.QuestManager.MainQuest.Complete();
         }
         else
         {
-            Debug.Log("Nope");
+            //TODO: Add feedback here to say that the objective is not complete
         }
-    }
-
-    public void ClickEnd(int i = -1)
-    {
-        
-
-        GameManager.Instance.Ui.GoActionPanelQ.transform.parent.SetParent(GameManager.Instance.Ui.transform);
-        GameManager.Instance.QuestManager.MainQuest.CheckAndComplete();
     }
 
     public InteractionImplementer InterationImplementer
