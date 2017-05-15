@@ -176,15 +176,15 @@ public class BoxOpener : MonoBehaviour {
 
         if (isBoxOpen)
         {
-            spotLight.range = Mathf.Lerp(9, 12.0f, fLerp);
-            spotLight.spotAngle = Mathf.Lerp(80.0f, 130.0f, fLerp);
+            spotLight.range = Mathf.Lerp(12.0f, 13.0f, fLerp);
+            spotLight.spotAngle = Mathf.Lerp(120.0f, 130.0f, fLerp);
             spotLight.transform.localPosition = Vector3.Lerp(SpotLightTransformPos, newSpotLightTransform.localPosition, fLerp);
             spotLight.transform.localRotation = Quaternion.Lerp(SpotLightTransformRot, newSpotLightTransform.localRotation, fLerp);
         }
         else
         {
-            spotLight.range = Mathf.Lerp(12.0f, 9.0f, fLerp);
-            spotLight.spotAngle = Mathf.Lerp(130.0f, 80.0f, fLerp);
+            spotLight.range = Mathf.Lerp(13.0f, 12.0f, fLerp);
+            spotLight.spotAngle = Mathf.Lerp(130.0f, 120.0f, fLerp);
             spotLight.transform.localPosition = Vector3.Lerp(newSpotLightTransform.localPosition, SpotLightTransformPos, fLerp);
             spotLight.transform.localRotation = Quaternion.Lerp(newSpotLightTransform.localRotation, SpotLightTransformRot, fLerp);
 
