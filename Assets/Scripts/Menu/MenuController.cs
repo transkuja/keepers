@@ -161,7 +161,10 @@ public class MenuController : MonoBehaviour {
             }
 
             //;
-        }
+        } 
+ 
+
+ 
     }
 
     public void KeeperSelectionControls(GameObject hit)
@@ -198,6 +201,15 @@ public class MenuController : MonoBehaviour {
             pi.transform.SetParent(null);
 
             boxOpener.UpdateLockAspect();
+        } else if (menuManager.CardLevelSelected == -1)
+
+        {
+
+
+
+            menuManager.GoDeck.GetComponent<GlowObjectCmd>().ActivateBlinkBehaviour(true);
+
+            menuManager.GoDeck.GetComponent<GlowObjectCmd>().enabled = true;
         }
     } 
 

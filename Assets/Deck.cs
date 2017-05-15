@@ -18,4 +18,13 @@ public class Deck : MonoBehaviour {
             isOpen = value;
         }
     }
+
+    public void OnMouseOver()
+
+    {
+
+        GetComponent<GlowObjectCmd>().ActivateBlinkBehaviour(false);
+
+    }
+
 }
