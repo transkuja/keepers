@@ -6,6 +6,8 @@ public class TriggerOnCristals : MonoBehaviour {
     [SerializeField]
     private bool triggerActif;
 
+    private bool bCompleted = false;
+
     public TriggerOnCristals monCopain;
 
     public Color unactiveColor;
@@ -14,6 +16,8 @@ public class TriggerOnCristals : MonoBehaviour {
 
     private List<Material> mat;
     private Color storedColor;
+
+    [SerializeField] GameObject[] tabPathBlockerVisuals;
 
     public bool TriggerActif
     {
@@ -31,9 +35,58 @@ public class TriggerOnCristals : MonoBehaviour {
                 {
                     GetComponent<PathBlocker>().enabled = false;
                     monCopain.GetComponent<PathBlocker>().enabled = false;
+
+                    tabPathBlockerVisuals[0].GetComponent<Animator>().SetBool("bHalfOpened", true);
+                    tabPathBlockerVisuals[0].GetComponent<Animator>().SetBool("bFullyOpened", true);
+                    if (tabPathBlockerVisuals[1].GetComponent<Animator>().isInitialized == true)
+                    {
+                        tabPathBlockerVisuals[1].GetComponent<Animator>().SetBool("bHalfOpened", true);
+                        tabPathBlockerVisuals[1].GetComponent<Animator>().SetBool("bFullyOpened", true);
+                    }
+                    bCompleted = true;
+                    monCopain.bCompleted = true;
+
+                    foreach (Material m in mat)
+                    {
+                        m.SetColor("_EmissionColor", activeColor);
+                    }
+                    if (!particles.emission.enabled)
+                    {
+                        ParticleSystem.EmissionModule em = particles.emission;
+                        em.enabled = true;
+                    }
+
+                    foreach (Material m in monCopain.mat)
+                    {
+                        m.SetColor("_EmissionColor", activeColor);
+                    }
+                    if (!monCopain.particles.emission.enabled)
+                    {
+                        ParticleSystem.EmissionModule em = monCopain.particles.emission;
+                        em.enabled = true;
+                    }
                 }
-            } 
-   
+                else
+                {
+                    tabPathBlockerVisuals[0].GetComponent<Animator>().SetBool("bHalfOpened", true);
+                    if (tabPathBlockerVisuals[1].GetComponent<Animator>().isInitialized == true)
+                    {
+                        tabPathBlockerVisuals[1].GetComponent<Animator>().SetBool("bHalfOpened", true);
+                    }
+                }
+            }
+            else
+            {
+                if (!monCopain.triggerActif)
+                {
+                    tabPathBlockerVisuals[0].GetComponent<Animator>().SetBool("bHalfOpened", false);
+                    if (tabPathBlockerVisuals[1].GetComponent<Animator>().isInitialized == true)
+                    {
+                        tabPathBlockerVisuals[1].GetComponent<Animator>().SetBool("bHalfOpened", false);
+                    }
+                }
+            }
+            // TODO Add sounds for feedback
         }
     }
 
@@ -75,29 +128,31 @@ public class TriggerOnCristals : MonoBehaviour {
         else
             transform.GetChild(0).gameObject.SetActive(true);
 
-        if (!triggerActif) {
-            foreach(Material m in mat)
-            {
-                m.SetColor("_EmissionColor", unactiveColor);
-            }
-            if (particles.emission.enabled)
-            {
-                ParticleSystem.EmissionModule em = particles.emission;
-                em.enabled = false;
-            }
-        } else {
-            foreach (Material m in mat)
-            {
-                m.SetColor("_EmissionColor", activeColor);
-            }
-            if (!particles.emission.enabled)
-            {
-                ParticleSystem.EmissionModule em = particles.emission;
-                em.enabled = true;
+        if (!bCompleted)
+        {
+            if (!triggerActif) {
+                foreach(Material m in mat)
+                {
+                    m.SetColor("_EmissionColor", unactiveColor);
+                }
+                if (particles.emission.enabled)
+                {
+                    ParticleSystem.EmissionModule em = particles.emission;
+                    em.enabled = false;
+                }
+            } else {
+                foreach (Material m in mat)
+                {
+                    m.SetColor("_EmissionColor", activeColor);
+                }
+                if (!particles.emission.enabled)
+                {
+                    ParticleSystem.EmissionModule em = particles.emission;
+                    em.enabled = true;
+                }
             }
         }
 
         transform.Rotate(Vector3.up, 0.5f);
     }
-
 }
