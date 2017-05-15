@@ -167,7 +167,7 @@ public class BoxOpener : MonoBehaviour {
 
     public void UpdateSpotLightIntensity()
     {
-        fLerp += Time.unscaledDeltaTime * 3;
+        fLerp += Time.unscaledDeltaTime * 0.8f;
 
         if (fLerp > 1)
         {
@@ -207,7 +207,7 @@ public class BoxOpener : MonoBehaviour {
                     GlowController.RegisterObject(menuManager.GoCardsInfo[i].GetComponentInChildren<GlowObjectCmd>());
                 }
                 boxIsReady = true;
-                menuUi.isACardInfoMoving = true;
+                menuUi.IsACardInfoMoving = true;
             }
 
             spotlightneedUpdate = false;

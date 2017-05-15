@@ -48,7 +48,7 @@ public class MenuUI : MonoBehaviour {
 
     // CardInfo
     [HideInInspector]
-    public bool isACardInfoMoving;
+    private bool isACardInfoMoving;
 
     [HideInInspector]
     public List<List<keyPose>> levelCardInfoKeyPoses;
@@ -148,6 +148,31 @@ public class MenuUI : MonoBehaviour {
         }
     }
 
+    public bool IsACardInfoMoving
+    {
+        get
+        {
+            return isACardInfoMoving;
+        }
+
+        set
+        {
+            isACardInfoMoving = value;
+        }
+    }
+
+    public bool IsACardMoving
+    {
+        get
+        {
+            return isACardMoving;
+        }
+
+        set
+        {
+            isACardMoving = value;
+        }
+    }
     void Start()
     {
         menuManager = GetComponent<MenuManager>();
@@ -201,35 +226,36 @@ public class MenuUI : MonoBehaviour {
 
     public void UpdateKeepers(PawnInstance pi, Transform _previousParent)
     {
-        pawnMoving = pi;
+            pawnMoving = pi;
 
-        previousTransform = _previousParent;
-        previousIndex = previousTransform.GetSiblingIndex();
-        if (previousTransform == keepersPositions.transform.GetChild(previousIndex))
-        {
-            for (int i = 0; i < keepersPositionTarget.transform.childCount; i++)
+            previousTransform = _previousParent;
+            previousIndex = previousTransform.GetSiblingIndex();
+            if (previousTransform == keepersPositions.transform.GetChild(previousIndex))
             {
-                if (keepersPositionTarget.transform.GetChild(i).childCount == 0)
+                for (int i = 0; i < keepersPositionTarget.transform.childCount; i++)
                 {
-                    firstFreeIndex = keepersPositionTarget.transform.GetChild(i).GetSiblingIndex();
-                    break;
+                    if (keepersPositionTarget.transform.GetChild(i).childCount == 0)
+                    {
+                        firstFreeIndex = keepersPositionTarget.transform.GetChild(i).GetSiblingIndex();
+                        break;
+                    }
                 }
             }
-        }
-        else if (previousTransform == keepersPositionTarget.transform.GetChild(previousIndex))
-        {
-            for (int i = 0; i < keepersPositions.transform.childCount; i++)
+            else if (previousTransform == keepersPositionTarget.transform.GetChild(previousIndex))
             {
-                if (keepersPositions.transform.GetChild(i).name == pi.Data.PawnId)
+                for (int i = 0; i < keepersPositions.transform.childCount; i++)
                 {
-                    firstFreeIndex = keepersPositions.transform.GetChild(i).GetSiblingIndex();
-                    break;
+                    if (keepersPositions.transform.GetChild(i).name == pi.Data.PawnId)
+                    {
+                        firstFreeIndex = keepersPositions.transform.GetChild(i).GetSiblingIndex();
+                        break;
+                    }
                 }
             }
-        }
-        isAPawnMoving = true;
+            isAPawnMoving = true;
 
-        UpdateStartButton();
+            UpdateStartButton();
+    
     }
 
     public void UpdateDeckDisplayed()
@@ -453,7 +479,7 @@ public class MenuUI : MonoBehaviour {
 
     public void UpdateCardInfoPositions()
     {
-        cardInfofLerp += Time.unscaledDeltaTime * 1f;
+        cardInfofLerp += Time.unscaledDeltaTime * 3f;
 
         if (cardInfofLerp > 1)
         {
@@ -579,7 +605,7 @@ public class MenuUI : MonoBehaviour {
                 menuManager.GoCardsInfo[i].transform.position = Vector3.Lerp(levelCardInfoKeyPoses[i][2].v3Pos, cameraWhere.transform.position, cardInfoShownfLerp);
                 menuManager.GoCardsInfo[i].transform.rotation = Quaternion.Lerp(levelCardInfoKeyPoses[i][2].quatRot, cameraWhere.transform.rotation, cardInfoShownfLerp);
             }
-            else if (ACardIsShown)
+            else if (ACardInfoIsShown)
             {
                 if (menuManager.GoCardsInfo[i].GetComponentInChildren<Displayer>().IsShown) { 
                     menuManager.GoCardsInfo[i].transform.position = Vector3.Lerp(cameraWhere.transform.position, levelCardInfoKeyPoses[i][2].v3Pos, cardInfoShownfLerp);
@@ -603,7 +629,7 @@ public class MenuUI : MonoBehaviour {
             {
                 if (menuManager.GoCardsInfo[i].GetComponentInChildren<Displayer>().NeedToBeShown)
                 {
-                    ACardIsShown = true;
+                    ACardInfoIsShown = true;
                     isACardShow = true;
                     //
                     menuManager.GoCardsInfo[i].GetComponentInChildren<Displayer>().NeedToBeShown = false;
@@ -621,7 +647,7 @@ public class MenuUI : MonoBehaviour {
                     menuManager.SetActiveChatBoxes(true);
                 }
 
-                    ACardIsShown = false;
+                ACardInfoIsShown = false;
             }
 
             box.UpdateLockAspect();

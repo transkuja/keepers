@@ -70,13 +70,13 @@ public class Displayer : MonoBehaviour {
     {
         if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
         {
-            if (!NeedToBeShown && !menuUI.ACardIsShown && !menuUI.IsACardInfoMovingForShowing && menuUI.cardsInfoAreReady && !menumanager.GoDeck.GetComponent<Deck>().IsOpen)
+            if (!NeedToBeShown && !menuUI.ACardInfoIsShown && !menuUI.IsACardInfoMovingForShowing && menuUI.cardsInfoAreReady && !menumanager.GoDeck.GetComponent<Deck>().IsOpen)
             {
                 NeedToBeShown = true;
                 isShown = true;
                 menuUI.IsACardInfoMovingForShowing = true;
 
-            } else if (menuUI.ACardIsShown)
+            } else if (menuUI.ACardInfoIsShown)
             {
                 NeedToBeShown = false;
 

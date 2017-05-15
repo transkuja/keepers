@@ -88,7 +88,7 @@ public class MenuController : MonoBehaviour {
     {
 
         CardLevel card = hit.transform.gameObject.GetComponent<CardLevel>();
-        if (card != null)
+        if (card != null && !menuUI.ACardInfoIsShown && !menuUI.IsACardMoving && !menuUI.IsACardInfoMoving)
         {
             AudioManager.Instance.PlayOneShot(AudioManager.Instance.paperSelectSound, 0.5f);
 
@@ -131,7 +131,7 @@ public class MenuController : MonoBehaviour {
 
     public void DeckSelectionControls(GameObject hit)
     {
-        if(menuUI.cardsInfoAreReady && !menuUI.ACardInfoIsShown)
+        if(menuUI.cardsInfoAreReady && !menuUI.ACardInfoIsShown && !menuUI.IsACardMoving && !menuUI.IsACardInfoMoving)
         {
             menuUI.UpdateDeckDisplayed();
             foreach (GameObject go in menuManager.GoCardsLevels)
@@ -167,7 +167,7 @@ public class MenuController : MonoBehaviour {
     public void KeeperSelectionControls(GameObject hit)
     {
         PawnInstance pi = hit.transform.gameObject.GetComponent<PawnInstance>();
-        if (pi != null && !menuManager.GoDeck.GetComponent<Deck>().IsOpen)
+        if (pi != null && !menuManager.GoDeck.GetComponent<Deck>().IsOpen && menuManager.CardLevelSelected !=-1)
         {
             if (menuManager.ContainsSelectedKeepers(pi)) // REMOVE
             {
