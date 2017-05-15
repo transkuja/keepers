@@ -38,7 +38,7 @@ public class ChatBox : MonoBehaviour {
 
     // Parametres
     public float fShowLength = 3;
-    public float fDelayMin = 1, fDelayMax = 2;
+    public float fDelayMin, fDelayMax;
     public float fScaleSpeed = 10;
 
 	// Use this for initialization
@@ -59,7 +59,8 @@ public class ChatBox : MonoBehaviour {
         tabEmotes[1] = new List<string>();
         tabEmotes[1].Add("Let's go!");
         tabEmotes[1].Add("Yeah!");
-
+        fDelayMin = 10;
+        fDelayMax = 20;
         fTimer = Random.Range(fDelayMin, fDelayMax);
     }
 
@@ -197,6 +198,13 @@ public class ChatBox : MonoBehaviour {
     public void Say(ChatBox.ChatMode mode)
     {
         txt.text = ChatBoxDatabase.tabEmotes[(int)mode][Random.Range(0, ChatBoxDatabase.tabEmotes[(int)mode].Count)];
+        //transform.SetAsFirstSibling();
+        TriggerScale();
+    }
+
+    public void Say(ChatBox.ChatMode mode , int i)
+    {
+        txt.text = ChatBoxDatabase.tabEmotes[(int)mode][i];
         //transform.SetAsFirstSibling();
         TriggerScale();
     }

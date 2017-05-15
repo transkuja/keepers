@@ -10,7 +10,6 @@ public class dickMove : MonoBehaviour {
     public Transform destination2;
     public MenuManager menuManager;
 
-
     private Rigidbody rb;
 
     // Use this for initialization
@@ -20,15 +19,17 @@ public class dickMove : MonoBehaviour {
             if (transform.GetChild(i).GetComponent<Behaviour.AnimatedPawn>() != null)
             {
                 transform.GetChild(i).GetComponent<Behaviour.AnimatedPawn>().Agent.SetDestination(new Vector3(transform.GetChild(i).localPosition.x, transform.GetChild(i).localPosition.y, destination.localPosition.z));
+
+
+                ChatBox chatte = Instantiate(menuManager.PrefabChatox, menuManager.GetComponentInChildren<Canvas>().transform).GetComponent<ChatBox>();
+                chatte.trTarget = transform.GetChild(i);
+                //newChatBox.SetMode(ChatBox.ChatMode.whoAmI);
+                chatte.SetEnable(true);
             }
         }
 
 
-        //ChatBox newChatBox = Instantiate(menuManager.PrefabChatox, menuManager.GetComponentInChildren<Canvas>().transform).GetComponent<ChatBox>();
-        //newChatBox.trTarget = transform;
-        //newChatBox.SetMode(ChatBox.ChatMode.whoAmI);
-        //newChatBox.SetEnable(true);
-        //menuManager.DicPawnChatBox.Add(gameObject, newChatBox);
+
     }
 
     public void Update()
@@ -47,11 +48,11 @@ public class dickMove : MonoBehaviour {
                             // Done
                             if (!menuManager.DuckhavebringThebox)
                             {
-                  
+
                                 menuManager.DuckhavebringThebox = true;
                                 Invoke("Boom", 5);
                             }
-
+                            //chatte.Say(ChatBox.ChatMode.whoAmI, 0);
                             transform.GetChild(i).GetComponent<Behaviour.AnimatedPawn>().Agent.SetDestination(new Vector3(transform.GetChild(i).localPosition.x, transform.GetChild(i).localPosition.y, destination2.localPosition.z));
                         }
                     }
@@ -66,6 +67,7 @@ public class dickMove : MonoBehaviour {
 
     public void Boom()
     {
+
         GameObject.Find("Box").transform.SetParent(null);
         GameObject.Find("Box").transform.localPosition = Vector3.zero;
         GameObject.Find("Box").transform.localRotation = Quaternion.identity;
