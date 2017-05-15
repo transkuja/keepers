@@ -145,12 +145,12 @@ public class SkillDescriptionUI : MonoBehaviour, IPointerEnterHandler, IPointerE
                 if (curBoeuf.BoeufType == BoeufType.Damage)
                 {
                     descriptionPanel.GetComponentInChildren<Text>().text += (curBoeuf.EffectValue < 0) ? "Reduce " : "Increase ";
-                    descriptionPanel.GetComponentInChildren<Text>().text += "damage dealt by " + curBoeuf.EffectValue;
+                    descriptionPanel.GetComponentInChildren<Text>().text += "damage dealt by " + Mathf.Abs(curBoeuf.EffectValue);
                 }
                 else if (curBoeuf.BoeufType == BoeufType.Defense)
                 {
                     descriptionPanel.GetComponentInChildren<Text>().text += (curBoeuf.EffectValue > 0) ? "Reduce " : "Increase ";
-                    descriptionPanel.GetComponentInChildren<Text>().text += "damage taken by " + curBoeuf.EffectValue;
+                    descriptionPanel.GetComponentInChildren<Text>().text += "damage taken by " + Mathf.Abs(curBoeuf.EffectValue);
                 }
                 else if (curBoeuf.BoeufType == BoeufType.Aggro)
                 {
@@ -159,7 +159,7 @@ public class SkillDescriptionUI : MonoBehaviour, IPointerEnterHandler, IPointerE
                 else if (curBoeuf.BoeufType == BoeufType.CostReduction)
                 {
                     descriptionPanel.GetComponentInChildren<Text>().text += (curBoeuf.EffectValue < 0) ? "Reduce " : "Increase ";
-                    descriptionPanel.GetComponentInChildren<Text>().text += "chances of being targeted by " + curBoeuf.EffectValue + " percent";
+                    descriptionPanel.GetComponentInChildren<Text>().text += "chances of being targeted by " + Mathf.Abs(curBoeuf.EffectValue) + " percent";
                 }
                 else if (curBoeuf.BoeufType == BoeufType.IncreaseStocks)
                 {
@@ -173,7 +173,7 @@ public class SkillDescriptionUI : MonoBehaviour, IPointerEnterHandler, IPointerE
                         else
                             descriptionPanel.GetComponentInChildren<Text>().text += "magic ";
                     }
-                    descriptionPanel.GetComponentInChildren<Text>().text += "gauges by " + curBoeuf.EffectValue;
+                    descriptionPanel.GetComponentInChildren<Text>().text += "gauges by " + Mathf.Abs(curBoeuf.EffectValue);
                 }
                 descriptionPanel.GetComponentInChildren<Text>().text += " for " + curBoeuf.Duration + " turns.\n";
             }
