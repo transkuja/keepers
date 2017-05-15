@@ -24,6 +24,7 @@ public class MenuManager : MonoBehaviour {
     private List<PawnInstance> listeSelectedKeepers;
 
     private bool hasBeenInit;
+    private bool duckhavebringThebox;
 
 
     [Header("Prefab")]
@@ -62,6 +63,7 @@ public class MenuManager : MonoBehaviour {
         menuUi = GetComponent<MenuUI>();
         hasBeenInit = false;
         menuUi.UpdateStartButton();
+        duckhavebringThebox = false;
     }
 
     public void InitCards()
@@ -309,6 +311,19 @@ public class MenuManager : MonoBehaviour {
         set
         {
             goCardChildren = value;
+        }
+    }
+
+    public bool DuckhavebringThebox
+    {
+        get
+        {
+            return duckhavebringThebox;
+        }
+
+        set
+        {
+            duckhavebringThebox = value;
         }
     }
 
