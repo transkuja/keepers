@@ -180,7 +180,7 @@ namespace Behaviour
                 {
                     if (TutoManager.s_instance.PlayingSequence == null)
                     {
-                        if (TutoManager.s_instance.GetComponent<SeqMoraleExplained>().AlreadyPlayed == false)
+                        if (TutoManager.s_instance.GetComponent<SeqMoraleExplained>().AlreadyPlayed == false && feedbackAmount < 0)
                         {
                             TutoManager.s_instance.playSequence(TutoManager.s_instance.GetComponent<SeqMoraleExplained>());
                         }
@@ -189,7 +189,7 @@ namespace Behaviour
                             if (currentMentalHealth < data.MaxMentalHealth / 4.0f)
                                 TutoManager.s_instance.playSequence(TutoManager.s_instance.GetComponent<SeqLowMorale>());
                         }
-                    }                
+                    }
                 }
             }
         }

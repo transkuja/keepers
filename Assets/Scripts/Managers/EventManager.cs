@@ -55,6 +55,11 @@ public class EventManager : MonoBehaviour {
                     {
                         if (ki.CurrentTile.GetComponentInChildren<Climat>() != null && ki.CurrentTile.GetComponentInChildren<Climat>().TypeClimat == TypeClimat.Snow)
                         {
+                            if (TutoManager.s_instance.GetComponent<SeqMoraleExplained>().AlreadyPlayed == false)
+                            {
+                                TutoManager.s_instance.GetComponent<SeqMoraleExplained>().isLaunchedDuringASnowEvent = true;
+                                TutoManager.s_instance.playSequence(TutoManager.s_instance.GetComponent<SeqMoraleExplained>());
+                            }
                             moodModifier = true;
                         }
                     }

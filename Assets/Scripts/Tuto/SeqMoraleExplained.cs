@@ -4,6 +4,7 @@ using UnityEngine;
 public class SeqMoraleExplained : Sequence {
     private GameObject pawnMrResetti;
     public AnimationClip jumpAnimationClip;
+    public bool isLaunchedDuringASnowEvent = false;
 
     public override void Init()
     {
@@ -15,6 +16,13 @@ public class SeqMoraleExplained : Sequence {
 
         Etapes.Add(new TutoManager.Message(pawnMrResetti, "A lot of events can alter your characters morale."));
         Etapes.Add(new TutoManager.Message(pawnMrResetti, "For example, arriving on an unwelcoming area can lower your characters morale."));
+
+        if (isLaunchedDuringASnowEvent)
+        {
+            Etapes.Add(new TutoManager.Message(pawnMrResetti, "Or when your characters stay on an area where it's snowing."));
+            Etapes.Add(new TutoManager.Message(pawnMrResetti, "Like right now."));
+        }
+
         Etapes.Add(new TutoManager.Message(pawnMrResetti, "	The easiest way to up your characters' mood is by using the Chat action between them."));
     }
 
