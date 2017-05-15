@@ -14,26 +14,18 @@ public class DragHandler : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
     {
         if (GameManager.Instance.CurrentState == GameState.InTuto)
             return;
-        //if (GameManager.Instance.IsShiftPressed)
-        //{
-        //    if(eventData.pointerDrag.GetType() == typeof(ItemConsumable))
-        //    {
-        //        Debug.Log("shiftpressed");
-        //        GameManager.Instance.ListOfSelectedKeepers[0].GetComponent<InventoryManager>().AddItem(
-        //        eventData.pointerDrag.GetComponent<ItemInstance>().itemContainer, eventData.pointerDrag.GetComponent<ItemInstance>().itemContainer.item.Stackable);
-        //    }
-        //} else
-        //{
-            startPosition = transform.position;
-            startParent = transform.parent;
 
-            // Force sorting layer a ontopofEverything
+        startPosition = transform.position;
+        startParent = transform.parent;
+
+        // Force sorting layer a ontopofEverything
+        if (GetComponent<UIKeeperInstance>() != null)
+        {
+            absoluteParent = transform.parent.parent.parent.parent;
+        }
+        else
             absoluteParent = transform.parent.parent.parent.parent.parent;
             eventData.pointerDrag.gameObject.transform.SetParent(absoluteParent);
-
-
-        //}
-
 
         GetComponent<CanvasGroup>().blocksRaycasts = false;
     }
@@ -51,12 +43,12 @@ public class DragHandler : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
         if (GameManager.Instance.CurrentState == GameState.InTuto)
             return;
 
-        if (eventData.pointerEnter == null)
+        if (eventData.pointerEnter == null && startParent.parent.GetComponent<InventoryOwner>()!= null && startParent.parent.GetComponent<InventoryOwner>().Owner != null)
         {
             InventoryOwner inventaireDequi = startParent.parent.GetComponent<InventoryOwner>();
 
             // On ne peut drop que d'un keeper
-            if( inventaireDequi.Owner.GetComponent<Behaviour.Keeper>() != null)
+            if(inventaireDequi.Owner.GetComponent<Behaviour.Keeper>() != null)
             {
                 ItemContainer[] inventoryKeeperDequi = inventaireDequi.Owner.GetComponent<Behaviour.Inventory>().Items;
 
