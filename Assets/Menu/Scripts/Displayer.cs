@@ -55,16 +55,16 @@ public class Displayer : MonoBehaviour {
     //}
 
 
-    void OnMouseExit()
-    {
+    //void OnMouseExit()
+    //{
 
-        if (menuUI.ACardIsShown && !menuUI.IsACardInfoMovingForShowing && menuUI.cardsInfoAreReady && !menumanager.GoDeck.GetComponent<Deck>().IsOpen)
-        {
-            NeedToBeShown = false;
+    //    if (menuUI.ACardIsShown && !menuUI.IsACardInfoMovingForShowing && menuUI.cardsInfoAreReady && !menumanager.GoDeck.GetComponent<Deck>().IsOpen)
+    //    {
+    //        NeedToBeShown = false;
 
-            menuUI.IsACardInfoMovingForShowing = true;
-        }
-    }
+    //        menuUI.IsACardInfoMovingForShowing = true;
+    //    }
+    //}
 
     private void OnMouseOver()
     {

@@ -74,43 +74,55 @@ public class MenuManager : MonoBehaviour {
                 GameObject goCardLevel = Instantiate(prefabLevelCard, goDeck.transform);
                 goCardLevel.transform.localPosition = Vector3.zero;
                 goCardLevel.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = leveldb.listLevels[i].name;
-                goCardLevel.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = leveldb.listLevels[i].nbPawn + " pawns required.";
+                switch (leveldb.listLevels[i].difficulty){
+                    case "easy":
+                        goCardLevel.transform.GetChild(0).GetChild(1).GetComponent<Text>().color = Color.green;
+                        break;
+                    case "hard":
+                        goCardLevel.transform.GetChild(0).GetChild(1).GetComponent<Text>().color = Color.red;
+                        break;
+                    default:
+                        break;
+                }
+                goCardLevel.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = leveldb.listLevels[i].difficulty;
+                goCardLevel.transform.GetChild(0).GetChild(2).GetComponent<Text>().text = leveldb.listLevels[i].nbPawn + " pawns required.";
                 // TODO Maybe add description to level
                 goCardLevel.GetComponent<CardLevel>().levelIndex = leveldb.listLevels[i].id;
                 goCardLevel.SetActive(false);
                 goCardsLevels.Add(goCardLevel);
 
 
-                //if (GameManager.Instance.PersistenceLoader.Pd.dicPersistenceDecks[leveldb.listLevels[i].deckId.ToString()] == true)
-                //{
-                //    QuestDeckData qdd = GameManager.Instance.QuestDeckDataBase.GetQuestDeckDataByID(leveldb.listLevels[i].deckId);
+                if (GameManager.Instance.PersistenceLoader.Pd.dicPersistenceDecks[leveldb.listLevels[i].deckId.ToString()] == true)
+                {
+                    QuestDeckData qdd = GameManager.Instance.QuestDeckDataBase.GetQuestDeckDataByID(leveldb.listLevels[i].deckId);
 
-                //    GameObject goQuestCard = Instantiate(prefabMainQuestCard, goCardLevel.transform);
-                //    goQuestCard.transform.localPosition = Vector3.zero;
-                //    goQuestCard.GetComponentInChildren<Text>().text = GameManager.Instance.QuestDeckDataBase.GetDeckByID(leveldb.listLevels[i].deckId).MainQuest;
+                    GameObject goQuestCard = Instantiate(prefabMainQuestCard, goCardLevel.transform);
+                    goQuestCard.transform.localPosition = Vector3.zero;
+                    goQuestCard.GetComponentInChildren<Text>().text = GameManager.Instance.QuestDeckDataBase.GetDeckByID(leveldb.listLevels[i].deckId).MainQuest;
+                    goQuestCard.SetActive(false);
 
-                //    for (int k = 0; k < qdd.secondaryQuests.Count; k++) // Instantiations des cartes de quete annexe
-                //    {
-                //        goQuestCard = Instantiate(prefabSideQuestCard, goCardLevel.transform);
-                //        goQuestCard.transform.localPosition = Vector3.zero;
-                //        goQuestCard.GetComponentInChildren<Text>().text = qdd.secondaryQuests[k].idQuest; // TODO Add real name and description to quests
+                    for (int k = 0; k < qdd.secondaryQuests.Count; k++) // Instantiations des cartes de quete annexe
+                    {
+                        goQuestCard = Instantiate(prefabSideQuestCard, goCardLevel.transform);
+                        goQuestCard.transform.localPosition = Vector3.zero;
+                        goQuestCard.GetComponentInChildren<Text>().text = qdd.secondaryQuests[k].idQuest; // TODO Add real name and description to quests
+                        goQuestCard.SetActive(false);
+                    }
 
-                //    }
 
-
-                //    for (int l = 0; l < leveldb.listLevels[i].listEventsId.Count; l++)
-                //    {
-                //        if (GameManager.Instance.PersistenceLoader.Pd.dicPersistenceEvents[GameManager.Instance.EventDataBase.listEvents[l].id] == true)
-                //        {
-                //            GameObject goEventCard = Instantiate(prefabEventCard, goCardLevel.transform);
-                //            goEventCard.transform.localPosition = Vector3.zero;
-                //            goEventCard.GetComponent<GlowManagerMenu>().id = leveldb.listLevels[i].listEventsId[l];
-                //            goEventCard.GetComponentInChildren<Text>().text = GameManager.Instance.EventDataBase.GetEventById(leveldb.listLevels[i].listEventsId[l]).id + "\n" +
-                //                                                                GameManager.Instance.EventDataBase.GetEventById(leveldb.listLevels[i].listEventsId[l]).name
-                //                                                                + "\n\n" + GameManager.Instance.EventDataBase.GetEventById(leveldb.listLevels[i].listEventsId[l]).description;
-                //        }
-                //    }
-                //}
+                    for (int l = 0; l < leveldb.listLevels[i].listEventsId.Count; l++)
+                    {
+                        if (GameManager.Instance.PersistenceLoader.Pd.dicPersistenceEvents[GameManager.Instance.EventDataBase.listEvents[l].id] == true)
+                        {
+                            GameObject goEventCard = Instantiate(prefabEventCard, goCardLevel.transform);
+                            goEventCard.transform.localPosition = Vector3.zero;
+                            goEventCard.GetComponentInChildren<Text>().text = GameManager.Instance.EventDataBase.GetEventById(leveldb.listLevels[i].listEventsId[l]).id + "\n" +
+                                                                                GameManager.Instance.EventDataBase.GetEventById(leveldb.listLevels[i].listEventsId[l]).name
+                                                                                + "\n\n" + GameManager.Instance.EventDataBase.GetEventById(leveldb.listLevels[i].listEventsId[l]).description;
+                            goEventCard.SetActive(false);
+                        }
+                    }
+                }
             }
         }
     }
