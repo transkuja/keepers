@@ -121,7 +121,9 @@ public class ItemSplitter : MonoBehaviour {
 
     void UpdateInventories()
     {
+        Debug.Log("inventories updated");
         Destroy(uiItem);
+        Debug.Log(inventoryTo);
         inventoryFrom.Owner.GetComponent<Behaviour.Inventory>().UpdateInventories();
         inventoryTo.Owner.GetComponent<Behaviour.Inventory>().UpdateInventories();
     }

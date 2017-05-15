@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 namespace Behaviour
 {
@@ -152,26 +153,30 @@ namespace Behaviour
         }
 
         public void StartBetweenTilesAnimation(Vector3 newPosition)
-
         {
             agent.enabled = false;
-
             lerpMoveParam = 0.0f;
-
             lerpStartPosition = transform.position;
-
             lerpEndPosition = newPosition;
-
             Vector3 direction = newPosition - transform.position;
-
             lerpStartRotation = Quaternion.LookRotation(transform.forward);
-
             lerpEndRotation = Quaternion.LookRotation(direction);
-
             anim.SetTrigger("moveBetweenTiles");
-
             IsMovingBetweenTiles = true;
 
+            // Update Ashley feeding panel
+            if (GameManager.Instance.PrisonerInstance != null && GetComponent<Keeper>() != null && !GetComponent<Keeper>().GoListCharacterFollowing.Contains(GameManager.Instance.PrisonerInstance.gameObject))
+            {
+                GameObject ashleyInventoryPanel;
+
+                if (GameManager.Instance.PrisonerInstance != null)
+                {
+                    ashleyInventoryPanel = GameManager.Instance.PrisonerInstance.GetComponent<Inventory>().SelectedInventoryPanel;
+                    ashleyInventoryPanel.SetActive(false);
+                    ashleyInventoryPanel.transform.SetParent(GetComponent<Inventory>().SelectedInventoryPanel.transform.parent, false);
+                    GetComponent<Inventory>().SelectedInventoryPanel.GetComponent<GridLayoutGroup>().constraintCount = GetComponent<Inventory>().Data.NbSlot;
+                }
+            }
         }
 
 
@@ -317,30 +322,18 @@ namespace Behaviour
 
 
         public Animator Anim
-
         {
-
             get
-
             {
-
                 return anim;
-
             }
-
 
 
             set
-
             {
-
                 anim = value;
-
             }
-
         }
-
-
 
         public bool IsMovingToBattlePosition
         {

@@ -11,6 +11,7 @@ public class PrefabUIUtils : MonoBehaviour {
     public GameObject PrefabInventaireUI;
 
     public GameObject PrefabSlotUI;
+    public GameObject PrefabSlotAshleyUI;
     public GameObject PrefabItemUI;
 
     // ActionPanel

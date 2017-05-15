@@ -108,24 +108,25 @@ namespace Behaviour
 
             if (instance != null)
             {
-                if(!GetComponent<Interactable>().Interactions.listActionContainers.Exists(x => x.strName == "Trade"))
+                // TODO: remove this for prisoner
+                if (!GetComponent<Interactable>().Interactions.listActionContainers.Exists(x => x.strName == "Trade"))
                     GetComponent<Interactable>().Interactions.Add(new Interaction(Trade), 0, "Trade", GameManager.Instance.SpriteUtils.spriteTrade);
 
-                if (instance.GetComponent<Keeper>() != null)
+                if (instance.GetComponent<Keeper>() != null || instance.GetComponent<Prisoner>() != null)
                 {
                     CreateSelectedInventoryPanel();
                     InitSelectedInventoryPanel();
                 }
-                else if (instance.GetComponent<Prisoner>() != null)
-                {
-                    GameObject button = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabConfimationButtonUI, inventoryPanel.transform);
+                //else if (instance.GetComponent<Prisoner>() != null)
+                //{
+                //    GameObject button = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabConfimationButtonUI, inventoryPanel.transform);
 
-                    button.GetComponent<Button>().onClick.AddListener(instance.GetComponent<Prisoner>().ProcessFeeding);
-                    button.GetComponent<Button>().onClick.AddListener(() => inventoryPanel.SetActive(false));
-                    button.transform.localScale = Vector3.one;
-                    // TMP
-                    button.transform.localPosition = new Vector3(0, -200, 0);
-                }
+                //    button.GetComponent<Button>().onClick.AddListener(instance.GetComponent<Prisoner>().ProcessFeeding);
+                //    button.GetComponent<Button>().onClick.AddListener(() => inventoryPanel.SetActive(false));
+                //    button.transform.localScale = Vector3.one;
+                //    // TMP
+                //    button.transform.localPosition = new Vector3(0, -200, 0);
+                //}
             }
 
             UpdateInventories();
@@ -142,9 +143,19 @@ namespace Behaviour
         {
             selectedInventoryPanel = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabSelectedInventoryUIPanel, GameManager.Instance.PrefabUIUtils.PrefabSelectedInventoryUIPanel.transform.position, GameManager.Instance.PrefabUIUtils.PrefabSelectedInventoryUIPanel.transform.rotation);
             selectedInventoryPanel.GetComponent<InventoryOwner>().Owner = instance.gameObject;
-            selectedInventoryPanel.transform.SetParent(instance.GetComponent<Keeper>().SelectedPanelUI.transform, false);
+            if (instance.GetComponent<Keeper>() != null)
+            {
+                selectedInventoryPanel.transform.SetParent(instance.GetComponent<Keeper>().SelectedPanelUI.transform, false);
+                selectedInventoryPanel.name = "Inventory";
+            }
+            else
+            {
+                selectedInventoryPanel.transform.SetParent(GameManager.Instance.Ui.goSelectedKeeperPanel.transform, false);
+                selectedInventoryPanel.gameObject.SetActive(false);
+                Destroy(selectedInventoryPanel.transform.GetComponent<ContentSizeFitter>());
+                selectedInventoryPanel.name = "Inventory_Ashley";
+            }
             selectedInventoryPanel.transform.localScale = Vector3.one;
-            selectedInventoryPanel.name = "Inventory";
         }
 
         public void ShowInventoryPanel(bool isShow)
@@ -205,7 +216,16 @@ namespace Behaviour
             for (int i = 0; i < data.NbSlot; i++)
             {
                 //Create Slots
-                GameObject currentgoSlotPanel = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabSlotUI, Vector3.zero, Quaternion.identity) as GameObject;
+                GameObject currentgoSlotPanel;
+                if (GetComponent<Keeper>() != null)
+                    currentgoSlotPanel = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabSlotUI, Vector3.zero, Quaternion.identity) as GameObject;
+                else
+                {
+                    currentgoSlotPanel = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabSlotAshleyUI, Vector3.zero, Quaternion.identity) as GameObject;
+                    Button butt = currentgoSlotPanel.GetComponentInChildren<Button>();
+                    butt.onClick.AddListener(instance.GetComponent<Prisoner>().ProcessFeeding);
+                }
+
                 currentgoSlotPanel.transform.SetParent(selectedInventoryPanel.transform);
 
                 currentgoSlotPanel.transform.localPosition = Vector3.zero;
@@ -219,7 +239,7 @@ namespace Behaviour
         public void UpdateInventories()
         {
             UpdateInventoryPanel();
-            if (instance != null && instance.GetComponent<Keeper>() != null)
+            if (instance != null && (instance.GetComponent<Keeper>() != null || GetComponent<Prisoner>() != null))
             {
                 UpdateSelectedPanel();
             }
@@ -295,7 +315,7 @@ namespace Behaviour
 
             for (int i = 0; i < items.Length; i++)
             {
-                GameObject currentSlot = selectedInventoryPanel.transform.GetChild(i).gameObject;
+                GameObject currentSlot = (GetComponent<Prisoner>() == null) ? selectedInventoryPanel.transform.GetChild(i).gameObject : selectedInventoryPanel.transform.GetComponentInChildren<Slot>().gameObject;
                 if (currentSlot.GetComponentInChildren<ItemInstance>() != null)
                 {
                     Destroy(currentSlot.GetComponentInChildren<ItemInstance>().gameObject);
@@ -304,7 +324,7 @@ namespace Behaviour
 
             for (int i = 0; i < nbSlot; i++)
             {
-                GameObject currentSlot = selectedInventoryPanel.transform.GetChild(i).gameObject;
+                GameObject currentSlot = (GetComponent<Prisoner>() == null) ? selectedInventoryPanel.transform.GetChild(i).gameObject : selectedInventoryPanel.transform.GetComponentInChildren<Slot>().gameObject;
                 if (items != null && items.Length > 0 && i < items.Length && items[i] != null && items[i].Item != null && items[i].Item.Id != null)
                 {
                     GameObject go = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabItemUI);
@@ -327,14 +347,8 @@ namespace Behaviour
                         go.transform.GetComponentInChildren<Text>().text = "";
                     }
                 }
-                currentSlot.transform.SetParent(selectedInventoryPanel.transform);
-                currentSlot.transform.localScale = Vector3.one;
             }
 
-            selectedInventoryPanel.GetComponent<GridLayoutGroup>().constraintCount = nbSlot;
-
-            // Met a jour l'équipement aswell
-            instance.GetComponent<Keeper>().UpdateEquipement();
         }
         
         #endregion

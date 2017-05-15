@@ -289,6 +289,24 @@ namespace Behaviour
         public void ShowSelectedPanelUI(bool isShow)
         {
             SelectedPanelUI.SetActive(isShow);
+            GameObject ashleyInventoryPanel;
+
+            if (GameManager.Instance.PrisonerInstance != null)
+            {
+                ashleyInventoryPanel = GameManager.Instance.PrisonerInstance.GetComponent<Inventory>().SelectedInventoryPanel;
+                if (isShow && GameManager.Instance.PrisonerInstance.CurrentTile == GetComponent<PawnInstance>().CurrentTile)
+                {
+                    ashleyInventoryPanel.transform.SetParent(GetComponent<Inventory>().SelectedInventoryPanel.transform, false);
+                    GetComponent<Inventory>().SelectedInventoryPanel.GetComponent<GridLayoutGroup>().constraintCount = GetComponent<Inventory>().Data.NbSlot + 1;
+                    ashleyInventoryPanel.SetActive(true);
+                }
+                else
+                {
+                    ashleyInventoryPanel.SetActive(false);
+                    ashleyInventoryPanel.transform.SetParent(GetComponent<Inventory>().SelectedInventoryPanel.transform.parent, false);
+                    GetComponent<Inventory>().SelectedInventoryPanel.GetComponent<GridLayoutGroup>().constraintCount = GetComponent<Inventory>().Data.NbSlot;
+                }
+            }
             if (!isShow)
             {
                 if(GameManager.Instance.Ui.tooltipItem != null && GameManager.Instance.Ui.tooltipItem.activeSelf)

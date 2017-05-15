@@ -35,12 +35,11 @@ public class Slot : MonoBehaviour, IDropHandler
         {
             // Get the original parent
             Transform previous = eventData.pointerDrag.GetComponent<DragHandler>().startParent;
-
-            if (previous.parent.GetComponent<InventoryOwner>() != null && transform.parent.GetComponent<InventoryOwner>() != null)
+            if (previous.GetComponentInParent<InventoryOwner>() != null && transform.GetComponentInParent<InventoryOwner>() != null)
             {
                 //Ou on est ?
-                InventoryOwner inventaireDequi = previous.parent.GetComponent<InventoryOwner>();
-                InventoryOwner inventaireversqui = transform.parent.GetComponent<InventoryOwner>();
+                InventoryOwner inventaireDequi = previous.GetComponentInParent<InventoryOwner>();
+                InventoryOwner inventaireversqui = transform.GetComponentInParent<InventoryOwner>();
 
                 ItemContainer[] inventoryKeeperDequi = inventaireDequi.Owner.GetComponent<Behaviour.Inventory>().Items;
                 ItemContainer[] inventoryKeeperVersqui = inventaireversqui.Owner.GetComponent<Behaviour.Inventory>().Items;
