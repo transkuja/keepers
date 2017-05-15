@@ -18,6 +18,8 @@ public class MenuUI : MonoBehaviour {
     private MenuManager menuManager;
     private BoxOpener box;
 
+    public Image startButtonImg;
+
     // Postion ou devront aller les perso ou les deck
     public GameObject keepersPositions;
     public GameObject keepersPositionTarget;
@@ -25,6 +27,11 @@ public class MenuUI : MonoBehaviour {
     public Transform cardInfoStartingPosition;
     public Transform cardInfoStartingPosition2;
     public List<Transform> cardInfoEndPosition;
+    public Transform levelCardSelectedPosition;
+
+
+    private GameObject levelCardSelected = null;
+
 
     // Position for levelCards
     private bool isACardMoving;
@@ -40,14 +47,22 @@ public class MenuUI : MonoBehaviour {
 
 
     // CardInfo
+    [HideInInspector]
     public bool isACardInfoMoving;
 
+    [HideInInspector]
     public List<List<keyPose>> levelCardInfoKeyPoses;
+    [HideInInspector]
     public List<Vector3> whereTheCardInfoiS;
+    [HideInInspector]
     public List<Quaternion> whereTheCardInfoiSrotation;
+    [HideInInspector]
     public bool hasReachStepOneInfo = false;
+    [HideInInspector]
     public bool hasReachStepTwoInfo = false;
+    [HideInInspector]
     public  int indexInfo = 0;
+    [HideInInspector]
     public float cardInfofLerp = 0.0f;
     private bool aCardInfoIsReady;
 
@@ -64,6 +79,9 @@ public class MenuUI : MonoBehaviour {
     private int firstFreeIndex = -1;
     private int previousIndex = -1;
     private float fLerp = 0.0f;
+
+    // CardSelectd
+    private bool aCardLevelSelectedIsMoving;
 
     public bool ACardIsShown
     {
@@ -117,6 +135,19 @@ public class MenuUI : MonoBehaviour {
         }
     }
 
+    public GameObject LevelCardSelected
+    {
+        get
+        {
+            return levelCardSelected;
+        }
+
+        set
+        {
+            levelCardSelected = value;
+        }
+    }
+
     void Start()
     {
         menuManager = GetComponent<MenuManager>();
@@ -135,16 +166,19 @@ public class MenuUI : MonoBehaviour {
         aCardIsShown = false;
         aCardInfoIsShown = false;
         aCardInfoIsReady = false;
+        aCardLevelSelectedIsMoving = false;
+
+
     }
 
     void Update()
     {
-        if (isAPawnMoving)
+        if (box.BoxIsReady && isAPawnMoving)
         {
             UpdateKeepersPosition();
         }
 
-        if (isACardMoving)
+        if (box.BoxIsReady && isACardMoving)
         {
             UpdateCardLevelPositions();
         }
@@ -154,9 +188,14 @@ public class MenuUI : MonoBehaviour {
             UpdateCardInfoPositions();
         }
 
-        if (aCardInfoIsReady && isACardInfoMovingForShowing)
+        if (box.BoxIsReady && aCardInfoIsReady && isACardInfoMovingForShowing)
         {
             UpdateCardInfoShowingPositions();
+        }
+
+        if (box.BoxIsReady && aCardLevelSelectedIsMoving)
+        {
+            UpdateCardLevelSelectedPosition();
         }
     }
 
@@ -193,7 +232,7 @@ public class MenuUI : MonoBehaviour {
         UpdateStartButton();
     }
 
-    public void UpdateDeckSelected()
+    public void UpdateDeckDisplayed()
     {
         whereTheCardiS.Clear();
         whereTheCardiSrotation.Clear();
@@ -207,21 +246,35 @@ public class MenuUI : MonoBehaviour {
 
     }
 
+    public void UpdateDeckSelected()
+    {
+
+        whereTheCardiS.Clear();
+        whereTheCardiSrotation.Clear();
+        for (int i = 0; i < menuManager.GoCardsLevels.Count; i++)
+        {
+
+            whereTheCardiS.Add(menuManager.GoCardsLevels[i].transform.position);
+            whereTheCardiSrotation.Add(menuManager.GoCardsLevels[i].transform.rotation);
+        }
+        aCardLevelSelectedIsMoving = true;
+    }
+
     public void UpdateStartButton()
     {
         // TODO : refaire ça
         switch (menuManager.DeckOfCardsSelected)
         {
             case "deck_01":
-                //startButtonImg.GetComponentInChildren<Text>().text = menuManager.ListeSelectedKeepers.Count + "/1";
+                startButtonImg.GetComponentInChildren<Text>().text = menuManager.ListeSelectedKeepers.Count + "/1";
                 break;
             case "deck_02":
             case "deck_03":
             case "deck_04":
-                //startButtonImg.GetComponentInChildren<Text>().text = menuManager.ListeSelectedKeepers.Count + "/3";
+                startButtonImg.GetComponentInChildren<Text>().text = menuManager.ListeSelectedKeepers.Count + "/3";
                 break;
             default:
-                //startButtonImg.GetComponentInChildren<Text>().text = string.Empty;
+                startButtonImg.GetComponentInChildren<Text>().text = string.Empty;
                 break;
         }
 
@@ -229,11 +282,11 @@ public class MenuUI : MonoBehaviour {
             || (menuManager.DeckOfCardsSelected == "deck_04" && menuManager.ListeSelectedKeepers.Count != 3)
             || (menuManager.DeckOfCardsSelected == "deck_02" && menuManager.ListeSelectedKeepers.Count != 3))
         {
-            //startButtonImg.enabled = false;
+            startButtonImg.enabled = false;
         }
         else
         {
-            //startButtonImg.enabled = true;
+            startButtonImg.enabled = true;
         }
         // end TODO
     }
@@ -338,13 +391,20 @@ public class MenuUI : MonoBehaviour {
 
             if (!menuManager.GoDeck.GetComponent<Deck>().IsOpen)
             {
-                menuManager.GoCardsLevels[i].transform.position = Vector3.Lerp(whereTheCardiS[i], levelCardKeyPoses[i][index].v3Pos, carLevelfLerp);
-                menuManager.GoCardsLevels[i].transform.rotation = Quaternion.Lerp(whereTheCardiSrotation[i], levelCardKeyPoses[i][index].quatRot, carLevelfLerp);
+                if (menuManager.GoCardsLevels[i] != LevelCardSelected)
+                {
+                    menuManager.GoCardsLevels[i].transform.position = Vector3.Lerp(whereTheCardiS[i], levelCardKeyPoses[i][index].v3Pos, carLevelfLerp);
+                    menuManager.GoCardsLevels[i].transform.rotation = Quaternion.Lerp(whereTheCardiSrotation[i], levelCardKeyPoses[i][index].quatRot, carLevelfLerp);
+                }
             }
             else
             {
-                menuManager.GoCardsLevels[i].transform.position = Vector3.Lerp(whereTheCardiS[i], levelCardKeyPoses[i][levelCardKeyPoses[i].Count-(index)-1].v3Pos, carLevelfLerp);
-                menuManager.GoCardsLevels[i].transform.rotation = Quaternion.Lerp(whereTheCardiSrotation[i], levelCardKeyPoses[i][levelCardKeyPoses[i].Count-(index)-1].quatRot, carLevelfLerp);
+                if(menuManager.GoCardsLevels[i] != LevelCardSelected)
+                {
+                    menuManager.GoCardsLevels[i].transform.position = Vector3.Lerp(whereTheCardiS[i], levelCardKeyPoses[i][levelCardKeyPoses[i].Count - (index) - 1].v3Pos, carLevelfLerp);
+                    menuManager.GoCardsLevels[i].transform.rotation = Quaternion.Lerp(whereTheCardiSrotation[i], levelCardKeyPoses[i][levelCardKeyPoses[i].Count - (index) - 1].quatRot, carLevelfLerp);
+                }
+
             }
         }
  
@@ -461,6 +521,7 @@ public class MenuUI : MonoBehaviour {
             isACardInfoMoving = false;
             cardInfofLerp = 0;
             indexInfo = 0;
+            box.UpdateLockAspect();
             hasReachStepOneInfo = false;
             hasReachStepTwoInfo = false;
             aCardInfoIsReady = !aCardInfoIsReady;
@@ -561,6 +622,71 @@ public class MenuUI : MonoBehaviour {
 
                     ACardIsShown = false;
             }
+
+            box.UpdateLockAspect();
+        }
+    }
+
+    public void UpdateCardLevelSelectedPosition()
+    {
+        carLevelfLerp += Time.unscaledDeltaTime * 1.2f;
+
+        if (carLevelfLerp > 1)
+        {
+            carLevelfLerp = 1;
+        }
+
+        if (levelCardSelected.GetComponent<CardLevel>().IsSelected)
+        {
+            levelCardSelected.transform.position = Vector3.Lerp(cameraWhere.position, levelCardSelectedPosition.position, carLevelfLerp);
+            levelCardSelected.transform.rotation = Quaternion.Lerp(cameraWhere.rotation, levelCardSelectedPosition.rotation, carLevelfLerp);
+        }
+        else if (!levelCardSelected.GetComponent<CardLevel>().IsSelected)
+        {
+            levelCardSelected.transform.position = Vector3.Lerp(levelCardSelectedPosition.position, menuManager.GoDeck.transform.position, carLevelfLerp);
+            levelCardSelected.transform.rotation = Quaternion.Lerp(levelCardSelectedPosition.rotation, menuManager.GoDeck.transform.rotation, carLevelfLerp);
+        }
+
+        if (carLevelfLerp == 1)
+        {
+            //menuManager.GoDeck.GetComponent<Deck>().IsOpen = !menuManager.GoDeck.GetComponent<Deck>().IsOpen;
+            //aCardIsShown = !aCardIsShown;
+
+
+            if (levelCardSelected.GetComponent<CardLevel>().IsSelected) { 
+                for (int i = 0; i < menuManager.GoCardChildren.Count; i++)
+                {
+
+                    for (int j = 0; j < menuManager.GoCardChildren[i].Count; j++)
+                    {
+                        if (levelCardSelected == menuManager.GoCardChildren[i][j].GetComponentInParent<CardLevel>().gameObject)
+                        {
+                            menuManager.GoCardChildren[i][j].SetActive(true);
+                            menuManager.GoCardChildren[i][j].transform.localPosition = new Vector3(0.1f, -0.01f, 0.0f) * (j+1);
+                        }
+                    }
+                 }
+
+                //menuManager.GoDeck.GetComponent<Deck>().IsOpen = true;
+                isACardMoving = true;
+
+            }
+            else
+            {
+                GlowController.UnregisterObject(levelCardSelected.GetComponent<GlowObjectCmd>());
+                if (LevelCardSelected != null)
+                {
+                    LevelCardSelected.GetComponent<CardLevel>().IsSelected = false;
+                }
+                LevelCardSelected = null;
+            }
+
+            //box.UpdateLockAspect();
+            aCardLevelSelectedIsMoving = false;
+            carLevelfLerp = 0;
+            index = 1;
+            hasReachStepOne = false;
+            hasReachStepTwo = false;
         }
     }
 }

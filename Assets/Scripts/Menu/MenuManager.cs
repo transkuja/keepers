@@ -14,6 +14,7 @@ public class MenuManager : MonoBehaviour {
     private GameObject goDeck;
     private List<GameObject> goCardsLevels;
     private List<GameObject> goCardsInfo;
+    private List<List<GameObject>> goCardChildren;
 
     private Dictionary<GameObject, ChatBox> dicPawnChatBox;
 
@@ -54,12 +55,13 @@ public class MenuManager : MonoBehaviour {
     void Start()
     {
         listeSelectedKeepers = new List<PawnInstance>();
+        goCardChildren = new List<List<GameObject>>();
         goCardsLevels = new List<GameObject>();
         goCardsInfo = new List<GameObject>();
         leveldb = GameManager.Instance.leveldb;
         menuUi = GetComponent<MenuUI>();
         hasBeenInit = false;
-
+        menuUi.UpdateStartButton();
     }
 
     public void InitCards()
@@ -91,6 +93,7 @@ public class MenuManager : MonoBehaviour {
                 goCardLevel.SetActive(false);
                 goCardsLevels.Add(goCardLevel);
 
+                List<GameObject> cardChildren = new List<GameObject>();
 
                 if (GameManager.Instance.PersistenceLoader.Pd.dicPersistenceDecks[leveldb.listLevels[i].deckId.ToString()] == true)
                 {
@@ -98,15 +101,17 @@ public class MenuManager : MonoBehaviour {
 
                     GameObject goQuestCard = Instantiate(prefabMainQuestCard, goCardLevel.transform);
                     goQuestCard.transform.localPosition = Vector3.zero;
-                    goQuestCard.GetComponentInChildren<Text>().text = GameManager.Instance.QuestDeckDataBase.GetDeckByID(leveldb.listLevels[i].deckId).MainQuest;
+                    goQuestCard.GetComponentInChildren<Text>().text = "";/* GameManager.Instance.QuestDeckDataBase.GetDeckByID(leveldb.listLevels[i].deckId).DeckName;*/
                     goQuestCard.SetActive(false);
+                    cardChildren.Add(goQuestCard);
 
                     for (int k = 0; k < qdd.secondaryQuests.Count; k++) // Instantiations des cartes de quete annexe
                     {
                         goQuestCard = Instantiate(prefabSideQuestCard, goCardLevel.transform);
                         goQuestCard.transform.localPosition = Vector3.zero;
-                        goQuestCard.GetComponentInChildren<Text>().text = qdd.secondaryQuests[k].idQuest; // TODO Add real name and description to quests
+                        goQuestCard.GetComponentInChildren<Text>().text = "";/*qdd.secondaryQuests[k].idQuest; // TODO Add real name and description to quests*/
                         goQuestCard.SetActive(false);
+                        cardChildren.Add(goQuestCard);
                     }
 
 
@@ -116,13 +121,15 @@ public class MenuManager : MonoBehaviour {
                         {
                             GameObject goEventCard = Instantiate(prefabEventCard, goCardLevel.transform);
                             goEventCard.transform.localPosition = Vector3.zero;
-                            goEventCard.GetComponentInChildren<Text>().text = GameManager.Instance.EventDataBase.GetEventById(leveldb.listLevels[i].listEventsId[l]).id + "\n" +
-                                                                                GameManager.Instance.EventDataBase.GetEventById(leveldb.listLevels[i].listEventsId[l]).name
-                                                                                + "\n\n" + GameManager.Instance.EventDataBase.GetEventById(leveldb.listLevels[i].listEventsId[l]).description;
+                            goEventCard.GetComponentInChildren<Text>().text = "";/*GameManager.Instance.EventDataBase.GetEventById(leveldb.listLevels[i].listEventsId[l]).id + "\n" +
+                                                                                GameManager.Instance.EventDataBase.GetEventById(leveldb.listLevels[i].listEventsId[l]).description;*/
                             goEventCard.SetActive(false);
+                            cardChildren.Add(goEventCard);
                         }
                     }
                 }
+
+                GoCardChildren.Add(cardChildren);
             }
         }
     }
@@ -292,6 +299,19 @@ public class MenuManager : MonoBehaviour {
         }
     }
 
+    public List<List<GameObject>> GoCardChildren
+    {
+        get
+        {
+            return goCardChildren;
+        }
+
+        set
+        {
+            goCardChildren = value;
+        }
+    }
+
     public void AddToSelectedKeepers(PawnInstance pi)
     {
         listeSelectedKeepers.Add(pi);
@@ -320,6 +340,7 @@ public class MenuManager : MonoBehaviour {
     {
         AudioManager.Instance.PlayOneShot(AudioManager.Instance.buttonClick, 0.5f);
 
+        GameManager.Instance.AllKeepersList.Clear();
         foreach (PawnInstance ki in ListeSelectedKeepers)
         {
             GameManager.Instance.AllKeepersList.Add(ki);

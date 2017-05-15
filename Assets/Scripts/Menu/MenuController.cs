@@ -11,8 +11,6 @@ public class MenuController : MonoBehaviour {
 
 
 
-    private GameObject levelCardSelected = null;
-
     public Transform trLevelCardTarget;
 
     //public Opener LevelDeck;
@@ -90,52 +88,42 @@ public class MenuController : MonoBehaviour {
     {
 
         CardLevel card = hit.transform.gameObject.GetComponent<CardLevel>();
-        if (card != null && card.gameObject != levelCardSelected)
+        if (card != null)
         {
             AudioManager.Instance.PlayOneShot(AudioManager.Instance.paperSelectSound, 0.5f);
 
 
-            menuManager.CardLevelSelected = card.levelIndex;
-            menuManager.DeckOfCardsSelected = leveldb.GetLevelById(card.levelIndex).deckId;
-
-            GameManager.Instance.ListEventSelected.Clear();
-
-            for (int i = 0; i < leveldb.GetLevelById(card.levelIndex).listEventsId.Count; i++)
+            if  (card.gameObject == menuUI.LevelCardSelected)
             {
-                if (GameManager.Instance.PersistenceLoader.Pd.dicPersistenceEvents[leveldb.GetLevelById(card.levelIndex).listEventsId[i]] == true)
+                menuUI.LevelCardSelected.GetComponent<CardLevel>().IsSelected = false;
+                menuManager.CardLevelSelected = -1;
+                menuManager.DeckOfCardsSelected = string.Empty;
+
+                GameManager.Instance.ListEventSelected.Clear();
+
+            }
+            else
+            {
+
+                menuUI.LevelCardSelected = card.gameObject;
+                menuUI.LevelCardSelected.GetComponent<CardLevel>().IsSelected = true;
+
+                menuManager.CardLevelSelected = card.levelIndex;
+                menuManager.DeckOfCardsSelected = leveldb.GetLevelById(card.levelIndex).deckId;
+
+                GameManager.Instance.ListEventSelected.Clear();
+
+                for (int i = 0; i < leveldb.GetLevelById(card.levelIndex).listEventsId.Count; i++)
                 {
-                    GameManager.Instance.ListEventSelected.Add(leveldb.GetLevelById(card.levelIndex).listEventsId[i]);
+                    if (GameManager.Instance.PersistenceLoader.Pd.dicPersistenceEvents[leveldb.GetLevelById(card.levelIndex).listEventsId[i]] == true)
+                    {
+                        GameManager.Instance.ListEventSelected.Add(leveldb.GetLevelById(card.levelIndex).listEventsId[i]);
+                    }
                 }
+
             }
 
-            //if (levelCardSelected != null)
-            //{
-            //    OpenerContent oc = levelCardSelected.GetComponent<OpenerContent>();
-            //    oc.listKeyPose.Clear();
-            //    oc.AddKeyPose(oc.transform.position, oc.transform.rotation);
-            //    oc.AddKeyPose(oc.transform.position + new Vector3(2, 2, 2), Quaternion.Inverse(oc.transform.rotation));
-            //    oc.bNeedShow = true;
-            //    oc.bKill = true;
-            //}
-
-            //OpenerContent newCard = Instantiate(card, card.transform.position, card.transform.rotation).GetComponent<OpenerContent>();
-           
-            //newCard.Init();
-
-            //newCard.listKeyPose.Clear();
-            //newCard.AddKeyPose(card.transform.position, card.transform.rotation);
-            //newCard.AddKeyPose(trLevelCardTarget.position, trLevelCardTarget.rotation);
-            //newCard.bNeedShow = true;
-
-            //levelCardSelected = newCard.gameObject;
-
-            //newCard.GetComponent<Opener>().Reset();
-
-            //card.GetComponent<Opener>().Fold();
-
-            //GlowController.RegisterObject(newCard.GetComponent<GlowObjectCmd>());
-
-            //menuUI.UpdateCardLevelSelection();
+            menuUI.UpdateDeckSelected();
             menuUI.UpdateStartButton();
             boxOpener.UpdateLockAspect();
         }
@@ -145,7 +133,7 @@ public class MenuController : MonoBehaviour {
     {
         if(menuUI.cardsInfoAreReady && !menuUI.ACardInfoIsShown)
         {
-            menuUI.UpdateDeckSelected();
+            menuUI.UpdateDeckDisplayed();
             foreach (GameObject go in menuManager.GoCardsLevels)
             {
                 if (go.transform.parent == menuManager.GoDeck.transform)
@@ -154,6 +142,25 @@ public class MenuController : MonoBehaviour {
                     go.SetActive(true);
                 }
             }
+
+            foreach (List<GameObject> goChildren in menuManager.GoCardChildren)
+            {
+
+                    foreach (GameObject go in goChildren)
+
+                    {
+                        if (menuUI.LevelCardSelected != go.GetComponentInParent<CardLevel>().gameObject)
+                        {
+
+                            go.SetActive(false);
+
+                            go.transform.localPosition = new Vector3(0.0f, 0f, 0.0f);
+                        }
+                    }
+       
+            }
+
+            //;
         }
     }
 
