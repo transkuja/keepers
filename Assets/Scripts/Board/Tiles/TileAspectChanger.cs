@@ -15,12 +15,16 @@ public class TileAspectChanger : MonoBehaviour {
         
         tileModel.gameObject.SetActive(true);
         transform.GetChild(0).gameObject.SetActive(false);
+        transform.GetChild(1).gameObject.SetActive(false);
+        transform.GetChild(2).gameObject.SetActive(false);
     }
 
     public void SetAsBaseModel()
     {
         tileModel.gameObject.SetActive(false);
         transform.GetChild(0).gameObject.SetActive(true);
+        transform.GetChild(1).gameObject.SetActive(true);
+        transform.GetChild(2).gameObject.SetActive(true);
     }
 
     void UpdateModel()

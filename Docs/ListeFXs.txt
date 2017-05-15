@@ -2,9 +2,11 @@ Liste des FXs à intégrer
 
 - Particules de pas (eau, sable, ...)
 
-- Cristaux		- En cours
-- Ouverture de passage
-- Pont
+- Cristaux		- En cours (manque FX pour montrer que le passage se dévoile ou est activé) 
+- Pont			- En cours
+- End sans Ashley
+- Quête à donner
+- Quête accomplie
 
 Combat:
 - Prendre un coup
