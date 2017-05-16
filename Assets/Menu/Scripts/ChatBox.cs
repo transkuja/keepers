@@ -9,7 +9,7 @@ public class ChatBox : MonoBehaviour {
     {
         unscale = -1,
         idle = 0,
-        scale = 1,
+        scale = 1
     }
 
     public enum ChatMode
@@ -19,6 +19,7 @@ public class ChatBox : MonoBehaviour {
         chosen,
         picked,
         unchosen,
+        whoAmI
     }
 
     RectTransform trBox;
@@ -37,7 +38,7 @@ public class ChatBox : MonoBehaviour {
 
     // Parametres
     public float fShowLength = 3;
-    public float fDelayMin = 1, fDelayMax = 2;
+    public float fDelayMin, fDelayMax;
     public float fScaleSpeed = 10;
 
 	// Use this for initialization
@@ -58,7 +59,8 @@ public class ChatBox : MonoBehaviour {
         tabEmotes[1] = new List<string>();
         tabEmotes[1].Add("Let's go!");
         tabEmotes[1].Add("Yeah!");
-
+        fDelayMin = 5;
+        fDelayMax = 15;
         fTimer = Random.Range(fDelayMin, fDelayMax);
     }
 
@@ -74,6 +76,7 @@ public class ChatBox : MonoBehaviour {
                     {
                         //txt.text = tabEmotes[(int)mode][Random.Range(0, tabEmotes[(int)mode].Count)];
                         txt.text = ChatBoxDatabase.tabEmotes[(int)mode][Random.Range(0, ChatBoxDatabase.tabEmotes[(int)mode].Count)];
+
                         TriggerScale();
                     }
                     else
@@ -110,6 +113,7 @@ public class ChatBox : MonoBehaviour {
     void UpdatePosition()
     {
         trBox.position = Camera.main.WorldToScreenPoint(trTarget.position); /*Camera.main.WorldToScreenPoint(trTarget.position)*/;
+        transform.SetAsFirstSibling();
     }
 
     void UpdateScale()
@@ -184,15 +188,24 @@ public class ChatBox : MonoBehaviour {
 
     }
 
-    public void Say(string message)
-    {
-        txt.text = message;
-        TriggerScale();
-    }
+    //public void Say(string message)
+    //{
+    //    txt.text = message;
+    //    transform.SetAsFirstSibling();
+    //    TriggerScale();
+    //}
 
     public void Say(ChatBox.ChatMode mode)
     {
         txt.text = ChatBoxDatabase.tabEmotes[(int)mode][Random.Range(0, ChatBoxDatabase.tabEmotes[(int)mode].Count)];
+        //transform.SetAsFirstSibling();
+        TriggerScale();
+    }
+
+    public void Say(ChatBox.ChatMode mode , int i)
+    {
+        txt.text = ChatBoxDatabase.tabEmotes[(int)mode][i];
+        //transform.SetAsFirstSibling();
         TriggerScale();
     }
 }

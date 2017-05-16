@@ -2,7 +2,7 @@
   "QuestDecks": [   
     { 
       "id": "deck_01",
-      "name" : "tuto",
+      "name" : "Tutorial",
 	  "level" : "tuto",
       "deckModelName" : "Asset_DeckEvents_01",
       "main" : "main_quest_01",
@@ -17,7 +17,8 @@
 	  "mainQuestCardModel" : "Asset_Carte_MainQuest",
       "secondary" : [ 
         { 
-          "idQuest": "side_quest_01", 
+          "idQuest": "side_quest_01",
+		  "nameQuest" :"Raspberry",
           "idQuestDealer" : "pnj_01",
 		  "cardModelname" : "Asset_Carte_SubQuest_01"
         } 
@@ -53,7 +54,7 @@
 		{
 	 
 		  "idQuest": "side_quest_ducklings_01", 
-	 
+	 		  "nameQuest" :"Ducks",
 		  "idQuestDealer" : "ducky",
 	 
 		  "cardModelname" : "Asset_Carte_SubQuest_02"

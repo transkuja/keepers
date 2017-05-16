@@ -9,6 +9,7 @@ namespace QuestDeckLoader
     public class QuestAssociationDealer
     {
         public string idQuest;
+        public string nameQuest;
         public string idQuestDealer;
         public string cardModelname;
 
@@ -108,6 +109,9 @@ namespace QuestDeckLoader
                                         // SECONDARY QUEST DATA
                                         case "idQuest":
                                             association.idQuest = secondaryQuestId.Value.Str;
+                                            break;
+                                        case "nameQuest" :
+                                            association.nameQuest = secondaryQuestId.Value.Str;
                                             break;
                                         case "idQuestDealer":
                                             association.idQuestDealer = secondaryQuestId.Value.Str;

@@ -46,9 +46,10 @@ public class GameManager : MonoBehaviour
     private Database itemDataBase = new Database();
     private PawnDatabase pawnDataBase = new PawnDatabase();
     private QuestDeckDatabase questDeckDataBase = new QuestDeckDatabase();
-
     private EventDataBase eventDataBase = new EventDataBase();
     private PersistenceLoader persistenceLoader = new PersistenceLoader();
+    public LevelDataBase leveldb;
+
 
     private QuestsContainer questsContainer = new QuestsContainer();
     private QuestSourceContainer questSources;
@@ -86,6 +87,8 @@ public class GameManager : MonoBehaviour
             eventDataBase.Init();
             questDeckDataBase.Init();
             questsContainer.Init();
+            instance.leveldb = new LevelDataBase();
+            ChatBoxDatabase.Load();
         }
 
         else if (instance != this)
@@ -153,7 +156,7 @@ public class GameManager : MonoBehaviour
 
     public void ResetInstance()
     {
-        if( SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Menu"))
+        if( SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Menu new"))
         {
             instance.listOfSelectedKeepers.Clear();
 

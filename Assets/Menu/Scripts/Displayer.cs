@@ -4,209 +4,93 @@ using UnityEngine;
 
 public class Displayer : MonoBehaviour {
 
-    //bool bIsOver = false;
-    bool bIsShown = false;
-    bool bIsMoving = false;
-    float fLerp = 0;
-
-    Vector3 v3StartPos, v3TargetPos;
-    Quaternion quatStart, quatTarget;
-
-    [HideInInspector] public Opener openerParent;
-    [HideInInspector] public List<Displayer> listDisplayerSiblings;
-
-    [SerializeField] LayerMask maskToCheck;
-    [SerializeField] Transform trShowspot;
-
-    public float fShowDelay = 1;
-    public float fSpeed = 1;
-    public int mouseButton = 1;
+    public MenuUI menuUI;
+    public MenuManager menuManager;
 
 
-	// Use this for initialization
-	void Start () {
-        Init();
-	}
-	
-    public void Init()
+    private bool needToBeShown = false;
+    private bool isShown = false;
+
+    public void Start()
     {
-        v3StartPos = transform.position;
-        quatStart = transform.rotation;
-
-        v3TargetPos = trShowspot.position;
-        quatTarget = trShowspot.rotation;
-
-        if (transform.parent != null)
-        {
-            openerParent = GetComponentInParent<Opener>();
-        }
-
-        /*listDisplayerSiblings = new List<Displayer>();
-        for(int i = 0; i< transform.parent.childCount; i++)
-        {
-            Displayer newDisplayer = transform.parent.GetChild(i).GetComponent<Displayer>();
-            if(newDisplayer != null && newDisplayer != this)
-            {
-                listDisplayerSiblings.Add(newDisplayer);
-            }
-        }*/
-
-        LoadSiblings();
+        menuUI = GameObject.FindObjectOfType<MenuUI>();
+        menuManager = GameObject.FindObjectOfType<MenuManager>();
     }
 
-    public void LoadSiblings()
+    public bool NeedToBeShown
     {
-        /*Displayer[] tabDisplayers = GameObject.FindObjectsOfType<Displayer>();
-        for (int i = 0; i < tabDisplayers.Length; i++)
+        get
         {
-            if (tabDisplayers[i].gameObject != gameObject)
-            {
-                listDisplayerSiblings.Add(tabDisplayers[i]);
-            }
-        }*/
+            return needToBeShown;
+        }
 
-        listDisplayerSiblings = new List<Displayer>();
-
-        if (transform.parent != null)
+        set
         {
-            Displayer displayerTemp;
-            for (int i = 0; i < transform.parent.childCount; i++)
+            needToBeShown = value;       
+        }
+    }
+
+    public bool IsShown
+    {
+        get
+        {
+            return isShown;
+        }
+
+        set
+        {
+            isShown = value;
+        }
+    }
+
+    //void OnMouseEnter()
+    //{
+    //    if (!NeedToBeShown && !menuUI.IsACardInfoMovingForShowing && menuUI.cardsInfoAreReady && !menumanager.GoDeck.GetComponent<Deck>().IsOpen)
+    //    {
+    //        NeedToBeShown = true;
+    //        isShown = true;
+    //        menuUI.IsACardInfoMovingForShowing = true;
+
+    //    }
+    //}
+
+
+    //void OnMouseExit()
+    //{
+
+    //    if (menuUI.ACardIsShown && !menuUI.IsACardInfoMovingForShowing && menuUI.cardsInfoAreReady && !menumanager.GoDeck.GetComponent<Deck>().IsOpen)
+    //    {
+    //        NeedToBeShown = false;
+
+    //        menuUI.IsACardInfoMovingForShowing = true;
+    //    }
+    //}
+
+    private void OnMouseOver()
+    {
+        if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
+        {
+            if (menuManager.CardLevelSelected == -1)
             {
-                displayerTemp = transform.parent.GetChild(i).gameObject.GetComponent<Displayer>();
-                if (displayerTemp != null && displayerTemp != this)
+                menuManager.GoDeck.GetComponent<GlowObjectCmd>().ActivateBlinkBehaviour(true);
+                menuManager.GoDeck.GetComponent<GlowObjectCmd>().enabled = true;
+            } else
+            {
+                if (!NeedToBeShown && !menuUI.ACardInfoIsShown && !menuUI.IsACardInfoMovingForShowing && menuUI.cardsInfoAreReady && !menuManager.GoDeck.GetComponent<Deck>().IsOpen)
                 {
-                    listDisplayerSiblings.Add(displayerTemp);
+                    NeedToBeShown = true;
+                    isShown = true;
+                    menuUI.IsACardInfoMovingForShowing = true;
+
+                }
+                else if (menuUI.ACardInfoIsShown)
+                {
+                    NeedToBeShown = false;
+
+                    menuUI.IsACardInfoMovingForShowing = true;
                 }
             }
-        }
-    }
-
-	// Update is called once per frame
-	void Update () {
-		if(bIsShown)
-        {
-            UpdateShow();
-            
-            if (Input.GetMouseButtonDown((mouseButton == 0)? 1:0))
-            {
-                Hide();
-            }
-        }
-
-        if (bIsMoving)
-        {
-            UpdatePosition();
-        }
-	}
-
-    void OnMouseOver()
-    {
-        if (Input.GetMouseButtonDown(mouseButton))
-        {
-            if (bIsShown)
-            {
-                Hide();
-            }
-            else
-            {
-                Show();
-            }
-        }
-    }
-
-    void UpdateShow()
-    {
-        if (Input.GetMouseButtonDown(0) && bIsShown)
-        {
-            RaycastHit hit;
-            Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, maskToCheck);
-            if(hit.transform == null){
-                Hide();
-                if(openerParent != null)
-                {
-                    openerParent.bDontClose = false;
-                }
-            }
-        }
-    }
-
-    void Show()
-    {
-        if (openerParent != null)
-        {
-            openerParent.bDontClose = true;
-        }
-        else
-        {
-            GameObject.FindObjectOfType<MenuManagerQ>().SetActiveChatBoxes(false);
-        }
-
-        if (bIsMoving && !bIsShown)
-        {
-            fLerp = 1 - fLerp;
-        }
-
-        HideSiblings();
-
-        bIsShown = true;
-        bIsMoving = true;
-    }
-
-    public void Hide()
-    {
-        if (bIsShown)
-        {
-            if (bIsMoving)
-            {
-                fLerp = 1 - fLerp;
-            }
-            else
-            {
-                fLerp = 1;
-            }
-        }
-
-        bIsShown = false;
-        bIsMoving = true;
-
-        if(openerParent == null)
-        {
-            GameObject.FindObjectOfType<MenuManagerQ>().SetActiveChatBoxes(true);
-        }
-    }
-
-    void UpdatePosition()
-    {
-        if (bIsShown)
-        {
-            fLerp += Time.unscaledDeltaTime * fSpeed;
-
-            if(fLerp > 1)
-            {
-                fLerp = 1;
-                bIsMoving = false;
-            }
-        }
-        else
-        {
-            fLerp -= Time.unscaledDeltaTime * fSpeed;
-
-            if (fLerp < 0)
-            {
-                fLerp = 0;
-                bIsMoving = false;
-            }
-        }
-
-        transform.position = Vector3.Lerp(v3StartPos, v3TargetPos, fLerp);
-        transform.rotation = Quaternion.Lerp(quatStart, quatTarget, fLerp);
-    }
-
-    public void HideSiblings()
-    {
-        for (int i = 0; i< listDisplayerSiblings.Count; i++)
-        {
-            listDisplayerSiblings[i].Hide();
+     
         }
     }
 }
