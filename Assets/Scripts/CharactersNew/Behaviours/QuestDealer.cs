@@ -155,10 +155,10 @@ namespace Behaviour
                 && !GameManager.Instance.GetFirstSelectedKeeper().Data.Behaviours[(int)BehavioursEnum.CanSpeak])
             {
                 goQuest.transform.GetChild(goQuest.transform.childCount - 2).GetComponentInChildren<Text>().text =
-                    "Quack? Quack! Quack quack quack.\n-Woof? Waf woof waf!\n-Quack ! *Lupus and the mommy duck start to dance happily* ";
+                    "Quack? Quack! Quack quack quack.\n-Woof? Waf woof waf!\n-Quack !\n*Lupus and the mommy duck start to dance happily* ";
+                AudioManager.Instance.PlayDuckChatting();
             }
             goQuest.SetActive(true);
-            AudioManager.Instance.PlayDuckChatting();
             GameManager.Instance.CurrentState = GameState.InPause;
         }
         void CloseBox()

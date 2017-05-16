@@ -71,7 +71,16 @@ public class EventManager : MonoBehaviour {
                     pi.GetComponent<MentalHealthHandler>().CurrentMentalHealth -= 5;
 
                 if (pi.CurrentTile != null && TileManager.Instance.MonstersOnTile != null && TileManager.Instance.MonstersOnTile.ContainsKey(pi.CurrentTile) && TileManager.Instance.MonstersOnTile[pi.CurrentTile].Count > 0)
-                    pi.GetComponent<MentalHealthHandler>().CurrentMentalHealth -= 5;
+                {
+                    int goodMonsters = 0;
+                    foreach (PawnInstance monstersButNotReally in TileManager.Instance.MonstersOnTile[pi.CurrentTile])
+                    {
+                        if (monstersButNotReally.GetComponent<QuestDealer>() != null)
+                            goodMonsters++;
+                    }
+                    if (goodMonsters != TileManager.Instance.MonstersOnTile[pi.CurrentTile].Count)
+                        pi.GetComponent<MentalHealthHandler>().CurrentMentalHealth -= 5;
+                }
 
                 int moodMultiplier = 1;
                 if (pi.Data.Behaviours[(int)BehavioursEnum.Gaga])
