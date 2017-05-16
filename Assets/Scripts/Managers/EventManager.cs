@@ -26,6 +26,8 @@ public class EventManager : MonoBehaviour {
 
     private static float weatherFrequency = 50.0f;
 
+    public static int hungerPenalty = 25;
+
     //private static short actionPointsResetValue = 3;
 
     public static void EndTurnEvent()
@@ -153,8 +155,11 @@ public class EventManager : MonoBehaviour {
     {
         foreach (PawnInstance ki in GameManager.Instance.AllKeepersList)
         {
-            if (ki.GetComponent<Mortal>().IsAlive && ki.GetComponent<HungerHandler>().IsStarving)
-                ki.GetComponent<Mortal>().CurrentHp -= 20;
+            if (ki.GetComponent<Mortal>().IsAlive && ki.GetComponent<HungerHandler>().IsStarving && !ki.GetComponent<HungerHandler>().HasTakenHungerPenaltyThisTurn)
+            {
+                ki.GetComponent<Mortal>().CurrentHp -= hungerPenalty;
+                ki.GetComponent<HungerHandler>().HasTakenHungerPenaltyThisTurn = false;
+            }
         }
 
         if (GameManager.Instance.PrisonerInstance.GetComponent<Mortal>().IsAlive && GameManager.Instance.PrisonerInstance.GetComponent<HungerHandler>() != null && GameManager.Instance.PrisonerInstance.GetComponent<HungerHandler>().IsStarving)

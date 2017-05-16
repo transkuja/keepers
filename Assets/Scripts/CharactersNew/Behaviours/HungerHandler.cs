@@ -49,6 +49,8 @@ namespace Behaviour
         private Color yellow;
         private Color red;
 
+        bool hasTakenHungerPenaltyThisTurn = false;
+
         void Awake()
         {
             instance = GetComponent<PawnInstance>();
@@ -205,6 +207,14 @@ namespace Behaviour
             set
             {
                 isStarving = value;
+                if (isStarving)
+                {
+                    if (!hasTakenHungerPenaltyThisTurn)
+                    {
+                        GetComponent<Mortal>().CurrentHp -= 25;
+                        hasTakenHungerPenaltyThisTurn = true;
+                    }
+                }
             }
         }
 
@@ -231,6 +241,19 @@ namespace Behaviour
             set
             {
                 shortcutHungerUI = value;
+            }
+        }
+
+        public bool HasTakenHungerPenaltyThisTurn
+        {
+            get
+            {
+                return hasTakenHungerPenaltyThisTurn;
+            }
+
+            set
+            {
+                hasTakenHungerPenaltyThisTurn = value;
             }
         }
     }
