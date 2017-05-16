@@ -1,32 +1,37 @@
 fileFormatVersion: 2
-guid: cba30bcf1fbb5bd4b8c8c635011f5979
-timeCreated: 1494918108
+guid: ff33b7b6d03c6ce4b857cfbf1f710712
+timeCreated: 1494918111
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
     100000: //RootNode
-    100002: staff
-    100004: STP_body
-    100006: STP_heart
-    100008: Swag_Stand
+    100002: Kitties_stand
+    100004: LeftBell
+    100006: Lkitty_body
+    100008: RightBell
+    100010: Rkitty_body
     400000: //RootNode
-    400002: staff
-    400004: STP_body
-    400006: STP_heart
-    400008: Swag_Stand
-    2300000: staff
-    2300002: STP_body
-    2300004: STP_heart
-    2300006: Swag_Stand
-    3300000: staff
-    3300002: STP_body
-    3300004: STP_heart
-    3300006: Swag_Stand
-    4300000: STP_body
-    4300002: STP_heart
-    4300004: Swag_Stand
-    4300006: staff
+    400002: Kitties_stand
+    400004: LeftBell
+    400006: Lkitty_body
+    400008: RightBell
+    400010: Rkitty_body
+    2300000: Kitties_stand
+    2300002: LeftBell
+    2300004: Lkitty_body
+    2300006: RightBell
+    2300008: Rkitty_body
+    3300000: Kitties_stand
+    3300002: LeftBell
+    3300004: Lkitty_body
+    3300006: RightBell
+    3300008: Rkitty_body
+    4300000: Lkitty_body
+    4300002: LeftBell
+    4300004: Rkitty_body
+    4300006: RightBell
+    4300008: Kitties_stand
     9500000: //RootNode
   materials:
     importMaterials: 1
