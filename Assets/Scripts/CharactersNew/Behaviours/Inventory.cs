@@ -171,7 +171,7 @@ namespace Behaviour
                 LootInstance lootInstance = GetComponent<LootInstance>();
 
                 associatedSprite = GameManager.Instance.SpriteUtils.spriteLoot;
-                inventoryPanel.transform.GetChild(0).gameObject.SetActive(false);
+                inventoryPanel.transform.GetChild(1).gameObject.SetActive(false);
                 owner = lootInstance.gameObject;
                 nbSlot = data.NbSlot;
             }
@@ -180,14 +180,14 @@ namespace Behaviour
                 return;
             }
 
-            inventoryPanel.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = associatedSprite;
-            inventoryPanel.transform.GetChild(1).GetComponent<InventoryOwner>().Owner = owner;
+            inventoryPanel.transform.GetChild(1).GetChild(0).GetComponent<Image>().sprite = associatedSprite;
+            inventoryPanel.transform.GetChild(0).GetComponent<InventoryOwner>().Owner = owner;
 
             for (int i = 0; i < nbSlot; i++)
             {
                 //Create Slots
                 GameObject currentgoSlotPanel = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabSlotUI, Vector3.zero, Quaternion.identity) as GameObject;
-                currentgoSlotPanel.transform.SetParent(inventoryPanel.transform.GetChild(1).transform);
+                currentgoSlotPanel.transform.SetParent(inventoryPanel.transform.GetChild(0).transform);
 
                 currentgoSlotPanel.transform.localPosition = Vector3.zero;
                 currentgoSlotPanel.transform.localScale = Vector3.one;
@@ -262,7 +262,7 @@ namespace Behaviour
 
             for (int i = 0; i < items.Length; i++)
             {
-                GameObject currentSlot = inventoryPanel.transform.GetChild(1).GetChild(i).gameObject;
+                GameObject currentSlot = inventoryPanel.transform.GetChild(0).GetChild(i).gameObject;
                 if (currentSlot.GetComponentInChildren<ItemInstance>() != null)
                 {
                     Destroy(currentSlot.GetComponentInChildren<ItemInstance>().gameObject);
@@ -274,7 +274,7 @@ namespace Behaviour
                 if (items[i] != null && items[i].Item != null && items[i].Item.Id != null)
                 {
         
-                    GameObject currentSlot = inventoryPanel.transform.GetChild(1).GetChild(i).gameObject;
+                    GameObject currentSlot = inventoryPanel.transform.GetChild(0).GetChild(i).gameObject;
                     GameObject go = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabItemUI);
                     go.transform.SetParent(currentSlot.transform);
                     go.GetComponent<ItemInstance>().ItemContainer = items[i];
