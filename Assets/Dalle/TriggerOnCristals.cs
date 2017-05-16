@@ -6,6 +6,8 @@ public class TriggerOnCristals : MonoBehaviour {
     [SerializeField]
     private bool triggerActif;
 
+    private List<Keeper> currentlyInTrigger;
+
     private bool bCompleted = false;
 
     public TriggerOnCristals monCopain;
@@ -92,6 +94,7 @@ public class TriggerOnCristals : MonoBehaviour {
 
     public void Start()
     {
+        currentlyInTrigger = new List<Keeper>();
         mat = new List<Material>();
         foreach(MeshRenderer mr in GetComponentsInChildren<MeshRenderer>())
             mat.Add(mr.material);
@@ -104,7 +107,8 @@ public class TriggerOnCristals : MonoBehaviour {
 	public void OnTriggerEnter(Collider col){
         if (col.GetComponentInParent<Keeper>() != null)
         {
-            if(!TriggerActif)
+            currentlyInTrigger.Add(col.GetComponentInParent<Keeper>());
+            if (!TriggerActif)
             {
                 AudioManager.Instance.PlayOneShot(AudioManager.Instance.crystalOnSound, 0.5f);
                 TriggerActif = true;
@@ -116,7 +120,9 @@ public class TriggerOnCristals : MonoBehaviour {
     {
         if (col.GetComponentInParent<Keeper>() != null)
         {
-            TriggerActif = false;
+            currentlyInTrigger.Remove(col.GetComponentInParent<Keeper>());
+            if(currentlyInTrigger.Count <= 0)
+                TriggerActif = false;
         }
     }
 

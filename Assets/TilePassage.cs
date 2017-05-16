@@ -99,14 +99,15 @@ public class TilePassage : MonoBehaviour {
         {
             gameObject.SetActive(false);
         }
-        else if(parentTile.Neighbors[(int)dir].State == TileState.Discovered && parentTile.State == TileState.Discovered)
-        {
-            Status = PassageStatus.On;
-        }
-        else
-        {
-            Status = PassageStatus.Off;
-        }
+        else if(status != PassageStatus.Disabled && parentTile.Neighbors[(int)dir].GetPassage(Utils.GetOppositeDirection(dir)).status != PassageStatus.Disabled)
+            if (parentTile.Neighbors[(int)dir].State == TileState.Discovered && parentTile.State == TileState.Discovered)
+            {
+                Status = PassageStatus.On;
+            }
+            else
+            {
+                Status = PassageStatus.Off;
+            }
     }
 
 
