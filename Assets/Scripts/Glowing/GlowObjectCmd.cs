@@ -22,7 +22,20 @@ public class GlowObjectCmd : MonoBehaviour
 		get { return _currentColor; }
 	}
 
-	private Color _currentColor;
+    public bool IsBlinking
+    {
+        get
+        {
+            return isBlinking;
+        }
+
+        set
+        {
+            isBlinking = value;
+        }
+    }
+
+    private Color _currentColor;
 	private Color _targetColor;
 
 	void Start()

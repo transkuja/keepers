@@ -19,12 +19,15 @@ public class Deck : MonoBehaviour {
         }
     }
 
+
     public void OnMouseOver()
 
     {
-
-        GetComponent<GlowObjectCmd>().ActivateBlinkBehaviour(false);
-
+        if (GetComponent<GlowObjectCmd>().IsBlinking)
+        {
+            GetComponent<GlowObjectCmd>().ActivateBlinkBehaviour(false);
+            GetComponent<GlowObjectCmd>().UpdateColor(true);
+        }
     }
 
 }

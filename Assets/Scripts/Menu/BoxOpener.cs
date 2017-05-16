@@ -100,6 +100,9 @@ public class BoxOpener : MonoBehaviour {
         isBoxOpen = false;
         menuManager = GetComponent<MenuManager>();
         menuUi = GetComponent<MenuUI>();
+
+        boxLock.GetComponent<GlowObjectCmd>().ActivateBlinkBehaviour(true);
+        boxLock.GetComponent<GlowObjectCmd>().enabled = true;
     }
 
     public void BoxControls()
@@ -140,9 +143,10 @@ public class BoxOpener : MonoBehaviour {
                     GlowController.UnregisterObject(menuManager.GoCardsInfo[i].GetComponentInChildren<GlowObjectCmd>());
                 }
             }
-
+            boxLock.GetComponent<GlowObjectCmd>().ActivateBlinkBehaviour(!isBoxOpen);
             UpdateLockAspect();
         }
+
     }
 
     public void UpdateLockAspect()

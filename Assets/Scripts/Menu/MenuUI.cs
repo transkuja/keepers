@@ -182,6 +182,20 @@ public class MenuUI : MonoBehaviour {
             isACardMoving = value;
         }
     }
+
+    public bool ACardInfoIsReady
+    {
+        get
+        {
+            return aCardInfoIsReady;
+        }
+
+        set
+        {
+            aCardInfoIsReady = value;
+        }
+    }
+
     void Start()
     {
         menuManager = GetComponent<MenuManager>();

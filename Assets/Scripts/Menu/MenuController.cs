@@ -172,7 +172,7 @@ public class MenuController : MonoBehaviour {
     public void KeeperSelectionControls(GameObject hit)
     {
         PawnInstance pi = hit.transform.gameObject.GetComponent<PawnInstance>();
-        if (pi != null &&menuUI.cardsInfoAreReady && !menuManager.GoDeck.GetComponent<Deck>().IsOpen && menuManager.CardLevelSelected !=-1)
+        if (pi != null &&  menuUI.cardsInfoAreReady && !menuManager.GoDeck.GetComponent<Deck>().IsOpen)
         {
             if (menuManager.ContainsSelectedKeepers(pi)) // REMOVE
             {
@@ -184,25 +184,38 @@ public class MenuController : MonoBehaviour {
                     menuManager.DicPawnChatBox[pi.gameObject].SetMode(ChatBox.ChatMode.awaiting);
                     menuManager.DicPawnChatBox[pi.gameObject].Say(ChatBox.ChatMode.unchosen);
                 }
+
+
+                menuUI.UpdateKeepers(pi, hit.transform.parent);
+                pi.transform.SetParent(null);
+
+                boxOpener.UpdateLockAspect();
             }
             else    // ADD
             {
-                AudioManager.Instance.PlayOneShot(AudioManager.Instance.selectSound, 0.25f);
-                //pi.GetComponent<OpenerContent>().Show();
-
-                menuManager.AddToSelectedKeepers(pi);
-                if( menuManager.GoDeck.GetComponent<Deck>() != null && !menuManager.GoDeck.GetComponent<Deck>().IsOpen)
+                Debug.Log(menuManager.CardLevelSelected);
+                if(menuManager.CardLevelSelected != -1)
                 {
-                    menuManager.DicPawnChatBox[pi.gameObject].SetMode(ChatBox.ChatMode.picked);
-                    menuManager.DicPawnChatBox[pi.gameObject].Say(ChatBox.ChatMode.chosen);
+                    AudioManager.Instance.PlayOneShot(AudioManager.Instance.selectSound, 0.25f);
+                    //pi.GetComponent<OpenerContent>().Show();
+
+                    menuManager.AddToSelectedKeepers(pi);
+                    if (menuManager.GoDeck.GetComponent<Deck>() != null && !menuManager.GoDeck.GetComponent<Deck>().IsOpen)
+                    {
+                        menuManager.DicPawnChatBox[pi.gameObject].SetMode(ChatBox.ChatMode.picked);
+                        menuManager.DicPawnChatBox[pi.gameObject].Say(ChatBox.ChatMode.chosen);
+                    }
+
+
+                    menuUI.UpdateKeepers(pi, hit.transform.parent);
+                    pi.transform.SetParent(null);
+
+                    boxOpener.UpdateLockAspect();
                 }
+     
 
             }
 
-            menuUI.UpdateKeepers(pi, hit.transform.parent);
-            pi.transform.SetParent(null);
-
-            boxOpener.UpdateLockAspect();
         } else if (menuManager.CardLevelSelected == -1) { 
             menuManager.GoDeck.GetComponent<GlowObjectCmd>().ActivateBlinkBehaviour(true);
 
