@@ -9,6 +9,8 @@ public class MonstersBattleSkillsSelection  {
     enum DuckySkills { NormalCoin, CoinCoin, StrongCoin, WeakCoin };
     enum BirdSkills { Nosedive, WingsOfFury };
 
+    bool arrivedInNewTierThisTurn = false;
+
     public SkillDecisionAlgo GetDecisionAlgorithm(string pawnId)
     {
         switch (pawnId)
@@ -46,8 +48,11 @@ public class MonstersBattleSkillsSelection  {
         // si CurrentHp < 20%
         if (mortal.CurrentHp < mortal.Data.MaxHp / 5.0f)
         {
-            if (BattleHandler.NbTurn % 5 == 1)
+            if (!arrivedInNewTierThisTurn)
+            {
+                arrivedInNewTierThisTurn = true;
                 return skills[(int)DuckySkills.StrongCoin];
+            }
 
             return skills[(int)DuckySkills.CoinCoin];
         }
