@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class DebugControls : MonoBehaviour {
 
-    bool isDebugModeActive = false;
+    public static bool isDebugModeActive = false;
     bool isUnlimitedActionPointsModeActive = false;
     bool isMapUncovered = false;
 
@@ -137,7 +137,7 @@ public class DebugControls : MonoBehaviour {
             }
 
             // Decrease food
-            if (Input.GetKey(KeyCode.Alpha2))
+            if (Input.GetKey(KeyCode.Alpha2) && !Input.GetKey(KeyCode.CapsLock))
             {
                 if (GameManager.Instance.CurrentState == GameState.InBattle)
                 {
@@ -177,6 +177,14 @@ public class DebugControls : MonoBehaviour {
             // Decrease HP
             if (Input.GetKey(KeyCode.Alpha4))
             {
+                if (Input.GetKey(KeyCode.LeftShift))
+                    GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Mortal>().CurrentHp++;
+                else
+                    GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Mortal>().CurrentHp--;
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha5))
+            {
                 if (GameManager.Instance.CurrentState == GameState.InBattle)
                 {
                     if (Input.GetKey(KeyCode.LeftShift))
@@ -187,26 +195,25 @@ public class DebugControls : MonoBehaviour {
                 else
                 {
                     if (Input.GetKey(KeyCode.LeftShift))
-                        GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Mortal>().CurrentHp++;
+                        GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Keeper>().ActionPoints++;
                     else
-                        GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Mortal>().CurrentHp--;
+                        GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Keeper>().ActionPoints--;
                 }
-            }
-
-            if (Input.GetKeyDown(KeyCode.Alpha5))
-            {
-                if (Input.GetKey(KeyCode.LeftShift))
-                    GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Keeper>().ActionPoints++;
-                else
-                    GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Keeper>().ActionPoints--;
             }
 
             // Pop a monster
             if (Input.GetKeyDown(KeyCode.Alpha7))
             {
-                Instantiate(monsterToPopPrefab,
-                GameManager.Instance.GetFirstSelectedKeeper().CurrentTile.transform.position,
-                Quaternion.identity, GameManager.Instance.GetFirstSelectedKeeper().CurrentTile.transform);
+                if (GameManager.Instance.CurrentState == GameState.InBattle)
+                {
+                    GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().EscapeBattle();
+                }
+                else
+                {
+                    Instantiate(monsterToPopPrefab,
+                        GameManager.Instance.GetFirstSelectedKeeper().CurrentTile.transform.position,
+                        Quaternion.identity, GameManager.Instance.GetFirstSelectedKeeper().CurrentTile.transform);
+                }
             }
 
             // Pop an item on the ground
