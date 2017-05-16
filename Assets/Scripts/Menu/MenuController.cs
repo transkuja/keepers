@@ -101,11 +101,13 @@ public class MenuController : MonoBehaviour {
 
                 GameManager.Instance.ListEventSelected.Clear();
                 menuManager.SetActiveChatBoxes(false);
+                menuUI.previousCardSelected = null;
             }
             else
             {
-
+                menuUI.previousCardSelected = menuUI.LevelCardSelected;
                 menuUI.LevelCardSelected = card.gameObject;
+
                 menuUI.LevelCardSelected.GetComponent<CardLevel>().IsSelected = true;
 
                 menuManager.CardLevelSelected = card.levelIndex;
@@ -121,7 +123,9 @@ public class MenuController : MonoBehaviour {
                     }
                 }
                 menuManager.SetActiveChatBoxes(true);
+                menuUI.IsACardMoving = true;
             }
+
 
             menuUI.UpdateDeckSelected();
             menuUI.UpdateStartButton();

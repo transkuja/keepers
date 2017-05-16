@@ -87,8 +87,10 @@ public class MenuUI : MonoBehaviour {
     private float fLerp = 0.0f;
 
     // CardSelectd
-    private bool aCardLevelSelectedIsMoving;
+    public bool aCardLevelSelectedIsMoving;
     private int indexCardSelected = 0;
+    public float carLevelSelectedfLerp;
+    public GameObject previousCardSelected;
 
     public bool ACardIsShown
     {
@@ -430,10 +432,31 @@ public class MenuUI : MonoBehaviour {
             }
             else
             {
-                if (menuManager.GoCardsLevels[i] != LevelCardSelected)
+                if (menuManager.GoCardsLevels[i] != LevelCardSelected  && menuManager.GoCardsLevels[i] != previousCardSelected)
                 {
                     menuManager.GoCardsLevels[i].transform.position = Vector3.Lerp(whereTheCardiS[i], levelCardKeyPoses[i][levelCardKeyPoses[i].Count - (index) - 1].v3Pos, carLevelfLerp);
                     menuManager.GoCardsLevels[i].transform.rotation = Quaternion.Lerp(whereTheCardiSrotation[i], levelCardKeyPoses[i][levelCardKeyPoses[i].Count - (index) - 1].quatRot, carLevelfLerp);
+                } else
+                {
+
+                    if (previousCardSelected != null && menuManager.GoCardsLevels[i] == previousCardSelected && previousCardSelected.GetComponent<CardLevel>().IsSelected)
+                    {
+                        if (hasReachStepTwo)
+                        {
+                            previousCardSelected.transform.position = Vector3.Lerp(levelCardKeyPoses[0][1].v3Pos, levelCardKeyPoses[0][0].v3Pos, carLevelfLerp);
+                            previousCardSelected.transform.rotation = Quaternion.Lerp(levelCardKeyPoses[0][1].quatRot, levelCardKeyPoses[0][0].quatRot, carLevelfLerp);
+                        }
+                        else if (hasReachStepOne)
+                        {
+                            previousCardSelected.transform.position = Vector3.Lerp(levelCardSelectedPosition2.position, levelCardKeyPoses[0][1].v3Pos, carLevelfLerp);
+                            previousCardSelected.transform.rotation = Quaternion.Lerp(levelCardSelectedPosition2.rotation, levelCardKeyPoses[0][1].quatRot, carLevelfLerp);
+                        }
+                        else
+                        {
+                            previousCardSelected.transform.position = Vector3.Lerp(levelCardSelectedPosition.position, levelCardSelectedPosition2.position, carLevelfLerp);
+                            previousCardSelected.transform.rotation = Quaternion.Lerp(levelCardSelectedPosition.rotation, levelCardSelectedPosition2.rotation, carLevelfLerp);
+                        }
+                    }
                 }
             }
         }
@@ -600,13 +623,13 @@ public class MenuUI : MonoBehaviour {
             if (menuManager.GoCardsInfo[i].GetComponentInChildren<Displayer>().NeedToBeShown)
             {
 
-                menuManager.GoCardsInfo[i].transform.position = Vector3.Lerp(levelCardInfoKeyPoses[i][levelCardInfoKeyPoses[i].Count - 1].v3Pos, cameraWhere.transform.position, cardInfoShownfLerp);
+                menuManager.GoCardsInfo[i].transform.position = Vector3.Lerp(levelCardInfoKeyPoses[i][levelCardInfoKeyPoses[i].Count - 1].v3Pos, cameraWhere.transform.position + new Vector3(0,0.5f, -0.2f), cardInfoShownfLerp);
                 menuManager.GoCardsInfo[i].transform.rotation = Quaternion.Lerp(levelCardInfoKeyPoses[i][levelCardInfoKeyPoses[i].Count-1].quatRot, cameraWhere.transform.rotation, cardInfoShownfLerp);
             }
             else if (ACardInfoIsShown)
             {
                 if (menuManager.GoCardsInfo[i].GetComponentInChildren<Displayer>().IsShown) { 
-                    menuManager.GoCardsInfo[i].transform.position = Vector3.Lerp(cameraWhere.transform.position, levelCardInfoKeyPoses[i][levelCardInfoKeyPoses[i].Count - 1].v3Pos, cardInfoShownfLerp);
+                    menuManager.GoCardsInfo[i].transform.position = Vector3.Lerp(cameraWhere.transform.position + new Vector3(0, 0.5f, -0.2f), levelCardInfoKeyPoses[i][levelCardInfoKeyPoses[i].Count - 1].v3Pos, cardInfoShownfLerp);
                     menuManager.GoCardsInfo[i].transform.rotation = Quaternion.Lerp(cameraWhere.transform.rotation, levelCardInfoKeyPoses[i][levelCardInfoKeyPoses[i].Count - 1].quatRot, cardInfoShownfLerp);
                 }
             }
@@ -654,7 +677,7 @@ public class MenuUI : MonoBehaviour {
 
     public void UpdateCardLevelSelectedPosition()
     {
-        if (carLevelfLerp == 0 && !levelCardSelected.GetComponent<CardLevel>().IsSelected && indexCardSelected == 0)
+        if (carLevelSelectedfLerp == 0 && !levelCardSelected.GetComponent<CardLevel>().IsSelected && indexCardSelected == 0)
         {
             GlowController.UnregisterObject(levelCardSelected.GetComponent<GlowObjectCmd>());
             for (int i = 0; i < menuManager.GoCardChildren.Count; i++)
@@ -670,40 +693,40 @@ public class MenuUI : MonoBehaviour {
 
 
 
-        carLevelfLerp += Time.unscaledDeltaTime * 4f;
+        carLevelSelectedfLerp += Time.unscaledDeltaTime * 4f;
 
 
-        if (carLevelfLerp > 1)
+        if (carLevelSelectedfLerp > 1)
         {
-            carLevelfLerp = 1;
+            carLevelSelectedfLerp = 1;
         }
-
 
         if (levelCardSelected.GetComponent<CardLevel>().IsSelected)
         {
-            levelCardSelected.transform.position = Vector3.Lerp(cameraWhere.position, levelCardSelectedPosition.position, carLevelfLerp);
-            levelCardSelected.transform.rotation = Quaternion.Lerp(cameraWhere.rotation, levelCardSelectedPosition.rotation, carLevelfLerp);
+            levelCardSelected.transform.position = Vector3.Lerp(cameraWhere.position, levelCardSelectedPosition.position, carLevelSelectedfLerp);
+            levelCardSelected.transform.rotation = Quaternion.Lerp(cameraWhere.rotation, levelCardSelectedPosition.rotation, carLevelSelectedfLerp);
         }
-        else if (!levelCardSelected.GetComponent<CardLevel>().IsSelected)
+        else
         {
             if (indexCardSelected == 2)
             {
-                levelCardSelected.transform.position = Vector3.Lerp(levelCardKeyPoses[0][1].v3Pos, levelCardKeyPoses[0][0].v3Pos, carLevelfLerp);
-                levelCardSelected.transform.rotation = Quaternion.Lerp(levelCardKeyPoses[0][1].quatRot, levelCardKeyPoses[0][0].quatRot, carLevelfLerp);
+                levelCardSelected.transform.position = Vector3.Lerp(levelCardKeyPoses[0][1].v3Pos, levelCardKeyPoses[0][0].v3Pos, carLevelSelectedfLerp);
+                levelCardSelected.transform.rotation = Quaternion.Lerp(levelCardKeyPoses[0][1].quatRot, levelCardKeyPoses[0][0].quatRot, carLevelSelectedfLerp);
             }
             else if (indexCardSelected == 1)
             {
-                levelCardSelected.transform.position = Vector3.Lerp(levelCardSelectedPosition2.position, levelCardKeyPoses[0][1].v3Pos, carLevelfLerp);
-                levelCardSelected.transform.rotation = Quaternion.Lerp(levelCardSelectedPosition2.rotation, levelCardKeyPoses[0][1].quatRot, carLevelfLerp);
-            } else
-            {
-                levelCardSelected.transform.position = Vector3.Lerp(levelCardSelectedPosition.position, levelCardSelectedPosition2.position, carLevelfLerp);
-                levelCardSelected.transform.rotation = Quaternion.Lerp(levelCardSelectedPosition.rotation, levelCardSelectedPosition2.rotation, carLevelfLerp);
+                levelCardSelected.transform.position = Vector3.Lerp(levelCardSelectedPosition2.position, levelCardKeyPoses[0][1].v3Pos, carLevelSelectedfLerp);
+                levelCardSelected.transform.rotation = Quaternion.Lerp(levelCardSelectedPosition2.rotation, levelCardKeyPoses[0][1].quatRot, carLevelSelectedfLerp);
             }
-
+            else
+            {
+                levelCardSelected.transform.position = Vector3.Lerp(levelCardSelectedPosition.position, levelCardSelectedPosition2.position, carLevelSelectedfLerp);
+                levelCardSelected.transform.rotation = Quaternion.Lerp(levelCardSelectedPosition.rotation, levelCardSelectedPosition2.rotation, carLevelSelectedfLerp);
+            }
         }
 
-        if (carLevelfLerp == 1)
+
+        if (carLevelSelectedfLerp == 1)
         {
             if (levelCardSelected.GetComponent<CardLevel>().IsSelected) { 
                 for (int i = 0; i < menuManager.GoCardChildren.Count; i++)
@@ -722,8 +745,6 @@ public class MenuUI : MonoBehaviour {
                         }
                     }
                  }
-                isACardMoving = true;
-
             }
             else
             {
@@ -744,7 +765,7 @@ public class MenuUI : MonoBehaviour {
             } else if (indexCardSelected ==2){
                 aCardLevelSelectedIsMoving = false;
             }
-            carLevelfLerp = 0;
+            carLevelSelectedfLerp = 0;
           
 
             if(!initCardInfo)
