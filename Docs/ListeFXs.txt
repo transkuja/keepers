@@ -5,9 +5,9 @@ Liste des FXs à intégrer
 - Cristaux		- En cours (manque FX pour montrer que le passage se dévoile ou est activé) 
 - Pont			- Done (for now)
 - End sans Ashley
-- Quête à donner
-- Quête accomplie
-- Escort
+- Quête à donner	- En cours
+- Quête accomplie	- En cours
+- Escort		- En cours
 
 Combat:
 - Prendre un coup

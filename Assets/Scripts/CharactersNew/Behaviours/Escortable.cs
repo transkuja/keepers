@@ -57,6 +57,16 @@ namespace Behaviour
             }
             escort = GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Keeper>();
             escort.GetComponent<Keeper>().GoListCharacterFollowing.Add(gameObject);
+            Animator anim = GetComponentInChildren<Animator>();
+            if(anim != null)
+            {
+                anim.SetTrigger("escort");
+            }
+            EscortParticles ep = GetComponentInChildren<EscortParticles>();
+            if(ep != null)
+            {
+                ep.EmitTowards(escort.transform);
+            }
             GetComponent<NavMeshAgent>().enabled = true;
             ActivateIconNearEscort();
 
