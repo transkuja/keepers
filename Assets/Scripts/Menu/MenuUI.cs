@@ -252,6 +252,7 @@ public class MenuUI : MonoBehaviour {
             pawnMoving = pi;
 
             previousTransform = _previousParent;
+        // J'ai eu une erreur là en cliquant comme un autiste
             previousIndex = previousTransform.GetSiblingIndex();
             if (previousTransform == keepersPositions.transform.GetChild(previousIndex))
             {

@@ -202,7 +202,7 @@ public class SeqFirstMove : Sequence {
         public void Message_fct()
         {
             // show text
-            GameObject portal = GameManager.Instance.AllKeepersList[0].CurrentTile.transform.GetChild(0).GetChild(1).GetChild(0).gameObject;
+            GameObject portal = GameManager.Instance.AllKeepersList[0].CurrentTile.transform.GetChild(0).GetChild(1).GetChild((int)Direction.North_East).gameObject;
             if (portal.GetComponent<RightMouseClickExpected>() == null)
                 portal.AddComponent<RightMouseClickExpected>();
             portal.GetComponent<RightMouseClickExpected>().TargetExpected = "Portal";
@@ -229,7 +229,7 @@ public class SeqFirstMove : Sequence {
 
         public override void Reverse()
         {
-            GameObject portal = GameManager.Instance.AllKeepersList[0].CurrentTile.transform.GetChild(0).GetChild(1).GetChild(0).gameObject;
+            GameObject portal = GameManager.Instance.AllKeepersList[0].CurrentTile.transform.GetChild(0).GetChild(1).GetChild((int)Direction.North_East).gameObject;
             portal.GetComponent<GlowObjectCmd>().UpdateColor(false);
             if (portal.GetComponent<RightMouseClickExpected>() != null)
                 Destroy(portal.GetComponent<RightMouseClickExpected>());
@@ -450,7 +450,7 @@ public class SeqFirstMove : Sequence {
             {
                 feedback = Instantiate(TutoManager.s_instance.uiPointer, GameManager.Instance.Ui.transform.GetChild(0));
                 feedback.GetComponent<FlecheQuiBouge>().PointToPoint = GameManager.Instance.AllKeepersList[0].GetComponent<Inventory>().SelectedInventoryPanel.transform.position + Vector3.up * (100 * (Screen.height/1080.0f));
-                feedback.GetComponent<FlecheQuiBouge>().distanceOffset = 200.0f;
+                feedback.GetComponent<FlecheQuiBouge>().distanceOffset = 250.0f;
 
                 feedback.transform.localEulerAngles = new Vector3(0, 0, 90);
             }
