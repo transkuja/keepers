@@ -180,7 +180,7 @@ namespace Behaviour
                 {
                     if (TutoManager.s_instance.PlayingSequence == null)
                     {
-                        if (GameManager.Instance.CurrentState != GameState.InBattle)
+                        if (GameManager.Instance.CurrentState != GameState.InBattle && GetComponent<Mortal>().IsAlive)
                         {
                             if (TutoManager.s_instance.GetComponent<SeqMoraleExplained>().AlreadyPlayed == false && feedbackAmount < 0)
                             {

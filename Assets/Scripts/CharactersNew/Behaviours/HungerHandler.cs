@@ -167,7 +167,7 @@ namespace Behaviour
 
                 if (TutoManager.s_instance != null && TutoManager.s_instance.enableTuto && TutoManager.s_instance.PlayingSequence == null)
                 {
-                    if (GameManager.Instance.CurrentState != GameState.InBattle)
+                    if (GameManager.Instance.CurrentState != GameState.InBattle && GetComponent<Mortal>().IsAlive)
                     {
                         if (GetComponent<Escortable>() != null && TutoManager.s_instance.GetComponent<SeqAshleyLowHunger>().AlreadyPlayed == false)
                         {
