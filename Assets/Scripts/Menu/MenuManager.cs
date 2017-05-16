@@ -150,6 +150,14 @@ public class MenuManager : MonoBehaviour {
                 if (GameManager.Instance.PersistenceLoader.Pd.dicPersistencePawns[id] == true)
                 {
                     Transform initKeeperTransform = menuUi.keepersPositions.transform.GetChild(iKeeper);
+                        for (int i = 0; i < menuUi.keepersPositions.transform.childCount; i++)
+                        {
+                            if (menuUi.keepersPositions.transform.GetChild(i).name == id)
+                            {
+                                initKeeperTransform = menuUi.keepersPositions.transform.GetChild(i);
+                                break;
+                            }
+                    }
                     GameObject goKeeper = GameManager.Instance.PawnDataBase.CreatePawn(id, Vector3.zero, Quaternion.identity, initKeeperTransform);
 
                     ChatBox newChatBox = Instantiate(prefabChatox, GetComponentInChildren<Canvas>().transform).GetComponent<ChatBox>();
