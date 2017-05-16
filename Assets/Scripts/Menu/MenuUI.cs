@@ -361,7 +361,7 @@ public class MenuUI : MonoBehaviour {
 
     void UpdateCardLevelPositions()
     {
-        carLevelfLerp += Time.unscaledDeltaTime * 2f ;
+        carLevelfLerp += Time.unscaledDeltaTime * 3.5f ;
 
         if (carLevelfLerp > 1)
         {
@@ -587,7 +587,7 @@ public class MenuUI : MonoBehaviour {
             menuManager.SetActiveChatBoxes(false);
         }
 
-        cardInfoShownfLerp += Time.unscaledDeltaTime * 1.5f;
+        cardInfoShownfLerp += Time.unscaledDeltaTime * 10f;
 
         if (cardInfoShownfLerp > 1)
         {
@@ -670,7 +670,7 @@ public class MenuUI : MonoBehaviour {
 
 
 
-        carLevelfLerp += Time.unscaledDeltaTime * 1.2f;
+        carLevelfLerp += Time.unscaledDeltaTime * 4f;
 
 
         if (carLevelfLerp > 1)
