@@ -18,9 +18,7 @@ public class HintWoman : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        if (instance.Data.Behaviours[(int)BehavioursEnum.CanSpeak])
-            GetComponent<Interactable>().Interactions.Add(new Interaction(Hint), 0, "Talk", GameManager.Instance.SpriteUtils.spriteMoral);
-
+        GetComponent<Interactable>().Interactions.Add(new Interaction(Hint), 0, "Talk", GameManager.Instance.SpriteUtils.spriteMoral);
 
         goHint = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabContentQuestUI, GameManager.Instance.Ui.goContentQuestParent.transform);
         goHint.transform.localPosition = Vector3.zero;
@@ -29,12 +27,13 @@ public class HintWoman : MonoBehaviour {
         if(commeSurLePanneau.Length > 0)
         {
             goHint.transform.GetChild(3).GetComponentInChildren<Text>().text = commeSurLePanneau[indiceMsg];
-        } else
+        }
+        else
         {
             goHint.transform.GetChild(3).GetComponentInChildren<Text>().text = "Debug Hint Message";
         }
 
-        goHint.transform.GetChild(4).GetComponent<Text>().text = "Hint";
+        goHint.transform.GetChild(4).GetComponent<Text>().text = "Mysterious Woman";
         Button close = goHint.transform.GetChild(0).GetComponent<Button>();
         close.onClick.RemoveAllListeners();
         close.onClick.AddListener(CloseBox);
@@ -50,6 +49,8 @@ public class HintWoman : MonoBehaviour {
     {
         if (GameManager.Instance.ListOfSelectedKeepers.Count > 0)
         {
+            if (!GameManager.Instance.GetFirstSelectedKeeper().Data.Behaviours[(int)BehavioursEnum.CanSpeak])
+                goHint.transform.GetChild(3).GetComponentInChildren<Text>().text = "What a nice dog! You're so fluffy! *The mysterious woman pats Lupus' head gently*";
             GameManager.Instance.Ui.goContentQuestParent.SetActive(true);
             OpenBox();
         }

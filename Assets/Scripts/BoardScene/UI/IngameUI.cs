@@ -140,8 +140,7 @@ public class IngameUI : MonoBehaviour
 
         for (int i = 0; i < ic.listActionContainers.Count; i++)
         {
-            bool bIsForbiden = ic.listActionContainers[i].strName == "Quest" && !GameManager.Instance.GetFirstSelectedKeeper().Data.Behaviours[(int)BehavioursEnum.CanSpeak];
-            bIsForbiden = bIsForbiden || ic.listActionContainers[i].strName == "Talk" && !GameManager.Instance.GetFirstSelectedKeeper().Data.Behaviours[(int)BehavioursEnum.CanSpeak];
+            bool bIsForbiden = ic.listActionContainers[i].strName == "Quest" && !GameManager.Instance.GetFirstSelectedKeeper().Data.Behaviours[(int)BehavioursEnum.CanSpeak] && GameManager.Instance.GoTarget.GetComponent<Behaviour.Monster>() == null;
             if (!bIsForbiden)
             {
                 GameObject goAction = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabActionUI, goActionPanelQ.transform);
