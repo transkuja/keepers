@@ -151,11 +151,19 @@ namespace Behaviour
         }
         void OpenBox()
         {
+            if (GetComponent<PawnInstance>().Data.PawnId.Contains("duck") && GameManager.Instance.ListOfSelectedKeepers.Count > 0 
+                && !GameManager.Instance.GetFirstSelectedKeeper().Data.Behaviours[(int)BehavioursEnum.CanSpeak])
+            {
+                goQuest.transform.GetChild(goQuest.transform.childCount - 2).GetComponentInChildren<Text>().text =
+                    "Quack? Quack! Quack quack quack.\n-Woof? Waf woof waf!\n-Quack ! *Lupus and the mommy duck start to dance happily* ";
+            }
             goQuest.SetActive(true);
+            AudioManager.Instance.PlayDuckChatting();
             GameManager.Instance.CurrentState = GameState.InPause;
         }
         void CloseBox()
         {
+            // Anim dance
             GameManager.Instance.CurrentState = GameState.Normal;
             goQuest.SetActive(false);
         }

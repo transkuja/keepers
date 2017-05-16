@@ -35,6 +35,7 @@ public class AudioManager : MonoBehaviour {
     public AudioClip winningSound;
 
     public AudioClip crystalOnSound;
+    public AudioClip quackSound;
 
     public AudioClip commonBattleMusic;
 
@@ -49,6 +50,11 @@ public class AudioManager : MonoBehaviour {
     private float volumeMusic = 0.5f;
     [SerializeField]
     private float volumeFXs = 1.0f;
+
+    // Very important audio feature, do not remove
+    float duckTimer = 0.2f;
+    int step = 0;
+    bool isDuckChatting = false;
 
     public static AudioManager Instance
     {
@@ -163,7 +169,21 @@ public class AudioManager : MonoBehaviour {
             sourceMusic.volume = volumeMusic;
         }
 
-        
+        if (isDuckChatting)
+        {
+            duckTimer -= Time.deltaTime;
+            if (duckTimer <= 0.0f)
+            {
+                PlayOneShot(quackSound);
+                if (step == 1) duckTimer = 0.4f;
+                if (step == 2) duckTimer = 0.7f;
+                if (step == 3) duckTimer = 0.2f;
+                if (step == 4) duckTimer = 0.5f;
+                if (step == 5) duckTimer = 0.2f;
+                if (step == 6) isDuckChatting = false;
+                step++;
+            }
+        }
 	}
 
     public void PlayOneShot(AudioClip clip)
@@ -184,5 +204,13 @@ public class AudioManager : MonoBehaviour {
     public void PlayButtonClickSound(int i = 0)
     {
         PlayOneShot(interactionButtonClick, 0.5f);
+    }
+
+    public void PlayDuckChatting()
+    {
+        isDuckChatting = true;
+        duckTimer = 0.2f;
+        step = 0;
+        PlayOneShot(quackSound);
     }
 }
