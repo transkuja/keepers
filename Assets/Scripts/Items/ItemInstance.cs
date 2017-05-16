@@ -86,6 +86,9 @@ public class ItemInstance : MonoBehaviour, IHavestable
         int costAction = InteractionImplementer.Get("Harvest").costAction;
         if (GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Keeper>().ActionPoints >= costAction)
         {
+            if (GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.LuckBased>() != null)
+                GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.LuckBased>().HandleLuckForHarvest(itemContainer);
+
             bool isNoLeftOver = InventoryManager.AddItemToInventory(GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Inventory>().Items, itemContainer);
             if (isNoLeftOver)
             {

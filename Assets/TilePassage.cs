@@ -221,15 +221,9 @@ public class TilePassage : MonoBehaviour {
                     }
 
                     if (GetComponentInParent<Tile>().Neighbors[(int)dir].State == TileState.Greyed)
-
                     {
-
-
-
                         GetComponent<Interactable>().Interactions.Add(new Interaction(Explore), actionCostExplore, "Explore", GameManager.Instance.SpriteUtils.spriteExplore, true, (int)dir);
-
                         GameManager.Instance.Ui.UpdateActionPanelUIQ(GetComponent<Interactable>().Interactions);
-
                     }
 
                 }

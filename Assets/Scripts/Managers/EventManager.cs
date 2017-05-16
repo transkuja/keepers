@@ -157,6 +157,9 @@ public class EventManager : MonoBehaviour {
     {
         foreach (PawnInstance ki in GameManager.Instance.AllKeepersList)
         {
+            if (ki.GetComponent<LuckBased>() != null)
+                ki.GetComponent<LuckBased>().HandleLuckForActionPoints();             
+
             if (ki.GetComponent<Mortal>().IsAlive)
                 ki.GetComponent<Keeper>().ActionPoints = ki.GetComponent<Keeper>().Data.MaxActionPoint;
         }
