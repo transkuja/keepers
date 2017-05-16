@@ -165,16 +165,19 @@ namespace Behaviour
 
                 if (TutoManager.s_instance != null && TutoManager.s_instance.enableTuto && TutoManager.s_instance.PlayingSequence == null)
                 {
-                    if (GetComponent<Escortable>() != null && TutoManager.s_instance.GetComponent<SeqAshleyLowHunger>().AlreadyPlayed == false)
+                    if (GameManager.Instance.CurrentState != GameState.InBattle)
                     {
-                        if (currentHunger < data.MaxHunger / 2.0f && diffHunger < 0)
-                            TutoManager.s_instance.playSequence(TutoManager.s_instance.GetComponent<SeqAshleyLowHunger>());
-                    }
+                        if (GetComponent<Escortable>() != null && TutoManager.s_instance.GetComponent<SeqAshleyLowHunger>().AlreadyPlayed == false)
+                        {
+                            if (currentHunger < data.MaxHunger / 2.0f && diffHunger < 0)
+                                TutoManager.s_instance.playSequence(TutoManager.s_instance.GetComponent<SeqAshleyLowHunger>());
+                        }
 
-                    if (GetComponent<Keeper>() != null && TutoManager.s_instance.GetComponent<SeqLowHunger>().AlreadyPlayed == false)
-                    {
-                        if (currentHunger < data.MaxHunger / 3.0f && diffHunger < 0)
-                            TutoManager.s_instance.playSequence(TutoManager.s_instance.GetComponent<SeqLowHunger>());
+                        if (GetComponent<Keeper>() != null && TutoManager.s_instance.GetComponent<SeqLowHunger>().AlreadyPlayed == false)
+                        {
+                            if (currentHunger < data.MaxHunger / 3.0f && diffHunger < 0)
+                                TutoManager.s_instance.playSequence(TutoManager.s_instance.GetComponent<SeqLowHunger>());
+                        }
                     }
                 }
             }

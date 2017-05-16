@@ -180,14 +180,17 @@ namespace Behaviour
                 {
                     if (TutoManager.s_instance.PlayingSequence == null)
                     {
-                        if (TutoManager.s_instance.GetComponent<SeqMoraleExplained>().AlreadyPlayed == false && feedbackAmount < 0)
+                        if (GameManager.Instance.CurrentState != GameState.InBattle)
                         {
-                            TutoManager.s_instance.playSequence(TutoManager.s_instance.GetComponent<SeqMoraleExplained>());
-                        }
-                        else if (TutoManager.s_instance.GetComponent<SeqLowMorale>().AlreadyPlayed == false)
-                        {
-                            if (currentMentalHealth < data.MaxMentalHealth / 4.0f)
-                                TutoManager.s_instance.playSequence(TutoManager.s_instance.GetComponent<SeqLowMorale>());
+                            if (TutoManager.s_instance.GetComponent<SeqMoraleExplained>().AlreadyPlayed == false && feedbackAmount < 0)
+                            {
+                                TutoManager.s_instance.playSequence(TutoManager.s_instance.GetComponent<SeqMoraleExplained>());
+                            }
+                            else if (TutoManager.s_instance.GetComponent<SeqLowMorale>().AlreadyPlayed == false)
+                            {
+                                if (currentMentalHealth < data.MaxMentalHealth / 4.0f)
+                                    TutoManager.s_instance.playSequence(TutoManager.s_instance.GetComponent<SeqLowMorale>());
+                            }
                         }
                     }
                 }
