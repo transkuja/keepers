@@ -3,12 +3,24 @@
 public class WorldspaceCanvasCameraAdapter : MonoBehaviour {
 
     Vector3 v3ScaleRef;
+    public bool isForInteractions = false;
 
     void Start()
     {
         GameManager.Instance.RegisterWorldspaceCanvasCameraAdapter(this);
         v3ScaleRef = transform.localScale;
         this.RecalculateActionCanvas(Camera.main);
+    }
+
+    public void Init()
+    {
+        if (isForInteractions)
+        {
+            GameManager.Instance.Ui.ClearActionPanel();
+            GameManager.Instance.RegisterWorldspaceCanvasCameraAdapter(this);
+            v3ScaleRef = new Vector3(0.2f,0.2f,0.2f);
+            this.RecalculateActionCanvas(Camera.main);
+        }
     }
 
     public void RecalculateActionCanvas(Camera camera)

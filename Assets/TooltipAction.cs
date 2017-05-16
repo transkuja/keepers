@@ -15,8 +15,7 @@ public class TooltipAction : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-
-        tooltip.GetComponentInChildren<Text>().text = GameManager.Instance.GoTarget.GetComponent<Interactable>().Interactions.listActionContainers[transform.GetSiblingIndex()].strName;
+        tooltip.GetComponentInChildren<Text>().text = gameObject.name;
         tooltip.transform.position = transform.position;
 
         needToBeShown = true;

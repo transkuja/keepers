@@ -549,6 +549,7 @@ public class GameManager : MonoBehaviour
     {
         cameraManagerReference = _cameraManager;
         UpdateCameraPosition(tileManagerReference.BeginTile);
+        Ui.GoActionPanelQ.GetComponentInParent<WorldspaceCanvasCameraAdapter>().Init();
     }
 
     public void RegisterGameScreens(IngameScreens _gameScreens)
