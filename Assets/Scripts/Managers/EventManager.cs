@@ -46,16 +46,16 @@ public class EventManager : MonoBehaviour {
 
     private static void DecreaseMentalHealth()
     {
-        foreach (PawnInstance ki in GameManager.Instance.AllKeepersList)
+        foreach (PawnInstance pi in GameManager.Instance.AllKeepersList)
         {
-            if (ki.GetComponent<Mortal>().IsAlive && ki.GetComponent<MentalHealthHandler>() != null)
+            if (pi.GetComponent<Mortal>().IsAlive && pi.GetComponent<MentalHealthHandler>() != null)
             {
                 bool moodModifier = false;
                 if (GameManager.Instance.ListEventSelected.Count > 0)
                 {
                     if (GameManager.Instance.ListEventSelected.Contains("1"))
                     {
-                        if (ki.CurrentTile.GetComponentInChildren<Climat>() != null && ki.CurrentTile.GetComponentInChildren<Climat>().TypeClimat == TypeClimat.Snow)
+                        if (pi.CurrentTile.GetComponentInChildren<Climat>() != null && pi.CurrentTile.GetComponentInChildren<Climat>().TypeClimat == TypeClimat.Snow)
                         {
                             if (TutoManager.s_instance.GetComponent<SeqMoraleExplained>().AlreadyPlayed == false)
                             {
@@ -68,25 +68,27 @@ public class EventManager : MonoBehaviour {
                 }
 
                 if (moodModifier)
-                    ki.GetComponent<MentalHealthHandler>().CurrentMentalHealth -= 5;
+                    pi.GetComponent<MentalHealthHandler>().CurrentMentalHealth -= 5;
 
-                if (ki.CurrentTile != null && TileManager.Instance.MonstersOnTile != null && TileManager.Instance.MonstersOnTile.ContainsKey(ki.CurrentTile) && TileManager.Instance.MonstersOnTile[ki.CurrentTile].Count > 0)
-                    ki.GetComponent<MentalHealthHandler>().CurrentMentalHealth -= 5;
+                if (pi.CurrentTile != null && TileManager.Instance.MonstersOnTile != null && TileManager.Instance.MonstersOnTile.ContainsKey(pi.CurrentTile) && TileManager.Instance.MonstersOnTile[pi.CurrentTile].Count > 0)
+                    pi.GetComponent<MentalHealthHandler>().CurrentMentalHealth -= 5;
 
                 int moodMultiplier = 1;
-                if (ki.GetComponent<PawnInstance>().Data.Behaviours[(int)BehavioursEnum.Gaga])
+                if (pi.Data.Behaviours[(int)BehavioursEnum.Gaga])
                     moodMultiplier = 2;
 
-                if (ki.CurrentTile.GetComponent<Tile>().Friendliness == TileFriendliness.Scary)
-                    ki.GetComponent<MentalHealthHandler>().CurrentMentalHealth -= 10 * moodMultiplier;
-                if (ki.CurrentTile.GetComponent<Tile>().Friendliness == TileFriendliness.Friendly)
-                    ki.GetComponent<MentalHealthHandler>().CurrentMentalHealth += 5;
+                if (pi.CurrentTile.GetComponent<Tile>().Friendliness == TileFriendliness.Scary)
+                    pi.GetComponent<MentalHealthHandler>().CurrentMentalHealth -= 10 * moodMultiplier;
+                if (pi.CurrentTile.GetComponent<Tile>().Friendliness == TileFriendliness.Friendly)
+                    pi.GetComponent<MentalHealthHandler>().CurrentMentalHealth += 5;
 
-          
+                foreach (PawnInstance piOnTile in TileManager.Instance.KeepersOnTile[pi.CurrentTile])
+                {
+                    if (piOnTile.Data.Behaviours[(int)BehavioursEnum.Stinks])
+                        pi.GetComponent<MentalHealthHandler>().CurrentMentalHealth -= 20;
+                }
 
             }
-
-                //ki.AddFeedBackToQueue(GameManager.Instance.SpriteUtils.spriteMoralDebuff, -10);
         }
     }
 
