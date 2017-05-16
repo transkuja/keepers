@@ -5,7 +5,7 @@ using UnityEngine;
 public class Displayer : MonoBehaviour {
 
     public MenuUI menuUI;
-    public MenuManager menumanager;
+    public MenuManager menuManager;
 
 
     private bool needToBeShown = false;
@@ -14,7 +14,7 @@ public class Displayer : MonoBehaviour {
     public void Start()
     {
         menuUI = GameObject.FindObjectOfType<MenuUI>();
-        menumanager = GameObject.FindObjectOfType<MenuManager>();
+        menuManager = GameObject.FindObjectOfType<MenuManager>();
     }
 
     public bool NeedToBeShown
@@ -70,18 +70,27 @@ public class Displayer : MonoBehaviour {
     {
         if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
         {
-            if (!NeedToBeShown && !menuUI.ACardInfoIsShown && !menuUI.IsACardInfoMovingForShowing && menuUI.cardsInfoAreReady && !menumanager.GoDeck.GetComponent<Deck>().IsOpen)
+            if (menuManager.CardLevelSelected == -1)
             {
-                NeedToBeShown = true;
-                isShown = true;
-                menuUI.IsACardInfoMovingForShowing = true;
-
-            } else if (menuUI.ACardInfoIsShown)
+                menuManager.GoDeck.GetComponent<GlowObjectCmd>().ActivateBlinkBehaviour(true);
+                menuManager.GoDeck.GetComponent<GlowObjectCmd>().enabled = true;
+            } else
             {
-                NeedToBeShown = false;
+                if (!NeedToBeShown && !menuUI.ACardInfoIsShown && !menuUI.IsACardInfoMovingForShowing && menuUI.cardsInfoAreReady && !menuManager.GoDeck.GetComponent<Deck>().IsOpen)
+                {
+                    NeedToBeShown = true;
+                    isShown = true;
+                    menuUI.IsACardInfoMovingForShowing = true;
 
-                menuUI.IsACardInfoMovingForShowing = true;
+                }
+                else if (menuUI.ACardInfoIsShown)
+                {
+                    NeedToBeShown = false;
+
+                    menuUI.IsACardInfoMovingForShowing = true;
+                }
             }
+     
         }
     }
 }

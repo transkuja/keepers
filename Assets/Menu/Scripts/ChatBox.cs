@@ -59,8 +59,8 @@ public class ChatBox : MonoBehaviour {
         tabEmotes[1] = new List<string>();
         tabEmotes[1].Add("Let's go!");
         tabEmotes[1].Add("Yeah!");
-        fDelayMin = 10;
-        fDelayMax = 20;
+        fDelayMin = 5;
+        fDelayMax = 15;
         fTimer = Random.Range(fDelayMin, fDelayMax);
     }
 

@@ -69,6 +69,7 @@ public class MenuManager : MonoBehaviour {
     public void InitCards()
     {
         goDeck = Instantiate(prefabDeck, menuUi.levelDeckPosition);
+        goDeck.transform.localPosition = Vector3.zero;
 
         for (int i = 0; i < leveldb.listLevels.Count; i++)
         {
@@ -156,6 +157,7 @@ public class MenuManager : MonoBehaviour {
                     newChatBox.SetMode(ChatBox.ChatMode.awaiting);
                     newChatBox.SetEnable(false);
                     dicPawnChatBox.Add(goKeeper, newChatBox);
+                    SetActiveChatBoxes(false);
 
 
                     GameObject goCardInfo = Instantiate(getPawnPrefabById(id), menuUi.cardInfoStartingPosition);

@@ -88,7 +88,7 @@ public class MenuController : MonoBehaviour {
     {
 
         CardLevel card = hit.transform.gameObject.GetComponent<CardLevel>();
-        if (card != null && !menuUI.ACardInfoIsShown && !menuUI.IsACardMoving && !menuUI.IsACardInfoMoving)
+        if (card != null && !menuUI.ACardInfoIsShown && !menuUI.IsACardMoving && !menuUI.IsACardInfoMoving && !menuUI.IsACardInfoMovingForShowing)
         {
             AudioManager.Instance.PlayOneShot(AudioManager.Instance.paperSelectSound, 0.5f);
 
@@ -100,7 +100,7 @@ public class MenuController : MonoBehaviour {
                 menuManager.DeckOfCardsSelected = string.Empty;
 
                 GameManager.Instance.ListEventSelected.Clear();
-
+                menuManager.SetActiveChatBoxes(false);
             }
             else
             {
@@ -120,7 +120,7 @@ public class MenuController : MonoBehaviour {
                         GameManager.Instance.ListEventSelected.Add(leveldb.GetLevelById(card.levelIndex).listEventsId[i]);
                     }
                 }
-
+                menuManager.SetActiveChatBoxes(true);
             }
 
             menuUI.UpdateDeckSelected();
@@ -131,7 +131,7 @@ public class MenuController : MonoBehaviour {
 
     public void DeckSelectionControls(GameObject hit)
     {
-        if(menuUI.cardsInfoAreReady && !menuUI.ACardInfoIsShown && !menuUI.IsACardMoving && !menuUI.IsACardInfoMoving)
+        if (!menuUI.ACardInfoIsShown && !menuUI.IsACardMoving && !menuUI.IsACardInfoMoving && !menuUI.IsACardInfoMovingForShowing)
         {
             menuUI.UpdateDeckDisplayed();
             foreach (GameObject go in menuManager.GoCardsLevels)
@@ -159,8 +159,6 @@ public class MenuController : MonoBehaviour {
                     }
        
             }
-
-            //;
         } 
  
 
@@ -170,7 +168,7 @@ public class MenuController : MonoBehaviour {
     public void KeeperSelectionControls(GameObject hit)
     {
         PawnInstance pi = hit.transform.gameObject.GetComponent<PawnInstance>();
-        if (pi != null && !menuManager.GoDeck.GetComponent<Deck>().IsOpen && menuManager.CardLevelSelected !=-1)
+        if (pi != null &&menuUI.cardsInfoAreReady && !menuManager.GoDeck.GetComponent<Deck>().IsOpen && menuManager.CardLevelSelected !=-1)
         {
             if (menuManager.ContainsSelectedKeepers(pi)) // REMOVE
             {
@@ -201,12 +199,7 @@ public class MenuController : MonoBehaviour {
             pi.transform.SetParent(null);
 
             boxOpener.UpdateLockAspect();
-        } else if (menuManager.CardLevelSelected == -1)
-
-        {
-
-
-
+        } else if (menuManager.CardLevelSelected == -1) { 
             menuManager.GoDeck.GetComponent<GlowObjectCmd>().ActivateBlinkBehaviour(true);
 
             menuManager.GoDeck.GetComponent<GlowObjectCmd>().enabled = true;
