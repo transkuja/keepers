@@ -8,6 +8,7 @@ using System;
 public class KillMonsterObjective : IQuestObjective
 {
     InitEvent onInit;
+    CompleteEvent onComplete;
     private string title;
     private string description;
     private bool isComplete;
@@ -72,11 +73,38 @@ public class KillMonsterObjective : IQuestObjective
         }
     }
 
+    public CompleteEvent OnComplete
+    {
+        get
+        {
+            return onComplete;
+        }
+
+        set
+        {
+            onComplete = value;
+        }
+    }
+
     public void CheckProgress()
     {
         if (monsterKilled)
         {
             isComplete = true;
+        }
+        else
+        {
+            isComplete = false;
+        }
+    }
+
+    public void CheckProgressWithEvent()
+    {
+        if (monsterKilled)
+        {
+            isComplete = true;
+            if (onComplete != null)
+                onComplete();
         }
         else
         {
@@ -94,7 +122,7 @@ public class KillMonsterObjective : IQuestObjective
         if(m.getPawnInstance.Data.PawnId == monsterID)
         {
             monsterKilled = true;
-            CheckProgress();
+            CheckProgressWithEvent();
         }
     }
 

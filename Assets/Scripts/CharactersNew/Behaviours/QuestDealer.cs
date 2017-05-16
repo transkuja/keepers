@@ -10,6 +10,7 @@ namespace Behaviour
     {
         PawnInstance instance;
         public GameObject goQuest;
+        QuestDealerFeedbackUpdater feedbackUpdater;
         //public GameObject prefabContentQuest;
 
         // Array of arrays. use: QuestIDs[CurrentQuestDeck] -> Array of Quests IDs for this component in the current quest deck
@@ -17,12 +18,32 @@ namespace Behaviour
         //public QuestIDArray[] PossibleQuests;
 
         //public int currentQuestIndex;
-        public Quest questToGive;
+        private Quest questToGive;
+
+        public Quest QuestToGive
+        {
+            get
+            {
+                return questToGive;
+            }
+
+            set
+            {
+                questToGive = value;
+                if(questToGive != null)
+                {
+                    if(feedbackUpdater != null)
+                    {
+                        feedbackUpdater.Init(questToGive);
+                    }
+                }
+            }
+        }
 
         void Awake()
         {
             instance = GetComponent<PawnInstance>();
- 
+            feedbackUpdater = GetComponent<QuestDealerFeedbackUpdater>();
         }
 
         public void Init()
@@ -35,18 +56,13 @@ namespace Behaviour
             close.onClick.RemoveAllListeners();
             close.onClick.AddListener(CloseBox);
             GetComponent<Interactable>().Interactions.Add(new Interaction(Quest), 0, "Quest", GameManager.Instance.SpriteUtils.spriteQuest);
-
-            if (questToGive == null)
-            {
-                Debug.Log("Quest Not Found");
-            }
         }
 
         void BuildQuestPanel()
         {
 
-            goQuest.transform.GetChild(goQuest.transform.childCount - 1).GetComponent<Text>().text = questToGive.Information.Title;
-            goQuest.transform.GetChild(goQuest.transform.childCount - 2).GetComponentInChildren<Text>().text = questToGive.Information.Dialog;
+            goQuest.transform.GetChild(goQuest.transform.childCount - 1).GetComponent<Text>().text = QuestToGive.Information.Title;
+            goQuest.transform.GetChild(goQuest.transform.childCount - 2).GetComponentInChildren<Text>().text = QuestToGive.Information.Dialog;
             goQuest.transform.GetChild(goQuest.transform.childCount - 2).GetComponent<ScrollRect>().verticalNormalizedPosition = 1f;
             Button validate = goQuest.transform.GetChild(goQuest.transform.childCount - 3).GetComponent<Button>();
             if (validate != null)
@@ -62,8 +78,8 @@ namespace Behaviour
 
         void BuildAlreadyActivePanel()
         {
-            goQuest.transform.GetChild(goQuest.transform.childCount - 1).GetComponent<Text>().text = questToGive.Information.Title;
-            goQuest.transform.GetChild(goQuest.transform.childCount - 2).GetComponentInChildren<Text>().text = questToGive.Information.HintDialog;
+            goQuest.transform.GetChild(goQuest.transform.childCount - 1).GetComponent<Text>().text = QuestToGive.Information.Title;
+            goQuest.transform.GetChild(goQuest.transform.childCount - 2).GetComponentInChildren<Text>().text = QuestToGive.Information.HintDialog;
             goQuest.transform.GetChild(goQuest.transform.childCount - 2).GetComponent<ScrollRect>().verticalNormalizedPosition = 1f;
             Button validate = goQuest.transform.GetChild(goQuest.transform.childCount - 3).GetComponent<Button>();
             if (validate != null)
@@ -75,8 +91,8 @@ namespace Behaviour
 
         void BuildEndQuestPanel()
         {
-            goQuest.transform.GetChild(goQuest.transform.childCount - 1).GetComponent<Text>().text = questToGive.Information.Title;
-            goQuest.transform.GetChild(goQuest.transform.childCount - 2).GetComponentInChildren<Text>().text = questToGive.Information.EndDialog;
+            goQuest.transform.GetChild(goQuest.transform.childCount - 1).GetComponent<Text>().text = QuestToGive.Information.Title;
+            goQuest.transform.GetChild(goQuest.transform.childCount - 2).GetComponentInChildren<Text>().text = QuestToGive.Information.EndDialog;
             goQuest.transform.GetChild(goQuest.transform.childCount - 2).GetComponent<ScrollRect>().verticalNormalizedPosition = 1f;
             Button validate = goQuest.transform.GetChild(goQuest.transform.childCount - 3).GetComponent<Button>();
             if (validate != null)
@@ -89,15 +105,15 @@ namespace Behaviour
         public void Quest(int _i = 0)
         {
             //AudioManager.Instance.PlayOneShot(AudioManager.Instance.quackSound);
-            if (GameManager.Instance.ListOfSelectedKeepers.Count > 0 && questToGive != null)
+            if (GameManager.Instance.ListOfSelectedKeepers.Count > 0 && QuestToGive != null)
             {
                 int costAction = GetComponent<Interactable>().Interactions.Get("Quest").costAction;
                 if (GameManager.Instance.ListOfSelectedKeepers[0].GetComponent<Keeper>().ActionPoints >= costAction)
                 {
                     GameManager.Instance.ListOfSelectedKeepers[0].GetComponent<Keeper>().ActionPoints -= (short)costAction;
-                    if(GameManager.Instance.QuestManager.ActiveQuests.Contains(questToGive))
+                    if(GameManager.Instance.QuestManager.ActiveQuests.Contains(QuestToGive))
                     {
-                        if(questToGive.CheckIfComplete())
+                        if(QuestToGive.CheckIfComplete())
                         {
                             //Si la quête a été complétée
                             BuildEndQuestPanel();
@@ -127,7 +143,9 @@ namespace Behaviour
 
         void AcceptQuest()
         {
-            QuestUtility.AcceptQuest(questToGive);
+            if (feedbackUpdater != null)
+                feedbackUpdater.ActivateQuestWaitingFeedback();
+            QuestUtility.AcceptQuest(QuestToGive);
             GameManager.Instance.Ui.goContentQuestParent.SetActive(false);
             CloseBox();
         }
@@ -144,8 +162,9 @@ namespace Behaviour
 
         void EndQuest()
         {
-
-            QuestUtility.CompleteQuest(questToGive);
+            if (feedbackUpdater != null)
+                feedbackUpdater.DisableFeedbacks();
+            QuestUtility.CompleteQuest(QuestToGive);
             CloseBox();
             // Do things?
         }

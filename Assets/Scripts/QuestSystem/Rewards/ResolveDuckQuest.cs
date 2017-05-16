@@ -16,7 +16,7 @@ public class ResolveDuckQuest : MonoBehaviour {
 	void Update () {
 		if(!initialized)
         {
-            Quest toGive = GetComponent<Behaviour.QuestDealer>().questToGive;
+            Quest toGive = GetComponent<Behaviour.QuestDealer>().QuestToGive;
             if(toGive != null)
             {
                 toGive.OnQuestComplete += CompleteQuest;
@@ -27,7 +27,7 @@ public class ResolveDuckQuest : MonoBehaviour {
 
     void CompleteQuest()
     {
-        GetComponent<Behaviour.QuestDealer>().questToGive.OnQuestComplete -= CompleteQuest;
+        GetComponent<Behaviour.QuestDealer>().QuestToGive.OnQuestComplete -= CompleteQuest;
         List<PawnInstance> pi = TileManager.Instance.EscortablesOnTile[GetComponentInParent<Tile>()].FindAll(x => x.Data.PawnId == "duckling");
         foreach(PawnInstance p in pi)
         {

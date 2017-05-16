@@ -4,9 +4,11 @@ using UnityEngine.Events;
 namespace QuestSystem
 {
     public delegate void InitEvent();
+    public delegate void CompleteEvent();
     public interface IQuestObjective
     {
         InitEvent OnInit { get; set; }
+        CompleteEvent OnComplete { get; set; }
 
         // We must give an ID to every Quest Objective class (static because it belongs to the class)
         // So we can know what to call when loading the quest from JSON
@@ -17,6 +19,7 @@ namespace QuestSystem
 
         void UpdateProgress();
         void CheckProgress();
+        void CheckProgressWithEvent();
 
         IQuestObjective GetCopy();
 

@@ -6,6 +6,7 @@ using System;
 
 public class MultipleEscortObjective : IQuestObjective {
     InitEvent onInit;
+    CompleteEvent onComplete;
     private string title;
     private string description;
     private bool isComplete;
@@ -76,12 +77,40 @@ public class MultipleEscortObjective : IQuestObjective {
         }
     }
 
+    public CompleteEvent OnComplete
+    {
+        get
+        {
+            return onComplete;
+        }
+
+        set
+        {
+            onComplete = value;
+        }
+    }
+
     public void CheckProgress()
     {
         UpdateProgress();
         if (amountBrought >= amountToBring)
         {
             isComplete = true;
+        }
+        else
+        {
+            isComplete = false;
+        }
+    }
+
+    public void CheckProgressWithEvent()
+    {
+        UpdateProgress();
+        if (amountBrought >= amountToBring)
+        {
+            isComplete = true;
+            if (onComplete != null)
+                onComplete();
         }
         else
         {

@@ -7,6 +7,7 @@ using System;
 public class PrisonerEscortObjective : IQuestObjective
 {
     InitEvent onInit;
+    CompleteEvent onComplete;
     private string title;
     private string description;
     private bool isComplete;
@@ -72,11 +73,37 @@ public class PrisonerEscortObjective : IQuestObjective
         }
     }
 
+    public CompleteEvent OnComplete
+    {
+        get
+        {
+            return onComplete;
+        }
+
+        set
+        {
+            onComplete = value;
+        }
+    }
     public void CheckProgress()
     {
         if (prisoner.GetComponent<PawnInstance>().CurrentTile == destination)
         {
             isComplete = true;
+        }
+        else
+        {
+            isComplete = false;
+        }
+    }
+
+    public void CheckProgressWithEvent()
+    {
+        if (prisoner.GetComponent<PawnInstance>().CurrentTile == destination)
+        {
+            isComplete = true;
+            if (onComplete != null)
+                onComplete();
         }
         else
         {

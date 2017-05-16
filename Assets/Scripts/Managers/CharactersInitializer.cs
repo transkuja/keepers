@@ -70,7 +70,7 @@ public class CharactersInitializer : MonoBehaviour {
                         spawnedPawn.transform.SetParent(source.Tile.transform);
                         spawnedPawn.transform.SetAsLastSibling();
                         spawnedPawn.GetComponent<PawnInstance>().CurrentTile = source.Tile;
-                        spawnedPawn.GetComponent<Behaviour.QuestDealer>().questToGive = quest;
+                        spawnedPawn.GetComponent<Behaviour.QuestDealer>().QuestToGive = quest;
                         spawnedPawn.GetComponent<Behaviour.QuestDealer>().Init();
                         InitCharacterUI(spawnedPawn.GetComponent<PawnInstance>());
                         if (source.Tile.State != TileState.Discovered)
@@ -81,7 +81,7 @@ public class CharactersInitializer : MonoBehaviour {
                     }
                     else
                     {
-                        source.Transform.GetComponent<Behaviour.QuestDealer>().questToGive = quest;
+                        source.Transform.GetComponent<Behaviour.QuestDealer>().QuestToGive = quest;
                         source.Transform.GetComponent<Behaviour.QuestDealer>().Init();
                     }
                 }

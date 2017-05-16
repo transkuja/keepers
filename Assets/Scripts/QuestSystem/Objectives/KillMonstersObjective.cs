@@ -8,6 +8,7 @@ using System;
 public class KillMonstersObjective : IQuestObjective
 {
     InitEvent onInit;
+    CompleteEvent onComplete;
     private string title;
     private string description;
     private bool isComplete;
@@ -74,11 +75,38 @@ public class KillMonstersObjective : IQuestObjective
         }
     }
 
+    public CompleteEvent OnComplete
+    {
+        get
+        {
+            return onComplete;
+        }
+
+        set
+        {
+            onComplete = value;
+        }
+    }
+
     public void CheckProgress()
     {
         if(amountKilled >= amountToKill)
         {
             isComplete = true;
+        }
+        else
+        {
+            isComplete = false;
+        }
+    }
+
+    public void CheckProgressWithEvent()
+    {
+        if (amountKilled >= amountToKill)
+        {
+            isComplete = true;
+            if (onComplete != null)
+                onComplete();
         }
         else
         {
@@ -97,7 +125,7 @@ public class KillMonstersObjective : IQuestObjective
         {
             amountKilled++;
             if (amountKilled >= amountToKill)
-                CheckProgress();
+                CheckProgressWithEvent();
         }
     }
 
