@@ -1018,9 +1018,12 @@ public class GameManager : MonoBehaviour
                 foreach (PawnInstance pi in monsterList)
                 {
                     NavMeshAgent currentAgent = pi.GetComponent<NavMeshAgent>();
-                    if (currentAgent != null && currentAgent.isActiveAndEnabled)
-                        currentAgent.enabled = false;
-
+                    if (currentAgent != null)
+                    {
+                        pi.GetComponent<AnimatedPawn>().WasAgentActiveBeforeBattle = currentAgent.isActiveAndEnabled;
+                        if (currentAgent.isActiveAndEnabled)
+                            currentAgent.enabled = false;                         
+                    }
                     if (pi.GetComponent<GlowObjectCmd>() != null)
                     {
                         GlowController.RegisterObject(pi.GetComponent<GlowObjectCmd>());

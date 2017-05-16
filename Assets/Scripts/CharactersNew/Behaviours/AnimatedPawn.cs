@@ -50,6 +50,7 @@ namespace Behaviour
         bool doesAgentNeedReset = false;
 
         bool isCameraUpdated = false;
+        bool wasAgentActiveBeforeBattle = true;
 
         void Awake()
         {
@@ -349,7 +350,7 @@ namespace Behaviour
                 if (isMovingToBattlePosition == false && GameManager.Instance.CurrentState != GameState.InBattle)
                 {
                     if (agent != null)
-                        agent.enabled = true;
+                        agent.enabled = wasAgentActiveBeforeBattle;
                 }
             }
 
@@ -391,6 +392,19 @@ namespace Behaviour
             set
             {
                 whereMove = value;
+            }
+        }
+
+        public bool WasAgentActiveBeforeBattle
+        {
+            get
+            {
+                return wasAgentActiveBeforeBattle;
+            }
+
+            set
+            {
+                wasAgentActiveBeforeBattle = value;
             }
         }
 
