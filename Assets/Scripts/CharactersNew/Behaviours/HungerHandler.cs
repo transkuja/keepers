@@ -206,15 +206,12 @@ namespace Behaviour
 
             set
             {
-                isStarving = value;
-                if (isStarving)
+                if (isStarving == false && value == true)
                 {
-                    if (!hasTakenHungerPenaltyThisTurn)
-                    {
-                        GetComponent<Mortal>().CurrentHp -= 25;
-                        hasTakenHungerPenaltyThisTurn = true;
-                    }
+                    GetComponent<Mortal>().CurrentHp -= EventManager.hungerPenalty;
+                    hasTakenHungerPenaltyThisTurn = true;
                 }
+                isStarving = value;
             }
         }
 

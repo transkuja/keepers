@@ -155,10 +155,12 @@ public class EventManager : MonoBehaviour {
     {
         foreach (PawnInstance ki in GameManager.Instance.AllKeepersList)
         {
-            if (ki.GetComponent<Mortal>().IsAlive && ki.GetComponent<HungerHandler>().IsStarving && !ki.GetComponent<HungerHandler>().HasTakenHungerPenaltyThisTurn)
+            if (ki.GetComponent<Mortal>().IsAlive && ki.GetComponent<HungerHandler>().IsStarving)
             {
-                ki.GetComponent<Mortal>().CurrentHp -= hungerPenalty;
-                ki.GetComponent<HungerHandler>().HasTakenHungerPenaltyThisTurn = false;
+                if (ki.GetComponent<HungerHandler>().HasTakenHungerPenaltyThisTurn)
+                    ki.GetComponent<HungerHandler>().HasTakenHungerPenaltyThisTurn = false;
+                else
+                    ki.GetComponent<Mortal>().CurrentHp -= hungerPenalty;
             }
         }
 
