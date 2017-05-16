@@ -16,8 +16,6 @@ public class PrefabUtils : MonoBehaviour {
     [Header("Pawn")]
     public List<PawnPrefab> listPawnPrefab;
 
-    [Header("QuestDecks")]
-    public GameObject prefabQuestDeck;
     //[Header("QuestCards")]
     //public GameObject prefabQuestCard;
     [Header("Item")]

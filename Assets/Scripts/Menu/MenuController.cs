@@ -193,7 +193,6 @@ public class MenuController : MonoBehaviour {
             }
             else    // ADD
             {
-                Debug.Log(menuManager.CardLevelSelected);
                 if(menuManager.CardLevelSelected != -1)
                 {
                     AudioManager.Instance.PlayOneShot(AudioManager.Instance.selectSound, 0.25f);
