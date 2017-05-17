@@ -19,6 +19,7 @@ public class MenuUI : MonoBehaviour {
     private BoxOpener box;
 
     public Image startButtonImg;
+    public GameObject pressR;
 
     // Postion ou devront aller les perso ou les deck
     public GameObject keepersPositions;
@@ -217,6 +218,7 @@ public class MenuUI : MonoBehaviour {
         aCardLevelSelectedIsMoving = false;
         initCardInfo = false;
 
+        pressR.gameObject.SetActive(false);
     }
 
     void Update()

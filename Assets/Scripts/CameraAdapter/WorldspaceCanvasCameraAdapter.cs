@@ -7,9 +7,12 @@ public class WorldspaceCanvasCameraAdapter : MonoBehaviour {
 
     void Start()
     {
-        GameManager.Instance.RegisterWorldspaceCanvasCameraAdapter(this);
-        v3ScaleRef = transform.localScale;
-        this.RecalculateActionCanvas(Camera.main);
+        if (!isForInteractions)
+        {
+            GameManager.Instance.RegisterWorldspaceCanvasCameraAdapter(this);
+            v3ScaleRef = transform.localScale;
+            this.RecalculateActionCanvas(Camera.main);
+        }
     }
 
     public void Init()
@@ -35,6 +38,8 @@ public class WorldspaceCanvasCameraAdapter : MonoBehaviour {
 
     private void OnDestroy()
     {
-        GameManager.Instance.UnregisterWorldspaceCanvasCameraAdapter(this);
+        if (GameManager.Instance.CameraManagerReference != null)
+            GameManager.Instance.UnregisterWorldspaceCanvasCameraAdapter(this);
+
     }
 }

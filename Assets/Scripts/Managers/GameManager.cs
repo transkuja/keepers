@@ -821,12 +821,14 @@ public class GameManager : MonoBehaviour
 
     public void RegisterWorldspaceCanvasCameraAdapter(WorldspaceCanvasCameraAdapter _cameraAdapter)
     {
+        if(cameraManagerReference!=null)
         cameraManagerReference.worldspaceCanvasCameraAdapters.Add(_cameraAdapter);
     }
 
     public void UnregisterWorldspaceCanvasCameraAdapter(WorldspaceCanvasCameraAdapter _cameraAdapter)
     {
-        cameraManagerReference.worldspaceCanvasCameraAdapters.Remove(_cameraAdapter);
+        if (cameraManagerReference != null)
+            cameraManagerReference.worldspaceCanvasCameraAdapters.Remove(_cameraAdapter);
     }
     #endregion
 
