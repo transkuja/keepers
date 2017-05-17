@@ -4,31 +4,33 @@ using UnityEngine;
 using UnityEngine.AI;
 
 public class dickMove : MonoBehaviour {
-
-    private NavMeshAgent agent;
     public Transform destination;
     public Transform destination2;
     public MenuManager menuManager;
-
-    private Rigidbody rb;
+    private ChatBox chatte;
+    private bool once;
 
     // Use this for initialization
     void Start () {
-        for(int i =0; i < transform.childCount; i++)
+        for (int i =0; i < transform.childCount; i++)
         {
             if (transform.GetChild(i).GetComponent<Behaviour.AnimatedPawn>() != null)
             {
                 transform.GetChild(i).GetComponent<Behaviour.AnimatedPawn>().Agent.SetDestination(new Vector3(transform.GetChild(i).localPosition.x, transform.GetChild(i).localPosition.y, destination.localPosition.z));
 
-
-                ChatBox chatte = Instantiate(menuManager.PrefabChatox, menuManager.GetComponentInChildren<Canvas>().transform).GetComponent<ChatBox>();
-                chatte.trTarget = transform.GetChild(i);
-                //newChatBox.SetMode(ChatBox.ChatMode.whoAmI);
-                chatte.SetEnable(true);
+                if (i == 5)
+                {
+                    chatte = Instantiate(menuManager.PrefabChatox, menuManager.GetComponentInChildren<Canvas>().transform).GetComponent<ChatBox>();
+                    chatte.trTarget = transform.GetChild(i);
+                    //newChatBox.SetMode(ChatBox.ChatMode.whoAmI);
+                    chatte.SetEnable(true);
+                }
+      
             }
         }
 
-
+        once = false;
+        menuManager.DuckhavebringThebox = false;
 
     }
 
@@ -46,14 +48,21 @@ public class dickMove : MonoBehaviour {
                         if (!transform.GetChild(i).GetComponent<Behaviour.AnimatedPawn>().Agent.hasPath || transform.GetChild(i).GetComponent<Behaviour.AnimatedPawn>().Agent.velocity.sqrMagnitude == 0f)
                         {
                             // Done
-                            if (!menuManager.DuckhavebringThebox)
-                            {
+                            //if (!menuManager.DuckhavebringThebox)
+                            //{
 
-                                menuManager.DuckhavebringThebox = true;
-                                Invoke("Boom", 5);
+                            //    menuManager.DuckhavebringThebox = true;
+                     
+                            if ( i == 4 && !once)
+                            {
+                                once = true;
+  
+                                Invoke("Boom", 1);
+                                Invoke("SaySomething", 1);
                             }
+                            //}
                             //chatte.Say(ChatBox.ChatMode.whoAmI, 0);
-                            transform.GetChild(i).GetComponent<Behaviour.AnimatedPawn>().Agent.SetDestination(new Vector3(transform.GetChild(i).localPosition.x, transform.GetChild(i).localPosition.y, destination2.localPosition.z));
+                            //transform.GetChild(i).GetComponent<Behaviour.AnimatedPawn>().Agent.SetDestination(new Vector3(transform.GetChild(i).localPosition.x, transform.GetChild(i).localPosition.y, destination2.localPosition.z));
                         }
                     }
                 }
@@ -67,10 +76,20 @@ public class dickMove : MonoBehaviour {
 
     public void Boom()
     {
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            if (transform.GetChild(i).GetComponent<Behaviour.AnimatedPawn>() != null)
+            {
+                transform.GetChild(i).GetComponent<Behaviour.AnimatedPawn>().Agent.SetDestination(new Vector3(transform.GetChild(i).localPosition.x, transform.GetChild(i).localPosition.y, destination2.localPosition.z));
 
-        GameObject.Find("Box").transform.SetParent(null);
-        GameObject.Find("Box").transform.localPosition = Vector3.zero;
-        GameObject.Find("Box").transform.localRotation = Quaternion.identity;
-        GameObject.Find("Box").transform.localScale = Vector3.one;
+
+            }
+
+        }
+    }
+
+    public void SaySomething()
+    {
+        chatte.Say(ChatBox.ChatMode.whoAmI, 6);
     }
 }

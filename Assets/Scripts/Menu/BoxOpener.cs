@@ -101,13 +101,15 @@ public class BoxOpener : MonoBehaviour {
         menuManager = GetComponent<MenuManager>();
         menuUi = GetComponent<MenuUI>();
 
-        boxLock.GetComponent<GlowObjectCmd>().ActivateBlinkBehaviour(true);
-        boxLock.GetComponent<GlowObjectCmd>().enabled = true;
+
+        GlowController.UnregisterObject(boxLock.GetComponent<GlowObjectCmd>());
+        boxLock.GetComponent<GlowObjectCmd>().UpdateColor(false);
+
     }
 
     public void BoxControls()
     {
-        if (!menuUi.ACardIsShown && !menuUi.ACardInfoIsShown && (menuManager.ListeSelectedKeepers.Count == 0 && menuManager.CardLevelSelected == -1 && menuManager.DeckOfCardsSelected == string.Empty))
+        if (menuManager.DuckhavebringThebox && !menuUi.ACardIsShown && !menuUi.ACardInfoIsShown && (menuManager.ListeSelectedKeepers.Count == 0 && menuManager.CardLevelSelected == -1 && menuManager.DeckOfCardsSelected == string.Empty))
         {
             //if (isBoxOpen)
             //{
@@ -143,7 +145,7 @@ public class BoxOpener : MonoBehaviour {
                     GlowController.UnregisterObject(menuManager.GoCardsInfo[i].GetComponentInChildren<GlowObjectCmd>());
                 }
             }
-            boxLock.GetComponent<GlowObjectCmd>().ActivateBlinkBehaviour(!isBoxOpen);
+            //boxLock.GetComponent<GlowObjectCmd>().ActivateBlinkBehaviour(!isBoxOpen);
             UpdateLockAspect();
         }
 
