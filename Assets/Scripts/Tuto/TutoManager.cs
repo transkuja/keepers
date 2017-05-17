@@ -311,7 +311,7 @@ public class TutoManager : MonoBehaviour {
         for (int i = 0; i < s_instance.tutoPanelInstance.transform.childCount; i++)
         {
             if (i == 2) i++;
-            Button curButton = s_instance.tutoPanelInstance.transform.GetChild(i).GetComponent<Button>();
+            Button curButton = s_instance.tutoPanelInstance.transform.GetChild(i).GetComponentInChildren<Button>();
 
             if (_enable)
             {

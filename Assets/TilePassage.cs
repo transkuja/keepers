@@ -41,7 +41,6 @@ public class TilePassage : MonoBehaviour {
 
         set
         {
-            if(SceneManager.GetActiveScene().buildIndex != 1)
             switch(value)
             {
                 case PassageStatus.On:
@@ -99,7 +98,8 @@ public class TilePassage : MonoBehaviour {
         {
             gameObject.SetActive(false);
         }
-        else if(status != PassageStatus.Disabled && parentTile.Neighbors[(int)dir].GetPassage(Utils.GetOppositeDirection(dir)).status != PassageStatus.Disabled)
+        else if (status != PassageStatus.Disabled && parentTile.Neighbors[(int)dir].GetPassage(Utils.GetOppositeDirection(dir)).status != PassageStatus.Disabled)
+        {
             if (parentTile.Neighbors[(int)dir].State == TileState.Discovered && parentTile.State == TileState.Discovered)
             {
                 Status = PassageStatus.On;
@@ -108,6 +108,7 @@ public class TilePassage : MonoBehaviour {
             {
                 Status = PassageStatus.Off;
             }
+        }
     }
 
 

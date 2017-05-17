@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System;
+﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TileAspectChanger : MonoBehaviour {
     
@@ -15,7 +13,8 @@ public class TileAspectChanger : MonoBehaviour {
         
         tileModel.gameObject.SetActive(true);
         transform.GetChild(0).gameObject.SetActive(false);
-        transform.GetChild(1).gameObject.SetActive(false);
+        if (!SceneManager.GetActiveScene().name.Contains("Tuto"))
+            transform.GetChild(1).gameObject.SetActive(false);
         transform.GetChild(2).gameObject.SetActive(false);
     }
 
@@ -23,7 +22,8 @@ public class TileAspectChanger : MonoBehaviour {
     {
         tileModel.gameObject.SetActive(false);
         transform.GetChild(0).gameObject.SetActive(true);
-        transform.GetChild(1).gameObject.SetActive(true);
+        if (!SceneManager.GetActiveScene().name.Contains("Tuto"))
+            transform.GetChild(1).gameObject.SetActive(true);
         transform.GetChild(2).gameObject.SetActive(true);
     }
 
@@ -35,7 +35,6 @@ public class TileAspectChanger : MonoBehaviour {
             SetAsBaseModel();
     }
 
-    // Use this for initialization
     void Start () {
         tile = GetComponentInParent<Tile>();
         tileModel = GetComponentInChildren<GreyedTileModel>();
@@ -55,9 +54,5 @@ public class TileAspectChanger : MonoBehaviour {
 
         tile.StateChanged += UpdateModel;
 	}
-	
-    void OnDestroy()
-    {
-            //tile.StateChanged -= UpdateModel;
-    }
+
 }

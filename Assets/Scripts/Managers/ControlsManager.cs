@@ -227,16 +227,8 @@ public class ControlsManager : MonoBehaviour
                                     Tile currentTile = GameManager.Instance.GetFirstSelectedKeeper().CurrentTile;
                                     TileTrigger tt;
                                     TilePassage tp;
-                                    if (SceneManager.GetActiveScene().buildIndex == 1)
-                                    {
-                                        tt = currentTile.transform.GetChild(0).GetChild(1).GetChild(0).GetComponent<TileTrigger>();
-                                        tp = currentTile.transform.GetChild(0).GetChild(1).GetChild(0).GetComponent<TilePassage>();
-                                    }
-                                    else
-                                    {
-                                        tt = currentTile.transform.GetChild(0).GetChild(1).GetChild(neighbourIndex).GetComponent<TileTrigger>();
-                                        tp = currentTile.transform.GetChild(0).GetChild(1).GetChild(neighbourIndex).GetComponent<TilePassage>();
-                                    }
+                                    tt = currentTile.transform.GetChild(0).GetChild(1).GetChild(neighbourIndex).GetComponent<TileTrigger>();
+                                    tp = currentTile.transform.GetChild(0).GetChild(1).GetChild(neighbourIndex).GetComponent<TilePassage>();
                                     
                                    
                                     Vector3 movePosition = Vector3.zero;
