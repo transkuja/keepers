@@ -75,6 +75,8 @@ public class GameManager : MonoBehaviour
     private PawnInstance[] currentFighters;
     private List<GameObject> tilePortalsDisabled = new List<GameObject>();
 
+    private bool hasLost = false;
+
     void Awake()
     {
         if (instance == null)
@@ -131,13 +133,19 @@ public class GameManager : MonoBehaviour
         if (nbDead == allKeepersList.Count - nbImmortal)
         {
             Debug.Log("GameOver - All Keepers died");
-            Lose();
+            if (CurrentState == GameState.InBattle)
+                hasLost = true;
+            else
+                Lose();
         }
 
         if (!prisonerInstance.GetComponent<Mortal>().IsAlive)
         {
             Debug.Log("GameOver - The prisoner is dead");
-            Lose();
+            if (CurrentState == GameState.InBattle)
+                hasLost = true;
+            else
+                Lose();
         }
     }
 
@@ -168,6 +176,12 @@ public class GameManager : MonoBehaviour
             instance.allKeepersList.Clear();
             persistenceLoader.Load();
             instance.archerInstance = null;
+
+            pausedAgents.Clear();
+            disabledModels.Clear();
+            unregisteredGlows.Clear();
+            currentFighters = null;
+            tilePortalsDisabled.Clear();
         }
 
         instance.nbTurn = 1;
@@ -1127,6 +1141,8 @@ public class GameManager : MonoBehaviour
         gameScreens.transform.GetChild(0).GetChild((int)IngameScreensEnum.QuestReminderButton).gameObject.SetActive(true);
 
         cameraManagerReference.UpdateCameraPositionExitBattle();
+        if (hasLost)
+            Lose();
     }
     #endregion
 }
