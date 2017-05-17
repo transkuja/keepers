@@ -257,27 +257,41 @@ public class ControlsManager : MonoBehaviour
             {
                 if (Input.GetKeyDown(KeyCode.Alpha1) && GameManager.Instance.AllKeepersList.Count > 0)
                 {
-                    GameManager.Instance.ClearListKeeperSelected();
-                    GameManager.Instance.AddKeeperToSelectedList(GameManager.Instance.AllKeepersList[0]);
-                    GameManager.Instance.AllKeepersList[0].GetComponentInParent<Keeper>().IsSelected = true;
+                    if (GameManager.Instance.AllKeepersList[0].GetComponent<Mortal>().IsAlive)
+                    {
+                        GameManager.Instance.ClearListKeeperSelected();
+                        GameManager.Instance.AddKeeperToSelectedList(GameManager.Instance.AllKeepersList[0]);
+
+                        GameManager.Instance.AllKeepersList[0].GetComponentInParent<Keeper>().IsSelected = true;
+                    }
+
                 }
                 else if (Input.GetKeyDown(KeyCode.Alpha2) && GameManager.Instance.AllKeepersList.Count > 1)
                 {
-                    GameManager.Instance.ClearListKeeperSelected();
-                    GameManager.Instance.AddKeeperToSelectedList(GameManager.Instance.AllKeepersList[1]);
-                    GameManager.Instance.AllKeepersList[1].GetComponentInParent<Keeper>().IsSelected = true;
+                    if (GameManager.Instance.AllKeepersList[1].GetComponent<Mortal>().IsAlive)
+                    {
+                        GameManager.Instance.ClearListKeeperSelected();
+                        GameManager.Instance.AddKeeperToSelectedList(GameManager.Instance.AllKeepersList[1]);
+                        GameManager.Instance.AllKeepersList[1].GetComponentInParent<Keeper>().IsSelected = true;
+                    }
                 }
                 else if (Input.GetKeyDown(KeyCode.Alpha3) && GameManager.Instance.AllKeepersList.Count > 2)
                 {
-                    GameManager.Instance.ClearListKeeperSelected();
-                    GameManager.Instance.AddKeeperToSelectedList(GameManager.Instance.AllKeepersList[2]);
-                    GameManager.Instance.AllKeepersList[2].GetComponentInParent<Keeper>().IsSelected = true;
+                    if (GameManager.Instance.AllKeepersList[2].GetComponent<Mortal>().IsAlive)
+                    {
+                        GameManager.Instance.ClearListKeeperSelected();
+                        GameManager.Instance.AddKeeperToSelectedList(GameManager.Instance.AllKeepersList[2]);
+                        GameManager.Instance.AllKeepersList[2].GetComponentInParent<Keeper>().IsSelected = true;
+                    }
                 }
                 else if (Input.GetKeyDown(KeyCode.Alpha4) && GameManager.Instance.AllKeepersList.Count > 3)
                 {
-                    GameManager.Instance.ClearListKeeperSelected();
-                    GameManager.Instance.AddKeeperToSelectedList(GameManager.Instance.AllKeepersList[3]);
-                    GameManager.Instance.AllKeepersList[3].GetComponentInParent<Keeper>().IsSelected = true;
+                    if (GameManager.Instance.AllKeepersList[3].GetComponent<Mortal>().IsAlive)
+                    {
+                        GameManager.Instance.ClearListKeeperSelected();
+                        GameManager.Instance.AddKeeperToSelectedList(GameManager.Instance.AllKeepersList[3]);
+                        GameManager.Instance.AllKeepersList[3].GetComponentInParent<Keeper>().IsSelected = true;
+                    }
                 }
             }
         }
