@@ -6,6 +6,7 @@ public class SeqAshleyLowHunger : Sequence {
     private GameObject pawnMrResetti;
     public AnimationClip jumpAnimationClip;
     public GameObject shortcutPanels;
+    public List<GameObject> feedbacks;
 
     public class ShowAshleyHunger : Step
     {
@@ -26,7 +27,7 @@ public class SeqAshleyLowHunger : Sequence {
             if (feedback == null)
             {
                 feedback = Instantiate(TutoManager.s_instance.uiPointer, GameManager.Instance.Ui.transform.GetChild(0));
-                feedback.GetComponent<FlecheQuiBouge>().PointToPoint = seqAshleyLowHunger.shortcutPanels.transform.GetChild(0).position; // ugly, need fix
+                feedback.GetComponent<FlecheQuiBouge>().PointToPoint = seqAshleyLowHunger.shortcutPanels.transform.GetChild(0).position;
                 feedback.GetComponent<FlecheQuiBouge>().distanceOffset = 180.0f;
                 feedback.GetComponent<FlecheQuiBouge>().speed = 12.0f;
 
@@ -35,6 +36,40 @@ public class SeqAshleyLowHunger : Sequence {
 
             if (!TutoManager.s_instance.GetComponent<SeqAshleyLowHunger>().shortcutPanels.activeInHierarchy)
                 GameManager.Instance.Ui.ToggleShortcutPanel();
+
+            TutoManager.s_instance.EcrireMessage(str);
+            TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.Idle;
+        }
+
+        public override void Reverse()
+        {
+            Destroy(feedback);
+            alreadyPlayed = false;
+        }
+    }
+
+    public class ShowFeedSlot : Step
+    {
+        string str;
+        GameObject feedback;
+        public ShowFeedSlot(string _str)
+        {
+            stepFunction = Message_fct;
+            str = _str;
+        }
+
+        public void Message_fct()
+        {
+            SeqAshleyLowHunger seqAshleyLowHunger = TutoManager.s_instance.GetComponent<SeqAshleyLowHunger>();
+            if (feedback == null)
+            {
+                feedback = Instantiate(TutoManager.s_instance.uiPointer, GameManager.Instance.Ui.transform.GetChild(0));
+                feedback.GetComponent<FlecheQuiBouge>().PointToPoint = GameManager.Instance.PrisonerInstance.GetComponent<Behaviour.Inventory>().SelectedInventoryPanel.transform.position;
+                feedback.GetComponent<FlecheQuiBouge>().distanceOffset = 180.0f;
+                feedback.GetComponent<FlecheQuiBouge>().speed = 12.0f;
+
+                feedback.transform.localEulerAngles = new Vector3(0, 0, -45);
+            }
 
             TutoManager.s_instance.EcrireMessage(str);
             TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.Idle;
@@ -56,7 +91,11 @@ public class SeqAshleyLowHunger : Sequence {
         Etapes.Add(new TutoManager.Spawn(pawnMrResetti, jumpAnimationClip));
 
         Etapes.Add(new ShowAshleyHunger("Be careful, Ashley is starving!"));
-        Etapes.Add(new TutoManager.Message(pawnMrResetti, "Interact with her with a character and feed her before she starts to lose health!"));
+
+        if (GameManager.Instance.PrisonerInstance.GetComponent<Behaviour.Inventory>().SelectedInventoryPanel.activeSelf)
+            Etapes.Add(new TutoManager.Message(pawnMrResetti, "Use the Feed slot here to feed her"));
+        else
+            Etapes.Add(new TutoManager.Message(pawnMrResetti, "Go on the area where she is and use the Feed slot next to your inventory to feed her"));        
     }
 
     public override void End()
