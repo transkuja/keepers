@@ -9,6 +9,63 @@ namespace Behaviour
     {
         private int sucessiveLuck = 0;
         private int sucessiveBadLuck = 0;
+        private List<SkillBattle> physicalSkills = new List<SkillBattle>();
+        private List<SkillBattle> defensiveSkills = new List<SkillBattle>();
+        private List<SkillBattle> magicalSkills = new List<SkillBattle>();
+
+        // Skills
+        // Physical
+        
+            // Defensive
+
+            // Magical
+
+        private void Start()
+        {
+            SkillBattle physicalSkill1 = new SkillBattle();
+            physicalSkill1.Damage = 25;
+            physicalSkill1.Description = "TODO";
+            physicalSkill1.SkillName = "TODO";
+            physicalSkill1.TargetType = TargetType.FoeSingle;
+            physicalSkill1.SkillUser = GetComponent<Fighter>();
+            physicalSkill1.Cost = new List<Face>();
+            physicalSkill1.Cost.Add(new Face(FaceType.Physical, 2));
+            physicalSkills.Add(physicalSkill1);
+
+            SkillBattle physicalSkill2 = new SkillBattle();
+            physicalSkill2.Damage = 25;
+            physicalSkill2.Description = "TODO";
+            physicalSkill2.SkillName = "TODO";
+            physicalSkill2.TargetType = TargetType.FoeSingle;
+            physicalSkill2.SkillUser = GetComponent<Fighter>();
+            physicalSkill2.Cost = new List<Face>();
+            physicalSkill2.Cost.Add(new Face(FaceType.Physical, 2));
+            physicalSkill2.Boeufs = new BattleBoeuf[2];
+            physicalSkill2.Boeufs[0].BoeufType = BoeufType.Damage;
+            physicalSkill2.Boeufs[0].Duration = 4;
+            physicalSkill2.Boeufs[0].EffectValue = -5;
+            physicalSkill2.Boeufs[1].BoeufType = BoeufType.Defense;
+            physicalSkill2.Boeufs[1].Duration = 4;
+            physicalSkill2.Boeufs[1].EffectValue = -10;
+            physicalSkills.Add(physicalSkill2);
+
+            SkillBattle physicalSkill3 = new SkillBattle();
+            physicalSkill3.Damage = 12;
+            physicalSkill3.Description = "TODO";
+            physicalSkill3.SkillName = "TODO";
+            physicalSkill3.TargetType = TargetType.FoeSingle;
+            physicalSkill3.SkillUser = GetComponent<Fighter>();
+            physicalSkill3.Cost = new List<Face>();
+            physicalSkill3.Cost.Add(new Face(FaceType.Physical, 2));
+            physicalSkill3.Boeufs = new BattleBoeuf[2];
+            physicalSkill3.Boeufs[0].BoeufType = BoeufType.Damage;
+            physicalSkill3.Boeufs[0].Duration = 4;
+            physicalSkill3.Boeufs[0].EffectValue = 10;
+            physicalSkill3.Boeufs[1].BoeufType = BoeufType.Defense;
+            physicalSkill3.Boeufs[1].Duration = 4;
+            physicalSkill3.Boeufs[1].EffectValue = 10;
+            physicalSkills.Add(physicalSkill3);
+        }
 
         public LuckResult RollDice()
         {
@@ -143,6 +200,17 @@ namespace Behaviour
                 default:
                     break;
             }
+        }
+
+        public SkillBattle HandleLuckForSkills(SkillBattle _skill)
+        {
+            int randDieForSkills = Random.Range(0, 3);
+            if (_skill.SkillType == SkillType.Physical)
+                return physicalSkills[randDieForSkills];
+            else if (_skill.SkillType == SkillType.Magical)
+                return magicalSkills[randDieForSkills];
+            else
+                return defensiveSkills[randDieForSkills];
         }
     }
 }
