@@ -33,7 +33,7 @@ public class boxMove : MonoBehaviour {
                         // Done
                         if (!menuManager.DuckhavebringThebox)
                         {
-                            Invoke("Boom", 3);
+                            Invoke("Boom", 1);
                         }
                     }
                 }
@@ -48,10 +48,15 @@ public class boxMove : MonoBehaviour {
     {
 
         //transform.SetParent(null);
-        agent.baseOffset = 0.10f;
-        GlowController.RegisterObject(menuManager.GetComponent<BoxOpener>().boxLock.GetComponent<GlowObjectCmd>());
-        //menuManager.GetComponent<BoxOpener>().boxLock.GetComponent<GlowObjectCmd>().UpdateColor(true);
-        menuManager.DuckhavebringThebox = true;
+        GetComponent<Animator>().SetTrigger("dropBox");
 
+        //menuManager.GetComponent<BoxOpener>().boxLock.GetComponent<GlowObjectCmd>().UpdateColor(true);
+
+
+    }
+
+    public void Bite(){
+        GlowController.RegisterObject(menuManager.GetComponent<BoxOpener>().boxLock.GetComponent<GlowObjectCmd>());
+        menuManager.DuckhavebringThebox = true;
     }
 }
