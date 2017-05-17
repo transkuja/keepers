@@ -305,6 +305,17 @@ public class IngameUI : MonoBehaviour
     }
     #endregion
 
+    public void AutoEscortAshley()
+    {
+        PawnInstance ashley = GameManager.Instance.PrisonerInstance;
+        Tile ashleyTile = ashley.CurrentTile;
+        TileManager.Instance.KeepersOnTile[ashleyTile][0].GetComponent<Behaviour.Keeper>().GoListCharacterFollowing.Add(ashley.gameObject);
+        Behaviour.Escortable escortComponent = ashley.GetComponent<Behaviour.Escortable>();
+        escortComponent.escort = TileManager.Instance.KeepersOnTile[ashleyTile][0].GetComponent<Behaviour.Keeper>();
+        escortComponent.IsEscorted = true;
+        escortComponent.ActivateIconNearEscort();
+    }
+
     #region Keepers_Inventory
     public void HideInventoryPanels()
     {
