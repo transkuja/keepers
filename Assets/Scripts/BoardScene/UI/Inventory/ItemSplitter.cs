@@ -39,14 +39,16 @@ public class ItemSplitter : MonoBehaviour {
 
     public void LeftArrow()
     {
-        if (inputFieldText.text != "0")
-            inputFieldText.text = (Int32.Parse(inputFieldText.text) - 1).ToString();
+        int parsedValue;
+        if (inputFieldText.text != "0" && Int32.TryParse(inputFieldText.text, out parsedValue))
+            inputFieldText.text = (parsedValue - 1).ToString();
     }
 
     public void RightArrow()
     {
-        if (inputFieldText.text != selectedItem.Quantity.ToString())
-            inputFieldText.text = (Int32.Parse(inputFieldText.text) + 1).ToString();
+        int parsedValue;
+        if (inputFieldText.text != selectedItem.Quantity.ToString() && Int32.TryParse(inputFieldText.text, out parsedValue))
+            inputFieldText.text = (parsedValue + 1).ToString();
     }
 
     public void InputFieldCapper()
@@ -56,7 +58,7 @@ public class ItemSplitter : MonoBehaviour {
 
         Regex rgx = new Regex(regexPattern);
         inputFieldText.text = rgx.Replace(inputFieldText.text, "");
-        if (Int32.Parse(inputFieldText.text) > selectedItem.Quantity)
+        if (inputFieldText.text.Length > 0 && Int32.Parse(inputFieldText.text) > selectedItem.Quantity)
             inputFieldText.text = selectedItem.Quantity.ToString();
     }
 
