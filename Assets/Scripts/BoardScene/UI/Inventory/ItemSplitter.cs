@@ -21,8 +21,6 @@ public class ItemSplitter : MonoBehaviour {
 
     void OnEnable()
     {
-        // on drop
-        // or double click
         inputFieldText.text = selectedItem.Quantity.ToString();
         uiItem.transform.position = Input.mousePosition;
         uiItem.GetComponent<DragHandler>().enabled = false;
@@ -64,52 +62,54 @@ public class ItemSplitter : MonoBehaviour {
 
     public void Split()
     {
-        quantityToSend = Int32.Parse(inputFieldText.text);
+        if (inventoryFrom.transform.parent.gameObject.activeSelf && inventoryTo.transform.parent.gameObject.activeSelf)
+        {
+            quantityToSend = Int32.Parse(inputFieldText.text);
 
-        int quantityLeft = 0;
-        if (targetSlot.GetComponent<Slot>().hasAlreadyAnItem)
-        {
-            quantityLeft = InventoryManager.MergeStackables(targetSlot.GetComponent<Slot>().currentItem.GetComponent<ItemInstance>().ItemContainer, selectedItem, quantityToSend);
-        }
-        else
-        {
-            if (quantityToSend > 0)
+            int quantityLeft = 0;
+            if (targetSlot.GetComponent<Slot>().hasAlreadyAnItem)
             {
-                if (InventoryManager.AddItemToInventory(inventoryTo.Owner.GetComponent<Behaviour.Inventory>().Items, new ItemContainer(selectedItem.Item, quantityToSend)))
+                quantityLeft = InventoryManager.MergeStackables(targetSlot.GetComponent<Slot>().currentItem.GetComponent<ItemInstance>().ItemContainer, selectedItem, quantityToSend);
+            }
+            else
+            {
+                if (quantityToSend > 0)
                 {
-                    selectedItem.Quantity -= quantityToSend;
-                    quantityLeft = selectedItem.Quantity;
+                    if (InventoryManager.AddItemToInventory(inventoryTo.Owner.GetComponent<Behaviour.Inventory>().Items, new ItemContainer(selectedItem.Item, quantityToSend)))
+                    {
+                        selectedItem.Quantity -= quantityToSend;
+                        quantityLeft = selectedItem.Quantity;
+                    }
+                }
+            }
+
+            if (quantityLeft <= 0)
+            {
+                InventoryManager.RemoveItem(inventoryFrom.Owner.GetComponent<Behaviour.Inventory>().Items, selectedItem);
+            }
+
+            if (inventoryFrom.Owner.GetComponent<LootInstance>() != null)
+            {
+                bool isEmpty = true;
+                for (int i = 0; i < inventoryFrom.Owner.GetComponent<Behaviour.Inventory>().Items.Length; i++)
+                {
+                    if (inventoryFrom.Owner.GetComponent<Behaviour.Inventory>().Items[i] != null)
+                    {
+                        isEmpty = false;
+                        break;
+                    }
+                }
+                if (isEmpty)
+                {
+                    if (inventoryFrom.Owner.gameObject.GetComponentInChildren<Canvas>() != null)
+                    {
+                        inventoryFrom.Owner.gameObject.GetComponentInChildren<Canvas>().transform.SetParent(null);
+                    }
+                    Destroy(inventoryFrom.Owner.gameObject);
+                    Destroy(inventoryFrom.GetComponentInParent<DragHandlerInventoryPanel>().gameObject);
                 }
             }
         }
-
-        if (quantityLeft <= 0)
-        {
-            InventoryManager.RemoveItem(inventoryFrom.Owner.GetComponent<Behaviour.Inventory>().Items, selectedItem);
-        }
-
-        if (inventoryFrom.Owner.GetComponent<LootInstance>() != null)
-        {
-            bool isEmpty = true;
-            for (int i = 0; i < inventoryFrom.Owner.GetComponent<Behaviour.Inventory>().Items.Length; i++)
-            {
-                if (inventoryFrom.Owner.GetComponent<Behaviour.Inventory>().Items[i] != null)
-                {
-                    isEmpty = false;
-                    break;
-                }
-            }
-            if (isEmpty)
-            {
-                if (inventoryFrom.Owner.gameObject.GetComponentInChildren<Canvas>() != null)
-                {
-                    inventoryFrom.Owner.gameObject.GetComponentInChildren<Canvas>().transform.SetParent(null);
-                }
-                Destroy(inventoryFrom.Owner.gameObject);
-                Destroy(inventoryFrom.GetComponentInParent<DragHandlerInventoryPanel>().gameObject);
-            }
-        }
-
         gameObject.SetActive(false);
     }
 
