@@ -42,12 +42,13 @@ namespace Behaviour
 
         void Awake()
         {
-            instance = GetComponent<PawnInstance>();
+
             feedbackUpdater = GetComponent<QuestDealerFeedbackUpdater>();
         }
 
         public void Init()
         {
+            instance = GetComponent<PawnInstance>();
             goQuest = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabContentQuestUI, GameManager.Instance.Ui.goContentQuestParent.transform);
             goQuest.transform.localPosition = Vector3.zero;
             goQuest.transform.localScale = Vector3.one;
