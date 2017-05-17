@@ -362,7 +362,7 @@ public class SeqFirstMove : Sequence {
         Etapes.Add(new ReactivateAscFeedbackStep("Well done you genius,"));
         Etapes.Add(new GiveACookieStep("here's your cookie!"));
         //Etapes.Add(new ActionPointsExplanationStep("This action cost you 3 action points. Always keep an eye on them.")); // ==> feedback sur les points d'action
-        Etapes.Add(new ActionPointsExplanationStep("This action costed you 3 action points. Always keep an eye on them.")); // ==> feedback sur les points d'action
+        Etapes.Add(new ActionPointsExplanationStep("This action cost you 3 action points. Always keep an eye on them.")); // ==> feedback sur les points d'action
         //Etapes.Add(new FirstEndTurnStep("You can restore your action points by clicking on the end turn button."));
         Etapes.Add(new FirstEndTurnStep("Ending the turn will restore all your characters's action points"));
         
