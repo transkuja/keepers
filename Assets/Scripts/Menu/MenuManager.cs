@@ -81,10 +81,10 @@ public class MenuManager : MonoBehaviour {
                 goCardLevel.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = leveldb.listLevels[i].name;
                 switch (leveldb.listLevels[i].difficulty){
 
-                    case "easy":
+                    case "Easy":
                         goCardLevel.transform.GetChild(0).GetChild(1).GetComponent<Text>().color = Color.green;
                         break;
-                    case "hard":
+                    case "Hard":
                         goCardLevel.transform.GetChild(0).GetChild(1).GetComponent<Text>().color = Color.red;
                         break;
                     default:
