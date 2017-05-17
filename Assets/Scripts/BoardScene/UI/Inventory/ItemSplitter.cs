@@ -60,6 +60,12 @@ public class ItemSplitter : MonoBehaviour {
             inputFieldText.text = selectedItem.Quantity.ToString();
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Return))
+            Split();
+    }
+
     public void Split()
     {
         if (inventoryFrom.transform.parent.gameObject.activeSelf && inventoryTo.transform.parent.gameObject.activeSelf)
