@@ -18,6 +18,9 @@ public class boxMove : MonoBehaviour {
         {
             agent.SetDestination(new Vector3(transform.localPosition.x, transform.localPosition.y, destination.localPosition.z));
         }
+
+        GlowController.UnregisterObject(menuManager.GetComponent<BoxOpener>().boxLock.GetComponent<GlowObjectCmd>());
+        menuManager.GetComponent<BoxOpener>().boxLock.GetComponent<GlowObjectCmd>().UpdateColor(false);
     }
 
     public void Update()

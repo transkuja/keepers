@@ -6,7 +6,7 @@
 			"cardModelName" : "Asset_Carte_LevelTuto", 
 			"questDeckId" : "deck_01",
 			"nbPawn" :"1",
-			"difficulty":""
+			"difficulty":"Trivial"
 		},
 		{ 
 			"id": 2, 
@@ -14,7 +14,7 @@
 			"cardModelName" : "Asset_Carte_Level_02", 
 			"questDeckId" : "deck_02",
 			"nbPawn" :"3",
-			"difficulty":"easy",
+			"difficulty":"Easy",
 			"events" : [
 				"1",
 				"2"
@@ -26,7 +26,7 @@
 			"cardModelName" : "Asset_Carte_Level_03", 
 			"questDeckId" : "deck_04",
 			"nbPawn" :"3",
-			"difficulty":"hard",
+			"difficulty":"Hard",
 			"events" : [
 				"3"
 			]

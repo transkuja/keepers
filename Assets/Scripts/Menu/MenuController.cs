@@ -31,9 +31,6 @@ public class MenuController : MonoBehaviour {
         boxOpener = GetComponent<BoxOpener>();
         leveldb = menuManager.Leveldb;
         oncePressR = false;
-
-        GlowController.UnregisterObject(boxOpener.boxLock.GetComponent<GlowObjectCmd>());
-        boxOpener.boxLock.GetComponent<GlowObjectCmd>().UpdateColor(false);
     }
 
     // Update is called once per frame

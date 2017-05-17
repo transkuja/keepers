@@ -80,6 +80,7 @@ public class MenuManager : MonoBehaviour {
                 goCardLevel.transform.localPosition = Vector3.zero;
                 goCardLevel.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = leveldb.listLevels[i].name;
                 switch (leveldb.listLevels[i].difficulty){
+
                     case "easy":
                         goCardLevel.transform.GetChild(0).GetChild(1).GetComponent<Text>().color = Color.green;
                         break;
@@ -87,6 +88,7 @@ public class MenuManager : MonoBehaviour {
                         goCardLevel.transform.GetChild(0).GetChild(1).GetComponent<Text>().color = Color.red;
                         break;
                     default:
+                        goCardLevel.transform.GetChild(0).GetChild(1).GetComponent<Text>().color = Color.green;
                         break;
                 }
                 goCardLevel.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = leveldb.listLevels[i].difficulty;
@@ -104,7 +106,7 @@ public class MenuManager : MonoBehaviour {
 
                     GameObject goQuestCard = Instantiate(prefabMainQuestCard, goCardLevel.transform);
                     goQuestCard.transform.localPosition = Vector3.zero;
-                    goQuestCard.GetComponentInChildren<Text>().text = "";/* GameManager.Instance.QuestDeckDataBase.GetDeckByID(leveldb.listLevels[i].deckId).DeckName;*/
+                    //goQuestCard.GetComponentInChildren<Text>().text = "";/* GameManager.Instance.QuestDeckDataBase.GetDeckByID(leveldb.listLevels[i].deckId).DeckName;*/
                     goQuestCard.SetActive(false);
                     cardChildren.Add(goQuestCard);
 
@@ -112,7 +114,7 @@ public class MenuManager : MonoBehaviour {
                     {
                         goQuestCard = Instantiate(prefabSideQuestCard, goCardLevel.transform);
                         goQuestCard.transform.localPosition = Vector3.zero;
-                        goQuestCard.GetComponentInChildren<Text>().text = "";/*qdd.secondaryQuests[k].idQuest; // TODO Add real name and description to quests*/
+              /*          goQuestCard.GetComponentInChildren<Text>().text = ""/*qdd.secondaryQuests[k].idQuest; // TODO Add real name and description to quests*/
                         goQuestCard.SetActive(false);
                         cardChildren.Add(goQuestCard);
                     }
@@ -124,7 +126,7 @@ public class MenuManager : MonoBehaviour {
                         {
                             GameObject goEventCard = Instantiate(prefabEventCard, goCardLevel.transform);
                             goEventCard.transform.localPosition = Vector3.zero;
-                            goEventCard.GetComponentInChildren<Text>().text = "";/*GameManager.Instance.EventDataBase.GetEventById(leveldb.listLevels[i].listEventsId[l]).id + "\n" +
+                        /*    goEventCard.GetComponentInChildren<Text>().text = ""*//*GameManager.Instance.EventDataBase.GetEventById(leveldb.listLevels[i].listEventsId[l]).id + "\n" +
                                                                                 GameManager.Instance.EventDataBase.GetEventById(leveldb.listLevels[i].listEventsId[l]).description;*/
                             goEventCard.SetActive(false);
                             cardChildren.Add(goEventCard);
