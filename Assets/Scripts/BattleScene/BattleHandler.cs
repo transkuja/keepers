@@ -944,9 +944,9 @@ public class BattleHandler {
             {
                 if (currentBattleKeepers[i].GetComponent<Mortal>().IsAlive)
                     currentBattleKeepers[i].GetComponent<Fighter>().UpdateActiveBoeufs();
-                if (isPrisonerOnTile)
-                    GameManager.Instance.PrisonerInstance.GetComponent<Fighter>().UpdateActiveBoeufs();
             }
+            if (isPrisonerOnTile)
+                GameManager.Instance.PrisonerInstance.GetComponent<Fighter>().UpdateActiveBoeufs();
             for (int i = 0; i < currentBattleMonsters.Length; i++)
             {
                 if (currentBattleMonsters[i].GetComponent<Mortal>().IsAlive)
