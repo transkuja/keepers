@@ -82,10 +82,10 @@ public class EventManager : MonoBehaviour {
                         pi.GetComponent<MentalHealthHandler>().CurrentMentalHealth -= 5;
                 }
 
-                if (ki.CurrentTile.GetComponent<Tile>().Friendliness == TileFriendliness.Scary)
-                    ki.GetComponent<MentalHealthHandler>().CurrentMentalHealth -= 10;
-                if (ki.CurrentTile.GetComponent<Tile>().Friendliness == TileFriendliness.Friendly)
-                    ki.GetComponent<MentalHealthHandler>().CurrentMentalHealth += 5;
+                if (pi.CurrentTile.GetComponent<Tile>().Friendliness == TileFriendliness.Scary)
+                    pi.GetComponent<MentalHealthHandler>().CurrentMentalHealth -= 10;
+                if (pi.CurrentTile.GetComponent<Tile>().Friendliness == TileFriendliness.Friendly)
+                    pi.GetComponent<MentalHealthHandler>().CurrentMentalHealth += 5;
 
                 foreach (PawnInstance piOnTile in TileManager.Instance.KeepersOnTile[pi.CurrentTile])
                 {
