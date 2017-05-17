@@ -32,10 +32,13 @@ public class JoinTeamOnQuestComplete : MonoBehaviour {
             GameManager.Instance.PersistenceLoader.Pd.dicPersistencePawns[idKeeper] = true;
         }
         GameManager.Instance.PawnDataBase.InitPawn(pawn);
+        GameManager.Instance.AllKeepersList.Add(pawn);
         GameManager.Instance.CharacterInitializer.InitCharacterUI(pawn);
         TileManager.Instance.AddKeeperOnTile(GetComponentInParent<Tile>(), pawn);
+        GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Keeper>().IsSelected = false;
         GameManager.Instance.ClearListKeeperSelected();
-        GameManager.Instance.AllKeepersList.Add(pawn);
+        pawn.GetComponent<Behaviour.Keeper>().IsSelected = true;
+        GameManager.Instance.AddKeeperToSelectedList(pawn);
         GlowController.RegisterObject(pawn.GetComponent<GlowObjectCmd>());
         pawn.GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = true;
         Transform feed = GetComponent<Interactable>().Feedback;

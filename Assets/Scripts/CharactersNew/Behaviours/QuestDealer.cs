@@ -170,10 +170,11 @@ namespace Behaviour
 
         void EndQuest()
         {
+            CloseBox();
             if (feedbackUpdater != null)
                 feedbackUpdater.DisableFeedbacks();
             QuestUtility.CompleteQuest(QuestToGive);
-            CloseBox();
+            
             // Do things?
         }
     }
