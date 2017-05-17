@@ -101,10 +101,6 @@ public class BoxOpener : MonoBehaviour {
         menuManager = GetComponent<MenuManager>();
         menuUi = GetComponent<MenuUI>();
 
-
-        GlowController.UnregisterObject(boxLock.GetComponent<GlowObjectCmd>());
-        boxLock.GetComponent<GlowObjectCmd>().UpdateColor(false);
-
     }
 
     public void BoxControls()

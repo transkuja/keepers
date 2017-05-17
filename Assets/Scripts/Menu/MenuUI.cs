@@ -18,7 +18,7 @@ public class MenuUI : MonoBehaviour {
     private MenuManager menuManager;
     private BoxOpener box;
 
-    public Image startButtonImg;
+    public GameObject startButtonImg;
     public GameObject pressR;
 
     // Postion ou devront aller les perso ou les deck
@@ -335,11 +335,11 @@ public class MenuUI : MonoBehaviour {
             || (menuManager.DeckOfCardsSelected == "deck_04" && menuManager.ListeSelectedKeepers.Count != 3)
             || (menuManager.DeckOfCardsSelected == "deck_02" && menuManager.ListeSelectedKeepers.Count != 3))
         {
-            startButtonImg.enabled = false;
+            startButtonImg.SetActive(false);
         }
         else
         {
-            startButtonImg.enabled = true;
+            startButtonImg.SetActive(true);
         }
         // end TODO
     }
