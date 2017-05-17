@@ -73,6 +73,7 @@ namespace Behaviour
                     }
                 }
             }
+
             if (IsMovingBetweenTiles)
             {
                 lerpMoveParam += Time.deltaTime;
@@ -89,6 +90,7 @@ namespace Behaviour
                 transform.position = Vector3.Lerp(lerpStartPosition, lerpEndPosition, Mathf.Clamp(lerpMoveParam, 0, 1));
                 transform.rotation = Quaternion.Lerp(lerpStartRotation, lerpEndRotation, Mathf.Clamp(lerpMoveParam, 0, 1));
             }
+
             if (isMovingToBattlePosition)
             {
                 lerpMoveParam += Time.deltaTime;
@@ -99,10 +101,12 @@ namespace Behaviour
                 transform.position = Vector3.Lerp(lerpStartPosition, lerpEndPosition, Mathf.Clamp(lerpMoveParam, 0, 1));
                 transform.rotation = Quaternion.Lerp(lerpStartRotation, lerpEndRotation, Mathf.Clamp(lerpMoveParam, 0, 1));
             }
+
             if (anim.isActiveAndEnabled == true && agent.isActiveAndEnabled == true)
             {
                 anim.SetFloat("velocity", agent.velocity.magnitude);
             }
+
             if (doesAgentNeedReset)
             {
                 if (timerResetAgentDestination > 0.0f)
@@ -248,6 +252,13 @@ namespace Behaviour
                         ashleyInventoryPanel.transform.SetParent(GetComponent<Inventory>().SelectedInventoryPanel.transform.parent, false);
                         GetComponent<Inventory>().SelectedInventoryPanel.GetComponent<GridLayoutGroup>().constraintCount = GetComponent<Inventory>().Data.NbSlot;
                     }
+                }
+
+                if (agent != null && agent.isActiveAndEnabled)
+                {
+                    agent.SetDestination(transform.position);
+                    timerResetAgentDestination = timerResetAgentDestinationDefault/10.0f;
+                    doesAgentNeedReset = true;
                 }
             }
         }
