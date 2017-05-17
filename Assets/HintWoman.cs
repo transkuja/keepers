@@ -69,7 +69,8 @@ public class HintWoman : MonoBehaviour {
     void CloseBox()
     {
         GameManager.Instance.CurrentState = GameState.Normal;
-        indiceMsg++;
+        if (GameManager.Instance.GetFirstSelectedKeeper().Data.Behaviours[(int)BehavioursEnum.CanSpeak])
+            indiceMsg++;
         if ( indiceMsg < commeSurLePanneau.Length)
         {
             goHint.transform.GetChild(3).GetComponentInChildren<Text>().text = commeSurLePanneau[indiceMsg];
