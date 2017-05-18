@@ -10,6 +10,8 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class IngameScreens : MonoBehaviour {
     private static IngameScreens instance = null;
+    public GameObject pauseMenu;
+    public GameObject optionsMenu;
 
     public void Start()
     {
@@ -43,27 +45,43 @@ public class IngameScreens : MonoBehaviour {
     {
         if (GameManager.Instance.CurrentState == GameState.Normal)
         {
-            transform.GetChild(0).GetChild((int)IngameScreensEnum.EscapeMenu).gameObject.SetActive(true);
+            pauseMenu.transform.SetParent(GameManager.Instance.Ui.transform.GetChild(0));
+            pauseMenu.transform.SetAsLastSibling();
+            optionsMenu.transform.SetParent(GameManager.Instance.Ui.transform.GetChild(0));
+            optionsMenu.transform.SetAsLastSibling();
+            pauseMenu.SetActive(true);
             GameManager.Instance.CurrentState = GameState.InPause;
         }
         else if (GameManager.Instance.CurrentState == GameState.InPause)
         {
-            if (transform.GetChild(0).GetChild((int)IngameScreensEnum.EscapeMenu).gameObject.activeInHierarchy)
+            if (pauseMenu.activeInHierarchy)
             {
-                transform.GetChild(0).GetChild((int)IngameScreensEnum.EscapeMenu).gameObject.SetActive(false);
+                pauseMenu.SetActive(false);
+                pauseMenu.transform.SetParent(transform.GetChild(0));
+                pauseMenu.transform.SetSiblingIndex((int)IngameScreensEnum.EscapeMenu);
+                optionsMenu.transform.SetParent(transform.GetChild(0));
+                optionsMenu.transform.SetSiblingIndex((int)IngameScreensEnum.OptionsMenu);
                 transform.GetChild(0).GetChild((int)IngameScreensEnum.BattleResultScreens).gameObject.SetActive(false);
                 GameManager.Instance.CurrentState = GameState.Normal;
             }
         }
         else if (GameManager.Instance.CurrentState == GameState.InTuto)
         {
-            if (transform.GetChild(0).GetChild((int)IngameScreensEnum.EscapeMenu).gameObject.activeInHierarchy)
+            if (pauseMenu.activeInHierarchy)
             {
-                transform.GetChild(0).GetChild((int)IngameScreensEnum.EscapeMenu).gameObject.SetActive(false);
+                pauseMenu.SetActive(false);
+                pauseMenu.transform.SetParent(transform.GetChild(0));
+                pauseMenu.transform.SetSiblingIndex((int)IngameScreensEnum.EscapeMenu);
+                optionsMenu.transform.SetParent(transform.GetChild(0));
+                optionsMenu.transform.SetSiblingIndex((int)IngameScreensEnum.OptionsMenu);
             }
             else
             {
-                transform.GetChild(0).GetChild((int)IngameScreensEnum.EscapeMenu).gameObject.SetActive(true);
+                pauseMenu.transform.SetParent(GameManager.Instance.Ui.transform.GetChild(0));
+                pauseMenu.transform.SetAsLastSibling();
+                optionsMenu.transform.SetParent(GameManager.Instance.Ui.transform.GetChild(0));
+                optionsMenu.transform.SetAsLastSibling();
+                pauseMenu.SetActive(true);
             }
         }
     }
@@ -75,6 +93,12 @@ public class IngameScreens : MonoBehaviour {
 
     public void BackToMenu()
     {
+        pauseMenu.SetActive(false);
+        pauseMenu.transform.SetParent(transform.GetChild(0));
+        pauseMenu.transform.SetSiblingIndex((int)IngameScreensEnum.EscapeMenu);
+        optionsMenu.transform.SetParent(transform.GetChild(0));
+        optionsMenu.transform.SetSiblingIndex((int)IngameScreensEnum.OptionsMenu);
+
         if (GameManager.Instance.CurrentState == GameState.InTuto && TutoManager.s_instance.PlayingSequence != null)
         {
             TutoManager.s_instance.Reset();

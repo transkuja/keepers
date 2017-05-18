@@ -11,6 +11,8 @@ public class CharactersInitializer : MonoBehaviour {
     // Init keepers and call next initialization
     public void InitKeepers(Transform[] beginPositionsKeepers)
     {
+        GameManager.Instance.AllKeepersList.Clear();
+
         for (int i = 0; i < GameManager.Instance.AllKeeperListId.Count; i++)
         {
             string curKeeperStr = GameManager.Instance.AllKeeperListId[i];
@@ -21,7 +23,6 @@ public class CharactersInitializer : MonoBehaviour {
             if (curKeeperPI.Data.Behaviours[(int)BehavioursEnum.Archer] == true)
                 GameManager.Instance.ArcherInstance = curKeeperPI;
 
-            GameManager.Instance.AllKeepersList.Clear();
             GameManager.Instance.AllKeepersList.Add(curKeeperPI);
             InitCharacterUI(curKeeperPI);
             GameManager.Instance.RegisterKeeperPosition(curKeeperPI);
