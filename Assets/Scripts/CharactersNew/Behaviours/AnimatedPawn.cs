@@ -180,6 +180,19 @@ namespace Behaviour
                 Debug.Log("Agent is not active!");
                 return;
             }
+
+            // Reactivate aggro
+            Tile currentKeeperTile = GameManager.Instance.GetFirstSelectedKeeper().CurrentTile;
+            foreach (PawnInstance pi in GameManager.Instance.GetKeepersOnTile(currentKeeperTile))
+                pi.GetComponent<Fighter>().IsTargetableByMonster = true;
+            if (GameManager.Instance.PrisonerInstance.CurrentTile == currentKeeperTile)
+            {
+                if (GameManager.Instance.PrisonerInstance.GetComponent<Fighter>() != null)
+                    GameManager.Instance.PrisonerInstance.GetComponent<Fighter>().IsTargetableByMonster = true;
+                else
+                    Debug.LogWarning("Missing Fighter component on Prisoner.");
+            }
+
             timerResetAgentDestination = timerResetAgentDestinationDefault;
             doesAgentNeedReset = true;
             agent.angularSpeed = 0.0f;
