@@ -50,7 +50,7 @@ public class MenuManager : MonoBehaviour {
     private void Awake()
     {
         dicPawnChatBox = new Dictionary<GameObject, ChatBox>();
-
+        //duckhavebringThebox = false;
     }
 
     void Start()
@@ -63,7 +63,7 @@ public class MenuManager : MonoBehaviour {
         menuUi = GetComponent<MenuUI>();
         hasBeenInit = false;
         menuUi.UpdateStartButton();
-        duckhavebringThebox = false;
+        
     }
 
     public void InitCards()

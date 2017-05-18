@@ -95,6 +95,7 @@ public class GameManager : MonoBehaviour
 
         else if (instance != this)
         {
+            DontReplayDuckAnimation();
             Destroy(gameObject);
         }
 
@@ -149,6 +150,19 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void DontReplayDuckAnimation()
+    {
+        if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Menu new"))
+        {
+            GameObject.Find("Box Nav box").GetComponent<Animator>().enabled = false;
+            GameObject.Find("Box Nav box").GetComponent<NavMeshAgent>().baseOffset = 0.1f;
+            GameObject.Find("Box Nav box").transform.localPosition = new Vector3(0.0f, 0.025f, -0.22f);
+            GameObject.Find("Box Nav box").GetComponent<boxMove>().enabled = false;
+            GameObject.Find("DuckNukeThem").SetActive(false);
+            FindObjectOfType<MenuManager>().DuckhavebringThebox = true;
+        }
+    }
+
     public void Win()
     {
         AudioManager.Instance.PlayOneShot(AudioManager.Instance.winningSound, 0.05f);
@@ -167,7 +181,6 @@ public class GameManager : MonoBehaviour
         if( SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Menu new"))
         {
             instance.listOfSelectedKeepers.Clear();
-
         }
         else
         {
