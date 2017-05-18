@@ -75,6 +75,10 @@ public class IngameScreens : MonoBehaviour {
 
     public void BackToMenu()
     {
+        if (GameManager.Instance.CurrentState == GameState.InTuto && TutoManager.s_instance.PlayingSequence != null)
+        {
+            TutoManager.s_instance.Reset();
+        }
         GameManager.Instance.CurrentState = GameState.Normal;
         AudioManager.Instance.Fade(AudioManager.Instance.menuMusic);
         GameManager.Instance.Ui.GoActionPanelQ.transform.parent.SetParent(GameManager.Instance.Ui.transform);

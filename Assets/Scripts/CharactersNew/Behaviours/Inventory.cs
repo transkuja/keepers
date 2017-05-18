@@ -55,6 +55,7 @@ namespace Behaviour
         void OnDestroy()
         {
             Destroy(inventoryPanel);
+            Destroy(selectedInventoryPanel);
         }
 
         public void Add(ItemContainer item)
@@ -434,7 +435,6 @@ namespace Behaviour
                 possibleItems = value;
             }
         }
-
         #endregion
     }
 }

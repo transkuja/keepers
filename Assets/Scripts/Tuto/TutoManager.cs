@@ -121,6 +121,14 @@ public class TutoManager : MonoBehaviour {
         }        
     }
 
+    public void Reset()
+    {
+        playingSequence.CurrentStep.Reverse();
+        playingSequence.position = -1;
+        playingSequence = null;
+        Destroy(tutoPanelInstance);
+    }
+
     void Update()
     {
         if (playingSequence != null)
