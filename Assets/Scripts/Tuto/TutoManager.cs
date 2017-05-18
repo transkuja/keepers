@@ -320,6 +320,7 @@ public class TutoManager : MonoBehaviour {
             }
 
             curButton.interactable = _enable;
+
         }            
     }
 
@@ -330,7 +331,13 @@ public class TutoManager : MonoBehaviour {
             if (s_instance.playingSequence.MoveNext())
             {
                 if (s_instance.playingSequence.CurrentState != SequenceState.WaitingForExternalEvent)
+                {
                     s_instance.playingSequence.Play();
+                    tutoPanelInstance.GetComponentInChildren<UIPointerOpacityTingling>().enabled = true;
+                    tutoPanelInstance.GetComponentInChildren<UIPointerOpacityTingling>().Timer = 0.0f;
+                } 
+     
+                
             }
             // End sequence
             else

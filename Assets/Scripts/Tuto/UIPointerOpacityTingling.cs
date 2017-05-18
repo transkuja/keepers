@@ -12,9 +12,23 @@ public class UIPointerOpacityTingling : MonoBehaviour {
     private float speed = 1.0f;
     private GameObject btn;
 
-	// Use this for initialization
-	void Start () {
+    public float Timer
+    {
+        get
+        {
+            return timer;
+        }
+
+        set
+        {
+            timer = value;
+        }
+    }
+
+    // Use this for initialization
+    void Start () {
         pointer = GetComponent<Image>();
+     
         colorPointer = pointer.color;
         alpha = colorPointer.a;
         timer = .0f;
@@ -24,15 +38,30 @@ public class UIPointerOpacityTingling : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         timer += Time.deltaTime;
-        colorPointer = pointer.color;
-        float variableQ = Mathf.Cos(timer * speed);
-        colorPointer.a = alpha * (variableQ + 0.95f);
-        //btn.transform.localScale = new Vector3(1 + variableQ/10, 1 + variableQ/10, 0);
-        pointer.color = colorPointer;
-
-        if (timer >= 2*Mathf.PI)
+        if (timer > 3.0f)
         {
-            timer -= 2 * Mathf.PI;
+            if (pointer.enabled == false)
+            {
+                pointer.enabled = true;
+            }
+
+            colorPointer = pointer.color;
+            float variableQ = Mathf.Cos(timer * speed);
+            colorPointer.a = alpha * (variableQ + 0.95f);
+            //btn.transform.localScale = new Vector3(1 + variableQ/10, 1 + variableQ/10, 0);
+            pointer.color = colorPointer;
+
+            if (timer >= 4 * Mathf.PI)
+            {
+                timer -= 4 * Mathf.PI - 3.1f;
+            }
+        } else
+        {
+            if (pointer.enabled == true)
+            {
+                pointer.enabled = false;
+            }
         }
+
     }
 }
