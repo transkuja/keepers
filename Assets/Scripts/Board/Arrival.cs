@@ -12,7 +12,7 @@ public class Arrival : MonoBehaviour {
     void UpdateAvailability(PawnInstance pi, Tile t)
     {
         PrisonerEscortObjective objective = (PrisonerEscortObjective)(GameManager.Instance.QuestManager.MainQuest.Objectives[0]);
-        if (pi == objective.prisoner && t == objective.destination)
+        if (pi == objective.prisoner.GetComponent<PawnInstance>() && t == objective.destination)
         {
             InterationImplementer.Remove("Can't End Game");
             InterationImplementer.Add(new Interaction(ClickEnd), 0, "End Game", GameManager.Instance.SpriteUtils.spriteEndAction);

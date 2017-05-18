@@ -75,6 +75,10 @@ public class PawnInstance : MonoBehaviour {
             currentTile = value;
             if (GetComponent<Behaviour.Prisoner>() != null)
                 TileManager.Instance.PrisonerTile = value;
+            if(EventManager.OnPawnMove != null)
+            {
+                EventManager.OnPawnMove(this, value);
+            }
         }
     }
     #endregion
