@@ -106,7 +106,7 @@ public class GameManager : MonoBehaviour
             persistenceLoader.Load();
             foreach (Keeper k in GetComponentsInChildren<Keeper>())
             {
-                AllKeepersList.Add(k.GetComponent<PawnInstance>());
+                GameManager.Instance.allKeeperListId.Add(k.GetComponent<PawnInstance>().Data.PawnId);
             }
         }
         DontDestroyOnLoad(gameObject);
