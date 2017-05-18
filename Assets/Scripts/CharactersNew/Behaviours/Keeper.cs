@@ -145,7 +145,12 @@ namespace Behaviour
                 if (instance.Data.Behaviours[(int)BehavioursEnum.Gaga] == false)
                     amountMoralBuff = Random.Range(Data.MinMoralBuff, Data.MaxMoralBuff);
                 else
+                {
                     amountMoralBuff = 15;
+                    if (GetComponent<LuckBased>() != null)
+                        amountMoralBuff = GetComponent<LuckBased>().HandleLuckForTalk();
+                }
+
                 GetComponent<MentalHealthHandler>().CurrentMentalHealth += amountMoralBuff;
             }
             else

@@ -758,7 +758,10 @@ public class BattleHandler {
 
     public static void WaitForSkillConfirmation(SkillBattle _skillData)
     {
-        PendingSkill = _skillData;
+        if (_skillData.SkillUser.GetComponent<LuckBased>() != null)
+            PendingSkill = _skillData.SkillUser.GetComponent<LuckBased>().HandleLuckForSkills(_skillData);
+        else
+            PendingSkill = _skillData;
     }
 
     public static bool IsKeepersTurn

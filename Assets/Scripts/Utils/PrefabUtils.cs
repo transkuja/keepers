@@ -28,6 +28,9 @@ public class PrefabUtils : MonoBehaviour {
     public GameObject die;
     public GameObject selectionPointer;
 
+    [Header("Monsters")]
+    public List<PawnPrefab> listMonstersPrefab;
+
     public GameObject getPawnPrefabById(string id)
     {
         for(int i= 0; i <listPawnPrefab.Count; i++)
@@ -35,6 +38,18 @@ public class PrefabUtils : MonoBehaviour {
             if(listPawnPrefab[i].idPawn == id)
             {
                 return listPawnPrefab[i].prefabPawn;
+            }
+        }
+        return null;
+    }
+
+    public GameObject getMonsterPrefabById(string id)
+    {
+        for (int i = 0; i < listMonstersPrefab.Count; i++)
+        {
+            if (listMonstersPrefab[i].idPawn == id)
+            {
+                return listMonstersPrefab[i].prefabPawn;
             }
         }
         return null;

@@ -122,6 +122,28 @@ public class PawnDatabase {
                                 break;
                         }
                         break;
+                    case "stinks":
+                        switch (pawnEntry.Value.Str)
+                        {
+                            case "true":
+                                newPawnDataContainer.pawnData.Behaviours[(int)BehavioursEnum.Stinks] = true;
+                                break;
+                            case "false":
+                                newPawnDataContainer.pawnData.Behaviours[(int)BehavioursEnum.Stinks] = false;
+                                break;
+                        }
+                        break;
+                    case "luckbased":
+                        switch (pawnEntry.Value.Str)
+                        {
+                            case "true":
+                                newPawnDataContainer.pawnData.Behaviours[(int)BehavioursEnum.LuckBased] = true;
+                                break;
+                            case "false":
+                                newPawnDataContainer.pawnData.Behaviours[(int)BehavioursEnum.LuckBased] = false;
+                                break;
+                        }
+                        break;
                     // COMPONENTS DATA
                     case "Fighter":
                         newPawnDataContainer.dicComponentData.Add(typeof(Behaviour.Fighter), null);

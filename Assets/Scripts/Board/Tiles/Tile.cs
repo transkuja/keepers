@@ -250,9 +250,19 @@ public class Tile : MonoBehaviour{
 
         set
         {
+            if (state == TileState.Greyed && state == TileState.Discovered)
+            {
+                List<PawnInstance> pawnList = TileManager.Instance.KeepersOnTile[this];
+                if (pawnList.Count != 1) Debug.LogWarning("There should only be one keeper when discovering.");
+                else
+                {
+                    if (pawnList[0].GetComponent<Behaviour.LuckBased>() != null)
+                        pawnList[0].GetComponent<Behaviour.LuckBased>().HandleLuckForTileDiscovery(this);
+                }
+            }
             state = value;
             UpdateTileVisual();
-            EventManager.HandleWeather(this, true);
+            EventManager.HandleWeather(this, true);        
         }
     }
 
