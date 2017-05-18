@@ -29,7 +29,9 @@ public class Arrival : MonoBehaviour {
 
     public void CantEndGame(int i = -1)
     {
-        GameManager.Instance.CameraManagerReference.UpdateCameraPosition(((PrisonerEscortObjective)(GameManager.Instance.QuestManager.MainQuest.Objectives[0])).prisoner.GetComponent<PawnInstance>());
+        PawnInstance pi = ((PrisonerEscortObjective)(GameManager.Instance.QuestManager.MainQuest.Objectives[0])).prisoner.GetComponent<PawnInstance>();
+        GameManager.Instance.CameraManagerReference.UpdateCameraPosition(pi);
+        pi.GetComponent<GlowObjectCmd>().BlinkForSeconds(4.0f);
     }
 
     public void ClickEnd(int i = -1)

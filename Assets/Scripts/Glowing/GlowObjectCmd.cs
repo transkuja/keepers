@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
-
+using System.Collections;
 using System.Collections.Generic;
 using Behaviour;
 
@@ -118,8 +118,17 @@ public class GlowObjectCmd : MonoBehaviour
         GlowController.UnregisterObject(this);
     }
 
+    public IEnumerator BlinkForSeconds(float seconds)
+    {
+        ActivateBlinkBehaviour(true);
+        enabled = true;
+        yield return new WaitForSeconds(seconds);
+        ActivateBlinkBehaviour(false);
+        UpdateColor(false);
+    }
+
     //private void OnDisable()
     //{
     //    GlowController.UnregisterObject(this);
     //}
-}
+    }
