@@ -20,14 +20,16 @@ public class QuestReminder : MonoBehaviour {
     private float fPosY;
     private float fLerp = 0;
     private Dictionary<QuestSystem.Quest, GameObject> dicQuestReminder;
-
-
+    
     [SerializeField] private float fSpeed = 5;
     [SerializeField] private GameObject prefabQuestElement;
     [SerializeField] private GameObject prefabQuestObjective;
     [SerializeField] private Transform container;
     [SerializeField] private Image imgButton;
 
+    [SerializeField] private Sprite iconAshley;
+    [SerializeField] private Sprite iconRaspberry;
+    [SerializeField] private Sprite iconDucky;
 
 
     // Use this for initialization
@@ -51,37 +53,6 @@ public class QuestReminder : MonoBehaviour {
             updatePosition();
         }
 	}
-
-    public void Init()
-    {
-        GameObject newObjective;
-        GameObject newQuest = Instantiate(prefabQuestElement, container);
-        newQuest.transform.localScale = Vector3.one;
-        newQuest.GetComponentInChildren<Text>().text = qm.MainQuest.Information.Title;
-        for (int i = 0; i < qm.MainQuest.Objectives.Count; i++)
-        {
-            newObjective = Instantiate(prefabQuestObjective, newQuest.transform);
-            newObjective.transform.localScale = Vector3.one;
-            newObjective.GetComponentInChildren<Text>().text = qm.MainQuest.Objectives[i].Title;
-        }
-        dicQuestReminder.Add(qm.MainQuest, newQuest);
-
-        for (int i = 0; i < qm.ActiveQuests.Count; i++)
-        {
-            newQuest = Instantiate(prefabQuestElement, container);
-            newQuest.transform.localScale = Vector3.one;
-            newQuest.GetComponentInChildren<Text>().text = qm.ActiveQuests[i].Information.Title;
-            //newQuest.GetComponentInChildren<Image>().sprite = qm.ActiveQuests[i].Information
-            for (int j = 0; j < qm.ActiveQuests[i].Objectives.Count; j++)
-            {
-                newObjective = Instantiate(prefabQuestObjective, newQuest.transform);
-                newObjective.transform.localScale = Vector3.one;
-                //newObjective.GetComponentInChildren<Text>().text = qm.ActiveQuests[i].Objectives[j].Title;
-                newObjective.GetComponentInChildren<Text>().text = qm.ActiveQuests[i].Objectives[j].Description;
-            }
-            dicQuestReminder.Add(qm.ActiveQuests[i], newQuest);
-        }
-    }
 
     public void Refresh()
     {
@@ -165,6 +136,18 @@ public class QuestReminder : MonoBehaviour {
     {
         GameObject newQuest = Instantiate(prefabQuestElement, container);
         newQuest.transform.localScale = Vector3.one;
+        switch (q.Identifier.ID)
+        {
+            case "main_quest_01":
+                newQuest.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = iconAshley;
+                break;
+            case "side_quest_01":
+                newQuest.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = iconRaspberry;
+                break;
+            case "side_quest_ducklings_01":
+                newQuest.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = iconDucky;
+                break;
+        }
         newQuest.GetComponentInChildren<Text>().text = q.Information.Title;
 
         GameObject newObjective;
