@@ -136,6 +136,46 @@ public class IngameUI : MonoBehaviour
         //Clear
         ClearActionPanel();
 
+        if (goShortcutKeepersPanel != null)
+        {
+            foreach (PawnInstance pi in GameManager.Instance.AllKeepersList)
+            {
+                if (pi.GetComponent<Behaviour.Keeper>() != null && pi.GetComponent<Behaviour.Mortal>().IsAlive)
+                {
+                    pi.GetComponent<Behaviour.Keeper>().ShorcutUI.GetComponent<Button>().interactable = false;
+                    pi.GetComponent<Behaviour.Keeper>().ShorcutUI.GetComponent<Image>().raycastTarget = false;
+
+                    pi.GetComponent<Behaviour.Keeper>().ShorcutUI.transform.GetChild(3).GetComponent<Image>().CrossFadeAlpha(0.4f, 1, true);
+                    for (int j = 0; j < pi.GetComponent<Behaviour.Keeper>().ShorcutUI.transform.GetChild(4).childCount; j++)
+                    {
+                        pi.GetComponent<Behaviour.Keeper>().ShorcutUI.transform.GetChild(4).GetChild(j).GetComponent<Image>().CrossFadeAlpha(0.4f, 1, true);
+                    }
+
+                    pi.GetComponent<Behaviour.Keeper>().ShorcutUI.transform.GetChild(5).GetComponent<Image>().CrossFadeAlpha(0.4f, 1, true);
+
+                    //pi.GetComponent<Behaviour.MentalHealthHandler>().ShortcutMentalHealthUI.GetComponent<Image>().CrossFadeAlpha(0.4f, 1, true);
+                    //pi.GetComponent<Behaviour.MentalHealthHandler>().ShortcutMentalHealthUI.GetComponent<Image>().raycastTarget = false;
+
+                    //pi.GetComponent<Behaviour.Mortal>().ShortcutHPUI.GetComponent<Image>().CrossFadeAlpha(0.4f, 1, true);
+                    //pi.GetComponent<Behaviour.Mortal>().ShortcutHPUI.GetComponent<Image>().raycastTarget = false;
+
+                    //pi.GetComponent<Behaviour.HungerHandler>().ShortcutHungerUI.GetComponent<Image>().CrossFadeAlpha(0.4f, 1, true);
+                    //pi.GetComponent<Behaviour.HungerHandler>().ShortcutHungerUI.GetComponent<Image>().raycastTarget = false;
+                }
+
+ 
+            }
+
+            if (GameManager.Instance.PrisonerInstance != null && GameManager.Instance.PrisonerInstance.GetComponent<Behaviour.Escortable>() != null && GameManager.Instance.PrisonerInstance.GetComponent<Behaviour.Mortal>().IsAlive)
+            {
+                GameManager.Instance.PrisonerInstance.GetComponent<Behaviour.Escortable>().ShorcutUI.GetComponent<Button>().interactable = false;
+                GameManager.Instance.PrisonerInstance.GetComponent<Behaviour.Escortable>().ShorcutUI.GetComponent<Image>().raycastTarget = false;
+
+                GameManager.Instance.PrisonerInstance.GetComponent<Behaviour.Escortable>().ShorcutUI.transform.GetChild(2).GetComponent<Image>().CrossFadeAlpha(0.4f, 1, true);
+                GameManager.Instance.PrisonerInstance.GetComponent<Behaviour.Escortable>().ShorcutUI.transform.GetChild(4).GetComponent<Image>().CrossFadeAlpha(0.4f, 1, true);
+            }
+        }
+
         goActionPanelQ.GetComponent<RectTransform>().localPosition = Vector3.zero;
 
         // Actions
@@ -202,6 +242,37 @@ public class IngameUI : MonoBehaviour
 
     public void ClearActionPanel()
     {
+        if (goShortcutKeepersPanel != null)
+        {
+            foreach (PawnInstance pi in GameManager.Instance.AllKeepersList)
+            {
+                if (pi.GetComponent<Behaviour.Keeper>() != null && pi.GetComponent<Behaviour.Mortal>().IsAlive)
+                {
+                    pi.GetComponent<Behaviour.Keeper>().ShorcutUI.GetComponent<Button>().interactable = true;
+                    pi.GetComponent<Behaviour.Keeper>().ShorcutUI.GetComponent<Image>().raycastTarget = true;
+
+                    pi.GetComponent<Behaviour.Keeper>().ShorcutUI.transform.GetChild(3).GetComponent<Image>().CrossFadeAlpha(1f, 0, true);
+                    for (int j = 0; j < pi.GetComponent<Behaviour.Keeper>().ShorcutUI.transform.GetChild(4).childCount; j++)
+                    {
+                        pi.GetComponent<Behaviour.Keeper>().ShorcutUI.transform.GetChild(4).GetChild(j).GetComponent<Image>().CrossFadeAlpha(1f, 0, true);
+                    }
+
+                    pi.GetComponent<Behaviour.Keeper>().ShorcutUI.transform.GetChild(5).GetComponent<Image>().CrossFadeAlpha(1f, 0, true);
+                }
+
+
+            }
+
+            if (GameManager.Instance.PrisonerInstance != null && GameManager.Instance.PrisonerInstance.GetComponent<Behaviour.Escortable>() != null && GameManager.Instance.PrisonerInstance.GetComponent<Behaviour.Mortal>().IsAlive)
+            {
+                GameManager.Instance.PrisonerInstance.GetComponent<Behaviour.Escortable>().ShorcutUI.GetComponent<Button>().interactable = true;
+                GameManager.Instance.PrisonerInstance.GetComponent<Behaviour.Escortable>().ShorcutUI.GetComponent<Image>().raycastTarget = true;
+
+                GameManager.Instance.PrisonerInstance.GetComponent<Behaviour.Escortable>().ShorcutUI.transform.GetChild(2).GetComponent<Image>().CrossFadeAlpha(1f, 0, true);
+                GameManager.Instance.PrisonerInstance.GetComponent<Behaviour.Escortable>().ShorcutUI.transform.GetChild(4).GetComponent<Image>().CrossFadeAlpha(1f, 0, true);
+            }
+        }
+
         if (goActionPanelQ != null && goActionPanelQ.transform.childCount > 0)
         {
             foreach (Image ActionPanel in goActionPanelQ.GetComponentsInChildren<Image>())
@@ -248,6 +319,39 @@ public class IngameUI : MonoBehaviour
     public void ToggleShortcutPanel()
     {
         goShortcutKeepersPanel.SetActive(!goShortcutKeepersPanel.activeSelf);
+        if (GameManager.Instance.Ui.goActionPanelQ != null && GameManager.Instance.Ui.goActionPanelQ.transform.childCount > 0)
+        {
+            if (goShortcutKeepersPanel != null)
+            {
+                foreach (PawnInstance pi in GameManager.Instance.AllKeepersList)
+                {
+                    if (pi.GetComponent<Behaviour.Keeper>() != null && pi.GetComponent<Behaviour.Mortal>().IsAlive)
+                    {
+                        pi.GetComponent<Behaviour.Keeper>().ShorcutUI.GetComponent<Button>().interactable = false;
+                        pi.GetComponent<Behaviour.Keeper>().ShorcutUI.GetComponent<Image>().raycastTarget = false;
+
+                        pi.GetComponent<Behaviour.Keeper>().ShorcutUI.transform.GetChild(3).GetComponent<Image>().CrossFadeAlpha(0.4f, 0, true);
+                        for (int j = 0; j < pi.GetComponent<Behaviour.Keeper>().ShorcutUI.transform.GetChild(4).childCount; j++)
+                        {
+                            pi.GetComponent<Behaviour.Keeper>().ShorcutUI.transform.GetChild(4).GetChild(j).GetComponent<Image>().CrossFadeAlpha(0.4f, 0, true);
+                        }
+
+                        pi.GetComponent<Behaviour.Keeper>().ShorcutUI.transform.GetChild(5).GetComponent<Image>().CrossFadeAlpha(0.4f, 0, true);
+                    }
+
+
+                }
+
+                if (GameManager.Instance.PrisonerInstance != null && GameManager.Instance.PrisonerInstance.GetComponent<Behaviour.Escortable>() != null && GameManager.Instance.PrisonerInstance.GetComponent<Behaviour.Mortal>().IsAlive)
+                {
+                    GameManager.Instance.PrisonerInstance.GetComponent<Behaviour.Escortable>().ShorcutUI.GetComponent<Button>().interactable = false;
+                    GameManager.Instance.PrisonerInstance.GetComponent<Behaviour.Escortable>().ShorcutUI.GetComponent<Image>().raycastTarget = false;
+
+                    GameManager.Instance.PrisonerInstance.GetComponent<Behaviour.Escortable>().ShorcutUI.transform.GetChild(2).GetComponent<Image>().CrossFadeAlpha(0.4f, 0, true);
+                    GameManager.Instance.PrisonerInstance.GetComponent<Behaviour.Escortable>().ShorcutUI.transform.GetChild(4).GetComponent<Image>().CrossFadeAlpha(0.4f, 0, true);
+                }
+            }
+        }
     }
     #endregion
 
