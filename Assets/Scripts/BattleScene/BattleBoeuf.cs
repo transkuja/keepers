@@ -4,11 +4,14 @@ using UnityEngine;
 using Behaviour;
 
 public enum BoeufType { Defense, Damage, Aggro, CostReduction, IncreaseStocks }
+public enum BoeufTarget { SameAsAttack, Self }
 [System.Serializable]
 public class BattleBoeuf {
 
     [SerializeField]
     BoeufType boeufType;
+    [SerializeField]
+    BoeufTarget boeufTarget;
     [SerializeField]
     int duration;
     [SerializeField]
@@ -65,6 +68,19 @@ public class BattleBoeuf {
         set
         {
             symbolsAffected = value;
+        }
+    }
+
+    public BoeufTarget BoeufTarget
+    {
+        get
+        {
+            return boeufTarget;
+        }
+
+        set
+        {
+            boeufTarget = value;
         }
     }
 }

@@ -274,20 +274,21 @@ public class SkillBattle {
             for (int i = 0; i < boeufs.Length; i++)
             {
                 bool boeufMustBeAdded = true;
-                for (int j = 0; j < curTargetFighter.EffectiveBoeufs.Count; j++)
+                Fighter tmpTargetFighter = (boeufs[i].BoeufTarget == BoeufTarget.SameAsAttack) ? curTargetFighter : skillUser.GetComponent<Fighter>();
+                for (int j = 0; j < tmpTargetFighter.EffectiveBoeufs.Count; j++)
                 {
-                    if (boeufs[i].BoeufType == curTargetFighter.EffectiveBoeufs[j].BoeufType)
+                    if (boeufs[i].BoeufType == tmpTargetFighter.EffectiveBoeufs[j].BoeufType)
                     {
-                        if ((boeufs[i].EffectValue > 0 && curTargetFighter.EffectiveBoeufs[j].EffectValue > 0 && boeufs[i].EffectValue <= curTargetFighter.EffectiveBoeufs[j].EffectValue) 
-                            || (boeufs[i].EffectValue < 0 && curTargetFighter.EffectiveBoeufs[j].EffectValue < 0 && boeufs[i].EffectValue >= curTargetFighter.EffectiveBoeufs[j].EffectValue))
+                        if ((boeufs[i].EffectValue > 0 && tmpTargetFighter.EffectiveBoeufs[j].EffectValue > 0 && boeufs[i].EffectValue <= tmpTargetFighter.EffectiveBoeufs[j].EffectValue) 
+                            || (boeufs[i].EffectValue < 0 && tmpTargetFighter.EffectiveBoeufs[j].EffectValue < 0 && boeufs[i].EffectValue >= tmpTargetFighter.EffectiveBoeufs[j].EffectValue))
                         {
-                            curTargetFighter.RemoveBoeuf(curTargetFighter.EffectiveBoeufs[j]);
+                            tmpTargetFighter.RemoveBoeuf(tmpTargetFighter.EffectiveBoeufs[j]);
                             break;
                         }
                         else
                         {
-                            if ((boeufs[i].EffectValue > 0 && curTargetFighter.EffectiveBoeufs[j].EffectValue > 0)
-                                    || (boeufs[i].EffectValue < 0 && curTargetFighter.EffectiveBoeufs[j].EffectValue < 0))
+                            if ((boeufs[i].EffectValue > 0 && tmpTargetFighter.EffectiveBoeufs[j].EffectValue > 0)
+                                    || (boeufs[i].EffectValue < 0 && tmpTargetFighter.EffectiveBoeufs[j].EffectValue < 0))
                             {
                                 boeufMustBeAdded = false;
                                 break;
@@ -295,7 +296,7 @@ public class SkillBattle {
                         }
                     }
                 }
-                if (boeufMustBeAdded) curTargetFighter.AddBoeuf(boeufs[i]);
+                if (boeufMustBeAdded) tmpTargetFighter.AddBoeuf(boeufs[i]);
             }          
         }
     }
