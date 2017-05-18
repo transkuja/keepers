@@ -341,7 +341,7 @@ namespace Behaviour
             if (GetComponent<Prisoner>() != null)
             {
                 Button feedButt = GetComponent<Inventory>().SelectedInventoryPanel.GetComponentInChildren<Button>();
-                feedButt.GetComponent<Image>().enabled = (GetComponent<HungerHandler>().CurrentHunger != GetComponent<HungerHandler>().Data.MaxHunger && !IsEmpty() && GetComponent<HungerHandler>().CurrentHunger != 0);
+                feedButt.GetComponent<Image>().enabled = (GetComponent<HungerHandler>() != null && GetComponent<HungerHandler>().CurrentHunger != GetComponent<HungerHandler>().Data.MaxHunger && !IsEmpty() && GetComponent<HungerHandler>().CurrentHunger != 0);
             }
 
         }
