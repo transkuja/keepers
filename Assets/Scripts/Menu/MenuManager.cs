@@ -21,7 +21,7 @@ public class MenuManager : MonoBehaviour {
     // Utile pour la selection en jeu
     private int cardLevelSelected = -1;
     private string deckOfCardsSelected = string.Empty;
-    private List<PawnInstance> listeSelectedKeepers;
+    private List<string> listeSelectedKeepers;
 
     private bool hasBeenInit;
     private bool duckhavebringThebox;
@@ -55,7 +55,7 @@ public class MenuManager : MonoBehaviour {
 
     void Start()
     {
-        listeSelectedKeepers = new List<PawnInstance>();
+        listeSelectedKeepers = new List<string>();
         goCardChildren = new List<List<GameObject>>();
         goCardsLevels = new List<GameObject>();
         goCardsInfo = new List<GameObject>();
@@ -196,7 +196,7 @@ public class MenuManager : MonoBehaviour {
         }
     }
 
-    public List<PawnInstance> ListeSelectedKeepers
+    public List<string> ListeSelectedKeepers
     {
         get
         {
@@ -339,17 +339,17 @@ public class MenuManager : MonoBehaviour {
         }
     }
 
-    public void AddToSelectedKeepers(PawnInstance pi)
+    public void AddToSelectedKeepers(string pi)
     {
         listeSelectedKeepers.Add(pi);
     }
 
-    public void RemoveFromSelectedKeepers(PawnInstance pi)
+    public void RemoveFromSelectedKeepers(string pi)
     {
         listeSelectedKeepers.Remove(pi);
     }
 
-    public bool ContainsSelectedKeepers(PawnInstance pi)
+    public bool ContainsSelectedKeepers(string pi)
     {
         return listeSelectedKeepers.Contains(pi);
     }
@@ -367,11 +367,10 @@ public class MenuManager : MonoBehaviour {
     {
         AudioManager.Instance.PlayOneShot(AudioManager.Instance.buttonClick, 0.5f);
 
-        GameManager.Instance.AllKeepersList.Clear();
-        foreach (PawnInstance ki in ListeSelectedKeepers)
+        GameManager.Instance.AllKeeperListId.Clear();
+        foreach (string ki in ListeSelectedKeepers)
         {
-            GameManager.Instance.AllKeepersList.Add(ki);
-            ki.gameObject.transform.SetParent(GameManager.Instance.transform);
+            GameManager.Instance.AllKeeperListId.Add(ki);
 
             foreach (KeyValuePair<GameObject, ChatBox> gc in dicPawnChatBox)
             {

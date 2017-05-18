@@ -55,4 +55,9 @@ public class Arrival : MonoBehaviour {
             return GetComponent<Interactable>().Interactions;
         }
     }
+
+    public void OnDestroy()
+    {
+        EventManager.OnPawnMove = null;
+    }
 }

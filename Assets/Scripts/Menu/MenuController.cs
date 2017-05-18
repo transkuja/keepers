@@ -236,11 +236,11 @@ public class MenuController : MonoBehaviour {
         PawnInstance pi = hit.transform.gameObject.GetComponent<PawnInstance>();
         if (pi != null &&  menuUI.cardsInfoAreReady && !menuManager.GoDeck.GetComponent<Deck>().IsOpen && !menuUI.IsAPawnMoving)
         {
-            if (menuManager.ContainsSelectedKeepers(pi)) // REMOVE
+            if (menuManager.ContainsSelectedKeepers(pi.Data.PawnId)) // REMOVE
             {
                 AudioManager.Instance.PlayOneShot(AudioManager.Instance.deselectSound, 0.25f);
                 //pi.GetComponent<OpenerContent>().Hide();
-                menuManager.RemoveFromSelectedKeepers(pi);
+                menuManager.RemoveFromSelectedKeepers(pi.Data.PawnId);
                 if (menuManager.GoDeck.GetComponent<Deck>() != null && !menuManager.GoDeck.GetComponent<Deck>().IsOpen)
                 {
                     menuManager.DicPawnChatBox[pi.gameObject].SetMode(ChatBox.ChatMode.awaiting);
@@ -260,7 +260,7 @@ public class MenuController : MonoBehaviour {
                     AudioManager.Instance.PlayOneShot(AudioManager.Instance.selectSound, 0.25f);
                     //pi.GetComponent<OpenerContent>().Show();
 
-                    menuManager.AddToSelectedKeepers(pi);
+                    menuManager.AddToSelectedKeepers(pi.Data.PawnId);
                     if (menuManager.GoDeck.GetComponent<Deck>() != null && !menuManager.GoDeck.GetComponent<Deck>().IsOpen)
                     {
                         menuManager.DicPawnChatBox[pi.gameObject].SetMode(ChatBox.ChatMode.picked);

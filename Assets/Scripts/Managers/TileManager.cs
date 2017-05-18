@@ -578,4 +578,13 @@ public class TileManager : MonoBehaviour {
         }
     }
     #endregion
+
+    public void OnDestroy()
+    {
+        instance.monstersOnTile.Clear();
+        instance.keepersOnTile.Clear();
+        instance.escortablesOnTile.Clear();
+        instance.getTileFromKeeper.Clear();
+
+    }
 }

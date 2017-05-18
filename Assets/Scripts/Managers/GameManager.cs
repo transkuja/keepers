@@ -57,6 +57,7 @@ public class GameManager : MonoBehaviour
     private TileManager tileManagerReference;
     private CameraManager cameraManagerReference;
     private IngameScreens gameScreens;
+    private List<string> allKeeperListId = new List<string>();
     private List<PawnInstance> allKeepersList = new List<PawnInstance>();
     private List<PawnInstance> listOfSelectedKeepers = new List<PawnInstance>();
 
@@ -192,17 +193,18 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            instance.listOfSelectedKeepers.Clear();
             instance.deckSelected = string.Empty;
             instance.listEventSelected.Clear();
             instance.allKeepersList.Clear();
             persistenceLoader.Load();
             instance.archerInstance = null;
 
-            pausedAgents.Clear();
-            disabledModels.Clear();
-            unregisteredGlows.Clear();
-            currentFighters = null;
-            tilePortalsDisabled.Clear();
+            instance.pausedAgents.Clear();
+            instance.disabledModels.Clear();
+            instance.unregisteredGlows.Clear();
+            instance.currentFighters = null;
+            instance.tilePortalsDisabled.Clear();
         }
 
         instance.nbTurn = 1;
@@ -834,6 +836,19 @@ public class GameManager : MonoBehaviour
         set
         {
             archerInstance = value;
+        }
+    }
+
+    public List<string> AllKeeperListId
+    {
+        get
+        {
+            return allKeeperListId;
+        }
+
+        set
+        {
+            allKeeperListId = value;
         }
     }
 

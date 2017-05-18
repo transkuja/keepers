@@ -11,20 +11,21 @@ public class CharactersInitializer : MonoBehaviour {
     // Init keepers and call next initialization
     public void InitKeepers(Transform[] beginPositionsKeepers)
     {
-        for (int i = 0; i < GameManager.Instance.AllKeepersList.Count; i++)
+        for (int i = 0; i < GameManager.Instance.AllKeeperListId.Count; i++)
         {
-            PawnInstance curKeeper = GameManager.Instance.AllKeepersList[i];
-            curKeeper.transform.position = beginPositionsKeepers[i].position;
-            curKeeper.transform.SetParent(null);
-            curKeeper.transform.rotation = Quaternion.identity;
+            string curKeeperStr = GameManager.Instance.AllKeeperListId[i];
+            GameObject curKeeper = GameManager.Instance.PawnDataBase.CreatePawn(curKeeperStr, beginPositionsKeepers[i].position, Quaternion.identity, null);
             curKeeper.transform.localScale = Vector3.one;
             curKeeper.transform.GetComponent<NavMeshAgent>().enabled = true;
-            if (curKeeper.Data.Behaviours[(int)BehavioursEnum.Archer] == true)
-                GameManager.Instance.ArcherInstance = curKeeper;
+            PawnInstance curKeeperPI = curKeeper.transform.GetComponent<PawnInstance>();
+            if (curKeeperPI.Data.Behaviours[(int)BehavioursEnum.Archer] == true)
+                GameManager.Instance.ArcherInstance = curKeeperPI;
 
-            InitCharacterUI(GameManager.Instance.AllKeepersList[i]);
-            GameManager.Instance.RegisterKeeperPosition(GameManager.Instance.AllKeepersList[i]);
-            GlowController.RegisterObject(GameManager.Instance.AllKeepersList[i].GetComponent<GlowObjectCmd>());
+            GameManager.Instance.AllKeepersList.Clear();
+            GameManager.Instance.AllKeepersList.Add(curKeeperPI);
+            InitCharacterUI(curKeeperPI);
+            GameManager.Instance.RegisterKeeperPosition(curKeeperPI);
+            GlowController.RegisterObject(curKeeperPI.GetComponent<GlowObjectCmd>());
         }
 
         // Next step, init quests
