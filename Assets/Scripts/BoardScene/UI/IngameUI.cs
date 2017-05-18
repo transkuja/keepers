@@ -322,9 +322,16 @@ public class IngameUI : MonoBehaviour
     #region Keepers_Inventory
     public void HideInventoryPanels()
     {
-        for (int i = 0; i <Panel_Inventories.transform.childCount; i++)
+        for (int i = 0; i < Panel_Inventories.transform.childCount; i++)
         {
             Panel_Inventories.transform.GetChild(i).gameObject.SetActive(false);
+        }
+
+        foreach (PawnInstance k in GameManager.Instance.AllKeepersList) { 
+            for (int i = 0; i < k.GetComponent<Behaviour.Inventory>().Data.NbSlot; i++)
+            {
+                k.GetComponent<Behaviour.Inventory>().SelectedInventoryPanel.transform.GetChild(i).GetComponent<Image>().color = Color.white;
+            }
         }
     }
     #endregion

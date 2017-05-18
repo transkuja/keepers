@@ -86,6 +86,7 @@ public class ItemInstance : MonoBehaviour, IHavestable
         int costAction = InteractionImplementer.Get("Harvest").costAction;
         if (GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Keeper>().ActionPoints >= costAction)
         {
+            int previousQuantity = itemContainer.Quantity;
             bool isNoLeftOver = InventoryManager.AddItemToInventory(GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Inventory>().Items, itemContainer);
             if (isNoLeftOver)
             {
@@ -100,7 +101,18 @@ public class ItemInstance : MonoBehaviour, IHavestable
                 GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Keeper>().ActionPoints -= (short)costAction;
             }
 
+
             GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Inventory>().UpdateInventories();
+
+            if (!isNoLeftOver && previousQuantity == itemContainer.Quantity)
+            {
+                for (int i = 0; i < GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Inventory>().Data.NbSlot; i++)
+                {
+                    GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Inventory>().SelectedInventoryPanel.transform.GetChild(i).GetComponent<Image>().color = Color.red;
+
+                }
+                StartCoroutine(InventoryNormalState());
+            }
         }
         else
         {
@@ -116,5 +128,17 @@ public class ItemInstance : MonoBehaviour, IHavestable
         GameManager.Instance.Ui.UiIconFeedBack.DisableFeedback();
     }
        
+    public IEnumerator InventoryNormalState()
+    {
+        yield return new WaitForSeconds(1);
+
+        foreach (PawnInstance k in GameManager.Instance.AllKeepersList)
+        for (int i = 0; i < k.GetComponent<Behaviour.Inventory>().Data.NbSlot; i++)
+        {
+                k.GetComponent<Behaviour.Inventory>().SelectedInventoryPanel.transform.GetChild(i).GetComponent<Image>().color = Color.white;
+        }
+
+        yield return null;
+    }
 
 }
