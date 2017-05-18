@@ -61,9 +61,11 @@ public class MenuController : MonoBehaviour {
                 GameManager.Instance.PersistenceLoader.SetPawnUnlocked("grekhan", false);
                 GameManager.Instance.PersistenceLoader.SetPawnUnlocked("lupus", false);
                 GameManager.Instance.PersistenceLoader.SetPawnUnlocked("swag", false);
+                GameManager.Instance.PersistenceLoader.SetPawnUnlocked("lucky", false);
                 GameManager.Instance.PersistenceLoader.Pd.dicPersistencePawns["grekhan"] = false;
                 GameManager.Instance.PersistenceLoader.Pd.dicPersistencePawns["lupus"] = false;
                 GameManager.Instance.PersistenceLoader.Pd.dicPersistencePawns["swag"] = false;
+                GameManager.Instance.PersistenceLoader.Pd.dicPersistencePawns["lucky"] = false;
 
                 GameManager.Instance.PersistenceLoader.SetLevelUnlocked("4", false);
                 GameManager.Instance.PersistenceLoader.SetLevelUnlocked("2", false);

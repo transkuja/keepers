@@ -171,6 +171,40 @@
 			}
 		},
 		{
+			"id": "lucky",
+			"name" : "Lucky",
+			"sprite" : "Pawn_mini_icon/Heal_mini_icon",
+			"shortcutSprite" : "Pawn_mini_icon/support_heal",
+			"canSpeak" : "false",
+			"morfale" : "false",
+			"gaga" : "false",
+			"explorateur" : "true",
+			"sensible" : "false",
+			"archer" : "false",
+
+			"HungerHandler" : {
+				"maxHunger" : 100
+			},
+			
+			"Inventory" : {
+				"nbSlot" : 1
+			},
+			
+			"Keeper" : {
+				"minMoralBuff" : -10,
+				"maxMoralBuff" : 20,
+				"maxActionPoint" : 3
+			},
+						
+			"MentalHealthHandler" : {
+				"maxMentalHealth" : 100
+			},
+			
+			"Mortal" : {
+				"maxHp" : 100
+			}
+		},
+		{
 			"id": "mrresetti",
 			"name" : "Mr Resetti",
 			"sprite" : "Pawn_mini_icon/ashley_mini_icon",
