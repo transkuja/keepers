@@ -12,8 +12,6 @@ Liste des sons à intégrer
 
 - Fin de tour
 
--Bruits de pas dans l'eau
-
 Climat:
 - DustStorm		-DONE
 - Neige

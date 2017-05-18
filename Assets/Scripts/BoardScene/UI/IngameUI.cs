@@ -167,7 +167,10 @@ public class IngameUI : MonoBehaviour
                 {
                     goAction.GetComponent<Image>().color = Color.grey;
                 }
-
+                if(ic.listActionContainers[i].strName == "Can't End Game")
+                {
+                    goAction.GetComponent<Image>().color = Color.grey;
+                }
                 if (costActionTmp > 0)
                 {
                     GameObject actionPoints = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabActionPoint, goAction.transform);
