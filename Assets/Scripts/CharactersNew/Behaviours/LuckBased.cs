@@ -9,16 +9,12 @@ namespace Behaviour
     {
         private int sucessiveLuck = 0;
         private int sucessiveBadLuck = 0;
+        [SerializeField]
         private List<SkillBattle> physicalSkills = new List<SkillBattle>();
+        [SerializeField]
         private List<SkillBattle> defensiveSkills = new List<SkillBattle>();
+        [SerializeField]
         private List<SkillBattle> magicalSkills = new List<SkillBattle>();
-
-        // Skills
-        // Physical
-        
-            // Defensive
-
-            // Magical
 
         public LuckResult RollDice()
         {

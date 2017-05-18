@@ -97,10 +97,18 @@ namespace Behaviour
                     sb.SkillUser = this;
             }
 
-            foreach (SkillBattle sb in depressedSkills)
+            if (GetComponent<LuckBased>() != null)
             {
-                if (sb.SkillUser == null)
-                    sb.SkillUser = this;
+                foreach (SkillBattle sb in battleSkills)
+                    depressedSkills.Add(new SkillBattle(sb));
+            }
+            else
+            {
+                foreach (SkillBattle sb in depressedSkills)
+                {
+                    if (sb.SkillUser == null)
+                        sb.SkillUser = this;
+                }
             }
 
             MonstersBattleSkillsSelection mbss = new MonstersBattleSkillsSelection();
