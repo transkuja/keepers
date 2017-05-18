@@ -66,27 +66,36 @@ public class ShowMainQuest : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-
-            isTimerActive = false;
-            isFirstStepFinished = false;
-
-            gameObject.SetActive(false);
-            if (TutoManager.s_instance != null && TutoManager.s_instance.enableTuto)
+            if (isTimerActive)
             {
-                if (GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqfirstmove"] == false)
-                    TutoManager.s_instance.playSequence(TutoManager.s_instance.GetComponent<SeqFirstMove>());
-                else if (GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqmulticharacters"] == false)
-                    TutoManager.s_instance.playSequence(TutoManager.s_instance.GetComponent<SeqMultiCharacters>());
+                isTimerActive = false;
+                isFirstStepFinished = true;
+
+                GameManager.Instance.UpdateCameraPosition(TileManager.Instance.BeginTile);
             }
-            GameManager.Instance.UpdateCameraPosition(TileManager.Instance.BeginTile);
-
-
-            if (btnReviewMainQuest.activeSelf == false)
+            else
             {
-                btnReviewMainQuest.SetActive(true);
-                if (GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqfirstmove"] == true)
-                    GameManager.Instance.Ui.TurnButton.transform.parent.gameObject.SetActive(true);
+                isTimerActive = false;
+                isFirstStepFinished = false;
 
+                gameObject.SetActive(false);
+                if (TutoManager.s_instance != null && TutoManager.s_instance.enableTuto)
+                {
+                    if (GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqfirstmove"] == false)
+                        TutoManager.s_instance.playSequence(TutoManager.s_instance.GetComponent<SeqFirstMove>());
+                    else if (GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqmulticharacters"] == false)
+                        TutoManager.s_instance.playSequence(TutoManager.s_instance.GetComponent<SeqMultiCharacters>());
+                }
+                GameManager.Instance.UpdateCameraPosition(TileManager.Instance.BeginTile);
+
+
+                if (btnReviewMainQuest.activeSelf == false)
+                {
+                    btnReviewMainQuest.SetActive(true);
+                    if (GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqfirstmove"] == true)
+                        GameManager.Instance.Ui.TurnButton.transform.parent.gameObject.SetActive(true);
+
+                }
             }
         }
 
@@ -109,8 +118,6 @@ public class ShowMainQuest : MonoBehaviour {
                 gameObject.SetActive(false);
                 if (TutoManager.s_instance != null && TutoManager.s_instance.enableTuto)
                 {
-                    Debug.Log(GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqfirstmove"]);
-                    Debug.Log(GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqmulticharacters"]);
                     if (GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqfirstmove"] == false)
                         TutoManager.s_instance.playSequence(TutoManager.s_instance.GetComponent<SeqFirstMove>());
                     else if (GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqmulticharacters"] == false)
