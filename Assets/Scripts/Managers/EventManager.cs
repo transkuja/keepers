@@ -14,12 +14,12 @@ public class EventManager : MonoBehaviour {
     public delegate void PrisonerEvent(Prisoner p);
     public delegate void AnimatedPawnEvent(AnimatedPawn ap);
     public delegate void PawnInstanceEvent(PawnInstance pi);
-    public delegate void ItemEvent(ItemInstance ii);
-
+    public delegate void ItemEvent(ItemInstance ii);    public delegate void PawnMoveOnTile(PawnInstance pi, Tile ti);
+
     public static MonsterEvent OnMonsterDie;
     public static KeeperEvent OnKeeperDie;
     public static ItemEvent OnHarvest;
-    public static ItemEvent OnPickUp;
+    public static ItemEvent OnPickUp;    public static PawnMoveOnTile OnPawnMove;
 
     public static int nbDayInWeek = 7;
     public static int nbDayInMonth = 20;
