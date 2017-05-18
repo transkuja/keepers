@@ -101,12 +101,12 @@ public class GameManager : MonoBehaviour
         }
 
         ResetInstance();
-        if (isDebugGameManager)
+        if (instance.isDebugGameManager)
         {
             persistenceLoader.Load();
             foreach (Keeper k in GetComponentsInChildren<Keeper>())
             {
-                GameManager.Instance.allKeeperListId.Add(k.GetComponent<PawnInstance>().Data.PawnId);
+                GameManager.Instance.AllKeeperListId.Add(k.GetComponent<PawnInstance>().Data.PawnId);
             }
         }
         DontDestroyOnLoad(gameObject);
