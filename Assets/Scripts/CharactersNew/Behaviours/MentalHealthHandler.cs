@@ -182,7 +182,7 @@ namespace Behaviour
                     {
                         if (GameManager.Instance.CurrentState != GameState.InBattle && GetComponent<Mortal>().IsAlive)
                         {
-                            if (TutoManager.s_instance.GetComponent<SeqMoraleExplained>().AlreadyPlayed == false && feedbackAmount < 0)
+                            if (TutoManager.s_instance.GetComponent<SeqMoraleExplained>().AlreadyPlayed == false)
                             {
                                 TutoManager.s_instance.playSequence(TutoManager.s_instance.GetComponent<SeqMoraleExplained>());
                             }
