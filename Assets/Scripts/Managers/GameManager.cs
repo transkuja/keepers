@@ -136,7 +136,9 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("GameOver - All Keepers died");
             if (CurrentState == GameState.InBattle)
+            {
                 hasLost = true;
+            }
             else
                 Lose();
         }
@@ -145,7 +147,9 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("GameOver - The prisoner is dead");
             if (CurrentState == GameState.InBattle)
+            {
                 hasLost = true;
+            }
             else
                 Lose();
         }
@@ -155,10 +159,12 @@ public class GameManager : MonoBehaviour
     {
         if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Menu new"))
         {
-            GameObject.Find("Box Nav box").GetComponent<Animator>().enabled = false;
-            GameObject.Find("Box Nav box").GetComponent<NavMeshAgent>().baseOffset = 0.1f;
-            GameObject.Find("Box Nav box").transform.localPosition = new Vector3(0.0f, 0.025f, -0.22f);
-            GameObject.Find("Box Nav box").GetComponent<boxMove>().enabled = false;
+            GameObject boxNavBox = GameObject.Find("Box Nav box");
+            boxNavBox.GetComponent<Animator>().enabled = false;
+            boxNavBox.GetComponent<NavMeshAgent>().baseOffset = 0.1f;
+            boxNavBox.transform.localPosition = new Vector3(0.0f, 0.025f, -0.22f);
+            boxNavBox.GetComponent<boxMove>().enabled = false;
+
             GameObject.Find("DuckNukeThem").SetActive(false);
             FindObjectOfType<MenuManager>().DuckhavebringThebox = true;
         }
@@ -173,6 +179,7 @@ public class GameManager : MonoBehaviour
 
     public void Lose()
     {
+        hasLost = false;
         LoseScreen.gameObject.SetActive(true);
         currentState = GameState.InPause;
     }
@@ -199,6 +206,7 @@ public class GameManager : MonoBehaviour
         }
 
         instance.nbTurn = 1;
+        hasLost = false;
         GameManager.instance.Ui.UpdateDay();
         instance.currentState = GameState.Normal;
         instance.ui.gameObject.SetActive(false);
