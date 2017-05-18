@@ -224,7 +224,7 @@ public class CameraManager : MonoBehaviour {
 
     void Update()
     {
-        if (GameManager.Instance != null && (GameManager.Instance.CurrentState == GameState.Normal || GameManager.Instance.CurrentState == GameState.InPause))
+        if (GameManager.Instance != null && ((GameManager.Instance.CurrentState == GameState.Normal || GameManager.Instance.CurrentState == GameState.InPause) || (GameManager.Instance.CurrentState == GameState.InTuto && TutoManager.s_instance.PlayingSequence != null && TutoManager.s_instance.PlayingSequence.GetType() == typeof(SeqMoraleExplained))))
         {
             if (isUpdateNeeded)
             {

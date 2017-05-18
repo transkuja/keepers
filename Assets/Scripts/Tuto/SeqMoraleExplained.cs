@@ -39,6 +39,9 @@ public class SeqMoraleExplained : Sequence {
             GameManager.Instance.AllKeepersList[i].GetComponent<Behaviour.MentalHealthHandler>().SelectedMentalHealthUI.SetActive(true);
         }
 
+        foreach (PawnInstance pi in TileManager.Instance.KeepersOnTile[GameManager.Instance.ActiveTile])
+            pi.GetComponent<Behaviour.MentalHealthHandler>().CurrentMentalHealth -= 5;
+        EventManager.HandleWeather();
         TutoManager.s_instance.GetComponent<SeqMoraleExplained>().AlreadyPlayed = true;
         TutoManager.s_instance.PlayingSequence = null;
     }
