@@ -162,9 +162,11 @@ public abstract class Sequence : MonoBehaviour
             GameManager.Instance.PersistenceLoader.SetPawnUnlocked("grekhan", true);
             GameManager.Instance.PersistenceLoader.SetPawnUnlocked("lupus", true);
             GameManager.Instance.PersistenceLoader.SetPawnUnlocked("lucky", true);
+            GameManager.Instance.PersistenceLoader.SetPawnUnlocked("emo", true);
             GameManager.Instance.PersistenceLoader.Pd.dicPersistencePawns["grekhan"] = true;
             GameManager.Instance.PersistenceLoader.Pd.dicPersistencePawns["lupus"] = true;
             GameManager.Instance.PersistenceLoader.Pd.dicPersistencePawns["lucky"] = true;
+            GameManager.Instance.PersistenceLoader.Pd.dicPersistencePawns["emo"] = true;
 
             GameManager.Instance.PersistenceLoader.SetLevelUnlocked("4", true);
             GameManager.Instance.PersistenceLoader.SetLevelUnlocked("2", true);

@@ -12,7 +12,6 @@
 			"sensible" : "false",
 			"archer" : "false",
 			"stinks" : "false",
-			"luckbased" : "false",
 			
 			"HungerHandler" : {
 				"maxHunger" : 100
@@ -42,7 +41,6 @@
 			"sensible" : "false",
 			"archer" : "false",
 			"stinks" : "false",
-			"luckbased" : "false",
 			
 			"Fighter" : {},
 			
@@ -80,7 +78,6 @@
 			"sensible" : "false",
 			"archer" : "false",
 			"stinks" : "false",
-			"luckbased" : "false",
 			
 			"Fighter" : {},
 			
@@ -118,7 +115,6 @@
 			"sensible" : "false",
 			"archer" : "false",
 			"stinks" : "false",
-			"luckbased" : "false",
 			
 			"Fighter" : {},
 			
@@ -156,7 +152,6 @@
 			"sensible" : "true",
 			"archer" : "false",
 			"stinks" : "false",
-			"luckbased" : "false",
 			
 			"HungerHandler" : {
 				"maxHunger" : 100
@@ -192,14 +187,13 @@
 			"sensible" : "false",
 			"archer" : "true",
 			"stinks" : "true",
-			"luckbased" : "false",
 
 			"HungerHandler" : {
 				"maxHunger" : 100
 			},
 			
 			"Inventory" : {
-				"nbSlot" : 3
+				"nbSlot" : 2
 			},
 			
 			"Keeper" : {
@@ -227,6 +221,7 @@
 			"explorateur" : "true",
 			"sensible" : "false",
 			"archer" : "false",
+			"stinks" : "false",
 
 			"HungerHandler" : {
 				"maxHunger" : 100
@@ -234,42 +229,6 @@
 			
 			"Inventory" : {
 				"nbSlot" : 1
-			},
-			
-			"Keeper" : {
-				"minMoralBuff" : -10,
-				"maxMoralBuff" : 20,
-				"maxActionPoint" : 3
-			},
-						
-			"MentalHealthHandler" : {
-				"maxMentalHealth" : 100
-			},
-			
-			"Mortal" : {
-				"maxHp" : 100
-			}
-		},
-		{
-			"id": "landb",
-			"name" : "LuckyAndBlacky",
-			"sprite" : "Pawn_mini_icon/Heal_mini_icon",
-			"shortcutSprite" : "Pawn_mini_icon/support_heal",
-			"canSpeak" : "true",
-			"morfale" : "false",
-			"gaga" : "false",
-			"explorateur" : "false",
-			"sensible" : "false",
-			"archer" : "false",
-			"stinks" : "false",
-			"luckbased" : "true",
-			
-			"HungerHandler" : {
-				"maxHunger" : 100
-			},
-			
-			"Inventory" : {
-				"nbSlot" : 6
 			},
 			
 			"Keeper" : {

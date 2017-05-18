@@ -125,6 +125,5 @@ public enum BehavioursEnum
     CanSpeak,
     Archer,
     Stinks,
-    LuckBased,
     Size
 };

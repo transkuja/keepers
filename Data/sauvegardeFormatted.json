@@ -19,6 +19,10 @@
 		{
 			"id":"lucky",
 			"unlocked":false
+		},
+		{
+			"id":"emo",
+			"unlocked":false
 		}
 	],
 	"Levels":[
