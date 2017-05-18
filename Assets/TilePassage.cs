@@ -284,7 +284,7 @@ public class TilePassage : MonoBehaviour
         {
             if (other.GetComponentInParent<AnimatedPawn>().CmdExplore == true)
             {
-                if (GameManager.Instance.GoTarget != null && GameManager.Instance.GoTarget.GetComponent<TilePassage>() == this && other.GetComponentInParent<NavMeshAgent>().remainingDistance <= 0.001f)
+                if (GameManager.Instance.GoTarget != null && GameManager.Instance.GoTarget.GetComponent<TilePassage>() == this && other.GetComponentInParent<NavMeshAgent>().remainingDistance <= 0.001f && other.GetComponentInParent<NavMeshAgent>().velocity.sqrMagnitude == 0.0f)
                 {
                     other.GetComponentInParent<NavMeshAgent>().Stop();
                     other.GetComponentInParent<AnimatedPawn>().CmdExplore = false;
@@ -318,7 +318,7 @@ public class TilePassage : MonoBehaviour
             }
             else if (other.GetComponentInParent<AnimatedPawn>().CmdMove == true)
             {
-                if (other.GetComponentInParent<NavMeshAgent>().isActiveAndEnabled && other.GetComponentInParent<NavMeshAgent>().remainingDistance <= 0.001f)
+                if (other.GetComponentInParent<NavMeshAgent>().isActiveAndEnabled && other.GetComponentInParent<NavMeshAgent>().remainingDistance <= 0.001f && other.GetComponentInParent<NavMeshAgent>().velocity.sqrMagnitude == 0.0f)
                 {
                     other.GetComponentInParent<NavMeshAgent>().Stop();
                     other.GetComponentInParent<AnimatedPawn>().CmdMove = false;
