@@ -120,6 +120,8 @@ public class IngameUI : MonoBehaviour
             Destroy(goContentPanneauParent.transform.GetChild(i).gameObject);
         }
         ResetActionPanelPosition();
+        GameManager.Instance.Ui.TurnButton.transform.parent.gameObject.SetActive(false);
+
     }
 
     #region Action

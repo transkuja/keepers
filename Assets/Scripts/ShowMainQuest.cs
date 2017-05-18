@@ -66,6 +66,7 @@ public class ShowMainQuest : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+
             isTimerActive = false;
             isFirstStepFinished = false;
 
@@ -83,6 +84,9 @@ public class ShowMainQuest : MonoBehaviour {
             if (btnReviewMainQuest.activeSelf == false)
             {
                 btnReviewMainQuest.SetActive(true);
+                if (GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqfirstmove"] == true)
+                    GameManager.Instance.Ui.TurnButton.transform.parent.gameObject.SetActive(true);
+
             }
         }
 
@@ -116,6 +120,9 @@ public class ShowMainQuest : MonoBehaviour {
                 if (btnReviewMainQuest.activeSelf == false)
                 {
                     btnReviewMainQuest.SetActive(true);
+                    if (GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqfirstmove"] == true)
+                        GameManager.Instance.Ui.TurnButton.transform.parent.gameObject.SetActive(true);
+
                 }
             }
         }
