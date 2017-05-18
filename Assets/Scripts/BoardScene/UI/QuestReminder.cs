@@ -13,7 +13,7 @@ public class QuestReminder : MonoBehaviour {
         hidding = -1
     }
 
-    private State state = State.shown;
+    private State state = State.hidden;
     private QuestManager qm;
     private RectTransform rt;
     private float fOffsetX;
@@ -46,10 +46,9 @@ public class QuestReminder : MonoBehaviour {
         {
             Refresh();
         }
-
         if (state == State.hidding || state == State.showing)
         {
-            UpdatePosition();
+            updatePosition();
         }
 	}
 
@@ -88,14 +87,18 @@ public class QuestReminder : MonoBehaviour {
     {
         if (!dicQuestReminder.ContainsKey(qm.MainQuest))
         {
-            AddQuest(qm.MainQuest);
+            addQuest(qm.MainQuest);
         }
 
         for(int i =0; i< qm.ActiveQuests.Count; i++)
         {
             if (!dicQuestReminder.ContainsKey(qm.ActiveQuests[i]))
             {
-                AddQuest(qm.ActiveQuests[i]);
+                addQuest(qm.ActiveQuests[i]);
+            }
+            else
+            {
+                refreshQuest(qm.ActiveQuests[i]);
             }
         }
     }
@@ -141,24 +144,24 @@ public class QuestReminder : MonoBehaviour {
         }
     }
 
-    private void UpdatePosition()
+    private void updatePosition()
     {
         fLerp += Time.unscaledDeltaTime * fSpeed * (int)state;
-        rt.anchoredPosition = Vector3.Lerp(new Vector3(fOffsetX, fPosY,0), new Vector3(0,fPosY,0), fLerp);
+        rt.anchoredPosition = Vector3.Lerp(new Vector3(-fOffsetX, fPosY,0), new Vector3(0,fPosY,0), fLerp);
 
-        if(state == State.showing && fLerp >= 1)
+        if (state == State.showing && fLerp >= 1)
         {
             state = State.shown;
-            imgButton.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, 180);
+            imgButton.GetComponent<RectTransform>().rotation = Quaternion.identity;
         }
         else if (state == State.hidding && fLerp <= 0)
         {
             state = State.hidden;
-            imgButton.GetComponent<RectTransform>().rotation = Quaternion.Euler(0,0,0);
+            imgButton.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, 180); //Quaternion.Euler(0, 0, 0);
         }
     }
 
-    private void AddQuest(QuestSystem.Quest q)
+    private void addQuest(QuestSystem.Quest q)
     {
         GameObject newQuest = Instantiate(prefabQuestElement, container);
         newQuest.transform.localScale = Vector3.one;
@@ -174,8 +177,11 @@ public class QuestReminder : MonoBehaviour {
         dicQuestReminder.Add(q, newQuest);
     }
 
-    public void AddObjective()
+    private void refreshQuest(QuestSystem.Quest q)
     {
-
+        for (int j = 0; j < q.Objectives.Count; j++)
+        {
+            dicQuestReminder[q].transform.GetChild(1).GetChild(0).GetChild(0).gameObject.SetActive(q.Objectives[j].IsComplete);
+        }
     }
 }
