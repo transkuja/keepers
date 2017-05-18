@@ -102,13 +102,14 @@ public class GameManager : MonoBehaviour
         ResetInstance();
         if (isDebugGameManager)
         {
+            persistenceLoader.Load();
             foreach (Keeper k in GetComponentsInChildren<Keeper>())
             {
                 AllKeepersList.Add(k.GetComponent<PawnInstance>());
             }
         }
         DontDestroyOnLoad(gameObject);
-
+        //DontReplayDuckAnimation();
     }
 
     public void CheckGameState()
@@ -178,7 +179,7 @@ public class GameManager : MonoBehaviour
 
     public void ResetInstance()
     {
-        if( SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Menu new"))
+        if ( SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Menu new"))
         {
             instance.listOfSelectedKeepers.Clear();
         }
