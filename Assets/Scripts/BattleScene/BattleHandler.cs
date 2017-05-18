@@ -112,6 +112,21 @@ public class BattleHandler {
             // Manual selection
             else
             {
+                if (GameManager.Instance.ArcherInstance != null)
+                {
+                    Tile archerTile = GameManager.Instance.ArcherInstance.CurrentTile;
+                    if (archerTile != null)
+                    {
+                        for (int i = 0; i < 6; i++)
+                        {
+                            if (archerTile == tile.Neighbors[i])
+                            {
+                                archerPreviousTile = archerTile;
+                                GameManager.Instance.ArcherInstance.CurrentTile = tile;
+                            }
+                        }
+                    }
+                }
                 GameManager.Instance.OpenSelectBattleCharactersScreen(tile);
             }
         }
@@ -993,6 +1008,19 @@ public class BattleHandler {
         set
         {
             currentBattleLoot = value;
+        }
+    }
+
+    public static Tile ArcherPreviousTile
+    {
+        get
+        {
+            return archerPreviousTile;
+        }
+
+        set
+        {
+            archerPreviousTile = value;
         }
     }
 }

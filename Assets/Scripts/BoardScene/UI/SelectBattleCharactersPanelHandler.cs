@@ -45,7 +45,7 @@ public class SelectBattleCharactersPanelHandler : MonoBehaviour {
         }
 
         PawnInstance archer = GameManager.Instance.ArcherInstance;
-        if (archer != null && archer.CurrentTile == activeTile)
+        if (archer != null && archer.CurrentTile == activeTile && BattleHandler.ArcherPreviousTile != archer.CurrentTile)
         {
             GameObject kiImage = Instantiate(imagePrefab, transform.GetChild((int)SelectBattleCharactersScreenChildren.CharactersOnTile).GetChild(j));
             kiImage.AddComponent<UIKeeperInstance>();

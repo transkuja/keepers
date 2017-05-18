@@ -21,7 +21,9 @@ public class CharactersInitializer : MonoBehaviour {
             curKeeper.transform.GetComponent<NavMeshAgent>().enabled = true;
             PawnInstance curKeeperPI = curKeeper.transform.GetComponent<PawnInstance>();
             if (curKeeperPI.Data.Behaviours[(int)BehavioursEnum.Archer] == true)
+            {
                 GameManager.Instance.ArcherInstance = curKeeperPI;
+            }
 
             GameManager.Instance.AllKeepersList.Add(curKeeperPI);
             InitCharacterUI(curKeeperPI);

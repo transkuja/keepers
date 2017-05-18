@@ -275,6 +275,36 @@ public class SkillBattle {
             {
                 bool boeufMustBeAdded = true;
                 Fighter tmpTargetFighter = (boeufs[i].BoeufTarget == BoeufTarget.SameAsAttack) ? curTargetFighter : skillUser.GetComponent<Fighter>();
+
+                if (boeufs[i].Duration == 0 && boeufs[i].BoeufType == BoeufType.IncreaseStocks && boeufs[i].BoeufTarget == BoeufTarget.Self)
+                {
+                    int value;
+                    if (boeufs[i].EffectValue == 0)
+                    {
+                        skillUser.ConsecutiveShots++;
+                        value = skillUser.ConsecutiveShots;
+                    }
+                    else
+                    {
+                        value = boeufs[i].EffectValue;
+                    }
+
+                    skillUser.transform.gameObject.AddComponent<DieFeedback>();
+
+                    for (int j = 0; j < boeufs[i].SymbolsAffected.Length; j++)
+                    {
+                        if (boeufs[i].SymbolsAffected[j] == FaceType.Physical)
+                            skillUser.PhysicalSymbolStored += value;
+                        if (boeufs[i].SymbolsAffected[j] == FaceType.Magical)
+                            skillUser.MagicalSymbolStored += value;
+                        if (boeufs[i].SymbolsAffected[j] == FaceType.Defensive)
+                            skillUser.DefensiveSymbolStored += value;
+
+                        skillUser.transform.GetComponent<DieFeedback>().PopFeedback(new Face(boeufs[i].SymbolsAffected[j], value), skillUser.GetComponent<PawnInstance>());
+                    }
+                    continue;
+                }
+
                 for (int j = 0; j < tmpTargetFighter.EffectiveBoeufs.Count; j++)
                 {
                     if (boeufs[i].BoeufType == tmpTargetFighter.EffectiveBoeufs[j].BoeufType)
@@ -305,6 +335,8 @@ public class SkillBattle {
     {
         GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().LockCharactersPanelButtons();
         ConsumeCost();
+        if (skillName.Contains("Rapid"))
+            skillUser.HasPlayedARapidSkill = true;
 
         GameObject skillNameUI = GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().SkillName;
         skillNameUI.transform.GetComponentInChildren<Text>().text = skillName;
@@ -366,6 +398,8 @@ public class SkillBattle {
     {
         GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().LockCharactersPanelButtons();
         ConsumeCost();
+        if (skillName.Contains("Rapid"))
+            skillUser.HasPlayedARapidSkill = true;
 
         GameObject skillNameUI = GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().SkillName;
         skillNameUI.transform.GetComponentInChildren<Text>().text = skillName;

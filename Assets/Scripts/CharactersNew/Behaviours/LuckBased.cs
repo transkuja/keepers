@@ -15,6 +15,29 @@ namespace Behaviour
         private List<SkillBattle> defensiveSkills = new List<SkillBattle>();
         [SerializeField]
         private List<SkillBattle> magicalSkills = new List<SkillBattle>();
+        public Fighter fighterComponent;
+
+        private void Start()
+        {
+            if (fighterComponent == null)
+                Debug.LogWarning("Fighter reference missing.");
+
+            foreach (SkillBattle sb in physicalSkills)
+            {
+                if (sb.SkillUser == null)
+                    sb.SkillUser = fighterComponent;
+            }
+            foreach (SkillBattle sb in defensiveSkills)
+            {
+                if (sb.SkillUser == null)
+                    sb.SkillUser = fighterComponent;
+            }
+            foreach (SkillBattle sb in magicalSkills)
+            {
+                if (sb.SkillUser == null)
+                    sb.SkillUser = fighterComponent;
+            }
+        }
 
         public LuckResult RollDice()
         {

@@ -63,6 +63,9 @@ namespace Behaviour
         SkillDecisionAlgo skillDecisionAlgo;
         List<BattleBoeuf> effectiveBoeufs = new List<BattleBoeuf>();
 
+        int consecutiveShots = 0;
+        bool hasPlayedARapidSkill = false;
+
         void Awake()
         {
             //instance = GetComponent<PawnInstance>();
@@ -97,7 +100,7 @@ namespace Behaviour
                     sb.SkillUser = this;
             }
 
-            if (GetComponent<LuckBased>() != null)
+            if (GetComponent<LuckBased>() != null || GetComponent<MentalHealthHandler>() == null)
             {
                 foreach (SkillBattle sb in battleSkills)
                     depressedSkills.Add(new SkillBattle(sb));
@@ -311,8 +314,16 @@ namespace Behaviour
             set
             {
                 hasPlayedThisTurn = value;
-                if (hasPlayedThisTurn == true)
+                if (hasPlayedARapidSkill)
                 {
+                    hasPlayedThisTurn = false;
+                    hasPlayedARapidSkill = false;
+                    GameManager.Instance.ClearListKeeperSelected();
+                    BattleHandler.CheckTurnStatus();
+                }
+                else if (hasPlayedThisTurn == true)
+                {
+                    consecutiveShots = 0;
                     GameManager.Instance.ClearListKeeperSelected();
                     BattleHandler.CheckTurnStatus();
                 }
@@ -451,6 +462,32 @@ namespace Behaviour
             set
             {
                 depressedSkills = value;
+            }
+        }
+
+        public int ConsecutiveShots
+        {
+            get
+            {
+                return consecutiveShots;
+            }
+
+            set
+            {
+                consecutiveShots = value;
+            }
+        }
+
+        public bool HasPlayedARapidSkill
+        {
+            get
+            {
+                return hasPlayedARapidSkill;
+            }
+
+            set
+            {
+                hasPlayedARapidSkill = value;
             }
         }
 

@@ -57,44 +57,48 @@ public class SkillDescriptionUI : MonoBehaviour, IPointerEnterHandler, IPointerE
         if (skillData.Boeufs != null && skillData.Boeufs.Length > 0)
         {
             descriptionPanel.GetComponentInChildren<Text>().text += "\nEffect: ";
-            for (int i = 0; i < skillData.Boeufs.Length; i++)
-            {
-                BattleBoeuf curBoeuf = skillData.Boeufs[i];
-                if (curBoeuf.BoeufType == BoeufType.Damage)
+            // Big fat ugly hardcoded effect description lol
+            if (skillData.SkillName.Contains("Rapid"))
+                descriptionPanel.GetComponentInChildren<Text>().text += "The more you shoot in a turn, the more magical power you gain.";
+            else
+                for (int i = 0; i < skillData.Boeufs.Length; i++)
                 {
-                    descriptionPanel.GetComponentInChildren<Text>().text += (curBoeuf.EffectValue < 0) ? "Reduce " : "Increase ";
-                    descriptionPanel.GetComponentInChildren<Text>().text += "damage dealt by " + Mathf.Abs(curBoeuf.EffectValue);
-                }
-                else if (curBoeuf.BoeufType == BoeufType.Defense)
-                {
-                    descriptionPanel.GetComponentInChildren<Text>().text += (curBoeuf.EffectValue > 0) ? "Reduce " : "Increase ";
-                    descriptionPanel.GetComponentInChildren<Text>().text += "damage taken by " + Mathf.Abs(curBoeuf.EffectValue);
-                }
-                else if (curBoeuf.BoeufType == BoeufType.Aggro)
-                {
-
-                }
-                else if (curBoeuf.BoeufType == BoeufType.CostReduction)
-                {
-                    descriptionPanel.GetComponentInChildren<Text>().text += (curBoeuf.EffectValue < 0) ? "Reduce " : "Increase ";
-                    descriptionPanel.GetComponentInChildren<Text>().text += "chances of being targeted by " + Mathf.Abs(curBoeuf.EffectValue) + " percent";
-                }
-                else if (curBoeuf.BoeufType == BoeufType.IncreaseStocks)
-                {
-                    descriptionPanel.GetComponentInChildren<Text>().text += (curBoeuf.EffectValue < 0) ? "Reduce " : "Increase ";
-                    for (int j = 0; j < curBoeuf.SymbolsAffected.Length; j++)
+                    BattleBoeuf curBoeuf = skillData.Boeufs[i];
+                    if (curBoeuf.BoeufType == BoeufType.Damage)
                     {
-                        if (curBoeuf.SymbolsAffected[j] == FaceType.Physical)
-                            descriptionPanel.GetComponentInChildren<Text>().text += "physical ";
-                        else if (curBoeuf.SymbolsAffected[j] == FaceType.Defensive)
-                            descriptionPanel.GetComponentInChildren<Text>().text += "defensive ";
-                        else
-                            descriptionPanel.GetComponentInChildren<Text>().text += "magic ";
+                        descriptionPanel.GetComponentInChildren<Text>().text += (curBoeuf.EffectValue < 0) ? "Reduce " : "Increase ";
+                        descriptionPanel.GetComponentInChildren<Text>().text += "damage dealt by " + Mathf.Abs(curBoeuf.EffectValue);
                     }
-                    descriptionPanel.GetComponentInChildren<Text>().text += "gauges by " + Mathf.Abs(curBoeuf.EffectValue);
+                    else if (curBoeuf.BoeufType == BoeufType.Defense)
+                    {
+                        descriptionPanel.GetComponentInChildren<Text>().text += (curBoeuf.EffectValue > 0) ? "Reduce " : "Increase ";
+                        descriptionPanel.GetComponentInChildren<Text>().text += "damage taken by " + Mathf.Abs(curBoeuf.EffectValue);
+                    }
+                    else if (curBoeuf.BoeufType == BoeufType.Aggro)
+                    {
+
+                    }
+                    else if (curBoeuf.BoeufType == BoeufType.CostReduction)
+                    {
+                        descriptionPanel.GetComponentInChildren<Text>().text += (curBoeuf.EffectValue < 0) ? "Reduce " : "Increase ";
+                        descriptionPanel.GetComponentInChildren<Text>().text += "chances of being targeted by " + Mathf.Abs(curBoeuf.EffectValue) + " percent";
+                    }
+                    else if (curBoeuf.BoeufType == BoeufType.IncreaseStocks)
+                    {
+                        descriptionPanel.GetComponentInChildren<Text>().text += (curBoeuf.EffectValue < 0) ? "Reduce " : "Increase ";
+                        for (int j = 0; j < curBoeuf.SymbolsAffected.Length; j++)
+                        {
+                            if (curBoeuf.SymbolsAffected[j] == FaceType.Physical)
+                                descriptionPanel.GetComponentInChildren<Text>().text += "physical ";
+                            else if (curBoeuf.SymbolsAffected[j] == FaceType.Defensive)
+                                descriptionPanel.GetComponentInChildren<Text>().text += "defensive ";
+                            else
+                                descriptionPanel.GetComponentInChildren<Text>().text += "magic ";
+                        }
+                        descriptionPanel.GetComponentInChildren<Text>().text += "gauges by " + Mathf.Abs(curBoeuf.EffectValue);
+                    }
+                    descriptionPanel.GetComponentInChildren<Text>().text += " for " + (curBoeuf.Duration - 1) + " turns. ";
                 }
-                descriptionPanel.GetComponentInChildren<Text>().text += " for " + (curBoeuf.Duration - 1) + " turns. ";
-            }
         }
 
 
@@ -139,44 +143,48 @@ public class SkillDescriptionUI : MonoBehaviour, IPointerEnterHandler, IPointerE
         if (skillData.Boeufs != null && skillData.Boeufs.Length > 0)
         {
             descriptionPanel.GetComponentInChildren<Text>().text += "\nEffect" + ((skillData.Boeufs.Length > 1) ? "s" : "") + ": ";
-            for (int i = 0; i < skillData.Boeufs.Length; i++)
-            {
-                BattleBoeuf curBoeuf = skillData.Boeufs[i];
-                if (curBoeuf.BoeufType == BoeufType.Damage)
+            // Big fat ugly hardcoded effect description lol (and I copy paste it, yay)
+            if (skillData.SkillName.Contains("Rapid"))
+                descriptionPanel.GetComponentInChildren<Text>().text += "The more you shoot in a turn, the more magical power you gain.";
+            else
+                for (int i = 0; i < skillData.Boeufs.Length; i++)
                 {
-                    descriptionPanel.GetComponentInChildren<Text>().text += (curBoeuf.EffectValue < 0) ? "Reduce " : "Increase ";
-                    descriptionPanel.GetComponentInChildren<Text>().text += "damage dealt by " + Mathf.Abs(curBoeuf.EffectValue);
-                }
-                else if (curBoeuf.BoeufType == BoeufType.Defense)
-                {
-                    descriptionPanel.GetComponentInChildren<Text>().text += (curBoeuf.EffectValue > 0) ? "Reduce " : "Increase ";
-                    descriptionPanel.GetComponentInChildren<Text>().text += "damage taken by " + Mathf.Abs(curBoeuf.EffectValue);
-                }
-                else if (curBoeuf.BoeufType == BoeufType.Aggro)
-                {
-
-                }
-                else if (curBoeuf.BoeufType == BoeufType.CostReduction)
-                {
-                    descriptionPanel.GetComponentInChildren<Text>().text += (curBoeuf.EffectValue < 0) ? "Reduce " : "Increase ";
-                    descriptionPanel.GetComponentInChildren<Text>().text += "chances of being targeted by " + Mathf.Abs(curBoeuf.EffectValue) + " percent";
-                }
-                else if (curBoeuf.BoeufType == BoeufType.IncreaseStocks)
-                {
-                    descriptionPanel.GetComponentInChildren<Text>().text += (curBoeuf.EffectValue < 0) ? "Reduce " : "Increase ";
-                    for (int j = 0; j < curBoeuf.SymbolsAffected.Length; j++)
+                    BattleBoeuf curBoeuf = skillData.Boeufs[i];
+                    if (curBoeuf.BoeufType == BoeufType.Damage)
                     {
-                        if (curBoeuf.SymbolsAffected[j] == FaceType.Physical)
-                            descriptionPanel.GetComponentInChildren<Text>().text += "physical ";
-                        else if (curBoeuf.SymbolsAffected[j] == FaceType.Defensive)
-                            descriptionPanel.GetComponentInChildren<Text>().text += "defensive ";
-                        else
-                            descriptionPanel.GetComponentInChildren<Text>().text += "magic ";
+                        descriptionPanel.GetComponentInChildren<Text>().text += (curBoeuf.EffectValue < 0) ? "Reduce " : "Increase ";
+                        descriptionPanel.GetComponentInChildren<Text>().text += "damage dealt by " + Mathf.Abs(curBoeuf.EffectValue);
                     }
-                    descriptionPanel.GetComponentInChildren<Text>().text += "gauges by " + Mathf.Abs(curBoeuf.EffectValue);
+                    else if (curBoeuf.BoeufType == BoeufType.Defense)
+                    {
+                        descriptionPanel.GetComponentInChildren<Text>().text += (curBoeuf.EffectValue > 0) ? "Reduce " : "Increase ";
+                        descriptionPanel.GetComponentInChildren<Text>().text += "damage taken by " + Mathf.Abs(curBoeuf.EffectValue);
+                    }
+                    else if (curBoeuf.BoeufType == BoeufType.Aggro)
+                    {
+
+                    }
+                    else if (curBoeuf.BoeufType == BoeufType.CostReduction)
+                    {
+                        descriptionPanel.GetComponentInChildren<Text>().text += (curBoeuf.EffectValue < 0) ? "Reduce " : "Increase ";
+                        descriptionPanel.GetComponentInChildren<Text>().text += "chances of being targeted by " + Mathf.Abs(curBoeuf.EffectValue) + " percent";
+                    }
+                    else if (curBoeuf.BoeufType == BoeufType.IncreaseStocks)
+                    {
+                        descriptionPanel.GetComponentInChildren<Text>().text += (curBoeuf.EffectValue < 0) ? "Reduce " : "Increase ";
+                        for (int j = 0; j < curBoeuf.SymbolsAffected.Length; j++)
+                        {
+                            if (curBoeuf.SymbolsAffected[j] == FaceType.Physical)
+                                descriptionPanel.GetComponentInChildren<Text>().text += "physical ";
+                            else if (curBoeuf.SymbolsAffected[j] == FaceType.Defensive)
+                                descriptionPanel.GetComponentInChildren<Text>().text += "defensive ";
+                            else
+                                descriptionPanel.GetComponentInChildren<Text>().text += "magic ";
+                        }
+                        descriptionPanel.GetComponentInChildren<Text>().text += "gauges by " + Mathf.Abs(curBoeuf.EffectValue);
+                    }
+                    descriptionPanel.GetComponentInChildren<Text>().text += " for " + curBoeuf.Duration + " turns.\n";
                 }
-                descriptionPanel.GetComponentInChildren<Text>().text += " for " + curBoeuf.Duration + " turns.\n";
-            }
         }
 
         descriptionPanel.transform.localPosition = GameManager.Instance.PrefabUIUtils.skillDescriptionPanel.transform.localPosition;
