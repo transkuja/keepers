@@ -129,6 +129,10 @@ namespace Behaviour
                     }
                     else
                     {
+                        if (feedbackUpdater != null)
+                        {
+                            feedbackUpdater.Init(questToGive);
+                        }
                         BuildQuestPanel();
                         OpenBox();
                     }
@@ -146,7 +150,8 @@ namespace Behaviour
         {
             if (feedbackUpdater != null)
                 feedbackUpdater.ActivateQuestWaitingFeedback();
-            QuestUtility.AcceptQuest(QuestToGive);
+            QuestUtility.AcceptQuest(questToGive);
+            Debug.Log(questToGive.Objectives[0].Title);
             GameManager.Instance.Ui.goContentQuestParent.SetActive(false);
             CloseBox();
         }

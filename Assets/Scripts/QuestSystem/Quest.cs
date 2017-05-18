@@ -30,7 +30,11 @@ namespace QuestSystem
         {
             identifier = ident;
             information = info;
-            objectives = obj;
+            objectives = new List<IQuestObjective>();
+            foreach (IQuestObjective o in obj)
+            {
+                objectives.Add(o.GetCopy());
+            }
             reward = _reward;
 
         }

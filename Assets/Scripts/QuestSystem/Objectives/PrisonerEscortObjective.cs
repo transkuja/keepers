@@ -89,6 +89,7 @@ public class PrisonerEscortObjective : IQuestObjective
     {
         if (prisoner.GetComponent<PawnInstance>().CurrentTile == destination)
         {
+            EventManager.OnPawnMove -= UpdateProgress;
             isComplete = true;
         }
         else
@@ -101,6 +102,7 @@ public class PrisonerEscortObjective : IQuestObjective
     {
         if (prisoner.GetComponent<PawnInstance>().CurrentTile == destination)
         {
+            EventManager.OnPawnMove -= UpdateProgress;
             isComplete = true;
             if (onComplete != null)
                 onComplete();
@@ -116,12 +118,22 @@ public class PrisonerEscortObjective : IQuestObjective
         
     }
 
+    public void UpdateProgress(PawnInstance pi, Tile t)
+    {
+        if(pi.gameObject == prisoner && t == destination)
+        {
+            CheckProgressWithEvent();
+        }
+    }
+
     public void Init()
     {
         if (onInit != null)
         {
             onInit();
         }
+
+        EventManager.OnPawnMove += UpdateProgress;
     }
 
     public IQuestObjective GetCopy()

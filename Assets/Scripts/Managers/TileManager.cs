@@ -283,6 +283,10 @@ public class TileManager : MonoBehaviour {
             escortablesOnTile.Add(tile, newList);
         }
         escortable.CurrentTile = tile;
+        if (EventManager.OnPawnMove != null)
+        {
+            EventManager.OnPawnMove(escortable, tile);
+        }
     }
 
     public void AddEscortableOnTile(PawnInstance escortable)
@@ -344,6 +348,10 @@ public class TileManager : MonoBehaviour {
             GetTileFromKeeper.Add(keeper, tile);
 
         keeper.CurrentTile = tile;
+        if(EventManager.OnPawnMove != null)
+        {
+            EventManager.OnPawnMove(keeper, tile);
+        }
     }
 
     private void RemoveMonsterFromTile(Tile tile, PawnInstance monster)

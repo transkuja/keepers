@@ -5,6 +5,8 @@ using QuestSystem;
 
 public class QuestDealerFeedbackUpdater : MonoBehaviour {
     Quest quest;
+    [SerializeField]
+    GameObject feedbackContainer;
     public void Init(Quest _quest)
     {
         quest = _quest;
@@ -19,24 +21,33 @@ public class QuestDealerFeedbackUpdater : MonoBehaviour {
             ActivateQuestCompleteFeedback();
         }
     }
-
-    public void ActivateQuestCompleteFeedback()
-    {
-
-    }
-
+    
     public void ActivateQuestAvailableFeedback()
     {
-
+        feedbackContainer.transform.GetChild(0).gameObject.SetActive(true);
+        feedbackContainer.transform.GetChild(1).gameObject.SetActive(false);
+        feedbackContainer.transform.GetChild(2).gameObject.SetActive(false);
     }
 
     public void ActivateQuestWaitingFeedback()
     {
-
+        feedbackContainer.transform.GetChild(0).gameObject.SetActive(false);
+        feedbackContainer.transform.GetChild(1).gameObject.SetActive(true);
+        feedbackContainer.transform.GetChild(2).gameObject.SetActive(false);
     }
+
+    public void ActivateQuestCompleteFeedback()
+    {
+        feedbackContainer.transform.GetChild(0).gameObject.SetActive(false);
+        feedbackContainer.transform.GetChild(1).gameObject.SetActive(false);
+        feedbackContainer.transform.GetChild(2).gameObject.SetActive(true);
+    }
+
 
     public void DisableFeedbacks()
     {
-
+        feedbackContainer.transform.GetChild(0).gameObject.SetActive(false);
+        feedbackContainer.transform.GetChild(1).gameObject.SetActive(false);
+        feedbackContainer.transform.GetChild(2).gameObject.SetActive(false);
     }
 }

@@ -95,6 +95,7 @@ public class MultipleEscortObjective : IQuestObjective {
         UpdateProgress();
         if (amountBrought >= amountToBring)
         {
+            EventManager.OnPawnMove -= UpdateProgress;
             isComplete = true;
         }
         else
@@ -108,6 +109,7 @@ public class MultipleEscortObjective : IQuestObjective {
         UpdateProgress();
         if (amountBrought >= amountToBring)
         {
+            EventManager.OnPawnMove -= UpdateProgress;
             isComplete = true;
             if (onComplete != null)
                 onComplete();
@@ -135,12 +137,21 @@ public class MultipleEscortObjective : IQuestObjective {
         amountBrought = escortOnTile.Count;
     }
 
+    public void UpdateProgress(PawnInstance pi, Tile tile)
+    {
+        if(pi.Data.PawnId == escortablePawnID && tile == destination)
+        {
+            CheckProgressWithEvent();
+        }
+    }
+
     public void Init()
     {
         if (onInit != null)
         {
             onInit();
         }
+        EventManager.OnPawnMove += UpdateProgress;
     }
 
     public void Unregister()

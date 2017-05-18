@@ -26,6 +26,7 @@ public class KillMonsterObjective : IQuestObjective
         description = desc;
         monsterID = _monsterID;
         isComplete = complete;
+        monsterKilled = false;
     }
 
     public string Title
@@ -121,6 +122,7 @@ public class KillMonsterObjective : IQuestObjective
     {
         if(m.getPawnInstance.Data.PawnId == monsterID)
         {
+            EventManager.OnMonsterDie -= UpdateProgress;
             monsterKilled = true;
             CheckProgressWithEvent();
         }
@@ -129,15 +131,13 @@ public class KillMonsterObjective : IQuestObjective
     public void Init()
     {
         EventManager.OnMonsterDie += UpdateProgress;
+        Debug.Log(isComplete);
+        Debug.Log(monsterKilled);
+        Debug.Log(monsterID);
         if (onInit != null)
         {
             onInit();
         }
-    }
-
-    public void Unregister()
-    {
-        EventManager.OnMonsterDie -= UpdateProgress;
     }
 
     public IQuestObjective GetCopy()
