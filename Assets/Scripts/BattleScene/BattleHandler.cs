@@ -802,10 +802,21 @@ public class BattleHandler {
             hasDiceBeenThrown = value;
             if (hasDiceBeenThrown == true)
             {
-                for (int i = 0; i < currentBattleKeepers.Length; i++)
+                if (currentBattleKeepers.Length == 1 && GameManager.Instance.CurrentState != GameState.InTuto)
                 {
-                    ActivateFeedbackSelection(true, false);
+                    GameManager.Instance.ClearListKeeperSelected();
+                    GameManager.Instance.AddKeeperToSelectedList(currentBattleKeepers[0]);
+                    currentBattleKeepers[0].GetComponent<Keeper>().IsSelected = true;
+                    GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().GetSkillsPanelIndex(currentBattleKeepers[0]).gameObject.SetActive(true);
                 }
+                else
+                {
+                    for (int i = 0; i < currentBattleKeepers.Length; i++)
+                    {
+                        ActivateFeedbackSelection(true, false);
+                    }
+                }
+
             }
         }
 
