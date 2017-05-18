@@ -234,7 +234,7 @@ public class MenuController : MonoBehaviour {
     public void KeeperSelectionControls(GameObject hit)
     {
         PawnInstance pi = hit.transform.gameObject.GetComponent<PawnInstance>();
-        if (pi != null &&  menuUI.cardsInfoAreReady && !menuManager.GoDeck.GetComponent<Deck>().IsOpen)
+        if (pi != null &&  menuUI.cardsInfoAreReady && !menuManager.GoDeck.GetComponent<Deck>().IsOpen && !menuUI.IsAPawnMoving)
         {
             if (menuManager.ContainsSelectedKeepers(pi)) // REMOVE
             {

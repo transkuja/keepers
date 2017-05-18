@@ -197,6 +197,19 @@ public class MenuUI : MonoBehaviour {
         }
     }
 
+    public bool IsAPawnMoving
+    {
+        get
+        {
+            return isAPawnMoving;
+        }
+
+        set
+        {
+            isAPawnMoving = value;
+        }
+    }
+
     void Start()
     {
         menuManager = GetComponent<MenuManager>();
