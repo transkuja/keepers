@@ -647,16 +647,25 @@ public class MenuUI : MonoBehaviour {
         {
             if (menuManager.GoCardsInfo[i].GetComponentInChildren<Displayer>().NeedToBeShown)
             {
+                Camera.main.GetComponent<UnityStandardAssets.ImageEffects.BloomAndFlares>().bloomIntensity = 1f - (cardInfoShownfLerp * 0.65f);
+                Camera.main.GetComponent<UnityStandardAssets.ImageEffects.BloomAndFlares>().sepBlurSpread = 1.5f - (cardInfoShownfLerp * 1.4f);
 
                 menuManager.GoCardsInfo[i].transform.position = Vector3.Lerp(levelCardInfoKeyPoses[i][levelCardInfoKeyPoses[i].Count - 1].v3Pos, cameraWhere.transform.position + new Vector3(0,0.5f, -0.2f), cardInfoShownfLerp);
                 menuManager.GoCardsInfo[i].transform.rotation = Quaternion.Lerp(levelCardInfoKeyPoses[i][levelCardInfoKeyPoses[i].Count-1].quatRot, cameraWhere.transform.rotation, cardInfoShownfLerp);
             }
             else if (ACardInfoIsShown)
             {
-                if (menuManager.GoCardsInfo[i].GetComponentInChildren<Displayer>().IsShown) { 
+
+                if (menuManager.GoCardsInfo[i].GetComponentInChildren<Displayer>().IsShown) {
+
+                    Camera.main.GetComponent<UnityStandardAssets.ImageEffects.BloomAndFlares>().bloomIntensity = 0.35f + (cardInfoShownfLerp * 0.65f);
+                    Camera.main.GetComponent<UnityStandardAssets.ImageEffects.BloomAndFlares>().sepBlurSpread = 0.1f + (cardInfoShownfLerp * 1.4f);
+
                     menuManager.GoCardsInfo[i].transform.position = Vector3.Lerp(cameraWhere.transform.position + new Vector3(0, 0.5f, -0.2f), levelCardInfoKeyPoses[i][levelCardInfoKeyPoses[i].Count - 1].v3Pos, cardInfoShownfLerp);
                     menuManager.GoCardsInfo[i].transform.rotation = Quaternion.Lerp(cameraWhere.transform.rotation, levelCardInfoKeyPoses[i][levelCardInfoKeyPoses[i].Count - 1].quatRot, cardInfoShownfLerp);
                 }
+
+
             }
         }
 
@@ -677,11 +686,15 @@ public class MenuUI : MonoBehaviour {
                 {
                     ACardInfoIsShown = true;
                     isACardShow = true;
+
+
                     //
                     menuManager.GoCardsInfo[i].GetComponentInChildren<Displayer>().NeedToBeShown = false;
                 } else
                 {
                     //GlowController.UnregisterObject((menuManager.GoCardsInfo[i].GetComponentInChildren<GlowObjectCmd>()));
+
+
                     menuManager.GoCardsInfo[i].GetComponentInChildren<Displayer>().IsShown = false;
                 }
             }
