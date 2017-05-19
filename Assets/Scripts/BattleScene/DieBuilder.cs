@@ -6,7 +6,7 @@ public class DieBuilder : MonoBehaviour {
     {
         GameObject dieInstance = Instantiate(GameManager.Instance.PrefabUtils.die, tileConcerned.transform);
         float emissionColor = 0.75f;
-        Transform currentFace = dieInstance.transform.GetChild(0);
+        Transform currentFace = dieInstance.transform.GetChild(0).GetChild(0);
         Material currentFaceMaterial = currentFace.GetComponent<Renderer>().material;
         currentFaceMaterial.mainTexture = GameManager.Instance.Texture2DUtils.attackX1;
         currentFaceMaterial.SetTexture("_EmissionMap", GameManager.Instance.Texture2DUtils.attackX1);
@@ -15,7 +15,7 @@ public class DieBuilder : MonoBehaviour {
 
         for (int i = 1; i <= 6; i++)
         {
-            currentFace = dieInstance.transform.GetChild(i);
+            currentFace = dieInstance.transform.GetChild(0).GetChild(i);
             currentFaceMaterial = currentFace.GetComponent<Renderer>().material;
             currentFaceMaterial.mainTexture = GameManager.Instance.Texture2DUtils.GetTextureFromFaceData(dieToBuild.Faces[i - 1]);
             currentFaceMaterial.SetTexture("_EmissionMap", GameManager.Instance.Texture2DUtils.GetTextureFromFaceData(dieToBuild.Faces[i - 1]));

@@ -73,8 +73,8 @@ public class ThrownDiceHandler : MonoBehaviour {
                 int j = Random.Range(0, 5);
                 result[i] = diceForCurrentThrow[piDice][i].Faces[j];
                 // TODO: handle this with animations
-                //diceInstance[piDice][i].GetComponent<Animator>().SetTrigger("startFace" + (j + 1) + "Anim");
-                RotateDie(diceInstance[piDice][i], j + 1);
+                diceInstance[piDice][i].GetComponentInChildren<Animator>().SetTrigger("startFace" + (j + 1) + "Anim");
+                //  RotateDie(diceInstance[piDice][i], j + 1);
             }
             results.Add(piDice, result);
         }
@@ -86,23 +86,32 @@ public class ThrownDiceHandler : MonoBehaviour {
     {
         if (upFace == (int)DieFaceChildren.Back)
         {
-            dieToRotate.transform.Rotate(transform.forward, -90);
+           // dieToRotate.transform.Rotate(transform.forward, -90);
+            dieToRotate.GetComponent<Animator>().SetTrigger("startFaceBackAnim");
         }
         else if (upFace == (int)DieFaceChildren.Front)
         {
-            dieToRotate.transform.Rotate(transform.forward, 90);
+            //dieToRotate.transform.Rotate(transform.forward, 90);
+            dieToRotate.GetComponent<Animator>().SetTrigger("startFaceFrontAnim");
         }
         else if (upFace == (int)DieFaceChildren.Left)
         {
-            dieToRotate.transform.Rotate(transform.right, -90);
+            //dieToRotate.transform.Rotate(transform.right, -90);
+            dieToRotate.GetComponent<Animator>().SetTrigger("startFaceLeftAnim");
         }
         else if (upFace == (int)DieFaceChildren.Right)
         {
-            dieToRotate.transform.Rotate(transform.right, 90);
+            //dieToRotate.transform.Rotate(transform.right, 90);
+            dieToRotate.GetComponent<Animator>().SetTrigger("startFaceRightAnim");
         }
         else if (upFace == (int)DieFaceChildren.Down)
         {
-            dieToRotate.transform.Rotate(transform.right, 180);
+            //dieToRotate.transform.Rotate(transform.right, 180);
+            dieToRotate.GetComponent<Animator>().SetTrigger("startFaceDownAnim");
+        }
+        else
+        {
+            dieToRotate.GetComponent<Animator>().SetTrigger("startFaceUpAnim");
         }
     }
 
