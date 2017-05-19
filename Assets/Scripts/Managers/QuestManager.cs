@@ -14,7 +14,20 @@ public class QuestManager : MonoBehaviour
     public List<Quest> Quests;
     public List<Quest> ActiveQuests;
     public List<Quest> CompletedQuests;
-    public Quest MainQuest;
+    private Quest mainQuest;
+
+    public Quest MainQuest
+    {
+        get
+        {
+            return mainQuest;
+        }
+
+        set
+        {
+            mainQuest = value;
+        }
+    }
 
     void Start()
     {

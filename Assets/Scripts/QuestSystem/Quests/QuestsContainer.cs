@@ -26,7 +26,7 @@ public class QuestsContainer {
         quests = new List<Quest>();
 
         List<IQuestObjective> mainObjectives = new List<IQuestObjective>();
-        mainObjectives.Add(new PrisonerEscortObjective("Until The End", "Bring Ashley to The End, and ALIVE.", null, null));
+        mainObjectives.Add(new PrisonerEscortObjective("Bring Ashley to The End, and ALIVE.", "Bring Ashley to The End, and ALIVE.", null, null));
         quests.Add(new Quest(new QuestIdentifier("main_quest_01", ""), 
                             new QuestText("Main Quest: The last phoque licorne", 
                             "", 

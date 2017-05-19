@@ -8,6 +8,7 @@ public class QuestUtility {
     {
         quest.Init();
         GameManager.Instance.QuestManager.ActiveQuests.Add(quest);
+        GameObject.FindObjectOfType<QuestReminder>().Refresh();
     }
 
     public static void CompleteQuest(Quest quest)

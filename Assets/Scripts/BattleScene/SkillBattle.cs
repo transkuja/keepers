@@ -224,6 +224,7 @@ public class SkillBattle {
             boeufs = _origin.boeufs;
             skillType = _origin.skillType;
             isMeantToHeal = _origin.isMeantToHeal;
+            isMeantToBuff = _origin.isMeantToBuff;
         }
     }
 

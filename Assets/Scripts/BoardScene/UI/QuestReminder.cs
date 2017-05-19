@@ -39,6 +39,7 @@ public class QuestReminder : MonoBehaviour {
         fOffsetX = rt.sizeDelta.x;
         dicQuestReminder = new Dictionary<QuestSystem.Quest, GameObject>();
         fPosY = rt.anchoredPosition.y;
+        Refresh();
         //rt.anchoredPosition = Vector3.one * fOffsetX;
 	}
 	
@@ -134,6 +135,7 @@ public class QuestReminder : MonoBehaviour {
 
     private void addQuest(QuestSystem.Quest q)
     {
+
         GameObject newQuest = Instantiate(prefabQuestElement, container);
         newQuest.transform.localScale = Vector3.one;
         switch (q.Identifier.ID)
@@ -156,8 +158,11 @@ public class QuestReminder : MonoBehaviour {
             newObjective = Instantiate(prefabQuestObjective, newQuest.transform);
             newObjective.transform.localScale = Vector3.one;
             newObjective.GetComponentInChildren<Text>().text = q.Objectives[i].Title;
+            q.Objectives[i].OnComplete += Refresh;
         }
+        
         dicQuestReminder.Add(q, newQuest);
+        
     }
 
     private void refreshQuest(QuestSystem.Quest q)
@@ -166,5 +171,10 @@ public class QuestReminder : MonoBehaviour {
         {
             dicQuestReminder[q].transform.GetChild(1).GetChild(0).GetChild(0).gameObject.SetActive(q.Objectives[j].IsComplete);
         }
+    }
+
+    void OnDestroy()
+    {
+        
     }
 }
