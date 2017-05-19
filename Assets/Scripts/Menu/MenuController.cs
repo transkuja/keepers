@@ -244,7 +244,7 @@ public class MenuController : MonoBehaviour {
 
             menuManager.GoDeck.GetComponent<GlowObjectCmd>().enabled = true;
         }
-        else if (pi != null &&  menuUI.cardsInfoAreReady && !menuManager.GoDeck.GetComponent<Deck>().IsOpen && !menuUI.IsAPawnMoving)
+        else if (pi != null &&  menuUI.cardsInfoAreReady && !menuManager.GoDeck.GetComponent<Deck>().IsOpen && !menuUI.IsAPawnMoving && !menuUI.ACardInfoIsShown && !menuUI.ACardInfoIsShown)
         {
             if (menuManager.ContainsSelectedKeepers(pi.Data.PawnId)) // REMOVE
             {
