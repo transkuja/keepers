@@ -70,8 +70,6 @@ public class ShowMainQuest : MonoBehaviour {
             {
                 isTimerActive = false;
                 isFirstStepFinished = true;
-
-                GameManager.Instance.UpdateCameraPosition(TileManager.Instance.BeginTile);
             }
             else
             {
@@ -86,16 +84,16 @@ public class ShowMainQuest : MonoBehaviour {
                     else if (GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqmulticharacters"] == false)
                         TutoManager.s_instance.playSequence(TutoManager.s_instance.GetComponent<SeqMultiCharacters>());
                 }
-                GameManager.Instance.UpdateCameraPosition(TileManager.Instance.BeginTile);
+            }
 
+            GameManager.Instance.UpdateCameraPosition(TileManager.Instance.BeginTile);
 
-                if (btnReviewMainQuest.activeSelf == false)
-                {
-                    btnReviewMainQuest.SetActive(true);
-                    if (GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqfirstmove"] == true)
-                        GameManager.Instance.Ui.TurnButton.transform.parent.gameObject.SetActive(true);
+            if (btnReviewMainQuest.activeSelf == false)
+            {
+                btnReviewMainQuest.SetActive(true);
+                if (GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqfirstmove"] == true)
+                    GameManager.Instance.Ui.TurnButton.transform.parent.gameObject.SetActive(true);
 
-                }
             }
         }
 
