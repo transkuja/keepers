@@ -227,7 +227,7 @@ namespace Behaviour
         {
             moveTimer += Time.deltaTime;
 
-            if (moveTimer >= 3.0f && agent.remainingDistance <= agent.stoppingDistance && agent.velocity.sqrMagnitude == 0)
+            if (moveTimer >= 3.0f)
             {
                 moveTimer = 0.0f;
                 agent.SetDestination(TileManager.Instance.PreyPatrolPositions.GetChild(Random.Range(0, TileManager.Instance.PreyPatrolPositions.childCount)).transform.position + GetComponent<PawnInstance>().CurrentTile.transform.position);
