@@ -262,6 +262,8 @@ public class MenuController : MonoBehaviour {
                 pi.transform.SetParent(null);
 
                 boxOpener.UpdateLockAspect();
+
+                menuUI.UpdateStartButton();
             }
             else    // ADD
             {
@@ -282,6 +284,8 @@ public class MenuController : MonoBehaviour {
                     pi.transform.SetParent(null);
 
                     boxOpener.UpdateLockAspect();
+
+                    menuUI.UpdateStartButton();
                 }
      
 

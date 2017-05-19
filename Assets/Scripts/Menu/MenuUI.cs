@@ -327,15 +327,52 @@ public class MenuUI : MonoBehaviour {
         switch (menuManager.DeckOfCardsSelected)
         {
             case "deck_01":
-                startButtonImg.GetComponentInChildren<Text>().text = menuManager.ListeSelectedKeepers.Count + "/1";
+                startButtonImg.transform.GetChild(0).GetComponent<Text>().color = Color.green;
+                if (menuManager.ListeSelectedKeepers.Count == 1)
+                {
+     
+                    startButtonImg.transform.GetChild(1).GetComponent<Text>().color = Color.green;
+                }
+                else
+                {
+                    startButtonImg.transform.GetChild(1).GetComponent<Text>().color = Color.red;
+                }
+                startButtonImg.transform.GetChild(0).GetComponent<Text>().text = "1";
+                startButtonImg.transform.GetChild(1).GetComponent<Text>().text = menuManager.ListeSelectedKeepers.Count + "/1";
                 break;
             case "deck_02":
+                startButtonImg.transform.GetChild(0).GetComponent<Text>().color = Color.green;
+                if (menuManager.ListeSelectedKeepers.Count == 3)
+                {
+            
+                    startButtonImg.transform.GetChild(1).GetComponent<Text>().color = Color.green;
+                }
+                else
+                {
+                    startButtonImg.transform.GetChild(1).GetComponent<Text>().color = Color.red;
+                }
+                startButtonImg.transform.GetChild(0).GetComponent<Text>().text = "1";
+                startButtonImg.transform.GetChild(1).GetComponent<Text>().text = menuManager.ListeSelectedKeepers.Count + "/3";
+                break;
             case "deck_03":
             case "deck_04":
-                startButtonImg.GetComponentInChildren<Text>().text = menuManager.ListeSelectedKeepers.Count + "/3";
+                startButtonImg.transform.GetChild(0).GetComponent<Text>().color = Color.green;
+                if (menuManager.ListeSelectedKeepers.Count == 3)
+                {
+
+                    startButtonImg.transform.GetChild(1).GetComponent<Text>().color = Color.green;
+                } else
+                {
+                    startButtonImg.transform.GetChild(1).GetComponent<Text>().color = Color.red;
+                }
+                startButtonImg.transform.GetChild(0).GetComponent<Text>().text = "1";
+                startButtonImg.transform.GetChild(1).GetComponent<Text>().text = menuManager.ListeSelectedKeepers.Count + "/3";
                 break;
             default:
-                startButtonImg.GetComponentInChildren<Text>().text = string.Empty;
+                startButtonImg.transform.GetChild(0).GetComponent<Text>().text = "0";
+                startButtonImg.transform.GetChild(0).GetComponent<Text>().color = Color.white;
+                startButtonImg.transform.GetChild(1).GetComponent<Text>().text = "/0";
+                startButtonImg.transform.GetChild(1).GetComponent<Text>().color = Color.white;
                 break;
         }
 
@@ -344,11 +381,11 @@ public class MenuUI : MonoBehaviour {
             || (menuManager.DeckOfCardsSelected == "deck_02" && menuManager.ListeSelectedKeepers.Count != 3)
             || (menuManager.DeckOfCardsSelected == "deck_01" && menuManager.ListeSelectedKeepers.Count != 1))
         {
-            startButtonImg.SetActive(false);
+            startButtonImg.GetComponent<Button>().interactable = false;
         }
         else
         {
-            startButtonImg.SetActive(true);
+            startButtonImg.GetComponent<Button>().interactable = true;
         }
         // end TODO
     }

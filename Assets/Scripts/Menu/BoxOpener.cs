@@ -55,6 +55,8 @@ public class BoxOpener : MonoBehaviour {
             {
                 GlowController.UnregisterObject(menuManager.GoDeck.GetComponent<GlowObjectCmd>());
                 menuManager.SetActiveChatBoxes(false);
+                menuUi.startButtonImg.gameObject.SetActive(false);
+
             }
             else
             {
@@ -165,12 +167,14 @@ public class BoxOpener : MonoBehaviour {
 
     public void UpdateSpotLightIntensity()
     {
+
         fLerp += Time.unscaledDeltaTime * 0.8f;
 
         if (fLerp > 1)
         {
             fLerp = 1;
         }
+
 
         if (isBoxOpen)
         {
@@ -203,15 +207,16 @@ public class BoxOpener : MonoBehaviour {
                     menuUi.whereTheCardInfoiSrotation.Add(menuManager.GoCardsInfo[i].transform.rotation);
                     menuManager.GoCardsInfo[i].transform.SetParent(null);
                     GlowController.UnregisterObject(menuManager.GoCardsInfo[i].GetComponentInChildren<GlowObjectCmd>());
+
                 }
-         
+
+                menuUi.startButtonImg.gameObject.SetActive(true);
                 boxIsReady = true;
                 for (int i = 0; i < GameManager.Instance.AllKeepersList.Count; i++)
                 {
                     GlowController.UnregisterObject(GameManager.Instance.AllKeepersList[i].GetComponent<GlowObjectCmd>());
                 }
             }
-
             spotlightneedUpdate = false;
             fLerp = 0;
         }
