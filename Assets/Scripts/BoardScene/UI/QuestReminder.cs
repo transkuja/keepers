@@ -39,7 +39,6 @@ public class QuestReminder : MonoBehaviour {
         fOffsetX = rt.sizeDelta.x;
         dicQuestReminder = new Dictionary<QuestSystem.Quest, GameObject>();
         fPosY = rt.anchoredPosition.y;
-        Refresh();
         //rt.anchoredPosition = Vector3.one * fOffsetX;
 	}
 	
@@ -49,6 +48,11 @@ public class QuestReminder : MonoBehaviour {
         {
             updatePosition();
         }
+
+        /*if (Input.GetKeyDown(KeyCode.M))
+        {
+            Refresh();
+        }*/
 	}
 
     public void Refresh()
@@ -135,7 +139,6 @@ public class QuestReminder : MonoBehaviour {
 
     private void addQuest(QuestSystem.Quest q)
     {
-
         GameObject newQuest = Instantiate(prefabQuestElement, container);
         newQuest.transform.localScale = Vector3.one;
         switch (q.Identifier.ID)
@@ -158,23 +161,24 @@ public class QuestReminder : MonoBehaviour {
             newObjective = Instantiate(prefabQuestObjective, newQuest.transform);
             newObjective.transform.localScale = Vector3.one;
             newObjective.GetComponentInChildren<Text>().text = q.Objectives[i].Title;
-            q.Objectives[i].OnComplete += Refresh;
         }
-        
         dicQuestReminder.Add(q, newQuest);
-        
     }
 
     private void refreshQuest(QuestSystem.Quest q)
     {
+        bool bCompleted = true;
         for (int j = 0; j < q.Objectives.Count; j++)
         {
-            dicQuestReminder[q].transform.GetChild(1).GetChild(0).GetChild(0).gameObject.SetActive(q.Objectives[j].IsComplete);
+            dicQuestReminder[q].transform.GetChild(1+j).GetChild(0).GetChild(0).gameObject.SetActive(q.Objectives[j].IsComplete);
+            if(q.Objectives[j].IsComplete == false)
+            {
+                bCompleted = false;
+            }
         }
-    }
-
-    void OnDestroy()
-    {
-        
+        if (bCompleted)
+        {
+            dicQuestReminder[q].transform.GetChild(0).GetChild(2).GetChild(0).gameObject.SetActive(true);
+        }
     }
 }
