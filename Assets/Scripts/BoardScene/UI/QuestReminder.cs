@@ -44,10 +44,6 @@ public class QuestReminder : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            Refresh();
-        }
         if (state == State.hidding || state == State.showing)
         {
             updatePosition();
@@ -59,6 +55,10 @@ public class QuestReminder : MonoBehaviour {
         if (!dicQuestReminder.ContainsKey(qm.MainQuest))
         {
             addQuest(qm.MainQuest);
+        }
+        else
+        {
+            refreshQuest(qm.MainQuest);
         }
 
         for(int i =0; i< qm.ActiveQuests.Count; i++)
