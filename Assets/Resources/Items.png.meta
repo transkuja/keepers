@@ -1,10 +1,10 @@
 fileFormatVersion: 2
 guid: b54aac9f81187614d9eda7b1424ab7a9
-timeCreated: 1495193567
+timeCreated: 1495209669
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Items_1
+    21300000: Items_1000
     21300002: Items_2
     21300004: Items 1_2
     21300006: Items 1_3
@@ -14,7 +14,7 @@ TextureImporter:
     21300014: Items 1_7
     21300016: Items_0
     21300018: Items 1_9
-    21300020: Items_4
+    21300020: Items_1
     21300022: Items_5
   serializedVersion: 4
   mipmaps:
@@ -82,7 +82,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Items_1
+      name: Items_1000
       rect:
         serializedVersion: 2
         x: 31
@@ -212,7 +212,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Items_4
+      name: Items_1
       rect:
         serializedVersion: 2
         x: 321
