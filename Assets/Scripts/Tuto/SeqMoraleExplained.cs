@@ -36,7 +36,8 @@ public class SeqMoraleExplained : Sequence {
 
         for (int i = 0; i < GameManager.Instance.AllKeepersList.Count; i++)
         {
-            GameManager.Instance.AllKeepersList[i].GetComponent<Behaviour.MentalHealthHandler>().SelectedMentalHealthUI.SetActive(true);
+            if(GameManager.Instance.AllKeepersList[i].GetComponent<Behaviour.MentalHealthHandler>() != null)
+                GameManager.Instance.AllKeepersList[i].GetComponent<Behaviour.MentalHealthHandler>().SelectedMentalHealthUI.SetActive(true);
         }
 
         foreach (PawnInstance pi in TileManager.Instance.KeepersOnTile[GameManager.Instance.ActiveTile])
