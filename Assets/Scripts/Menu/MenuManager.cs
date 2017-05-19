@@ -82,16 +82,18 @@ public class MenuManager : MonoBehaviour {
                 switch (leveldb.listLevels[i].difficulty){
 
                     case "Easy":
-                        goCardLevel.transform.GetChild(0).GetChild(1).GetComponent<Text>().color = Color.green;
+                        goCardLevel.transform.GetChild(0).GetChild(1).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteEasy;
+                        break;
+                    case "Medium":
+                        goCardLevel.transform.GetChild(0).GetChild(1).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteMedium;
                         break;
                     case "Hard":
-                        goCardLevel.transform.GetChild(0).GetChild(1).GetComponent<Text>().color = Color.red;
+                        goCardLevel.transform.GetChild(0).GetChild(1).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteHard;
                         break;
                     default:
-                        goCardLevel.transform.GetChild(0).GetChild(1).GetComponent<Text>().color = Color.green;
+                        goCardLevel.transform.GetChild(0).GetChild(1).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteTrivial;
                         break;
                 }
-                goCardLevel.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = leveldb.listLevels[i].difficulty;
                 goCardLevel.transform.GetChild(0).GetChild(2).GetComponent<Text>().text = leveldb.listLevels[i].nbPawn;
                 // TODO Maybe add description to level
                 goCardLevel.GetComponent<CardLevel>().levelIndex = leveldb.listLevels[i].id;

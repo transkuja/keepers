@@ -80,5 +80,12 @@ public class SpriteUIUtils : MonoBehaviour {
     public Sprite spriteDefBuff;
     public Sprite spriteAtkDesBoeufs;
     public Sprite spriteDefDesBoeufs;
+
+    // Menu
+    [Header("Menu")]
+    public Sprite spriteTrivial;
+    public Sprite spriteEasy;
+    public Sprite spriteMedium;
+    public Sprite spriteHard;
 }
 
