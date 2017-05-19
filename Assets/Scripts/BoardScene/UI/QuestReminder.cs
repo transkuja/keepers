@@ -38,7 +38,6 @@ public class QuestReminder : MonoBehaviour {
         fOffsetX = rt.sizeDelta.x;
         dicQuestReminder = new Dictionary<QuestSystem.Quest, GameObject>();
         fPosY = rt.anchoredPosition.y;
-        //rt.anchoredPosition = Vector3.one * fOffsetX;
 	}
 
 	// Update is called once per frame
@@ -139,13 +138,11 @@ public class QuestReminder : MonoBehaviour {
         if (state == State.showing && fLerp >= 1)
         {
             state = State.shown;
-            imgButton.GetComponent<RectTransform>().rotation = Quaternion.identity;
         }
 
         else if (state == State.hidding && fLerp <= 0)
         {
             state = State.hidden;
-            imgButton.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, 180); //Quaternion.Euler(0, 0, 0);
         }
     }
 
