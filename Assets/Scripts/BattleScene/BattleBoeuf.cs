@@ -19,6 +19,20 @@ public class BattleBoeuf {
     [SerializeField]
     FaceType[] symbolsAffected;
 
+    public BattleBoeuf()
+    {
+
+    }
+
+    public BattleBoeuf(BattleBoeuf _origin)
+    {
+        boeufType = _origin.boeufType;
+        boeufTarget = _origin.boeufTarget;
+        duration = _origin.duration;
+        effectValue = _origin.effectValue;
+        symbolsAffected = _origin.symbolsAffected;
+    }
+
     public int Duration
     {
         get

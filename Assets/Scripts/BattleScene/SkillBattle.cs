@@ -327,7 +327,7 @@ public class SkillBattle {
                         }
                     }
                 }
-                if (boeufMustBeAdded) tmpTargetFighter.AddBoeuf(boeufs[i]);
+                if (boeufMustBeAdded) tmpTargetFighter.AddBoeuf(new BattleBoeuf(boeufs[i]));
             }          
         }
     }
