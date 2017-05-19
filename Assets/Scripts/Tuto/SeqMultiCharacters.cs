@@ -25,7 +25,7 @@ public class SeqMultiCharacters : Sequence
             if (feedback == null)
             {
                 feedback = Instantiate(TutoManager.s_instance.uiPointer, GameManager.Instance.Ui.transform.GetChild(0));
-                feedback.GetComponent<FlecheQuiBouge>().PointToPoint = seqMultiCharacters.selectedKeepersPanel.transform.GetChild(0).GetChild(0).GetChild(4).position;
+                feedback.GetComponent<FlecheQuiBouge>().PointToPoint = seqMultiCharacters.selectedKeepersPanel.transform.GetChild(0).GetChild(1).GetChild(4).position;
                 feedback.GetComponent<FlecheQuiBouge>().distanceOffset = 60.0f;
 
                 feedback.transform.localEulerAngles = new Vector3(0, 0, 0);
