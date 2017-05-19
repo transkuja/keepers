@@ -452,6 +452,13 @@ public class MenuUI : MonoBehaviour {
             {
                 if (menuManager.GoCardsLevels[i] != LevelCardSelected)
                 {
+                    if(index == 2) {
+                        Camera.main.GetComponent<UnityStandardAssets.ImageEffects.BloomAndFlares>().bloomIntensity = 1f - (carLevelfLerp * 0.65f);
+                        Camera.main.GetComponent<UnityStandardAssets.ImageEffects.BloomAndFlares>().sepBlurSpread = 1.5f - (carLevelfLerp * 1.4f);
+                    }
+
+
+
                     menuManager.GoCardsLevels[i].transform.position = Vector3.Lerp(whereTheCardiS[i], levelCardKeyPoses[i][index].v3Pos, carLevelfLerp);
                     menuManager.GoCardsLevels[i].transform.rotation = Quaternion.Lerp(whereTheCardiSrotation[i], levelCardKeyPoses[i][index].quatRot, carLevelfLerp);
                 }
@@ -460,6 +467,7 @@ public class MenuUI : MonoBehaviour {
             {
                 if (menuManager.GoCardsLevels[i] != LevelCardSelected  && menuManager.GoCardsLevels[i] != previousCardSelected)
                 {
+
                     menuManager.GoCardsLevels[i].transform.position = Vector3.Lerp(whereTheCardiS[i], levelCardKeyPoses[i][levelCardKeyPoses[i].Count - (index) - 1].v3Pos, carLevelfLerp);
                     menuManager.GoCardsLevels[i].transform.rotation = Quaternion.Lerp(whereTheCardiSrotation[i], levelCardKeyPoses[i][levelCardKeyPoses[i].Count - (index) - 1].quatRot, carLevelfLerp);
                 } else
@@ -741,6 +749,10 @@ public class MenuUI : MonoBehaviour {
 
         if (levelCardSelected.GetComponent<CardLevel>().IsSelected)
         {
+            Camera.main.GetComponent<UnityStandardAssets.ImageEffects.BloomAndFlares>().bloomIntensity = 0.35f + (carLevelSelectedfLerp * 0.65f);
+            Camera.main.GetComponent<UnityStandardAssets.ImageEffects.BloomAndFlares>().sepBlurSpread = 0.1f + (carLevelSelectedfLerp * 1.4f);
+
+
             levelCardSelected.transform.position = Vector3.Lerp(cameraWhere.position, levelCardSelectedPosition.position, carLevelSelectedfLerp);
             levelCardSelected.transform.rotation = Quaternion.Lerp(cameraWhere.rotation, levelCardSelectedPosition.rotation, carLevelSelectedfLerp);
         }
@@ -748,6 +760,7 @@ public class MenuUI : MonoBehaviour {
         {
             if (indexCardSelected == 2)
             {
+
                 levelCardSelected.transform.position = Vector3.Lerp(levelCardKeyPoses[0][1].v3Pos, levelCardKeyPoses[0][0].v3Pos, carLevelSelectedfLerp);
                 levelCardSelected.transform.rotation = Quaternion.Lerp(levelCardKeyPoses[0][1].quatRot, levelCardKeyPoses[0][0].quatRot, carLevelSelectedfLerp);
             }

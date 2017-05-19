@@ -92,7 +92,7 @@ public class MenuManager : MonoBehaviour {
                         break;
                 }
                 goCardLevel.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = leveldb.listLevels[i].difficulty;
-                goCardLevel.transform.GetChild(0).GetChild(2).GetComponent<Text>().text = leveldb.listLevels[i].nbPawn + " pawns required.";
+                goCardLevel.transform.GetChild(0).GetChild(2).GetComponent<Text>().text = leveldb.listLevels[i].nbPawn;
                 // TODO Maybe add description to level
                 goCardLevel.GetComponent<CardLevel>().levelIndex = leveldb.listLevels[i].id;
                 goCardLevel.SetActive(false);
