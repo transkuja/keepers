@@ -2,7 +2,7 @@
 	"Pawns":[
 		{
 			"id":"grekhan",
-			"unlocked":false
+			"unlocked":true
 		},
 		{
 			"id":"swag",
@@ -14,15 +14,15 @@
 		},
 		{
 			"id":"lupus",
-			"unlocked":false
+			"unlocked":true
 		},
 		{
 			"id":"lucky",
-			"unlocked":false
+			"unlocked":true
 		},
 		{
 			"id":"emo",
-			"unlocked":false
+			"unlocked":true
 		}
 	],
 	"Levels":[
@@ -32,25 +32,25 @@
 		},
 		{
 			"id":"2",
-			"unlocked":false
+			"unlocked":true
 		},
 		{
 			"id":"4",
-			"unlocked":false
+			"unlocked":true
 		}
 	],
 	"Events":[
 		{
 			"id":"1",
-			"unlocked":false
+			"unlocked":true
 		},
 		{
 			"id":"2",
-			"unlocked":false
+			"unlocked":true
 		},
 		{
 			"id":"3",
-			"unlocked":false
+			"unlocked":true
 		}
 	],
 	"Decks":[
@@ -60,15 +60,15 @@
 		},
 		{
 			"id":"deck_02",
-			"unlocked":false
+			"unlocked":true
 		},
 		{
 			"id":"deck_03",
-			"unlocked":false
+			"unlocked":true
 		},
 		{
 			"id":"deck_04",
-			"unlocked":false
+			"unlocked":true
 		}
 	],
 	"Camera":{
@@ -77,35 +77,35 @@
 	"Sequences":[
 		{
 			"id":"seqfirstmove",
-			"alreadyPlayed":false
+			"alreadyPlayed":true
 		},
 		{
 			"id":"seqtutocombat",
-			"alreadyPlayed":false
+			"alreadyPlayed":true
 		},
 		{
 			"id":"seqmulticharacters",
-			"alreadyPlayed":false
+			"alreadyPlayed":true
 		},
 		{
 			"id":"seqmoraleexplained",
-			"alreadyPlayed":false
+			"alreadyPlayed":true
 		},
 		{
 			"id":"seqlowmorale",
-			"alreadyPlayed":false
+			"alreadyPlayed":true
 		},
 		{
 			"id":"seqlowhunger",
-			"alreadyPlayed":false
+			"alreadyPlayed":true
 		},
 		{
 			"id":"seqashleyescort",
-			"alreadyPlayed":false
+			"alreadyPlayed":true
 		},
 		{
 			"id":"seqashleylowhunger",
-			"alreadyPlayed":false
+			"alreadyPlayed":true
 		}
 	]
 }

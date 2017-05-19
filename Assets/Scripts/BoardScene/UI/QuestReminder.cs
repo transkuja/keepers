@@ -81,6 +81,11 @@ public class QuestReminder : MonoBehaviour {
                 refreshQuest(qm.ActiveQuests[i]);
             }
         }
+
+        for(int i = 0; i < qm.CompletedQuests.Count; i++)
+        {
+            dicQuestReminder[qm.CompletedQuests[i]].transform.GetChild(0).GetChild(2).GetChild(0).gameObject.SetActive(true);
+        }
     }
 
     public void Toogle()
@@ -97,6 +102,7 @@ public class QuestReminder : MonoBehaviour {
 
     public void Show(bool force = false)
     {
+        Refresh();
         if(state != State.shown && state != State.showing)
         {
             if(state == State.hidden)
@@ -172,11 +178,6 @@ public class QuestReminder : MonoBehaviour {
         for (int j = 0; j < q.Objectives.Count; j++)
         {
             dicQuestReminder[q].transform.GetChild(1+j).GetChild(0).GetChild(0).gameObject.SetActive(q.Objectives[j].IsComplete);
-        }
-
-        if(qm.CompletedQuests.Contains(q))
-        {
-            dicQuestReminder[q].transform.GetChild(0).GetChild(2).GetChild(0).gameObject.SetActive(true);
         }
     }
 }
