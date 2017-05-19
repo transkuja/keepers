@@ -31,6 +31,8 @@ public class PrefabUtils : MonoBehaviour {
     [Header("Monsters")]
     public List<PawnPrefab> listMonstersPrefab;
 
+    [Header("Battle Animation (IBattleAnimation)")]
+    public GameObject baseAttackAnimation;
     public GameObject getPawnPrefabById(string id)
     {
         for(int i= 0; i <listPawnPrefab.Count; i++)
@@ -42,6 +44,7 @@ public class PrefabUtils : MonoBehaviour {
         }
         return null;
     }
+    
 
     public GameObject getMonsterPrefabById(string id)
     {

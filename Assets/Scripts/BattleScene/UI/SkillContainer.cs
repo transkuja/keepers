@@ -102,7 +102,7 @@ public class SkillContainer : MonoBehaviour {
             GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().GetSkillsPanelIndex(skillData.SkillUser.GetComponent<PawnInstance>()).gameObject.SetActive(false);
             BattleHandler.WaitForSkillConfirmation(skillData);
             // WARNING: change sensitive code, test it
-            Debug.LogWarning("Have you test this code yet?");
+            Debug.LogWarning("Have you tested this code yet?");
             BattleHandler.PendingSkill.UseSkill();
         }
 

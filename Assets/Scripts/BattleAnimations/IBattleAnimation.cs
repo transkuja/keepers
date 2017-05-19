@@ -5,5 +5,7 @@ using UnityEngine;
 public interface IBattleAnimation {
     void Play();
     float GetAnimationTime();
-    void SetTargets(GameObject[] gos);
+
+    TargetType GetTargetType();
+    void SetTargets(PawnInstance[] gos);
 }

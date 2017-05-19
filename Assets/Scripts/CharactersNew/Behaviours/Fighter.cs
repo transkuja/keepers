@@ -57,8 +57,7 @@ namespace Behaviour
         bool isWaitingForDmgFeedback = false;
         int pendingDamage = 0;
         bool isWaitingForSkillPanelToClose = false;
-        float showSkillPanelTimer = 1.2f;
-        float showFeedbackDmgTimer = 0.7f;
+        float showSkillPanelTimer = 0.5f;
 
         SkillDecisionAlgo skillDecisionAlgo;
         List<BattleBoeuf> effectiveBoeufs = new List<BattleBoeuf>();
@@ -84,8 +83,7 @@ namespace Behaviour
             if (GetComponent<Monster>() != null) IsAMonster = true;
             else IsAMonster = false;
 
-            showSkillPanelTimer = 1.2f;
-            showFeedbackDmgTimer = 0.7f;
+            showSkillPanelTimer = 0.5f;
 
             if (!IsAMonster)
             {
@@ -122,22 +120,9 @@ namespace Behaviour
         {
             if (isWaitingForSkillPanelToClose)
             {
-                if (showSkillPanelTimer < 0.0f)
-                {
-                    if (GameManager.Instance.CurrentState != GameState.InTuto
-                        || (GameManager.Instance.CurrentState == GameState.InTuto && (GetComponent<Keeper>() != null || GetComponent<Escortable>() != null)))
-                    {
-                        EndSkillProcess();
-                    }
-                }
-                else
-                {
-                    showSkillPanelTimer -= Time.deltaTime;
-                }
-
                 if (isWaitingForDmgFeedback)
                 {
-                    if (showFeedbackDmgTimer < 0.0f)
+                    if(BattleHandler.CurrentSkillAnimDuration < 0.0f)
                     {
                         GetComponent<PawnInstance>().AddFeedBackToQueue(-pendingDamage);
                         GetComponent<Mortal>().CurrentHp -= pendingDamage;
@@ -147,7 +132,23 @@ namespace Behaviour
                     }
                     else
                     {
-                        showFeedbackDmgTimer -= Time.deltaTime;
+                        BattleHandler.CurrentSkillAnimDuration -= Time.deltaTime;
+                    }
+                    
+                }
+                else
+                {
+                    if (showSkillPanelTimer < 0.0f)
+                    {
+                        if (GameManager.Instance.CurrentState != GameState.InTuto
+                            || (GameManager.Instance.CurrentState == GameState.InTuto && (GetComponent<Keeper>() != null || GetComponent<Escortable>() != null)))
+                        {
+                            EndSkillProcess();
+                        }
+                    }
+                    else
+                    {
+                        showSkillPanelTimer -= Time.deltaTime;
                     }
                 }
             }
@@ -163,14 +164,15 @@ namespace Behaviour
 
         public void EndSkillProcess()
         {
-            showSkillPanelTimer = 1.2f;
-            showFeedbackDmgTimer = 0.7f;
+            showSkillPanelTimer = 0.5f;
             isWaitingForSkillPanelToClose = false;
             //if (BattleHandler.PendingSkill != null)
             //{
                 //GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().SkillName.SetActive(false);
                 
                 BattleHandler.IsWaitingForSkillEnd = false;
+            Debug.Log("tiens");
+
             //}
             if (GetComponent<Mortal>().CurrentHp <= 0)
             {

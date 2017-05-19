@@ -41,6 +41,7 @@ public class BattleHandler {
     private static int answersReceived = 0;
     private static List<ItemContainer> currentBattleLoot = new List<ItemContainer>();
     private static Tile archerPreviousTile;
+    public static float CurrentSkillAnimDuration = 0.0f;
 
     public static bool IsABattleAlreadyInProcess()
     {

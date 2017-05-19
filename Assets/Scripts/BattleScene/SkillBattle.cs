@@ -40,6 +40,9 @@ public class SkillBattle {
     [SerializeField]
     bool isMeantToBuff = false;
 
+    [SerializeField]
+    GameObject battleAnimation;
+
     public int Damage
     {
         get {
@@ -203,6 +206,7 @@ public class SkillBattle {
             description = "Damage based on current dice roll.";
             cost = new List<Face>();
             targetType = TargetType.FoeSingle;
+            battleAnimation = GameManager.Instance.PrefabUtils.baseAttackAnimation;
         }
     }
 
@@ -225,6 +229,7 @@ public class SkillBattle {
             skillType = _origin.skillType;
             isMeantToHeal = _origin.isMeantToHeal;
             isMeantToBuff = _origin.isMeantToBuff;
+            battleAnimation = _origin.battleAnimation;
         }
     }
 
@@ -358,6 +363,16 @@ public class SkillBattle {
         if (targetType == TargetType.FoeAll)
         {
             BattleHandler.ExpectedAnswers = BattleHandler.CurrentBattleMonsters.Length;
+            if (battleAnimation != null)
+            {
+                battleAnimation.GetComponent<IBattleAnimation>().SetTargets(BattleHandler.CurrentBattleMonsters);
+                BattleHandler.CurrentSkillAnimDuration = battleAnimation.GetComponent<IBattleAnimation>().GetAnimationTime();
+                battleAnimation.GetComponent<IBattleAnimation>().Play();
+            }
+            else
+            {
+                BattleHandler.CurrentSkillAnimDuration = 0.5f;
+            }
             for (int i = 0; i < BattleHandler.CurrentBattleMonsters.Length; i++)
             {
                 if (BattleHandler.CurrentBattleMonsters[i].GetComponent<Mortal>().CurrentHp > 0)
@@ -369,6 +384,16 @@ public class SkillBattle {
         else if (targetType == TargetType.FriendAll)
         {
             BattleHandler.ExpectedAnswers = BattleHandler.CurrentBattleKeepers.Length;
+            if (battleAnimation != null)
+            {
+                battleAnimation.GetComponent<IBattleAnimation>().SetTargets(BattleHandler.CurrentBattleKeepers);
+                BattleHandler.CurrentSkillAnimDuration = battleAnimation.GetComponent<IBattleAnimation>().GetAnimationTime();
+                battleAnimation.GetComponent<IBattleAnimation>().Play();
+            }
+            else
+            {
+                BattleHandler.CurrentSkillAnimDuration = 0.5f;
+            }
             for (int i = 0; i < BattleHandler.CurrentBattleKeepers.Length; i++)
             {
                 if (BattleHandler.CurrentBattleKeepers[i].GetComponent<Mortal>().CurrentHp > 0)
@@ -384,6 +409,18 @@ public class SkillBattle {
         }
         else if (targetType == TargetType.Self)
         {
+            if (battleAnimation != null)
+            {
+                PawnInstance[] tab = new PawnInstance[1];
+                BattleHandler.CurrentSkillAnimDuration = battleAnimation.GetComponent<IBattleAnimation>().GetAnimationTime();
+                tab[0] = skillUser.GetComponent<PawnInstance>();
+                battleAnimation.GetComponent<IBattleAnimation>().SetTargets(tab);
+                battleAnimation.GetComponent<IBattleAnimation>().Play();
+            }
+            else
+            {
+                BattleHandler.CurrentSkillAnimDuration = 0.5f;
+            }
             ApplySkillEffectOnTarget(skillUser.GetComponent<PawnInstance>(), effectiveDamage);
             BattleHandler.ExpectedAnswers = 1;
         }
@@ -417,11 +454,23 @@ public class SkillBattle {
             }
             effectiveDamage = Mathf.Max(0, effectiveDamage);
         }
-
+        if (battleAnimation != null)
+        {
+            PawnInstance[] tab = new PawnInstance[1];
+            tab[0] = _target.GetComponent<PawnInstance>();
+            BattleHandler.CurrentSkillAnimDuration = battleAnimation.GetComponent<IBattleAnimation>().GetAnimationTime();
+            battleAnimation.GetComponent<IBattleAnimation>().SetTargets(tab);
+            battleAnimation.GetComponent<IBattleAnimation>().Play();
+        }
+        else
+        {
+            BattleHandler.CurrentSkillAnimDuration = 0.5f;
+        }
         ApplySkillEffectOnTarget(_target, effectiveDamage);
         BattleHandler.ExpectedAnswers = 1;
         skillUser.GetComponent<AnimatedPawn>().Anim.SetTrigger("doClassicAtk");
         BattleHandler.IsWaitingForSkillEnd = true;
+        
     }
 }
 
