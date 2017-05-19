@@ -145,13 +145,16 @@ public class IngameUI : MonoBehaviour
                     pi.GetComponent<Behaviour.Keeper>().ShorcutUI.GetComponent<Button>().interactable = false;
                     pi.GetComponent<Behaviour.Keeper>().ShorcutUI.GetComponent<Image>().raycastTarget = false;
 
-                    pi.GetComponent<Behaviour.Keeper>().ShorcutUI.transform.GetChild(3).GetComponent<Image>().CrossFadeAlpha(0.3f, 1, true);
-                    for (int j = 0; j < pi.GetComponent<Behaviour.Keeper>().ShorcutUI.transform.GetChild(4).childCount; j++)
+                    int k = 3;
+                    if (pi.Data.Behaviours[(int)BehavioursEnum.Archer] == true)
+                        k = 2;
+                    pi.GetComponent<Behaviour.Keeper>().ShorcutUI.transform.GetChild(k++).GetComponent<Image>().CrossFadeAlpha(0.3f, 1, true);
+                    for (int j = 0; j < pi.GetComponent<Behaviour.Keeper>().ShorcutUI.transform.GetChild(k).childCount; j++)
                     {
-                        pi.GetComponent<Behaviour.Keeper>().ShorcutUI.transform.GetChild(4).GetChild(j).GetComponent<Image>().CrossFadeAlpha(0.3f, 1, true);
+                        pi.GetComponent<Behaviour.Keeper>().ShorcutUI.transform.GetChild(k).GetChild(j).GetComponent<Image>().CrossFadeAlpha(0.3f, 1, true);
                     }
 
-                    pi.GetComponent<Behaviour.Keeper>().ShorcutUI.transform.GetChild(5).GetComponent<Image>().CrossFadeAlpha(0.3f, 1, true);
+                    pi.GetComponent<Behaviour.Keeper>().ShorcutUI.transform.GetChild(++k).GetComponent<Image>().CrossFadeAlpha(0.3f, 1, true);
                 }
 
  
@@ -242,13 +245,16 @@ public class IngameUI : MonoBehaviour
                     pi.GetComponent<Behaviour.Keeper>().ShorcutUI.GetComponent<Button>().interactable = true;
                     pi.GetComponent<Behaviour.Keeper>().ShorcutUI.GetComponent<Image>().raycastTarget = true;
 
-                    pi.GetComponent<Behaviour.Keeper>().ShorcutUI.transform.GetChild(3).GetComponent<Image>().CrossFadeAlpha(1f, 0, true);
-                    for (int j = 0; j < pi.GetComponent<Behaviour.Keeper>().ShorcutUI.transform.GetChild(4).childCount; j++)
+                    int k = 3;
+                    if (pi.Data.Behaviours[(int)BehavioursEnum.Archer] == true)
+                        k = 2;
+                    pi.GetComponent<Behaviour.Keeper>().ShorcutUI.transform.GetChild(k++).GetComponent<Image>().CrossFadeAlpha(1f, 0, true);
+                    for (int j = 0; j < pi.GetComponent<Behaviour.Keeper>().ShorcutUI.transform.GetChild(k).childCount; j++)
                     {
-                        pi.GetComponent<Behaviour.Keeper>().ShorcutUI.transform.GetChild(4).GetChild(j).GetComponent<Image>().CrossFadeAlpha(1f, 0, true);
+                        pi.GetComponent<Behaviour.Keeper>().ShorcutUI.transform.GetChild(k).GetChild(j).GetComponent<Image>().CrossFadeAlpha(1f, 0, true);
                     }
 
-                    pi.GetComponent<Behaviour.Keeper>().ShorcutUI.transform.GetChild(5).GetComponent<Image>().CrossFadeAlpha(1f, 0, true);
+                    pi.GetComponent<Behaviour.Keeper>().ShorcutUI.transform.GetChild(++k).GetComponent<Image>().CrossFadeAlpha(1f, 0, true);
                 }
 
 
@@ -321,13 +327,16 @@ public class IngameUI : MonoBehaviour
                         pi.GetComponent<Behaviour.Keeper>().ShorcutUI.GetComponent<Button>().interactable = false;
                         pi.GetComponent<Behaviour.Keeper>().ShorcutUI.GetComponent<Image>().raycastTarget = false;
 
-                        pi.GetComponent<Behaviour.Keeper>().ShorcutUI.transform.GetChild(3).GetComponent<Image>().CrossFadeAlpha(0.3f, 0, true);
-                        for (int j = 0; j < pi.GetComponent<Behaviour.Keeper>().ShorcutUI.transform.GetChild(4).childCount; j++)
+                        int k = 3;
+                        if (pi.Data.Behaviours[(int)BehavioursEnum.Archer] == true)
+                            k = 2;
+                        pi.GetComponent<Behaviour.Keeper>().ShorcutUI.transform.GetChild(k++).GetComponent<Image>().CrossFadeAlpha(0.3f, 0, true);
+                        for (int j = 0; j < pi.GetComponent<Behaviour.Keeper>().ShorcutUI.transform.GetChild(k).childCount; j++)
                         {
-                            pi.GetComponent<Behaviour.Keeper>().ShorcutUI.transform.GetChild(4).GetChild(j).GetComponent<Image>().CrossFadeAlpha(0.3f, 0, true);
+                            pi.GetComponent<Behaviour.Keeper>().ShorcutUI.transform.GetChild(k).GetChild(j).GetComponent<Image>().CrossFadeAlpha(0.3f, 0, true);
                         }
 
-                        pi.GetComponent<Behaviour.Keeper>().ShorcutUI.transform.GetChild(5).GetComponent<Image>().CrossFadeAlpha(0.3f, 0, true);
+                        pi.GetComponent<Behaviour.Keeper>().ShorcutUI.transform.GetChild(++k).GetComponent<Image>().CrossFadeAlpha(0.3f, 0, true);
                     }
 
 
