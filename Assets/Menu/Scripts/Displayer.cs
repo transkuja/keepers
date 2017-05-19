@@ -70,7 +70,7 @@ public class Displayer : MonoBehaviour {
     {
         if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
         {
-            if (menuManager.CardLevelSelected == -1)
+            if (menuManager.CardLevelSelected == -1 && menuManager.ListeSelectedKeepers.Count == 0 && !menuManager.GoDeck.GetComponent<Deck>().IsOpen)
             {
                 menuManager.GoDeck.GetComponent<GlowObjectCmd>().ActivateBlinkBehaviour(true);
                 menuManager.GoDeck.GetComponent<GlowObjectCmd>().enabled = true;

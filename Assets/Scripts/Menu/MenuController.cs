@@ -238,7 +238,7 @@ public class MenuController : MonoBehaviour {
     public void KeeperSelectionControls(GameObject hit)
     {
         PawnInstance pi = hit.transform.gameObject.GetComponent<PawnInstance>();
-        if (menuManager.CardLevelSelected == -1 && menuManager.ListeSelectedKeepers.Count == 0)
+        if (menuManager.CardLevelSelected == -1 && menuManager.ListeSelectedKeepers.Count == 0 && !menuManager.GoDeck.GetComponent<Deck>().IsOpen)
         {
             menuManager.GoDeck.GetComponent<GlowObjectCmd>().ActivateBlinkBehaviour(true);
 
