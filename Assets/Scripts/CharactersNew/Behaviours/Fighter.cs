@@ -183,6 +183,7 @@ namespace Behaviour
             physicalSymbolStored = 0;
             magicalSymbolStored = 0;
             defensiveSymbolStored = 0;
+            consecutiveShots = 0;
             hasPlayedThisTurn = false;
         }
 

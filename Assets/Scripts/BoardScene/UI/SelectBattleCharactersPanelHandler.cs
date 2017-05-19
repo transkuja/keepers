@@ -31,6 +31,9 @@ public class SelectBattleCharactersPanelHandler : MonoBehaviour {
 
         foreach (PawnInstance ki in TileManager.Instance.KeepersOnTile[activeTile])
         {
+            if (ki.Data.Behaviours[(int)BehavioursEnum.Archer] == true)
+                continue;
+
             GameObject kiImage = Instantiate(imagePrefab, transform.GetChild((int)SelectBattleCharactersScreenChildren.CharactersOnTile).GetChild(j));
             kiImage.AddComponent<UIKeeperInstance>();
             kiImage.GetComponent<UIKeeperInstance>().keeperInstance = ki;
@@ -45,7 +48,7 @@ public class SelectBattleCharactersPanelHandler : MonoBehaviour {
         }
 
         PawnInstance archer = GameManager.Instance.ArcherInstance;
-        if (archer != null && archer.CurrentTile == activeTile && BattleHandler.ArcherPreviousTile != archer.CurrentTile)
+        if (archer != null && archer.CurrentTile == activeTile)
         {
             GameObject kiImage = Instantiate(imagePrefab, transform.GetChild((int)SelectBattleCharactersScreenChildren.CharactersOnTile).GetChild(j));
             kiImage.AddComponent<UIKeeperInstance>();
