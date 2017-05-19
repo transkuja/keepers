@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class QuestReminder : MonoBehaviour {
-    static bool bNeedRefresh = false;
+    public static bool bNeedRefresh = false;
     enum State
     {
         hidden,
@@ -126,6 +126,11 @@ public class QuestReminder : MonoBehaviour {
         }
     }
 
+    public void CallRefresh()
+    {
+        bNeedRefresh = true;
+    }
+
     private void updatePosition()
     {
         fLerp += Time.unscaledDeltaTime * fSpeed * (int)state;
@@ -143,7 +148,6 @@ public class QuestReminder : MonoBehaviour {
             imgButton.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, 180); //Quaternion.Euler(0, 0, 0);
         }
     }
-
 
 
     private void addQuest(QuestSystem.Quest q)
