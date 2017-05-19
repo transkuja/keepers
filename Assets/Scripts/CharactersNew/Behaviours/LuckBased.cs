@@ -56,7 +56,7 @@ namespace Behaviour
             else if (randDie == 1)
             {
                 sucessiveBadLuck++;
-                if (sucessiveLuck > 3)
+                if (sucessiveBadLuck > 3)
                 {
                     sucessiveBadLuck = 0;
                     sucessiveLuck++;
@@ -86,6 +86,7 @@ namespace Behaviour
                     keeper.UpdateActionPoint(3);
                     break;
             }
+            keeper.UpdateActionPointsUI();
         }
 
         public int HandleLuckForTalk()

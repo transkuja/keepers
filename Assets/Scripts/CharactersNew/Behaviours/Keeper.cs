@@ -212,6 +212,51 @@ namespace Behaviour
             shortcutActionPointUi = ShorcutUI.transform.GetChild((int)PanelShortcutChildren.ActionPoints).gameObject;
         }
 
+        public void UpdateActionPointsUI()
+        {
+            int diffActionPoints = shortcutActionPointUi.transform.childCount - Data.MaxActionPoint;
+            if (diffActionPoints < 0)
+            {
+                for (int i = shortcutActionPointUi.transform.childCount; i < Data.MaxActionPoint; i++)
+                {
+                    int row = 21;
+                    int column = 10;
+                    GameObject pa = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabShortcutActionPAUI, ShorcutUI.transform.position, ShorcutUI.transform.rotation);
+                    pa.transform.SetParent(shortcutActionPointUi.transform, false);
+                    // Attention ça c'est de la merde
+                    if (i < 2)
+                    {
+                        pa.transform.localPosition = new Vector3(-17 + i * column, -40 + i * row, 0);
+                    }
+                    else
+                    {
+                        pa.transform.localPosition = new Vector3(9 + ((i - 2) * 20f), 1 + ((i - 2) * 11f), 0);
+                    }
+                    // Fin lol
+                    pa.transform.localScale = Vector3.one;
+
+                    // Attention ça c'est de la merde
+                    row = 24;
+                    column = 42;
+                    // Fin lol
+                    GameObject paSelected = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabActionPAUI, SelectedActionPointsUI.transform.position, SelectedActionPointsUI.transform.rotation);
+                    paSelected.transform.SetParent(SelectedActionPointsUI.transform, false);
+                    paSelected.transform.localPosition = new Vector3(i % 2 * column, i * row, 0);
+
+                    paSelected.transform.localScale = Vector3.one;
+                }
+            }
+            else if (diffActionPoints > 0)
+            {
+                int initialChildCount = shortcutActionPointUi.transform.childCount;
+                for (int i = 0; i < diffActionPoints; i++)
+                {
+                    Destroy(shortcutActionPointUi.transform.GetChild((initialChildCount -1) - i).gameObject);
+                    Destroy(SelectedActionPointsUI.transform.GetChild((initialChildCount - 1) - i).gameObject);
+                }
+            }        
+        }
+
         public void CreateSelectedPanel()
         {
             Sprite associatedSprite = instance.Data.AssociatedSprite;
