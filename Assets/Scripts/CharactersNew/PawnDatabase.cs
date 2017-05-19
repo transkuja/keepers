@@ -56,6 +56,9 @@ public class PawnDatabase {
                     case "shortcutSprite":
                         newPawnDataContainer.pawnData.AssociatedSpriteForShortcut = Resources.Load<Sprite>(pawnEntry.Value.Str) as Sprite;
                         break;
+                    case "spriteForBattle":
+                        newPawnDataContainer.pawnData.AssociatedSpriteForBattle = Resources.Load<Sprite>(pawnEntry.Value.Str) as Sprite;
+                        break;
                     case "canSpeak":
                         switch (pawnEntry.Value.Str)
                         {

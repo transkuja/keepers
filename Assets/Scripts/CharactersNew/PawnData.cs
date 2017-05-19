@@ -30,6 +30,8 @@ public class PawnData {
     private Sprite associatedSprite;
     [SerializeField]
     private Sprite associatedSpriteForShortcut;
+    [SerializeField]
+    private Sprite associatedSpriteForBattle;
 
     #region Ideas
     // int specialDicesUse = 3;
@@ -107,6 +109,19 @@ public class PawnData {
         set
         {
             associatedSpriteForShortcut = value;
+        }
+    }
+
+    public Sprite AssociatedSpriteForBattle
+    {
+        get
+        {
+            return associatedSpriteForBattle;
+        }
+
+        set
+        {
+            associatedSpriteForBattle = value;
         }
     }
 

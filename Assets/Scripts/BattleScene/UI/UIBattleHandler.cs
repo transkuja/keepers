@@ -192,7 +192,7 @@ public class UIBattleHandler : MonoBehaviour {
         }
 
         Transform characterPanel = charactersPanel.transform.GetChild(initIndex).GetChild(0);
-        characterPanel.GetChild((int)CharactersPanelChildren.Avatar).GetChild(0).GetComponent<Image>().sprite = _pawnInstanceForInit.Data.AssociatedSprite;
+        characterPanel.GetChild((int)CharactersPanelChildren.Avatar).GetChild(0).GetComponent<Image>().sprite = _pawnInstanceForInit.Data.AssociatedSpriteForBattle;
 
         Mortal mortalComponent = _pawnInstanceForInit.GetComponent<Mortal>();
         Image lifeBarImg = characterPanel.GetChild((int)CharactersPanelChildren.LifeBar).GetChild((int)LifeBarChildren.Remaining).GetComponent<Image>();
@@ -264,7 +264,7 @@ public class UIBattleHandler : MonoBehaviour {
             }
         }
 
-        skillsPanel.GetChild((int)SkillPanelChildren.CharacterAvatar).GetComponent<Image>().sprite = _pawnInstanceForInit.Data.AssociatedSprite;
+        skillsPanel.GetChild((int)SkillPanelChildren.CharacterAvatar).GetComponent<Image>().sprite = _pawnInstanceForInit.Data.AssociatedSpriteForBattle;
         associatedSkillsPanel.Add(_pawnInstanceForInit, skillsPanel);
     }
 
@@ -304,7 +304,7 @@ public class UIBattleHandler : MonoBehaviour {
                 currentSkill.gameObject.SetActive(true);
             }
         }
-        panelToReload.GetChild((int)SkillPanelChildren.CharacterAvatar).GetComponent<Image>().sprite = _pawnInstanceForReload.Data.AssociatedSprite;
+        panelToReload.GetChild((int)SkillPanelChildren.CharacterAvatar).GetComponent<Image>().sprite = _pawnInstanceForReload.Data.AssociatedSpriteForBattle;
     }
 
     public void UpdateLifeBar(Mortal _toUpdate)
@@ -359,7 +359,7 @@ public class UIBattleHandler : MonoBehaviour {
                     enableHighlightFeedback = !(GameManager.Instance.GetFirstSelectedKeeper() == _toUpdate);
                 else
                     enableHighlightFeedback = true;
-                associatedCharacterPanel[_toUpdate].GetChild((int)CharactersPanelChildren.Avatar).GetChild(0).GetComponent<Image>().sprite = _toUpdate.Data.AssociatedSprite;
+                associatedCharacterPanel[_toUpdate].GetChild((int)CharactersPanelChildren.Avatar).GetChild(0).GetComponent<Image>().sprite = _toUpdate.Data.AssociatedSpriteForBattle;
             }
         }
         associatedCharacterPanel[_toUpdate].GetChild((int)CharactersPanelChildren.Avatar).GetComponent<Image>().enabled = enableHighlightFeedback;
