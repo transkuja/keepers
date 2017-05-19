@@ -116,7 +116,8 @@ public class TutoManager : MonoBehaviour {
 
         for (int i = 0; i < GameManager.Instance.AllKeepersList.Count; i++)
         {
-            GameManager.Instance.AllKeepersList[i].GetComponent<MentalHealthHandler>().SelectedMentalHealthUI.SetActive(false);
+            if(GameManager.Instance.AllKeepersList[i].GetComponent<MentalHealthHandler>() != null)
+                GameManager.Instance.AllKeepersList[i].GetComponent<MentalHealthHandler>().SelectedMentalHealthUI.SetActive(false);
             GameManager.Instance.AllKeepersList[i].GetComponent<Mortal>().SelectedHPUI.SetActive(false);
         }        
     }

@@ -178,7 +178,7 @@
 		{
 			"id": "emo",
 			"name" : "Emo",
-			"sprite" : "Pawn_mini_icon/Heal_mini_icon",
+			"sprite" : "Pawn_mini_icon/emo_mini_icon",
 			"shortcutSprite" : "Pawn_mini_icon/support_heal",
 			"canSpeak" : "true",
 			"morfale" : "false",
@@ -213,7 +213,7 @@
 		{
 			"id": "lucky",
 			"name" : "Lucky",
-			"sprite" : "Pawn_mini_icon/Heal_mini_icon",
+			"sprite" : "Pawn_mini_icon/kitties_mini_icon",
 			"shortcutSprite" : "Pawn_mini_icon/support_heal",
 			"canSpeak" : "false",
 			"morfale" : "false",

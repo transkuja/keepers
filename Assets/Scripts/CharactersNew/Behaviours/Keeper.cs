@@ -74,6 +74,8 @@ namespace Behaviour
 
         public KeeperData Data;
 
+        public Color keeperColor;
+
         [SerializeField]
         private GameObject feedbackSelection;
         private bool isSelected = false;
