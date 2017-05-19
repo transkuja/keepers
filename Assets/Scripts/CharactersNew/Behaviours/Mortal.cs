@@ -93,7 +93,8 @@ namespace Behaviour
                     {
                         foreach (PawnInstance k in TileManager.Instance.KeepersOnTile[keeper.GetComponent<PawnInstance>().CurrentTile])
                         {
-                            k.GetComponent<MentalHealthHandler>().CurrentMentalHealth -= 30;
+                            if(k.GetComponent<MentalHealthHandler>() != null)
+                                k.GetComponent<MentalHealthHandler>().CurrentMentalHealth -= 30;
                         }
                     }
 
