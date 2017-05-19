@@ -153,7 +153,10 @@ namespace Behaviour
                         amountMoralBuff = GetComponent<LuckBased>().HandleLuckForTalk();
                 }
 
-                GetComponent<MentalHealthHandler>().CurrentMentalHealth += amountMoralBuff;
+                if (GetComponent<MentalHealthHandler>() != null)
+                    GetComponent<MentalHealthHandler>().CurrentMentalHealth += amountMoralBuff;
+                else
+                    GetComponent<PawnInstance>().AddFeedBackToQueue(GameManager.Instance.SpriteUtils.spriteMoralDebuff, 0);
             }
             else
             {
