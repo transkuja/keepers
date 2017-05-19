@@ -144,8 +144,11 @@ namespace Behaviour
             {
                 from.ActionPoints -= costAction;
                 int amountMoralBuff = 0;
-                if (instance.Data.Behaviours[(int)BehavioursEnum.Gaga] == false)
+
+                if (from.GetComponent<PawnInstance>().Data.Behaviours[(int)BehavioursEnum.Gaga] == true)
+                {
                     amountMoralBuff = Random.Range(Data.MinMoralBuff, Data.MaxMoralBuff);
+                }
                 else
                 {
                     amountMoralBuff = 15;
@@ -154,7 +157,10 @@ namespace Behaviour
                 }
 
                 if (GetComponent<MentalHealthHandler>() != null)
+                {
                     GetComponent<MentalHealthHandler>().CurrentMentalHealth += amountMoralBuff;
+                }
+
                 else
                     GetComponent<PawnInstance>().AddFeedBackToQueue(GameManager.Instance.SpriteUtils.spriteMoralDebuff, 0);
             }
