@@ -219,6 +219,8 @@ namespace Behaviour
             SelectedPanelUI.transform.SetParent(GameManager.Instance.Ui.goSelectedKeeperPanel.transform, false);
             SelectedPanelUI.transform.localScale = Vector3.one;
 
+            SelectedPanelUI.transform.GetChild(0).GetComponent<Image>().color = GetComponent<Keeper>().keeperColor;
+
             SelectedStatPanelUI = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabSelectedStatsUIPanel, GameManager.Instance.PrefabUIUtils.PrefabSelectedStatsUIPanel.transform.position, GameManager.Instance.PrefabUIUtils.PrefabSelectedStatsUIPanel.transform.rotation);
             SelectedStatPanelUI.transform.SetParent(SelectedPanelUI.transform, false);
             SelectedStatPanelUI.transform.localScale = Vector3.one;
