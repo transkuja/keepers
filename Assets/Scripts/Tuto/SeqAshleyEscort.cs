@@ -114,10 +114,10 @@ public class SeqAshleyEscort : Sequence {
         {
             foreach (Button b in GameManager.Instance.Ui.goConfirmationPanel.GetComponentsInChildren<Button>())
                 b.interactable = false;
-            Etapes.Add(new TutoManager.Message(null, "You can right click on her to use the Escort action to change the character Ashley is following."));
+            Etapes.Add(new TutoManager.Message(null, "You can right click on her to use the Escort action to change wich character Ashley is following."));
         }
         else
-            Etapes.Add(new ShowEscortAction("You can right click on her to use the Escort action to change the character Ashley is following."));
+            Etapes.Add(new ShowEscortAction("You can right click on her to use the Escort action to change wich character Ashley is following."));
         Etapes.Add(new ReactivateButtons("Take good care of her!"));
     }
 

@@ -490,22 +490,22 @@ public class SeqFirstMove : Sequence {
         Etapes.Add(new TutoManager.Message(pawnMrResetti, "Hi, I'm here to teach you how to play"));
         Etapes.Add(new SelectCharacterStep("First select the girl in armor by clicking on her."));
         Etapes.Add(new MovePawnOnTileStep("To interact with the world, you have to use the right click. Click on the ground to move the girl."));
-        Etapes.Add(new MovePawnToAnotherTileExplanation("You can also interact with everything glowing in the world. Try a right click on this portal.")); // => click expected on bridge
+        Etapes.Add(new MovePawnToAnotherTileExplanation("You can also interact with everything glowing in the world. Try right clicking on this portal.")); // => click expected on bridge
         Etapes.Add(new RightClickOnBridgeValidated("Good,"));
         Etapes.Add(new ExploreActionPointsExplanation("you can see the cost of the action here."));
-        Etapes.Add(new ExploreStep("Now click on the Explore button to explore the next area. And get a cookie."));
+        Etapes.Add(new ExploreStep("Now click on the Explore button to explore the next area and get a cookie."));
 
         Etapes.Add(new ReactivateAscFeedbackStep("Well done you genius,"));
         Etapes.Add(new GiveACookieStep("here's your cookie!"));
         Etapes.Add(new ActionPointsExplanationStep("This action cost you 3 action points. Always keep an eye on them.")); // ==> feedback sur les points d'action
-        Etapes.Add(new FirstEndTurnStep("You can restore your action points by clicking on the end turn button."));
+        Etapes.Add(new FirstEndTurnStep("Ending the turn will restore all your characters' action points"));
 
         Etapes.Add(new TutoManager.Message(pawnMrResetti, "Ending your turn ends the day,")); // Activate hunger panel + feedback pointer
         Etapes.Add(new AddHungerStep("but your characters get hungry in the morning, so be careful!"));
-        Etapes.Add(new TutoManager.Message(pawnMrResetti, "Remember the cookie?"));
-        Etapes.Add(new UseAnObjectStep("Eat it by double clicking on it to restore your selected character's hunger.")); // Activate inventory and add a cookie in to be used
+        Etapes.Add(new TutoManager.Message(pawnMrResetti, "Remember that cookie I gave you ? (I am such a nice person)"));
+        Etapes.Add(new UseAnObjectStep("Eat it by double clicking on it to satisfy your selected character's hunger.")); // Activate inventory and add a cookie in to be used
 
-        Etapes.Add(new TutoManager.Message(pawnMrResetti, "Great! You should be able to finish this level now. Good luck!"));
+        Etapes.Add(new TutoManager.Message(pawnMrResetti, "Great! You should now be able to finish this level. Good luck!"));
     }
 
     public override void End()

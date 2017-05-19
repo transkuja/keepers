@@ -359,18 +359,18 @@ public class SeqTutoCombat : Sequence
         Etapes = new List<Step>();
 
         // Content
-        Etapes.Add(new TutoManager.Message(null, "You have to roll dice to defeat monsters in this world"));
-        Etapes.Add(new RollDiceButtonExplain("Click on the Dice button here to roll the dice of all your characters."));
-        Etapes.Add(new ShowCharactersStocks("Good. The value of each die is added to the characters' stocks."));
-        Etapes.Add(new ShowCharactersStocks("These stocks allow you to perform skills when you have enough of each required symbol."));
-        Etapes.Add(new PawnSelection("Select a pawn by clicking on it to perform an action."));
-        Etapes.Add(new StandardAtkExplain("Here are your characters' skills list"));
-        Etapes.Add(new SkillCostExplain("This is the skill cost. You need at least all the required symbols to use a skill."));
-        Etapes.Add(new SkillSelectionStep("Now click on this skill, then on the monster to unleash your power!"));
+        Etapes.Add(new TutoManager.Message(null, "You need the mighty power of rolling dice to deal with ugly monsters in this world"));
+        Etapes.Add(new RollDiceButtonExplain("Click on the Dice button here to roll all your characters' dice."));
+        Etapes.Add(new ShowCharactersStocks("Very well. Each die's value is added to the characters' stocks."));
+        Etapes.Add(new ShowCharactersStocks("When the stock's values are high enough, you will be able to perform skills."));
+        Etapes.Add(new PawnSelection("To perform an action, you may first click on the pawn of your choice."));
+        Etapes.Add(new StandardAtkExplain("Here is your character's skill list"));
+        Etapes.Add(new SkillCostExplain("Each skill has a cost so you will need the required symbols' values to use one."));
+        Etapes.Add(new SkillSelectionStep("Click first on that one skill, and then on the monster to unleash your power!"));
 
         Etapes.Add(new TutoManager.Message(null, "Great!"));
-        Etapes.Add(new MonstersTurnStep("When all your characters have played, it's the monsters turn.")); // ==> monsters play their turn when clicking on next arrow
-        Etapes.Add(new TutoManager.Message(null, "Now use what you learned to finish the battle, good luck!")); // ==> show this step when turn reset, no previous arrow
+        Etapes.Add(new MonstersTurnStep("Once all of you characters have played, it is then the monsters' turn")); // ==> monsters play their turn when clicking on next arrow
+        Etapes.Add(new TutoManager.Message(null, "You may now use what you have learned to finish the battle, good luck!")); // ==> show this step when turn reset, no previous arrow
     }
 
     public override void End()
