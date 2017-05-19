@@ -49,6 +49,7 @@ public class BoxOpener : MonoBehaviour {
                 menuManager.InitKeepers();
                 menuUi.ComputeCardLevelPositions(menuManager.GoCardsLevels);
                 menuUi.ComputeCardInfoPositions(menuManager.GoCardsInfo);
+
             }
             //menuManager.GoDeck.SetActive(isBoxOpen);
             if (isBoxOpen == false)
@@ -60,6 +61,7 @@ public class BoxOpener : MonoBehaviour {
             }
             else
             {
+                menuManager.GoDeck.GetComponent<GlowObjectCmd>().ActivateBlinkBehaviour(true);
                 GlowController.RegisterObject(menuManager.GoDeck.GetComponent<GlowObjectCmd>());
             }
             for (int i = 0; i < GameManager.Instance.AllKeepersList.Count; i++)
