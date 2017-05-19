@@ -208,6 +208,12 @@ public class ControlsManager : MonoBehaviour
                             }
                             else
                             {
+                                if (GameManager.Instance.GetFirstSelectedKeeper().CurrentTile == null)
+                                {
+                                    Debug.Log("First selected keeper as no current tile, he won't move !!!!");
+                                    return;
+                                }
+
                                 if (Array.Exists(GameManager.Instance.GetFirstSelectedKeeper().CurrentTile.Neighbors, x => x == tileHit))
                                 {
                                     int neighbourIndex = Array.FindIndex(GameManager.Instance.GetFirstSelectedKeeper().CurrentTile.Neighbors, x => x == tileHit);
