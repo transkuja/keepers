@@ -37,7 +37,7 @@ public class SkillDescriptionUI : MonoBehaviour, IPointerEnterHandler, IPointerE
             descriptionPanel.GetComponentInChildren<Text>().text += "\nTarget: One enemy";
         else if (skillData.TargetType == TargetType.FriendSingle)
             descriptionPanel.GetComponentInChildren<Text>().text += "\nTarget: One ally";
-        else if (skillData.TargetType == TargetType.FoeAll)
+        else if (skillData.TargetType == TargetType.FriendAll)
             descriptionPanel.GetComponentInChildren<Text>().text += "\nTarget: All allies";
         else
             descriptionPanel.GetComponentInChildren<Text>().text += "\nTarget: Self";
@@ -123,7 +123,7 @@ public class SkillDescriptionUI : MonoBehaviour, IPointerEnterHandler, IPointerE
             descriptionPanel.GetComponentInChildren<Text>().text += "\nTarget: One enemy";
         else if (skillData.TargetType == TargetType.FriendSingle)
             descriptionPanel.GetComponentInChildren<Text>().text += "\nTarget: One ally";
-        else if (skillData.TargetType == TargetType.FoeAll)
+        else if (skillData.TargetType == TargetType.FriendAll)
             descriptionPanel.GetComponentInChildren<Text>().text += "\nTarget: All allies";
         else
             descriptionPanel.GetComponentInChildren<Text>().text += "\nTarget: Self";
