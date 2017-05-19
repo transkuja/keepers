@@ -16,6 +16,6 @@ public class QuestUtility {
         quest.Complete();
         GameManager.Instance.QuestManager.ActiveQuests.Remove(quest);
         GameManager.Instance.QuestManager.CompletedQuests.Add(quest);
-
+        GameObject.FindObjectOfType<QuestReminder>().Refresh();
     }
 }
