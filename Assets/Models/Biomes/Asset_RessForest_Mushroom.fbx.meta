@@ -10,7 +10,9 @@ ModelImporter:
     400000: //RootNode
     400002: Asset_RessForest_mushroom
     2300000: Asset_RessForest_mushroom
+    2300002: //RootNode
     3300000: Asset_RessForest_mushroom
+    3300002: //RootNode
     4300000: Asset_RessForest_mushroom
     9500000: //RootNode
   materials:
