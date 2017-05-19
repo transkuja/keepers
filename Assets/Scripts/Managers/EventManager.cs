@@ -138,7 +138,7 @@ public class EventManager : MonoBehaviour {
 
         ApplyEndTurnMentalHealthPenalty();
 
-        if (TutoManager.s_instance.PlayingSequence == null)
+        if (TutoManager.s_instance != null && TutoManager.s_instance.PlayingSequence == null)
             HandleWeather();
 
 
