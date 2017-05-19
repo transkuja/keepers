@@ -565,6 +565,14 @@ public class TileManager : MonoBehaviour {
         }
     }
 
+    public Transform PreyPatrolPositions
+    {
+        get
+        {
+            return referenceTileForBattlePositions.GetChild(3);
+        }
+    }
+
     public GameObject Tiles
     {
         get

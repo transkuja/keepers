@@ -8,17 +8,21 @@ public delegate SkillBattle SkillDecisionAlgo(Fighter _fighter);
 public class MonstersBattleSkillsSelection  {
     enum DuckySkills { NormalCoin, CoinCoin, StrongCoin, WeakCoin };
     enum BirdSkills { Nosedive, WingsOfFury };
+    enum BunnySkills { CarrotPunch, Burrow };
 
     bool arrivedInNewTierThisTurn = false;
 
     public SkillDecisionAlgo GetDecisionAlgorithm(string pawnId)
     {
+        if (pawnId.Contains("bunny")) pawnId = "bunny";
         switch (pawnId)
         {
             case "ducky":
                 return DuckySkillDecisionAlgo;
             case "bird":
                 return BirdSkillDecisionAlgo;
+            case "bunny":
+                return BunnySkillDecisionAlgo;
             default:
                 return DefaultSkillDecisionAlgo;
         }
@@ -91,4 +95,15 @@ public class MonstersBattleSkillsSelection  {
             }
         }
     }
+
+    SkillBattle BunnySkillDecisionAlgo(Fighter _fighter)
+    {
+        List<SkillBattle> skills = _fighter.BattleSkills;
+
+        if (BattleHandler.NbTurn % 2 == 0)
+            return skills[(int)BunnySkills.Burrow];
+
+        return skills[(int)BunnySkills.CarrotPunch];
+    }
+
 }

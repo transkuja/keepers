@@ -81,7 +81,12 @@ namespace Behaviour
             foreach (string _IdItem in possibleItems)
             {
                 it = GameManager.Instance.ItemDataBase.getItemById(_IdItem);
-                if (Random.Range(1, 10) > it.Rarity)
+                if (GetComponent<Monster>() != null && GetComponent<Monster>().GetMType == MonsterType.Prey)
+                {
+                    tmpItems.Add(new ItemContainer(it, 1));
+                    computedNbSlots++;
+                }
+                else if (Random.Range(1, 10) > it.Rarity)
                 {
                     tmpItems.Add(new ItemContainer(it, 1));
                     computedNbSlots++;

@@ -70,16 +70,20 @@ namespace Behaviour
 
         public void HandleLuckForActionPoints()
         {
+            Keeper keeper = GetComponent<Keeper>();
             switch (RollDice())
             {
                 case LuckResult.Luck:
-                    GetComponent<Keeper>().Data.MaxActionPoint = 4;
+                    keeper.Data.MaxActionPoint = 4;
+                    keeper.UpdateActionPoint(4);
                     break;
                 case LuckResult.BadLuck:
-                    GetComponent<Keeper>().Data.MaxActionPoint = 2;
+                    keeper.Data.MaxActionPoint = 2;
+                    keeper.UpdateActionPoint(2);
                     break;
                 default:
-                    GetComponent<Keeper>().Data.MaxActionPoint = 3;
+                    keeper.Data.MaxActionPoint = 3;
+                    keeper.UpdateActionPoint(3);
                     break;
             }
         }
