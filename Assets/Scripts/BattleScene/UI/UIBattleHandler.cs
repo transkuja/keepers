@@ -236,7 +236,7 @@ public class UIBattleHandler : MonoBehaviour {
                 Transform currentSkill = skillsPanel.GetChild(i);
 
                 SkillBattle fighterCurSkill;
-                if (_pawnInstanceForInit.GetComponent<MentalHealthHandler>() != null && _pawnInstanceForInit.GetComponent<MentalHealthHandler>().IsDepressed)
+                if (_pawnInstanceForInit.GetComponent<MentalHealthHandler>() != null && _pawnInstanceForInit.GetComponent<MentalHealthHandler>().IsDepressed && fighterComponent.DepressedSkills.Count == fighterComponent.BattleSkills.Count)
                     fighterCurSkill = fighterComponent.DepressedSkills[i];
                 else
                     fighterCurSkill = fighterComponent.BattleSkills[i];
@@ -282,7 +282,7 @@ public class UIBattleHandler : MonoBehaviour {
             {
                 Transform currentSkill = panelToReload.GetChild(i);
                 SkillBattle fighterCurSkill;
-                if (_pawnInstanceForReload.GetComponent<MentalHealthHandler>() != null && _pawnInstanceForReload.GetComponent<MentalHealthHandler>().IsDepressed)
+                if (_pawnInstanceForReload.GetComponent<MentalHealthHandler>() != null && _pawnInstanceForReload.GetComponent<MentalHealthHandler>().IsDepressed && fighterComponent.DepressedSkills.Count == fighterComponent.BattleSkills.Count)
                     fighterCurSkill = fighterComponent.DepressedSkills[i];
                 else
                     fighterCurSkill = fighterComponent.BattleSkills[i];
