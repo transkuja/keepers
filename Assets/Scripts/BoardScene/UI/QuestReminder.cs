@@ -51,11 +51,12 @@ public class QuestReminder : MonoBehaviour {
         if (bNeedRefresh)
         {
             Refresh();
+            bNeedRefresh = false;
         }
 
         if (Input.GetKeyDown(KeyCode.M) && DebugControls.isDebugModeActive)
         {
-            bNeedRefresh = false;
+            bNeedRefresh = true;
         }
     }
 
