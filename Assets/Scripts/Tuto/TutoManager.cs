@@ -94,7 +94,7 @@ public class TutoManager : MonoBehaviour {
         GameManager.Instance.AllKeepersList[0].GetComponent<Keeper>().BtnRight.SetActive(false);
 
         Transform selectedKeepersFirstCharUI = seqIntro.selectedKeepersPanel.transform.GetChild(0);
-        selectedKeepersFirstCharUI.GetChild(1).gameObject.SetActive(false); // Inventory
+        selectedKeepersFirstCharUI.GetChild(2).gameObject.SetActive(false); // Inventory
 
         GameManager.Instance.AllKeepersList[0].GetComponent<Keeper>().GoListCharacterFollowing.Add(GameManager.Instance.PrisonerInstance.gameObject);
         // No hunger for Ashley on first sequence
