@@ -267,7 +267,6 @@ public class MenuUI : MonoBehaviour {
             pawnMoving = pi;
 
             previousTransform = _previousParent;
-        // J'ai eu une erreur là en cliquant comme un autiste
             previousIndex = previousTransform.GetSiblingIndex();
             if (previousTransform == keepersPositions.transform.GetChild(previousIndex))
             {
@@ -303,22 +302,18 @@ public class MenuUI : MonoBehaviour {
         whereTheCardiSrotation.Clear();
         for (int i = 0; i < menuManager.GoCardsLevels.Count; i++)
         {
-
             whereTheCardiS.Add(menuManager.GoCardsLevels[i].transform.position);
             whereTheCardiSrotation.Add(menuManager.GoCardsLevels[i].transform.rotation);
         }
         isACardMoving = true;
-
     }
 
     public void UpdateDeckSelected()
     {
-
         whereTheCardiS.Clear();
         whereTheCardiSrotation.Clear();
         for (int i = 0; i < menuManager.GoCardsLevels.Count; i++)
         {
-
             whereTheCardiS.Add(menuManager.GoCardsLevels[i].transform.position);
             whereTheCardiSrotation.Add(menuManager.GoCardsLevels[i].transform.rotation);
         }
@@ -346,7 +341,8 @@ public class MenuUI : MonoBehaviour {
 
         if (menuManager.ListeSelectedKeepers.Count == 0 || menuManager.CardLevelSelected == -1 || menuManager.DeckOfCardsSelected == string.Empty
             || (menuManager.DeckOfCardsSelected == "deck_04" && menuManager.ListeSelectedKeepers.Count != 3)
-            || (menuManager.DeckOfCardsSelected == "deck_02" && menuManager.ListeSelectedKeepers.Count != 3))
+            || (menuManager.DeckOfCardsSelected == "deck_02" && menuManager.ListeSelectedKeepers.Count != 3)
+            || (menuManager.DeckOfCardsSelected == "deck_01" && menuManager.ListeSelectedKeepers.Count != 1))
         {
             startButtonImg.SetActive(false);
         }
@@ -495,7 +491,6 @@ public class MenuUI : MonoBehaviour {
         if (carLevelfLerp == 1)
         {
             menuManager.GoDeck.GetComponent<Deck>().IsOpen = !menuManager.GoDeck.GetComponent<Deck>().IsOpen;
-
             aCardIsShown = !aCardIsShown;
             box.UpdateLockAspect();
 
@@ -775,12 +770,30 @@ public class MenuUI : MonoBehaviour {
                         }
                     }
                  }
+
+                    for (int i = 0; i < GameManager.Instance.AllKeepersList.Count; i++)
+                    {
+                            GlowController.RegisterObject(GameManager.Instance.AllKeepersList[i].GetComponent<GlowObjectCmd>());
+                    }
+                    for (int i = 0; i < menuManager.GoCardsInfo.Count; i++)
+                    {
+                        GlowController.RegisterObject(menuManager.GoCardsInfo[i].GetComponentInChildren<GlowObjectCmd>());
+                    }
             }
             else
             {
                 if (indexCardSelected == 2)
                 {
                     levelCardSelected = null;
+                    for (int i = 0; i < GameManager.Instance.AllKeepersList.Count; i++)
+                    {
+                            GlowController.UnregisterObject(GameManager.Instance.AllKeepersList[i].GetComponent<GlowObjectCmd>());
+                       
+                    }
+                    for (int i = 0; i < menuManager.GoCardsInfo.Count; i++)
+                    {
+                        GlowController.UnregisterObject(menuManager.GoCardsInfo[i].GetComponentInChildren<GlowObjectCmd>());
+                    }
                 }     
             }
 

@@ -65,12 +65,7 @@ public class BoxOpener : MonoBehaviour {
                 if (isBoxOpen == false)
                 {
                     GlowController.UnregisterObject(GameManager.Instance.AllKeepersList[i].GetComponent<GlowObjectCmd>());
-                } else
-                {
-                    GlowController.RegisterObject(GameManager.Instance.AllKeepersList[i].GetComponent<GlowObjectCmd>());
                 }
-            //    GameManager.Instance.AllKeepersList[i].gameObject.SetActive(isBoxOpen);
-                    
             }
 
         }
@@ -207,9 +202,14 @@ public class BoxOpener : MonoBehaviour {
                     menuUi.whereTheCardInfoiS.Add(menuManager.GoCardsInfo[i].transform.position);
                     menuUi.whereTheCardInfoiSrotation.Add(menuManager.GoCardsInfo[i].transform.rotation);
                     menuManager.GoCardsInfo[i].transform.SetParent(null);
-                    //GlowController.RegisterObject(menuManager.GoCardsInfo[i].GetComponentInChildren<GlowObjectCmd>());
+                    GlowController.UnregisterObject(menuManager.GoCardsInfo[i].GetComponentInChildren<GlowObjectCmd>());
                 }
+         
                 boxIsReady = true;
+                for (int i = 0; i < GameManager.Instance.AllKeepersList.Count; i++)
+                {
+                    GlowController.UnregisterObject(GameManager.Instance.AllKeepersList[i].GetComponent<GlowObjectCmd>());
+                }
             }
 
             spotlightneedUpdate = false;

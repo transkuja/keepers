@@ -161,7 +161,6 @@ public class MenuManager : MonoBehaviour {
                             }
                     }
                     GameObject goKeeper = GameManager.Instance.PawnDataBase.CreatePawn(id, Vector3.zero, Quaternion.identity, initKeeperTransform);
-
                     ChatBox newChatBox = Instantiate(prefabChatox, GetComponentInChildren<Canvas>().transform).GetComponent<ChatBox>();
                     newChatBox.trTarget = goKeeper.transform;
                     newChatBox.SetMode(ChatBox.ChatMode.awaiting);
@@ -175,7 +174,7 @@ public class MenuManager : MonoBehaviour {
                     goCardsInfo.Add(goCardInfo);
 
                     GameManager.Instance.AllKeepersList.Add(goKeeper.GetComponent<PawnInstance>());
-
+  
                     iKeeper++;
                 }
             }
