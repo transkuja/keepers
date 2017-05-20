@@ -38,6 +38,9 @@ namespace Behaviour
         bool doesAgentNeedReset = false;
         bool isCameraUpdated = false;
         bool wasAgentActiveBeforeBattle = true;
+
+        float timerNeFaitRienPendantDixSeconde = Random.Range(10, 30);
+
         void Awake()
         {
             instance = GetComponent<PawnInstance>();
@@ -76,6 +79,7 @@ namespace Behaviour
 
             if (IsMovingBetweenTiles)
             {
+                timerNeFaitRienPendantDixSeconde = Random.Range(10, 30);
                 lerpMoveParam += Time.deltaTime;
                 if (lerpMoveParam >= 1.0f)
                 {
@@ -93,6 +97,7 @@ namespace Behaviour
 
             if (isMovingToBattlePosition)
             {
+                timerNeFaitRienPendantDixSeconde = Random.Range(10, 30);
                 lerpMoveParam += Time.deltaTime;
                 if (lerpMoveParam >= 1.0f)
                 {
@@ -105,8 +110,23 @@ namespace Behaviour
             if (anim != null && agent != null && anim.isActiveAndEnabled == true && agent.isActiveAndEnabled == true)
             {
                 if( GetComponent<Monster>() == null || (GetComponent<Monster>() != null &&  GetComponent<Monster>().GetMType != MonsterType.Prey))
-                anim.SetFloat("velocity", agent.velocity.magnitude);
+                {
+                    anim.SetFloat("velocity", agent.velocity.magnitude);
+                }
+
             }
+    
+            // ne fait rien pendant 10 secondes
+            if(timerNeFaitRienPendantDixSeconde <= 0)
+            {
+                anim.SetTrigger("idle");
+                timerNeFaitRienPendantDixSeconde = 10.0f;
+     
+            } else
+            {
+                timerNeFaitRienPendantDixSeconde -= Time.deltaTime;
+            }
+            Debug.Log(timerNeFaitRienPendantDixSeconde);
 
             if (doesAgentNeedReset)
             {
@@ -214,6 +234,7 @@ namespace Behaviour
                 agent.Resume();
             }
             v3AgentDirectionTemp = v3Direction;
+            timerNeFaitRienPendantDixSeconde = Random.Range(10, 30);
         }
         void Rotate()
         {
