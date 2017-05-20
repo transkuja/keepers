@@ -231,7 +231,7 @@ public class MenuUI : MonoBehaviour {
         aCardLevelSelectedIsMoving = false;
         initCardInfo = false;
 
-        pressR.gameObject.SetActive(false);
+        //pressR.gameObject.SetActive(false);
     }
 
     void Update()

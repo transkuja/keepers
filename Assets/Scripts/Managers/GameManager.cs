@@ -169,6 +169,8 @@ public class GameManager : MonoBehaviour
 
             GameObject.Find("DuckNukeThem").SetActive(false);
             FindObjectOfType<MenuManager>().DuckhavebringThebox = true;
+
+            GameObject.Find("NewMenu").GetComponent<MenuUI>().pressR.gameObject.SetActive(false);
         }
     }
 

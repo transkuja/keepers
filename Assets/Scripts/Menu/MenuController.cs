@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using UnityEngine.AI;
+
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
@@ -49,7 +51,7 @@ public class MenuController : MonoBehaviour {
         }
 
         // TMP
-        //if (menuManager.DuckhavebringThebox && !oncePressR)
+        //if (!menuManager.DuckhavebringThebox && !oncePressR)
         //{
         //    oncePressR = true;
         //    menuUI.pressR.gameObject.SetActive(true);
@@ -57,63 +59,77 @@ public class MenuController : MonoBehaviour {
 
         //if (oncePressR)
         //{
-        //    if (Input.GetKeyDown(KeyCode.R)){
-        //        GameManager.Instance.PersistenceLoader.SetPawnUnlocked("grekhan", false);
-        //        GameManager.Instance.PersistenceLoader.SetPawnUnlocked("lupus", false);
-        //        GameManager.Instance.PersistenceLoader.SetPawnUnlocked("swag", false);
-        //        GameManager.Instance.PersistenceLoader.SetPawnUnlocked("lucky", false);
-        //        GameManager.Instance.PersistenceLoader.SetPawnUnlocked("emo", false);
-        //        GameManager.Instance.PersistenceLoader.Pd.dicPersistencePawns["grekhan"] = false;
-        //        GameManager.Instance.PersistenceLoader.Pd.dicPersistencePawns["lupus"] = false;
-        //        GameManager.Instance.PersistenceLoader.Pd.dicPersistencePawns["swag"] = false;
-        //        GameManager.Instance.PersistenceLoader.Pd.dicPersistencePawns["lucky"] = false;
-        //        GameManager.Instance.PersistenceLoader.Pd.dicPersistencePawns["emo"] = false;
+        if (!menuManager.DuckhavebringThebox)
+        {
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                GameObject boxNavBox = GameObject.Find("Box Nav box");
+                boxNavBox.GetComponent<Animator>().enabled = false;
+                boxNavBox.GetComponent<NavMeshAgent>().baseOffset = 0.1f;
+                boxNavBox.transform.localPosition = new Vector3(0.0f, 0.025f, -0.22f);
+                boxNavBox.GetComponent<boxMove>().enabled = false;
 
-        //        GameManager.Instance.PersistenceLoader.SetLevelUnlocked("4", false);
-        //        GameManager.Instance.PersistenceLoader.SetLevelUnlocked("2", false);
-        //        GameManager.Instance.PersistenceLoader.SetLevelUnlocked("1", true);
-        //        GameManager.Instance.PersistenceLoader.Pd.dicPersistenceLevels["4"] = false;
-        //        GameManager.Instance.PersistenceLoader.Pd.dicPersistenceLevels["2"] = false;
-        //        GameManager.Instance.PersistenceLoader.Pd.dicPersistenceLevels["1"] = true;
+                GameObject.Find("DuckNukeThem").SetActive(false);
+                FindObjectOfType<MenuManager>().DuckhavebringThebox = true;
+                menuUI.pressR.gameObject.SetActive(false);
+            }
+        }
+            //        GameManager.Instance.PersistenceLoader.SetPawnUnlocked("grekhan", false);
+            //        GameManager.Instance.PersistenceLoader.SetPawnUnlocked("lupus", false);
+            //        GameManager.Instance.PersistenceLoader.SetPawnUnlocked("swag", false);
+            //        GameManager.Instance.PersistenceLoader.SetPawnUnlocked("lucky", false);
+            //        GameManager.Instance.PersistenceLoader.SetPawnUnlocked("emo", false);
+            //        GameManager.Instance.PersistenceLoader.Pd.dicPersistencePawns["grekhan"] = false;
+            //        GameManager.Instance.PersistenceLoader.Pd.dicPersistencePawns["lupus"] = false;
+            //        GameManager.Instance.PersistenceLoader.Pd.dicPersistencePawns["swag"] = false;
+            //        GameManager.Instance.PersistenceLoader.Pd.dicPersistencePawns["lucky"] = false;
+            //        GameManager.Instance.PersistenceLoader.Pd.dicPersistencePawns["emo"] = false;
 
-        //        GameManager.Instance.PersistenceLoader.SetEventUnlocked("1", false);
-        //        GameManager.Instance.PersistenceLoader.SetEventUnlocked("2", false);
-        //        GameManager.Instance.PersistenceLoader.SetEventUnlocked("3", false);
-        //        GameManager.Instance.PersistenceLoader.Pd.dicPersistenceEvents["1"] = false;
-        //        GameManager.Instance.PersistenceLoader.Pd.dicPersistenceEvents["2"] = false;
-        //        GameManager.Instance.PersistenceLoader.Pd.dicPersistenceEvents["3"] = false;
+            //        GameManager.Instance.PersistenceLoader.SetLevelUnlocked("4", false);
+            //        GameManager.Instance.PersistenceLoader.SetLevelUnlocked("2", false);
+            //        GameManager.Instance.PersistenceLoader.SetLevelUnlocked("1", true);
+            //        GameManager.Instance.PersistenceLoader.Pd.dicPersistenceLevels["4"] = false;
+            //        GameManager.Instance.PersistenceLoader.Pd.dicPersistenceLevels["2"] = false;
+            //        GameManager.Instance.PersistenceLoader.Pd.dicPersistenceLevels["1"] = true;
 
-        //        GameManager.Instance.PersistenceLoader.SetDeckUnlocked("deck_04", false);
-        //        GameManager.Instance.PersistenceLoader.SetDeckUnlocked("deck_01", true);
-        //        GameManager.Instance.PersistenceLoader.SetDeckUnlocked("deck_02", false);
-        //        GameManager.Instance.PersistenceLoader.Pd.dicPersistenceDecks["deck_04"] = false;
-        //        GameManager.Instance.PersistenceLoader.Pd.dicPersistenceDecks["deck_01"] = true;
-        //        GameManager.Instance.PersistenceLoader.Pd.dicPersistenceDecks["deck_02"] = false;
+            //        GameManager.Instance.PersistenceLoader.SetEventUnlocked("1", false);
+            //        GameManager.Instance.PersistenceLoader.SetEventUnlocked("2", false);
+            //        GameManager.Instance.PersistenceLoader.SetEventUnlocked("3", false);
+            //        GameManager.Instance.PersistenceLoader.Pd.dicPersistenceEvents["1"] = false;
+            //        GameManager.Instance.PersistenceLoader.Pd.dicPersistenceEvents["2"] = false;
+            //        GameManager.Instance.PersistenceLoader.Pd.dicPersistenceEvents["3"] = false;
 
-        //        GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqfirstmove"] = false;
-        //        GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqtutocombat"] = false;
-        //        GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqmulticharacters"] = false;
-        //        GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqmoraleexplained"] = true;
-        //        GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqlowhunger"] = false;
-        //        GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqlowmorale"] = false;
-        //        GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqashleylowhunger"] = false;
-        //        GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqashleyescort"] = false;
-        //        GameManager.Instance.PersistenceLoader.SetSequenceUnlocked("seqfirstmove", false);
-        //        GameManager.Instance.PersistenceLoader.SetSequenceUnlocked("seqtutocombat", false);
-        //        GameManager.Instance.PersistenceLoader.SetSequenceUnlocked("seqmulticharacters", false);
-        //        GameManager.Instance.PersistenceLoader.SetSequenceUnlocked("seqmoraleexplained", false);
-        //        GameManager.Instance.PersistenceLoader.SetSequenceUnlocked("seqlowhunger", false);
-        //        GameManager.Instance.PersistenceLoader.SetSequenceUnlocked("seqlowmorale", false);
-        //        GameManager.Instance.PersistenceLoader.SetSequenceUnlocked("seqashleylowhunger", false);
-        //        GameManager.Instance.PersistenceLoader.SetSequenceUnlocked("seqashleyescort", false);
-        //        GameManager.Instance.CurrentState = GameState.Normal;
-        //        AudioManager.Instance.Fade(AudioManager.Instance.menuMusic);
-        //        //GameManager.Instance.Ui.GoActionPanelQ.transform.parent.SetParent(GameManager.Instance.Ui.transform);
-        //        SceneManager.LoadScene(0);
-        //    }
-        //}
+            //        GameManager.Instance.PersistenceLoader.SetDeckUnlocked("deck_04", false);
+            //        GameManager.Instance.PersistenceLoader.SetDeckUnlocked("deck_01", true);
+            //        GameManager.Instance.PersistenceLoader.SetDeckUnlocked("deck_02", false);
+            //        GameManager.Instance.PersistenceLoader.Pd.dicPersistenceDecks["deck_04"] = false;
+            //        GameManager.Instance.PersistenceLoader.Pd.dicPersistenceDecks["deck_01"] = true;
+            //        GameManager.Instance.PersistenceLoader.Pd.dicPersistenceDecks["deck_02"] = false;
 
-        if (Input.GetMouseButtonDown(0))
+            //        GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqfirstmove"] = false;
+            //        GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqtutocombat"] = false;
+            //        GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqmulticharacters"] = false;
+            //        GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqmoraleexplained"] = true;
+            //        GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqlowhunger"] = false;
+            //        GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqlowmorale"] = false;
+            //        GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqashleylowhunger"] = false;
+            //        GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqashleyescort"] = false;
+            //        GameManager.Instance.PersistenceLoader.SetSequenceUnlocked("seqfirstmove", false);
+            //        GameManager.Instance.PersistenceLoader.SetSequenceUnlocked("seqtutocombat", false);
+            //        GameManager.Instance.PersistenceLoader.SetSequenceUnlocked("seqmulticharacters", false);
+            //        GameManager.Instance.PersistenceLoader.SetSequenceUnlocked("seqmoraleexplained", false);
+            //        GameManager.Instance.PersistenceLoader.SetSequenceUnlocked("seqlowhunger", false);
+            //        GameManager.Instance.PersistenceLoader.SetSequenceUnlocked("seqlowmorale", false);
+            //        GameManager.Instance.PersistenceLoader.SetSequenceUnlocked("seqashleylowhunger", false);
+            //        GameManager.Instance.PersistenceLoader.SetSequenceUnlocked("seqashleyescort", false);
+            //        GameManager.Instance.CurrentState = GameState.Normal;
+            //        AudioManager.Instance.Fade(AudioManager.Instance.menuMusic);
+            //        //GameManager.Instance.Ui.GoActionPanelQ.transform.parent.SetParent(GameManager.Instance.Ui.transform);
+            //        SceneManager.LoadScene(0);
+            //    }
+            //}
+
+            if (Input.GetMouseButtonDown(0))
         {
             RaycastHit hit;
             if (boxOpener.IsBoxOpen)
