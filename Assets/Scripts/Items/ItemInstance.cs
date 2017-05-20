@@ -204,19 +204,28 @@ public class ItemInstance : MonoBehaviour, IHavestable
             {
 
                 // TODO : bug here miscellenous interactions with feedback action UI
-
-                Destroy(this);
-    
-
-                GlowController.UnregisterObject(GlowCmd);
-                
-                if (this.transform.childCount > 0)
-
+                if (GetComponent<Behaviour.Monster>() != null)
                 {
-                    // Si sa plante ici appeller rémi
-                    DestroyImmediate(this.transform.GetChild(transform.childCount-1).gameObject);
+                    Destroy(this.gameObject);
+                }
+                else
+                {
+                    Destroy(this);
+
+
+                    GlowController.UnregisterObject(GlowCmd);
+
+                    if (this.transform.childCount > 0)
+
+                    {
+                        // Si sa plante ici appeller rémi
+                        DestroyImmediate(this.transform.GetChild(transform.childCount - 1).gameObject);
+
+                    }
 
                 }
+
+
 
 
 
