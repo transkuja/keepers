@@ -79,7 +79,10 @@ public class PersistenceLoader {
                         break;
                 }
             }
-            pd.dicPersistencePawns.Add(id, isUnlocked);
+            if (!pd.dicPersistencePawns.ContainsKey(id)){
+                pd.dicPersistencePawns.Add(id, isUnlocked);
+            }
+    
         }
 
         JSONArray levelsArray = json["Levels"].Array;
@@ -100,7 +103,10 @@ public class PersistenceLoader {
                         break;
                 }
             }
-            pd.dicPersistenceLevels.Add(id, isUnlocked);
+            if (!pd.dicPersistenceLevels.ContainsKey(id))
+            {
+                pd.dicPersistenceLevels.Add(id, isUnlocked);
+            }
         }
 
         JSONArray deckArray = json["Decks"].Array;
@@ -121,7 +127,10 @@ public class PersistenceLoader {
                         break;
                 }
             }
-            pd.dicPersistenceDecks.Add(id, isUnlocked);
+            if (!pd.dicPersistenceDecks.ContainsKey(id))
+            {
+                pd.dicPersistenceDecks.Add(id, isUnlocked);
+            }
         }
 
         JSONArray eventsArray = json["Events"].Array;
@@ -142,7 +151,10 @@ public class PersistenceLoader {
                         break;
                 }
             }
-            pd.dicPersistenceEvents.Add(id, isUnlocked);
+            if (!pd.dicPersistenceEvents.ContainsKey(id))
+            {
+                pd.dicPersistenceEvents.Add(id, isUnlocked);
+            }
         }
 
         JSONObject CameraObject = json["Camera"].Obj;
@@ -154,7 +166,10 @@ public class PersistenceLoader {
                 // ROOT DATA
                 case "isFollowingKeeper":
                     isFollowingKeeper = optionEntry.Value.Boolean;
-                    pd.dicPersistenceOptions.Add(isFollowingKeeper);
+                    if (!pd.dicPersistenceOptions.Contains(isFollowingKeeper))
+                    {
+                        pd.dicPersistenceOptions.Add(isFollowingKeeper);
+                    }
                     break;
             }
         }
@@ -177,7 +192,10 @@ public class PersistenceLoader {
                         break;
                 }
             }
-            pd.dicPersistenceSequences.Add(id, alreadyPlayed);
+            if (!pd.dicPersistenceSequences.ContainsKey(id))
+            {
+                pd.dicPersistenceSequences.Add(id, alreadyPlayed);
+            }
         }
     }
 

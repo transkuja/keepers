@@ -1,10 +1,12 @@
-﻿using System.Collections;
+﻿
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class QuestReminder : MonoBehaviour {
-    public static bool bNeedRefresh = false;
+    private static bool bNeedRefresh = false;
     enum State
     {
         hidden,
@@ -31,11 +33,24 @@ public class QuestReminder : MonoBehaviour {
     [SerializeField] private Sprite iconRaspberry;
     [SerializeField] private Sprite iconDucky;
 
+    public static bool BNeedRefresh
+    {
+        get
+        {
+            return bNeedRefresh;
+        }
+
+        set
+        {
+            bNeedRefresh = value;
+        }
+    }
+
     // Use this for initialization
     void Start () {
         qm = GameManager.Instance.QuestManager;
         rt = GetComponent<RectTransform>();
-        fOffsetX = rt.sizeDelta.x;
+        fOffsetX = rt.sizeDelta.x - 20;
         dicQuestReminder = new Dictionary<QuestSystem.Quest, GameObject>();
         fPosY = rt.anchoredPosition.y;
 	}
@@ -51,6 +66,7 @@ public class QuestReminder : MonoBehaviour {
         {
             Refresh();
             bNeedRefresh = false;
+
         }
 
         if (Input.GetKeyDown(KeyCode.M) && DebugControls.isDebugModeActive)
@@ -64,6 +80,7 @@ public class QuestReminder : MonoBehaviour {
         if (!dicQuestReminder.ContainsKey(qm.MainQuest))
         {
             addQuest(qm.MainQuest);
+            refreshQuest(qm.MainQuest);
         }
         else
         {
@@ -75,6 +92,7 @@ public class QuestReminder : MonoBehaviour {
             if (!dicQuestReminder.ContainsKey(qm.ActiveQuests[i]))
             {
                 addQuest(qm.ActiveQuests[i]);
+                refreshQuest(qm.ActiveQuests[i]);
             }
             else
             {
@@ -82,10 +100,10 @@ public class QuestReminder : MonoBehaviour {
             }
         }
 
-        for(int i = 0; i < qm.CompletedQuests.Count; i++)
-        {
-            dicQuestReminder[qm.CompletedQuests[i]].transform.GetChild(0).GetChild(2).GetChild(0).gameObject.SetActive(true);
-        }
+        //for(int i = 0; i < qm.CompletedQuests.Count; i++)
+        //{
+        //    dicQuestReminder[qm.CompletedQuests[i]].transform.GetChild(0).GetChild(2).GetChild(0).gameObject.SetActive(true);
+        //}
     }
 
     public void Toogle()
@@ -132,6 +150,12 @@ public class QuestReminder : MonoBehaviour {
 
     private void updatePosition()
     {
+        if( state == State.showing && fLerp <= 0)
+        {
+            transform.GetChild(1).gameObject.SetActive(true);
+        }
+
+
         fLerp += Time.unscaledDeltaTime * fSpeed * (int)state;
         rt.anchoredPosition = Vector3.Lerp(new Vector3(-fOffsetX, fPosY,0), new Vector3(0,fPosY,0), fLerp);
 
@@ -143,6 +167,7 @@ public class QuestReminder : MonoBehaviour {
         else if (state == State.hidding && fLerp <= 0)
         {
             state = State.hidden;
+            transform.GetChild(1).gameObject.SetActive(false);
         }
     }
 
@@ -177,9 +202,18 @@ public class QuestReminder : MonoBehaviour {
 
     private void refreshQuest(QuestSystem.Quest q)
     {
+        bool allComplete = true;
         for (int j = 0; j < q.Objectives.Count; j++)
         {
             dicQuestReminder[q].transform.GetChild(1+j).GetChild(0).GetChild(0).gameObject.SetActive(q.Objectives[j].IsComplete);
+            if (!q.Objectives[j].IsComplete)
+            {
+                allComplete = false;
+            }
+        }
+        if (allComplete)
+        {
+            dicQuestReminder[q].transform.GetChild(0).GetChild(2).GetChild(0).gameObject.SetActive(true);
         }
     }
 }

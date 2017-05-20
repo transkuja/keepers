@@ -40,9 +40,11 @@ public class Arrival : MonoBehaviour {
         bool completed = GameManager.Instance.QuestManager.MainQuest.CheckIfComplete();
         if(completed)
         {
+
             EventManager.OnPawnMove -= UpdateAvailability;
             GameManager.Instance.Ui.GoActionPanelQ.transform.parent.SetParent(GameManager.Instance.Ui.transform);
             GameManager.Instance.QuestManager.MainQuest.Complete();
+            QuestReminder.BNeedRefresh = true;
         }
         else
         {
