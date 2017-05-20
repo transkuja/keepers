@@ -102,8 +102,9 @@ namespace Behaviour
                 transform.rotation = Quaternion.Lerp(lerpStartRotation, lerpEndRotation, Mathf.Clamp(lerpMoveParam, 0, 1));
             }
 
-            if (anim.isActiveAndEnabled == true && agent.isActiveAndEnabled == true)
+            if (anim != null && agent != null && anim.isActiveAndEnabled == true && agent.isActiveAndEnabled == true)
             {
+                if( GetComponent<Monster>() == null || (GetComponent<Monster>() != null &&  GetComponent<Monster>().GetMType != MonsterType.Prey))
                 anim.SetFloat("velocity", agent.velocity.magnitude);
             }
 

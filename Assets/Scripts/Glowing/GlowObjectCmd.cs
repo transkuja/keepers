@@ -41,7 +41,7 @@ public class GlowObjectCmd : MonoBehaviour
 	void Start()
 	{
 		Renderers = GetComponentsInChildren<Renderer>();
-        if (GetComponent<Monster>() == null)
+        if ((GetComponent<Monster>() != null && GetComponent<ItemInstance>() != null) || GetComponent<Monster>() == null)
             GlowController.RegisterObject(this);
 
     }

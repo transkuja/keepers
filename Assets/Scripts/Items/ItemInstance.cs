@@ -68,7 +68,14 @@ public class ItemInstance : MonoBehaviour, IHavestable
 
         idItem = _IdItem;
 
-        InteractionImplementer.Add(new Interaction(Harvest), 1, "Harvest", GameManager.Instance.SpriteUtils.spriteHarvest);
+        if( GetComponent<Behaviour.Monster>() == null)
+        {
+            InteractionImplementer.Add(new Interaction(Harvest), 1, "Harvest", GameManager.Instance.SpriteUtils.spriteHarvest);
+        } else
+        {
+            InteractionImplementer.Add(new Interaction(Harvest), 2, "Fish", GameManager.Instance.SpriteUtils.spriteHarvest);
+        }
+
 
         itemContainer = new ItemContainer(GameManager.Instance.ItemDataBase.getItemById(_IdItem), quantity);
 
@@ -167,8 +174,16 @@ public class ItemInstance : MonoBehaviour, IHavestable
     public void Harvest(int _i = 0)
 
     {
-
-        int costAction = InteractionImplementer.Get("Harvest").costAction;
+        int costAction = 0;
+        if (GetComponent<Behaviour.Monster>() == null)
+        {
+            costAction = InteractionImplementer.Get("Harvest").costAction;
+        }
+        else
+        {
+            costAction = InteractionImplementer.Get("Fish").costAction;
+        }
+  
 
         if (GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Keeper>().ActionPoints >= costAction)
 

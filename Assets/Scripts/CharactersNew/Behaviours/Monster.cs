@@ -181,7 +181,11 @@ namespace Behaviour
             originPosition = transform.position;
             originRotation = transform.rotation;
 
-            GetComponent<Interactable>().Interactions.Add(new Interaction(Attack), 0, "Attack", GameManager.Instance.SpriteUtils.spriteAttack);
+            if (GetComponent<ItemInstance>() == null)
+            {
+                GetComponent<Interactable>().Interactions.Add(new Interaction(Attack), 0, "Attack", GameManager.Instance.SpriteUtils.spriteAttack);
+
+            }
 
             GameManager.Instance.RegisterMonsterPosition(instance);
         }
@@ -195,7 +199,7 @@ namespace Behaviour
                 {
                     if (monsterType != MonsterType.Prey)
                         NavMeshMovement();
-                    else
+                    else 
                         PreyMovement();
                 }
             }
