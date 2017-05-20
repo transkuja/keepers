@@ -17,6 +17,8 @@ public class TriggerOnCristals : MonoBehaviour {
     public ParticleSystem particles;
 
     private List<Material> mat;
+
+    private List<Material> matPathBlocker;
     private Color storedColor;
 
     [SerializeField] GameObject[] tabPathBlockerVisuals;
@@ -52,6 +54,11 @@ public class TriggerOnCristals : MonoBehaviour {
                     {
                         m.SetColor("_EmissionColor", activeColor);
                     }
+                    foreach (Material m in matPathBlocker)
+                    {
+                        m.SetColor("_EmissionColor", activeColor);
+                    }
+
                     if (!particles.emission.enabled)
                     {
                         ParticleSystem.EmissionModule em = particles.emission;
@@ -96,9 +103,12 @@ public class TriggerOnCristals : MonoBehaviour {
     {
         currentlyInTrigger = new List<Keeper>();
         mat = new List<Material>();
-        foreach(MeshRenderer mr in GetComponentsInChildren<MeshRenderer>())
+        matPathBlocker = new List<Material>();
+        foreach (MeshRenderer mr in GetComponentsInChildren<MeshRenderer>())
             mat.Add(mr.material);
-		triggerActif = false;
+        foreach (MeshRenderer mr in tabPathBlockerVisuals[0].GetComponentsInChildren<MeshRenderer>())
+            matPathBlocker.Add(mr.material);
+        triggerActif = false;
         particles = GetComponentInChildren<ParticleSystem>();
         ParticleSystem.EmissionModule em = particles.emission;
         em.enabled = false;
@@ -141,6 +151,10 @@ public class TriggerOnCristals : MonoBehaviour {
                 {
                     m.SetColor("_EmissionColor", unactiveColor);
                 }
+                foreach (Material m in matPathBlocker)
+                {
+                    m.SetColor("_EmissionColor", unactiveColor);
+                }
                 if (particles.emission.enabled)
                 {
                     ParticleSystem.EmissionModule em = particles.emission;
@@ -148,6 +162,10 @@ public class TriggerOnCristals : MonoBehaviour {
                 }
             } else {
                 foreach (Material m in mat)
+                {
+                    m.SetColor("_EmissionColor", activeColor);
+                }
+                foreach (Material m in matPathBlocker)
                 {
                     m.SetColor("_EmissionColor", activeColor);
                 }
