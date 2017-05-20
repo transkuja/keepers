@@ -16,7 +16,7 @@ public class ThrownDiceHandler : MonoBehaviour {
     Dictionary<PawnInstance, Face[]> throwResult = new Dictionary<PawnInstance, Face[]>();
     float timerAnimation = 0.0f;
     bool areDiceFeedbacksInitialized = false;
-    List<int> upFaceIndex = new List<int>();
+    Dictionary<PawnInstance, List<int>> upFaceIndex = new Dictionary<PawnInstance, List<int>>();
 
     [SerializeField]
     float rollDiceAnimClip = 0.75f;
@@ -29,6 +29,9 @@ public class ThrownDiceHandler : MonoBehaviour {
             GetComponent<UIBattleHandler>().ChangeState(UIBattleState.Actions);
             areDiceFeedbacksInitialized = false;
             areDiceRotatedProperly = false;
+            timerAnimation = 0.0f;
+            isRunning = false;
+            upFaceIndex.Clear();
             diceInstance.Clear();
             for (int i = 0; i < BattleHandler.CurrentBattleKeepers.Length; i++)
             {
@@ -73,13 +76,15 @@ public class ThrownDiceHandler : MonoBehaviour {
         foreach (PawnInstance piDice in diceForCurrentThrow.Keys)
         {
             Face[] result = new Face[diceForCurrentThrow[piDice].Length];
+            upFaceIndex.Add(piDice, new List<int>());
             for (int i = 0; i < diceForCurrentThrow[piDice].Length; i++)
             {
-                int j = Random.Range(0, 5);
+                int j = Random.Range(0, 6);
                 result[i] = diceForCurrentThrow[piDice][i].Faces[j];
                 //RotateDie(diceInstance[piDice][i], j+1);
                 diceInstance[piDice][i].GetComponentInChildren<Animator>().SetTrigger("startFace6Anim");
-                upFaceIndex.Add(j+1);
+
+                upFaceIndex[piDice].Add(j+1);
             }
             results.Add(piDice, result);
         }
@@ -139,7 +144,7 @@ public class ThrownDiceHandler : MonoBehaviour {
                 {
                     for (int i = 0; i < diceForCurrentThrow[piDice].Length; i++)
                     {
-                        RotateDie(diceInstance[piDice][i], upFaceIndex[i]);
+                        RotateDie(diceInstance[piDice][i], upFaceIndex[piDice][i]);
                     }
                 }
                 areDiceRotatedProperly = true;
