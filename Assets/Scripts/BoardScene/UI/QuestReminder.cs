@@ -80,11 +80,6 @@ public class QuestReminder : MonoBehaviour {
         if (!dicQuestReminder.ContainsKey(qm.MainQuest))
         {
             addQuest(qm.MainQuest);
-            refreshQuest(qm.MainQuest);
-        }
-        else
-        {
-            refreshQuest(qm.MainQuest);
         }
 
         for(int i =0; i< qm.ActiveQuests.Count; i++)
@@ -92,13 +87,11 @@ public class QuestReminder : MonoBehaviour {
             if (!dicQuestReminder.ContainsKey(qm.ActiveQuests[i]))
             {
                 addQuest(qm.ActiveQuests[i]);
-                refreshQuest(qm.ActiveQuests[i]);
             }
-            else
-            {
-                refreshQuest(qm.ActiveQuests[i]);
-            }
+            refreshQuest(qm.ActiveQuests[i]);
         }
+
+        refreshQuest(qm.MainQuest);
 
         //for(int i = 0; i < qm.CompletedQuests.Count; i++)
         //{
@@ -214,6 +207,9 @@ public class QuestReminder : MonoBehaviour {
         if (allComplete)
         {
             dicQuestReminder[q].transform.GetChild(0).GetChild(2).GetChild(0).gameObject.SetActive(true);
+        } else
+        {
+            dicQuestReminder[q].transform.GetChild(0).GetChild(2).GetChild(0).gameObject.SetActive(false);
         }
     }
 }
