@@ -155,6 +155,13 @@ public class IngameUI : MonoBehaviour
                     }
 
                     pi.GetComponent<Behaviour.Keeper>().ShorcutUI.transform.GetChild(++k).GetComponent<Image>().CrossFadeAlpha(0.3f, 1, true);
+
+                    if (pi.GetComponent<Behaviour.Mortal>() != null)
+                        pi.GetComponent<Behaviour.Mortal>().ShortcutHPUI.GetComponentInChildren<Image>().CrossFadeAlpha(0.3f, 1, true);
+                    if (pi.GetComponent<Behaviour.HungerHandler>() != null)
+                        pi.GetComponent<Behaviour.HungerHandler>().ShortcutHungerUI.GetComponentInChildren<Image>().CrossFadeAlpha(0.3f, 1, true);
+                    if(pi.GetComponent<Behaviour.MentalHealthHandler>() != null)
+                        pi.GetComponent<Behaviour.MentalHealthHandler>().ShortcutMentalHealthUI.GetComponentInChildren<Image>().CrossFadeAlpha(0.3f, 1, true);
                 }
 
  
@@ -167,6 +174,9 @@ public class IngameUI : MonoBehaviour
 
                 GameManager.Instance.PrisonerInstance.GetComponent<Behaviour.Escortable>().ShorcutUI.transform.GetChild(2).GetComponent<Image>().CrossFadeAlpha(0.3f, 1, true);
                 GameManager.Instance.PrisonerInstance.GetComponent<Behaviour.Escortable>().ShorcutUI.transform.GetChild(4).GetComponent<Image>().CrossFadeAlpha(0.3f, 1, true);
+
+                GameManager.Instance.PrisonerInstance.GetComponent<Behaviour.Mortal>().ShortcutHPUI.GetComponentInChildren<Image>().CrossFadeAlpha(0.3f, 1, true);
+                GameManager.Instance.PrisonerInstance.GetComponent<Behaviour.HungerHandler>().ShortcutHungerUI.GetComponentInChildren<Image>().CrossFadeAlpha(0.3f, 1, true);
             }
         }
 
@@ -255,6 +265,13 @@ public class IngameUI : MonoBehaviour
                     }
 
                     pi.GetComponent<Behaviour.Keeper>().ShorcutUI.transform.GetChild(++k).GetComponent<Image>().CrossFadeAlpha(1f, 0, true);
+
+                    if (pi.GetComponent<Behaviour.Mortal>() != null)
+                        pi.GetComponent<Behaviour.Mortal>().ShortcutHPUI.GetComponentInChildren<Image>().CrossFadeAlpha(1f, 0, true);
+                    if (pi.GetComponent<Behaviour.HungerHandler>() != null)
+                        pi.GetComponent<Behaviour.HungerHandler>().ShortcutHungerUI.GetComponentInChildren<Image>().CrossFadeAlpha(1f, 0, true);
+                    if (pi.GetComponent<Behaviour.MentalHealthHandler>() != null)
+                        pi.GetComponent<Behaviour.MentalHealthHandler>().ShortcutMentalHealthUI.GetComponentInChildren<Image>().CrossFadeAlpha(1f, 0, true);
                 }
 
 
@@ -267,6 +284,11 @@ public class IngameUI : MonoBehaviour
 
                 GameManager.Instance.PrisonerInstance.GetComponent<Behaviour.Escortable>().ShorcutUI.transform.GetChild(2).GetComponent<Image>().CrossFadeAlpha(1f, 0, true);
                 GameManager.Instance.PrisonerInstance.GetComponent<Behaviour.Escortable>().ShorcutUI.transform.GetChild(4).GetComponent<Image>().CrossFadeAlpha(1f, 0, true);
+
+
+                GameManager.Instance.PrisonerInstance.GetComponent<Behaviour.Mortal>().ShortcutHPUI.GetComponentInChildren<Image>().CrossFadeAlpha(1.0f, 0, true);
+                GameManager.Instance.PrisonerInstance.GetComponent<Behaviour.HungerHandler>().ShortcutHungerUI.GetComponentInChildren<Image>().CrossFadeAlpha(1.0f, 0, true);
+
             }
         }
 
@@ -337,6 +359,13 @@ public class IngameUI : MonoBehaviour
                         }
 
                         pi.GetComponent<Behaviour.Keeper>().ShorcutUI.transform.GetChild(++k).GetComponent<Image>().CrossFadeAlpha(0.3f, 0, true);
+
+                        if (pi.GetComponent<Behaviour.Mortal>() != null)
+                            pi.GetComponent<Behaviour.Mortal>().ShortcutHPUI.GetComponentInChildren<Image>().CrossFadeAlpha(0.3f, 0, true);
+                        if (pi.GetComponent<Behaviour.HungerHandler>() != null)
+                            pi.GetComponent<Behaviour.HungerHandler>().ShortcutHungerUI.GetComponentInChildren<Image>().CrossFadeAlpha(0.3f, 0, true);
+                        if (pi.GetComponent<Behaviour.MentalHealthHandler>() != null)
+                            pi.GetComponent<Behaviour.MentalHealthHandler>().ShortcutMentalHealthUI.GetComponentInChildren<Image>().CrossFadeAlpha(0.3f, 0, true);
                     }
 
 
@@ -349,6 +378,10 @@ public class IngameUI : MonoBehaviour
 
                     GameManager.Instance.PrisonerInstance.GetComponent<Behaviour.Escortable>().ShorcutUI.transform.GetChild(2).GetComponent<Image>().CrossFadeAlpha(0.3f, 0, true);
                     GameManager.Instance.PrisonerInstance.GetComponent<Behaviour.Escortable>().ShorcutUI.transform.GetChild(4).GetComponent<Image>().CrossFadeAlpha(0.3f, 0, true);
+
+
+                    GameManager.Instance.PrisonerInstance.GetComponent<Behaviour.Mortal>().ShortcutHPUI.GetComponentInChildren<Image>().CrossFadeAlpha(0.3f, 0, true);
+                    GameManager.Instance.PrisonerInstance.GetComponent<Behaviour.HungerHandler>().ShortcutHungerUI.GetComponentInChildren<Image>().CrossFadeAlpha(0.3f, 0, true);
                 }
             }
         }
