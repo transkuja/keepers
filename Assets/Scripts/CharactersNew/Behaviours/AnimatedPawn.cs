@@ -123,7 +123,7 @@ namespace Behaviour
                 anim.SetTrigger("idle");
                 timerNeFaitRienPendantDixSeconde = 10.0f;
      
-            } else
+            } else if (GameManager.Instance.CurrentState == GameState.Normal)
             {
                 timerNeFaitRienPendantDixSeconde -= Time.deltaTime;
             }
