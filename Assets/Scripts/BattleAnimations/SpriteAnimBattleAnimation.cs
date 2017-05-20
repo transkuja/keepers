@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 [Serializable]
 public class SpriteAnimBattleAnimation : MonoBehaviour, IBattleAnimation {
@@ -23,8 +24,13 @@ public class SpriteAnimBattleAnimation : MonoBehaviour, IBattleAnimation {
     {
         foreach(PawnInstance go in targets)
         {
-            GameObject g = Instantiate<GameObject>(spriteWithAnimator, go.transform);
-            Destroy(g, GetAnimationTime());
+            GameObject g = Instantiate(spriteWithAnimator);
+            Canvas canvas = go.GetComponentInChildren<Canvas>();
+            g.transform.SetParent(canvas.transform);
+            g.transform.localPosition = Vector3.zero - canvas.transform.parent.transform.position.y/2.0f * Vector3.up;
+            g.transform.localScale = Vector3.one;
+            duration = g.GetComponent<SpriteAnimator>().GetAnimationTime();
+            g.GetComponent<SpriteAnimator>().Play();
         }
         
     }
