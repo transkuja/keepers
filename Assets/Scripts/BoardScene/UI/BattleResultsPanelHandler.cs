@@ -1,12 +1,40 @@
 ﻿using UnityEngine;
 using Behaviour;
+using System.Collections;
 
 public class BattleResultsPanelHandler : MonoBehaviour {
 
-    public void CloseBattleResultsPanel()
+    //public void CloseBattleResultsPanel()
+    //{
+    //    //transform.GetChild((int)BattleResultScreenChildren.Loot).gameObject.SetActive(true);
+    //    gameObject.SetActive(false);
+    //    GameManager.Instance.CurrentState = GameState.Normal;
+
+    //    GameManager.Instance.ClearListKeeperSelected();
+    //    PawnInstance[] curFighters = GameManager.Instance.CurrentFighters;
+    //    for (int i = 0; i < curFighters.Length; i++)
+    //    {
+    //        if (curFighters[i].GetComponent<Keeper>() != null && curFighters[i].GetComponent<Mortal>().CurrentHp > 0)
+    //        {
+    //            curFighters[i].GetComponent<Keeper>().IsSelected = true;
+    //            GameManager.Instance.AddKeeperToSelectedList(curFighters[i]);
+    //            break;
+    //        }
+    //    }
+
+    //}
+
+    public void OnEnable()
     {
+        StartCoroutine(HideMe());
+    }
+
+    public IEnumerator HideMe()
+    {
+        yield return new WaitForSeconds(3);
+        Debug.Log("reactivation");
         //transform.GetChild((int)BattleResultScreenChildren.Loot).gameObject.SetActive(true);
-        gameObject.SetActive(false);
+        GameManager.Instance.BattleResultScreen.gameObject.SetActive(false);
         GameManager.Instance.CurrentState = GameState.Normal;
 
         GameManager.Instance.ClearListKeeperSelected();
@@ -20,7 +48,7 @@ public class BattleResultsPanelHandler : MonoBehaviour {
                 break;
             }
         }
-
+        yield return null;
     }
 }
 

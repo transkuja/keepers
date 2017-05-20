@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Behaviour;
+using System.Collections;
 
 public class BattleHandler {
 
@@ -492,9 +493,7 @@ public class BattleHandler {
         {
             if (currentBattleKeepers[i] != null)
             {
-
                 currentBattleKeepers[i].GetComponent<AnimatedPawn>().Anim.SetTrigger("dance");
-
             }
         }
 
@@ -642,6 +641,7 @@ public class BattleHandler {
         // Freeze time until close button is pressed
         GameManager.Instance.CurrentState = GameState.InPause;
     }
+
 
     private static void BattleLog(string log)
     {
