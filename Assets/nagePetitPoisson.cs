@@ -30,13 +30,13 @@ public class nagePetitPoisson : MonoBehaviour {
     {
         if (GameManager.Instance.CurrentState == GameState.InBattle)
         {
-            if (GetComponent<MeshRenderer>().enabled)
-                GetComponent<MeshRenderer>().enabled = false;
+            if (GetComponentInChildren<MeshRenderer>().enabled)
+                GetComponentInChildren<MeshRenderer>().enabled = false;
         }
         else
         {
-            if (!GetComponent<MeshRenderer>().enabled)
-                GetComponent<MeshRenderer>().enabled = true;
+            if (!GetComponentInChildren<MeshRenderer>().enabled)
+                GetComponentInChildren<MeshRenderer>().enabled = true;
         }
 
         i += Time.deltaTime;
@@ -51,9 +51,8 @@ public class nagePetitPoisson : MonoBehaviour {
         Vector3 targetPos;
 
         targetPos.x = startPos.x + Mathf.Sin(i * Mathf.PI * SineSpeedX / 180) * SineDistanceX + offsetX;
-        targetPos.y = 0.0f;
+        targetPos.y = startPos.y;
         targetPos.z = startPos.z + Mathf.Sin(i * Mathf.PI * SineSpeedZ / 180) * SineDistanceZ + offsetZ;
-
         transform.position = targetPos;
         transform.LookAt(transform.position + (targetPos - oldpos).normalized);
 

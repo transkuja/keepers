@@ -1,15 +1,22 @@
 fileFormatVersion: 2
-guid: f4d59f8656572c14e92126cba2792f3d
-timeCreated: 1493821516
+guid: fa7aed7e1198ec6498d85cd23b5a4b4f
+timeCreated: 1495315018
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
     100000: //RootNode
+    100002: D
+    100004: G
     400000: //RootNode
-    2300000: //RootNode
-    3300000: //RootNode
-    4300000: papillon
+    400002: D
+    400004: G
+    2300000: D
+    2300002: G
+    3300000: D
+    3300002: G
+    4300000: D
+    4300002: G
     9500000: //RootNode
   materials:
     importMaterials: 1
