@@ -488,20 +488,20 @@ public class BattleHandler {
      */
     private static void HandleBattleVictory(Tile tile)
     {
-        //for (int i = 0; i < currentBattleKeepers.Length; i++)
-        //{
-        //    if (currentBattleKeepers[i] != null)
-        //    {
-                //currentBattleKeepers[i].GetComponent<MentalHealthHandler>().CurrentMentalHealth += 10;
-                //currentBattleKeepers[i].GetComponent<HungerHandler>().CurrentHunger -= 5;
-        //    }
-        //}
+        for (int i = 0; i < currentBattleKeepers.Length; i++)
+        {
+            if (currentBattleKeepers[i] != null)
+            {
 
-        //if (isPrisonerOnTile)
-        //{
-            //GameManager.Instance.PrisonerInstance.GetComponent<HungerHandler>().CurrentHunger -= 5;
-            //BattleLog("Prisoner won 10 mental health and lost 5 hunger due to victory.");
-        //}
+                currentBattleKeepers[i].GetComponent<AnimatedPawn>().Anim.SetTrigger("dance");
+
+            }
+        }
+
+        if (isPrisonerOnTile)
+        {
+            GameManager.Instance.PrisonerInstance.GetComponent<AnimatedPawn>().Anim.SetTrigger("dance");
+        }
 
         PrintResultsScreen(true);
         PostBattleCommonProcess();
@@ -526,6 +526,7 @@ public class BattleHandler {
         //        // BattleLog("Prisoner lost 10 mental health, 5 hunger, 10HP due to defeat.");
         //    }
         //}
+
 
         PrintResultsScreen(false);
         PostBattleCommonProcess();

@@ -39,7 +39,7 @@ namespace Behaviour
         bool isCameraUpdated = false;
         bool wasAgentActiveBeforeBattle = true;
 
-        float timerNeFaitRienPendantDixSeconde = Random.Range(10, 30);
+        float timerNeFaitRienPendantDixSeconde;
 
         void Awake()
         {
@@ -52,6 +52,7 @@ namespace Behaviour
             arrivingTrigger = Direction.None;
             fRotateSpeed = 5.0f;
             timerResetAgentDestinationDefault = 2.0f;
+            timerNeFaitRienPendantDixSeconde = Random.Range(10, 30);
         }
         void Update()
         {
@@ -126,7 +127,6 @@ namespace Behaviour
             {
                 timerNeFaitRienPendantDixSeconde -= Time.deltaTime;
             }
-            Debug.Log(timerNeFaitRienPendantDixSeconde);
 
             if (doesAgentNeedReset)
             {
