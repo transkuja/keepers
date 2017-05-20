@@ -25,8 +25,6 @@ public class DieBuilder : MonoBehaviour {
             currentFace.GetComponent<FaceComponent>().FaceData = dieToBuild.Faces[i - 1];
         }
 
-        
-
         dieInstance.transform.position = GameManager.Instance.ActiveTile.transform.position + position;
         return dieInstance;
     }

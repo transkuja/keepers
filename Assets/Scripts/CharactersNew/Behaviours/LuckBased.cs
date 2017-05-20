@@ -181,6 +181,9 @@ namespace Behaviour
 
         public SkillBattle HandleLuckForSkills(SkillBattle _skill)
         {
+            if (_skill.SkillName == "Attack")
+                return _skill;
+             
             int randDieForSkills = Random.Range(0, 3);
             if (_skill.SkillType == SkillType.Physical)
                 return physicalSkills[randDieForSkills];

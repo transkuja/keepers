@@ -16,6 +16,11 @@ public class ThrownDiceHandler : MonoBehaviour {
     Dictionary<PawnInstance, Face[]> throwResult = new Dictionary<PawnInstance, Face[]>();
     float timerAnimation = 0.0f;
     bool areDiceFeedbacksInitialized = false;
+    List<int> upFaceIndex = new List<int>();
+
+    [SerializeField]
+    float rollDiceAnimClip = 0.75f;
+    bool areDiceRotatedProperly = false;
 
     public void InitThrow()
     {
@@ -23,6 +28,7 @@ public class ThrownDiceHandler : MonoBehaviour {
         {
             GetComponent<UIBattleHandler>().ChangeState(UIBattleState.Actions);
             areDiceFeedbacksInitialized = false;
+            areDiceRotatedProperly = false;
             diceInstance.Clear();
             for (int i = 0; i < BattleHandler.CurrentBattleKeepers.Length; i++)
             {
@@ -42,9 +48,8 @@ public class ThrownDiceHandler : MonoBehaviour {
             }
 
             isRunning = true;
-
             throwResult = ComputeNotPhysicalResult();
-            
+
             //GetComponent<UIBattleHandler>().ChangeState(UIBattleState.DiceRolling);
         }
         else
@@ -72,9 +77,9 @@ public class ThrownDiceHandler : MonoBehaviour {
             {
                 int j = Random.Range(0, 5);
                 result[i] = diceForCurrentThrow[piDice][i].Faces[j];
-                // TODO: handle this with animations
-                diceInstance[piDice][i].GetComponentInChildren<Animator>().SetTrigger("startFace" + (j + 1) + "Anim");
-                //  RotateDie(diceInstance[piDice][i], j + 1);
+                //RotateDie(diceInstance[piDice][i], j+1);
+                diceInstance[piDice][i].GetComponentInChildren<Animator>().SetTrigger("startFace6Anim");
+                upFaceIndex.Add(j+1);
             }
             results.Add(piDice, result);
         }
@@ -84,34 +89,43 @@ public class ThrownDiceHandler : MonoBehaviour {
 
     private void RotateDie(GameObject dieToRotate, int upFace)
     {
+        dieToRotate.GetComponentInChildren<Animator>().enabled = false;
         if (upFace == (int)DieFaceChildren.Back)
         {
-           // dieToRotate.transform.Rotate(transform.forward, -90);
-            dieToRotate.GetComponent<Animator>().SetTrigger("startFaceBackAnim");
+            dieToRotate.transform.GetChild(0).localEulerAngles = new Vector3(0, 0, -90);
+            dieToRotate.transform.GetChild(0).localPosition -= dieToRotate.transform.GetChild(0).localPosition.y * Vector3.up;
         }
         else if (upFace == (int)DieFaceChildren.Front)
         {
-            //dieToRotate.transform.Rotate(transform.forward, 90);
-            dieToRotate.GetComponent<Animator>().SetTrigger("startFaceFrontAnim");
+            dieToRotate.transform.GetChild(0).localEulerAngles = new Vector3(0, 0, 90);
+            dieToRotate.transform.GetChild(0).localPosition -= dieToRotate.transform.GetChild(0).localPosition.y * Vector3.up;
         }
         else if (upFace == (int)DieFaceChildren.Left)
         {
-            //dieToRotate.transform.Rotate(transform.right, -90);
-            dieToRotate.GetComponent<Animator>().SetTrigger("startFaceLeftAnim");
+            dieToRotate.transform.GetChild(0).localEulerAngles = new Vector3(-90, 0, 0);
+            dieToRotate.transform.GetChild(0).localPosition -= dieToRotate.transform.GetChild(0).localPosition.y * Vector3.up;
+
+            //   dieToRotate.transform.GetChild(0).Rotate(transform.right, -90, Space.World);
         }
         else if (upFace == (int)DieFaceChildren.Right)
         {
-            //dieToRotate.transform.Rotate(transform.right, 90);
-            dieToRotate.GetComponent<Animator>().SetTrigger("startFaceRightAnim");
+            dieToRotate.transform.GetChild(0).localEulerAngles = new Vector3(90, 0, 0);
+            dieToRotate.transform.GetChild(0).localPosition -= dieToRotate.transform.GetChild(0).localPosition.y * Vector3.up;
+
+            //  dieToRotate.transform.GetChild(0).Rotate(transform.right, 90, Space.World);
         }
         else if (upFace == (int)DieFaceChildren.Down)
         {
-            //dieToRotate.transform.Rotate(transform.right, 180);
-            dieToRotate.GetComponent<Animator>().SetTrigger("startFaceDownAnim");
+            dieToRotate.transform.GetChild(0).localEulerAngles = new Vector3(180, 0, 0);
+            dieToRotate.transform.GetChild(0).localPosition -= dieToRotate.transform.GetChild(0).localPosition.y * Vector3.up;
+
+
+            //dieToRotate.transform.GetChild(0).Rotate(transform.right, 180, Space.World);
         }
         else
         {
-            dieToRotate.GetComponent<Animator>().SetTrigger("startFaceUpAnim");
+            dieToRotate.transform.GetChild(0).localEulerAngles = new Vector3(0, 0, 0);
+            dieToRotate.transform.GetChild(0).localPosition -= dieToRotate.transform.GetChild(0).localPosition.y * Vector3.up;
         }
     }
 
@@ -119,16 +133,32 @@ public class ThrownDiceHandler : MonoBehaviour {
     {
         if (isRunning)
         {
-            // TODO: replace the value by the dice rolling animation duration
-            if (timerAnimation < 1.0f)
+            if (timerAnimation >= rollDiceAnimClip/2.0f - 0.1f && !areDiceRotatedProperly)
+            {
+                foreach (PawnInstance piDice in diceForCurrentThrow.Keys)
+                {
+                    for (int i = 0; i < diceForCurrentThrow[piDice].Length; i++)
+                    {
+                        RotateDie(diceInstance[piDice][i], upFaceIndex[i]);
+                    }
+                }
+                areDiceRotatedProperly = true;
+            }
+
+            if (timerAnimation > rollDiceAnimClip / 2.0f)
             {
                 PopDiceFeedbacks();
+            }
+
+            // TODO: replace the value by the dice rolling animation duration
+            if (timerAnimation < rollDiceAnimClip/2.0f + 1.0f)
+            {
                 timerAnimation += Time.deltaTime;
             }
             else
             {
                 timerAnimation = 0.0f;
-                isRunning = false;
+                isRunning = false;               
                 SendDataToBattleHandler();
             }
         }
@@ -143,7 +173,7 @@ public class ThrownDiceHandler : MonoBehaviour {
         {
             for (int i = 0; i < throwResult[pi].Length; i++)
             {
-                diceInstance[pi][i].GetComponent<DieFeedback>().PopFeedback(throwResult[pi][i], pi);
+                diceInstance[pi][i].GetComponentInChildren<DieFeedback>().PopFeedback(throwResult[pi][i], pi);
             }
         }
         areDiceFeedbacksInitialized = true;
