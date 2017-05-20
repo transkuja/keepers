@@ -1,21 +1,21 @@
 fileFormatVersion: 2
 guid: b54aac9f81187614d9eda7b1424ab7a9
-timeCreated: 1495209669
+timeCreated: 1495296798
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Items_1000
+    21300000: Items_5
     21300002: Items_2
-    21300004: Items 1_2
-    21300006: Items 1_3
+    21300004: Items_4
+    21300006: Items_7
     21300008: Items 1_4
     21300010: Items_3
-    21300012: Items 1_6
+    21300012: Items_9
     21300014: Items 1_7
     21300016: Items_0
-    21300018: Items 1_9
+    21300018: Items_6
     21300020: Items_1
-    21300022: Items_5
+    21300022: Items_8
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -82,7 +82,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Items_1000
+      name: Items_5
       rect:
         serializedVersion: 2
         x: 31
@@ -108,7 +108,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Items 1_2
+      name: Items_4
       rect:
         serializedVersion: 2
         x: 172
@@ -121,7 +121,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Items 1_3
+      name: Items_7
       rect:
         serializedVersion: 2
         x: 26
@@ -160,7 +160,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Items 1_6
+      name: Items_9
       rect:
         serializedVersion: 2
         x: 30
@@ -176,7 +176,7 @@ TextureImporter:
       name: Items 1_7
       rect:
         serializedVersion: 2
-        x: 316
+        x: 314
         y: 275
         width: 107
         height: 117
@@ -189,7 +189,7 @@ TextureImporter:
       name: Items_0
       rect:
         serializedVersion: 2
-        x: 314
+        x: 316
         y: 401
         width: 109
         height: 114
@@ -199,7 +199,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Items 1_9
+      name: Items_6
       rect:
         serializedVersion: 2
         x: 168
@@ -225,7 +225,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Items_5
+      name: Items_8
       rect:
         serializedVersion: 2
         x: 310

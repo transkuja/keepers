@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 942c585a9b921ad488a0a7aeba733b70
+guid: fb6762b6e086d9e478a69f16039cd957
 timeCreated: 1494344930
 licenseType: Free
 ModelImporter:
@@ -9,7 +9,7 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: poisson_01
+    4300000: Asset_Ress_Coconut
     9500000: //RootNode
   materials:
     importMaterials: 1

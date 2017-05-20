@@ -1,37 +1,15 @@
 fileFormatVersion: 2
-guid: fe365d9400650d94ba516f8289a4e97a
+guid: 739e5be354b38ce4d8867f8974d205e9
 timeCreated: 1494344930
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
-    100000: Asset_epieBle_01
-    100002: Asset_epieBle_02
-    100004: Asset_epieBle_03
-    100006: Asset_epieBle_04
-    100008: Asset_epieBle_05
-    100010: //RootNode
-    400000: Asset_epieBle_01
-    400002: Asset_epieBle_02
-    400004: Asset_epieBle_03
-    400006: Asset_epieBle_04
-    400008: Asset_epieBle_05
-    400010: //RootNode
-    2300000: Asset_epieBle_01
-    2300002: Asset_epieBle_02
-    2300004: Asset_epieBle_03
-    2300006: Asset_epieBle_04
-    2300008: Asset_epieBle_05
-    3300000: Asset_epieBle_01
-    3300002: Asset_epieBle_02
-    3300004: Asset_epieBle_03
-    3300006: Asset_epieBle_04
-    3300008: Asset_epieBle_05
-    4300000: Asset_epieBle_01
-    4300002: Asset_epieBle_02
-    4300004: Asset_epieBle_03
-    4300006: Asset_epieBle_04
-    4300008: Asset_epieBle_05
+    100000: //RootNode
+    400000: //RootNode
+    2300000: //RootNode
+    3300000: //RootNode
+    4300000: Asset_Ress_Ananas
     9500000: //RootNode
   materials:
     importMaterials: 1

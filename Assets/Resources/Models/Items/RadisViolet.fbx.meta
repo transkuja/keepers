@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 71084208f16324e45a2601f950b969a5
+guid: 6e256a8af2f083445908bff626c06cfd
 timeCreated: 1494344930
 licenseType: Free
 ModelImporter:
@@ -9,7 +9,7 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: poisson_02
+    4300000: Asset_Ress_RadisViolet
     9500000: //RootNode
   materials:
     importMaterials: 1

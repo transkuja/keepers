@@ -121,6 +121,15 @@ public class ControlsManager : MonoBehaviour
                                 ui.UpdateActionPanelUIQ(hitInfo.collider.gameObject.GetComponent<ItemInstance>().InteractionImplementer);
                             }
                         }
+                        else if (clickTarget.transform.parent.GetComponent<ItemInstance>())
+                        {
+                            if (tileHit == keeperSelectedTile)
+                            {
+                                //To add if we want the keepers to move to the clicked object
+                                GameManager.Instance.GoTarget = hitInfo.collider.gameObject.GetComponentInParent<Interactable>();
+                                ui.UpdateActionPanelUIQ(hitInfo.collider.gameObject.GetComponentInParent<ItemInstance>().InteractionImplementer);
+                            }
+                        }
                         // Handle click on a ItemInstance
                         else if (clickTarget.GetComponent<LootInstance>() != null)
                         {

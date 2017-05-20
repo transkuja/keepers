@@ -42,7 +42,8 @@ public class GlowObjectCmd : MonoBehaviour
 	{
 		Renderers = GetComponentsInChildren<Renderer>();
         if (GetComponent<Monster>() == null)
-		    GlowController.RegisterObject(this);
+            GlowController.RegisterObject(this);
+
     }
 
     private void OnMouseEnter()
