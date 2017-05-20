@@ -78,7 +78,7 @@ public class dickMove : MonoBehaviour {
     {
         for (int i = 0; i < transform.childCount; i++)
         {
-            if (transform.GetChild(i).GetComponent<Behaviour.AnimatedPawn>() != null)
+            if (transform.GetChild(i).GetComponent<Behaviour.AnimatedPawn>() != null && transform.GetChild(i).GetComponent<Behaviour.AnimatedPawn>().Agent != null)
             {
                 transform.GetChild(i).GetComponent<Behaviour.AnimatedPawn>().Agent.SetDestination(new Vector3(transform.GetChild(i).localPosition.x, transform.GetChild(i).localPosition.y, destination2.localPosition.z));
 
