@@ -78,6 +78,7 @@ public class MenuManager : MonoBehaviour {
                 // Instanciation des cartes de level
                 GameObject goCardLevel = Instantiate(prefabLevelCard, goDeck.transform);
                 goCardLevel.transform.localPosition = Vector3.zero;
+                goCardLevel.transform.localRotation = GoDeck.transform.GetChild(0).rotation;
                 goCardLevel.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = leveldb.listLevels[i].name;
                 switch (leveldb.listLevels[i].difficulty){
 
