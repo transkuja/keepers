@@ -177,7 +177,6 @@ namespace Behaviour
                 //GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().SkillName.SetActive(false);
                 
                 BattleHandler.IsWaitingForSkillEnd = false;
-            Debug.Log("tiens");
 
             //}
             if (GetComponent<Mortal>().CurrentHp <= 0)

@@ -365,7 +365,13 @@ public class SkillBattle {
             BattleHandler.ExpectedAnswers = BattleHandler.CurrentBattleMonsters.Length;
             if (battleAnimation != null)
             {
-                battleAnimation.GetComponent<IBattleAnimation>().SetTargets(BattleHandler.CurrentBattleMonsters);
+                List<PawnInstance> targets = new List<PawnInstance>();
+                foreach(PawnInstance m in BattleHandler.CurrentBattleMonsters)
+                {
+                    if (m.GetComponent<Mortal>().CurrentHp > 0)
+                        targets.Add(m);
+                }
+                battleAnimation.GetComponent<IBattleAnimation>().SetTargets(targets.ToArray());
                 BattleHandler.CurrentSkillAnimDuration = battleAnimation.GetComponent<IBattleAnimation>().GetAnimationTime();
                 battleAnimation.GetComponent<IBattleAnimation>().Play();
             }
@@ -386,6 +392,13 @@ public class SkillBattle {
             BattleHandler.ExpectedAnswers = BattleHandler.CurrentBattleKeepers.Length;
             if (battleAnimation != null)
             {
+                List<PawnInstance> targets = new List<PawnInstance>();
+                foreach (PawnInstance k in BattleHandler.CurrentBattleKeepers)
+                {
+                    if (k.GetComponent<Mortal>().CurrentHp <= 0)
+                        targets.Add(k);
+                }
+                battleAnimation.GetComponent<IBattleAnimation>().SetTargets(targets.ToArray());
                 battleAnimation.GetComponent<IBattleAnimation>().SetTargets(BattleHandler.CurrentBattleKeepers);
                 BattleHandler.CurrentSkillAnimDuration = battleAnimation.GetComponent<IBattleAnimation>().GetAnimationTime();
                 battleAnimation.GetComponent<IBattleAnimation>().Play();
