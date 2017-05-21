@@ -81,27 +81,18 @@ public class SeqMoraleExplained : Sequence {
         }
 
 
-
-        foreach (PawnInstance pi in TileManager.Instance.KeepersOnTile[GameManager.Instance.ActiveTile])
-
+        if (isLaunchedDuringASnowEvent)
         {
-
-            if(pi.GetComponent<Behaviour.MentalHealthHandler>()!= null)
-
-            pi.GetComponent<Behaviour.MentalHealthHandler>().CurrentMentalHealth -= 5;
-
+            foreach (PawnInstance pi in TileManager.Instance.KeepersOnTile[GameManager.Instance.ActiveTile])
+            {
+                if (pi.GetComponent<Behaviour.MentalHealthHandler>() != null)
+                    pi.GetComponent<Behaviour.MentalHealthHandler>().CurrentMentalHealth -= 5;
+            }
         }
 
-
-
-
-
         EventManager.HandleWeather();
-
         TutoManager.s_instance.GetComponent<SeqMoraleExplained>().AlreadyPlayed = true;
-
         TutoManager.s_instance.PlayingSequence = null;
-
     }
 
 }
