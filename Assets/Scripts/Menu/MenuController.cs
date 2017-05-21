@@ -45,11 +45,6 @@ public class MenuController : MonoBehaviour {
 
     public void MenuControls()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Application.Quit();
-        }
-
         // TMP
         //if (!menuManager.DuckhavebringThebox && !oncePressR)
         //{
