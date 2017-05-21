@@ -962,16 +962,19 @@ public class GameManager : MonoBehaviour
         }
 
         // Pause monsters
-        foreach (Tile tile in tileManagerReference.MonstersOnTile.Keys)
+        if (tileManagerReference != null)
         {
-            List<PawnInstance> monsterList = tileManagerReference.MonstersOnTile[tile];
-            foreach (PawnInstance pi in monsterList)
+            foreach (Tile tile in tileManagerReference.MonstersOnTile.Keys)
             {
-                NavMeshAgent currentAgent = pi.GetComponent<NavMeshAgent>();
-                if (currentAgent != null && currentAgent.isActiveAndEnabled)
+                List<PawnInstance> monsterList = tileManagerReference.MonstersOnTile[tile];
+                foreach (PawnInstance pi in monsterList)
                 {
-                    currentAgent.Stop();
-                    pausedAgents.Add(currentAgent);
+                    NavMeshAgent currentAgent = pi.GetComponent<NavMeshAgent>();
+                    if (currentAgent != null && currentAgent.isActiveAndEnabled)
+                    {
+                        currentAgent.Stop();
+                        pausedAgents.Add(currentAgent);
+                    }
                 }
             }
         }

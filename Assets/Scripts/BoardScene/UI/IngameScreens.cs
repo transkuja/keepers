@@ -45,10 +45,13 @@ public class IngameScreens : MonoBehaviour {
     {
         if (GameManager.Instance.CurrentState == GameState.Normal)
         {
-            pauseMenu.transform.SetParent(GameManager.Instance.Ui.transform.GetChild(0));
-            pauseMenu.transform.SetAsLastSibling();
-            optionsMenu.transform.SetParent(GameManager.Instance.Ui.transform.GetChild(0));
-            optionsMenu.transform.SetAsLastSibling();
+            if (GameManager.Instance.Ui != null && GameManager.Instance.Ui.gameObject.activeSelf)
+            {
+                pauseMenu.transform.SetParent(GameManager.Instance.Ui.transform.GetChild(0));
+                pauseMenu.transform.SetAsLastSibling();
+                optionsMenu.transform.SetParent(GameManager.Instance.Ui.transform.GetChild(0));
+                optionsMenu.transform.SetAsLastSibling();
+            }
             pauseMenu.SetActive(true);
             GameManager.Instance.CurrentState = GameState.InPause;
         }
@@ -57,10 +60,13 @@ public class IngameScreens : MonoBehaviour {
             if (pauseMenu.activeInHierarchy)
             {
                 pauseMenu.SetActive(false);
-                pauseMenu.transform.SetParent(transform.GetChild(0));
-                pauseMenu.transform.SetSiblingIndex((int)IngameScreensEnum.EscapeMenu);
-                optionsMenu.transform.SetParent(transform.GetChild(0));
-                optionsMenu.transform.SetSiblingIndex((int)IngameScreensEnum.OptionsMenu);
+                if (GameManager.Instance.Ui != null && GameManager.Instance.Ui.gameObject.activeSelf)
+                {
+                    pauseMenu.transform.SetParent(transform.GetChild(0));
+                    pauseMenu.transform.SetSiblingIndex((int)IngameScreensEnum.EscapeMenu);
+                    optionsMenu.transform.SetParent(transform.GetChild(0));
+                    optionsMenu.transform.SetSiblingIndex((int)IngameScreensEnum.OptionsMenu);
+                }
                 transform.GetChild(0).GetChild((int)IngameScreensEnum.BattleResultScreens).gameObject.SetActive(false);
                 GameManager.Instance.CurrentState = GameState.Normal;
             }
@@ -70,17 +76,23 @@ public class IngameScreens : MonoBehaviour {
             if (pauseMenu.activeInHierarchy)
             {
                 pauseMenu.SetActive(false);
-                pauseMenu.transform.SetParent(transform.GetChild(0));
-                pauseMenu.transform.SetSiblingIndex((int)IngameScreensEnum.EscapeMenu);
-                optionsMenu.transform.SetParent(transform.GetChild(0));
-                optionsMenu.transform.SetSiblingIndex((int)IngameScreensEnum.OptionsMenu);
+                if (GameManager.Instance.Ui != null && GameManager.Instance.Ui.gameObject.activeSelf)
+                {
+                    pauseMenu.transform.SetParent(transform.GetChild(0));
+                    pauseMenu.transform.SetSiblingIndex((int)IngameScreensEnum.EscapeMenu);
+                    optionsMenu.transform.SetParent(transform.GetChild(0));
+                    optionsMenu.transform.SetSiblingIndex((int)IngameScreensEnum.OptionsMenu);
+                }
             }
             else
             {
-                pauseMenu.transform.SetParent(GameManager.Instance.Ui.transform.GetChild(0));
-                pauseMenu.transform.SetAsLastSibling();
-                optionsMenu.transform.SetParent(GameManager.Instance.Ui.transform.GetChild(0));
-                optionsMenu.transform.SetAsLastSibling();
+                if (GameManager.Instance.Ui != null && GameManager.Instance.Ui.gameObject.activeSelf)
+                {
+                    pauseMenu.transform.SetParent(GameManager.Instance.Ui.transform.GetChild(0));
+                    pauseMenu.transform.SetAsLastSibling();
+                    optionsMenu.transform.SetParent(GameManager.Instance.Ui.transform.GetChild(0));
+                    optionsMenu.transform.SetAsLastSibling();
+                }
                 pauseMenu.SetActive(true);
             }
         }
@@ -94,10 +106,13 @@ public class IngameScreens : MonoBehaviour {
     public void BackToMenu()
     {
         pauseMenu.SetActive(false);
-        pauseMenu.transform.SetParent(transform.GetChild(0));
-        pauseMenu.transform.SetSiblingIndex((int)IngameScreensEnum.EscapeMenu);
-        optionsMenu.transform.SetParent(transform.GetChild(0));
-        optionsMenu.transform.SetSiblingIndex((int)IngameScreensEnum.OptionsMenu);
+        if (GameManager.Instance.Ui != null && GameManager.Instance.Ui.gameObject.activeSelf)
+        {
+            pauseMenu.transform.SetParent(transform.GetChild(0));
+            pauseMenu.transform.SetSiblingIndex((int)IngameScreensEnum.EscapeMenu);
+            optionsMenu.transform.SetParent(transform.GetChild(0));
+            optionsMenu.transform.SetSiblingIndex((int)IngameScreensEnum.OptionsMenu);
+        }
 
         if (GameManager.Instance.CurrentState == GameState.InTuto && TutoManager.s_instance.PlayingSequence != null)
         {
