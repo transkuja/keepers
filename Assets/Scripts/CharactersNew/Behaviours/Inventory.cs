@@ -81,7 +81,7 @@ namespace Behaviour
             foreach (string _IdItem in possibleItems)
             {
                 it = GameManager.Instance.ItemDataBase.getItemById(_IdItem);
-                if (GetComponent<Monster>() != null && GetComponent<Monster>().GetMType == MonsterType.Prey)
+                if (GetComponent<Monster>() != null && GetComponent<Monster>().GetMType != MonsterType.Common)
                 {
                     tmpItems.Add(new ItemContainer(it, 1));
                     computedNbSlots++;
