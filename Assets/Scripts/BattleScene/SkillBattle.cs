@@ -365,13 +365,23 @@ public class SkillBattle {
             BattleHandler.ExpectedAnswers = BattleHandler.CurrentBattleMonsters.Length;
             if (battleAnimation != null)
             {
-                List<PawnInstance> targets = new List<PawnInstance>();
-                foreach(PawnInstance m in BattleHandler.CurrentBattleMonsters)
+                if(battleAnimation.GetComponent<IBattleAnimation>().GetTargetType() == TargetType.FoeSingle)
                 {
-                    if (m.GetComponent<Mortal>().CurrentHp > 0)
-                        targets.Add(m);
+                    List<PawnInstance> target = new List<PawnInstance>();
+                    target.Add(BattleHandler.CurrentBattleMonsters[0]);
+                    battleAnimation.GetComponent<IBattleAnimation>().SetTargets(target.ToArray());
                 }
-                battleAnimation.GetComponent<IBattleAnimation>().SetTargets(targets.ToArray());
+                else
+                {
+                    List<PawnInstance> targets = new List<PawnInstance>();
+                    foreach (PawnInstance m in BattleHandler.CurrentBattleMonsters)
+                    {
+                        if (m.GetComponent<Mortal>().CurrentHp > 0)
+                            targets.Add(m);
+                    }
+                    battleAnimation.GetComponent<IBattleAnimation>().SetTargets(targets.ToArray());
+                }
+                
                 BattleHandler.CurrentSkillAnimDuration = battleAnimation.GetComponent<IBattleAnimation>().GetAnimationTime();
                 battleAnimation.GetComponent<IBattleAnimation>().Play();
             }

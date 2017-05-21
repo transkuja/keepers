@@ -32,7 +32,7 @@ public class ParticlesBattleAnimation : MonoBehaviour, IBattleAnimation {
             {
                 audioSource.Play();
             }
-            Destroy(ps.gameObject, duration);
+            Destroy(ps.gameObject, duration*3);
         }
         
     }
