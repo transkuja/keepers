@@ -87,5 +87,11 @@ public class SpriteUIUtils : MonoBehaviour {
     public Sprite spriteEasy;
     public Sprite spriteMedium;
     public Sprite spriteHard;
+
+    [Header("Win Screens")]
+    public Sprite level1;
+    public Sprite level2;
+    public Sprite level3;
+    
 }
 
