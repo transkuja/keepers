@@ -63,6 +63,7 @@ namespace Behaviour
         {
 
             goQuest.transform.GetChild(goQuest.transform.childCount - 1).GetComponent<Text>().text = QuestToGive.Information.Title;
+            //if(GameManager.Instance.GetFirstSelectedKeeper().Data.PawnId == "lucky")
             goQuest.transform.GetChild(goQuest.transform.childCount - 2).GetComponentInChildren<Text>().text = QuestToGive.Information.Dialog;
             goQuest.transform.GetChild(goQuest.transform.childCount - 2).GetComponent<ScrollRect>().verticalNormalizedPosition = 1f;
             Button validate = goQuest.transform.GetChild(goQuest.transform.childCount - 3).GetComponent<Button>();
@@ -160,8 +161,16 @@ namespace Behaviour
             if (GetComponent<PawnInstance>().Data.PawnId.Contains("duck") && GameManager.Instance.ListOfSelectedKeepers.Count > 0 
                 && !GameManager.Instance.GetFirstSelectedKeeper().Data.Behaviours[(int)BehavioursEnum.CanSpeak])
             {
-                goQuest.transform.GetChild(goQuest.transform.childCount - 2).GetComponentInChildren<Text>().text =
-                    "Quack? Quack! Quack quack quack.\n-Woof? Waf woof waf!\n-Quack !\n*Lupus and the mommy duck start to dance happily* ";
+                if(GameManager.Instance.GetFirstSelectedKeeper().Data.PawnId == "lucky")
+                {
+                    goQuest.transform.GetChild(goQuest.transform.childCount - 2).GetComponentInChildren<Text>().text =
+                        "Quack? Quack! Quack quack quack.\n-Meow? meow mew meow!\n-Quack !\n*Both cats and the mommy duck start to dance happily* ";
+                } else
+                {
+                    goQuest.transform.GetChild(goQuest.transform.childCount - 2).GetComponentInChildren<Text>().text =
+                        "Quack? Quack! Quack quack quack.\n-Woof? Waf woof waf!\n-Quack !\n*The dog and the mommy duck start to dance happily* ";
+                }
+
                 AudioManager.Instance.PlayDuckChatting();
             }
             goQuest.SetActive(true);

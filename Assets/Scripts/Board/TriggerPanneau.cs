@@ -31,7 +31,14 @@ public class TriggerPanneau : MonoBehaviour {
             }
             else
             {
-                goPanneau.GetComponentInChildren<Text>().text = "Ouaf Aou Ahouahou Wouf Wuf wuf Wouaf Wouaf Wuah Whaf Whouaf";
+                if ( ki.Data.PawnId == "lucky")
+                {
+                    goPanneau.GetComponentInChildren<Text>().text = "Meow Meow Mew Mew Miaow";
+                } else
+                {
+                    goPanneau.GetComponentInChildren<Text>().text = "Ouaf Aou Ahouahou Wouf Wuf wuf Wouaf Wouaf Wuah Whaf Whouaf";
+                }
+
             }
         }
     }

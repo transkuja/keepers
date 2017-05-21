@@ -50,7 +50,25 @@ public class HintWoman : MonoBehaviour {
         if (GameManager.Instance.ListOfSelectedKeepers.Count > 0)
         {
             if (!GameManager.Instance.GetFirstSelectedKeeper().Data.Behaviours[(int)BehavioursEnum.CanSpeak])
-                goHint.transform.GetChild(3).GetComponentInChildren<Text>().text = "What a nice dog! You're so fluffy! *The mysterious woman pats Lupus' head gently*";
+            {
+                if (GameManager.Instance.GetFirstSelectedKeeper().Data.PawnId == "lucky")
+                {
+                    int i = Random.Range(0, 1);
+                    if( i == 1)
+                    {
+                        goHint.transform.GetChild(3).GetComponentInChildren<Text>().text = "What a lovely cat !!!";
+                    } else
+                    {
+                        goHint.transform.GetChild(3).GetComponentInChildren<Text>().text = "This cat freaks me out.";
+                    }
+                } else
+                {
+                    goHint.transform.GetChild(3).GetComponentInChildren<Text>().text = "What a nice dog! You're so fluffy! *The mysterious woman pats the dog's head gently*";
+                }
+
+
+            }
+
             GameManager.Instance.Ui.goContentQuestParent.SetActive(true);
             OpenBox();
         }
