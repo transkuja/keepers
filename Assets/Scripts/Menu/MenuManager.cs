@@ -63,7 +63,7 @@ public class MenuManager : MonoBehaviour {
         menuUi = GetComponent<MenuUI>();
         hasBeenInit = false;
         menuUi.UpdateStartButton();
-        
+        Cursor.SetCursor(GameManager.Instance.Texture2DUtils.iconeMouse, Vector2.zero, CursorMode.Auto);
     }
 
     public void InitCards()
