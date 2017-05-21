@@ -30,9 +30,9 @@ public class SeqMoraleExplained : Sequence {
 
 
 
-        Etapes.Add(new TutoManager.Message(pawnMrResetti, "Your characters' mood can be altered by certain things."));
+        Etapes.Add(new TutoManager.Message(pawnMrResetti, "Your characters' mood can be altered by certain events."));
 
-        Etapes.Add(new TutoManager.Message(pawnMrResetti, "Arriving at an unwelcoming area is one example, it can lower your characters' mood."));
+        Etapes.Add(new TutoManager.Message(pawnMrResetti, "Arriving at an unwelcoming area, for example, can lower your characters' mood."));
 
 
 
@@ -48,7 +48,7 @@ public class SeqMoraleExplained : Sequence {
 
 
 
-        Etapes.Add(new TutoManager.Message(pawnMrResetti, "	Characters can cheer each other up by using the chat action."));
+        Etapes.Add(new TutoManager.Message(pawnMrResetti, "Characters can cheer each other up by using the Talk action."));
 
     }
 

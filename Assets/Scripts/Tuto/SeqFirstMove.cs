@@ -502,8 +502,8 @@ public class SeqFirstMove : Sequence {
 
         Etapes.Add(new TutoManager.Message(pawnMrResetti, "Ending your turn ends the day,")); // Activate hunger panel + feedback pointer
         Etapes.Add(new AddHungerStep("but your characters get hungry in the morning, so be careful!"));
-        Etapes.Add(new TutoManager.Message(pawnMrResetti, "Remember that cookie I gave you ? (I am such a nice person)"));
-        Etapes.Add(new UseAnObjectStep("Eat it by double clicking on it to satisfy your selected character's hunger.")); // Activate inventory and add a cookie in to be used
+        Etapes.Add(new TutoManager.Message(pawnMrResetti, "Remember that cookie I gave you ?"));
+        Etapes.Add(new UseAnObjectStep("Eat it by double clicking on it to satisfy your selected character's appetite.")); // Activate inventory and add a cookie in to be used
 
         Etapes.Add(new TutoManager.Message(pawnMrResetti, "Great! You should now be able to finish this level. Good luck!"));
     }
