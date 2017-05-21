@@ -15,7 +15,7 @@ public class BoxOpenerControls : MonoBehaviour {
 
     public void OnMouseDown()
     {
-        if(! box.BoxIsReady && menuManager.DuckhavebringThebox)
+        if(!box.BoxIsReady && menuManager.DuckhavebringThebox)
         box.BoxControls();
     }
 

@@ -86,10 +86,18 @@ public class dickMove : MonoBehaviour {
             }
 
         }
+        Invoke("DestroyMe", 2.0f);
     }
 
     public void SaySomething()
     {
         chatte.Say(ChatBox.ChatMode.whoAmI, 6);
+    }
+
+    public void DestroyMe()
+    {
+        MeshRenderer[] mrs = GetComponentsInChildren<MeshRenderer>();
+        for (int i = 0; i < mrs.Length; i++)
+            mrs[i].enabled = false;
     }
 }

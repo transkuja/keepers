@@ -225,7 +225,7 @@
 			"canSpeak" : "false",
 			"morfale" : "false",
 			"gaga" : "false",
-			"explorateur" : "true",
+			"explorateur" : "false",
 			"sensible" : "false",
 			"archer" : "false",
 			"stinks" : "false",
