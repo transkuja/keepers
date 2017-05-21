@@ -58,6 +58,7 @@ namespace Behaviour
         int pendingDamage = 0;
         bool isWaitingForSkillPanelToClose = false;
         float showSkillPanelTimer = 0.5f;
+        float showFeedbackTimer = -1.0f;
 
         SkillDecisionAlgo skillDecisionAlgo;
         List<BattleBoeuf> effectiveBoeufs = new List<BattleBoeuf>();
@@ -122,7 +123,11 @@ namespace Behaviour
             {
                 if (isWaitingForDmgFeedback)
                 {
-                    if(BattleHandler.CurrentSkillAnimDuration < 0.0f)
+                    if (showFeedbackTimer == -1.0f)
+                    {
+                        showFeedbackTimer = BattleHandler.CurrentSkillAnimDuration;
+                    }
+                    if (showFeedbackTimer < 0.0f)
                     {
                         GetComponent<PawnInstance>().AddFeedBackToQueue(-pendingDamage);
                         GetComponent<Mortal>().CurrentHp -= pendingDamage;
@@ -132,7 +137,7 @@ namespace Behaviour
                     }
                     else
                     {
-                        BattleHandler.CurrentSkillAnimDuration -= Time.deltaTime;
+                        showFeedbackTimer -= Time.deltaTime;
                     }
                     
                 }
@@ -165,6 +170,7 @@ namespace Behaviour
         public void EndSkillProcess()
         {
             showSkillPanelTimer = 0.5f;
+            showFeedbackTimer = -1.0f;
             isWaitingForSkillPanelToClose = false;
             //if (BattleHandler.PendingSkill != null)
             //{
