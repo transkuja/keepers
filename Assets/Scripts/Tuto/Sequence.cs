@@ -170,10 +170,10 @@ public abstract class Sequence : MonoBehaviour
 
             GameManager.Instance.PersistenceLoader.SetLevelUnlocked("4", true);
             GameManager.Instance.PersistenceLoader.SetLevelUnlocked("2", true);
-            GameManager.Instance.PersistenceLoader.SetLevelUnlocked("1", false);
+            GameManager.Instance.PersistenceLoader.SetLevelUnlocked("1", true);
             GameManager.Instance.PersistenceLoader.Pd.dicPersistenceLevels["4"] = true;
             GameManager.Instance.PersistenceLoader.Pd.dicPersistenceLevels["2"] = true;
-            GameManager.Instance.PersistenceLoader.Pd.dicPersistenceLevels["1"] = false;
+            GameManager.Instance.PersistenceLoader.Pd.dicPersistenceLevels["1"] = true;
 
             GameManager.Instance.PersistenceLoader.SetEventUnlocked("1", true);
             GameManager.Instance.PersistenceLoader.SetEventUnlocked("2", true);
@@ -183,10 +183,10 @@ public abstract class Sequence : MonoBehaviour
             GameManager.Instance.PersistenceLoader.Pd.dicPersistenceEvents["3"] = true;
 
             GameManager.Instance.PersistenceLoader.SetDeckUnlocked("deck_04", true);
-            GameManager.Instance.PersistenceLoader.SetDeckUnlocked("deck_01", false);
+            GameManager.Instance.PersistenceLoader.SetDeckUnlocked("deck_01", true);
             GameManager.Instance.PersistenceLoader.SetDeckUnlocked("deck_02", true);
             GameManager.Instance.PersistenceLoader.Pd.dicPersistenceDecks["deck_04"] = true;
-            GameManager.Instance.PersistenceLoader.Pd.dicPersistenceDecks["deck_01"] = false;
+            GameManager.Instance.PersistenceLoader.Pd.dicPersistenceDecks["deck_01"] = true;
             GameManager.Instance.PersistenceLoader.Pd.dicPersistenceDecks["deck_02"] = true;
         }
     }

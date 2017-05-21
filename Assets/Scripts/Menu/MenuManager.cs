@@ -379,6 +379,29 @@ public class MenuManager : MonoBehaviour {
                 GameObject.Destroy(gc.Value.gameObject);
             }
         }
+        Debug.Log(cardLevelSelected);
+        if (cardLevelSelected == 1)
+        {
+            GameManager.Instance.PersistenceLoader.SetPawnUnlocked("swag", false);
+            GameManager.Instance.PersistenceLoader.Pd.dicPersistencePawns["swag"] = false;
+
+            GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqfirstmove"] = false;
+            GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqtutocombat"] = false;
+            GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqmulticharacters"] = false;
+            GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqmoraleexplained"] = false;
+            GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqlowhunger"] = false;
+            GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqlowmorale"] = false;
+            GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqashleylowhunger"] = false;
+            GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqashleyescort"] = false;
+            GameManager.Instance.PersistenceLoader.SetSequenceUnlocked("seqfirstmove", false);
+            GameManager.Instance.PersistenceLoader.SetSequenceUnlocked("seqtutocombat", false);
+            GameManager.Instance.PersistenceLoader.SetSequenceUnlocked("seqmulticharacters", false);
+            GameManager.Instance.PersistenceLoader.SetSequenceUnlocked("seqmoraleexplained", false);
+            GameManager.Instance.PersistenceLoader.SetSequenceUnlocked("seqlowhunger", false);
+            GameManager.Instance.PersistenceLoader.SetSequenceUnlocked("seqlowmorale", false);
+            GameManager.Instance.PersistenceLoader.SetSequenceUnlocked("seqashleylowhunger", false);
+            GameManager.Instance.PersistenceLoader.SetSequenceUnlocked("seqashleyescort", false);
+        }
 
         GameManager.Instance.DeckSelected = DeckOfCardsSelected;
 

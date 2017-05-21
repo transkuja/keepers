@@ -1,9 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-
 
 /// <summary>
 /// Used to identify game screens in scene.
@@ -17,6 +16,22 @@ public class IngameScreens : MonoBehaviour {
     {
         instance = this;
         GameManager.Instance.RegisterGameScreens(this);
+
+        if (!SceneManager.GetActiveScene().name.Contains("Menu"))
+        {
+            switch (GameManager.Instance.QuestManager.CurrentQuestDeck.LevelId)
+            {
+                case "tuto":
+                    transform.GetChild(0).GetChild((int)IngameScreensEnum.WinScreen).GetComponentInChildren<Image>().sprite = GameManager.Instance.SpriteUtils.level1;
+                    break;
+                case "level1":
+                    transform.GetChild(0).GetChild((int)IngameScreensEnum.WinScreen).GetComponentInChildren<Image>().sprite = GameManager.Instance.SpriteUtils.level2;
+                    break;
+                case "level4":
+                    transform.GetChild(0).GetChild((int)IngameScreensEnum.WinScreen).GetComponentInChildren<Image>().sprite = GameManager.Instance.SpriteUtils.level3;
+                    break;
+            }
+        }
     }
 
     public static IngameScreens Instance
