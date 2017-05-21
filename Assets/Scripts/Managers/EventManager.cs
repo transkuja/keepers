@@ -8,18 +8,7 @@ using UnityEngine;
 
 using UnityEngine.Events;
 
-
-
-
-
-
-
 public class EventManager : MonoBehaviour {
-
-
-
-
-
 
 
     // Lister tous les types d'évènements.
@@ -33,98 +22,41 @@ public class EventManager : MonoBehaviour {
     // Ex: Jean-Louis le loup meurt -> Dans sa fonction de mort : Eventmanager.OnMonsterDie(this)
 
 
-
-
-
-
-
     public delegate void DefaultEvent();
-
-
 
     public delegate void MonsterEvent(Monster m);
 
-
-
     public delegate void KeeperEvent(Keeper k);
-
-
 
     public delegate void PrisonerEvent(Prisoner p);
 
-
-
     public delegate void AnimatedPawnEvent(AnimatedPawn ap);
 
-
-
     public delegate void PawnInstanceEvent(PawnInstance pi);
-
-
 
     public delegate void ItemEvent(ItemInstance ii);
 
     public delegate void PawnMoveOnTile(PawnInstance pi, Tile ti);
 
-
-
-
     public static MonsterEvent OnMonsterDie;
-
-
 
     public static KeeperEvent OnKeeperDie;
 
-
-
     public static ItemEvent OnHarvest;
-
-
 
     public static ItemEvent OnPickUp;
 
     public static PawnMoveOnTile OnPawnMove;
 
-
-
-
-
-
     public static int nbDayInWeek = 7;
-
-
 
     public static int nbDayInMonth = 20;
 
-
-
-
-
-
-
     private static float weatherFrequency = 50.0f;
-
-
-
-
-
-
 
     public static int hungerPenalty = 25;
 
-
-
-
-
-
-
     //private static short actionPointsResetValue = 3;
-
-
-
-
-
-
 
     public static void EndTurnEvent()
 
@@ -147,8 +79,6 @@ public class EventManager : MonoBehaviour {
         GameManager.Instance.Ui.ClearUiOnTurnEnding();
 
     }
-
-
 
     private static void DecreaseMentalHealth()
 
@@ -311,12 +241,6 @@ public class EventManager : MonoBehaviour {
 
 
     }
-
-
-
-
-
-
 
     private static void IncreaseHunger()
 
@@ -520,12 +444,6 @@ public class EventManager : MonoBehaviour {
 
     }
 
-
-
-
-
-
-
     private static void ResetActionPointsForNextTurn()
     {
         foreach (PawnInstance ki in GameManager.Instance.AllKeepersList)
@@ -537,12 +455,6 @@ public class EventManager : MonoBehaviour {
                 ki.GetComponent<Keeper>().ActionPoints = ki.GetComponent<Keeper>().Data.MaxActionPoint;
         }
     }
-
-
-
-
-
-
 
     public static void ApplyEndTurnHungerPenalty()
 
@@ -606,12 +518,6 @@ public class EventManager : MonoBehaviour {
 
     }
 
-
-
-
-
-
-
     public static void ApplyEndTurnMentalHealthPenalty()
 
 
@@ -639,18 +545,8 @@ public class EventManager : MonoBehaviour {
 
     }
 
-
-
-
-
-
-
     public static void HandleWeather()
-
-
     {
-
-
         if (GameManager.Instance.ListEventSelected.Count <= 0)
 
 
@@ -680,52 +576,20 @@ public class EventManager : MonoBehaviour {
 
     }
 
-
-
-
-
-
-
     public static void HandleWeather(Tile currentTile, bool wasJustDiscoveredByAKeeper)
-
-
-
     {
 
-
-
         if (GameManager.Instance.ListEventSelected.Count <= 0)
-
-
-
             return;
 
 
-
-
-
-
-
         // Snow events
-
-
-
         if (GameManager.Instance.ListEventSelected.Contains("1"))
-
-
 
         {
 
-
-
             if (GameManager.Instance.NbTurn % nbDayInMonth < 5)
-
-
-
             {
-
-
-
                 if ((currentTile.Type == TileType.Snow || currentTile.Type == TileType.Forest) && currentTile.State == TileState.Discovered)
 
 
@@ -950,7 +814,7 @@ public class EventManager : MonoBehaviour {
 
 
 
-                        if (climat != null)
+                        if (climat != null && currentTile.GetComponentInChildren<nagePetitPoisson>() != null)
 
 
 
@@ -1235,8 +1099,6 @@ public class EventManager : MonoBehaviour {
 
 
     }
-
-
 
 }
 
