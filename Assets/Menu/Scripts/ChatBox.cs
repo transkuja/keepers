@@ -40,8 +40,9 @@ public class ChatBox : MonoBehaviour {
     public float fShowLength = 3;
     public float fDelayMin, fDelayMax;
     public float fScaleSpeed = 10;
-
-	// Use this for initialization
+    string[] lupusTexts = { "Wouf!", "Waf Wouf!", "Wouuuf?" };
+    string[] luckyTexts = { "Mew!", "Mew Mew!", "Meooooow?" };
+    // Use this for initialization
 
     public void Start()
     {
@@ -75,7 +76,12 @@ public class ChatBox : MonoBehaviour {
                     if (fTimer <= 0)
                     {
                         //txt.text = tabEmotes[(int)mode][Random.Range(0, tabEmotes[(int)mode].Count)];
-                        txt.text = ChatBoxDatabase.tabEmotes[(int)mode][Random.Range(0, ChatBoxDatabase.tabEmotes[(int)mode].Count)];
+                        if (trTarget.name.Contains("Lupus"))
+                            txt.text = lupusTexts[Random.Range(0, 3)];
+                        else if (trTarget.name.Contains("Kitties"))
+                            txt.text = luckyTexts[Random.Range(0, 3)];
+                        else
+                            txt.text = ChatBoxDatabase.tabEmotes[(int)mode][Random.Range(0, ChatBoxDatabase.tabEmotes[(int)mode].Count)];
 
                         TriggerScale();
                     }
@@ -197,14 +203,24 @@ public class ChatBox : MonoBehaviour {
 
     public void Say(ChatBox.ChatMode mode)
     {
-        txt.text = ChatBoxDatabase.tabEmotes[(int)mode][Random.Range(0, ChatBoxDatabase.tabEmotes[(int)mode].Count)];
+        if (trTarget.name.Contains("Lupus"))
+            txt.text = lupusTexts[Random.Range(0, 3)];
+        else if (trTarget.name.Contains("Kitties"))
+            txt.text = luckyTexts[Random.Range(0, 3)];
+        else
+            txt.text = ChatBoxDatabase.tabEmotes[(int)mode][Random.Range(0, ChatBoxDatabase.tabEmotes[(int)mode].Count)];
         //transform.SetAsFirstSibling();
         TriggerScale();
     }
 
     public void Say(ChatBox.ChatMode mode , int i)
     {
-        txt.text = ChatBoxDatabase.tabEmotes[(int)mode][i];
+        if (trTarget.name.Contains("Lupus"))
+            txt.text = lupusTexts[Random.Range(0, 3)];
+        else if (trTarget.name.Contains("Kitties"))
+            txt.text = luckyTexts[Random.Range(0, 3)];
+        else
+            txt.text = ChatBoxDatabase.tabEmotes[(int)mode][i];
         //transform.SetAsFirstSibling();
         TriggerScale();
     }
