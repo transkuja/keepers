@@ -7,6 +7,7 @@ public class BoxOpener : MonoBehaviour {
     private bool isBoxOpen;
     private bool boxIsReady;
     private MenuManager menuManager;
+    private MenuController menuController;
     private MenuUI menuUi;
 
 
@@ -85,6 +86,7 @@ public class BoxOpener : MonoBehaviour {
         set
         {
             boxIsReady = value;
+
         }
     }
 
@@ -99,13 +101,16 @@ public class BoxOpener : MonoBehaviour {
         isBoxOpen = false;
         menuManager = GetComponent<MenuManager>();
         menuUi = GetComponent<MenuUI>();
+        menuController = GetComponent<MenuController>();
 
     }
 
     public void BoxControls()
     {
-        if (menuManager.DuckhavebringThebox && !menuUi.ACardIsShown && !menuUi.ACardInfoIsShown && (menuManager.ListeSelectedKeepers.Count == 0 && menuManager.CardLevelSelected == -1 && menuManager.DeckOfCardsSelected == string.Empty))
+        if (menuManager.DuckhavebringThebox && !spotlightneedUpdate && !menuUi.ACardIsShown && !menuUi.ACardInfoIsShown && (menuManager.ListeSelectedKeepers.Count == 0 && menuManager.CardLevelSelected == -1 && menuManager.DeckOfCardsSelected == string.Empty))
         {
+            if(menuController.OncePressR )
+                boxLock.GetComponent<GlowObjectCmd>().ActivateBlinkBehaviour(false);
             //if (isBoxOpen)
             //{
             //    //foreach (Opener o in GameObject.FindObjectsOfType<Opener>())
@@ -138,7 +143,10 @@ public class BoxOpener : MonoBehaviour {
                     menuManager.GoCardsInfo[i].transform.localPosition = menuUi.levelCardInfoKeyPoses[i][0].v3Pos + new Vector3(0, i * 0.02f, 0);
                     menuManager.GoCardsInfo[i].transform.localRotation = menuUi.levelCardInfoKeyPoses[i][0].quatRot;
                     GlowController.UnregisterObject(menuManager.GoCardsInfo[i].GetComponentInChildren<GlowObjectCmd>());
+
                 }
+
+
             }
             //boxLock.GetComponent<GlowObjectCmd>().ActivateBlinkBehaviour(!isBoxOpen);
             UpdateLockAspect();
@@ -148,7 +156,10 @@ public class BoxOpener : MonoBehaviour {
 
     public void UpdateLockAspect()
     {
-        if (isBoxOpen && (menuUi.ACardIsShown || menuUi.ACardInfoIsShown || menuUi.LevelCardSelected != null ||(menuManager.ListeSelectedKeepers.Count != 0 && menuManager.CardLevelSelected == -1 && menuManager.DeckOfCardsSelected == string.Empty)))
+        Debug.Log(menuManager.ListeSelectedKeepers.Count);
+        Debug.Log(menuManager.CardLevelSelected);
+        Debug.Log(menuManager.DeckOfCardsSelected);
+        if (isBoxOpen && (menuUi.ACardIsShown || menuUi.ACardInfoIsShown ||(menuManager.ListeSelectedKeepers.Count != 0 || menuManager.CardLevelSelected != -1 && menuManager.DeckOfCardsSelected != string.Empty)))
         {
             boxLock.GetComponent<GlowObjectCmd>().GlowColor = colorLockClosed;
         }
@@ -213,6 +224,7 @@ public class BoxOpener : MonoBehaviour {
                 }
 
                 menuUi.startButtonImg.gameObject.SetActive(true);
+
                 boxIsReady = true;
                 for (int i = 0; i < GameManager.Instance.AllKeepersList.Count; i++)
                 {

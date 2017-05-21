@@ -25,6 +25,19 @@ public class MenuController : MonoBehaviour {
 
     private LevelDataBase leveldb;
 
+    public bool OncePressR
+    {
+        get
+        {
+            return oncePressR;
+        }
+
+        set
+        {
+            oncePressR = value;
+        }
+    }
+
     // Use this for initialization
     void Start()
     {
@@ -68,6 +81,15 @@ public class MenuController : MonoBehaviour {
                 FindObjectOfType<MenuManager>().DuckhavebringThebox = true;
                 menuUI.pressR.gameObject.SetActive(false);
             }
+        } else
+        {
+            if ( !oncePressR)
+            {
+                boxOpener.boxLock.GetComponent<GlowObjectCmd>().ActivateBlinkBehaviour(true);
+                boxOpener.boxLock.GetComponent<GlowObjectCmd>().enabled = true;
+                oncePressR = true;
+            }
+
         }
             //        GameManager.Instance.PersistenceLoader.SetPawnUnlocked("grekhan", false);
             //        GameManager.Instance.PersistenceLoader.SetPawnUnlocked("lupus", false);
