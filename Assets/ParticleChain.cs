@@ -28,6 +28,11 @@ public class ParticleChain : MonoBehaviour {
             if(ps.isStopped && !hasBeenChained)
             {
                 toChain.Play();
+                AudioSource audioSource = toChain.GetComponent<AudioSource>();
+                if (audioSource != null)
+                {
+                    audioSource.Play();
+                }
                 hasBeenChained = true;
             }
         }
