@@ -81,12 +81,10 @@ public class dickMove : MonoBehaviour {
             if (transform.GetChild(i).GetComponent<Behaviour.AnimatedPawn>() != null && transform.GetChild(i).GetComponent<Behaviour.AnimatedPawn>().Agent != null)
             {
                 transform.GetChild(i).GetComponent<Behaviour.AnimatedPawn>().Agent.SetDestination(new Vector3(transform.GetChild(i).localPosition.x, transform.GetChild(i).localPosition.y, destination2.localPosition.z));
-
-
             }
 
         }
-        Invoke("DestroyMe", 2.0f);
+        Invoke("DestroyMe", 10.0f);
     }
 
     public void SaySomething()
