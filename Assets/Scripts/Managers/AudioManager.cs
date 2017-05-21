@@ -33,6 +33,7 @@ public class AudioManager : MonoBehaviour {
     public AudioClip battleSound;
 
     public AudioClip winningSound;
+    public AudioClip winningMusic;
 
     public AudioClip crystalOnSound;
     public AudioClip quackSound;
@@ -114,12 +115,12 @@ public class AudioManager : MonoBehaviour {
     private bool isFading = false;
     private float timerFade = 0.0f;
 
-    public void Fade(AudioClip _music)
+    public void Fade(AudioClip _music, float timer = 1.0f)
     {
         if (sourceMusic.clip != _music)
         {
             musicToPlay = _music;
-            timerFade = 1.0f;
+            timerFade = timer;
             isFading = true;
         }
 
@@ -143,6 +144,14 @@ public class AudioManager : MonoBehaviour {
     public void StopBattleMusic()
     {
         Fade(previousMusic);
+    }
+
+    public void PlayMusic(AudioClip clip)
+    {
+        isFading = false;
+        sourceMusic.clip = clip;
+        sourceMusic.volume = volumeMusic;
+        sourceMusic.Play();
     }
 
     // Update is called once per frame

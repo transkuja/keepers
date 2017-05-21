@@ -501,7 +501,7 @@ public class BattleHandler {
         {
             GameManager.Instance.PrisonerInstance.GetComponent<AnimatedPawn>().Anim.SetTrigger("dance");
         }
-
+        
         PrintResultsScreen(true);
         PostBattleCommonProcess();
     }
@@ -592,7 +592,7 @@ public class BattleHandler {
 
         ItemManager.AddItemOnTheGround(GameManager.Instance.ActiveTile, GameManager.Instance.ActiveTile.transform, currentBattleLoot.ToArray());
         AudioManager.Instance.StopBattleMusic();
-
+        AudioManager.Instance.Fade(AudioManager.Instance.winningMusic, 0.2f);
         ResetBattleHandler();
     }
 
