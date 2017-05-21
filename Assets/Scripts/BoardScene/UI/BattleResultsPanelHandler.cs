@@ -35,21 +35,8 @@ public class BattleResultsPanelHandler : MonoBehaviour {
         //transform.GetChild((int)BattleResultScreenChildren.Loot).gameObject.SetActive(true);
         GameManager.Instance.BattleResultScreen.gameObject.SetActive(false);
         GameManager.Instance.CurrentState = GameState.Normal;
-        switch(SceneManager.GetActiveScene().buildIndex)
-        {
-            case 1:
-                AudioManager.Instance.Fade(AudioManager.Instance.Scene1Clip);
-                break;
-            case 2:
-                AudioManager.Instance.Fade(AudioManager.Instance.Scene2Clip);
-                break;
-            case 3:
-                AudioManager.Instance.Fade(AudioManager.Instance.Scene3Clip);
-                break;
-            case 4:
-                AudioManager.Instance.Fade(AudioManager.Instance.Scene4Clip);
-                break;
-        }
+        AudioManager.Instance.StopBattleMusic();
+
         GameManager.Instance.ClearListKeeperSelected();
         PawnInstance[] curFighters = GameManager.Instance.CurrentFighters;
         for (int i = 0; i < curFighters.Length; i++)

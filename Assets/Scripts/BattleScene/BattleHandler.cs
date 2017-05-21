@@ -591,8 +591,7 @@ public class BattleHandler {
         }
 
         ItemManager.AddItemOnTheGround(GameManager.Instance.ActiveTile, GameManager.Instance.ActiveTile.transform, currentBattleLoot.ToArray());
-        AudioManager.Instance.StopBattleMusic();
-        AudioManager.Instance.Fade(AudioManager.Instance.winningMusic, 0.2f);
+        
         ResetBattleHandler();
     }
 
@@ -637,7 +636,8 @@ public class BattleHandler {
 
         header.GetComponentInChildren<Text>().color = isVictorious ? Color.green : new Color(0.75f, 0,0,1);
         header.GetComponentInChildren<Text>().text = isVictorious ? "Victory!" : "Defeat";
-
+        if(isVictorious)
+            AudioManager.Instance.Fade(AudioManager.Instance.winningMusic, 0.2f);
         // Freeze time until close button is pressed
         GameManager.Instance.CurrentState = GameState.InPause;
     }

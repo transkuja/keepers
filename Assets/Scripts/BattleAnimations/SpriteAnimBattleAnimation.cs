@@ -14,6 +14,10 @@ public class SpriteAnimBattleAnimation : MonoBehaviour, IBattleAnimation {
     GameObject spriteWithAnimator;
     [SerializeField]
     TargetType targetType;
+    [SerializeField]
+    AudioClip toPlay;
+    [SerializeField]
+    float volumeMultiplier = 1.0f;
 
     public float GetAnimationTime()
     {
@@ -22,6 +26,16 @@ public class SpriteAnimBattleAnimation : MonoBehaviour, IBattleAnimation {
 
     public void Play()
     {
+        if(toPlay != null)
+        {
+            GameObject go = new GameObject("Audio", typeof(AudioSource), typeof(VolumeAdapter));
+            AudioSource source = go.GetComponent<AudioSource>();
+            go.GetComponent<VolumeAdapter>().multiplier = volumeMultiplier;
+            source.clip = toPlay;
+            source.Play();
+            Destroy(source.gameObject, source.clip.length + 0.1f);
+        }
+        
         foreach(PawnInstance go in targets)
         {
             GameObject g = Instantiate(spriteWithAnimator);

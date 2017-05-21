@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class VolumeAdapter : MonoBehaviour {
-    [SerializeField]
-    float multiplier = 0.5f;
+    public float multiplier = 0.5f;
     AudioSource source;
 	void Start () {
         source = GetComponent<AudioSource>();
