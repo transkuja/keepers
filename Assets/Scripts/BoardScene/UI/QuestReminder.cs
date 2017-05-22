@@ -155,48 +155,35 @@ public class QuestReminder : MonoBehaviour {
 
 
     public void Refresh()
-
     {
-
         if (!dicQuestReminder.ContainsKey(qm.MainQuest))
-
         {
-
             addQuest(qm.MainQuest);
-
         }
-
-
 
         for(int i =0; i< qm.ActiveQuests.Count; i++)
-
         {
-
             if (!dicQuestReminder.ContainsKey(qm.ActiveQuests[i]))
-
             {
-
                 addQuest(qm.ActiveQuests[i]);
-
             }
-
             refreshQuest(qm.ActiveQuests[i]);
-
         }
-
-
 
         refreshQuest(qm.MainQuest);
 
+        for(int i = 0; i < qm.CompletedQuests.Count; i++)
+        {
+            if (dicQuestReminder.ContainsKey(qm.CompletedQuests[i]))
+            {
+                dicQuestReminder[qm.CompletedQuests[i]].transform.GetChild(0).GetChild(2).GetChild(0).gameObject.SetActive(qm.CompletedQuests[i].IsComplete());
+            }
+        }
 
-
-        //for(int i = 0; i < qm.CompletedQuests.Count; i++)
-
-        //{
-
-        //    dicQuestReminder[qm.CompletedQuests[i]].transform.GetChild(0).GetChild(2).GetChild(0).gameObject.SetActive(true);
-
-        //}
+        if (qm.MainQuest.IsComplete())
+        {
+            dicQuestReminder[qm.MainQuest].transform.GetChild(0).GetChild(2).GetChild(0).gameObject.SetActive(true);
+        }
 
     }
 
@@ -391,38 +378,15 @@ public class QuestReminder : MonoBehaviour {
     private void refreshQuest(QuestSystem.Quest q)
 
     {
-
-        bool allComplete = true;
-
         for (int j = 0; j < q.Objectives.Count; j++)
 
         {
 
             dicQuestReminder[q].transform.GetChild(1+j).GetChild(0).GetChild(0).gameObject.SetActive(q.Objectives[j].IsComplete);
 
-            if (!q.Objectives[j].IsComplete)
-
-            {
-
-                allComplete = false;
-
-            }
-
         }
 
-        if (allComplete)
 
-        {
-
-            dicQuestReminder[q].transform.GetChild(0).GetChild(2).GetChild(0).gameObject.SetActive(true);
-
-        } else
-
-        {
-
-            dicQuestReminder[q].transform.GetChild(0).GetChild(2).GetChild(0).gameObject.SetActive(false);
-
-        }
 
     }
 
