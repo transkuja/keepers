@@ -132,7 +132,7 @@ public class CameraManager : MonoBehaviour {
         set
         {
             isFollowingKeeper = value;
-            GameManager.Instance.OptionsScreen.GetComponent<PanelOptionsReference>().FollowingCharacterToggleButton.isOn = value;
+            GameManager.Instance.GameScreens.optionsMenu.GetComponent<PanelOptionsReference>().FollowingCharacterToggleButton.isOn = value;
         }
     }
     #endregion
