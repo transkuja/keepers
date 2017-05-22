@@ -1121,6 +1121,23 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        PawnInstance[] toDisable = ActiveTile.GetComponentsInChildren<PawnInstance>();
+        foreach (PawnInstance pi in toDisable)
+        {
+            if(pi.GetComponent<Monster>() == null)
+            {
+                pi.gameObject.SetActive(false);
+                disabledModels.Add(pi.gameObject);
+            }
+        }
+
+        LootInstance[] lootToDisable = ActiveTile.GetComponentsInChildren<LootInstance>();
+        foreach (LootInstance li in lootToDisable)
+        {
+            li.gameObject.SetActive(false);
+            disabledModels.Add(li.gameObject);
+        }
+
         // Make escortable disappear
         if (TileManager.Instance.EscortablesOnTile.ContainsKey(ActiveTile))
         {

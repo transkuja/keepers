@@ -166,7 +166,7 @@ public class BattleHandler {
         currentBattleKeepers = selectedKeepersForBattle.ToArray();
 
         GameManager.Instance.SetStateToInBattle(AllCurrentFighters());
-
+        
         // Move pawns to battle positions and initialize ui info panel
         int offsetIndex = 0;
         GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().OccupiedCharacterPanelIndex = new bool[3];
