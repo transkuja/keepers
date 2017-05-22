@@ -18,6 +18,8 @@ public class AudioManager : MonoBehaviour {
     public AudioClip Scene3Clip;
     public AudioClip Scene4Clip;
 
+    public AudioClip thowDiceSound;
+
     public AudioClip walkSound;
 
     public AudioClip selectSound;

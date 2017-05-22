@@ -49,7 +49,7 @@ public class ThrownDiceHandler : MonoBehaviour {
                     diceInstance[currentKeeper].Add(DieBuilder.BuildDie(diceForCurrentThrow[currentKeeper][j], GameManager.Instance.ActiveTile, diePosition.localPosition + diePosition.parent.localPosition));
                 }
             }
-
+            AudioManager.Instance.PlayOneShot(AudioManager.Instance.thowDiceSound, 0.8f);
             isRunning = true;
             throwResult = ComputeNotPhysicalResult();
 
