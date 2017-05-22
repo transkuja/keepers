@@ -151,11 +151,7 @@ public class QuestReminder : MonoBehaviour {
 
 
         fLerp += Time.unscaledDeltaTime * fSpeed * (int)state;
-<<<<<<< refs/remotes/origin/master
-        rt.anchoredPosition = Vector3.Lerp(new Vector3(-fOffsetX, fPosY,0), new Vector3(5,fPosY,0), fLerp);
-=======
         rt.anchoredPosition = Vector3.Lerp(new Vector3(-fOffsetX, fPosY,0), new Vector3(0,fPosY,0), curve.Evaluate(fLerp));
->>>>>>> add curve to questreminder
 
         if (state == State.showing && fLerp >= 1)
         {
