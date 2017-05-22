@@ -50,7 +50,7 @@ public class QuestReminder : MonoBehaviour {
     void Start () {
         qm = GameManager.Instance.QuestManager;
         rt = GetComponent<RectTransform>();
-        fOffsetX = rt.sizeDelta.x - 20;
+        fOffsetX = rt.sizeDelta.x -20;
         dicQuestReminder = new Dictionary<QuestSystem.Quest, GameObject>();
         fPosY = rt.anchoredPosition.y;
 	}
@@ -150,7 +150,7 @@ public class QuestReminder : MonoBehaviour {
 
 
         fLerp += Time.unscaledDeltaTime * fSpeed * (int)state;
-        rt.anchoredPosition = Vector3.Lerp(new Vector3(-fOffsetX, fPosY,0), new Vector3(0,fPosY,0), fLerp);
+        rt.anchoredPosition = Vector3.Lerp(new Vector3(-fOffsetX, fPosY,0), new Vector3(5,fPosY,0), fLerp);
 
         if (state == State.showing && fLerp >= 1)
         {
