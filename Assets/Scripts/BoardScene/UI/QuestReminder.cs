@@ -149,8 +149,10 @@ public class QuestReminder : MonoBehaviour {
             transform.GetChild(1).gameObject.SetActive(true);
         }
 
-
         fLerp += Time.unscaledDeltaTime * fSpeed * (int)state;
+<<<<<<< refs/remotes/origin/master
+        rt.anchoredPosition = Vector3.Lerp(new Vector3(-fOffsetX, fPosY,0), new Vector3(5,fPosY,0), fLerp);
+=======
         rt.anchoredPosition = Vector3.Lerp(new Vector3(-fOffsetX, fPosY,0), new Vector3(0,fPosY,0), curve.Evaluate(fLerp));
 
         if (state == State.showing && fLerp >= 1)
@@ -215,3 +217,5 @@ public class QuestReminder : MonoBehaviour {
     }
 }
 
+
+
