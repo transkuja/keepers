@@ -25,7 +25,7 @@ public class IngameScreens : MonoBehaviour {
                     transform.GetChild(0).GetChild((int)IngameScreensEnum.WinScreen).GetComponentInChildren<Image>().sprite = GameManager.Instance.SpriteUtils.level1;
                     break;
                 case "level1":
-                    transform.GetChild(0).GetChild((int)IngameScreensEnum.WinScreen).GetComponentInChildren<Image>().sprite = GameManager.Instance.SpriteUtils.level2;
+                    transform.GetChild(0).GetChild((int)IngameScreensEnum.WinScreen).GetComponentInChildren<Image>().sprite = GameManager.Instance.SpriteUtils.level3;
                     break;
                 case "level4":
                     transform.GetChild(0).GetChild((int)IngameScreensEnum.WinScreen).GetComponentInChildren<Image>().sprite = GameManager.Instance.SpriteUtils.level3;
