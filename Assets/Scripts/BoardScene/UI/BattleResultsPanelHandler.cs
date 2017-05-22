@@ -31,7 +31,7 @@ public class BattleResultsPanelHandler : MonoBehaviour {
 
     public IEnumerator HideMe()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(4.0f);
         //transform.GetChild((int)BattleResultScreenChildren.Loot).gameObject.SetActive(true);
         GameManager.Instance.BattleResultScreen.gameObject.SetActive(false);
         GameManager.Instance.CurrentState = GameState.Normal;
