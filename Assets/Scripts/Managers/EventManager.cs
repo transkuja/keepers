@@ -183,7 +183,7 @@ public class EventManager : MonoBehaviour {
                     {
 
 
-                        if (monstersButNotReally.GetComponent<QuestDealer>() != null)
+                        if (monstersButNotReally.GetComponent<QuestDealer>() != null || monstersButNotReally.GetComponent<Monster>().GetMType == MonsterType.Prey)
 
 
                             goodMonsters++;
