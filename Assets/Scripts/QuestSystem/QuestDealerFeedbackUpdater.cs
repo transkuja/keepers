@@ -5,8 +5,7 @@ using QuestSystem;
 
 public class QuestDealerFeedbackUpdater : MonoBehaviour {
     Quest quest;
-    [SerializeField]
-    GameObject feedbackContainer;
+    public GameObject feedbackContainer;
     public void Init(Quest _quest)
     {
         quest = _quest;

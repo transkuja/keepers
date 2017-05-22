@@ -159,6 +159,8 @@ public class BattleHandler {
             {
                 monsterType = MonsterType.Epic;
             }
+            if (currentBattleMonsters[i].GetComponent<QuestDealerFeedbackUpdater>() != null)
+                currentBattleMonsters[i].GetComponent<QuestDealerFeedbackUpdater>().feedbackContainer.SetActive(false);
         }
 
         currentBattleKeepers = selectedKeepersForBattle.ToArray();
@@ -561,6 +563,8 @@ public class BattleHandler {
                     currentBattleMonsters[i].GetComponent<Fighter>().EffectiveBoeufs.Clear();
                     currentBattleMonsters[i].GetComponent<Fighter>().UpdateActiveBoeufs();
                     currentBattleMonsters[i].GetComponentInChildren<BuffFeedback>().ShowBuffs(false);
+                    if (currentBattleMonsters[i].GetComponent<QuestDealerFeedbackUpdater>() != null)
+                        currentBattleMonsters[i].GetComponent<QuestDealerFeedbackUpdater>().feedbackContainer.SetActive(true);
                 }
                 else
                 {
