@@ -272,7 +272,7 @@ namespace Behaviour
                 agent.enabled = !isMovingBetweenTiles;
                 isCameraUpdated = !value;
                 // Update Ashley feeding panel
-                if (GameManager.Instance.PrisonerInstance != null && GetComponent<Keeper>() != null && !GetComponent<Keeper>().GoListCharacterFollowing.Contains(GameManager.Instance.PrisonerInstance.gameObject))
+                if (GameManager.Instance.PrisonerInstance != null && GetComponent<Keeper>() != null)
                 {
                     GameObject ashleyInventoryPanel = GameManager.Instance.PrisonerInstance.GetComponent<Inventory>().SelectedInventoryPanel;
                     if (!isMovingBetweenTiles && GameManager.Instance.PrisonerInstance.CurrentTile == GetComponent<PawnInstance>().CurrentTile)
