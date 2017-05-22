@@ -538,10 +538,10 @@ public class BattleHandler {
         for (int i = 0; i < currentBattleKeepers.Length; i++)
         {
             currentBattleKeepers[i].GetComponent<Fighter>().ResetValuesAfterBattle();
-            if (currentBattleKeepers[i].Data.Behaviours[(int)BehavioursEnum.Archer])
+            if (GameManager.Instance.ArcherInstance != null)
             {
                 if (archerPreviousTile != null)
-                    currentBattleKeepers[i].CurrentTile = archerPreviousTile;
+                    GameManager.Instance.ArcherInstance.CurrentTile = archerPreviousTile;
             }
             currentBattleKeepers[i].GetComponent<AnimatedPawn>().StartMoveFromBattlePositionAnimation();
         }
