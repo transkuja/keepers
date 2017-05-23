@@ -116,7 +116,6 @@ namespace Behaviour
 
                 GlowController.UnregisterObject(GetComponent<GlowObjectCmd>());
                 GetComponent<AnimatedPawn>().Anim.SetTrigger("triggerDeath");
-                Debug.Log("mabite");
 
                 // Try to fix glow bug
                 Destroy(GetComponent<GlowObjectCmd>());
