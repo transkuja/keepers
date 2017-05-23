@@ -71,7 +71,11 @@ public class EventManager : MonoBehaviour {
         ApplyEndTurnMentalHealthPenalty();
 
         if (TutoManager.s_instance != null && TutoManager.s_instance.PlayingSequence == null)
+        {
             HandleWeather();
+            HandleTeamCrocket();
+        }
+
 
 
 
@@ -1100,6 +1104,26 @@ public class EventManager : MonoBehaviour {
 
     }
 
+    public static void HandleTeamCrocket()
+    {
+        if (GameManager.Instance.PrisonerInstance == null)
+            return;
+
+        bool isAlone = true;
+        Tile tileAshley = GameManager.Instance.PrisonerInstance.CurrentTile;
+        foreach (PawnInstance pi in TileManager.Instance.KeepersOnTile[tileAshley])
+        {
+            if ( pi.CurrentTile == tileAshley)
+            {
+                isAlone = false;
+            }
+        }
+
+        if(isAlone)
+        {
+            TutoManager.s_instance.playSequence(TutoManager.s_instance.GetComponent<seqTeamCrocket>());
+        }
+    }
 }
 
 
