@@ -84,6 +84,8 @@ public class seqTeamCrocket : Sequence {
         base.Init();
 
         GameManager.Instance.UpdateCameraPosition(GameManager.Instance.PrisonerInstance.CurrentTile);
+
+        GameManager.Instance.PrisonerInstance.GetComponent<Behaviour.Escortable>().IsKidnappid = true;
         teamCrocketJames = SpawnTeamCrocketJames(new Vector3(1.0f, 0f, 0f) + GameManager.Instance.ActiveTile.transform.position);
         teamCrocketJessie = SpawnTeamCrocketJessie(new Vector3(1.0f, 0f, 0f) + GameManager.Instance.ActiveTile.transform.position);
 
@@ -102,8 +104,10 @@ public class seqTeamCrocket : Sequence {
     public override void End()
     {
         base.End();
-        if (teamCrocketJames != null)
-            TutoManager.UnSpawn(teamCrocketJames);
+        //if (teamCrocketJames != null)
+        //    TutoManager.UnSpawn(teamCrocketJames);
+        //if (teamCrocketJessie != null)
+        //    TutoManager.UnSpawn(teamCrocketJessie);
         if (TutoManager.s_instance.TutoPanelInstance != null)
             Destroy(TutoManager.s_instance.TutoPanelInstance);
         TutoManager.s_instance.GetComponent<seqTeamCrocket>().AlreadyPlayed = true;

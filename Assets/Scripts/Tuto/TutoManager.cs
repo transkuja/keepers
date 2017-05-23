@@ -342,8 +342,13 @@ public class TutoManager : MonoBehaviour {
                 if (s_instance.playingSequence.CurrentState != SequenceState.WaitingForExternalEvent)
                 {
                     s_instance.playingSequence.Play();
-                    tutoPanelInstance.GetComponentInChildren<UIPointerOpacityTingling>().enabled = true;
-                    tutoPanelInstance.GetComponentInChildren<UIPointerOpacityTingling>().Timer = 0.0f;
+                    if(tutoPanelInstance.GetComponentInChildren<UIPointerOpacityTingling>() != null)
+                    {
+                        tutoPanelInstance.GetComponentInChildren<UIPointerOpacityTingling>().enabled = true;
+                        tutoPanelInstance.GetComponentInChildren<UIPointerOpacityTingling>().Timer = 0.0f;
+
+                    }
+
                 } 
      
                 

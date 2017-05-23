@@ -20,6 +20,7 @@ namespace Behaviour
         // @ Seb: j'ai mis ça là mais à mon avis il va falloir faire qq chose pour récupérer le panel, vois avec Rémi
         public GameObject prisonerFeedingPanel;
         private GameObject myIconForShortcut;
+        private bool isKidnappid;
 
         void Awake()
         {
@@ -180,6 +181,32 @@ namespace Behaviour
             set
             {
                 feedingSlotsCount = value;
+            }
+        }
+
+        public bool IsKidnappid
+        {
+            get
+            {
+                return isKidnappid;
+            }
+
+            set
+            {
+                isKidnappid = value;
+                if( isKidnappid )
+                {
+                    if (GetComponent<Prisoner>() != null)
+                        TileManager.Instance.RemoveEscortableFromTile(GetComponentInParent<Tile>(), instance);
+                }
+                else
+                {
+
+                    if (GetComponent<Prisoner>() != null)
+                        TileManager.Instance.AddEscortableOnTile(GetComponentInParent<Tile>(), instance);
+                }
+
+
             }
         }
 
