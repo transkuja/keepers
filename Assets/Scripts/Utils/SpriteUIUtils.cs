@@ -92,6 +92,10 @@ public class SpriteUIUtils : MonoBehaviour {
     public Sprite level1;
     public Sprite level2;
     public Sprite level3;
-    
+
+    [Header("Feedbacks")]
+    public Sprite hungerFeedback;
+    public Sprite lowMoodFeedback;
+
 }
 

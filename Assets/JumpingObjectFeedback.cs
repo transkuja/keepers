@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public class JumpingQuestFeedback : MonoBehaviour {
+public class JumpingObjectFeedback : MonoBehaviour {
     [SerializeField]
     AnimationCurve curve;
     [SerializeField]

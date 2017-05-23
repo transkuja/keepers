@@ -160,6 +160,12 @@ namespace Behaviour
                     instance.AddFeedBackToQueue(GameManager.Instance.SpriteUtils.spriteMoralBuff, feedbackAmount);
 
                 currentMentalHealth = value + feedbackAmount;
+
+                if (feedbackAmount < 0 && currentMentalHealth <= data.MaxMentalHealth / 3.0f)
+                {
+                    GetComponentInChildren<HungerMoodFeedback>().needsToPlayLowMood = true;
+                }
+
                 if (currentMentalHealth < 0)
                 {
                     currentMentalHealth = 0;
