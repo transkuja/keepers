@@ -213,9 +213,17 @@ namespace Behaviour
             {     
                 if (currentHp <= 0)
                 {
-                    GetComponent<Escortable>().ShorcutUI.transform.GetChild(GetComponent<Escortable>().ShorcutUI.transform.childCount-1).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteDeath;
+                    GetComponent<Escortable>().ShorcutUI.transform.GetChild(4).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteDeath;
                     GetComponent<HungerHandler>().ShortcutHungerUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = 0;
                     GetComponent<Escortable>().ShorcutUI.GetComponent<Button>().interactable = false;
+
+                    GetComponent<Escortable>().ShorcutUI.GetComponent<Image>().raycastTarget = false;
+
+                    GetComponent<Escortable>().ShorcutUI.transform.GetChild(2).GetComponent<Image>().CrossFadeAlpha(0.3f, 0, true);
+                    GetComponent<Escortable>().ShorcutUI.transform.GetChild(4).GetComponent<Image>().CrossFadeAlpha(0.3f, 0, true);
+                    ShortcutHPUI.GetComponentInChildren<Image>().CrossFadeAlpha(0.3f, 0, true);
+                    if (GetComponent<HungerHandler>() != null)
+                        GetComponent<HungerHandler>().ShortcutHungerUI.GetComponentInChildren<Image>().CrossFadeAlpha(0.3f, 0, true);
                 }
                 else if (currentHp < (Data.MaxHp / 3.0f))
                     ShortcutHPUI.transform.GetChild(0).gameObject.GetComponent<Image>().color = red;
@@ -224,16 +232,40 @@ namespace Behaviour
                 else
                     ShortcutHPUI.transform.GetChild(0).gameObject.GetComponent<Image>().color = green;
                 ShortcutHPUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = (float)currentHp / (float)Data.MaxHp;
+
+
             }
             else if (instance.GetComponent<Keeper>() != null)
             {
                 if (currentHp <= 0)
                 {
-                    GetComponent<Keeper>().ShorcutUI.transform.GetChild(GetComponent<Keeper>().ShorcutUI.transform.childCount - 1).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteDeath;
+                    if (GetComponent<MentalHealthHandler>() != null)
+                    {
+                        GetComponent<Keeper>().ShorcutUI.transform.GetChild(5).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteDeath;
+                        GetComponent<Keeper>().ShorcutUI.transform.GetChild(3).GetComponent<Image>().CrossFadeAlpha(0.3f, 0, true);
+                        GetComponent<Keeper>().ShorcutUI.transform.GetChild(5).GetComponent<Image>().CrossFadeAlpha(0.3f, 0, true);
+                    }
+                    else
+                    {
+                        GetComponent<Keeper>().ShorcutUI.transform.GetChild(4).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteDeath;
+                        GetComponent<Keeper>().ShorcutUI.transform.GetChild(2).GetComponent<Image>().CrossFadeAlpha(0.3f, 0, true);
+                        GetComponent<Keeper>().ShorcutUI.transform.GetChild(4).GetComponent<Image>().CrossFadeAlpha(0.3f, 0, true);
+                    }
                     GetComponent<Keeper>().UpdateActionPoint(0);
-                    GetComponent<MentalHealthHandler>().ShortcutMentalHealthUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = 0;
+                    if (GetComponent<MentalHealthHandler>() != null)
+                        GetComponent<MentalHealthHandler>().ShortcutMentalHealthUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = 0;
                     GetComponent<HungerHandler>().ShortcutHungerUI.transform.GetChild(0).gameObject.GetComponent<Image>().fillAmount = 0;
                     GetComponent<Keeper>().ShorcutUI.GetComponent<Button>().interactable = false;
+
+                    GetComponent<Keeper>().ShorcutUI.GetComponent<Image>().raycastTarget = false;
+
+                    Debug.Log("test");
+
+                    ShortcutHPUI.GetComponentInChildren<Image>().CrossFadeAlpha(0.3f, 0, true);
+                    if (GetComponent<HungerHandler>() != null)
+                        GetComponent<HungerHandler>().ShortcutHungerUI.GetComponentInChildren<Image>().CrossFadeAlpha(0.3f, 0, true);
+                    if (GetComponent<MentalHealthHandler>() != null)
+                        GetComponent<MentalHealthHandler>().ShortcutMentalHealthUI.GetComponentInChildren<Image>().CrossFadeAlpha(0.3f, 0, true);
                 }
                 else if (currentHp < (Data.MaxHp / 3.0f))
                 {
@@ -283,12 +315,17 @@ namespace Behaviour
 
                     IsAlive = false;
                     Die();
+                    UpdateHPPanel(currentHp);
                 }
                 else
                 {
                     IsAlive = true;
                 }
-                UpdateHPPanel(currentHp);
+                if (IsAlive)
+                {
+                    UpdateHPPanel(currentHp);
+                }
+
                 if (GameManager.Instance.CurrentState == GameState.InBattle || 
                     (GameManager.Instance.CurrentState == GameState.InTuto && TutoManager.s_instance.StateBeforeTutoStarts == GameState.InBattle))
                 {
