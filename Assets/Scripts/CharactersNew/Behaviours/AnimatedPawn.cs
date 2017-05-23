@@ -110,7 +110,7 @@ namespace Behaviour
 
             if (anim != null && agent != null && anim.isActiveAndEnabled == true && agent.isActiveAndEnabled == true)
             {
-                if( GetComponent<Monster>() == null || (GetComponent<Monster>() != null &&  GetComponent<Monster>().GetMType != MonsterType.Prey))
+                if( GetComponent<Mortal>() != null && GetComponent<Mortal>().IsAlive && GetComponent<ItemInstance>() == null)
                 {
                     anim.SetFloat("velocity", agent.velocity.magnitude);
                 }
@@ -120,7 +120,10 @@ namespace Behaviour
             // ne fait rien pendant 10 secondes
             if(timerNeFaitRienPendantDixSeconde <= 0)
             {
-                anim.SetTrigger("idle");
+                if (GetComponent<Mortal>() != null && GetComponent<Mortal>().IsAlive && GetComponent<ItemInstance>() == null)
+                {
+                    anim.SetTrigger("idle");
+                }
                 timerNeFaitRienPendantDixSeconde = 10.0f;
      
             } else if (GameManager.Instance.CurrentState == GameState.Normal)
