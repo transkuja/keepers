@@ -116,6 +116,7 @@ namespace Behaviour
 
                 GlowController.UnregisterObject(GetComponent<GlowObjectCmd>());
                 GetComponent<AnimatedPawn>().Anim.SetTrigger("triggerDeath");
+                Debug.Log("mabite");
 
                 // Try to fix glow bug
                 Destroy(GetComponent<GlowObjectCmd>());
@@ -258,8 +259,6 @@ namespace Behaviour
                     GetComponent<Keeper>().ShorcutUI.GetComponent<Button>().interactable = false;
 
                     GetComponent<Keeper>().ShorcutUI.GetComponent<Image>().raycastTarget = false;
-
-                    Debug.Log("test");
 
                     ShortcutHPUI.GetComponentInChildren<Image>().CrossFadeAlpha(0.3f, 0, true);
                     if (GetComponent<HungerHandler>() != null)
