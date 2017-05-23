@@ -483,6 +483,8 @@ public class GameManager : MonoBehaviour
     {
         Transform screen = SelectBattleCharactersScreen;
         screen.GetComponent<SelectBattleCharactersPanelHandler>().ActiveTile = tile;
+        Ui.ClearActionPanel();
+        Ui.HideInventoryPanels();
         screen.gameObject.SetActive(true);
     }
 
