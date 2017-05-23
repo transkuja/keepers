@@ -48,7 +48,16 @@ public class SkillDescriptionUI : MonoBehaviour, IPointerEnterHandler, IPointerE
         {
             if (skillData.SkillName.Equals("Attack"))
             {
-                descriptionPanel.GetComponentInChildren<Text>().text += "\n\nDamage: " + skillData.effectiveAttackValue + " damage for each swords on dice, 3 damage for other faces";
+                Behaviour.Fighter skillUser = skillData.SkillUser;
+                int attackTotal = 0;
+                foreach (Face face in skillUser.LastThrowResult)
+                {
+                    if (face.Type == FaceType.Physical)
+                        attackTotal += face.Value * skillData.effectiveAttackValue;
+                    else
+                        attackTotal += 3;
+                }
+                descriptionPanel.GetComponentInChildren<Text>().text += "\n\nDamage based on orange dots on current throw\nDamage this turn: " + attackTotal;
             }
             else
                 descriptionPanel.GetComponentInChildren<Text>().text += "\n\nDamage: " + skillData.Damage;
@@ -134,7 +143,16 @@ public class SkillDescriptionUI : MonoBehaviour, IPointerEnterHandler, IPointerE
         {
             if (skillData.SkillName.Equals("Attack"))
             {
-                descriptionPanel.GetComponentInChildren<Text>().text += "\n\nDamage: " + skillData.effectiveAttackValue + " damage for each dot on orange faces, 3 damage for other faces";
+                Behaviour.Fighter skillUser = skillData.SkillUser;
+                int attackTotal = 0;
+                foreach (Face face in skillUser.LastThrowResult)
+                {
+                    if (face.Type == FaceType.Physical)
+                        attackTotal += face.Value * skillData.effectiveAttackValue;
+                    else
+                        attackTotal += 3;
+                }
+                descriptionPanel.GetComponentInChildren<Text>().text += "\n\nDamage based on orange dots on current throw\nDamage this turn: " + attackTotal;
             }
             else
                 descriptionPanel.GetComponentInChildren<Text>().text += "\n\nDamage: " + skillData.Damage;

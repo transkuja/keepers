@@ -828,7 +828,7 @@ public class BattleHandler {
             hasDiceBeenThrown = value;
             if (hasDiceBeenThrown == true)
             {
-                if (currentBattleKeepers.Length == 1 && GameManager.Instance.CurrentState != GameState.InTuto)
+                if (currentBattleKeepers.Length == 1 && !isPrisonerOnTile && GameManager.Instance.CurrentState != GameState.InTuto)
                 {
                     GameManager.Instance.ClearListKeeperSelected();
                     GameManager.Instance.AddKeeperToSelectedList(currentBattleKeepers[0]);
