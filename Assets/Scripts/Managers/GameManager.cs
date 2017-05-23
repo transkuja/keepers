@@ -916,7 +916,13 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < listOfSelectedKeepers.Count; i++)
         {
-            listOfSelectedKeepers[i].GetComponent<Keeper>().IsSelected = false;
+            if (listOfSelectedKeepers[i].GetComponent<Keeper>() != null)
+                listOfSelectedKeepers[i].GetComponent<Keeper>().IsSelected = false;
+            else if (listOfSelectedKeepers[i].GetComponent<Prisoner>() != null)
+                listOfSelectedKeepers[i].GetComponent<Prisoner>().IsSelected = false;
+            else
+                Debug.LogWarning("There's a pawn in list of selected keepers without Keeper or Prisoner component.");
+
         }
         listOfSelectedKeepers.Clear();
     }
@@ -924,7 +930,8 @@ public class GameManager : MonoBehaviour
     public void AddKeeperToSelectedList(PawnInstance pawn)
 
     {
-        if (pawn.GetComponent<Behaviour.Keeper>() != null)
+        if (pawn.GetComponent<Keeper>() != null
+                || (currentState == GameState.InBattle && pawn.GetComponent<Prisoner>()))
             ListOfSelectedKeepers.Add(pawn);
         else
             Debug.Log("Can't add a pawn to selected keepers list without the Keeper component.");

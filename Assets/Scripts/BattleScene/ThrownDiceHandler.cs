@@ -49,6 +49,21 @@ public class ThrownDiceHandler : MonoBehaviour {
                     diceInstance[currentKeeper].Add(DieBuilder.BuildDie(diceForCurrentThrow[currentKeeper][j], GameManager.Instance.ActiveTile, diePosition.localPosition + diePosition.parent.localPosition));
                 }
             }
+            if (BattleHandler.isPrisonerOnTile)
+            {
+                PawnInstance prisoner = GameManager.Instance.PrisonerInstance;
+
+                diceForCurrentThrow.Add(prisoner, prisoner.GetComponent<Fighter>().Dice);
+
+                // Create dice visuals
+                diceInstance.Add(prisoner, new List<GameObject>());
+                for (int j = 0; j < prisoner.GetComponent<Fighter>().Dice.Length; j++)
+                {
+                    Transform diePosition = TileManager.Instance.DicePositionsOnTile.GetChild(2).GetChild(j);
+                    diceInstance[prisoner].Add(DieBuilder.BuildDie(diceForCurrentThrow[prisoner][j], GameManager.Instance.ActiveTile, diePosition.localPosition + diePosition.parent.localPosition));
+                }
+            }
+        
             AudioManager.Instance.PlayOneShot(AudioManager.Instance.thowDiceSound, 0.8f);
             isRunning = true;
             throwResult = ComputeNotPhysicalResult();

@@ -264,12 +264,6 @@ public class BattleHandler {
         }
     }
 
-    private static void ResolveStandardAttack(int attackValue)
-    {
-        int damage = (int)(attackValue * ((float)attackValue / currentTargetMonster.GetComponent<Monster>().EffectiveDefense));
-        currentTargetMonster.GetComponent<Mortal>().CurrentHp -= damage;
-    }
-
     public static void CheckTurnStatus()
     {
         if (BattleEndConditionsReached())
@@ -289,6 +283,9 @@ public class BattleHandler {
                 mustShiftTurn = false;
             }            
         }
+        if (isPrisonerOnTile && !GameManager.Instance.PrisonerInstance.GetComponent<Fighter>().HasPlayedThisTurn)
+            mustShiftTurn = false;
+
         wasTheLastToPlay = mustShiftTurn;
 
         if (mustShiftTurn)
@@ -315,6 +312,7 @@ public class BattleHandler {
             for (int i = 0; i < currentBattleKeepers.Length; i++)
             {
                 currentBattleKeepers[i].GetComponent<Fighter>().HasPlayedThisTurn = false;
+                if (isPrisonerOnTile) GameManager.Instance.PrisonerInstance.GetComponent<Fighter>().HasPlayedThisTurn = false;
             }
             ClearDiceForNextThrow();
             if (GameManager.Instance.CurrentState != GameState.InTuto)
@@ -513,22 +511,6 @@ public class BattleHandler {
      */
     public static void HandleBattleDefeat()
     {
-        //for (int i = 0; i < currentBattleKeepers.Length; i++)
-        //{
-        //    if (currentBattleKeepers[i] != null)
-        //    {
-        //        //currentBattleKeepers[i].GetComponent<MentalHealthHandler>().CurrentMentalHealth -= 10;
-        //        //currentBattleKeepers[i].GetComponent<HungerHandler>().CurrentHunger -= 5;
-        //        //  BattleLog(ki.Keeper.CharacterName + " lost 10 mental health, 5 hunger, 10HP due to defeat.");
-        //    }
-        //    if (isPrisonerOnTile)
-        //    {
-        //        GameManager.Instance.PrisonerInstance.GetComponent<HungerHandler>().CurrentHunger -= 5;
-        //        // BattleLog("Prisoner lost 10 mental health, 5 hunger, 10HP due to defeat.");
-        //    }
-        //}
-
-
         PrintResultsScreen(false);
         PostBattleCommonProcess();
     }
@@ -547,7 +529,10 @@ public class BattleHandler {
         }
 
         if (isPrisonerOnTile)
+        {
             GameManager.Instance.PrisonerInstance.GetComponent<AnimatedPawn>().StartMoveFromBattlePositionAnimation();
+            GameManager.Instance.PrisonerInstance.GetComponent<Fighter>().ResetValuesAfterBattle();
+        }
 
         for (int i = 0; i < currentBattleMonsters.Length; i++)
         {
@@ -640,9 +625,9 @@ public class BattleHandler {
 
         header.GetComponentInChildren<Text>().color = isVictorious ? Color.green : new Color(0.75f, 0,0,1);
         header.GetComponentInChildren<Text>().text = isVictorious ? "Victory!" : "Defeat";
-        if(isVictorious)
+        if (isVictorious)
             AudioManager.Instance.Fade(AudioManager.Instance.winningMusic, 0.2f);
-        // Freeze time until close button is pressed
+
         GameManager.Instance.CurrentState = GameState.InPause;
     }
 
@@ -727,6 +712,20 @@ public class BattleHandler {
                     }
                 }
             }
+            if (isPrisonerOnTile)
+            {
+                PawnInstance pi = GameManager.Instance.PrisonerInstance;
+                if (!pi.GetComponent<Fighter>().HasPlayedThisTurn)
+                {
+                    pi.GetComponent<Prisoner>().FeedbackSelection.SetActive(true);
+                    GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().UpdateAvatar(pi, true);
+                }
+                else
+                {
+                    pi.GetComponent<Prisoner>().FeedbackSelection.SetActive(false);
+                    GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().UpdateAvatar(pi, false);
+                }
+            }
 
         }
         // Activate on monsters
@@ -762,6 +761,11 @@ public class BattleHandler {
                     currentBattleKeepers[i].GetComponent<Keeper>().FeedbackSelection.SetActive(false);
                     GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().UpdateAvatar(currentBattleKeepers[i], false);
                 }
+            }
+            if (isPrisonerOnTile)
+            {
+                GameManager.Instance.PrisonerInstance.GetComponent<Prisoner>().FeedbackSelection.SetActive(false);
+                GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().UpdateAvatar(GameManager.Instance.PrisonerInstance, false);
             }
         }
 
@@ -904,7 +908,7 @@ public class BattleHandler {
 
                 GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().SkillName.SetActive(false);
                 GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().UnlockCharactersPanelButtons();
-                if (pendingSkill != null && pendingSkill.SkillUser != null && pendingSkill.SkillUser.GetComponent<Keeper>() != null)
+                if (pendingSkill != null && pendingSkill.SkillUser != null && (pendingSkill.SkillUser.GetComponent<Keeper>() != null || pendingSkill.SkillUser.GetComponent<Prisoner>() != null))
                 {
                     pendingSkill.SkillUser.HasPlayedThisTurn = true;
                     pendingSkill = null;

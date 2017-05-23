@@ -8,6 +8,9 @@ namespace Behaviour
     {
 
         PawnInstance instance;
+        bool isSelected = false;
+        [SerializeField]
+        private GameObject feedbackSelection;
 
         void Awake()
         {
@@ -34,6 +37,42 @@ namespace Behaviour
             }
 
             inv.UpdateInventories();  
+        }
+
+        public bool IsSelected
+        {
+            get
+            {
+                return isSelected;
+            }
+
+            set
+            {
+                isSelected = value;
+
+                if (GameManager.Instance.CurrentState == GameState.InBattle ||
+                    (GameManager.Instance.CurrentState == GameState.InTuto && TutoManager.s_instance.StateBeforeTutoStarts == GameState.InBattle))
+                {
+                    feedbackSelection.SetActive(false);
+                    BattleHandler.DeactivateFeedbackSelection(true, false);
+                }
+
+                GameManager.Instance.Ui.ClearActionPanel();
+            }
+
+        }
+
+        public GameObject FeedbackSelection
+        {
+            get
+            {
+                return feedbackSelection;
+            }
+
+            set
+            {
+                feedbackSelection = value;
+            }
         }
     }
 }

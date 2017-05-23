@@ -134,7 +134,7 @@ public class SkillDescriptionUI : MonoBehaviour, IPointerEnterHandler, IPointerE
         {
             if (skillData.SkillName.Equals("Attack"))
             {
-                descriptionPanel.GetComponentInChildren<Text>().text += "\n\nDamage: " + skillData.effectiveAttackValue + " damage for each swords on dice, 1 damage for other faces";
+                descriptionPanel.GetComponentInChildren<Text>().text += "\n\nDamage: " + skillData.effectiveAttackValue + " damage for each dot on orange faces, 3 damage for other faces";
             }
             else
                 descriptionPanel.GetComponentInChildren<Text>().text += "\n\nDamage: " + skillData.Damage;

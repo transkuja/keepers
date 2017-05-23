@@ -325,20 +325,18 @@ public class ControlsManager : MonoBehaviour
 
                             if (clickTarget.GetComponentInParent<PawnInstance>() != null)
                             {
-                                if (clickTarget.GetComponentInParent<Keeper>() != null)
+                                if (clickTarget.GetComponentInParent<Keeper>() != null || clickTarget.GetComponentInParent<Prisoner>() != null)
                                 {
                                     if (clickTarget.GetComponentInParent<Fighter>() != null && !clickTarget.GetComponentInParent<Fighter>().HasPlayedThisTurn)
                                     {
-                                        Keeper clickedKeeper = clickTarget.GetComponentInParent<Keeper>();
                                         GameManager.Instance.ClearListKeeperSelected();
-                                        GameManager.Instance.AddKeeperToSelectedList(clickedKeeper.getPawnInstance);
-                                        clickedKeeper.IsSelected = true;
+                                        GameManager.Instance.AddKeeperToSelectedList(clickTarget.GetComponentInParent<PawnInstance>());
+                                        if (clickTarget.GetComponentInParent<Prisoner>() != null)
+                                            clickTarget.GetComponentInParent<Prisoner>().IsSelected = true;
+                                        else
+                                            clickTarget.GetComponentInParent<Keeper>().IsSelected = true;
                                         GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().GetSkillsPanelIndex(clickTarget.GetComponentInParent<PawnInstance>()).gameObject.SetActive(true);
                                     }
-                                }
-                                else if (clickTarget.GetComponentInParent<Monster>() != null)
-                                {
-                                    // TODO: Show monster informations (pv, name, etc.)
                                 }
                             }
                             else
