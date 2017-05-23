@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class seqTeamCrocket : Sequence {
-    private GameObject teamCrocket;
+    private GameObject teamCrocketJames;
+    private GameObject teamCrocketJessie;
     public AnimationClip jumpAnimationClip;
 
     public static void UnSpawn(GameObject teamCrocket)
@@ -13,12 +14,21 @@ public class seqTeamCrocket : Sequence {
         Destroy(teamCrocket, 0.2f);
     }
 
-    public GameObject SpawnTeamCrocket(Vector3 where)
-    {
-        GameObject pawnMrResetti = GameManager.Instance.PawnDataBase.CreatePawn("grekhan", where, Quaternion.identity, null);
-        pawnMrResetti.SetActive(false);
 
-        return pawnMrResetti;
+    public GameObject SpawnTeamCrocketJessie(Vector3 where)
+    {
+        GameObject jessie = GameManager.Instance.PawnDataBase.CreatePawn("swag", where, Quaternion.identity, null);
+        jessie.SetActive(false);
+
+        return jessie;
+    }
+
+    public GameObject SpawnTeamCrocketJames(Vector3 where)
+    {
+        GameObject james = GameManager.Instance.PawnDataBase.CreatePawn("grekhan", where, Quaternion.identity, null);
+        james.SetActive(false);
+
+        return james;
     }
 
     public static void EcrireMessage(Sprite whoSprite, string str)
@@ -72,21 +82,28 @@ public class seqTeamCrocket : Sequence {
     public override void Init()
     {
         base.Init();
-        teamCrocket = SpawnTeamCrocket(new Vector3(0.0f, 0.15f, -0.7f));
+
+        GameManager.Instance.UpdateCameraPosition(GameManager.Instance.PrisonerInstance.CurrentTile);
+        teamCrocketJames = SpawnTeamCrocketJames(new Vector3(1.0f, 0f, 0f) + GameManager.Instance.ActiveTile.transform.position);
+        teamCrocketJessie = SpawnTeamCrocketJessie(new Vector3(1.0f, 0f, 0f) + GameManager.Instance.ActiveTile.transform.position);
 
         Etapes = new List<Step>();
-        Etapes.Add(new TutoManager.Spawn(teamCrocket, jumpAnimationClip));
+        Etapes.Add(new TutoManager.Spawn(teamCrocketJames, jumpAnimationClip));
+        Etapes.Add(new TutoManager.Spawn(teamCrocketJessie, jumpAnimationClip));
+
 
         // Content
-        Etapes.Add(new Message(teamCrocket, "Team Crocket, blast off at the speed of light!"));
+        Etapes.Add(new Message(teamCrocketJames, "Team Crocket, blast off at the speed of light!"));
+        Etapes.Add(new Message(teamCrocketJessie, "We found you Waouf !"));
+        Etapes.Add(new Message(teamCrocketJames, "Let's bring him back home."));
     }
 
 
     public override void End()
     {
         base.End();
-        if (teamCrocket != null)
-            TutoManager.UnSpawn(teamCrocket);
+        if (teamCrocketJames != null)
+            TutoManager.UnSpawn(teamCrocketJames);
         if (TutoManager.s_instance.TutoPanelInstance != null)
             Destroy(TutoManager.s_instance.TutoPanelInstance);
         TutoManager.s_instance.GetComponent<seqTeamCrocket>().AlreadyPlayed = true;

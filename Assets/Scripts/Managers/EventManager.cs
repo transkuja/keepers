@@ -229,7 +229,7 @@ public class EventManager : MonoBehaviour {
                     if (piOnTile.Data.Behaviours[(int)BehavioursEnum.Stinks])
 
 
-                        pi.GetComponent<MentalHealthHandler>().CurrentMentalHealth -= 20;
+                        pi.GetComponent<MentalHealthHandler>().CurrentMentalHealth -= 15;
 
 
                 }

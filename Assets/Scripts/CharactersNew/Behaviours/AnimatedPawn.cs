@@ -110,7 +110,7 @@ namespace Behaviour
 
             if (anim != null && agent != null && anim.isActiveAndEnabled == true && agent.isActiveAndEnabled == true)
             {
-                if( GetComponent<Mortal>() != null && GetComponent<Mortal>().IsAlive && GetComponent<ItemInstance>() == null)
+                if( GetComponent<ItemInstance>() == null)
                 {
                     anim.SetFloat("velocity", agent.velocity.magnitude);
                 }
@@ -120,7 +120,7 @@ namespace Behaviour
             // ne fait rien pendant 10 secondes
             if(timerNeFaitRienPendantDixSeconde <= 0)
             {
-                if (GetComponent<Mortal>() != null && GetComponent<Mortal>().IsAlive && GetComponent<ItemInstance>() == null)
+                if (GetComponent<ItemInstance>() == null)
                 {
                     anim.SetTrigger("idle");
                 }
