@@ -56,6 +56,8 @@ public class EventManager : MonoBehaviour {
 
     public static int hungerPenalty = 25;
 
+    public static int nbTurnAlone =0;
+
     //private static short actionPointsResetValue = 3;
 
     public static void EndTurnEvent()
@@ -1116,12 +1118,18 @@ public class EventManager : MonoBehaviour {
             if ( pi.CurrentTile == tileAshley)
             {
                 isAlone = false;
+                nbTurnAlone = 0;
             }
         }
 
         if(isAlone)
         {
-            TutoManager.s_instance.playSequence(TutoManager.s_instance.GetComponent<seqTeamCrocket>());
+            nbTurnAlone++;
+            if(nbTurnAlone == 2)
+            {
+                TutoManager.s_instance.playSequence(TutoManager.s_instance.GetComponent<seqTeamCrocket>());
+            }
+
         }
     }
 }
