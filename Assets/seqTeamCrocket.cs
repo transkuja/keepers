@@ -52,6 +52,7 @@ public class seqTeamCrocket : Sequence {
 
         public void Message_fct()
         {
+            Debug.Log(speaker.GetComponent<PawnInstance>().Data.PawnName);
             EcrireMessage(speaker.GetComponent<PawnInstance>().Data.AssociatedSprite, str);
 
             TutoManager.EnableNextButton();
@@ -71,7 +72,7 @@ public class seqTeamCrocket : Sequence {
     public override void Init()
     {
         base.Init();
-        teamCrocket = TutoManager.s_instance.SpawnMmeResetti(new Vector3(0.0f, 0.15f, -0.7f));
+        teamCrocket = SpawnTeamCrocket(new Vector3(0.0f, 0.15f, -0.7f));
 
         Etapes = new List<Step>();
         Etapes.Add(new TutoManager.Spawn(teamCrocket, jumpAnimationClip));
@@ -88,7 +89,7 @@ public class seqTeamCrocket : Sequence {
             TutoManager.UnSpawn(teamCrocket);
         if (TutoManager.s_instance.TutoPanelInstance != null)
             Destroy(TutoManager.s_instance.TutoPanelInstance);
-        TutoManager.s_instance.GetComponent<SeqFirstMove>().AlreadyPlayed = true;
+        TutoManager.s_instance.GetComponent<seqTeamCrocket>().AlreadyPlayed = true;
         TutoManager.s_instance.PlayingSequence = null;
     }
 }
