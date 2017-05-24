@@ -206,10 +206,13 @@ public class ItemInstance : MonoBehaviour, IHavestable
                 // TODO : bug here miscellenous interactions with feedback action UI
                 if (GetComponent<Behaviour.Monster>() != null)
                 {
+                    TileManager.Instance.RemoveDefeatedMonster(GetComponent<PawnInstance>());
+                    GameManager.Instance.Ui.GoActionPanelQ.transform.parent.SetParent(null);
                     Destroy(this.gameObject);
-                }
-                else
+
+                } else
                 {
+
                     Destroy(this);
 
 
@@ -223,7 +226,9 @@ public class ItemInstance : MonoBehaviour, IHavestable
 
                     }
 
+
                 }
+
 
 
 
