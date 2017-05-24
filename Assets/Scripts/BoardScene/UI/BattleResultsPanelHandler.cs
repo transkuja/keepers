@@ -3,7 +3,7 @@ using Behaviour;
 using System.Collections;
 using UnityEngine.SceneManagement;
 public class BattleResultsPanelHandler : MonoBehaviour {
-
+    public bool victory; 
     //public void CloseBattleResultsPanel()
     //{
     //    //transform.GetChild((int)BattleResultScreenChildren.Loot).gameObject.SetActive(true);
@@ -31,7 +31,14 @@ public class BattleResultsPanelHandler : MonoBehaviour {
 
     public IEnumerator HideMe()
     {
-        yield return new WaitForSeconds(4.0f);
+        if(victory)
+        {
+            yield return new WaitForSeconds(4.0f);
+        }
+        else
+        {
+            yield return new WaitForSeconds(2.0f);
+        }
         //transform.GetChild((int)BattleResultScreenChildren.Loot).gameObject.SetActive(true);
         GameManager.Instance.BattleResultScreen.gameObject.SetActive(false);
         GameManager.Instance.CurrentState = GameState.Normal;

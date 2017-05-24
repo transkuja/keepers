@@ -620,9 +620,10 @@ public class BattleHandler {
 
     private static void PrintResultsScreen(bool isVictorious)
     {
+        GameManager.Instance.BattleResultScreen.GetComponent<BattleResultsPanelHandler>().victory = isVictorious;
         GameManager.Instance.BattleResultScreen.gameObject.SetActive(true);
         Transform header = GameManager.Instance.BattleResultScreen.GetChild((int)BattleResultScreenChildren.Header);
-
+        
         header.GetComponentInChildren<Text>().color = isVictorious ? Color.green : new Color(0.75f, 0,0,1);
         header.GetComponentInChildren<Text>().text = isVictorious ? "Victory!" : "Defeat";
         if (isVictorious)
