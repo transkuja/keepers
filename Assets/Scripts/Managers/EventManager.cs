@@ -463,7 +463,7 @@ public class EventManager : MonoBehaviour {
                 {
                     int actionPointsForNextTurn;
 
-                    if (ki.GetComponent<Keeper>().ActionPoints >= 1 && ki.GetComponent<HungerHandler>().CurrentHunger <= (ki.GetComponent<HungerHandler>().Data.MaxHunger / 2.0f))
+                    if (ki.GetComponent<Keeper>().ActionPoints >= 1 && ki.GetComponent<HungerHandler>().CurrentHunger <= (ki.GetComponent<HungerHandler>().Data.MaxHunger * 2.0f / 3.0f))
                         actionPointsForNextTurn = 4;
                     else
                         actionPointsForNextTurn = 3;
