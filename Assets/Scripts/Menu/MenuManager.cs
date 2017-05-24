@@ -53,7 +53,6 @@ public class MenuManager : MonoBehaviour {
     int nbPawnToWait = 0;
     bool bLauched = false;
     float timerLaunch = 0;
-    [SerializeField] AnimationCurve curve;
 
     private void Awake()
     {
@@ -387,14 +386,6 @@ public class MenuManager : MonoBehaviour {
                 NavMeshAgent agent = p.GetComponent<NavMeshAgent>();
                 agent.enabled = true;
                 agent.SetDestination(trVortex.position);
-
-                /*Miniature m = p.gameObject.AddComponent<Miniature>();
-                m.curve = curve;
-                m.fRotateSpeed = 0;
-                m.fScaleSpeed = 10.0f;
-                m.bStartHidden = false;
-                m.curve = prefabsMiniatures[0].GetComponent<Miniature>().curve;*/
-
                 listPawnSelected.Add(p);
             }
         }
@@ -406,11 +397,9 @@ public class MenuManager : MonoBehaviour {
     {
         for (int i = 0; i < listPawnSelected.Count; i++)
         {
-            if ((listPawnSelected[i].GetComponent<NavMeshAgent>().destination - listPawnSelected[i].transform.position).magnitude < 0.5f)
+            if ((listPawnSelected[i].GetComponent<NavMeshAgent>().destination - listPawnSelected[i].transform.position).magnitude < 1.0f)
             {
-                Debug.Log("jump");
                 listPawnSelected[i].GetComponentInChildren<Animator>().SetTrigger("jumpVortex");
-                /*listPawnSelected[i].GetComponent<Miniature>().bNeedHide = true;*/
                 listPawnJumped.Add(listPawnSelected[i]);
                 listPawnSelected.Remove(listPawnSelected[i]);
             }
@@ -422,7 +411,6 @@ public class MenuManager : MonoBehaviour {
             {
                 listPawnJumped.Remove(listPawnJumped[i]);
                 nbPawnToWait -= 1;
-                Debug.Log("arrived");
             }
         }
 
