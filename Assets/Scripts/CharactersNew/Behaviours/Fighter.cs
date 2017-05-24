@@ -65,6 +65,7 @@ namespace Behaviour
 
         int consecutiveShots = 0;
         bool hasPlayedARapidSkill = false;
+        bool isPendingDamageRealDamage = false;
 
         void Awake()
         {
@@ -86,7 +87,7 @@ namespace Behaviour
 
             showSkillPanelTimer = 0.5f;
 
-            if (!IsAMonster)
+            if (!IsAMonster && GetComponent<Prisoner>() == null)
             {
                 SkillBattle defaultAtk = new SkillBattle("default");
                 battleSkills.Insert(0, defaultAtk);
@@ -129,8 +130,11 @@ namespace Behaviour
                     }
                     if (showFeedbackTimer < 0.0f)
                     {
-                        GetComponent<PawnInstance>().AddFeedBackToQueue(-pendingDamage);
-                        GetComponent<Mortal>().CurrentHp -= pendingDamage;
+                        if (pendingDamage != 0 || isPendingDamageRealDamage)
+                        {
+                            GetComponent<PawnInstance>().AddFeedBackToQueue(-pendingDamage);
+                            GetComponent<Mortal>().CurrentHp -= pendingDamage;
+                        }
                         isWaitingForDmgFeedback = false;
                         if (pendingDamage > 0)
                             GetComponent<AnimatedPawn>().Anim.SetTrigger("getHit");
@@ -426,10 +430,12 @@ namespace Behaviour
                     if (boeuf.BoeufType == BoeufType.Defense)
                         value -= boeuf.EffectValue;
                 }
+                isPendingDamageRealDamage = true;
                 return Mathf.Max(0, value);
             }
             else
             {
+                isPendingDamageRealDamage = false;
                 return Mathf.Min(0, value);
             }
         }
