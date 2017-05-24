@@ -218,7 +218,7 @@ public class MenuController : MonoBehaviour {
                 menuManager.DeckOfCardsSelected = leveldb.GetLevelById(card.levelIndex).deckId;
 
                 menuManager.currentMiniature = Instantiate(menuManager.prefabsMiniatures[card.levelIndex - 1], menuManager.trVortex.position + Vector3.up * 0.2f, Quaternion.identity).GetComponent<Miniature>();
-                menuManager.currentMiniature.bNeedShow = true;
+                menuManager.currentMiniature.bStartHidden = true;
 
                 GameManager.Instance.ListEventSelected.Clear();
 

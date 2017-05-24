@@ -6,8 +6,8 @@ public class CameraMenu : MonoBehaviour {
 
     [SerializeField] MenuManager menuManager;
 
-    public void StartGame()
+    public void ShowMiniature()
     {
-        menuManager.StartGame();
+        menuManager.currentMiniature.Show(true);
     }
 }

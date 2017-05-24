@@ -381,7 +381,7 @@ public class MenuManager : MonoBehaviour {
         listPawnJumped = new List<PawnInstance>();
         foreach (PawnInstance p in GameObject.FindObjectsOfType<PawnInstance>())
         {
-            if (listeSelectedKeepers.Contains(p.Data.PawnId))
+            if (ContainsSelectedKeepers(p.Data.PawnId))
             {
                 NavMeshAgent agent = p.GetComponent<NavMeshAgent>();
                 agent.enabled = true;
