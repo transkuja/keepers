@@ -81,7 +81,7 @@ public class MenuManager : MonoBehaviour {
         {
             for(int i = 0; i<listPawnSelected.Count; i++)
             {
-                if(listPawnSelected[i].GetComponent<NavMeshAgent>().remainingDistance < 3.0f)
+                if(listPawnSelected[i].GetComponent<NavMeshAgent>().remainingDistance < 0.5f)
                 {
                     Debug.Log("jump");
                     listPawnSelected[i].GetComponentInChildren<Animator>().SetTrigger("jumpVortex");
@@ -92,7 +92,7 @@ public class MenuManager : MonoBehaviour {
 
             for (int i = 0; i < listPawnJumped.Count; i++)
             {
-                if (listPawnJumped[i].GetComponent<NavMeshAgent>().remainingDistance < 0.5)
+                if (listPawnJumped[i].GetComponent<NavMeshAgent>().remainingDistance < 0.2)
                 {
                     listPawnJumped.Remove(listPawnJumped[i]);
                     nbPawnToWait -= 1;
@@ -418,6 +418,7 @@ public class MenuManager : MonoBehaviour {
                 NavMeshAgent agent = p.GetComponent<NavMeshAgent>();
                 agent.enabled = true;
                 agent.SetDestination(trVortex.position);
+                agent.avoidancePriority = -100;
                 listPawnSelected.Add(p);
             }
         }
