@@ -414,8 +414,6 @@ public class MenuManager : MonoBehaviour {
             }
         }
 
-        Debug.Log(timerLaunch);
-
         if(timerLaunch > 0)
         {
             timerLaunch -= Time.unscaledDeltaTime;
@@ -437,6 +435,7 @@ public class MenuManager : MonoBehaviour {
 
     public void StartGame()
     {
+        Destroy(Camera.main.gameObject.GetComponent<CameraMenu>());
         AudioManager.Instance.PlayOneShot(AudioManager.Instance.buttonClick, 0.5f);
 
         GameManager.Instance.AllKeeperListId.Clear();
