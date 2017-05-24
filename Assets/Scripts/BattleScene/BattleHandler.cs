@@ -379,12 +379,17 @@ public class BattleHandler {
 
     private static PawnInstance GetTargetForAttack()
     {
+        for (int i = 0; i < currentBattleKeepers.Length; i++)
+        {
+            for (int j = 0; j < currentBattleKeepers[i].GetComponent<Fighter>().EffectiveBoeufs.Count; j++)
+            {
+                if (currentBattleKeepers[i].GetComponent<Fighter>().EffectiveBoeufs[j].BoeufType == BoeufType.Aggro)
+                    return currentBattleKeepers[i];
+            }
+        }
+
         if (isPrisonerOnTile)
         {
-            for (int i = 0; i < currentBattleKeepers.Length; i++)
-            {
-                // Gérer les aggro ici, Ashley a 50 d'aggro (50%) de base
-            }
             float determineTarget = Random.Range(0, 100);
             if (determineTarget < ((100.0f / (currentBattleKeepers.Length + 2)) * 2))
             {
