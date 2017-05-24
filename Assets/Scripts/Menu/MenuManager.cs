@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using QuestDeckLoader;
 using UnityEngine.UI;
+using UnityEngine.AI;
 // Temp
 using UnityEngine.SceneManagement;
 
@@ -47,6 +48,14 @@ public class MenuManager : MonoBehaviour {
     [SerializeField]
     GameObject prefabChatox;
 
+    // For Lanch Cinematic
+    public Transform trVortex;
+    public List<GameObject> prefabsMiniatures = new List<GameObject>();
+    List<PawnInstance> listPawnSelected = null;
+    List<PawnInstance> listPawnJumped = null;
+    int nbPawnToWait = 0;
+    bool bLauched = false;
+
     private void Awake()
     {
         dicPawnChatBox = new Dictionary<GameObject, ChatBox>();
@@ -64,6 +73,38 @@ public class MenuManager : MonoBehaviour {
         hasBeenInit = false;
         menuUi.UpdateStartButton();
         Cursor.SetCursor(GameManager.Instance.Texture2DUtils.iconeMouse, Vector2.zero, CursorMode.Auto);
+    }
+
+    void Update()
+    {
+        if (bLauched)
+        {
+            for(int i = 0; i<listPawnSelected.Count; i++)
+            {
+                if(listPawnSelected[i].GetComponent<NavMeshAgent>().remainingDistance < 3.0f)
+                {
+                    Debug.Log("jump");
+                    listPawnSelected[i].GetComponentInChildren<Animator>().SetTrigger("jumpVortex");
+                    listPawnJumped.Add(listPawnSelected[i]);
+                    listPawnSelected.Remove(listPawnSelected[i]);
+                }
+            }
+
+            for (int i = 0; i < listPawnJumped.Count; i++)
+            {
+                if (listPawnJumped[i].GetComponent<NavMeshAgent>().remainingDistance < 0.5)
+                {
+                    listPawnJumped.Remove(listPawnJumped[i]);
+                    nbPawnToWait -= 1;
+                    Debug.Log("arrived");
+                }
+            }
+
+            if(nbPawnToWait <= 0)
+            {
+                StartGame();
+            }
+        }
     }
 
     public void InitCards()
@@ -363,6 +404,25 @@ public class MenuManager : MonoBehaviour {
         {
             gc.Value.SetEnable(value);
         }
+    }
+
+    public void LaunchCinematic()
+    {
+        GetComponent<BoxOpener>().animatorCam.SetTrigger("lauch");
+        listPawnSelected = new List<PawnInstance>();
+        listPawnJumped = new List<PawnInstance>();
+        foreach (PawnInstance p in GameObject.FindObjectsOfType<PawnInstance>())
+        {
+            if (listeSelectedKeepers.Contains(p.Data.PawnId))
+            {
+                NavMeshAgent agent = p.GetComponent<NavMeshAgent>();
+                agent.enabled = true;
+                agent.SetDestination(trVortex.position);
+                listPawnSelected.Add(p);
+            }
+        }
+        nbPawnToWait = listPawnSelected.Count;
+        bLauched = true;
     }
 
     public void StartGame()
