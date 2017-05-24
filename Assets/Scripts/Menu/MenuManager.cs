@@ -390,6 +390,7 @@ public class MenuManager : MonoBehaviour {
             }
         }
         nbPawnToWait = listPawnSelected.Count;
+        menuUi.startButtonImg.gameObject.SetActive(false);
         bLauched = true;
     }
 
