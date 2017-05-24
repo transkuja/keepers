@@ -147,6 +147,28 @@ public class PawnDatabase {
                                 break;
                         }
                         break;
+                    case "apstack":
+                        switch (pawnEntry.Value.Str)
+                        {
+                            case "true":
+                                newPawnDataContainer.pawnData.Behaviours[(int)BehavioursEnum.ApStack] = true;
+                                break;
+                            case "false":
+                                newPawnDataContainer.pawnData.Behaviours[(int)BehavioursEnum.ApStack] = false;
+                                break;
+                        }
+                        break;
+                    case "harvester":
+                        switch (pawnEntry.Value.Str)
+                        {
+                            case "true":
+                                newPawnDataContainer.pawnData.Behaviours[(int)BehavioursEnum.Harvester] = true;
+                                break;
+                            case "false":
+                                newPawnDataContainer.pawnData.Behaviours[(int)BehavioursEnum.Harvester] = false;
+                                break;
+                        }
+                        break;
                     // COMPONENTS DATA
                     case "Fighter":
                         newPawnDataContainer.dicComponentData.Add(typeof(Behaviour.Fighter), null);

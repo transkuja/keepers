@@ -141,5 +141,7 @@ public enum BehavioursEnum
     Archer,
     Stinks,
     Healer,
+    ApStack,
+    Harvester,
     Size
 };

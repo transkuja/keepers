@@ -458,7 +458,23 @@ public class EventManager : MonoBehaviour {
                 ki.GetComponent<LuckBased>().HandleLuckForActionPoints();
 
             if (ki.GetComponent<Mortal>().IsAlive)
+            {
+                if (ki.Data.Behaviours[(int)BehavioursEnum.ApStack])
+                {
+                    int actionPointsForNextTurn;
+
+                    if (ki.GetComponent<Keeper>().ActionPoints >= 1 && ki.GetComponent<HungerHandler>().CurrentHunger <= (ki.GetComponent<HungerHandler>().Data.MaxHunger / 2.0f))
+                        actionPointsForNextTurn = 4;
+                    else
+                        actionPointsForNextTurn = 3;
+
+                    ki.GetComponent<Keeper>().Data.MaxActionPoint = actionPointsForNextTurn;
+                    ki.GetComponent<Keeper>().UpdateActionPoint(actionPointsForNextTurn);
+                    ki.GetComponent<Keeper>().UpdateActionPointsUI();
+                }
+
                 ki.GetComponent<Keeper>().ActionPoints = ki.GetComponent<Keeper>().Data.MaxActionPoint;
+            }
         }
     }
 

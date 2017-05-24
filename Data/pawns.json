@@ -14,6 +14,8 @@
 			"archer" : "false",
 			"stinks" : "false",
 			"healer" : "false",
+			"apstack" : "false",
+			"harvester" : "false",
 			
 			"HungerHandler" : {
 				"maxHunger" : 100
@@ -45,6 +47,8 @@
 			"archer" : "false",
 			"stinks" : "false",
 			"healer" : "false",
+			"apstack" : "false",
+			"harvester" : "false",
 			
 			"Fighter" : {},
 			
@@ -84,6 +88,8 @@
 			"archer" : "false",
 			"stinks" : "false",
 			"healer" : "false",
+			"apstack" : "false",
+			"harvester" : "false",
 			
 			"Fighter" : {},
 			
@@ -123,6 +129,8 @@
 			"archer" : "false",
 			"stinks" : "false",
 			"healer" : "false",
+			"apstack" : "true",
+			"harvester" : "true",
 			
 			"Fighter" : {},
 			
@@ -162,6 +170,8 @@
 			"archer" : "false",
 			"stinks" : "false",
 			"healer" : "true",
+			"apstack" : "false",
+			"harvester" : "false",
 			
 			"HungerHandler" : {
 				"maxHunger" : 100
@@ -199,7 +209,9 @@
 			"archer" : "true",
 			"stinks" : "true",
 			"healer" : "false",
-
+			"apstack" : "false",
+			"harvester" : "false",
+			
 			"HungerHandler" : {
 				"maxHunger" : 100
 			},
@@ -236,7 +248,9 @@
 			"archer" : "false",
 			"stinks" : "false",
 			"healer" : "false",
-
+			"apstack" : "false",
+			"harvester" : "false",
+			
 			"HungerHandler" : {
 				"maxHunger" : 100
 			},

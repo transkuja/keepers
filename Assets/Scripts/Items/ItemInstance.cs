@@ -192,10 +192,10 @@ public class ItemInstance : MonoBehaviour, IHavestable
             int previousQuantity = itemContainer.Quantity;
 
             if (GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.LuckBased>() != null)
-
                 GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.LuckBased>().HandleLuckForHarvest(itemContainer);
 
-
+            if (GameManager.Instance.GetFirstSelectedKeeper().Data.Behaviours[(int)BehavioursEnum.Harvester])
+                itemContainer.Quantity = (int)(itemContainer.Quantity * 1.25f) + 1;
 
             bool isNoLeftOver = InventoryManager.AddItemToInventory(GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Inventory>().Items, itemContainer);
 
