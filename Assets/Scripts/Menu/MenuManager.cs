@@ -421,7 +421,7 @@ public class MenuManager : MonoBehaviour {
             {
                 StartGame();
             }
-            else if (timerLaunch <=0.8f)
+            else if (timerLaunch <=0.5f)
             {
                 currentMiniature.Hide();
             }
