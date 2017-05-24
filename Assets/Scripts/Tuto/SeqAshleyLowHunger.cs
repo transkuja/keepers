@@ -28,7 +28,7 @@ public class SeqAshleyLowHunger : Sequence {
             {
                 feedback = Instantiate(TutoManager.s_instance.uiPointer, GameManager.Instance.Ui.transform.GetChild(0));
                 feedback.GetComponent<FlecheQuiBouge>().PointToPoint = seqAshleyLowHunger.shortcutPanels.transform.GetChild(0).position;
-                feedback.GetComponent<FlecheQuiBouge>().distanceOffset = 180.0f;
+                feedback.GetComponent<FlecheQuiBouge>().distanceOffset = 220.0f;
                 feedback.GetComponent<FlecheQuiBouge>().speed = 12.0f;
 
                 feedback.transform.localEulerAngles = new Vector3(0, 0, -135);
@@ -64,20 +64,43 @@ public class SeqAshleyLowHunger : Sequence {
             if (feedback == null)
             {
                 feedback = Instantiate(TutoManager.s_instance.uiPointer, GameManager.Instance.Ui.transform.GetChild(0));
-                feedback.GetComponent<FlecheQuiBouge>().PointToPoint = GameManager.Instance.PrisonerInstance.GetComponent<Behaviour.Inventory>().SelectedInventoryPanel.transform.position;
-                feedback.GetComponent<FlecheQuiBouge>().distanceOffset = 180.0f;
+                feedback.GetComponent<FlecheQuiBouge>().PointToPoint = GameManager.Instance.PrisonerInstance.GetComponent<Behaviour.Inventory>().SelectedInventoryPanel.transform.position + Vector3.up * (50 * (Screen.height/1080.0f));
+                feedback.GetComponent<FlecheQuiBouge>().distanceOffset = 100.0f;
                 feedback.GetComponent<FlecheQuiBouge>().speed = 12.0f;
 
-                feedback.transform.localEulerAngles = new Vector3(0, 0, -45);
+                feedback.transform.localEulerAngles = new Vector3(0, 0, -75);
             }
 
             TutoManager.s_instance.EcrireMessage(str);
             TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.Idle;
+            TutoManager.s_instance.waitForFeedSlotAppearance = false;
         }
 
         public override void Reverse()
         {
             Destroy(feedback);
+            alreadyPlayed = false;
+        }
+    }
+
+    public class WaitForNextSeq : Step
+    {
+        string str;
+        public WaitForNextSeq(string _str)
+        {
+            stepFunction = Message_fct;
+            str = _str;
+        }
+
+        public void Message_fct()
+        {
+            TutoManager.s_instance.EcrireMessage(str);
+            TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.Idle;
+            TutoManager.s_instance.waitForFeedSlotAppearance = true;
+        }
+
+        public override void Reverse()
+        {
             alreadyPlayed = false;
         }
     }
@@ -90,12 +113,13 @@ public class SeqAshleyLowHunger : Sequence {
         Etapes = new List<Step>();
         Etapes.Add(new TutoManager.Spawn(pawnMrResetti, jumpAnimationClip));
 
-        Etapes.Add(new ShowAshleyHunger("Be careful, Ashley is starving!"));
+        if (!TutoManager.s_instance.waitForFeedSlotAppearance)
+            Etapes.Add(new ShowAshleyHunger("Be careful, Ashley is starving!"));
 
         if (GameManager.Instance.PrisonerInstance.GetComponent<Behaviour.Inventory>().SelectedInventoryPanel.activeSelf)
-            Etapes.Add(new TutoManager.Message(pawnMrResetti, "Use the Feed slot here to feed her"));
+            Etapes.Add(new ShowFeedSlot("Drop some food in the Feed slot here to feed " + ((TutoManager.s_instance.waitForFeedSlotAppearance) ? "Ashley" : "her")));
         else
-            Etapes.Add(new TutoManager.Message(pawnMrResetti, "Go on the area where she is and use the Feed slot next to your inventory to feed her"));        
+            Etapes.Add(new WaitForNextSeq("Select a character in her area to feed her"));
     }
 
     public override void End()
@@ -105,7 +129,9 @@ public class SeqAshleyLowHunger : Sequence {
             TutoManager.UnSpawn(pawnMrResetti);
         if (TutoManager.s_instance.TutoPanelInstance != null)
             Destroy(TutoManager.s_instance.TutoPanelInstance);
-        TutoManager.s_instance.GetComponent<SeqAshleyLowHunger>().AlreadyPlayed = true;
+        if (TutoManager.s_instance.waitForFeedSlotAppearance)
+            TutoManager.s_instance.GetComponent<SeqAshleyLowHunger>().position = -1;
+        TutoManager.s_instance.GetComponent<SeqAshleyLowHunger>().AlreadyPlayed = !TutoManager.s_instance.waitForFeedSlotAppearance;
         TutoManager.s_instance.PlayingSequence = null;
     }
 }

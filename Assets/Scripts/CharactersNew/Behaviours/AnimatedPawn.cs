@@ -39,7 +39,7 @@ namespace Behaviour
         bool isCameraUpdated = false;
         bool wasAgentActiveBeforeBattle = true;
 
-        float timerNeFaitRienPendantDixSeconde;
+        float timerNeFaitRienPendantDixATrenteSecondes;
 
         void Awake()
         {
@@ -52,7 +52,7 @@ namespace Behaviour
             arrivingTrigger = Direction.None;
             fRotateSpeed = 5.0f;
             timerResetAgentDestinationDefault = 2.0f;
-            timerNeFaitRienPendantDixSeconde = Random.Range(10, 30);
+            timerNeFaitRienPendantDixATrenteSecondes = Random.Range(10, 30);
         }
         void Update()
         {
@@ -80,7 +80,7 @@ namespace Behaviour
 
             if (IsMovingBetweenTiles)
             {
-                timerNeFaitRienPendantDixSeconde = Random.Range(10, 30);
+                timerNeFaitRienPendantDixATrenteSecondes = Random.Range(10, 30);
                 lerpMoveParam += Time.deltaTime;
                 if (lerpMoveParam >= 1.0f)
                 {
@@ -98,7 +98,7 @@ namespace Behaviour
 
             if (isMovingToBattlePosition)
             {
-                timerNeFaitRienPendantDixSeconde = Random.Range(10, 30);
+                timerNeFaitRienPendantDixATrenteSecondes = Random.Range(10, 30);
                 lerpMoveParam += Time.deltaTime;
                 if (lerpMoveParam >= 1.0f)
                 {
@@ -118,17 +118,17 @@ namespace Behaviour
             }
     
             // ne fait rien pendant 10 secondes
-            if(timerNeFaitRienPendantDixSeconde <= 0)
+            if(timerNeFaitRienPendantDixATrenteSecondes <= 0)
             {
                 if (GetComponent<ItemInstance>() == null)
                 {
                     anim.SetTrigger("idle");
                 }
-                timerNeFaitRienPendantDixSeconde = 10.0f;
+                timerNeFaitRienPendantDixATrenteSecondes = 10.0f;
      
             } else if (GameManager.Instance.CurrentState == GameState.Normal)
             {
-                timerNeFaitRienPendantDixSeconde -= Time.deltaTime;
+                timerNeFaitRienPendantDixATrenteSecondes -= Time.deltaTime;
             }
 
             if (doesAgentNeedReset)
@@ -161,18 +161,6 @@ namespace Behaviour
             lerpEndRotation = Quaternion.LookRotation(direction);
             anim.SetTrigger("moveBetweenTiles");
             IsMovingBetweenTiles = true;
-            // Update Ashley feeding panel
-            //if (GameManager.Instance.PrisonerInstance != null && GetComponent<Keeper>() != null && !GetComponent<Keeper>().GoListCharacterFollowing.Contains(GameManager.Instance.PrisonerInstance.gameObject))
-            //{
-            //    GameObject ashleyInventoryPanel;
-            //    if (GameManager.Instance.PrisonerInstance != null)
-            //    {
-            //        ashleyInventoryPanel = GameManager.Instance.PrisonerInstance.GetComponent<Inventory>().SelectedInventoryPanel;
-            //        ashleyInventoryPanel.SetActive(false);
-            //        ashleyInventoryPanel.transform.SetParent(GetComponent<Inventory>().SelectedInventoryPanel.transform.parent, false);
-            //        GetComponent<Inventory>().SelectedInventoryPanel.GetComponent<GridLayoutGroup>().constraintCount = GetComponent<Inventory>().Data.NbSlot;
-            //    }
-            //}
         }
         // TODO: merge with the above function
         public void StartMoveToBattlePositionAnimation(Vector3 newPosition, Quaternion newRotation)
@@ -237,7 +225,7 @@ namespace Behaviour
                 agent.Resume();
             }
             v3AgentDirectionTemp = v3Direction;
-            timerNeFaitRienPendantDixSeconde = Random.Range(10, 30);
+            timerNeFaitRienPendantDixATrenteSecondes = Random.Range(10, 30);
         }
         void Rotate()
         {
@@ -283,6 +271,9 @@ namespace Behaviour
                         ashleyInventoryPanel.transform.SetParent(GetComponent<Inventory>().SelectedInventoryPanel.transform, false);
                         GetComponent<Inventory>().SelectedInventoryPanel.GetComponent<GridLayoutGroup>().constraintCount = GetComponent<Inventory>().Data.NbSlot + 1;
                         ashleyInventoryPanel.SetActive(true);
+                        // Show the feed slot after tuto has already warn the player
+                        if (TutoManager.s_instance.waitForFeedSlotAppearance && TutoManager.s_instance.PlayingSequence == null)
+                            TutoManager.s_instance.playSequence(TutoManager.s_instance.GetComponent<SeqAshleyLowHunger>());
                     }
                     else
                     {

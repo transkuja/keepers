@@ -355,6 +355,9 @@ namespace Behaviour
                     ashleyInventoryPanel.transform.SetParent(GetComponent<Inventory>().SelectedInventoryPanel.transform, false);
                     GetComponent<Inventory>().SelectedInventoryPanel.GetComponent<GridLayoutGroup>().constraintCount = GetComponent<Inventory>().Data.NbSlot + 1;
                     ashleyInventoryPanel.SetActive(true);
+                    // Show the feed slot after tuto has already warn the player
+                    if (TutoManager.s_instance.waitForFeedSlotAppearance && TutoManager.s_instance.PlayingSequence == null)
+                        TutoManager.s_instance.playSequence(TutoManager.s_instance.GetComponent<SeqAshleyLowHunger>());
                 }
                 else
                 {

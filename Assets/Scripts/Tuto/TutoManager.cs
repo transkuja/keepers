@@ -45,6 +45,8 @@ public class TutoManager : MonoBehaviour {
     public GameObject endTurnButton;
     public GameObject shortcutButton;
 
+    public bool waitForFeedSlotAppearance = false;
+
     private void Awake()
     {
         if (s_instance == null)
