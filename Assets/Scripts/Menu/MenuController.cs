@@ -198,6 +198,11 @@ public class MenuController : MonoBehaviour {
                 menuManager.CardLevelSelected = -1;
                 menuManager.DeckOfCardsSelected = string.Empty;
 
+                if(menuManager.currentMiniature != null)
+                {
+                    GameObject.Destroy(menuManager.currentMiniature.gameObject);
+                }
+
                 GameManager.Instance.ListEventSelected.Clear();
                 menuManager.SetActiveChatBoxes(false);
                 menuUI.previousCardSelected = null;
@@ -211,6 +216,9 @@ public class MenuController : MonoBehaviour {
 
                 menuManager.CardLevelSelected = card.levelIndex;
                 menuManager.DeckOfCardsSelected = leveldb.GetLevelById(card.levelIndex).deckId;
+
+                menuManager.currentMiniature = Instantiate(menuManager.prefabsMiniatures[card.levelIndex - 1], menuManager.trVortex.position + Vector3.up * 0.2f, Quaternion.identity).GetComponent<Miniature>();
+                menuManager.currentMiniature.bNeedShow = true;
 
                 GameManager.Instance.ListEventSelected.Clear();
 

@@ -12,37 +12,51 @@ public class Miniature : MonoBehaviour {
         shrinking = -1,
     }
    
-    [SerializeField] bool bNeedShow = false;  // FOR TESTS PURPOSES
-    [SerializeField] bool bNeedHide = false;  // FOR TESTS PURPOSES
+    public AnimationCurve curve;
 
-    [SerializeField] AnimationCurve curve;
-    [SerializeField] float fScaleSpeed;
-    [SerializeField] float fRotateSpeed;
-    float fLerp = 0;
+    public bool bStartHidden = true;
+
+    public bool bNeedForce = false;
+    public bool bNeedShow = false;
+    public bool bNeedHide = false;
+    public float fRotateSpeed;
+    public float fScaleSpeed;
+
+    float fLerp = 1;
     Vector3 v3ScaleRef;
-    State state = State.shrank;
+    State state = State.grown;
 
     // Use this for initialization
     void Start () {
         v3ScaleRef = transform.localScale;
-        transform.localScale = Vector3.zero;
+        if (bStartHidden)
+        {
+            transform.localScale = Vector3.zero;
+            state = State.shrank;
+            fLerp = 0;
+        }
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
 
         if(bNeedShow)
         {
-            Show();
+            Show(bNeedForce);
             bNeedShow = false;
         }
         if(bNeedHide)
         {
-            Hide();
+            Hide(bNeedForce);
             bNeedHide = false;
         }
+        if (bNeedForce)
+        {
+            bNeedForce = false;
+        }
 
-        if(state != State.shrank)
+
+        if (state != State.shrank)
         {
             updateRotation();
 
