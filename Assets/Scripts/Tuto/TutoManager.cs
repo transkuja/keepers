@@ -91,7 +91,8 @@ public class TutoManager : MonoBehaviour {
 
         GameManager.Instance.AllKeepersList[0].GetComponent<Mortal>().SelectedHPUI.SetActive(false);
         GameManager.Instance.AllKeepersList[0].GetComponent<HungerHandler>().SelectedHungerUI.SetActive(false);
-        GameManager.Instance.AllKeepersList[0].GetComponent<MentalHealthHandler>().SelectedMentalHealthUI.SetActive(false);
+        if (GameManager.Instance.AllKeepersList[0].GetComponent<MentalHealthHandler>() != null)
+            GameManager.Instance.AllKeepersList[0].GetComponent<MentalHealthHandler>().SelectedMentalHealthUI.SetActive(false);
         GameManager.Instance.AllKeepersList[0].GetComponent<Keeper>().BtnLeft.SetActive(false);
         GameManager.Instance.AllKeepersList[0].GetComponent<Keeper>().BtnRight.SetActive(false);
 

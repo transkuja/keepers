@@ -488,7 +488,7 @@ public class SeqFirstMove : Sequence {
 
         // Content
         Etapes.Add(new TutoManager.Message(pawnMrResetti, "Hi, I'm here to teach you how to play"));
-        Etapes.Add(new SelectCharacterStep("First select the girl in armor by clicking on her."));
+        Etapes.Add(new SelectCharacterStep("First select the glowing pawn by clicking on it."));
         Etapes.Add(new MovePawnOnTileStep("To interact with the world, you have to use the right click. Click on the ground to move the girl."));
         Etapes.Add(new MovePawnToAnotherTileExplanation("You can also interact with everything glowing in the world. Try right clicking on this portal.")); // => click expected on bridge
         Etapes.Add(new RightClickOnBridgeValidated("Good,"));

@@ -189,6 +189,7 @@ public abstract class Sequence : MonoBehaviour
             GameManager.Instance.PersistenceLoader.Pd.dicPersistenceDecks["deck_01"] = true;
             GameManager.Instance.PersistenceLoader.Pd.dicPersistenceDecks["deck_02"] = true;
         }
+        position = -1;
     }
 
     public bool isLastSequence()
