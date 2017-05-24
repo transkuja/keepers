@@ -13,6 +13,7 @@
 			"sensible" : "false",
 			"archer" : "false",
 			"stinks" : "false",
+			"healer" : "false",
 			
 			"HungerHandler" : {
 				"maxHunger" : 100
@@ -43,6 +44,7 @@
 			"sensible" : "false",
 			"archer" : "false",
 			"stinks" : "false",
+			"healer" : "false",
 			
 			"Fighter" : {},
 			
@@ -81,6 +83,7 @@
 			"sensible" : "false",
 			"archer" : "false",
 			"stinks" : "false",
+			"healer" : "false",
 			
 			"Fighter" : {},
 			
@@ -119,6 +122,7 @@
 			"sensible" : "false",
 			"archer" : "false",
 			"stinks" : "false",
+			"healer" : "false",
 			
 			"Fighter" : {},
 			
@@ -157,6 +161,7 @@
 			"sensible" : "true",
 			"archer" : "false",
 			"stinks" : "false",
+			"healer" : "true",
 			
 			"HungerHandler" : {
 				"maxHunger" : 100
@@ -193,6 +198,7 @@
 			"sensible" : "false",
 			"archer" : "true",
 			"stinks" : "true",
+			"healer" : "false",
 
 			"HungerHandler" : {
 				"maxHunger" : 100
@@ -229,6 +235,7 @@
 			"sensible" : "false",
 			"archer" : "false",
 			"stinks" : "false",
+			"healer" : "false",
 
 			"HungerHandler" : {
 				"maxHunger" : 100

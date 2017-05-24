@@ -66,6 +66,8 @@ namespace Behaviour
         {
             currentHp = data.MaxHp;
             isAlive = true;
+            if (GetComponent<Monster>() == null)
+                GetComponent<Interactable>().Interactions.Add(new Interaction(Heal), 1, "Heal", GameManager.Instance.SpriteUtils.spriteCookie);
         }
 
         public void Die()
@@ -286,6 +288,20 @@ namespace Behaviour
         }
         #endregion
 
+        public void Heal(int _i = 0)
+        {
+            int costAction = GetComponent<Interactable>().Interactions.Get("Heal").costAction;
+            Keeper from = GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Keeper>();
+            if (from.ActionPoints >= costAction)
+            {
+                from.ActionPoints -= costAction;
+                CurrentHp += 10;
+            }
+            else
+            {
+                GameManager.Instance.Ui.ZeroActionTextAnimation(from);
+            }
+        }
 
         #region Accessors
         public int MaxHp

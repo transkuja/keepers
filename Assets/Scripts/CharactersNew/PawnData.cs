@@ -140,5 +140,6 @@ public enum BehavioursEnum
     CanSpeak,
     Archer,
     Stinks,
+    Healer,
     Size
 };
