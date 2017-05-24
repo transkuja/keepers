@@ -76,7 +76,10 @@ public class DragHandler : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
                 transform.SetParent(startParent);
             }
         }
-        
+
+        if(GameManager.Instance.Ui.tooltipItem != null)
+        GameManager.Instance.Ui.tooltipItem.SetActive(false);
+
         GetComponent<CanvasGroup>().blocksRaycasts = true;
     }
 

@@ -81,7 +81,7 @@ public class ItemSplitter : MonoBehaviour {
             }
             else
             {
-                if (quantityToSend > 0)
+                if (quantityToSend >= 0)
                 {
                     if (InventoryManager.AddItemToInventory(inventoryTo.Owner.GetComponent<Behaviour.Inventory>().Items, new ItemContainer(selectedItem.Item, quantityToSend)))
                     {

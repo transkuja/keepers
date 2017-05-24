@@ -1111,6 +1111,18 @@ public class EventManager : MonoBehaviour {
         if (GameManager.Instance.PrisonerInstance == null)
             return;
 
+        bool areAllDead = true;
+        foreach(PawnInstance k in GameManager.Instance.AllKeepersList)
+        {
+            if (k.GetComponent<Mortal>().IsAlive)
+            {
+                areAllDead = false;
+            }
+        }
+        if (areAllDead)
+            return;
+
+
         bool isAlone = true;
         Tile tileAshley = GameManager.Instance.PrisonerInstance.CurrentTile;
         foreach (PawnInstance pi in TileManager.Instance.KeepersOnTile[tileAshley])

@@ -23,6 +23,9 @@ public class DoubleClickHandler : MonoBehaviour, IPointerClickHandler
 
         if (tap == 2)
         {
+
+            if (GameManager.Instance.Ui.tooltipItem != null)
+                GameManager.Instance.Ui.tooltipItem.SetActive(false);
             // Only keeper can use items
             Behaviour.Keeper owner = eventData.pointerPress.GetComponentInParent<InventoryOwner>().Owner.GetComponent<Behaviour.Keeper>();
             if (owner == null 
