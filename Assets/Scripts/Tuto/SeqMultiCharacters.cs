@@ -216,13 +216,13 @@ public class SeqMultiCharacters : Sequence
         Etapes = new List<Step>();
         Etapes.Add(new TutoManager.Spawn(pawnMrResetti, jumpAnimationClip));
 
-        Etapes.Add(new TutoManager.Message(pawnMrResetti, "Now you have more characters."));
-        Etapes.Add(new TutoManager.Message(pawnMrResetti, "Each one of them has its own action points, inventory and specificities."));
-        Etapes.Add(new ShowCurrentCharacterAvatar("You can see the character currently selected here."));
-        Etapes.Add(new TutoManager.Message(pawnMrResetti, "You can interact with other characters by right clicking on them when you have a character selected."));
-        Etapes.Add(new InteractWithAnotherCharacter("Try interacting with another pawn!"));
-        Etapes.Add(new FreezeInteractionsForTuto("Good,"));
-        Etapes.Add(new ShortcutPanelTeaching("you can also click here, or press A, to have a reminder of all your characters at once."));
+        Etapes.Add(new TutoManager.Message(pawnMrResetti, Translater.TutoText("SeqMultiCharacters", 0)));
+        Etapes.Add(new TutoManager.Message(pawnMrResetti, Translater.TutoText("SeqMultiCharacters", 1)));
+        Etapes.Add(new ShowCurrentCharacterAvatar(Translater.TutoText("SeqMultiCharacters", 2)));
+        Etapes.Add(new TutoManager.Message(pawnMrResetti, Translater.TutoText("SeqMultiCharacters", 3)));
+        Etapes.Add(new InteractWithAnotherCharacter(Translater.TutoText("SeqMultiCharacters", 4)));
+        Etapes.Add(new FreezeInteractionsForTuto(Translater.TutoText("SeqMultiCharacters", 5)));
+        Etapes.Add(new ShortcutPanelTeaching(Translater.TutoText("SeqMultiCharacters", 6)));
     }
 
     public override void End()

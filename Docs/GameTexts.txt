@@ -1,0 +1,26 @@
+Team crocket text
+"Team Crocket, blast off at the speed of light!"
+"We found you Waouf !"
+"Let's bring him back home."
+
+Tuto combat 
+"You have to roll dice to defeat monsters in this world"
+"Click on the Dice button here to roll all your characters' dice."
+"Very well. Each die's value is added to the characters' stocks."
+"When these stocks' values are high enough, you will be able to perform skills."
+"To perform an action, select a pawn by clicking on it."
+"Here is your character's skill list"
+"Each skill has a cost so you will need the required symbols' values to use one."
+"Now click on the skill \"Great Power\", then on the monster to unleash your power!"
+ "Great!"
+ "Once all of your characters have played, it's the monsters' turn"
+ "Use what you learned to finish the battle, good luck!"
+ 
+Tuto personnages multiples
+"Now you have more characters.";
+"Each one of them has its own action points, inventory and specificities.";
+"You can see the character currently selected here.";
+"You can interact with other characters by right clicking on them when you have a character selected.";
+"Try interacting with another pawn!";
+"Good,";
+"you can also click here, or press A, to have a reminder of all your characters at once.";

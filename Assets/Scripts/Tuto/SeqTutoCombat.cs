@@ -359,18 +359,18 @@ public class SeqTutoCombat : Sequence
         Etapes = new List<Step>();
 
         // Content
-        Etapes.Add(new TutoManager.Message(null, "You have to roll dice to defeat monsters in this world"));
-        Etapes.Add(new RollDiceButtonExplain("Click on the Dice button here to roll all your characters' dice."));
-        Etapes.Add(new ShowCharactersStocks("Very well. Each die's value is added to the characters' stocks."));
-        Etapes.Add(new ShowCharactersStocks("When these stocks' values are high enough, you will be able to perform skills."));
-        Etapes.Add(new PawnSelection("To perform an action, select a pawn by clicking on it."));
-        Etapes.Add(new StandardAtkExplain("Here is your character's skill list"));
-        Etapes.Add(new SkillCostExplain("Each skill has a cost so you will need the required symbols' values to use one."));
-        Etapes.Add(new SkillSelectionStep("Now click on the skill \"Great Power\", then on the monster to unleash your power!"));
+        Etapes.Add(new TutoManager.Message(null, Translater.TutoText("SeqTutoCombat", 0)));
+        Etapes.Add(new RollDiceButtonExplain(Translater.TutoText("SeqTutoCombat", 1)));
+        Etapes.Add(new ShowCharactersStocks(Translater.TutoText("SeqTutoCombat", 2)));
+        Etapes.Add(new ShowCharactersStocks(Translater.TutoText("SeqTutoCombat", 3)));
+        Etapes.Add(new PawnSelection(Translater.TutoText("SeqTutoCombat", 4)));
+        Etapes.Add(new StandardAtkExplain(Translater.TutoText("SeqTutoCombat", 5)));
+        Etapes.Add(new SkillCostExplain(Translater.TutoText("SeqTutoCombat", 6)));
+        Etapes.Add(new SkillSelectionStep(Translater.TutoText("SeqTutoCombat", 7)));
 
-        Etapes.Add(new TutoManager.Message(null, "Great!"));
-        Etapes.Add(new MonstersTurnStep("Once all of your characters have played, it's the monsters' turn")); // ==> monsters play their turn when clicking on next arrow
-        Etapes.Add(new TutoManager.Message(null, "Use what you learned to finish the battle, good luck!")); // ==> show this step when turn reset, no previous arrow
+        Etapes.Add(new TutoManager.Message(null, Translater.TutoText("SeqTutoCombat", 8)));
+        Etapes.Add(new MonstersTurnStep(Translater.TutoText("SeqTutoCombat", 9))); // ==> monsters play their turn when clicking on next arrow
+        Etapes.Add(new TutoManager.Message(null, Translater.TutoText("SeqTutoCombat", 10))); // ==> show this step when turn reset, no previous arrow
     }
 
     public override void End()

@@ -95,9 +95,9 @@ public class seqTeamCrocket : Sequence {
 
 
         // Content
-        Etapes.Add(new Message(teamCrocketJames, "Team Crocket, blast off at the speed of light!"));
-        Etapes.Add(new Message(teamCrocketJessie, "We found you Waouf !"));
-        Etapes.Add(new Message(teamCrocketJames, "Let's bring him back home."));
+        Etapes.Add(new Message(teamCrocketJames, Translater.TutoText("seqTeamCrocket", 0)));
+        Etapes.Add(new Message(teamCrocketJessie, Translater.TutoText("seqTeamCrocket", 1)));
+        Etapes.Add(new Message(teamCrocketJames, Translater.TutoText("seqTeamCrocket", 2)));
     }
 
 
