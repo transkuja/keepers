@@ -4,6 +4,7 @@ using UnityEngine.AI;
 using UnityEngine.UI;
 using Behaviour;
 using System;
+using Random = UnityEngine.Random;
 
 public enum TargetType { FriendSingle, FoeSingle, FriendAll, FoeAll, Self }
 public enum SkillType { Physical, Magical, Defensive }
@@ -362,73 +363,13 @@ public class SkillBattle {
 
         if (targetType == TargetType.FoeAll)
         {
-            BattleHandler.ExpectedAnswers = BattleHandler.CurrentBattleMonsters.Length;
-            if (battleAnimation != null)
-            {
-                if(battleAnimation.GetComponent<IBattleAnimation>().GetTargetType() == TargetType.FoeSingle)
-                {
-                    List<PawnInstance> target = new List<PawnInstance>();
-                    target.Add(BattleHandler.CurrentBattleMonsters[0]);
-                    battleAnimation.GetComponent<IBattleAnimation>().SetTargets(target.ToArray());
-                }
-                else
-                {
-                    List<PawnInstance> targets = new List<PawnInstance>();
-                    foreach (PawnInstance m in BattleHandler.CurrentBattleMonsters)
-                    {
-                        if (m.GetComponent<Mortal>().CurrentHp > 0)
-                            targets.Add(m);
-                    }
-                    battleAnimation.GetComponent<IBattleAnimation>().SetTargets(targets.ToArray());
-                }
-                
-                BattleHandler.CurrentSkillAnimDuration = battleAnimation.GetComponent<IBattleAnimation>().GetAnimationTime();
-                battleAnimation.GetComponent<IBattleAnimation>().Play();
-            }
-            else
-            {
-                BattleHandler.CurrentSkillAnimDuration = 0.5f;
-            }
-            for (int i = 0; i < BattleHandler.CurrentBattleMonsters.Length; i++)
-            {
-                if (BattleHandler.CurrentBattleMonsters[i].GetComponent<Mortal>().CurrentHp > 0)
-                    ApplySkillEffectOnTarget(BattleHandler.CurrentBattleMonsters[i], effectiveDamage);
-                else
-                    BattleHandler.ExpectedAnswers--;
-            }
+            if (skillName.Contains("Rainbow Beam"))
+                UseSkillOnAllAllies(effectiveDamage);
+           UseSkillOnAllFoes(effectiveDamage);
         }
         else if (targetType == TargetType.FriendAll)
         {
-            BattleHandler.ExpectedAnswers = BattleHandler.CurrentBattleKeepers.Length;
-            if (battleAnimation != null)
-            {
-                List<PawnInstance> targets = new List<PawnInstance>();
-                foreach (PawnInstance k in BattleHandler.CurrentBattleKeepers)
-                {
-                    if (k.GetComponent<Mortal>().CurrentHp <= 0)
-                        targets.Add(k);
-                }
-                battleAnimation.GetComponent<IBattleAnimation>().SetTargets(targets.ToArray());
-                battleAnimation.GetComponent<IBattleAnimation>().SetTargets(BattleHandler.CurrentBattleKeepers);
-                BattleHandler.CurrentSkillAnimDuration = battleAnimation.GetComponent<IBattleAnimation>().GetAnimationTime();
-                battleAnimation.GetComponent<IBattleAnimation>().Play();
-            }
-            else
-            {
-                BattleHandler.CurrentSkillAnimDuration = 0.5f;
-            }
-            for (int i = 0; i < BattleHandler.CurrentBattleKeepers.Length; i++)
-            {
-                if (BattleHandler.CurrentBattleKeepers[i].GetComponent<Mortal>().CurrentHp > 0)
-                    ApplySkillEffectOnTarget(BattleHandler.CurrentBattleKeepers[i], effectiveDamage);
-                else
-                    BattleHandler.ExpectedAnswers--;
-            }
-            if (BattleHandler.isPrisonerOnTile)
-            {
-                ApplySkillEffectOnTarget(GameManager.Instance.PrisonerInstance, effectiveDamage);
-                BattleHandler.ExpectedAnswers++;
-            }
+            UseSkillOnAllAllies(effectiveDamage);
         }
         else if (targetType == TargetType.Self)
         {
@@ -453,6 +394,92 @@ public class SkillBattle {
         }
 
         BattleHandler.IsWaitingForSkillEnd = true;
+    }
+
+    private void UseSkillOnAllFoes(int _effectiveDamage)
+    {
+        BattleHandler.ExpectedAnswers = BattleHandler.CurrentBattleMonsters.Length;
+        if (battleAnimation != null)
+        {
+            if (battleAnimation.GetComponent<IBattleAnimation>().GetTargetType() == TargetType.FoeSingle)
+            {
+                List<PawnInstance> target = new List<PawnInstance>();
+                target.Add(BattleHandler.CurrentBattleMonsters[0]);
+                battleAnimation.GetComponent<IBattleAnimation>().SetTargets(target.ToArray());
+            }
+            else
+            {
+                List<PawnInstance> targets = new List<PawnInstance>();
+                foreach (PawnInstance m in BattleHandler.CurrentBattleMonsters)
+                {
+                    if (m.GetComponent<Mortal>().CurrentHp > 0)
+                        targets.Add(m);
+                }
+                battleAnimation.GetComponent<IBattleAnimation>().SetTargets(targets.ToArray());
+            }
+
+            BattleHandler.CurrentSkillAnimDuration = battleAnimation.GetComponent<IBattleAnimation>().GetAnimationTime();
+            battleAnimation.GetComponent<IBattleAnimation>().Play();
+        }
+        else
+        {
+            BattleHandler.CurrentSkillAnimDuration = 0.5f;
+        }
+        for (int i = 0; i < BattleHandler.CurrentBattleMonsters.Length; i++)
+        {
+            if (BattleHandler.CurrentBattleMonsters[i].GetComponent<Mortal>().CurrentHp > 0)
+            {
+                if (skillName.Contains("Rainbow Beam"))
+                    ApplySkillEffectOnTarget(BattleHandler.CurrentBattleMonsters[i], Random.Range(-3, 4));
+                else
+                    ApplySkillEffectOnTarget(BattleHandler.CurrentBattleMonsters[i], _effectiveDamage);
+            }
+            else
+                BattleHandler.ExpectedAnswers--;
+        }
+    }
+
+    private void UseSkillOnAllAllies(int _effectiveDamage)
+    {
+        BattleHandler.ExpectedAnswers = BattleHandler.CurrentBattleKeepers.Length;
+        if (battleAnimation != null)
+        {
+            List<PawnInstance> targets = new List<PawnInstance>();
+            foreach (PawnInstance k in BattleHandler.CurrentBattleKeepers)
+            {
+                if (k.GetComponent<Mortal>().CurrentHp <= 0)
+                    targets.Add(k);
+            }
+            battleAnimation.GetComponent<IBattleAnimation>().SetTargets(targets.ToArray());
+            battleAnimation.GetComponent<IBattleAnimation>().SetTargets(BattleHandler.CurrentBattleKeepers);
+            BattleHandler.CurrentSkillAnimDuration = battleAnimation.GetComponent<IBattleAnimation>().GetAnimationTime();
+            battleAnimation.GetComponent<IBattleAnimation>().Play();
+        }
+        else
+        {
+            BattleHandler.CurrentSkillAnimDuration = 0.5f;
+        }
+        for (int i = 0; i < BattleHandler.CurrentBattleKeepers.Length; i++)
+        {
+            if (BattleHandler.CurrentBattleKeepers[i].GetComponent<Mortal>().CurrentHp > 0)
+            {
+                if (skillName.Contains("Rainbow Beam"))
+                    ApplySkillEffectOnTarget(BattleHandler.CurrentBattleKeepers[i], Random.Range(-3, 4));
+                else
+                    ApplySkillEffectOnTarget(BattleHandler.CurrentBattleKeepers[i], _effectiveDamage);
+            }
+            else
+                BattleHandler.ExpectedAnswers--;
+        }
+        if (BattleHandler.isPrisonerOnTile)
+        {
+            if (skillName.Contains("Rainbow Beam"))
+                ApplySkillEffectOnTarget(GameManager.Instance.PrisonerInstance, Random.Range(-3, 4));
+            else
+                ApplySkillEffectOnTarget(GameManager.Instance.PrisonerInstance, _effectiveDamage);
+
+            BattleHandler.ExpectedAnswers++;
+        }
     }
 
     public void UseSkill(PawnInstance _target)
