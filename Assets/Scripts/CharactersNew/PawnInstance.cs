@@ -10,7 +10,7 @@ public class PawnInstance : MonoBehaviour {
         public Sprite sprite;
         public string txt;
         public Color txtColor;
-
+        
         public AscendingFeedback(Sprite _sprite, string _txt, Color _color)
         {
             sprite = _sprite;
@@ -72,6 +72,21 @@ public class PawnInstance : MonoBehaviour {
 
         set
         {
+            //Maybe shouldn't be there
+            PloufPloufEmissionAdapter ppea = GetComponentInChildren<PloufPloufEmissionAdapter>();
+            if (ppea != null && value.Type == TileType.Beach)
+            {
+                ppea.play = true;
+            }
+            else
+            {
+                if(ppea != null)
+                {
+                    ppea.play = false;
+                }
+            }
+            
+
             currentTile = value;
             if (GetComponent<Behaviour.Prisoner>() != null)
                 TileManager.Instance.PrisonerTile = value;
@@ -79,6 +94,7 @@ public class PawnInstance : MonoBehaviour {
             {
                 EventManager.OnPawnMove(this, value);
             }
+
         }
     }
     #endregion
