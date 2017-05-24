@@ -376,6 +376,7 @@ public class MenuManager : MonoBehaviour {
 
     public void LaunchCinematic()
     {
+        SetActiveChatBoxes(false);
         GetComponent<BoxOpener>().animatorCam.SetTrigger("lauch");
         listPawnSelected = new List<PawnInstance>();
         listPawnJumped = new List<PawnInstance>();
@@ -405,7 +406,7 @@ public class MenuManager : MonoBehaviour {
     {
         for (int i = 0; i < listPawnSelected.Count; i++)
         {
-            if (listPawnSelected[i].GetComponent<NavMeshAgent>().remainingDistance < 0.5f)
+            if ((listPawnSelected[i].GetComponent<NavMeshAgent>().destination - listPawnSelected[i].transform.position).magnitude < 0.5f)
             {
                 Debug.Log("jump");
                 listPawnSelected[i].GetComponentInChildren<Animator>().SetTrigger("jumpVortex");
@@ -417,7 +418,7 @@ public class MenuManager : MonoBehaviour {
 
         for (int i = 0; i < listPawnJumped.Count; i++)
         {
-            if (listPawnJumped[i].GetComponent<NavMeshAgent>().remainingDistance < 0.2)
+            if (listPawnJumped[i].GetComponent<NavMeshAgent>().remainingDistance < 0.4)
             {
                 listPawnJumped.Remove(listPawnJumped[i]);
                 nbPawnToWait -= 1;
@@ -425,12 +426,18 @@ public class MenuManager : MonoBehaviour {
             }
         }
 
+        Debug.Log(timerLaunch);
+
         if(timerLaunch > 0)
         {
             timerLaunch -= Time.unscaledDeltaTime;
             if(timerLaunch <= 0)
             {
                 StartGame();
+            }
+            else if (timerLaunch <=0.8f)
+            {
+                currentMiniature.Hide();
             }
         }
 
