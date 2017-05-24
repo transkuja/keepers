@@ -58,12 +58,42 @@ public class seqTeamCrocket : Sequence {
             speaker = _speaker;
             stepFunction += Message_fct;
             str = _str;
+ 
         }
 
         public void Message_fct()
         {
-            Debug.Log(speaker.GetComponent<PawnInstance>().Data.PawnName);
             EcrireMessage(speaker.GetComponent<PawnInstance>().Data.AssociatedSprite, str);
+
+            TutoManager.EnableNextButton();
+            if (TutoManager.s_instance.PlayingSequence.isPreviousStepReachable())
+            {
+                TutoManager.EnablePreviousButton();
+            }
+            else
+            {
+                TutoManager.EnablePreviousButton(false);
+            }
+            TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.Idle;
+            return;
+        }
+    }
+
+    public class SeDeplacer : Step
+    {
+        GameObject speaker;
+        string str;
+        public SeDeplacer(GameObject _speaker, string _str)
+        {
+            speaker = _speaker;
+            stepFunction += SeDeplacer_fct;
+            isReachableByClickOnPrevious = false;
+            str = _str;
+        }
+
+        public void SeDeplacer_fct()
+        {
+            speaker.GetComponent<Behaviour.AnimatedPawn>();
 
             TutoManager.EnableNextButton();
             if (TutoManager.s_instance.PlayingSequence.isPreviousStepReachable())
@@ -87,7 +117,9 @@ public class seqTeamCrocket : Sequence {
 
         GameManager.Instance.PrisonerInstance.GetComponent<Behaviour.Escortable>().IsKidnappid = true;
         teamCrocketJames = SpawnTeamCrocketJames(new Vector3(1.0f, 0f, 0f) + GameManager.Instance.ActiveTile.transform.position);
+        Etapes.Add(new Message(teamCrocketJames, "Grekhan"));
         teamCrocketJessie = SpawnTeamCrocketJessie(new Vector3(1.0f, 0f, 0f) + GameManager.Instance.ActiveTile.transform.position);
+        Etapes.Add(new Message(teamCrocketJessie, "Swag"));
 
         Etapes = new List<Step>();
         Etapes.Add(new TutoManager.Spawn(teamCrocketJames, jumpAnimationClip));
