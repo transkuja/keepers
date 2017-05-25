@@ -83,3 +83,23 @@ North: Village   South-East: Danger
 
 Niveau 4
 Worthless alone but two uncovers a new path
+
+==========================================================================
+								PNJ
+==========================================================================
+Rial, niveau 4
+ "Do you want to hear the story of this desert?";
+ "I hope you have some time ahead of you.";
+ "In my younger days, I used to be an adventurer just like you!";
+ "I came across a giant dinosaur and I won single handed.";
+ "You wonder how I did it?";
+ "Well, the thing is, T-rex have short arms. And I had a big sword.";
+ "Excalipoor was its name. I hid behind a huge rock and I stroke at the right moment!";
+ "What do you mean I cheated? I'm just too clever for you that can't find the solution to the desert enigma.";
+ "Try activate the two crystals at the same time and we'll see who is the smarter one!";
+ 
+"This cat freaks me out.";
+What a lovely cat !
+What a nice dog! You're so fluffy! *The mysterious woman pats the dog's head gently*
+
+

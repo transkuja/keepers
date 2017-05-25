@@ -33,7 +33,7 @@ public class HintWoman : MonoBehaviour {
             goHint.transform.GetChild(3).GetComponentInChildren<Text>().text = "Debug Hint Message";
         }
 
-        goHint.transform.GetChild(4).GetComponent<Text>().text = "Mysterious Woman";
+        goHint.transform.GetChild(4).GetComponent<Text>().text = Translater.PnjName(transform.name);
         Button close = goHint.transform.GetChild(0).GetComponent<Button>();
         close.onClick.RemoveAllListeners();
         close.onClick.AddListener(CloseBox);
@@ -53,17 +53,17 @@ public class HintWoman : MonoBehaviour {
             {
                 if (GameManager.Instance.GetFirstSelectedKeeper().Data.PawnId == "lucky")
                 {
-                    int i = Random.Range(0, 1);
+                    int i = Random.Range(0, 2);
                     if( i == 1)
                     {
-                        goHint.transform.GetChild(3).GetComponentInChildren<Text>().text = "What a lovely cat !!!";
+                        goHint.transform.GetChild(3).GetComponentInChildren<Text>().text = Translater.PnjText(transform.name, 0, CharacterRace.Cat);
                     } else
                     {
-                        goHint.transform.GetChild(3).GetComponentInChildren<Text>().text = "This cat freaks me out.";
+                        goHint.transform.GetChild(3).GetComponentInChildren<Text>().text = Translater.PnjText(transform.name, 1, CharacterRace.Cat);
                     }
                 } else
                 {
-                    goHint.transform.GetChild(3).GetComponentInChildren<Text>().text = "What a nice dog! You're so fluffy! *The mysterious woman pats the dog's head gently*";
+                    goHint.transform.GetChild(3).GetComponentInChildren<Text>().text = Translater.PnjText(transform.name, 0, CharacterRace.Dog);
                 }
 
 
@@ -91,11 +91,11 @@ public class HintWoman : MonoBehaviour {
             indiceMsg++;
         if ( indiceMsg < commeSurLePanneau.Length)
         {
-            goHint.transform.GetChild(3).GetComponentInChildren<Text>().text = commeSurLePanneau[indiceMsg];
+            goHint.transform.GetChild(3).GetComponentInChildren<Text>().text = Translater.PnjText(transform.name, indiceMsg, CharacterRace.Human);
         } else
         {
             indiceMsg = 0;
-            goHint.transform.GetChild(3).GetComponentInChildren<Text>().text = commeSurLePanneau[indiceMsg];
+            goHint.transform.GetChild(3).GetComponentInChildren<Text>().text = Translater.PnjText(transform.name, indiceMsg, CharacterRace.Human);
         }
  
         goHint.SetActive(false);
