@@ -39,17 +39,17 @@ public class QuestsContainer {
 
         List<IQuestObjective> objectives = new List<IQuestObjective>();
 
-        objectives.Add(new KillMonsterObjective("Kill Rabbit Jacob the SCARY MONSTER", 
-                                                "Eliminate the scary spooky monster menacing the village. That guy said it should be near this hidden passage...", 
+        objectives.Add(new KillMonsterObjective(Translater.SideQuestsText("level2", 0, QuestTexts.ObjectiveTitle),
+                                                Translater.SideQuestsText("level2", 0, QuestTexts.ObjectiveDesc), 
                                                 "rabbit_jacob_01"));
 
         quests.Add(new Quest(new QuestIdentifier("side_quest_01", "pnj_01"),
-                                         new QuestText("Scary spooky monster must die", 
-                                                        "A Frightful monster is menacing the village. Find it and persuade it not to come close again.", 
+                                         new QuestText(Translater.SideQuestsText("level2", 0, QuestTexts.Title),
+                                                        Translater.SideQuestsText("level2", 0, QuestTexts.Desc),
                                                         //"Oh hey fellow adventurer! You seem tough, and I really think you could help me. You see, a really scary monster is coming closer to the village and the inhabitants are getting stressed out. I can't fix the problem alone, and if we do nothing, I can't imagine what will happen to these people. Please, go to the north east and kill this beast! You will be rewarded, don't worry.", 
-                                                        "Hey you! Kill that big thing over there! *points at a hidden passage between two bushes*",
-                                                        "Great job! You know what, I have been wishing to get on an adventure for some time now... I'm coming with you!",
-                                                        "Go to the north, but be careful, this thing is one powerful being."),
+                                                        Translater.SideQuestsText("level2", 0, QuestTexts.Dialog),
+                                                        Translater.SideQuestsText("level2", 0, QuestTexts.EndDialog),
+                                                        Translater.SideQuestsText("level2", 0, QuestTexts.Hint)),
                                          objectives));
 
         // Level 2
@@ -74,16 +74,16 @@ public class QuestsContainer {
         objectives = new List<IQuestObjective>();
 
 
-        objectives.Add(new MultipleEscortObjective("Bring Mommy duck her 3 little ducklings",
-                                                "Mommy duck lost her ducklings, try to find them! Where are they? Well you know that ducks love water right...",
+        objectives.Add(new MultipleEscortObjective(Translater.SideQuestsText("level4", 0, QuestTexts.ObjectiveTitle),
+                                                Translater.SideQuestsText("level4", 0, QuestTexts.ObjectiveDesc),
                                                 "duckling", 3, null));
 
         quests.Add(new Quest(new QuestIdentifier("side_quest_ducklings_01", "ducky"),
-                                         new QuestText("The duckling apocalypse",
-                                                        "Mommy duck is blocking the way, and she won't move until she retrieves her ducklings.",
-                                                        "\"Quack? Quack! Quack quack quack.\" "+'\n'+" This Mommy duck looks very nervous. She seems to have lost her ducklings! Apparently she won't move until they come back... Will you help her?",
-                                                        "Quack ! *Jumps in happiness* "+'\n'+"The mommy duck seems very thankful, she greets her ducklings and move out of the way. Great job, you're a great person!",
-                                                        "\"Quack quack...\"" + '\n' + "She seems very worried about her 3 babies... She's looking at the water, maybe she's giving you a hint?"),
+                                         new QuestText(Translater.SideQuestsText("level4", 0, QuestTexts.Title),
+                                                        Translater.SideQuestsText("level4", 0, QuestTexts.Desc),
+                                                        Translater.SideQuestsText("level4", 0, QuestTexts.Dialog),
+                                                        Translater.SideQuestsText("level4", 0, QuestTexts.EndDialog),
+                                                        Translater.SideQuestsText("level4", 0, QuestTexts.Hint)),
                                          objectives));
 
         isInitialized = true;

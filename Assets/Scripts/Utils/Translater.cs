@@ -7,6 +7,7 @@ public enum TooltipTextEnum { Hunger, Mood, Life }
 public enum SkillDescriptionDetailsEnum { Target, HealValue, Damage, Effect}
 public enum CharacterRace { Human, Dog, Cat, Duck, Hippopotamus}
 public enum MainQuestTexts { Title, Objective, ObjectiveInfo, Other }
+public enum QuestTexts { ObjectiveTitle, ObjectiveDesc, Title, Desc, Dialog, EndDialog, Hint }
 public class Translater
 {
     public static LanguageEnum CurrentLanguage = LanguageEnum.EN;
@@ -189,7 +190,7 @@ public class Translater
         }
     }
 
-    public static string PanelsText(string _level, int _index, CharacterRace _race)
+    public static string PanelsText(string _level, int _index, CharacterRace _race = CharacterRace.Human)
     {
         if (CurrentLanguage == LanguageEnum.FR)
         {
@@ -260,14 +261,14 @@ public class Translater
         return "";
     }
 
-    public static string SideQuestsText(string _level, int _index, CharacterRace _race)
+    public static string SideQuestsText(string _level, int _questIndex, QuestTexts _qt, CharacterRace _race = CharacterRace.Human)
     {
         if (CurrentLanguage == LanguageEnum.FR)
         {
             switch (_level)
             {
                 case "level2":
-                    switch (_index)
+                    switch (_questIndex)
                     {
                         case 0:
                             return "";
@@ -282,7 +283,7 @@ public class Translater
                         case CharacterRace.Cat:
                             return "Coin? Coin! Coin coin coin.\n-Miaou? Miaou miaou miaou!\n-Coin !\n*Les chats et la maman canard se mettent à danser joyeusement*";
                     }
-                    switch (_index)
+                    switch (_questIndex)
                     {
                         case 0:
                             return "";
@@ -298,10 +299,28 @@ public class Translater
             switch (_level)
             {
                 case "level2":
-                    switch (_index)
+                    switch (_questIndex)
                     {
                         case 0:
-                            return "";
+                            switch (_qt)
+                            {
+                                case QuestTexts.ObjectiveTitle:
+                                    return "Kill Rabbit Jacob the SCARY MONSTER";
+                                case QuestTexts.ObjectiveDesc:
+                                    return "Eliminate the scary spooky monster menacing the village. That guy said it should be near this hidden passage...";
+                                case QuestTexts.Title:
+                                    return "Scary spooky monster must die";
+                                case QuestTexts.Desc:
+                                    return "A Frightful monster is menacing the village. Find it and persuade it not to come close again.";
+                                case QuestTexts.Dialog:
+                                    return "Hey you! Kill that big thing over there! *points at a hidden passage between two bushes*";
+                                case QuestTexts.EndDialog:
+                                    return "Great job! You know what, I have been wishing to get on an adventure for some time now... I'm coming with you!";
+                                case QuestTexts.Hint:
+                                    return "Go to the north, but be careful, this thing is one powerful being.";
+                                default:
+                                    return "";
+                            }
                         default:
                             return "";
                     }
@@ -312,13 +331,32 @@ public class Translater
                             return "Quack? Quack! Quack quack quack.\n-Woof? Ruff woof wooof!\n-Quack !\n*The dog and the mommy duck start to dance happily*";
                         case CharacterRace.Cat:
                             return "Quack? Quack! Quack quack quack.\n-Meow? meow mew meow!\n-Quack !\n*Both cats and the mommy duck start to dance happily*";
-                    }
-                    switch (_index)
-                    {
-                        case 0:
-                            return "";
                         default:
-                            return "";
+                            switch (_questIndex)
+                            {
+                                case 0:
+                                    switch (_qt)
+                                    {
+                                        case QuestTexts.ObjectiveTitle:
+                                            return "Bring Mommy duck her 3 little ducklings";
+                                        case QuestTexts.ObjectiveDesc:
+                                            return "Mommy duck lost her ducklings, try to find them! Where are they? Well you know that ducks love water right...";
+                                        case QuestTexts.Title:
+                                            return "The duckling apocalypse";
+                                        case QuestTexts.Desc:
+                                            return "Mommy duck is blocking the way, and she won't move until she retrieves her ducklings.";
+                                        case QuestTexts.Dialog:
+                                            return "\"Quack? Quack! Quack quack quack.\" " + '\n' + " This Mommy duck looks very nervous. She seems to have lost her ducklings! Apparently she won't move until they come back... Will you help her?";
+                                        case QuestTexts.EndDialog:
+                                            return "Quack !*Jumps in happiness * "+'\n'+"The mommy duck seems very thankful, she greets her ducklings and move out of the way.Great job, you're a great person!";
+                                        case QuestTexts.Hint:
+                                            return "\"Quack quack...\"" + '\n' + "She seems very worried about her 3 babies... She's looking at the water, maybe she's giving you a hint?";
+                                        default:
+                                            return "";
+                                    }
+                                default:
+                                    return "";
+                            }
                     }
                 default:
                     return "";
@@ -326,7 +364,7 @@ public class Translater
         }
     }
 
-    public static string PnjText(string _pnjName, int _index, CharacterRace _race)
+    public static string PnjText(string _pnjName, int _index, CharacterRace _race = CharacterRace.Human)
     {
         if (CurrentLanguage == LanguageEnum.FR)
         {
