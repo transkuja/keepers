@@ -11,6 +11,7 @@ namespace Behaviour
         PawnInstance instance;
         public GameObject goQuest;
         QuestDealerFeedbackUpdater feedbackUpdater;
+        public string level;
         //public GameObject prefabContentQuest;
 
         // Array of arrays. use: QuestIDs[CurrentQuestDeck] -> Array of Quests IDs for this component in the current quest deck
