@@ -470,6 +470,11 @@ public class MenuManager : MonoBehaviour {
             GameManager.Instance.PersistenceLoader.SetSequenceUnlocked("seqlowmorale", false);
             GameManager.Instance.PersistenceLoader.SetSequenceUnlocked("seqashleylowhunger", false);
             GameManager.Instance.PersistenceLoader.SetSequenceUnlocked("seqashleyescort", false);
+
+            GameManager.Instance.PersistenceLoader.SetLevelUnlocked("4", false);
+            GameManager.Instance.PersistenceLoader.SetLevelUnlocked("2", false);
+            GameManager.Instance.PersistenceLoader.Pd.dicPersistenceLevels["4"] = false;
+            GameManager.Instance.PersistenceLoader.Pd.dicPersistenceLevels["2"] = false;
         }
 
         GameManager.Instance.DeckSelected = DeckOfCardsSelected;
