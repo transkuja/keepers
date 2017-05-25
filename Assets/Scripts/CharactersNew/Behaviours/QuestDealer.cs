@@ -165,6 +165,7 @@ namespace Behaviour
                 {
                     goQuest.transform.GetChild(goQuest.transform.childCount - 2).GetComponentInChildren<Text>().text =
                         "Quack? Quack! Quack quack quack.\n-Meow? meow mew meow!\n-Quack !\n*Both cats and the mommy duck start to dance happily* ";
+
                 } else
                 {
                     goQuest.transform.GetChild(goQuest.transform.childCount - 2).GetComponentInChildren<Text>().text =
@@ -179,6 +180,12 @@ namespace Behaviour
         void CloseBox()
         {
             // Anim dance
+            if (GetComponent<PawnInstance>().Data.PawnId.Contains("duck") && GameManager.Instance.ListOfSelectedKeepers.Count > 0
+                && !GameManager.Instance.GetFirstSelectedKeeper().Data.Behaviours[(int)BehavioursEnum.CanSpeak])
+            {
+                GetComponent<AnimatedPawn>().Anim.SetTrigger("dance");
+                GameManager.Instance.GetFirstSelectedKeeper().GetComponent<AnimatedPawn>().Anim.SetTrigger("dance");
+            }
             GameManager.Instance.CurrentState = GameState.Normal;
             goQuest.SetActive(false);
         }

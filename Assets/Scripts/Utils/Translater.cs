@@ -197,7 +197,7 @@ public class Translater
                 case CharacterRace.Dog:
                     return "Ouaf Aou Ahouahou Wouf Wuf wuf Wouaf Wouaf Wuah Whaf Whouaf";
                 case CharacterRace.Cat:
-                    return "Miaou Miaou Miou Miou Miaou";
+                    return "Miaou miaou miaou, Miaou Miaou";
                 default:
                     return "";
             }
@@ -226,9 +226,70 @@ public class Translater
         }
     }
 
-    public static string QuestsText(string _level, int _index)
+    public static string QuestsText(string _level, int _index, CharacterRace _race)
     {
-        return "";
+        if (CurrentLanguage == LanguageEnum.FR)
+        {
+            switch (_level)
+            {
+                case "level2":
+                    switch (_index)
+                    {
+                        case 0:
+                            return "";
+                        default:
+                            return "";
+                    }
+                case "level4":
+                    switch (_race)
+                    {
+                        case CharacterRace.Dog:
+                            return "Coin? Coin! Coin coin coin.\n-Ouaf? Wouf waf wooof!\n-Coin !\n*Le chien et la maman canard se mettent à danser joyeusement*";
+                        case CharacterRace.Cat:
+                            return "Coin? Coin! Coin coin coin.\n-Miaou? Miaou miaou miaou!\n-Coin !\n*Les chats et la maman canard se mettent à danser joyeusement*";
+                    }
+                    switch (_index)
+                    {
+                        case 0:
+                            return "";
+                        default:
+                            return "";
+                    }
+                default:
+                    return "";
+            }
+        }
+        else
+        {
+            switch (_level)
+            {
+                case "level2":
+                    switch (_index)
+                    {
+                        case 0:
+                            return "";
+                        default:
+                            return "";
+                    }
+                case "level4":
+                    switch (_race)
+                    {
+                        case CharacterRace.Dog:
+                            return "Quack? Quack! Quack quack quack.\n-Woof? Ruff woof wooof!\n-Quack !\n*The dog and the mommy duck start to dance happily*";
+                        case CharacterRace.Cat:
+                            return "Quack? Quack! Quack quack quack.\n-Meow? meow mew meow!\n-Quack !\n*Both cats and the mommy duck start to dance happily*";
+                    }
+                    switch (_index)
+                    {
+                        case 0:
+                            return "";
+                        default:
+                            return "";
+                    }
+                default:
+                    return "";
+            }
+        }
     }
 
     public static string PnjText(string _pnjName, int _index, CharacterRace _race)
