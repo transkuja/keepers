@@ -102,4 +102,28 @@ Rial, niveau 4
 What a lovely cat !
 What a nice dog! You're so fluffy! *The mysterious woman pats the dog's head gently*
 
+==========================================================================
+								Quests
+==========================================================================
+Main quest
+THE LAST UNICORN SEAL
+Bring Ashley ALIVE to The End.
+Protect me!
 
+Quete Framboises
+Kill Rabbit Jacob the SCARY MONSTER
+Eliminate the scary spooky monster menacing the village. That guy said it should be near this hidden passage...
+Scary spooky monster must die
+A Frightful monster is menacing the village. Find it and persuade it not to come close again.
+Hey you! Kill that big thing over there! *points at a hidden passage between two bushes*
+Great job! You know what, I have been wishing to get on an adventure for some time now... I'm coming with you!
+Go to the north, but be careful, this thing is one powerful being.
+
+Quete maman canard
+Bring Mommy duck her 3 little ducklings
+Mommy duck lost her ducklings, try to find them! Where are they? Well you know that ducks love water right...
+The duckling apocalypse
+Mommy duck is blocking the way, and she won't move until she retrieves her ducklings.
+"\"Quack? Quack! Quack quack quack.\" "+'\n'+" This Mommy duck looks very nervous. She seems to have lost her ducklings! Apparently she won't move until they come back... Will you help her?"
+"Quack ! *Jumps in happiness* "+'\n'+"The mommy duck seems very thankful, she greets her ducklings and move out of the way. Great job, you're a great person!"
+Quack quack...\"" + '\n' + "She seems very worried about her 3 babies... She's looking at the water, maybe she's giving you a hint?"

@@ -6,6 +6,7 @@ public enum LanguageEnum { EN, FR }
 public enum TooltipTextEnum { Hunger, Mood, Life }
 public enum SkillDescriptionDetailsEnum { Target, HealValue, Damage, Effect}
 public enum CharacterRace { Human, Dog, Cat, Duck, Hippopotamus}
+public enum MainQuestTexts { Title, Objective, ObjectiveInfo, Other }
 public class Translater
 {
     public static LanguageEnum CurrentLanguage = LanguageEnum.EN;
@@ -226,7 +227,40 @@ public class Translater
         }
     }
 
-    public static string QuestsText(string _level, int _index, CharacterRace _race)
+    public static string MainQuestText(MainQuestTexts _index)
+    {
+        if (CurrentLanguage == LanguageEnum.FR)
+        {
+            switch (_index)
+            {
+                case MainQuestTexts.Title:
+                    return "THE LAST UNICORN SEAL";
+                case MainQuestTexts.Objective:
+                    return "Objectifs: ";
+                case MainQuestTexts.ObjectiveInfo:
+                    return "Amener Ashley EN VIE à La Fin.";
+                case MainQuestTexts.Other:
+                    return "Protect me!";
+            }
+        }
+        else
+        {
+            switch(_index)
+            {
+                case MainQuestTexts.Title:
+                    return "THE LAST UNICORN SEAL";
+                case MainQuestTexts.Objective:
+                    return "Objectives: ";
+                case MainQuestTexts.ObjectiveInfo:
+                    return "Bring Ashley ALIVE to The End.";
+                case MainQuestTexts.Other:
+                    return "Protect me!";
+            }
+        }
+        return "";
+    }
+
+    public static string SideQuestsText(string _level, int _index, CharacterRace _race)
     {
         if (CurrentLanguage == LanguageEnum.FR)
         {

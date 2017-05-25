@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class ShowMainQuest : MonoBehaviour {
 
@@ -9,8 +10,20 @@ public class ShowMainQuest : MonoBehaviour {
     public GameObject btnReviewMainQuest;
     bool wasAlreadyInPause = false;
 
+    private void TranslateTexts()
+    {
+        // QuestInfos
+        // Objectives
+        transform.GetChild(0).GetChild(0).GetComponent<Text>().text = Translater.MainQuestText(MainQuestTexts.Objective);
+        transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<Text>().text = Translater.MainQuestText(MainQuestTexts.ObjectiveInfo);
+        transform.GetChild(0).GetChild(3).GetComponentInChildren<Text>().text = Translater.MainQuestText(MainQuestTexts.Other);
+        // QuestTitle
+        transform.GetChild(1).GetComponentInChildren<Text>().text = Translater.MainQuestText(MainQuestTexts.Title);
+    }
+
     private void OnEnable()
     {
+        TranslateTexts();
         if (GameManager.Instance.CurrentState == GameState.InPause)
             wasAlreadyInPause = true;
         else
