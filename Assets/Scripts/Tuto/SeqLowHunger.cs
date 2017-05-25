@@ -39,9 +39,9 @@ public class SeqLowHunger : Sequence {
         Etapes = new List<Step>();
         Etapes.Add(new TutoManager.Spawn(pawnMrResetti, jumpAnimationClip));
 
-        Etapes.Add(new ShowCharactersShortcut("Darn, I told you to watch the hunger gauge!"));
-        Etapes.Add(new TutoManager.Message(pawnMrResetti, "When this gauge reaches 0, the character is starving, losing each turn a lot of health!"));
-        Etapes.Add(new TutoManager.Message(pawnMrResetti, "Feed him quick before he dies ..."));
+        Etapes.Add(new ShowCharactersShortcut(Translater.TutoText("SeqLowHunger", 0)));
+        Etapes.Add(new TutoManager.Message(pawnMrResetti, Translater.TutoText("SeqLowHunger", 1)));
+        Etapes.Add(new TutoManager.Message(pawnMrResetti, Translater.TutoText("SeqLowHunger", 2)));
     }
 
     public override void End()

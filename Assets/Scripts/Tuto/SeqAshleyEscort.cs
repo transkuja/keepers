@@ -109,16 +109,14 @@ public class SeqAshleyEscort : Sequence {
         Etapes = new List<Step>();
         Etapes.Add(new TutoManager.Spawn(pawnMrResetti, jumpAnimationClip));
 
-        Etapes.Add(new DeactivateButtons("You have to escort Ashley safely to destination."));
+        Etapes.Add(new DeactivateButtons(Translater.TutoText("SeqAshleyEscort", 0)));
         if (GameManager.Instance.Ui.goConfirmationPanel.activeSelf)
         {
             foreach (Button b in GameManager.Instance.Ui.goConfirmationPanel.GetComponentsInChildren<Button>())
                 b.interactable = false;
-            Etapes.Add(new TutoManager.Message(null, "To change which character Ashley is following, you can right click on her to use the Escort action ."));
         }
-        else
-            Etapes.Add(new ShowEscortAction("To change which character Ashley is following, you can right click on her to use the Escort action ."));
-        Etapes.Add(new ReactivateButtons("Take good care of her!"));
+        Etapes.Add(new ShowEscortAction(Translater.TutoText("SeqAshleyEscort", 1)));
+        Etapes.Add(new ReactivateButtons(Translater.TutoText("SeqAshleyEscort", 2)));
     }
 
     public override void End()

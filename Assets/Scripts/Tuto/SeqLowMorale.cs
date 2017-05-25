@@ -38,8 +38,8 @@ public class SeqLowMorale : Sequence {
         Etapes = new List<Step>();
         Etapes.Add(new TutoManager.Spawn(pawnMrResetti, jumpAnimationClip));
 
-        Etapes.Add(new ShowCharactersShortcut("Be careful, one of your characters' mood is very low."));
-        Etapes.Add(new TutoManager.Message(pawnMrResetti, "When a character's mood reaches 0, his efficiency is reduced!"));
+        Etapes.Add(new ShowCharactersShortcut(Translater.TutoText("SeqLowMorale", 0)));
+        Etapes.Add(new TutoManager.Message(pawnMrResetti, Translater.TutoText("SeqLowMorale", 1)));
     }
 
     public override void End()

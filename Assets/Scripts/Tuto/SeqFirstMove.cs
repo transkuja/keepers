@@ -487,25 +487,25 @@ public class SeqFirstMove : Sequence {
         Etapes.Add(new TutoManager.Spawn(pawnMrResetti, jumpAnimationClip));
 
         // Content
-        Etapes.Add(new TutoManager.Message(pawnMrResetti, "Hi, I'm here to teach you how to play"));
-        Etapes.Add(new SelectCharacterStep("First select the glowing pawn by clicking on it."));
-        Etapes.Add(new MovePawnOnTileStep("To interact with the world, you have to use the right click. Click on the ground to move the girl."));
-        Etapes.Add(new MovePawnToAnotherTileExplanation("You can also interact with everything glowing in the world. Try right clicking on this portal.")); // => click expected on bridge
-        Etapes.Add(new RightClickOnBridgeValidated("Good,"));
-        Etapes.Add(new ExploreActionPointsExplanation("you can see the cost of the action here."));
-        Etapes.Add(new ExploreStep("Now click on the Explore button to explore the next area and get a cookie."));
+        Etapes.Add(new TutoManager.Message(pawnMrResetti, Translater.TutoText("SeqFirstMove", 0)));
+        Etapes.Add(new SelectCharacterStep(Translater.TutoText("SeqFirstMove", 1)));
+        Etapes.Add(new MovePawnOnTileStep(Translater.TutoText("SeqFirstMove", 2)));
+        Etapes.Add(new MovePawnToAnotherTileExplanation(Translater.TutoText("SeqFirstMove", 3)));
+        Etapes.Add(new RightClickOnBridgeValidated(Translater.TutoText("SeqFirstMove", 4)));
+        Etapes.Add(new ExploreActionPointsExplanation(Translater.TutoText("SeqFirstMove", 5)));
+        Etapes.Add(new ExploreStep(Translater.TutoText("SeqFirstMove", 6)));
 
-        Etapes.Add(new ReactivateAscFeedbackStep("Well done you genius,"));
-        Etapes.Add(new GiveACookieStep("here's your cookie!"));
-        Etapes.Add(new ActionPointsExplanationStep("This action cost you 3 action points. Always keep an eye on them.")); // ==> feedback sur les points d'action
-        Etapes.Add(new FirstEndTurnStep("Ending the turn will restore all your characters' action points"));
+        Etapes.Add(new ReactivateAscFeedbackStep(Translater.TutoText("SeqFirstMove", 7)));
+        Etapes.Add(new GiveACookieStep(Translater.TutoText("SeqFirstMove", 8)));
+        Etapes.Add(new ActionPointsExplanationStep(Translater.TutoText("SeqFirstMove", 9)));
+        Etapes.Add(new FirstEndTurnStep(Translater.TutoText("SeqFirstMove", 10)));
 
-        Etapes.Add(new TutoManager.Message(pawnMrResetti, "Ending your turn ends the day,")); // Activate hunger panel + feedback pointer
-        Etapes.Add(new AddHungerStep("but your characters get hungry in the morning, so be careful!"));
-        Etapes.Add(new TutoManager.Message(pawnMrResetti, "Remember that cookie I gave you ?"));
-        Etapes.Add(new UseAnObjectStep("Eat it by double clicking on it to satisfy your selected character's appetite.")); // Activate inventory and add a cookie in to be used
+        Etapes.Add(new TutoManager.Message(pawnMrResetti, Translater.TutoText("SeqFirstMove", 11)));
+        Etapes.Add(new AddHungerStep(Translater.TutoText("SeqFirstMove", 12)));
+        Etapes.Add(new TutoManager.Message(pawnMrResetti, Translater.TutoText("SeqFirstMove", 13)));
+        Etapes.Add(new UseAnObjectStep(Translater.TutoText("SeqFirstMove", 14)));
 
-        Etapes.Add(new TutoManager.Message(pawnMrResetti, "Great! You should now be able to finish this level. Good luck!"));
+        Etapes.Add(new TutoManager.Message(pawnMrResetti, Translater.TutoText("SeqFirstMove", 15)));
     }
 
     public override void End()

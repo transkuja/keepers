@@ -24,3 +24,49 @@ Tuto personnages multiples
 "Try interacting with another pawn!";
 "Good,";
 "you can also click here, or press A, to have a reminder of all your characters at once.";
+
+Tuto moral
+Your characters' mood can be altered by certain events."
+Arriving at an unwelcoming area, for example, can lower your characters' mood.
+As well as staying at a snowy place.
+Like... right now.
+Characters can cheer each other up by using the Talk action.
+
+Tuto moral bas
+"Be careful, one of your characters' mood is very low."
+"When a character's mood reaches 0, his efficiency is reduced!"
+
+Tuto faim basse
+"Darn, I told you to watch the hunger gauge!"
+When this gauge reaches 0, the character is starving, losing each turn a lot of health!
+"Feed him quick before he dies ...
+
+1er tuto
+ "Hi, I'm here to teach you how to play";
+ "First select the glowing pawn by clicking on it.";
+ "To interact with the world, you have to use the right click. Click on the ground to move the girl.";
+ "You can also interact with everything glowing in the world. Try right clicking on this portal.";
+ "Good,";
+ "you can see the cost of the action here.";
+ "Now click on the Explore button to explore the next area and get a cookie.";
+ "Well done you genius,";
+ "here's your cookie!";
+ "This action cost you 3 action points. Always keep an eye on them.";
+ "Ending the turn will restore all your characters' action points";
+ "Ending your turn ends the day,";
+ "but your characters get hungry in the morning, so be careful!";
+ "Remember that cookie I gave you ?
+ "Eat it by double clicking on it to satisfy your selected character's appetite."
+ "Great! You should now be able to finish this level. Good luck!"
+ 
+Tuto faim Ashley basse
+"Be careful, Ashley is starving!"
+"Drop some food in the Feed slot here to feed her"
+Select a character in her area to feed her
+
+Tuto escorte Ashley
+ "You have to escort Ashley safely to destination.";
+ "To change which character Ashley is following, you can right click on her to use the Escort action.";
+ "Take good care of her!";
+ 
+ 

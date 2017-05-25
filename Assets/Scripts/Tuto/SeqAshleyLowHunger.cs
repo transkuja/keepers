@@ -114,12 +114,12 @@ public class SeqAshleyLowHunger : Sequence {
         Etapes.Add(new TutoManager.Spawn(pawnMrResetti, jumpAnimationClip));
 
         if (!TutoManager.s_instance.waitForFeedSlotAppearance)
-            Etapes.Add(new ShowAshleyHunger("Be careful, Ashley is starving!"));
+            Etapes.Add(new ShowAshleyHunger(Translater.TutoText("SeqAshleyLowHunger", 0)));
 
         if (GameManager.Instance.PrisonerInstance.GetComponent<Behaviour.Inventory>().SelectedInventoryPanel.activeSelf)
-            Etapes.Add(new ShowFeedSlot("Drop some food in the Feed slot here to feed " + ((TutoManager.s_instance.waitForFeedSlotAppearance) ? "Ashley" : "her")));
+            Etapes.Add(new ShowFeedSlot(((TutoManager.s_instance.waitForFeedSlotAppearance) ? Translater.TutoText("SeqAshleyLowHunger", 1) : Translater.TutoText("SeqAshleyLowHunger", 2))));
         else
-            Etapes.Add(new WaitForNextSeq("Select a character in her area to feed her"));
+            Etapes.Add(new WaitForNextSeq(Translater.TutoText("SeqAshleyLowHunger", 3)));
     }
 
     public override void End()
