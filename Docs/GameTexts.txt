@@ -1,3 +1,6 @@
+==========================================================================
+							Séquences tutos
+==========================================================================
 Team crocket text
 "Team Crocket, blast off at the speed of light!"
 "We found you Waouf !"
@@ -69,4 +72,14 @@ Tuto escorte Ashley
  "To change which character Ashley is following, you can right click on her to use the Escort action.";
  "Take good care of her!";
  
- 
+==========================================================================
+								Panneaux
+==========================================================================
+Tuto
+Camera controls: ZQSD keys, the arrows or middle click.
+
+Niveau 2
+North: Village   South-East: Danger
+
+Niveau 4
+Worthless alone but two uncovers a new path

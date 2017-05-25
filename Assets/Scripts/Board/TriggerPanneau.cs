@@ -7,6 +7,7 @@ public class TriggerPanneau : MonoBehaviour {
 
     public string textPanneau;
     private GameObject goPanneau;
+    public string level;
 
     void Start()
     {
@@ -27,16 +28,17 @@ public class TriggerPanneau : MonoBehaviour {
             // Si le personnage peut parler
             if (ki.Data.Behaviours[(int)BehavioursEnum.CanSpeak])
             {
-                goPanneau.GetComponentInChildren<Text>().text = textPanneau;
+                goPanneau.GetComponentInChildren<Text>().text = Translater.PanelsText(level, 0, CharacterRace.Human);
             }
             else
             {
-                if ( ki.Data.PawnId == "lucky")
+                if (ki.Data.PawnId == "lucky")
                 {
-                    goPanneau.GetComponentInChildren<Text>().text = "Meow Meow Mew Mew Miaow";
-                } else
+                    goPanneau.GetComponentInChildren<Text>().text = Translater.PanelsText(level, 0, CharacterRace.Cat);
+                }
+                else
                 {
-                    goPanneau.GetComponentInChildren<Text>().text = "Ouaf Aou Ahouahou Wouf Wuf wuf Wouaf Wouaf Wuah Whaf Whouaf";
+                    goPanneau.GetComponentInChildren<Text>().text = Translater.PanelsText(level, 0, CharacterRace.Dog);
                 }
 
             }

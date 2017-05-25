@@ -5,9 +5,9 @@ using UnityEngine;
 public enum LanguageEnum { EN, FR }
 public enum TooltipTextEnum { Hunger, Mood, Life }
 public enum SkillDescriptionDetailsEnum { Target, HealValue, Damage, Effect}
+public enum CharacterRace { Human, Dog, Cat, Duck, Hippopotamus}
 public class Translater
 {
-
     public static LanguageEnum CurrentLanguage = LanguageEnum.EN;
 
     public static string TutoText(string _sequence, int _index)
@@ -188,9 +188,42 @@ public class Translater
         }
     }
 
-    public static string PanelsText(string _level, int _index)
+    public static string PanelsText(string _level, int _index, CharacterRace _race)
     {
-        return "";
+        if (CurrentLanguage == LanguageEnum.FR)
+        {
+            switch (_race)
+            {
+                case CharacterRace.Dog:
+                    return "Ouaf Aou Ahouahou Wouf Wuf wuf Wouaf Wouaf Wuah Whaf Whouaf";
+                case CharacterRace.Cat:
+                    return "Miaou Miaou Miou Miou Miaou";
+                default:
+                    return "";
+            }
+        }
+        else
+        {
+            switch (_race)
+            {
+                case CharacterRace.Dog:
+                    return "Arf arf Woof Woof woof wow ruff Ruff Woof";
+                case CharacterRace.Cat:
+                    return "Meow Meow Mew Mew Miaow";
+                default:
+                    switch (_level)
+                    {
+                        case "tuto":
+                            return "Camera controls: ZQSD keys, the arrows or middle click.";
+                        case "level2":
+                            return "North: Village\nSouth-East: Danger";
+                        case "level4":
+                            return "Worthless alone but two uncovers a new path";
+                        default:
+                            return "";
+                    }
+            }
+        }
     }
 
     public static string QuestsText(string _level, int _index)
