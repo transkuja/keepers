@@ -51,7 +51,7 @@ public class QuestManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("T'as pas lancé depuis le menu et t'as ni coché isDebugQuestManager ou pire encore ... le isDebugGameManager. Troudbal.");
+            Debug.LogWarning("Mange mon cul.");
             CurrentQuestDeck = GameManager.Instance.QuestDeckDataBase.GetDeckByID(questDeckID);
             if (questDeckID == "deck_03" || questDeckID == "deck_01")
                 CurrentQuestDeck.SideQuests.Clear();
