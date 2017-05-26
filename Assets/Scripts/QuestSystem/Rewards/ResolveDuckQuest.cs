@@ -34,26 +34,9 @@ public class ResolveDuckQuest : MonoBehaviour {
             if (p.GetComponent<Behaviour.Escortable>().escort != null)
             {
                 p.GetComponent<Behaviour.Escortable>().UnEscort();
-            }
-            
-            if (p.GetComponent<Behaviour.Mortal>().DeathParticles != null)
-            {
-                ParticleSystem ps = Instantiate(p.GetComponent<Behaviour.Mortal>().DeathParticles, p.transform.parent);
-                ps.transform.position = p.transform.position;
-                ps.Play();
-                Destroy(ps.gameObject, ps.main.duration);
-            }
-            p.gameObject.SetActive(false);
+            }          
+            StartCoroutine(p.GetComponent<Behaviour.AnimatedPawn>().DanceOfDeath());
         }
-
-        if (GetComponent<Behaviour.Mortal>().DeathParticles != null)
-        {
-            ParticleSystem ps = Instantiate(GetComponent<Behaviour.Mortal>().DeathParticles, transform.parent);
-            ps.transform.position = transform.position;
-            ps.Play();
-            Destroy(ps.gameObject, ps.main.duration);
-            gameObject.SetActive(false);
-        }
-
+        StartCoroutine(GetComponent<Behaviour.AnimatedPawn>().DanceOfDeath());
     }
 }

@@ -17,7 +17,8 @@ public class SpriteAnimator : MonoBehaviour {
 
     public void Play()
     {
-        StartCoroutine(AnimPlay());
+        if(gameObject.activeSelf)
+            StartCoroutine(AnimPlay());
     }
 
     public IEnumerator AnimPlay()

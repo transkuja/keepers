@@ -1,6 +1,8 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 namespace Behaviour
 {
     [RequireComponent(typeof(NavMeshAgent))]
@@ -386,5 +388,19 @@ namespace Behaviour
             }
         }
         #endregion
+
+        public IEnumerator DanceOfDeath()
+        {
+            GetComponent<Behaviour.AnimatedPawn>().Anim.SetTrigger("dance");
+            yield return new WaitForSeconds(1.8f);
+            if (GetComponent<Behaviour.Mortal>().DeathParticles != null)
+            {
+                ParticleSystem ps = Instantiate(GetComponent<Behaviour.Mortal>().DeathParticles, transform.parent);
+                ps.transform.position = transform.position;
+                ps.Play();
+                Destroy(ps.gameObject, ps.main.duration);
+            }
+            gameObject.SetActive(false);
+        }
     }
 }
