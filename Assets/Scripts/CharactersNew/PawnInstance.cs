@@ -5,34 +5,44 @@ using UnityEngine.UI;
 
 public class PawnInstance : MonoBehaviour {
 
-    private Color red;
-    private Color green;
+    private Color redClaire;
+    private Color greenClaire;
+
+    
+    private Color redFonce;
+    private Color greenFonce;
 
     public class AscendingFeedback
     {
         public Sprite sprite;
         public string txt;
         public Color txtColor;
+        public Color txtColorFonce;
         
-        public AscendingFeedback(Sprite _sprite, string _txt, Color _color)
+        public AscendingFeedback(Sprite _sprite, string _txt, Color _color, Color _color2)
         {
             sprite = _sprite;
             txt = _txt;
             txtColor = _color;
+            txtColorFonce = _color2;
         }
 
-        public AscendingFeedback(string _txt, Color _color)
+        public AscendingFeedback(string _txt, Color _color, Color _color2)
         {
             txt = _txt;
             txtColor = _color;
+            txtColorFonce = _color2;
         }
     }
 
     public void Start()
     {
 
-        red = new Color32(0xBE, 0x18, 0x18, 0xFF);
-        green = new Color32(0x1F, 0xB8, 0x66, 0xFF);
+        redClaire = new Color32(0xde, 0x4e, 0x4e, 0xFF);
+        greenClaire = new Color32(0x1c, 0xc7, 0x56, 0xFF);
+
+        redFonce = new Color32(0x85, 0x08, 0x08, 0xFF);
+        greenFonce = new Color32(0x03, 0x60, 0x41, 0xFF);
 
     }
 
@@ -120,9 +130,10 @@ public class PawnInstance : MonoBehaviour {
         string str = (amount < 0) ? "- ": "+ ";
         str += Mathf.Abs(amount);
 
-        Color c = (amount < 0) ? Color.red : Color.green;
+        Color c = (amount < 0) ? redClaire : greenClaire;
+        Color c2 = (amount < 0) ? redFonce : greenFonce;
 
-        feedBackQueue.Add(new AscendingFeedback(sprite, str, c));
+        feedBackQueue.Add(new AscendingFeedback(sprite, str, c, c2));
 
         if (!bIsInFeedback)
         {
@@ -139,9 +150,10 @@ public class PawnInstance : MonoBehaviour {
         string str = (amount < 0) ? "- " : "+ ";
         str += Mathf.Abs(amount);
 
-        Color c = (amount < 0) ? red : green;
+        Color c = (amount < 0) ? redClaire : greenClaire;
+        Color c2 = (amount < 0) ? redFonce : greenFonce;
 
-        feedBackQueue.Add(new AscendingFeedback(str, c));
+        feedBackQueue.Add(new AscendingFeedback(str, c, c2));
 
         if (!bIsInFeedback)
         {
@@ -172,6 +184,10 @@ public class PawnInstance : MonoBehaviour {
 
         goPanelAscendingFeedback.transform.GetChild(1).GetComponent<Image>().sprite = af.sprite;
         goPanelAscendingFeedback.transform.GetChild(1).GetComponent<Image>().color = af.txtColor;
+        goPanelAscendingFeedback.transform.GetChild(1).GetComponent<Outline>().effectColor = af.txtColorFonce;
+        goPanelAscendingFeedback.transform.GetChild(1).GetComponent<Outline>().effectDistance = new Vector2(0.001f, 0.001f);
+        goPanelAscendingFeedback.GetComponentInChildren<Text>().GetComponent<Outline>().effectColor = af.txtColorFonce;
+        goPanelAscendingFeedback.GetComponentInChildren<Text>().GetComponent<Outline>().effectDistance = Vector2.zero;
         goPanelAscendingFeedback.GetComponentInChildren<Text>().color = af.txtColor;
         goPanelAscendingFeedback.GetComponentInChildren<Text>().text = af.txt;
 
