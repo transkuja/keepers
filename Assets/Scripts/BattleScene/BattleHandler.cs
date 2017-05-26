@@ -628,9 +628,10 @@ public class BattleHandler {
         GameManager.Instance.BattleResultScreen.GetComponent<BattleResultsPanelHandler>().victory = isVictorious;
         GameManager.Instance.BattleResultScreen.gameObject.SetActive(true);
         Transform header = GameManager.Instance.BattleResultScreen.GetChild((int)BattleResultScreenChildren.Header);
-        
-        header.GetComponentInChildren<Text>().color = isVictorious ? Color.green : new Color(0.75f, 0,0,1);
-        header.GetComponentInChildren<Text>().text = isVictorious ? "Victory!" : "Defeat";
+
+        header.GetComponent<Image>().sprite = isVictorious ? GameManager.Instance.SpriteUtils.Victory : GameManager.Instance.SpriteUtils.Defeat;
+        //header.GetComponentInChildren<Text>().color = isVictorious ? Color.green : new Color(0.75f, 0,0,1);
+        //header.GetComponentInChildren<Text>().text = isVictorious ? "Victory!" : "Defeat";
         if (isVictorious)
             AudioManager.Instance.Fade(AudioManager.Instance.winningMusic, 0.2f);
 

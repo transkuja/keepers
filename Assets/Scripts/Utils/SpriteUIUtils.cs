@@ -18,6 +18,7 @@ public class SpriteUIUtils : MonoBehaviour {
     public Sprite spriteEscort;
     public Sprite spriteUnescort;
     public Sprite spriteExamine;
+    public Sprite spriteHeal;
 
     public Sprite spriteLoot;
     public Sprite spriteQuest;
@@ -92,6 +93,8 @@ public class SpriteUIUtils : MonoBehaviour {
     public Sprite level1;
     public Sprite level2;
     public Sprite level3;
+    public Sprite Victory;
+    public Sprite Defeat;
 
     [Header("Feedbacks")]
     public Sprite hungerFeedback;
