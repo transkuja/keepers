@@ -201,13 +201,11 @@ public class UIBattleHandler : MonoBehaviour {
 
         if (lifeBarImg.fillAmount < 0.33f)
         {
-            lifeBarImg.color = Color.white;
-            // TODO:Reset when bar is available
-            //lifeBarImg.color = Color.red;
+            lifeBarImg.color = Color.red;
         }
         else
         {
-            lifeBarImg.color = Color.white;
+            lifeBarImg.color = Color.green;
         }
         characterPanel.GetChild((int)CharactersPanelChildren.LifeBar).GetChild((int)LifeBarChildren.Text).GetComponent<Text>().text = mortalComponent.CurrentHp + " / " + mortalComponent.Data.MaxHp;
 
@@ -320,14 +318,11 @@ public class UIBattleHandler : MonoBehaviour {
 
                 if (lifeBarImg.fillAmount < 0.33f)
                 {
-                    lifeBarImg.color = Color.white;
-
-                    // TODO:get a white lifebar
-                    //lifeBarImg.color = Color.red;
+                    lifeBarImg.color = Color.red;
                 }
                 else
                 {
-                    lifeBarImg.color = Color.white;
+                    lifeBarImg.color = Color.green;
                 }
                 break;
             }
@@ -461,7 +456,7 @@ public class UIBattleHandler : MonoBehaviour {
         }
         else
         {
-            lifeBarImg.color = Color.white;
+            lifeBarImg.color = Color.green;
         }
         panelToUpdate.GetChild((int)CharactersPanelChildren.LifeBar).GetChild((int)LifeBarChildren.Text).GetComponent<Text>().text = _toUpdate.CurrentHp + " / " + _toUpdate.Data.MaxHp;
     }

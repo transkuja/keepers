@@ -671,12 +671,11 @@ public class BattleHandler {
                     lifeBarImg.sprite = GameManager.Instance.SpriteUtils.spriteMonsterGreenLifeBar;
                     if (lifeBarImg.fillAmount < 0.33f)
                     {
-                        // TODO: wait for white lifebars
-                        lifeBarImg.color = Color.white;
+                        lifeBarImg.color = Color.red;
                     }
                     else
                     {
-                        lifeBarImg.color = Color.white;
+                        lifeBarImg.color = Color.green;
                     }
                     lifeBar.SetActive(true);
                     enabledLifeBars.Add(lifeBar);
