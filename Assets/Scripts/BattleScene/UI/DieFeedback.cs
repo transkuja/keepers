@@ -16,6 +16,34 @@ public class DieFeedback : MonoBehaviour {
     Vector3 lerpEndPosition;
     float lerpParam = 0.0f;
 
+    private Color greenFonce;
+    private Color greenClaire;
+
+    private Color orangeClaire;
+    private Color orangeFonce;
+
+    private Color bleuClaire;
+    private Color bleuFonce;
+
+    private Color violetClaire;
+    private Color violetFonce;
+
+    public void Start()
+    {
+        greenClaire = new Color32(0x1c, 0xc7, 0x56, 0xFF);
+        greenFonce = new Color32(0x03, 0x60, 0x41, 0xFF);
+
+
+        orangeClaire = new Color32(0x1c, 0xc7, 0x56, 0xFF);
+        orangeFonce = new Color32(0x03, 0x60, 0x41, 0xFF);
+
+        bleuClaire = new Color32(0x1c, 0xc7, 0x56, 0xFF);
+        bleuFonce = new Color32(0x03, 0x60, 0x41, 0xFF);
+        violetClaire = new Color32(0x1c, 0xc7, 0x56, 0xFF);
+        violetFonce = new Color32(0x03, 0x60, 0x41, 0xFF);
+    }
+
+
     public void PopFeedback(Face _faceInfo, PawnInstance _owner)
     {
         if (feedback == null)
@@ -26,24 +54,30 @@ public class DieFeedback : MonoBehaviour {
         feedback.transform.position = Camera.main.WorldToScreenPoint(transform.position);
         feedback.transform.localScale = Vector3.one;
         feedback.GetComponentInChildren<Text>().text = "+ " + faceInfo.Value;
+        feedback.GetComponentInChildren<Text>().color = greenClaire;
+        feedback.GetComponentInChildren<Text>().GetComponent<Outline>().effectColor = greenFonce;
+        feedback.GetComponentInChildren<Text>().GetComponent<Outline>().effectDistance = Vector2.zero;
 
         Transform attributesPanel = GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().GetCharacterPanelIndex(owner).GetChild((int)CharactersPanelChildren.Attributes);
         if (faceInfo.Type == FaceType.Physical)
         {
             feedback.GetComponentInChildren<Image>().sprite = GameManager.Instance.SpriteUtils.spriteAttackSymbol;
             feedback.GetComponentInChildren<Image>().color = new Color(1, 0.5f, 0, 1);
+            feedback.GetComponentInChildren<Image>().GetComponent<Outline>().effectColor = new Color(1, 0.5f, 0, 1);
             lerpEndPosition = attributesPanel.GetChild((int)AttributesChildren.Attack).position;
         }
         else if (faceInfo.Type == FaceType.Defensive)
         {
             feedback.GetComponentInChildren<Image>().sprite = GameManager.Instance.SpriteUtils.spriteDefenseSymbol;
             feedback.GetComponentInChildren<Image>().color = new Color(0, 0.5f, 1.0f, 1);
+            feedback.GetComponentInChildren<Image>().GetComponent<Outline>().effectColor = new Color(0, 0.5f, 1.0f, 1);
             lerpEndPosition = attributesPanel.GetChild((int)AttributesChildren.Defense).position;
         }
         else if (faceInfo.Type == FaceType.Magical)
         {
             feedback.GetComponentInChildren<Image>().sprite = GameManager.Instance.SpriteUtils.spriteMagicSymbol;
             feedback.GetComponentInChildren<Image>().color = new Color(0.6f, 0, 0.6f, 1);
+            feedback.GetComponentInChildren<Image>().GetComponent<Outline>().effectColor = new Color(0.6f, 0, 0.6f, 1);
             lerpEndPosition = attributesPanel.GetChild((int)AttributesChildren.Magic).position;
         }
 

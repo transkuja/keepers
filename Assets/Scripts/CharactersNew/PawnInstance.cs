@@ -184,10 +184,18 @@ public class PawnInstance : MonoBehaviour {
 
         goPanelAscendingFeedback.transform.GetChild(1).GetComponent<Image>().sprite = af.sprite;
         goPanelAscendingFeedback.transform.GetChild(1).GetComponent<Image>().color = af.txtColor;
-        goPanelAscendingFeedback.transform.GetChild(1).GetComponent<Outline>().effectColor = af.txtColorFonce;
-        goPanelAscendingFeedback.transform.GetChild(1).GetComponent<Outline>().effectDistance = new Vector2(0.001f, 0.001f);
-        goPanelAscendingFeedback.GetComponentInChildren<Text>().GetComponent<Outline>().effectColor = af.txtColorFonce;
-        goPanelAscendingFeedback.GetComponentInChildren<Text>().GetComponent<Outline>().effectDistance = Vector2.zero;
+        if(goPanelAscendingFeedback.transform.GetChild(1).GetComponent<Outline>() != null)
+        {
+            goPanelAscendingFeedback.transform.GetChild(1).GetComponent<Outline>().effectColor = af.txtColorFonce;
+            goPanelAscendingFeedback.transform.GetChild(1).GetComponent<Outline>().effectDistance = new Vector2(0.001f, 0.001f);
+        }
+
+        if(goPanelAscendingFeedback.GetComponentInChildren<Text>().GetComponent<Outline>() != null)
+        {
+            goPanelAscendingFeedback.GetComponentInChildren<Text>().GetComponent<Outline>().effectColor = af.txtColorFonce;
+            goPanelAscendingFeedback.GetComponentInChildren<Text>().GetComponent<Outline>().effectDistance = Vector2.zero;
+        }
+
         goPanelAscendingFeedback.GetComponentInChildren<Text>().color = af.txtColor;
         goPanelAscendingFeedback.GetComponentInChildren<Text>().text = af.txt;
 
