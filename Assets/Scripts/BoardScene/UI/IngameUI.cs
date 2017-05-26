@@ -40,6 +40,13 @@ public class IngameUI : MonoBehaviour
 
     public GameObject itemSplitter;
 
+    private Color redClaire;
+    private Color greenClaire;
+
+
+    private Color redFonce;
+    private Color greenFonce;
+
 
     // Quentin
     [Header("Foreign UI Components")]
@@ -56,6 +63,18 @@ public class IngameUI : MonoBehaviour
     public GameObject tooltipItem;
     public GameObject tooltipJauge;
     public GameObject tooltipAction;
+
+    public void Start()
+    {
+
+        redClaire = new Color32(0xde, 0x4e, 0x4e, 0xFF);
+        greenClaire = new Color32(0x1c, 0xc7, 0x56, 0xFF);
+
+        redFonce = new Color32(0x85, 0x08, 0x08, 0xFF);
+        greenFonce = new Color32(0x03, 0x60, 0x41, 0xFF);
+
+    }
+
 
     #region Accessors
     public UIIconFeedback UiIconFeedBack
@@ -226,8 +245,15 @@ public class IngameUI : MonoBehaviour
 
                     actionPoints.transform.GetComponentInChildren<Text>().text = costActionTmp + "/" + nbActionRestantKeeper;
                     if (costActionTmp > nbActionRestantKeeper)
-                        actionPoints.transform.GetComponentInChildren<Text>().color = Color.red;
+                    {
+                        actionPoints.transform.GetComponentInChildren<Text>().color = redClaire;
+                        actionPoints.transform.GetComponentInChildren<Text>().GetComponent<Outline>().effectColor = redFonce;
 
+                    } else
+                    {
+                        actionPoints.transform.GetComponentInChildren<Text>().color = greenClaire;
+                        actionPoints.transform.GetComponentInChildren<Text>().GetComponent<Outline>().effectColor = greenFonce;
+                    }
                 }
 
                 int iParam = ic.listActionContainers[n].iParam;
