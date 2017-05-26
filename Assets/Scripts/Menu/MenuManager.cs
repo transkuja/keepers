@@ -413,7 +413,7 @@ public class MenuManager : MonoBehaviour {
 
         for (int i = 0; i < listPawnJumped.Count; i++)
         {
-            if (listPawnJumped[i].GetComponent<NavMeshAgent>().remainingDistance < 0.4)
+            if (listPawnJumped[i].GetComponent<NavMeshAgent>().remainingDistance < 0.44)
             {
                 listPawnJumped.Remove(listPawnJumped[i]);
                 nbPawnToWait -= 1;
@@ -423,8 +423,8 @@ public class MenuManager : MonoBehaviour {
         if(timerLaunch > 0)
         {
 
-            timerLaunch -= Time.unscaledDeltaTime;
-            if(timerLaunch <= 0)
+            timerLaunch -= Time.unscaledDeltaTime * 100.0f;
+            if(timerLaunch <= 0.0f)
             {
                 StartGame();
             }
