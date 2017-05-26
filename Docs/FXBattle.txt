@@ -1,0 +1,84 @@
+				Fx		Sound
+Emo:
+- Rapid Shot 			Done		Done
+- Fire Arrows			Done		Done
+
+Grekhan:
+- Axe Crush			To Change?	To Change?
+- Power Up			Done		To Change?
+- Over Here!			-		-
+(Depressed)
+- Crushed Axe			-		-
+
+Kitties:
+- Paws
+  - Cute Paws			Done		-
+  - Paws			Done		Done
+  - Deadly Paws			To Change?	To Change?
+- Purr
+  - Not In The Mood		-		-		(Sound in Project: Cat-hissing-sound-2)
+  - Purr			-		-		(Sound in Project: purr)
+  - Purrfect Purr		- 		-		(Sound in Project: Cat-meow)
+- Cat Ritual
+  - Hug Them All		-		-
+  - Litter Punishment		To Change?	To Change?
+  - Cat Supremacy		-		-
+
+Lupus:
+- Fangs				Done		Done
+- Fire				Done		Done
+- Ultima			Done		Done
+
+Nana:
+- Cut				Done		Done
+- You're weak!			-		-
+- Crush Armor			-		-
+(Depressed)
+- Berserk			-		-
+
+Swag:
+- Cure				-		-		(Particles in Project)
+- Rainbow Heal			-		-		(Particles in Project, missing rainbow)
+- Power of Love			-		-		(Particles in Project)
+(Depressed)
+- Low Cure			-		-
+- Cloudy Heal			-		-
+
+Ashley:
+- Splash			-		-
+- Rainbow Beam			-		-
+- Unicorn Pride			-		-
+
+Mobs:
+Bird:
+- Nose Dive			-		-
+- Wings of Fury			To Implement	To Implement	(Use PowerUp animation?)
+
+Ducky Duke:
+- Quack?			-		-
+- Quack				-		-
+- Quack Quack			-		-
+- Quack!			-		-
+
+Jacob:
+- Bite				-		-	
+- DeathStare			-		-
+
+Snake:
+- Fangs				To Implement	To Implement	(Use Fangs animation)
+- Acid Spit			-		-
+- Restrain			-		-
+
+SnowWolf:
+- White Fangs			To Change?	Done
+- Dash				-		-
+
+Wolf:
+- Fangs				Done		Done
+- Headbutt			-		-
+
+Tuto:
+- Great power			-		-
+
+Basic:
+- Attack			Done		Done
