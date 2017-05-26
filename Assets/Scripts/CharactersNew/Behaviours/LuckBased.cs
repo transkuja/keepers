@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 public enum LuckResult { Luck, BadLuck, Common }
 
 namespace Behaviour
@@ -71,15 +73,44 @@ namespace Behaviour
         public void HandleLuckForActionPoints()
         {
             Keeper keeper = GetComponent<Keeper>();
+            GameObject feedback;
             switch (RollDice())
             {
                 case LuckResult.Luck:
                     keeper.Data.MaxActionPoint = 4;
                     keeper.UpdateActionPoint(4);
+                    feedback = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabImageUI, GameManager.Instance.Ui.transform.GetChild(0));
+                    if (GameManager.Instance.ListOfSelectedKeepers != null && GameManager.Instance.ListOfSelectedKeepers.Count > 0 && GetComponent<PawnInstance>() == GameManager.Instance.ListOfSelectedKeepers[0])
+                    {
+                        feedback.transform.position = GetComponent<Keeper>().SelectedActionPointsUI.transform.position + Vector3.right * (150 * Screen.width / 1920.0f) + Vector3.up * (50 * Screen.height / 1080.0f);
+                    }
+                    else
+                    {
+                        if (!GameManager.Instance.Ui.goShortcutKeepersPanel.activeSelf)
+                            GameManager.Instance.Ui.ToggleShortcutPanel();
+                        feedback.transform.SetParent(GetComponent<Keeper>().ShorcutUI.transform);
+                        feedback.transform.localPosition = Vector3.zero;
+                    }
+                    feedback.AddComponent<CatsFeedback>();
+                    feedback.GetComponent<CatsFeedback>().SendSprite(GameManager.Instance.SpriteUtils.luckat);
                     break;
                 case LuckResult.BadLuck:
                     keeper.Data.MaxActionPoint = 2;
                     keeper.UpdateActionPoint(2);
+                    feedback = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabImageUI, GameManager.Instance.Ui.transform.GetChild(0));
+                    if (GameManager.Instance.ListOfSelectedKeepers != null && GameManager.Instance.ListOfSelectedKeepers.Count > 0 && GetComponent<PawnInstance>() == GameManager.Instance.ListOfSelectedKeepers[0])
+                    {
+                        feedback.transform.position = GetComponent<Keeper>().SelectedActionPointsUI.transform.position + Vector3.right * (150 * Screen.width / 1920.0f) + Vector3.up * (50 * Screen.height / 1080.0f);
+                    }
+                    else
+                    {
+                        if (!GameManager.Instance.Ui.goShortcutKeepersPanel.activeSelf)
+                            GameManager.Instance.Ui.ToggleShortcutPanel();
+                        feedback.transform.SetParent(GetComponent<Keeper>().ShorcutUI.transform);
+                        feedback.transform.localPosition = Vector3.zero;
+                    }
+                    feedback.AddComponent<CatsFeedback>();
+                    feedback.GetComponent<CatsFeedback>().SendSprite(GameManager.Instance.SpriteUtils.badLuckat);
                     break;
                 default:
                     keeper.Data.MaxActionPoint = 3;

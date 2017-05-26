@@ -99,6 +99,8 @@ public class SpriteUIUtils : MonoBehaviour {
     [Header("Feedbacks")]
     public Sprite hungerFeedback;
     public Sprite lowMoodFeedback;
+    public Sprite luckat;
+    public Sprite badLuckat;
 
 }
 

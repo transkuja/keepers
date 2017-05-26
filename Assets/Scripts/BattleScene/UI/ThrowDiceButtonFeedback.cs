@@ -5,7 +5,7 @@ public class ThrowDiceButtonFeedback : MonoBehaviour {
 
     private float timer = 0.0f;
     [SerializeField]
-    private float speed = 5.0f;
+    public float speed = 5.0f;
     [SerializeField]
     private float magnitude = 10.0f;
     [SerializeField]
