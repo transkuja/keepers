@@ -363,9 +363,13 @@ public class SkillBattle {
 
         if (targetType == TargetType.FoeAll)
         {
+            UseSkillOnAllFoes(effectiveDamage);
             if (skillName.Contains("Rainbow Beam"))
+            {
+                int tmpTargets = BattleHandler.ExpectedAnswers;
                 UseSkillOnAllAllies(effectiveDamage);
-           UseSkillOnAllFoes(effectiveDamage);
+                BattleHandler.ExpectedAnswers += tmpTargets;
+            }
         }
         else if (targetType == TargetType.FriendAll)
         {
