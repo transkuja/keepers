@@ -37,11 +37,11 @@ Nana:
 - Berserk			-		-
 
 Swag:
-- Cure				-		-		(Particles in Project)
-- Rainbow Heal			-		-		(Particles in Project, missing rainbow)
-- Power of Love			-		-		(Particles in Project)
+- Cure				Done		-		(Particles in Project)
+- Rainbow Heal			-		-		(Particles in Project (healing particles), missing rainbow)
+- Power of Love			Half Done	-		(Missing Buff particles)
 (Depressed)
-- Low Cure			-		-
+- Low Cure			Done		-
 - Cloudy Heal			-		-
 
 Ashley:
@@ -65,7 +65,7 @@ Jacob:
 - DeathStare			-		-
 
 Snake:
-- Fangs				To Implement	To Implement	(Use Fangs animation)
+- Fangs				Done		Done		(Use Fangs animation)
 - Acid Spit			-		-
 - Restrain			-		-
 
