@@ -114,6 +114,7 @@ public class SeqAshleyEscort : Sequence {
         {
             foreach (Button b in GameManager.Instance.Ui.goConfirmationPanel.GetComponentsInChildren<Button>())
                 b.interactable = false;
+            Etapes.Add(new TutoManager.Message(null, Translater.TutoText("SeqAshleyEscort", 1)));
         }
         Etapes.Add(new ShowEscortAction(Translater.TutoText("SeqAshleyEscort", 1)));
         Etapes.Add(new ReactivateButtons(Translater.TutoText("SeqAshleyEscort", 2)));

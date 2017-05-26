@@ -75,7 +75,7 @@ public class EventManager : MonoBehaviour {
         if (TutoManager.s_instance != null && TutoManager.s_instance.PlayingSequence == null)
         {
             HandleWeather();
-            HandleTeamCrocket();
+            //HandleTeamCrocket();
         }
 
 
