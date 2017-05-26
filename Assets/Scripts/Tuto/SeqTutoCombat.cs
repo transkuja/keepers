@@ -305,6 +305,7 @@ public class SeqTutoCombat : Sequence
         public void Message_fct()
         {
             // Give back the character his skills
+            BattleHandler.CurrentBattleKeepers[0].GetComponent<GlowObjectCmd>().ActivateBlinkBehaviour(false);
             BattleHandler.CurrentBattleKeepers[0].GetComponent<Behaviour.Fighter>().BattleSkills.Clear();
             BattleHandler.CurrentBattleKeepers[0].GetComponent<Behaviour.Fighter>().BattleSkills = TutoManager.s_instance.GetComponent<SeqTutoCombat>().previousCharacterSkills;
             GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().TutoReloadSkillPanel(BattleHandler.CurrentBattleKeepers[0]);
@@ -318,11 +319,13 @@ public class SeqTutoCombat : Sequence
 
         public override void Reverse()
         {
-
-            foreach (PawnInstance pi in BattleHandler.CurrentBattleMonsters)
+            if (BattleHandler.CurrentBattleKeepers.Length == 1 && !BattleHandler.isPrisonerOnTile)
             {
-                if (pi.GetComponent<Behaviour.Fighter>().PendingDamage != 0)
-                    pi.GetComponent<Behaviour.Fighter>().EndSkillProcess();
+                foreach (PawnInstance pi in BattleHandler.CurrentBattleMonsters)
+                {
+                    if (pi.GetComponent<Behaviour.Fighter>().PendingDamage != 0)
+                        pi.GetComponent<Behaviour.Fighter>().EndSkillProcess();
+                }
             }
             TutoManager.s_instance.TutoPanelInstance.SetActive(false);       
             alreadyPlayed = false;
@@ -369,8 +372,17 @@ public class SeqTutoCombat : Sequence
         Etapes.Add(new SkillSelectionStep(Translater.TutoText("SeqTutoCombat", 7)));
 
         Etapes.Add(new TutoManager.Message(null, Translater.TutoText("SeqTutoCombat", 8)));
-        Etapes.Add(new MonstersTurnStep(Translater.TutoText("SeqTutoCombat", 9))); // ==> monsters play their turn when clicking on next arrow
-        Etapes.Add(new TutoManager.Message(null, Translater.TutoText("SeqTutoCombat", 10))); // ==> show this step when turn reset, no previous arrow
+        if (BattleHandler.CurrentBattleKeepers.Length > 1 || BattleHandler.isPrisonerOnTile)
+        {
+            Etapes.Add(new TutoManager.Message(null, Translater.TutoText("SeqTutoCombat", 9)));
+            Etapes.Add(new MonstersTurnStep(Translater.TutoText("SeqTutoCombat", 10)));
+        }
+        else
+        {
+            Etapes.Add(new MonstersTurnStep(Translater.TutoText("SeqTutoCombat", 11)));
+        }
+
+        Etapes.Add(new TutoManager.Message(null, Translater.TutoText("SeqTutoCombat", 12)));
     }
 
     public override void End()

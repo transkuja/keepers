@@ -33,7 +33,7 @@ public class ControlsManager : MonoBehaviour
         {
             NormalStateControls();
         }
-        else if (GameManager.Instance.CurrentState == GameState.InBattle)
+        else if (GameManager.Instance.CurrentState == GameState.InBattle || (GameManager.Instance.CurrentState == GameState.InTuto && !TutoManager.s_instance.TutoPanelInstance.activeSelf))
         {
             InBattleControls();
         }

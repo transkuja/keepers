@@ -70,7 +70,7 @@ public class BuffFeedback : MonoBehaviour
 
     void Update()
     {
-        if (GameManager.Instance.CurrentState == GameState.InBattle)
+        if (GameManager.Instance.CurrentState == GameState.InBattle || (GameManager.Instance.CurrentState == GameState.InTuto && TutoManager.s_instance.StateBeforeTutoStarts == GameState.InBattle))
         {
             if (curBoeufs.Count == 0)
             {

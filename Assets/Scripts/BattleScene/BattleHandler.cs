@@ -60,13 +60,27 @@ public class BattleHandler {
         AudioManager.Instance.PlayOneShot(AudioManager.Instance.battleSound, 0.5f);
         GameManager.Instance.CurrentState = GameState.InPause;
         // Auto selection
-
-        if (TutoManager.s_instance && TutoManager.s_instance.enableTuto && TutoManager.s_instance.PlayingSequence == null
-            && TutoManager.s_instance.GetComponent<SeqTutoCombat>().AlreadyPlayed == false)
+        if (TileManager.Instance.KeepersOnTile[tile].Count <= 1)
         {
-            List<PawnInstance> keepersForBattle = new List<PawnInstance>();
-            // Only one keeper for tuto, TODO: ptet mettre celui qui déclenche le combat
-            keepersForBattle.Add(TileManager.Instance.KeepersOnTile[tile][0]);
+            if (GameManager.Instance.ArcherInstance != null)
+            {
+                Tile archerTile = GameManager.Instance.ArcherInstance.CurrentTile;
+                if (archerTile != null)
+                {
+                    for (int i = 0; i < 6; i++)
+                    {
+                        if (archerTile == tile.Neighbors[i])
+                        {
+                            archerPreviousTile = archerTile;
+                            GameManager.Instance.ArcherInstance.CurrentTile = tile;
+                            GameManager.Instance.OpenSelectBattleCharactersScreen(tile);
+                            return;
+                        }
+                    }
+                }
+            }
+
+            List<PawnInstance> keepersForBattle = TileManager.Instance.KeepersOnTile[tile];
             if (TileManager.Instance.PrisonerTile == tile)
             {
                 isPrisonerOnTile = true;
@@ -75,62 +89,28 @@ public class BattleHandler {
             {
                 isPrisonerOnTile = false;
             }
+
             LaunchBattle(tile, keepersForBattle);
         }
+        // Manual selection
         else
         {
-            if (TileManager.Instance.KeepersOnTile[tile].Count <= 1)
+            if (GameManager.Instance.ArcherInstance != null)
             {
-                if (GameManager.Instance.ArcherInstance != null)
+                Tile archerTile = GameManager.Instance.ArcherInstance.CurrentTile;
+                if (archerTile != null)
                 {
-                    Tile archerTile = GameManager.Instance.ArcherInstance.CurrentTile;
-                    if (archerTile != null)
+                    for (int i = 0; i < 6; i++)
                     {
-                        for (int i = 0; i < 6; i++)
+                        if (archerTile == tile.Neighbors[i])
                         {
-                            if (archerTile == tile.Neighbors[i])
-                            {
-                                archerPreviousTile = archerTile;
-                                GameManager.Instance.ArcherInstance.CurrentTile = tile;
-                                GameManager.Instance.OpenSelectBattleCharactersScreen(tile);
-                                return;
-                            }
+                            archerPreviousTile = archerTile;
+                            GameManager.Instance.ArcherInstance.CurrentTile = tile;
                         }
                     }
                 }
-
-                List<PawnInstance> keepersForBattle = TileManager.Instance.KeepersOnTile[tile];
-                if (TileManager.Instance.PrisonerTile == tile)
-                {
-                    isPrisonerOnTile = true;
-                }
-                else
-                {
-                    isPrisonerOnTile = false;
-                }
-
-                LaunchBattle(tile, keepersForBattle);
             }
-            // Manual selection
-            else
-            {
-                if (GameManager.Instance.ArcherInstance != null)
-                {
-                    Tile archerTile = GameManager.Instance.ArcherInstance.CurrentTile;
-                    if (archerTile != null)
-                    {
-                        for (int i = 0; i < 6; i++)
-                        {
-                            if (archerTile == tile.Neighbors[i])
-                            {
-                                archerPreviousTile = archerTile;
-                                GameManager.Instance.ArcherInstance.CurrentTile = tile;
-                            }
-                        }
-                    }
-                }
-                GameManager.Instance.OpenSelectBattleCharactersScreen(tile);
-            }
+            GameManager.Instance.OpenSelectBattleCharactersScreen(tile);
         }
     }
 

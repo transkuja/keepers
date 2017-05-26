@@ -44,8 +44,12 @@ public class Translater
                         case 8:
                             return "Great!";
                         case 9:
-                            return "Once all of your characters have played, it's the monsters' turn";
+                            return "Now play with all your remaining characters.";
                         case 10:
+                            return "Once it's done, it's the monsters' turn";
+                        case 11:
+                            return "Once all of your characters have played, it's the monsters' turn";
+                        case 12:
                             return "Use what you learned to finish the battle, good luck!";
                         default:
                             return "";

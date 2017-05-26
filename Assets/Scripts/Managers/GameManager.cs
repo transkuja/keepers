@@ -928,10 +928,10 @@ public class GameManager : MonoBehaviour
     }
 
     public void AddKeeperToSelectedList(PawnInstance pawn)
-
     {
         if (pawn.GetComponent<Keeper>() != null
-                || (currentState == GameState.InBattle && pawn.GetComponent<Prisoner>()))
+                || (currentState == GameState.InBattle && pawn.GetComponent<Prisoner>())
+                || (currentState == GameState.InTuto && TutoManager.s_instance.StateBeforeTutoStarts == GameState.InBattle) && pawn.GetComponent<Prisoner>())
             ListOfSelectedKeepers.Add(pawn);
         else
             Debug.Log("Can't add a pawn to selected keepers list without the Keeper component.");

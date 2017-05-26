@@ -150,7 +150,8 @@ namespace Behaviour
                     if (showSkillPanelTimer < 0.0f)
                     {
                         if (GameManager.Instance.CurrentState != GameState.InTuto
-                            || (GameManager.Instance.CurrentState == GameState.InTuto && (GetComponent<Keeper>() != null || GetComponent<Escortable>() != null)))
+                            || (GameManager.Instance.CurrentState == GameState.InTuto && 
+                               (GetComponent<Monster>() == null || (BattleHandler.CurrentBattleKeepers.Length + ((BattleHandler.isPrisonerOnTile) ? 1 : 0) > 1))))
                         {
                             EndSkillProcess();
                         }
