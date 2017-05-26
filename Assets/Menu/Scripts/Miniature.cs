@@ -102,7 +102,7 @@ public class Miniature : MonoBehaviour {
             state = State.shrank;
         }
 
-        transform.localScale = Vector3.Lerp(Vector3.zero, v3ScaleRef * 1.1f, curve.Evaluate(fLerp));
+        transform.localScale = Vector3.Lerp(Vector3.zero, v3ScaleRef * 0.5f, curve.Evaluate(fLerp));
     }
 
     void updateRotation()

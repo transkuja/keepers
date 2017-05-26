@@ -156,9 +156,6 @@ public class BoxOpener : MonoBehaviour {
 
     public void UpdateLockAspect()
     {
-        Debug.Log(menuManager.ListeSelectedKeepers.Count);
-        Debug.Log(menuManager.CardLevelSelected);
-        Debug.Log(menuManager.DeckOfCardsSelected);
         if (isBoxOpen && (menuUi.ACardIsShown || menuUi.ACardInfoIsShown ||(menuManager.ListeSelectedKeepers.Count != 0 || menuManager.CardLevelSelected != -1 && menuManager.DeckOfCardsSelected != string.Empty)))
         {
             boxLock.GetComponent<GlowObjectCmd>().GlowColor = colorLockClosed;

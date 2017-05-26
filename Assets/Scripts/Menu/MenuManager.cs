@@ -376,7 +376,7 @@ public class MenuManager : MonoBehaviour {
     public void LaunchCinematic()
     {
         SetActiveChatBoxes(false);
-        GetComponent<BoxOpener>().animatorCam.SetTrigger("lauch");
+        //Camera.main.GetComponent<CameraMenu>().ShowMiniature();
         listPawnSelected = new List<PawnInstance>();
         listPawnJumped = new List<PawnInstance>();
         foreach (PawnInstance p in GameObject.FindObjectsOfType<PawnInstance>())
@@ -417,6 +417,7 @@ public class MenuManager : MonoBehaviour {
 
         if(timerLaunch > 0)
         {
+
             timerLaunch -= Time.unscaledDeltaTime;
             if(timerLaunch <= 0)
             {
