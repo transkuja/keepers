@@ -150,7 +150,6 @@ namespace Behaviour
                 if(diffHunger < 0 && currentHunger <= data.MaxHunger/3.0f)
                 {
                     transform.GetChild(2).GetChild(0).gameObject.SetActive(true);
-                    Debug.Log(name);
                     if(transform.GetChild(2).GetChild(0).GetChild(2).GetComponent<HungerMoodFeedback>() != null)
                         transform.GetChild(2).GetChild(0).GetChild(2).GetComponent<HungerMoodFeedback>().needsToPlayHunger = true;
                 }

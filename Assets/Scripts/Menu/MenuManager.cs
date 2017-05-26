@@ -443,7 +443,6 @@ public class MenuManager : MonoBehaviour {
     public void StartGame()
     {
         Destroy(Camera.main.gameObject.GetComponent<CameraMenu>());
-        AudioManager.Instance.PlayOneShot(AudioManager.Instance.buttonClick, 0.5f);
 
         GameManager.Instance.AllKeeperListId.Clear();
         foreach (string ki in ListeSelectedKeepers)

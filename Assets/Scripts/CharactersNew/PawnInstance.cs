@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class PawnInstance : MonoBehaviour {
 
+    private Color red;
+    private Color green;
+
     public class AscendingFeedback
     {
         public Sprite sprite;
@@ -23,6 +26,14 @@ public class PawnInstance : MonoBehaviour {
             txt = _txt;
             txtColor = _color;
         }
+    }
+
+    public void Start()
+    {
+
+        red = new Color32(0xBE, 0x18, 0x18, 0xFF);
+        green = new Color32(0x1F, 0xB8, 0x66, 0xFF);
+
     }
 
     List<AscendingFeedback> feedBackQueue = new List<AscendingFeedback>();
@@ -128,7 +139,7 @@ public class PawnInstance : MonoBehaviour {
         string str = (amount < 0) ? "- " : "+ ";
         str += Mathf.Abs(amount);
 
-        Color c = (amount < 0) ? Color.red : Color.green;
+        Color c = (amount < 0) ? red : green;
 
         feedBackQueue.Add(new AscendingFeedback(str, c));
 
@@ -160,6 +171,7 @@ public class PawnInstance : MonoBehaviour {
         }
 
         goPanelAscendingFeedback.transform.GetChild(1).GetComponent<Image>().sprite = af.sprite;
+        goPanelAscendingFeedback.transform.GetChild(1).GetComponent<Image>().color = af.txtColor;
         goPanelAscendingFeedback.GetComponentInChildren<Text>().color = af.txtColor;
         goPanelAscendingFeedback.GetComponentInChildren<Text>().text = af.txt;
 

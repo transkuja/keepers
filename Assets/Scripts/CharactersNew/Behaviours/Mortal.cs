@@ -67,7 +67,7 @@ namespace Behaviour
             currentHp = data.MaxHp;
             isAlive = true;
             if (GetComponent<Monster>() == null)
-                GetComponent<Interactable>().Interactions.Add(new Interaction(Heal), 1, "Heal", GameManager.Instance.SpriteUtils.spriteCookie);
+                GetComponent<Interactable>().Interactions.Add(new Interaction(Heal), 1, "Heal", GameManager.Instance.SpriteUtils.spriteHeal);
         }
 
         public void Die()
