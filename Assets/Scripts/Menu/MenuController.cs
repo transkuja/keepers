@@ -3,7 +3,7 @@ using UnityEngine.AI;
 
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
-
+using UnityEngine.EventSystems;
 
 public class MenuController : MonoBehaviour {
 
@@ -151,6 +151,12 @@ public class MenuController : MonoBehaviour {
             RaycastHit hit;
             if (boxOpener.IsBoxOpen)
             {
+                if (EventSystem.current.IsPointerOverGameObject())
+                {
+                    Debug.Log("OnUiComponent");
+                    return;
+                }
+
                 if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit) == true)
                 {
                     if (hit.transform.gameObject.layer == LayerMask.NameToLayer("CardLevel"))

@@ -7,7 +7,7 @@ public class Displayer : MonoBehaviour {
     public MenuUI menuUI;
     public MenuManager menuManager;
 
-
+    private PawnInstance associatedPawn;
     private bool needToBeShown = false;
     private bool isShown = false;
 
@@ -43,6 +43,19 @@ public class Displayer : MonoBehaviour {
         }
     }
 
+    public PawnInstance AssociatedPawn
+    {
+        get
+        {
+            return associatedPawn;
+        }
+
+        set
+        {
+            associatedPawn = value;
+        }
+    }
+
     //void OnMouseEnter()
     //{
     //    if (!NeedToBeShown && !menuUI.IsACardInfoMovingForShowing && menuUI.cardsInfoAreReady && !menumanager.GoDeck.GetComponent<Deck>().IsOpen)
@@ -65,9 +78,28 @@ public class Displayer : MonoBehaviour {
     //        menuUI.IsACardInfoMovingForShowing = true;
     //    }
     //}
+    
+    private void OnMouseExit()
+    {
+        if (menuUI.cardsInfoAreReady && associatedPawn != null)
+        {
+            if (!associatedPawn.GetComponent<GlowObjectCmd>().isActiveAndEnabled)
+                associatedPawn.GetComponent<GlowObjectCmd>().enabled = false;
+            associatedPawn.GetComponent<GlowObjectCmd>().UpdateColor(false);
+        }
+
+    }
 
     private void OnMouseOver()
     {
+        if (menuUI.cardsInfoAreReady && associatedPawn != null)
+        {
+            if (!associatedPawn.GetComponent<GlowObjectCmd>().isActiveAndEnabled)
+                associatedPawn.GetComponent<GlowObjectCmd>().enabled = true;
+            associatedPawn.GetComponent<GlowObjectCmd>().UpdateColor(true);
+        }
+
+
         if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
         {
             if (menuManager.CardLevelSelected == -1 && menuManager.ListeSelectedKeepers.Count == 0 && !menuManager.GoDeck.GetComponent<Deck>().IsOpen)
@@ -93,4 +125,12 @@ public class Displayer : MonoBehaviour {
      
         }
     }
+
+    //private void OnMouseEnter()
+    //{
+    //    if (menuUI.cardsInfoAreReady && associatedPawn != null)
+    //    {
+    //        AudioManager.Instance.PlayOneShot(AudioManager.Instance.deselectSound);
+    //    }
+    //}
 }

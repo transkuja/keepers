@@ -182,8 +182,13 @@ public class MenuManager : MonoBehaviour {
                     SetActiveChatBoxes(false);
 
                     GameObject goCardInfo = Instantiate(getPawnPrefabById(id), menuUi.cardInfoStartingPosition);
+                    if (goCardInfo.GetComponentInChildren<Displayer>() != null && goKeeper.GetComponent<PawnInstance>() != null)
+                    goCardInfo.GetComponentInChildren<Displayer>().AssociatedPawn = goKeeper.GetComponent<PawnInstance>();
                     goCardInfo.transform.localPosition = new Vector3(0, iKeeper * 0.02f, 0);
                     goCardsInfo.Add(goCardInfo);
+
+
+                    goKeeper.AddComponent<MenuGlowCardInfo>().GoCardInfo = goCardInfo;
 
                     GameManager.Instance.AllKeepersList.Add(goKeeper.GetComponent<PawnInstance>());
 
