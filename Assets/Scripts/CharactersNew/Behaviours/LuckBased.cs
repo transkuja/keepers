@@ -18,6 +18,8 @@ namespace Behaviour
         [SerializeField]
         private List<SkillBattle> magicalSkills = new List<SkillBattle>();
         public Fighter fighterComponent;
+        public bool isSkillFeedbackPending = false;
+        public bool isSkillFeedbackPendingLucky = false;
 
         private void Start()
         {
@@ -229,12 +231,41 @@ namespace Behaviour
                 return _skill;
              
             int randDieForSkills = Random.Range(0, 3);
+            if (randDieForSkills == 0)
+            {
+                isSkillFeedbackPending = true;
+                isSkillFeedbackPendingLucky = false;
+            }
+            else if (randDieForSkills == 1)
+            {
+                isSkillFeedbackPending = true;
+                isSkillFeedbackPendingLucky = true;
+            }
+
             if (_skill.SkillType == SkillType.Physical)
                 return physicalSkills[randDieForSkills];
             else if (_skill.SkillType == SkillType.Magical)
                 return magicalSkills[randDieForSkills];
             else
                 return defensiveSkills[randDieForSkills];
+        }
+
+        public void FeedbackLuckForSkillBattle()
+        {
+            GameObject feedback = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabImageUI, GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().SkillName.transform);
+
+            feedback.transform.localScale = Vector3.one;
+            feedback.GetComponent<RectTransform>().sizeDelta = new Vector2(Screen.width/1920.0f, Screen.height/1080.0f) * 250f;
+
+            feedback.AddComponent<CatsFeedback>();
+            feedback.GetComponent<CatsFeedback>().SendSprite((isSkillFeedbackPendingLucky) ? GameManager.Instance.SpriteUtils.luckat : GameManager.Instance.SpriteUtils.badLuckat);
+            feedback.transform.localPosition = Vector3.down * (200 * (Screen.height/1080.0f));
+
+            if (isSkillFeedbackPendingLucky)
+                AudioManager.Instance.PlayOneShot(AudioManager.Instance.luckyCatSound, 0.2f);
+            else
+                AudioManager.Instance.PlayOneShot(AudioManager.Instance.viciousCatSound);
+            isSkillFeedbackPending = false;
         }
     }
 }

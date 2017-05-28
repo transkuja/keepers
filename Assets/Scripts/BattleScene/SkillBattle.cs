@@ -347,6 +347,8 @@ public class SkillBattle {
 
         GameObject skillNameUI = GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().SkillName;
         skillNameUI.transform.GetComponentInChildren<Text>().text = skillName;
+        if (skillUser.GetComponent<LuckBased>() != null && skillUser.GetComponent<LuckBased>().isSkillFeedbackPending)
+            skillUser.GetComponent<LuckBased>().FeedbackLuckForSkillBattle();
         skillNameUI.SetActive(true);
 
         int effectiveDamage = Damage;
@@ -495,6 +497,8 @@ public class SkillBattle {
 
         GameObject skillNameUI = GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().SkillName;
         skillNameUI.transform.GetComponentInChildren<Text>().text = skillName;
+        if (skillUser.GetComponent<LuckBased>() != null && skillUser.GetComponent<LuckBased>().isSkillFeedbackPending)
+            skillUser.GetComponent<LuckBased>().FeedbackLuckForSkillBattle();
         skillNameUI.SetActive(true);
 
         int effectiveDamage = Damage;
