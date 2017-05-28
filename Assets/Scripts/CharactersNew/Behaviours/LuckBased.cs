@@ -212,7 +212,7 @@ namespace Behaviour
 
         public SkillBattle HandleLuckForSkills(SkillBattle _skill)
         {
-            if (_skill.SkillName == "Attack")
+            if (_skill.SkillName == "Attack" || _skill.SkillName == "Great Power")
                 return _skill;
              
             int randDieForSkills = Random.Range(0, 3);
