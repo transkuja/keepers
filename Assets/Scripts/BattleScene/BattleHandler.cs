@@ -1021,4 +1021,18 @@ public class BattleHandler {
             archerPreviousTile = value;
         }
     }
+
+    public static void ApplyEscapePenalty()
+    {
+        for (int i = 0; i < currentBattleKeepers.Length; i++)
+        {
+            if (currentBattleKeepers[i].GetComponent<MentalHealthHandler>() != null)
+                currentBattleKeepers[i].GetComponent<MentalHealthHandler>().CurrentMentalHealth -= 5;
+            if (currentBattleKeepers[i].GetComponent<HungerHandler>() != null)
+                currentBattleKeepers[i].GetComponent<HungerHandler>().CurrentHunger -= 5;
+        }
+
+        if (isPrisonerOnTile)
+            GameManager.Instance.PrisonerInstance.GetComponent<HungerHandler>().CurrentHunger -= 5;
+    }
 }

@@ -171,6 +171,7 @@ public class UIBattleHandler : MonoBehaviour {
 
     public void EscapeBattle()
     {
+        BattleHandler.ApplyEscapePenalty();
         BattleHandler.HandleBattleDefeat();
     }
 
