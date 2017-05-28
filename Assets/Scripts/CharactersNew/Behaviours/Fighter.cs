@@ -127,6 +127,7 @@ namespace Behaviour
                     if (showFeedbackTimer == -1.0f)
                     {
                         showFeedbackTimer = BattleHandler.CurrentSkillAnimDuration;
+                        if (showFeedbackTimer < 0.7f) showSkillPanelTimer = 1.2f - showFeedbackTimer;
                     }
                     if (showFeedbackTimer < 0.0f)
                     {
