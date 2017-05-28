@@ -487,6 +487,9 @@ public class BattleHandler {
             GameManager.Instance.PrisonerInstance.GetComponent<AnimatedPawn>().Anim.SetTrigger("dance");
         }
         
+        if (TutoManager.s_instance != null && TutoManager.s_instance.PlayingSequence != null && TutoManager.s_instance.PlayingSequence.GetType() == typeof(SeqTutoCombat))
+            TutoManager.s_instance.PlayingSequence.End();
+
         PrintResultsScreen(true);
         PostBattleCommonProcess();
     }
