@@ -28,6 +28,7 @@ public class SelectBattleCharactersPanelHandler : MonoBehaviour {
     private void OnEnable()
     {
         int j = 0;
+        transform.GetChild((int)SelectBattleCharactersScreenChildren.Header).GetComponentInChildren<Text>().text = Translater.BattleCharacterSelection();
 
         foreach (PawnInstance ki in TileManager.Instance.KeepersOnTile[activeTile])
         {

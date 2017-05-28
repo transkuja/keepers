@@ -487,4 +487,23 @@ public class Translater
         return "";
     }
 
+    public static string BattleCharacterSelection()
+    {
+        if (CurrentLanguage == LanguageEnum.FR) return "Choisis tes combattants";
+        else return "Select your characters";
+    }
+
+    public static Sprite WinningScreen(bool _won)
+    {
+        if (CurrentLanguage == LanguageEnum.FR)
+        {
+            if (_won) return GameManager.Instance.SpriteUtils.VictoryFR;
+            return GameManager.Instance.SpriteUtils.DefeatFR;
+        }
+        else
+        {
+            if (_won) return GameManager.Instance.SpriteUtils.VictoryEN;
+            return GameManager.Instance.SpriteUtils.DefeatEN;
+        }
+    }
 }

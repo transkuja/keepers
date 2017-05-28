@@ -93,8 +93,10 @@ public class SpriteUIUtils : MonoBehaviour {
     public Sprite level1;
     public Sprite level2;
     public Sprite level3;
-    public Sprite Victory;
-    public Sprite Defeat;
+    public Sprite VictoryEN;
+    public Sprite DefeatEN;
+    public Sprite VictoryFR;
+    public Sprite DefeatFR;
 
     [Header("Feedbacks")]
     public Sprite hungerFeedback;
