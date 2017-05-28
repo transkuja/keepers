@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class CatsFeedback : MonoBehaviour {
@@ -11,7 +9,7 @@ public class CatsFeedback : MonoBehaviour {
         GetComponent<Image>().enabled = true;
         gameObject.AddComponent<ThrowDiceButtonFeedback>();
         GetComponent<ThrowDiceButtonFeedback>().speed = 10.0f;
-        Destroy(gameObject, 2.5f);
+        Destroy(gameObject, 2.0f);
     }
 
 }

@@ -49,6 +49,9 @@ public class AudioManager : MonoBehaviour {
     private AudioClip musicToPlay;
     private AudioClip previousMusic;
 
+    public AudioClip luckyCatSound;
+    public AudioClip viciousCatSound;
+
     [SerializeField]
     private float volumeMusic = 0.5f;
     [SerializeField]

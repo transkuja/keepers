@@ -109,6 +109,10 @@ namespace Behaviour
             }
             feedback.AddComponent<CatsFeedback>();
             feedback.GetComponent<CatsFeedback>().SendSprite((isGoodLuck) ? GameManager.Instance.SpriteUtils.luckat : GameManager.Instance.SpriteUtils.badLuckat);
+            if (isGoodLuck)
+                AudioManager.Instance.PlayOneShot(AudioManager.Instance.luckyCatSound, 0.2f);
+            else
+                AudioManager.Instance.PlayOneShot(AudioManager.Instance.viciousCatSound);
         }
 
         public int HandleLuckForTalk()
@@ -153,6 +157,10 @@ namespace Behaviour
             feedback.GetComponent<CatsFeedback>().SendSprite((isGoodLuck) ? GameManager.Instance.SpriteUtils.luckat : GameManager.Instance.SpriteUtils.badLuckat);
             feedback.transform.localPosition = Vector3.zero;
             feedback.transform.localPosition += Vector3.up * 0.35f;
+            if (isGoodLuck)
+                AudioManager.Instance.PlayOneShot(AudioManager.Instance.luckyCatSound, 0.2f);
+            else
+                AudioManager.Instance.PlayOneShot(AudioManager.Instance.viciousCatSound);
         }
 
         public void HandleLuckForTileDiscovery(Tile _tile)
