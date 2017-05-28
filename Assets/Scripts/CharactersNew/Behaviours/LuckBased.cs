@@ -73,44 +73,17 @@ namespace Behaviour
         public void HandleLuckForActionPoints()
         {
             Keeper keeper = GetComponent<Keeper>();
-            GameObject feedback;
             switch (RollDice())
             {
                 case LuckResult.Luck:
                     keeper.Data.MaxActionPoint = 4;
                     keeper.UpdateActionPoint(4);
-                    feedback = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabImageUI, GameManager.Instance.Ui.transform.GetChild(0));
-                    if (GameManager.Instance.ListOfSelectedKeepers != null && GameManager.Instance.ListOfSelectedKeepers.Count > 0 && GetComponent<PawnInstance>() == GameManager.Instance.ListOfSelectedKeepers[0])
-                    {
-                        feedback.transform.position = GetComponent<Keeper>().SelectedActionPointsUI.transform.position + Vector3.right * (150 * Screen.width / 1920.0f) + Vector3.up * (50 * Screen.height / 1080.0f);
-                    }
-                    else
-                    {
-                        if (!GameManager.Instance.Ui.goShortcutKeepersPanel.activeSelf)
-                            GameManager.Instance.Ui.ToggleShortcutPanel();
-                        feedback.transform.SetParent(GetComponent<Keeper>().ShorcutUI.transform);
-                        feedback.transform.localPosition = Vector3.zero;
-                    }
-                    feedback.AddComponent<CatsFeedback>();
-                    feedback.GetComponent<CatsFeedback>().SendSprite(GameManager.Instance.SpriteUtils.luckat);
+                    FeedbackLuckAP(true);
                     break;
                 case LuckResult.BadLuck:
                     keeper.Data.MaxActionPoint = 2;
                     keeper.UpdateActionPoint(2);
-                    feedback = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabImageUI, GameManager.Instance.Ui.transform.GetChild(0));
-                    if (GameManager.Instance.ListOfSelectedKeepers != null && GameManager.Instance.ListOfSelectedKeepers.Count > 0 && GetComponent<PawnInstance>() == GameManager.Instance.ListOfSelectedKeepers[0])
-                    {
-                        feedback.transform.position = GetComponent<Keeper>().SelectedActionPointsUI.transform.position + Vector3.right * (150 * Screen.width / 1920.0f) + Vector3.up * (50 * Screen.height / 1080.0f);
-                    }
-                    else
-                    {
-                        if (!GameManager.Instance.Ui.goShortcutKeepersPanel.activeSelf)
-                            GameManager.Instance.Ui.ToggleShortcutPanel();
-                        feedback.transform.SetParent(GetComponent<Keeper>().ShorcutUI.transform);
-                        feedback.transform.localPosition = Vector3.zero;
-                    }
-                    feedback.AddComponent<CatsFeedback>();
-                    feedback.GetComponent<CatsFeedback>().SendSprite(GameManager.Instance.SpriteUtils.badLuckat);
+                    FeedbackLuckAP(false);
                     break;
                 default:
                     keeper.Data.MaxActionPoint = 3;
@@ -118,6 +91,24 @@ namespace Behaviour
                     break;
             }
             keeper.UpdateActionPointsUI();
+        }
+
+        private void FeedbackLuckAP(bool isGoodLuck)
+        {
+            GameObject feedback = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabImageUI, GameManager.Instance.Ui.transform.GetChild(0));
+            if (GameManager.Instance.ListOfSelectedKeepers != null && GameManager.Instance.ListOfSelectedKeepers.Count > 0 && GetComponent<PawnInstance>() == GameManager.Instance.ListOfSelectedKeepers[0])
+            {
+                feedback.transform.position = GetComponent<Keeper>().SelectedActionPointsUI.transform.position + Vector3.right * (150 * Screen.width / 1920.0f) + Vector3.up * (50 * Screen.height / 1080.0f);
+            }
+            else
+            {
+                if (!GameManager.Instance.Ui.goShortcutKeepersPanel.activeSelf)
+                    GameManager.Instance.Ui.ToggleShortcutPanel();
+                feedback.transform.SetParent(GetComponent<Keeper>().ShorcutUI.transform);
+                feedback.transform.localPosition = Vector3.zero;
+            }
+            feedback.AddComponent<CatsFeedback>();
+            feedback.GetComponent<CatsFeedback>().SendSprite((isGoodLuck) ? GameManager.Instance.SpriteUtils.luckat : GameManager.Instance.SpriteUtils.badLuckat);
         }
 
         public int HandleLuckForTalk()
@@ -140,14 +131,28 @@ namespace Behaviour
                 case LuckResult.Luck:
                     if (_item != null)
                         _item.Quantity = (int)(_item.Quantity * 1.5f);
+                    FeedbackLuckHarvest(true);
                     break;
                 case LuckResult.BadLuck:
                     if (_item != null)
                         _item.Quantity = (int)(_item.Quantity / 2.0f);
+                    FeedbackLuckHarvest(false);
                     break;
                 default:
                     break;
             }
+        }
+
+        private void FeedbackLuckHarvest(bool isGoodLuck)
+        {
+            GameObject feedback = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabImageUI, GetComponent<Interactable>().Feedback.GetChild(0));
+            feedback.transform.localScale = Vector3.one;
+            feedback.GetComponent<RectTransform>().sizeDelta = Vector2.one * 0.75f;
+
+            feedback.AddComponent<CatsFeedback>();
+            feedback.GetComponent<CatsFeedback>().SendSprite((isGoodLuck) ? GameManager.Instance.SpriteUtils.luckat : GameManager.Instance.SpriteUtils.badLuckat);
+            feedback.transform.localPosition = Vector3.zero;
+            feedback.transform.localPosition += Vector3.up * 0.35f;
         }
 
         public void HandleLuckForTileDiscovery(Tile _tile)
