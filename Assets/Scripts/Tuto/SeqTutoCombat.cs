@@ -391,8 +391,12 @@ public class SeqTutoCombat : Sequence
         if (TutoManager.s_instance.TutoPanelInstance != null)
             Destroy(TutoManager.s_instance.TutoPanelInstance);
         BattleHandler.CurrentBattleKeepers[0].GetComponent<GlowObjectCmd>().ActivateBlinkBehaviour(false);
-        BattleHandler.ResetBattleHandlerForTuto();
-        GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().ChangeState(UIBattleState.WaitForDiceThrow);
+        if (position >= Etapes.Count)
+        {
+            Debug.Log("here");
+            BattleHandler.ResetBattleHandlerForTuto();
+            GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().ChangeState(UIBattleState.WaitForDiceThrow);
+        }
 
         for (int i = 0; i < GameManager.Instance.AllKeepersList.Count; i++)
         {

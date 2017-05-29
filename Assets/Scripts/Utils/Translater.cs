@@ -684,7 +684,7 @@ public class Translater
                             }
                             else if (curBoeuf.BoeufType == BoeufType.Aggro)
                             {
-                                effect += "Becomes attacks' target.";
+                                effect += "Becomes attacks' target";
                             }
                             else if (curBoeuf.BoeufType == BoeufType.CostReduction)
                             {
