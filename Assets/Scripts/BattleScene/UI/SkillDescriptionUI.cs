@@ -39,86 +39,15 @@ public class SkillDescriptionUI : MonoBehaviour, IPointerEnterHandler, IPointerE
         descriptionPanel.SetActive(false);
         descriptionPanel.GetComponentInChildren<Text>().text = skillData.Description;
 
-        if (skillData.TargetType == TargetType.FoeAll)
-        {
-            descriptionPanel.GetComponentInChildren<Text>().text += "\nTarget: All enemies";
-        }
-        else if (skillData.TargetType == TargetType.FoeSingle)
-            descriptionPanel.GetComponentInChildren<Text>().text += "\nTarget: One enemy";
-        else if (skillData.TargetType == TargetType.FriendSingle)
-            descriptionPanel.GetComponentInChildren<Text>().text += "\nTarget: One ally";
-        else if (skillData.TargetType == TargetType.FriendAll)
-            descriptionPanel.GetComponentInChildren<Text>().text += "\nTarget: All allies";
-        else
-            descriptionPanel.GetComponentInChildren<Text>().text += "\nTarget: Self";
-
+        descriptionPanel.GetComponentInChildren<Text>().text += Translater.SkillDescriptionDetails(SkillDescriptionDetailsEnum.Target, skillData);
+       
         if (skillData.IsMeantToHeal)
-            descriptionPanel.GetComponentInChildren<Text>().text += "\n\nHeal value: " + skillData.Damage;
+            descriptionPanel.GetComponentInChildren<Text>().text += Translater.SkillDescriptionDetails(SkillDescriptionDetailsEnum.HealValue, skillData);
         else if (skillData.Damage > 0)
-        {
-            if (skillData.SkillName.Equals("Attack"))
-            {
-                Behaviour.Fighter skillUser = skillData.SkillUser;
-                int attackTotal = 0;
-                foreach (Face face in skillUser.LastThrowResult)
-                {
-                    if (face.Type == FaceType.Physical)
-                        attackTotal += face.Value * skillData.effectiveAttackValue;
-                    else
-                        attackTotal += 3;
-                }
-                descriptionPanel.GetComponentInChildren<Text>().text += "\n\nDamage based on orange dots on current throw\nDamage this turn: " + attackTotal;
-            }
-            else
-                descriptionPanel.GetComponentInChildren<Text>().text += "\n\nDamage: " + skillData.Damage;
-        }
+            descriptionPanel.GetComponentInChildren<Text>().text += Translater.SkillDescriptionDetails(SkillDescriptionDetailsEnum.Damage, skillData);
 
         if (skillData.Boeufs != null && skillData.Boeufs.Length > 0)
-        {
-            descriptionPanel.GetComponentInChildren<Text>().text += "\nEffect" + ((skillData.Boeufs.Length > 1) ? "s" : "") + ": ";
-            // Big fat ugly hardcoded effect description lol (and I copy paste it, yay)
-            if (skillData.SkillName.Contains("Rapid"))
-                descriptionPanel.GetComponentInChildren<Text>().text += "The more you shoot in a turn, the more magical power you gain.";
-            else
-                for (int i = 0; i < skillData.Boeufs.Length; i++)
-                {
-                    BattleBoeuf curBoeuf = skillData.Boeufs[i];
-                    if (curBoeuf.BoeufType == BoeufType.Damage)
-                    {
-                        descriptionPanel.GetComponentInChildren<Text>().text += (curBoeuf.EffectValue < 0) ? "Reduce " : "Increase ";
-                        descriptionPanel.GetComponentInChildren<Text>().text += "damage dealt by " + Mathf.Abs(curBoeuf.EffectValue);
-                    }
-                    else if (curBoeuf.BoeufType == BoeufType.Defense)
-                    {
-                        descriptionPanel.GetComponentInChildren<Text>().text += (curBoeuf.EffectValue > 0) ? "Reduce " : "Increase ";
-                        descriptionPanel.GetComponentInChildren<Text>().text += "damage taken by " + Mathf.Abs(curBoeuf.EffectValue);
-                    }
-                    else if (curBoeuf.BoeufType == BoeufType.Aggro)
-                    {
-
-                    }
-                    else if (curBoeuf.BoeufType == BoeufType.CostReduction)
-                    {
-                        descriptionPanel.GetComponentInChildren<Text>().text += (curBoeuf.EffectValue < 0) ? "Reduce " : "Increase ";
-                        descriptionPanel.GetComponentInChildren<Text>().text += "chances of being targeted by " + Mathf.Abs(curBoeuf.EffectValue) + " percent";
-                    }
-                    else if (curBoeuf.BoeufType == BoeufType.IncreaseStocks)
-                    {
-                        descriptionPanel.GetComponentInChildren<Text>().text += (curBoeuf.EffectValue < 0) ? "Reduce " : "Increase ";
-                        for (int j = 0; j < curBoeuf.SymbolsAffected.Length; j++)
-                        {
-                            if (curBoeuf.SymbolsAffected[j] == FaceType.Physical)
-                                descriptionPanel.GetComponentInChildren<Text>().text += "physical ";
-                            else if (curBoeuf.SymbolsAffected[j] == FaceType.Defensive)
-                                descriptionPanel.GetComponentInChildren<Text>().text += "defensive ";
-                            else
-                                descriptionPanel.GetComponentInChildren<Text>().text += "magic ";
-                        }
-                        descriptionPanel.GetComponentInChildren<Text>().text += "gauges by " + Mathf.Abs(curBoeuf.EffectValue);
-                    }
-                    descriptionPanel.GetComponentInChildren<Text>().text += " for " + (curBoeuf.Duration - 1) + " turns.\n";
-                }
-        }
+            descriptionPanel.GetComponentInChildren<Text>().text += Translater.SkillDescriptionDetails(SkillDescriptionDetailsEnum.Effect, skillData);
 
         descriptionPanel.transform.localPosition = GameManager.Instance.PrefabUIUtils.skillDescriptionPanel.transform.localPosition;
         descriptionPanel.transform.localScale = Vector3.one;

@@ -552,6 +552,166 @@ public class Translater
 
     public static string SkillDescriptionDetails(SkillDescriptionDetailsEnum _expectedField, SkillBattle _skillData)
     {
+        if (CurrentLanguage == LanguageEnum.FR)
+        {
+            switch (_expectedField)
+            {
+                case SkillDescriptionDetailsEnum.Target:
+                    if (_skillData.TargetType == TargetType.FoeAll)
+                        return "\nTarget: All enemies";
+                    else if (_skillData.TargetType == TargetType.FoeSingle)
+                        return "\nTarget: One enemy";
+                    else if (_skillData.TargetType == TargetType.FriendSingle)
+                        return "\nTarget: One ally";
+                    else if (_skillData.TargetType == TargetType.FriendAll)
+                        return "\nTarget: All allies";
+                    else
+                        return "\nTarget: Self";
+                case SkillDescriptionDetailsEnum.Damage:
+                    if (_skillData.SkillName.Equals("Attack"))
+                    {
+                        Behaviour.Fighter skillUser = _skillData.SkillUser;
+                        int attackTotal = 0;
+                        foreach (Face face in skillUser.LastThrowResult)
+                        {
+                            if (face.Type == FaceType.Physical)
+                                attackTotal += face.Value * _skillData.effectiveAttackValue;
+                            else
+                                attackTotal += 3;
+                        }
+                        return "\n\nDamage based on orange dots on current throw\nDamage this turn: " + attackTotal;
+                    }
+                    else
+                        return "\n\nDamage: " + _skillData.Damage;
+                case SkillDescriptionDetailsEnum.Effect:
+                    string effect = "";
+                    effect += "\nEffect" + ((_skillData.Boeufs.Length > 1) ? "s" : "") + ": ";
+                    if (_skillData.SkillName.Contains("Rapid"))
+                        effect += "The more you shoot in a turn, the more magical power you gain.";
+                    else
+                        for (int i = 0; i < _skillData.Boeufs.Length; i++)
+                        {
+                            BattleBoeuf curBoeuf = _skillData.Boeufs[i];
+                            if (curBoeuf.BoeufType == BoeufType.Damage)
+                            {
+                                effect += (curBoeuf.EffectValue < 0) ? "Reduce " : "Increase ";
+                                effect += "damage dealt by " + Mathf.Abs(curBoeuf.EffectValue);
+                            }
+                            else if (curBoeuf.BoeufType == BoeufType.Defense)
+                            {
+                                effect += (curBoeuf.EffectValue > 0) ? "Reduce " : "Increase ";
+                                effect += "damage taken by " + Mathf.Abs(curBoeuf.EffectValue);
+                            }
+                            else if (curBoeuf.BoeufType == BoeufType.Aggro)
+                            {
+                                effect += "Becomes attacks' target.";
+                            }
+                            else if (curBoeuf.BoeufType == BoeufType.CostReduction)
+                            {
+                                effect += (curBoeuf.EffectValue < 0) ? "Reduce " : "Increase ";
+                                effect += "chances of being targeted by " + Mathf.Abs(curBoeuf.EffectValue) + " percent";
+                            }
+                            else if (curBoeuf.BoeufType == BoeufType.IncreaseStocks)
+                            {
+                                effect += (curBoeuf.EffectValue < 0) ? "Reduce " : "Increase ";
+                                for (int j = 0; j < curBoeuf.SymbolsAffected.Length; j++)
+                                {
+                                    if (curBoeuf.SymbolsAffected[j] == FaceType.Physical)
+                                        effect += "physical ";
+                                    else if (curBoeuf.SymbolsAffected[j] == FaceType.Defensive)
+                                        effect += "defensive ";
+                                    else
+                                        effect += "magic ";
+                                }
+                                effect += "gauges by " + Mathf.Abs(curBoeuf.EffectValue);
+                            }
+                            effect += " for " + (curBoeuf.Duration - 1) + " turns.\n";
+                        }
+                    return effect;
+                case SkillDescriptionDetailsEnum.HealValue:
+                    return "\n\nHeal value: " + _skillData.Damage;
+            }
+        }
+        else
+        {
+            switch (_expectedField)
+            {
+                case SkillDescriptionDetailsEnum.Target:
+                    if (_skillData.TargetType == TargetType.FoeAll)
+                        return "\nTarget: All enemies";
+                    else if (_skillData.TargetType == TargetType.FoeSingle)
+                        return "\nTarget: One enemy";
+                    else if (_skillData.TargetType == TargetType.FriendSingle)
+                        return "\nTarget: One ally";
+                    else if (_skillData.TargetType == TargetType.FriendAll)
+                        return "\nTarget: All allies";
+                    else
+                        return "\nTarget: Self";
+                case SkillDescriptionDetailsEnum.Damage:
+                    if (_skillData.SkillName.Equals("Attack"))
+                    {
+                        Behaviour.Fighter skillUser = _skillData.SkillUser;
+                        int attackTotal = 0;
+                        foreach (Face face in skillUser.LastThrowResult)
+                        {
+                            if (face.Type == FaceType.Physical)
+                                attackTotal += face.Value * _skillData.effectiveAttackValue;
+                            else
+                                attackTotal += 3;
+                        }
+                        return "\n\nDamage based on orange dots on current throw\nDamage this turn: " + attackTotal;
+                    }
+                    else
+                        return "\n\nDamage: " + _skillData.Damage;
+                case SkillDescriptionDetailsEnum.Effect:
+                    string effect = "";
+                    effect += "\nEffect" + ((_skillData.Boeufs.Length > 1) ? "s" : "") + ": ";
+                    if (_skillData.SkillName.Contains("Rapid"))
+                        effect += "The more you shoot in a turn, the more magical power you gain.";
+                    else
+                        for (int i = 0; i < _skillData.Boeufs.Length; i++)
+                        {
+                            BattleBoeuf curBoeuf = _skillData.Boeufs[i];
+                            if (curBoeuf.BoeufType == BoeufType.Damage)
+                            {
+                                effect += (curBoeuf.EffectValue < 0) ? "Reduce " : "Increase ";
+                                effect += "damage dealt by " + Mathf.Abs(curBoeuf.EffectValue);
+                            }
+                            else if (curBoeuf.BoeufType == BoeufType.Defense)
+                            {
+                                effect += (curBoeuf.EffectValue > 0) ? "Reduce " : "Increase ";
+                                effect += "damage taken by " + Mathf.Abs(curBoeuf.EffectValue);
+                            }
+                            else if (curBoeuf.BoeufType == BoeufType.Aggro)
+                            {
+                                effect += "Becomes attacks' target.";
+                            }
+                            else if (curBoeuf.BoeufType == BoeufType.CostReduction)
+                            {
+                                effect += (curBoeuf.EffectValue < 0) ? "Reduce " : "Increase ";
+                                effect += "chances of being targeted by " + Mathf.Abs(curBoeuf.EffectValue) + " percent";
+                            }
+                            else if (curBoeuf.BoeufType == BoeufType.IncreaseStocks)
+                            {
+                                effect += (curBoeuf.EffectValue < 0) ? "Reduce " : "Increase ";
+                                for (int j = 0; j < curBoeuf.SymbolsAffected.Length; j++)
+                                {
+                                    if (curBoeuf.SymbolsAffected[j] == FaceType.Physical)
+                                        effect += "physical ";
+                                    else if (curBoeuf.SymbolsAffected[j] == FaceType.Defensive)
+                                        effect += "defensive ";
+                                    else
+                                        effect += "magic ";
+                                }
+                                effect += "gauges by " + Mathf.Abs(curBoeuf.EffectValue);
+                            }
+                            effect += " for " + (curBoeuf.Duration - 1) + " turns.\n";
+                        }
+                    return effect;
+                case SkillDescriptionDetailsEnum.HealValue:
+                    return "\n\nHeal value: " + _skillData.Damage;
+            }
+        }
         return "";
     }
 
