@@ -4,7 +4,7 @@ Emo:
 - Fire Arrows			Done		Done
 
 Grekhan:
-- Axe Crush			To Change?	To Change?
+- Axe Crush			Done		Done
 - Power Up			Done		To Change?
 - Over Here!			-		-
 (Depressed)
