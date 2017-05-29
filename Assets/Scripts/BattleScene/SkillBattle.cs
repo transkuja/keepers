@@ -436,7 +436,11 @@ public class SkillBattle {
             if (BattleHandler.CurrentBattleMonsters[i].GetComponent<Mortal>().CurrentHp > 0)
             {
                 if (skillName.Contains("Rainbow Beam"))
+                {
+                    BattleHandler.CurrentBattleMonsters[i].GetComponent<Fighter>().isPendingSkillsAshleys = true;
                     ApplySkillEffectOnTarget(BattleHandler.CurrentBattleMonsters[i], Random.Range(-3, 4));
+
+                }
                 else
                     ApplySkillEffectOnTarget(BattleHandler.CurrentBattleMonsters[i], _effectiveDamage);
             }
@@ -470,7 +474,10 @@ public class SkillBattle {
             if (BattleHandler.CurrentBattleKeepers[i].GetComponent<Mortal>().CurrentHp > 0)
             {
                 if (skillName.Contains("Rainbow Beam"))
+                {
+                    BattleHandler.CurrentBattleKeepers[i].GetComponent<Fighter>().isPendingSkillsAshleys = true;
                     ApplySkillEffectOnTarget(BattleHandler.CurrentBattleKeepers[i], Random.Range(-3, 4));
+                }
                 else
                     ApplySkillEffectOnTarget(BattleHandler.CurrentBattleKeepers[i], _effectiveDamage);
             }
@@ -480,7 +487,10 @@ public class SkillBattle {
         if (BattleHandler.isPrisonerOnTile)
         {
             if (skillName.Contains("Rainbow Beam"))
+            {
+                GameManager.Instance.PrisonerInstance.GetComponent<Fighter>().isPendingSkillsAshleys = true;
                 ApplySkillEffectOnTarget(GameManager.Instance.PrisonerInstance, Random.Range(-3, 4));
+            }
             else
                 ApplySkillEffectOnTarget(GameManager.Instance.PrisonerInstance, _effectiveDamage);
 

@@ -67,6 +67,9 @@ namespace Behaviour
         bool hasPlayedARapidSkill = false;
         bool isPendingDamageRealDamage = false;
 
+        // Ugly Ashley skill fix : TODO fix this
+        public bool isPendingSkillsAshleys = false;
+
         void Awake()
         {
             //instance = GetComponent<PawnInstance>();
@@ -427,12 +430,15 @@ namespace Behaviour
         {
             if (value > 0)
             {
-                foreach (BattleBoeuf boeuf in _fighter.effectiveBoeufs)
+                if (!isPendingSkillsAshleys)
                 {
-                    if (boeuf.BoeufType == BoeufType.Defense)
-                        value -= boeuf.EffectValue;
+                    foreach (BattleBoeuf boeuf in _fighter.effectiveBoeufs)
+                    {
+                        if (boeuf.BoeufType == BoeufType.Defense)
+                            value -= boeuf.EffectValue;
+                    }
+                    isPendingDamageRealDamage = true;
                 }
-                isPendingDamageRealDamage = true;
                 return Mathf.Max(0, value);
             }
             else
