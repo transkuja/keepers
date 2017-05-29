@@ -37,7 +37,7 @@ namespace Behaviour
                 GetComponent<Interactable>().Interactions.Add(new Interaction(InitFeeding), 1, "Feed", GameManager.Instance.SpriteUtils.spriteHarvest);
 
             if (isEscorted)
-                GetComponent<Interactable>().Interactions.Add(new Interaction(UnEscort), 0, "Unescort", GameManager.Instance.SpriteUtils.spriteUnescort);
+                GetComponent<Interactable>().Interactions.Add(new Interaction(UnEscort), 0, "Release", GameManager.Instance.SpriteUtils.spriteUnescort);
             else
                 GetComponent<Interactable>().Interactions.Add(new Interaction(Escort), 0, "Escort", GameManager.Instance.SpriteUtils.spriteEscort);
         }
@@ -230,15 +230,15 @@ namespace Behaviour
             if (GetComponent<Interactable>().Interactions.Get("Escort") == null)
             {
                 GetComponent<Interactable>().Interactions.Add(new Interaction(Escort), 0, "Escort", GameManager.Instance.SpriteUtils.spriteEscort);
-                GetComponent<Interactable>().Interactions.Remove("Unescort");
+                GetComponent<Interactable>().Interactions.Remove("Release");
             }
         }
 
         private void ActivateUnescortAction()
         {
-            if (GetComponent<Interactable>().Interactions.Get("Unescort") == null)
+            if (GetComponent<Interactable>().Interactions.Get("Release") == null)
             {
-                GetComponent<Interactable>().Interactions.Add(new Interaction(UnEscort), 0, "Unescort", GameManager.Instance.SpriteUtils.spriteUnescort, false);
+                GetComponent<Interactable>().Interactions.Add(new Interaction(UnEscort), 0, "Release", GameManager.Instance.SpriteUtils.spriteUnescort, false);
                 GetComponent<Interactable>().Interactions.Remove("Escort");
             }
         }

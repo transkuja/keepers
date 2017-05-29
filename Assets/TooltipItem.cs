@@ -14,7 +14,7 @@ public class TooltipItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     public void OnPointerEnter(PointerEventData eventData)
     {
         tooltip.transform.position = transform.position;
-        tooltip.GetComponentInChildren<Text>().text = GetComponent<ItemInstance>().ItemContainer.Item.Description;
+        tooltip.GetComponentInChildren<Text>().text = Translater.ItemDescription(GetComponent<ItemInstance>().ItemContainer.Item.Description);
         needToBeShown = true;
     }
     public void showTooltip()

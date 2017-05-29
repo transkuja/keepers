@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+public enum TypeOfJauge { Action, Mental, Health, Hunger };
 
 public class TooltipJauge : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     private GameObject tooltip;
-    private enum TypeOfJauge {Action, Mental, Health, Hunger};
     [SerializeField]
     private TypeOfJauge typeJauge;
 
@@ -19,19 +19,19 @@ public class TooltipJauge : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
         switch (typeJauge){
             case TypeOfJauge.Action:
-                tooltip.GetComponentInChildren<Text>().text = "PA left : " + GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Keeper>().ActionPoints;
+                tooltip.GetComponentInChildren<Text>().text = Translater.TooltipText(typeJauge) + GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Keeper>().ActionPoints;
                 tooltip.transform.position = transform.position;
                 break;
             case TypeOfJauge.Mental:
-                tooltip.GetComponentInChildren<Text>().text = "Mood : " + GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.MentalHealthHandler>().CurrentMentalHealth;
+                tooltip.GetComponentInChildren<Text>().text = Translater.TooltipText(typeJauge) + GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.MentalHealthHandler>().CurrentMentalHealth;
                 tooltip.transform.position = Input.mousePosition;
                 break;
             case TypeOfJauge.Health:
-                tooltip.GetComponentInChildren<Text>().text = "HP : " + GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Mortal>().CurrentHp;
+                tooltip.GetComponentInChildren<Text>().text = Translater.TooltipText(typeJauge) + GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.Mortal>().CurrentHp;
                 tooltip.transform.position = Input.mousePosition;
                 break;
             case TypeOfJauge.Hunger:
-                tooltip.GetComponentInChildren<Text>().text = "Hunger : " + GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.HungerHandler>().CurrentHunger;
+                tooltip.GetComponentInChildren<Text>().text = Translater.TooltipText(typeJauge) + GameManager.Instance.GetFirstSelectedKeeper().GetComponent<Behaviour.HungerHandler>().CurrentHunger;
                 tooltip.transform.position = Input.mousePosition;
                 break;
 

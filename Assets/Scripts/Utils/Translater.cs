@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Text.RegularExpressions;
 
 public enum LanguageEnum { EN, FR }
-public enum TooltipTextEnum { Hunger, Mood, Life }
 public enum SkillDescriptionDetailsEnum { Target, HealValue, Damage, Effect}
 public enum CharacterRace { Human, Dog, Cat, Duck, Hippopotamus}
 public enum MainQuestTexts { Title, Objective, ObjectiveInfo, Other }
@@ -458,18 +458,86 @@ public class Translater
 
     public static string InteractionName(string _englishInteractionName)
     {
-        return _englishInteractionName;
+        if (CurrentLanguage == LanguageEnum.FR)
+        {
+            if (_englishInteractionName == "Talk")
+                return "Parler";
+            if (_englishInteractionName == "Escort")
+                return "Escorter";
+            if (_englishInteractionName == "Release")
+                return "Laisser ici";
+            if (_englishInteractionName == "Harvest")
+                return "Récolter";
+            if (_englishInteractionName == "Fish")
+                return "Pêcher";
+            if (_englishInteractionName == "Trade")
+                return "Echanger";
+            if (_englishInteractionName == "Quest")
+                return "Quête";
+            if (_englishInteractionName == "Heal")
+                return "Soigner";
+            if (_englishInteractionName == "Attack")
+                return "Attaquer";
+            return _englishInteractionName;
+        }
+        else
+            return _englishInteractionName;
     }
 
-    public static string TooltipText(TooltipTextEnum _expected)
+    public static string TooltipText(TypeOfJauge _expected)
     {
-        return "";
+        if (CurrentLanguage == LanguageEnum.FR)
+        {
+            switch (_expected)
+            {
+                case TypeOfJauge.Hunger:
+                    return "Faim: ";
+                case TypeOfJauge.Mental:
+                    return "Humeur: ";
+                case TypeOfJauge.Health:
+                    return "PV: ";
+                case TypeOfJauge.Action:
+                    return "PA restants: ";
+                default:
+                    return "";
+            }
+        }
+        else
+        {
+            switch (_expected)
+            {
+                case TypeOfJauge.Hunger:
+                    return "Hunger: ";
+                case TypeOfJauge.Mental:
+                    return "Mood: ";
+                case TypeOfJauge.Health:
+                    return "HP: ";
+                case TypeOfJauge.Action:
+                    return "AP left: ";
+                default:
+                    return "";
+            }
+        }
     }
 
     public static string ItemDescription(string _fromJson)
     {
-
+        string regexPatternRestoresHunger = "^Restores ([0-9]+) hunger$";
+        Regex rgx = new Regex(regexPatternRestoresHunger);
+        Match match = rgx.Match(_fromJson);
+        if (match.Success)
+        {
+            if (CurrentLanguage == LanguageEnum.FR)
+                return "Rend " + match.Groups[1].Value + " de faim";
+        }
+        else
+        {
+            // TODO: fix this if more items are created
+            if (CurrentLanguage == LanguageEnum.FR)
+                return "Empêche de mourir de faim";
+        }
         return _fromJson;
+
     }
 
     public static string SkillName(string _userName, int _index)
