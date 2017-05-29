@@ -53,6 +53,13 @@ public class DebugControls : MonoBehaviour {
                         BattleHandler.CurrentBattleKeepers[i].GetComponent<Fighter>().DefensiveSymbolStored = 9;
                         BattleHandler.CurrentBattleKeepers[i].GetComponent<Fighter>().MagicalSymbolStored = 9;
                     }
+
+                    if (BattleHandler.isPrisonerOnTile)
+                    {
+                        GameManager.Instance.PrisonerInstance.GetComponent<Fighter>().PhysicalSymbolStored = 9;
+                        GameManager.Instance.PrisonerInstance.GetComponent<Fighter>().DefensiveSymbolStored = 9;
+                        GameManager.Instance.PrisonerInstance.GetComponent<Fighter>().MagicalSymbolStored = 9;
+                    }
                     
                 }
                 else
