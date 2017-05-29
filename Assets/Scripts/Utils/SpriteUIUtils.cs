@@ -81,6 +81,7 @@ public class SpriteUIUtils : MonoBehaviour {
     public Sprite spriteDefBuff;
     public Sprite spriteAtkDesBoeufs;
     public Sprite spriteDefDesBoeufs;
+    public Sprite spriteAggroDesBoeufs;
 
     // Menu
     [Header("Menu")]

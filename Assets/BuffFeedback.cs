@@ -64,6 +64,10 @@ public class BuffFeedback : MonoBehaviour
                 imgChild.sprite = GameManager.Instance.SpriteUtils.spriteDefBuff;
             }
         }
+        else if (curBoeufs[nextIndex].BoeufType == BoeufType.Aggro)
+        {
+            imgChild.sprite = GameManager.Instance.SpriteUtils.spriteAggroDesBoeufs;
+        }
         nextIndex++;
         nextIndex = nextIndex % curBoeufs.Count;
     }
