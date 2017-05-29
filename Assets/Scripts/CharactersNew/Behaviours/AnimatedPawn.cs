@@ -325,7 +325,7 @@ namespace Behaviour
             {
                 isMovingToBattlePosition = value;
                 anim.SetFloat("velocity", 0.0f);
-                if (isMovingToBattlePosition == false && GameManager.Instance.CurrentState != GameState.InBattle)
+                if (isMovingToBattlePosition == false && GameManager.Instance.CurrentState != GameState.InBattle && GameManager.Instance.CurrentState != GameState.InTuto)
                 {
                     if (agent != null)
                         agent.enabled = wasAgentActiveBeforeBattle;

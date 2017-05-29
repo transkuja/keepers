@@ -491,7 +491,6 @@ public class BattleHandler {
         {
             TutoManager.s_instance.PlayingSequence.End();
         }
-        Debug.Log("here");
 
         PrintResultsScreen(true);
         PostBattleCommonProcess();
@@ -511,10 +510,13 @@ public class BattleHandler {
         for (int i = 0; i < currentBattleKeepers.Length; i++)
         {
             currentBattleKeepers[i].GetComponent<Fighter>().ResetValuesAfterBattle();
-            if (GameManager.Instance.ArcherInstance != null)
+            if (GameManager.Instance.ArcherInstance != null && currentBattleKeepers[i].Data.Behaviours[(int)BehavioursEnum.Archer])
             {
                 if (archerPreviousTile != null)
+                {
                     GameManager.Instance.ArcherInstance.CurrentTile = archerPreviousTile;
+                    currentBattleKeepers[i].CurrentTile = archerPreviousTile;
+                }
             }
             currentBattleKeepers[i].GetComponent<AnimatedPawn>().StartMoveFromBattlePositionAnimation();
         }
