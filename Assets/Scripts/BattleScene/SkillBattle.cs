@@ -393,6 +393,16 @@ public class SkillBattle {
             }
             ApplySkillEffectOnTarget(skillUser.GetComponent<PawnInstance>(), effectiveDamage);
             BattleHandler.ExpectedAnswers = 1;
+            if (skillName == "Splash")
+            {
+                skillUser.GetComponent<AnimatedPawn>().Anim.SetTrigger("dance");
+                BattleHandler.CurrentSkillAnimDuration = 1.2f;
+            }
+            else if (skillName == "Unicorn Pride")
+            {
+                skillUser.GetComponent<AnimatedPawn>().Anim.SetTrigger("dance");
+                BattleHandler.CurrentSkillAnimDuration = 1.2f;
+            }
         }
         else
         {
