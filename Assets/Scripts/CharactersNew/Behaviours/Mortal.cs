@@ -66,7 +66,7 @@ namespace Behaviour
         {
             currentHp = data.MaxHp;
             isAlive = true;
-            if (GetComponent<Monster>() == null)
+            if (GetComponent<Keeper>() != null || GetComponent<Prisoner>() != null)
                 GetComponent<Interactable>().Interactions.Add(new Interaction(Heal), 1, "Heal", GameManager.Instance.SpriteUtils.spriteHeal);
         }
 

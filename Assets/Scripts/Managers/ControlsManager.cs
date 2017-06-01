@@ -121,7 +121,7 @@ public class ControlsManager : MonoBehaviour
                                 ui.UpdateActionPanelUIQ(hitInfo.collider.gameObject.GetComponent<ItemInstance>().InteractionImplementer);
                             }
                         }
-                        else if (clickTarget.transform.parent.GetComponent<ItemInstance>())
+                        else if (clickTarget.transform.parent != null && clickTarget.transform.parent.GetComponent<ItemInstance>())
                         {
                             if (tileHit == keeperSelectedTile)
                             {
