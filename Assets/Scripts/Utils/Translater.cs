@@ -540,12 +540,58 @@ public class Translater
 
     }
 
-    public static string SkillName(string _userName, int _index)
+    public static string SkillName(string _pawnId, int _index, bool _depressed = false)
     {
+        if (CurrentLanguage == LanguageEnum.FR)
+            return "";
+        else
+        {
+            switch (_pawnId)
+            {
+                case "lucky":
+                    if (_index == 1)
+                        return "";
+                    if (_index == 2)
+                        return "";
+                    if (_index == 3)
+                        return "";
+                    return "";
+                case "emo":
+                    return "";
+                case "swag":
+                    return "";
+                case "nana":
+                    return "";
+                case "lupus":
+                    return "";
+                case "ashley":
+                    return "";
+                case "grekhan":
+                    return "";
+                case "wolf":
+                    return "";
+                case "snowwolf":
+                    return "";
+                case "bird":
+                    return "";
+                case "ducky":
+                    return "";
+                case "rabbit_jacob_01":
+                    return "";
+                case "snake":
+                    return "";
+                case "bunny":
+                    return "";
+                case "snowbunny":
+                    return "";
+                case "duckprey":
+                    return "";
+            }
+        }
         return "";
     }
 
-    public static string SkillDescription(string _userName, int _index)
+    public static string SkillDescription(string _pawnId, int _index, bool _depressed = false)
     {
         return "";
     }

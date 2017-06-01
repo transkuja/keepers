@@ -97,10 +97,13 @@ namespace Behaviour
                 depressedSkills.Insert(0, defaultAtk);
             }
 
+            int skillIndex = 0;
             foreach (SkillBattle sb in battleSkills)
             {
+                sb.CharacterSkillIndex = skillIndex++;
                 if (sb.SkillUser == null)
                     sb.SkillUser = this;
+
             }
 
             if (GetComponent<LuckBased>() != null || GetComponent<MentalHealthHandler>() == null)
@@ -110,8 +113,10 @@ namespace Behaviour
             }
             else
             {
+                skillIndex = 0;
                 foreach (SkillBattle sb in depressedSkills)
                 {
+                    sb.CharacterSkillIndex = skillIndex++;
                     if (sb.SkillUser == null)
                         sb.SkillUser = this;
                 }

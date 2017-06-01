@@ -14,9 +14,11 @@ public enum SkillType { Physical, Magical, Defensive }
  */
 [System.Serializable]
 public class SkillBattle {
+    [HideInInspector]
     public int effectiveAttackValue = 4;
-
     [SerializeField]
+    private int characterSkillIndex;
+
     private Fighter skillUser;
 
     [SerializeField]
@@ -189,6 +191,19 @@ public class SkillBattle {
         set
         {
             boeufs = value;
+        }
+    }
+
+    public int CharacterSkillIndex
+    {
+        get
+        {
+            return characterSkillIndex;
+        }
+
+        set
+        {
+            characterSkillIndex = value;
         }
     }
 
