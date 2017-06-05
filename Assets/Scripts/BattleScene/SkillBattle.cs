@@ -49,7 +49,7 @@ public class SkillBattle {
     public int Damage
     {
         get {
-            if (skillName == "Attack")
+            if (skillName == "Attack" || skillName == "Attaquer")
                 return StandardAtkDmg(skillUser);
 
             return damage;
@@ -381,7 +381,7 @@ public class SkillBattle {
         if (targetType == TargetType.FoeAll)
         {
             UseSkillOnAllFoes(effectiveDamage);
-            if (skillName.Contains("Rainbow Beam"))
+            if (skillName.Contains("Rainbow Beam") || skillName.Contains("Rayon Arc-en-Ciel"))
             {
                 int tmpTargets = BattleHandler.ExpectedAnswers;
                 UseSkillOnAllAllies(effectiveDamage);
@@ -408,12 +408,12 @@ public class SkillBattle {
             }
             ApplySkillEffectOnTarget(skillUser.GetComponent<PawnInstance>(), effectiveDamage);
             BattleHandler.ExpectedAnswers = 1;
-            if (skillName == "Splash")
+            if (skillName == "Splash" || skillName == "Trempette")
             {
                 skillUser.GetComponent<AnimatedPawn>().Anim.SetTrigger("dance");
                 BattleHandler.CurrentSkillAnimDuration = 1.2f;
             }
-            else if (skillName == "Unicorn Pride")
+            else if (skillName == "Unicorn Pride" || skillName == "Fierté de Licorne")
             {
                 skillUser.GetComponent<AnimatedPawn>().Anim.SetTrigger("dance");
                 BattleHandler.CurrentSkillAnimDuration = 1.2f;
@@ -460,7 +460,7 @@ public class SkillBattle {
         {
             if (BattleHandler.CurrentBattleMonsters[i].GetComponent<Mortal>().CurrentHp > 0)
             {
-                if (skillName.Contains("Rainbow Beam"))
+                if (skillName.Contains("Rainbow Beam") || skillName.Contains("Rayon Arc-en-Ciel"))
                 {
                     BattleHandler.CurrentBattleMonsters[i].GetComponent<Fighter>().isPendingSkillsAshleys = true;
                     ApplySkillEffectOnTarget(BattleHandler.CurrentBattleMonsters[i], Random.Range(-3, 4));
@@ -498,7 +498,7 @@ public class SkillBattle {
         {
             if (BattleHandler.CurrentBattleKeepers[i].GetComponent<Mortal>().CurrentHp > 0)
             {
-                if (skillName.Contains("Rainbow Beam"))
+                if (skillName.Contains("Rainbow Beam") || skillName.Contains("Rayon Arc-en-Ciel"))
                 {
                     BattleHandler.CurrentBattleKeepers[i].GetComponent<Fighter>().isPendingSkillsAshleys = true;
                     ApplySkillEffectOnTarget(BattleHandler.CurrentBattleKeepers[i], Random.Range(-3, 4));
@@ -511,7 +511,7 @@ public class SkillBattle {
         }
         if (BattleHandler.isPrisonerOnTile)
         {
-            if (skillName.Contains("Rainbow Beam"))
+            if (skillName.Contains("Rainbow Beam") || skillName.Contains("Rayon Arc-en-Ciel"))
             {
                 GameManager.Instance.PrisonerInstance.GetComponent<Fighter>().isPendingSkillsAshleys = true;
                 ApplySkillEffectOnTarget(GameManager.Instance.PrisonerInstance, Random.Range(-3, 4));

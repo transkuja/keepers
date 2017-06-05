@@ -540,59 +540,629 @@ public class Translater
 
     }
 
+    //public static string LuckBasedSkillName(string _pawnId, int _index)
+    //{
+    //    if (CurrentLanguage == LanguageEnum.FR)
+    //        return "";
+    //    else
+    //    {
+    //        switch (_pawnId)
+    //        {
+    //            case "lucky":
+    //                if (_index == 1)
+    //                    return "Paws";
+    //                if (_index == 2)
+    //                    return "Cat Ritual";
+    //                if (_index == 0)
+    //                    return "Purr";
+    //                return "Attack";
+    //        }
+    //    }
+    //}
+
     public static string SkillName(string _pawnId, int _index, bool _depressed = false)
     {
         if (CurrentLanguage == LanguageEnum.FR)
-            return "";
+        {
+            switch (_pawnId)
+            {
+                case "lucky":
+                    if (_index == 1)
+                        return "Pattounes";
+                    if (_index == 2)
+                        return "Rituel Félin";
+                    if (_index == 3)
+                        return "Ron-Ron";
+                    return "Attaquer";
+                case "emo":
+                    if (_index == 1)
+                        return "Tir Rapide";
+                    if (_index == 2)
+                        return "Flèches de Feu";
+                    return "Attaquer";
+                case "swag":
+                    if (_depressed)
+                    {
+                        if (_index == 1)
+                            return "Guérison Mineur";
+                        if (_index == 2)
+                            return "Soin Nuageux";
+                    }
+                    else
+                    {
+                        if (_index == 1)
+                            return "Guérison";
+                        if (_index == 2)
+                            return "Soin Arc-en-Ciel";
+                        if (_index == 3)
+                            return "Pouvoir de l'Amour";
+                    }
+                    return "Attaquer";
+                case "nana":
+                    if (_depressed)
+                    {
+                        if (_index == 1)
+                            return "Berserk";
+                    }
+                    else
+                    {
+                        if (_index == 1)
+                            return "Trancher";
+                        if (_index == 2)
+                            return "Mollasson!";
+                        if (_index == 3)
+                            return "Brise Armure";
+                    }
+                    return "Attaquer";
+                case "lupus":
+                    if (_depressed)
+                    {
+                        if (_index == 1)
+                            return "Crocs Précipités";
+                        if (_index == 2)
+                            return "Cendres";
+                        if (_index == 3)
+                            return "Mauvais Sort";
+                    }
+                    else
+                    {
+                        if (_index == 1)
+                            return "Crocs";
+                        if (_index == 2)
+                            return "Brasier";
+                        if (_index == 3)
+                            return "Ultima";
+                    }
+                    return "Attaquer";
+                case "ashley":
+                    if (_index == 1)
+                        return "Trempette";
+                    if (_index == 2)
+                        return "Rayon Arc-en-Ciel";
+                    if (_index == 3)
+                        return "Fierté de Licorne";
+                    return "Attaquer";
+                case "grekhan":
+                    if (_index == 1)
+                        return (_depressed) ? "Hache Ecrasée" : "Hache Ecrasante";
+                    if (_index == 2)
+                        return "Gain de Puissance";
+                    if (_index == 3)
+                        return "Par ici!";
+                    return "Attack";
+                case "wolf":
+                    if (_index == 0)
+                        return "Crocs";
+                    if (_index == 1)
+                        return "Coup de Boule";
+                    break;
+                case "snowwolf":
+                    if (_index == 0)
+                        return "Crocs Enneigés";
+                    if (_index == 1)
+                        return "Coup Violent";
+                    break;
+                case "bird":
+                    if (_index == 0)
+                        return "Piqué";
+                    if (_index == 1)
+                        return "Ailes Furieuses";
+                    break;
+                case "ducky":
+                    if (_index == 0)
+                        return "Coin";
+                    if (_index == 1)
+                        return "Coin Coin";
+                    if (_index == 2)
+                        return "Coin!";
+                    if (_index == 3)
+                        return "Coin?";
+                    break;
+                case "rabbit_jacob_01":
+                    if (_index == 0)
+                        return "Morsure";
+                    if (_index == 1)
+                        return "Regard de la Mort";
+                    break;
+                case "snake":
+                    if (_index == 0)
+                        return "Crocs";
+                    if (_index == 1)
+                        return "Jet d'Acide";
+                    if (_index == 2)
+                        return "Etreinte";
+                    break;
+                case "bunny":
+                    if (_index == 0)
+                        return "Poing Carotte";
+                    if (_index == 1)
+                        return "Terrier";
+                    break;
+                case "snowbunny":
+                    if (_index == 0)
+                        return "Poing Carotte";
+                    if (_index == 1)
+                        return "Terrier";
+                    break;
+                case "duckprey":
+                    if (_index == 0)
+                        return "Coin";
+                    break;
+            }
+            Debug.LogWarning("Missing FR translation for " + _pawnId + " or index missing : " + _index + ", depressed? " + _depressed);
+        }
         else
         {
             switch (_pawnId)
             {
                 case "lucky":
                     if (_index == 1)
-                        return "";
+                        return "Paws";
                     if (_index == 2)
-                        return "";
+                        return "Cat Ritual";
                     if (_index == 3)
-                        return "";
-                    return "";
+                        return "Purr";
+                    return "Attack";
                 case "emo":
-                    return "";
+                    if (_index == 1)
+                        return "Rapid Shot";
+                    if (_index == 2)
+                        return "Fire Arrows";
+                    return "Attack";
                 case "swag":
-                    return "";
+                    if (_depressed)
+                    {
+                        if (_index == 1)
+                            return "Low Cure";
+                        if (_index == 2)
+                            return "Cloudy Heal";
+                    }
+                    else
+                    {
+                        if (_index == 1)
+                            return "Cure";
+                        if (_index == 2)
+                            return "Rainbow Heal";
+                        if (_index == 3)
+                            return "Power of Love";
+                    }
+                    return "Attack";
                 case "nana":
-                    return "";
+                    if (_depressed)
+                    {
+                        if (_index == 1)
+                            return "Berserk";
+                    }
+                    else
+                    {
+                        if (_index == 1)
+                            return "Cut";
+                        if (_index == 2)
+                            return "You're weak!";
+                        if (_index == 3)
+                            return "Crush Armor";
+                    }
+                    return "Attack";
                 case "lupus":
-                    return "";
+                    if (_depressed)
+                    {
+                        if (_index == 1)
+                            return "Rushed Fangs";
+                        if (_index == 2)
+                            return "Ashes";
+                        if (_index == 3)
+                            return "Epic Fail";
+                    }
+                    else
+                    {
+                        if (_index == 1)
+                            return "Fangs";
+                        if (_index == 2)
+                            return "Fire";
+                        if (_index == 3)
+                            return "Ultima";
+                    }
+                    return "Attack";
                 case "ashley":
-                    return "";
+                    if (_index == 1)
+                        return "Splash";
+                    if (_index == 2)
+                        return "Rainbow Beam";
+                    if (_index == 3)
+                        return "Unicorn Pride";
+                    return "Attack";
                 case "grekhan":
-                    return "";
+                    if (_index == 1)
+                        return (_depressed) ? "Crushed Axe" : "Axe Crush";
+                    if (_index == 2)
+                        return "Power Up";
+                    if (_index == 3)
+                        return "Over Here!";
+                    return "Attack";
                 case "wolf":
-                    return "";
+                    if (_index == 0)
+                        return "Fangs";
+                    if (_index == 1)
+                        return "Headbutt";
+                    break;
                 case "snowwolf":
-                    return "";
+                    if (_index == 0)
+                        return "White Fangs";
+                    if (_index == 1)
+                        return "Dash";
+                    break;
                 case "bird":
-                    return "";
+                    if (_index == 0)
+                        return "Nosedive";
+                    if (_index == 1)
+                        return "Wings of Fury";
+                    break;
                 case "ducky":
-                    return "";
+                    if (_index == 0)
+                        return "Quack";
+                    if (_index == 1)
+                        return "Quack Quack";
+                    if (_index == 2)
+                        return "Quack!";
+                    if (_index == 3)
+                        return "Quack?";
+                    break;
                 case "rabbit_jacob_01":
-                    return "";
+                    if (_index == 0)
+                        return "Bite";
+                    if (_index == 1)
+                        return "Death Stare";
+                    break;
                 case "snake":
-                    return "";
+                    if (_index == 0)
+                        return "Fangs";
+                    if (_index == 1)
+                        return "Acid Spit";
+                    if (_index == 2)
+                        return "Restraint";
+                    break;
                 case "bunny":
-                    return "";
+                    if (_index == 0)
+                        return "Carrot Punch";
+                    if (_index == 1)
+                        return "Burrow";
+                    break;
                 case "snowbunny":
-                    return "";
+                    if (_index == 0)
+                        return "Carrot Punch";
+                    if (_index == 1)
+                        return "Burrow";
+                    break;
                 case "duckprey":
-                    return "";
+                    if (_index == 0)
+                        return "Quack";
+                    break;
             }
+            Debug.LogWarning("Missing EN translation for " + _pawnId + " or index missing : " + _index + ", depressed? " + _depressed);
         }
         return "";
     }
 
     public static string SkillDescription(string _pawnId, int _index, bool _depressed = false)
     {
+        if (CurrentLanguage == LanguageEnum.FR)
+        {
+            switch (_pawnId)
+            {
+                case "lucky":
+                    if (_index == 1)
+                        return "Pattounes";
+                    if (_index == 2)
+                        return "Rituel Félin";
+                    if (_index == 3)
+                        return "Ron-Ron";
+                    return "Attaquer";
+                case "emo":
+                    if (_index == 1)
+                        return "Tir Rapide";
+                    if (_index == 2)
+                        return "Flèches de Feu";
+                    return "Attaquer";
+                case "swag":
+                    if (_depressed)
+                    {
+                        if (_index == 1)
+                            return "Guérison Mineur";
+                        if (_index == 2)
+                            return "Soin Nuageux";
+                    }
+                    else
+                    {
+                        if (_index == 1)
+                            return "Guérison";
+                        if (_index == 2)
+                            return "Soin Arc-en-Ciel";
+                        if (_index == 3)
+                            return "Pouvoir de l'Amour";
+                    }
+                    return "Attaquer";
+                case "nana":
+                    if (_depressed)
+                    {
+                        if (_index == 1)
+                            return "Berserk";
+                    }
+                    else
+                    {
+                        if (_index == 1)
+                            return "Trancher";
+                        if (_index == 2)
+                            return "Mollasson!";
+                        if (_index == 3)
+                            return "Brise Armure";
+                    }
+                    return "Attaquer";
+                case "lupus":
+                    if (_depressed)
+                    {
+                        if (_index == 1)
+                            return "Crocs Précipités";
+                        if (_index == 2)
+                            return "Cendres";
+                        if (_index == 3)
+                            return "Mauvais Sort";
+                    }
+                    else
+                    {
+                        if (_index == 1)
+                            return "Crocs";
+                        if (_index == 2)
+                            return "Brasier";
+                        if (_index == 3)
+                            return "Ultima";
+                    }
+                    return "Attaquer";
+                case "ashley":
+                    if (_index == 1)
+                        return "Trempette";
+                    if (_index == 2)
+                        return "Rayon Arc-en-Ciel";
+                    if (_index == 3)
+                        return "Fierté de Licorne";
+                    return "Attaquer";
+                case "grekhan":
+                    if (_index == 1)
+                        return (_depressed) ? "Hache Ecrasée" : "Hache Ecrasante";
+                    if (_index == 2)
+                        return "Gain de Puissance";
+                    if (_index == 3)
+                        return "Par ici!";
+                    return "Attack";
+                case "wolf":
+                    if (_index == 0)
+                        return "Crocs";
+                    if (_index == 1)
+                        return "Coup de Boule";
+                    break;
+                case "snowwolf":
+                    if (_index == 0)
+                        return "Crocs Enneigés";
+                    if (_index == 1)
+                        return "Coup Violent";
+                    break;
+                case "bird":
+                    if (_index == 0)
+                        return "Piqué";
+                    if (_index == 1)
+                        return "Ailes Furieuses";
+                    break;
+                case "ducky":
+                    if (_index == 0)
+                        return "Coin";
+                    if (_index == 1)
+                        return "Coin Coin";
+                    if (_index == 2)
+                        return "Coin!";
+                    if (_index == 3)
+                        return "Coin?";
+                    break;
+                case "rabbit_jacob_01":
+                    if (_index == 0)
+                        return "Morsure";
+                    if (_index == 1)
+                        return "Regard de la Mort";
+                    break;
+                case "snake":
+                    if (_index == 0)
+                        return "Crocs";
+                    if (_index == 1)
+                        return "Jet d'Acide";
+                    if (_index == 2)
+                        return "Etreinte";
+                    break;
+                case "bunny":
+                    if (_index == 0)
+                        return "Poing Carotte";
+                    if (_index == 1)
+                        return "Terrier";
+                    break;
+                case "snowbunny":
+                    if (_index == 0)
+                        return "Poing Carotte";
+                    if (_index == 1)
+                        return "Terrier";
+                    break;
+                case "duckprey":
+                    if (_index == 0)
+                        return "Coin";
+                    break;
+            }
+            Debug.LogWarning("Missing FR translation for " + _pawnId + " or index missing : " + _index + ", depressed? " + _depressed);
+        }
+        else
+        {
+            switch (_pawnId)
+            {
+                case "lucky":
+                    if (_index == 1)
+                        return "Paws";
+                    if (_index == 2)
+                        return "Cat Ritual";
+                    if (_index == 3)
+                        return "Purr";
+                    return "Attack";
+                case "emo":
+                    if (_index == 1)
+                        return "Rapid Shot";
+                    if (_index == 2)
+                        return "Fire Arrows";
+                    return "Attack";
+                case "swag":
+                    if (_depressed)
+                    {
+                        if (_index == 1)
+                            return "Low Cure";
+                        if (_index == 2)
+                            return "Cloudy Heal";
+                    }
+                    else
+                    {
+                        if (_index == 1)
+                            return "Cure";
+                        if (_index == 2)
+                            return "Rainbow Heal";
+                        if (_index == 3)
+                            return "Power of Love";
+                    }
+                    return "Attack";
+                case "nana":
+                    if (_depressed)
+                    {
+                        if (_index == 1)
+                            return "Berserk";
+                    }
+                    else
+                    {
+                        if (_index == 1)
+                            return "Cut";
+                        if (_index == 2)
+                            return "You're weak!";
+                        if (_index == 3)
+                            return "Crush Armor";
+                    }
+                    return "Attack";
+                case "lupus":
+                    if (_depressed)
+                    {
+                        if (_index == 1)
+                            return "Rushed Fangs";
+                        if (_index == 2)
+                            return "Ashes";
+                        if (_index == 3)
+                            return "Epic Fail";
+                    }
+                    else
+                    {
+                        if (_index == 1)
+                            return "Fangs";
+                        if (_index == 2)
+                            return "Fire";
+                        if (_index == 3)
+                            return "Ultima";
+                    }
+                    return "Attack";
+                case "ashley":
+                    if (_index == 1)
+                        return "Splash";
+                    if (_index == 2)
+                        return "Rainbow Beam";
+                    if (_index == 3)
+                        return "Unicorn Pride";
+                    return "Attack";
+                case "grekhan":
+                    if (_index == 1)
+                        return (_depressed) ? "Crushed Axe" : "Axe Crush";
+                    if (_index == 2)
+                        return "Power Up";
+                    if (_index == 3)
+                        return "Over Here!";
+                    return "Attack";
+                case "wolf":
+                    if (_index == 0)
+                        return "Fangs";
+                    if (_index == 1)
+                        return "Headbutt";
+                    break;
+                case "snowwolf":
+                    if (_index == 0)
+                        return "White Fangs";
+                    if (_index == 1)
+                        return "Dash";
+                    break;
+                case "bird":
+                    if (_index == 0)
+                        return "Nosedive";
+                    if (_index == 1)
+                        return "Wings of Fury";
+                    break;
+                case "ducky":
+                    if (_index == 0)
+                        return "Quack";
+                    if (_index == 1)
+                        return "Quack Quack";
+                    if (_index == 2)
+                        return "Quack!";
+                    if (_index == 3)
+                        return "Quack?";
+                    break;
+                case "rabbit_jacob_01":
+                    if (_index == 0)
+                        return "Bite";
+                    if (_index == 1)
+                        return "Death Stare";
+                    break;
+                case "snake":
+                    if (_index == 0)
+                        return "Fangs";
+                    if (_index == 1)
+                        return "Acid Spit";
+                    if (_index == 2)
+                        return "Restraint";
+                    break;
+                case "bunny":
+                    if (_index == 0)
+                        return "Carrot Punch";
+                    if (_index == 1)
+                        return "Burrow";
+                    break;
+                case "snowbunny":
+                    if (_index == 0)
+                        return "Carrot Punch";
+                    if (_index == 1)
+                        return "Burrow";
+                    break;
+                case "duckprey":
+                    if (_index == 0)
+                        return "Quack";
+                    break;
+            }
+            Debug.LogWarning("Missing EN translation for " + _pawnId + " or index missing : " + _index + ", depressed? " + _depressed);
+        }
         return "";
     }
 
@@ -614,7 +1184,7 @@ public class Translater
                     else
                         return "\nTarget: Self";
                 case SkillDescriptionDetailsEnum.Damage:
-                    if (_skillData.SkillName.Equals("Attack"))
+                    if (_skillData.CharacterSkillIndex == 0)
                     {
                         Behaviour.Fighter skillUser = _skillData.SkillUser;
                         int attackTotal = 0;
@@ -694,7 +1264,7 @@ public class Translater
                     else
                         return "\nTarget: Self";
                 case SkillDescriptionDetailsEnum.Damage:
-                    if (_skillData.SkillName.Equals("Attack"))
+                    if (_skillData.CharacterSkillIndex == 0)
                     {
                         Behaviour.Fighter skillUser = _skillData.SkillUser;
                         int attackTotal = 0;

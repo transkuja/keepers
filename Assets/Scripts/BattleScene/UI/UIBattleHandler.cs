@@ -235,13 +235,14 @@ public class UIBattleHandler : MonoBehaviour {
                 Transform currentSkill = skillsPanel.GetChild(i);
 
                 SkillBattle fighterCurSkill;
-                if (_pawnInstanceForInit.GetComponent<MentalHealthHandler>() != null && _pawnInstanceForInit.GetComponent<MentalHealthHandler>().IsDepressed && fighterComponent.DepressedSkills.Count == fighterComponent.BattleSkills.Count)
+                bool isDepressed = _pawnInstanceForInit.GetComponent<MentalHealthHandler>() != null && _pawnInstanceForInit.GetComponent<MentalHealthHandler>().IsDepressed;
+                if (isDepressed && fighterComponent.DepressedSkills.Count == fighterComponent.BattleSkills.Count)
                     fighterCurSkill = fighterComponent.DepressedSkills[i];
                 else
                     fighterCurSkill = fighterComponent.BattleSkills[i];
 
                 currentSkill.GetChild((int)SkillButtonChildren.SkillName).GetComponent<SkillContainer>().SkillData = fighterCurSkill;
-                currentSkill.GetChild((int)SkillButtonChildren.SkillName).GetComponentInChildren<Text>().text = fighterCurSkill.SkillName;
+                currentSkill.GetChild((int)SkillButtonChildren.SkillName).GetComponentInChildren<Text>().text = Translater.SkillName(_pawnInstanceForInit.Data.PawnId, fighterCurSkill.CharacterSkillIndex, isDepressed);
                 currentSkill.GetComponent<SkillDescriptionUI>().SkillData = fighterCurSkill;
 
                 currentSkill.GetChild((int)SkillButtonChildren.Atk).GetComponentInChildren<Text>().text = "0";
@@ -281,13 +282,14 @@ public class UIBattleHandler : MonoBehaviour {
             {
                 Transform currentSkill = panelToReload.GetChild(i);
                 SkillBattle fighterCurSkill;
-                if (_pawnInstanceForReload.GetComponent<MentalHealthHandler>() != null && _pawnInstanceForReload.GetComponent<MentalHealthHandler>().IsDepressed && fighterComponent.DepressedSkills.Count == fighterComponent.BattleSkills.Count)
+                bool isDepressed = _pawnInstanceForReload.GetComponent<MentalHealthHandler>() != null && _pawnInstanceForReload.GetComponent<MentalHealthHandler>().IsDepressed;
+                if (isDepressed && fighterComponent.DepressedSkills.Count == fighterComponent.BattleSkills.Count)
                     fighterCurSkill = fighterComponent.DepressedSkills[i];
                 else
                     fighterCurSkill = fighterComponent.BattleSkills[i];
 
                 currentSkill.GetChild((int)SkillButtonChildren.SkillName).GetComponent<SkillContainer>().SkillData = fighterCurSkill;
-                currentSkill.GetChild((int)SkillButtonChildren.SkillName).GetComponentInChildren<Text>().text = fighterCurSkill.SkillName;
+                currentSkill.GetChild((int)SkillButtonChildren.SkillName).GetComponentInChildren<Text>().text = Translater.SkillName(_pawnInstanceForReload.Data.PawnId, fighterCurSkill.CharacterSkillIndex, isDepressed);
                 currentSkill.GetComponent<SkillDescriptionUI>().SkillData = fighterCurSkill;
                 foreach (Face face in fighterCurSkill.Cost)
                 {
