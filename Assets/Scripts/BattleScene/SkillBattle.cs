@@ -361,7 +361,19 @@ public class SkillBattle {
             skillUser.HasPlayedARapidSkill = true;
 
         GameObject skillNameUI = GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().SkillName;
-        skillNameUI.transform.GetComponentInChildren<Text>().text = skillName;
+        if (Translater.CurrentLanguage != LanguageEnum.EN)
+        {
+            if (skillUser.GetComponent<LuckBased>() != null)
+                skillNameUI.transform.GetComponentInChildren<Text>().text = Translater.LuckBasedSkillName(skillUser.GetComponent<PawnInstance>().Data.PawnId, characterSkillIndex);
+            else
+            {
+                bool isDepressed = skillUser.GetComponent<MentalHealthHandler>() != null && skillUser.GetComponent<MentalHealthHandler>().IsDepressed;
+                skillNameUI.transform.GetComponentInChildren<Text>().text = Translater.SkillName(skillUser.GetComponent<PawnInstance>().Data.PawnId, characterSkillIndex, isDepressed);
+            }
+        }
+        else
+            skillNameUI.transform.GetComponentInChildren<Text>().text = skillName;
+
         if (skillUser.GetComponent<LuckBased>() != null && skillUser.GetComponent<LuckBased>().isSkillFeedbackPending)
             skillUser.GetComponent<LuckBased>().FeedbackLuckForSkillBattle();
         skillNameUI.SetActive(true);
@@ -531,7 +543,19 @@ public class SkillBattle {
             skillUser.HasPlayedARapidSkill = true;
 
         GameObject skillNameUI = GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().SkillName;
-        skillNameUI.transform.GetComponentInChildren<Text>().text = skillName;
+        if (Translater.CurrentLanguage != LanguageEnum.EN)
+        {
+            if (skillUser.GetComponent<LuckBased>() != null)
+                skillNameUI.transform.GetComponentInChildren<Text>().text = Translater.LuckBasedSkillName(skillUser.GetComponent<PawnInstance>().Data.PawnId, characterSkillIndex);
+            else
+            {
+                bool isDepressed = skillUser.GetComponent<MentalHealthHandler>() != null && skillUser.GetComponent<MentalHealthHandler>().IsDepressed;
+                skillNameUI.transform.GetComponentInChildren<Text>().text = Translater.SkillName(skillUser.GetComponent<PawnInstance>().Data.PawnId, characterSkillIndex, isDepressed);
+            }
+        }
+        else
+            skillNameUI.transform.GetComponentInChildren<Text>().text = skillName;
+
         if (skillUser.GetComponent<LuckBased>() != null && skillUser.GetComponent<LuckBased>().isSkillFeedbackPending)
             skillUser.GetComponent<LuckBased>().FeedbackLuckForSkillBattle();
         skillNameUI.SetActive(true);

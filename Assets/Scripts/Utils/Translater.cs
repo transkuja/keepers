@@ -540,25 +540,65 @@ public class Translater
 
     }
 
-    //public static string LuckBasedSkillName(string _pawnId, int _index)
-    //{
-    //    if (CurrentLanguage == LanguageEnum.FR)
-    //        return "";
-    //    else
-    //    {
-    //        switch (_pawnId)
-    //        {
-    //            case "lucky":
-    //                if (_index == 1)
-    //                    return "Paws";
-    //                if (_index == 2)
-    //                    return "Cat Ritual";
-    //                if (_index == 0)
-    //                    return "Purr";
-    //                return "Attack";
-    //        }
-    //    }
-    //}
+    public static string LuckBasedSkillName(string _pawnId, int _index)
+    {
+        if (CurrentLanguage == LanguageEnum.FR)
+        {
+            switch (_pawnId)
+            {
+                case "lucky":
+                    if (_index == 0)
+                        return "Pattounes Mignonnes";
+                    if (_index == 1)
+                        return "Pattounes Mortelles";
+                    if (_index == 2)
+                        return "Pattounes";
+                    if (_index == 3)
+                        return "Pas d'Humeur";
+                    if (_index == 4)
+                        return "Ronron Parfait";
+                    if (_index == 5)
+                        return "Ronron";
+                    if (_index == 6)
+                        return "Calins pour Tous";
+                    if (_index == 7)
+                        return "Suprématie Féline";
+                    if (_index == 8)
+                        return "Châtiment de la Litière";
+                    break;
+            }
+            Debug.LogWarning("Missing FR translation for " + _pawnId + " or index missing : " + _index);
+            return "";
+        }
+        else
+        {
+            switch (_pawnId)
+            {
+                case "lucky":
+                    if (_index == 0)
+                        return "Cute Paws";
+                    if (_index == 1)
+                        return "Deadly Paws";
+                    if (_index == 2)
+                        return "Paws";
+                    if (_index == 3)
+                        return "Not In The Mood";
+                    if (_index == 4)
+                        return "Purrfect Purr";
+                    if (_index == 5)
+                        return "Purr";
+                    if (_index == 6)
+                        return "Hug Them All";
+                    if (_index == 7)
+                        return "Cat Supremacy";
+                    if (_index == 8)
+                        return "Litter Punishment";
+                    break;
+            }
+            Debug.LogWarning("Missing EN translation for " + _pawnId + " or index missing : " + _index);
+            return "";
+        }
+    }
 
     public static string SkillName(string _pawnId, int _index, bool _depressed = false)
     {
@@ -572,7 +612,7 @@ public class Translater
                     if (_index == 2)
                         return "Rituel Félin";
                     if (_index == 3)
-                        return "Ron-Ron";
+                        return "Ronron";
                     return "Attaquer";
                 case "emo":
                     if (_index == 1)
