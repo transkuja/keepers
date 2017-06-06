@@ -675,11 +675,11 @@ public class Translater
                     }
                     return "Attaquer";
                 case "ashley":
-                    if (_index == 1)
+                    if (_index == 0)
                         return "Trempette";
-                    if (_index == 2)
+                    if (_index == 1)
                         return "Rayon Arc-en-Ciel";
-                    if (_index == 3)
+                    if (_index == 2)
                         return "Fierté de Licorne";
                     return "Attaquer";
                 case "grekhan":
@@ -824,11 +824,11 @@ public class Translater
                     }
                     return "Attack";
                 case "ashley":
-                    if (_index == 1)
+                    if (_index == 0)
                         return "Splash";
-                    if (_index == 2)
+                    if (_index == 1)
                         return "Rainbow Beam";
-                    if (_index == 3)
+                    if (_index == 2)
                         return "Unicorn Pride";
                     return "Attack";
                 case "grekhan":
