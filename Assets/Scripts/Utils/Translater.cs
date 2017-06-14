@@ -376,58 +376,51 @@ public class Translater
         }
         else
         {
-            switch (_race)
+            switch (_pnjName)
             {
-                case CharacterRace.Dog:
-                    return "Arf arf Woof Woof woof wow ruff Ruff Woof";
-                case CharacterRace.Cat:
-                    return "Meow Meow Mew Mew Miaow";
-                default:
-                    switch (_pnjName)
+                case "PNJ_03":
+                    switch (_race)
                     {
-                        case "PNJ_03":
-                            switch (_race)
+                        case CharacterRace.Dog:
+                            return "What a nice dog! You're so fluffy! *The mysterious woman pats the dog's head gently*";
+                        case CharacterRace.Cat:
+                            switch (_index)
                             {
-                                case CharacterRace.Dog:
-                                    return "What a nice dog! You're so fluffy! *The mysterious woman pats the dog's head gently*";
-                                case CharacterRace.Cat:
-                                    switch (_index)
-                                    {
-                                        case 0:
-                                            return "What a lovely cat !";
-                                        case 1:
-                                            return "This cat freaks me out.";
-                                        default:
-                                            return "";
-                                    }
+                                case 0:
+                                    return "What a lovely cat !";
+                                case 1:
+                                    return "This cat freaks me out.";
                                 default:
-                                    switch (_index)
-                                    {
-                                        case 0:
-                                            return "Do you want to hear the story of this desert?";
-                                        case 1:
-                                            return "I hope you have some time ahead of you.";
-                                        case 2:
-                                            return "In my younger days, I used to be an adventurer just like you!";
-                                        case 3:
-                                            return "I came across a giant dinosaur and I won single handed.";
-                                        case 4:
-                                            return "You wonder how I did it?";
-                                        case 5:
-                                            return "Well, the thing is, T-rex have short arms. And I had a big sword.";
-                                        case 6:
-                                            return "Excalipoor was its name. I hid behind a huge rock and I stroke at the right moment!";
-                                        case 7:
-                                            return "What do you mean I cheated? I'm just too clever for you that can't find the solution to the desert enigma.";
-                                        case 8:
-                                            return "Try activate the two crystals at the same time and we'll see who is the smarter one!";
-                                        default:
-                                            return "";
-                                    }
+                                    return "";
                             }
                         default:
-                            return "";
+                            switch (_index)
+                            {
+                                case 0:
+                                    return "Do you want to hear the story of this desert?";
+                                case 1:
+                                    return "I hope you have some time ahead of you.";
+                                case 2:
+                                    return "In my younger days, I used to be an adventurer just like you!";
+                                case 3:
+                                    return "I came across a giant dinosaur and I won single handed.";
+                                case 4:
+                                    return "You wonder how I did it?";
+                                case 5:
+                                    return "Well, the thing is, T-rex have short arms. And I had a big sword.";
+                                case 6:
+                                    return "Excalipoor was its name. I hid behind a huge rock and I stroke at the right moment!";
+                                case 7:
+                                    return "What do you mean I cheated? I'm just too clever for you that can't find the solution to the desert enigma.";
+                                case 8:
+                                    return "Try activate the two crystals at the same time and we'll see who is the smarter one!";
+                                default:
+                                    return "";
+                            }
                     }
+                default:
+                    return "";
+                    
             }
         }
     }
