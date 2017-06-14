@@ -81,7 +81,8 @@ public class SkillBattle {
     {
         get
         {
-            return description;
+            bool isDepressed = skillUser.GetComponent<MentalHealthHandler>() != null && skillUser.GetComponent<MentalHealthHandler>().IsDepressed;
+            return Translater.SkillDescription(skillUser.GetComponent<PawnInstance>().Data.PawnId, characterSkillIndex, isDepressed);
         }
 
         set
@@ -120,7 +121,8 @@ public class SkillBattle {
     {
         get
         {
-            return skillName;
+            bool isDepressed = skillUser.GetComponent<MentalHealthHandler>() != null && skillUser.GetComponent<MentalHealthHandler>().IsDepressed;
+            return Translater.SkillName(skillUser.GetComponent<PawnInstance>().Data.PawnId, characterSkillIndex, isDepressed);
         }
 
         set
@@ -219,7 +221,6 @@ public class SkillBattle {
             damage = 0;
 
             skillName = "Attack";
-            description = "Damage based on current dice roll.";
             cost = new List<Face>();
             targetType = TargetType.FoeSingle;
             battleAnimation = GameManager.Instance.PrefabUtils.baseAttackAnimation;
@@ -367,8 +368,7 @@ public class SkillBattle {
                 skillNameUI.transform.GetComponentInChildren<Text>().text = Translater.LuckBasedSkillName(skillUser.GetComponent<PawnInstance>().Data.PawnId, characterSkillIndex);
             else
             {
-                bool isDepressed = skillUser.GetComponent<MentalHealthHandler>() != null && skillUser.GetComponent<MentalHealthHandler>().IsDepressed;
-                skillNameUI.transform.GetComponentInChildren<Text>().text = Translater.SkillName(skillUser.GetComponent<PawnInstance>().Data.PawnId, characterSkillIndex, isDepressed);
+                skillNameUI.transform.GetComponentInChildren<Text>().text = SkillName;
             }
         }
         else
@@ -549,8 +549,7 @@ public class SkillBattle {
                 skillNameUI.transform.GetComponentInChildren<Text>().text = Translater.LuckBasedSkillName(skillUser.GetComponent<PawnInstance>().Data.PawnId, characterSkillIndex);
             else
             {
-                bool isDepressed = skillUser.GetComponent<MentalHealthHandler>() != null && skillUser.GetComponent<MentalHealthHandler>().IsDepressed;
-                skillNameUI.transform.GetComponentInChildren<Text>().text = Translater.SkillName(skillUser.GetComponent<PawnInstance>().Data.PawnId, characterSkillIndex, isDepressed);
+                skillNameUI.transform.GetComponentInChildren<Text>().text = SkillName;
             }
         }
         else

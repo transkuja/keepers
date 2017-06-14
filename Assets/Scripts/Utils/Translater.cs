@@ -16,7 +16,177 @@ public class Translater
     {
         if (CurrentLanguage == LanguageEnum.FR)
         {
-            return "";
+            switch (_sequence)
+            {
+                case "SeqTutoCombat":
+                    switch (_index)
+                    {
+                        case 0:
+                            return "Il faut lancer des dés pour vaincre les monstres de ce monde";
+                        case 1:
+                            return "Clique sur le bouton \"Lancer les dés\" ici pour jeter les dés de tes personnages.";
+                        case 2:
+                            return "Très bien. La valeur de chaque dé est ajoutée aux réserves de leurs propriétaires.";
+                        case 3:
+                            return "Quand ces réserves sont suffisamment remplies, tu pourras utiliser des compétences.";
+                        case 4:
+                            return "Pour utiliser une compétence, choisis un pion en cliquant dessus.";
+                        case 5:
+                            return "Voilà la liste des compétences de ton personnage";
+                        case 6:
+                            return "Chaque compétence a un coût, il faut donc assez de chaque symbole en réserve pour en utiliser un.";
+                        case 7:
+                            return "Clique maintenant sur la compétence \"Grand Pouvoir\", puis sur un monstre pour déchaîner ta puissance!";
+                        case 8:
+                            return "Super!";
+                        case 9:
+                            return "Maintenant joue avec tes autres pions.";
+                        case 10:
+                            return "Une fois terminé, ce sera aux monstres de jouer";
+                        case 11:
+                            return "Une fois que tous tes pions ont joué, c'est au tour des monstres";
+                        case 12:
+                            return "Utilise ce que tu viens d'apprendre pour finir ce combat, bonne chance!";
+                        default:
+                            return "";
+                    }
+                case "SeqMultiCharacters":
+                    switch (_index)
+                    {
+                        case 0:
+                            return "Tu as désormais plus de personnages.";
+                        case 1:
+                            return "Chacun d'eux a ses propres points d'action, son inventaire et ses spécificités.";
+                        case 2:
+                            return "Tu peux voir le personnage actuellement sélectionné ici.";
+                        case 3:
+                            return "Tu peux interagir avec d'autres pions en faisant un clic droit sur eux lorsqu'un personnage est selectionné.";
+                        case 4:
+                            return "Essaie d'interagir avec un autre pion!";
+                        case 5:
+                            return "Bien,";
+                        case 6:
+                            return "tu peux à tout moment cliquer ici, ou appuyer sur A, pour voir l'état de tous tes personnages d'un simple coup d'oeil.";
+                        default:
+                            return "";
+                    }
+                case "SeqMoraleExplained":
+                    switch (_index)
+                    {
+                        case 0:
+                            return "L'humeur de tes pions peut être altérée par certains évènements.";
+                        case 1:
+                            return "Arriver dans une zone inhospitalière, par exemple, peut diminuer l'humeur de tes personnages.";
+                        case 2:
+                            return "Ou bien rester dans une zone enneigée.";
+                        case 3:
+                            return "Comme... maintenant.";
+                        case 4:
+                            return "Les pions peuvent se remonter le moral mutuellement en utilisant l'action Parler.";
+                        default:
+                            return "";
+                    }
+                case "SeqLowMorale":
+                    switch (_index)
+                    {
+                        case 0:
+                            return "Attention, l'humeur d'un de tes pions est très basse.";
+                        case 1:
+                            return "Si son humeur atteint 0, son efficacité sera réduite!";
+                        default:
+                            return "";
+                    }
+                case "SeqLowHunger":
+                    switch (_index)
+                    {
+                        case 0:
+                            return "Saperlipopette, je t'avais dit de surveiller la jauge de faim!";
+                        case 1:
+                            return "Quand cette jauge atteint 0, le pion devient affamé et perd beaucoup de vie à chaque tour!";
+                        case 2:
+                            return "Nourris le vite avant qu'il ne meure ...";
+                        default:
+                            return "";
+                    }
+                case "SeqAshleyLowHunger":
+                    switch (_index)
+                    {
+                        case 0:
+                            return "Attention, Ashley est affamée!";
+                        case 1:
+                            return "Dépose de la nourriture dans la case Nourrir ici pour nourrir Ashley";
+                        case 2:
+                            return "Dépose de la nourriture dans la case Nourrir ici pour la nourrir";
+                        case 3:
+                            return "Sélectionne un de tes pions dans sa zone pour la nourrir";
+                        default:
+                            return "";
+                    }
+                case "SeqAshleyEscort":
+                    switch (_index)
+                    {
+                        case 0:
+                            return "Tu dois escorter Ashley saine et sauve à destination.";
+                        case 1:
+                            return "Pour changer le pion qu'Ashley suit, tu peux faire un clic droit sur elle et utiliser l'action Escorter.";
+                        case 2:
+                            return "Prends bien soin d'elle!";
+                        default:
+                            return "";
+                    }
+                case "SeqFirstMove":
+                    switch (_index)
+                    {
+                        case 0:
+                            return "Bonjour, je suis là pour t'apprendre à jouer";
+                        case 1:
+                            return "Commence par sélectionner le pion clignotant en cliquant dessus.";
+                        case 2:
+                            return "Pour interagir avec le monde, tu dois utiliser le clic droit. Clique sur le sol pour bouger ton pion.";
+                        case 3:
+                            return "Tu peux aussi interagir avec tout ce qui brille dans ce monde. Essaie de faire un clic droit sur ce portail au sol.";
+                        case 4:
+                            return "Bien,";
+                        case 5:
+                            return "tu peux voir le coût de l'action ici.";
+                        case 6:
+                            return "Clique maintenant sur le bouton Explorer afin d'explorer la zone adjacente et gagner un cookie.";
+                        case 7:
+                            return "Bien joué petit(e) génie,";
+                        case 8:
+                            return "voilà ton cookie!";
+                        case 9:
+                            return "Cette action t'a coûtée 3 points d'action. Garde toujours un oeil dessus.";
+                        case 10:
+                            return "En terminant ton tour tu peux regagner les points d'action de tous tes pions";
+                        case 11:
+                            return "Terminer un tour termine la journée,";
+                        case 12:
+                            return "mais tes pions ont faim le matin au réveil, donc fais attention!";
+                        case 13:
+                            return "Tu te rappelles ce cookie que je t'ai donné ?";
+                        case 14:
+                            return "Mange le en double cliquant dessus afin de satisfaire l'appétit de ton pion.";
+                        case 15:
+                            return "Super! Tu devrais maintenant être capable de finir ce niveau. Bonne chance!";
+                        default:
+                            return "";
+                    }
+                case "seqTeamCrocket":
+                    switch (_index)
+                    {
+                        case 0:
+                            return "Team Crocket, plus rapide que la lumière!";
+                        case 1:
+                            return "On t'as retrouvé Waouf !";
+                        case 2:
+                            return "Ramenons-le à la maison.";
+                        default:
+                            return "";
+                    }
+                default:
+                    return "";
+            }
         }
         else
         {
@@ -146,7 +316,7 @@ public class Translater
                         case 1:
                             return "First select the glowing pawn by clicking on it.";
                         case 2:
-                            return "To interact with the world, you have to use the right click. Click on the ground to move the girl.";
+                            return "To interact with the world, you have to use the right click. Click on the ground to move your pawn.";
                         case 3:
                             return "You can also interact with everything glowing in the world. Try right clicking on this portal.";
                         case 4:
@@ -205,7 +375,17 @@ public class Translater
                 case CharacterRace.Cat:
                     return "Miaou miaou miaou, Miaou Miaou";
                 default:
-                    return "";
+                    switch (_level)
+                    {
+                        case "tuto":
+                            return "Contrôles caméra: ZQSD, les flèches ou le clic central.";
+                        case "level2":
+                            return "Nord: Village\nSud-Est: Danger";
+                        case "level4":
+                            return "Inutile seul mais à deux découvrent un nouveau chemin";
+                        default:
+                            return "";
+                    }
             }
         }
         else
@@ -239,13 +419,13 @@ public class Translater
             switch (_index)
             {
                 case MainQuestTexts.Title:
-                    return "THE LAST UNICORN SEAL";
+                    return "LE DERNIER NARVAL";
                 case MainQuestTexts.Objective:
                     return "Objectifs: ";
                 case MainQuestTexts.ObjectiveInfo:
                     return "Amener Ashley EN VIE à La Fin.";
                 case MainQuestTexts.Other:
-                    return "Protect me!";
+                    return "Protégez-moi!";
             }
         }
         else
@@ -275,7 +455,25 @@ public class Translater
                     switch (_questIndex)
                     {
                         case 0:
-                            return "";
+                            switch (_qt)
+                            {
+                                case QuestTexts.ObjectiveTitle:
+                                    return "Tuer Rabbit Jacob l'ABOMINABLE MONSTRE";
+                                case QuestTexts.ObjectiveDesc:
+                                    return "Eliminer l'effrayant monstre qui menace le village. Cet étrange personnage a dit qu'il devrait y avoir un passage secret pas loin...";
+                                case QuestTexts.Title:
+                                    return "L'effrayant monstre doit mourir";
+                                case QuestTexts.Desc:
+                                    return "Un horrible monstre menace le village. Trouvez le et persuadez le de ne plus embêter les villageois.";
+                                case QuestTexts.Dialog:
+                                    return "Vous là! Tuez ce gros machin là-haut! *montre du doigt un passage secret entre deux buissons*";
+                                case QuestTexts.EndDialog:
+                                    return "Bravo! Vous savez quoi, cela fait un moment que je désire partir à l'aventure... Je viens avec vous!";
+                                case QuestTexts.Hint:
+                                    return "Allez vers le nord mais soyez prudents, cette chose est relativement puissante.";
+                                default:
+                                    return "";
+                            }
                         default:
                             return "";
                     }
@@ -290,7 +488,25 @@ public class Translater
                     switch (_questIndex)
                     {
                         case 0:
-                            return "";
+                            switch (_qt)
+                            {
+                                case QuestTexts.ObjectiveTitle:
+                                    return "Ramener ses 3 canetons à la maman canard";
+                                case QuestTexts.ObjectiveDesc:
+                                    return "Cette maman canard a perdu ses canetons, essayez de les retrouver! Ils se trouvent sûrement près de l'eau ...";
+                                case QuestTexts.Title:
+                                    return "L'apocalypse des canetons";
+                                case QuestTexts.Desc:
+                                    return "Une maman canard bloque le chemin, et elle ne bougera pas tant qu'elle n'aura pas retrouvé ses petits.";
+                                case QuestTexts.Dialog:
+                                    return "\"Coin? Coin! Coin coin coin.\" " + '\n' + " Cette maman canard à l'air très anxieuse. On dirait qu'elle a perdu ses canetons! Apparemment elle ne bougera pas tant qu'ils ne seront pas revenus... Allez vous l'aider?";
+                                case QuestTexts.EndDialog:
+                                    return "Coin! *Saute de joie* " + '\n' + "La maman canard semble très reconnaissante, elle s'en va avec ses petits vers d'autres horizons. Bien joué, vous êtes quelqu'un de bien!";
+                                case QuestTexts.Hint:
+                                    return "\"Coin coin...\"" + '\n' + "Elle semble très inquiète au sujet de ses 3 petits... Elle regarde l'eau, peut-être vous donne-t-elle un indice?";
+                                default:
+                                    return "";
+                            }
                         default:
                             return "";
                     }
@@ -372,7 +588,51 @@ public class Translater
     {
         if (CurrentLanguage == LanguageEnum.FR)
         {
-            return "";
+            switch (_pnjName)
+            {
+                case "PNJ_03":
+                    switch (_race)
+                    {
+                        case CharacterRace.Dog:
+                            return "Quel gentil chien! Tu es tout doux! *La femme mystérieuse caresse la tête de Lupus gentiment*";
+                        case CharacterRace.Cat:
+                            switch (_index)
+                            {
+                                case 0:
+                                    return "Quel adorable chat!";
+                                case 1:
+                                    return "Ce chat est effrayant.";
+                                default:
+                                    return "";
+                            }
+                        default:
+                            switch (_index)
+                            {
+                                case 0:
+                                    return "Voulez-vous connaître l'histoire de ce désert?";
+                                case 1:
+                                    return "J'espère que vous avez un peu de temps.";
+                                case 2:
+                                    return "Dans ma jeunesse, j'étais une aventurière comme vous!";
+                                case 3:
+                                    return "Une fois, j'ai défait un dinosaure gigantesque d'une seule main.";
+                                case 4:
+                                    return "Vous vous demandez comment cela est possible?";
+                                case 5:
+                                    return "Et bien c'est très simple. Les T-rex ont des petits bras. Et j'avais une grosse épée!";
+                                case 6:
+                                    return "Elle s'appelait Excalipur. Je me suis caché derrière un énorme rocher et j'ai frappé au moment opportun!";
+                                case 7:
+                                    return "Comment ça j'ai triché? Je suis juste trop intelligente pour vous qui n'êtes même pas capable de trouver la solution à l'énigme de ce désert.";
+                                case 8:
+                                    return "Essayez d'activer les deux cristaux en même temps et on verra bien qui est le plus malin!";
+                                default:
+                                    return "";
+                            }
+                    }
+                default:
+                    return "";
+            }
         }
         else
         {
@@ -401,7 +661,7 @@ public class Translater
                                 case 1:
                                     return "I hope you have some time ahead of you.";
                                 case 2:
-                                    return "In my younger days, I used to be an adventurer just like you!";
+                                    return "In my youth, I used to be an adventurer just like you!";
                                 case 3:
                                     return "I came across a giant dinosaur and I won single handed.";
                                 case 4:
@@ -597,6 +857,8 @@ public class Translater
     {
         if (CurrentLanguage == LanguageEnum.FR)
         {
+            if (_index == -1)
+                return "Grand Pouvoir";
             switch (_pawnId)
             {
                 case "lucky":
@@ -617,7 +879,7 @@ public class Translater
                     if (_depressed)
                     {
                         if (_index == 1)
-                            return "Guérison Mineur";
+                            return "Guérison Mineure";
                         if (_index == 2)
                             return "Soin Nuageux";
                     }
@@ -746,6 +1008,8 @@ public class Translater
         }
         else
         {
+            if (_index == -1)
+                return "Great Power";
             switch (_pawnId)
             {
                 case "lucky":
@@ -900,299 +1164,179 @@ public class Translater
     {
         if (CurrentLanguage == LanguageEnum.FR)
         {
+            if (_index == -1)
+                return "Implique de grandes responsabilités.";
             switch (_pawnId)
             {
                 case "lucky":
                     if (_index == 1)
-                        return "Pattounes";
+                        return "Qui sait de quoi sont capables ces pattes?";
                     if (_index == 2)
-                        return "Rituel Félin";
+                        return "Miaou ?";
                     if (_index == 3)
-                        return "Ron-Ron";
-                    return "Attaquer";
+                        return "Ils semblent contents.";
+                    return "";
                 case "emo":
                     if (_index == 1)
-                        return "Tir Rapide";
+                        return "Tire plus vite que son ombre. Peut rejouer après cette attaque.";
                     if (_index == 2)
-                        return "Flèches de Feu";
-                    return "Attaquer";
+                        return "Tire des flèches de feu.";
+                    return "";
                 case "swag":
                     if (_depressed)
                     {
                         if (_index == 1)
-                            return "Guérison Mineur";
+                            return "Soigne un allié";
                         if (_index == 2)
-                            return "Soin Nuageux";
+                            return "Soigne tous les alliés";
                     }
                     else
                     {
                         if (_index == 1)
-                            return "Guérison";
+                            return "Soigne un allié";
                         if (_index == 2)
-                            return "Soin Arc-en-Ciel";
+                            return "Soigne tous les alliés";
                         if (_index == 3)
-                            return "Pouvoir de l'Amour";
+                            return "Une grande force émerge du pouvoir de l'amour.";
                     }
-                    return "Attaquer";
+                    return "";
                 case "nana":
                     if (_depressed)
                     {
                         if (_index == 1)
-                            return "Berserk";
+                            return "Conséquence de sa mauvaise humeur";
                     }
                     else
                     {
                         if (_index == 1)
-                            return "Trancher";
+                            return "Taille l'ennemi en pièces d'un autre pays.";
                         if (_index == 2)
-                            return "Mollasson!";
+                            return "Réduit les dégâts d'un ennemi";
                         if (_index == 3)
-                            return "Brise Armure";
+                            return "Réduit l'armure d'un ennemi";
                     }
-                    return "Attaquer";
+                    return "";
                 case "lupus":
                     if (_depressed)
                     {
                         if (_index == 1)
-                            return "Crocs Précipités";
+                            return "Mord la cible";
                         if (_index == 2)
-                            return "Cendres";
+                            return "Lance des cendres partout";
                         if (_index == 3)
-                            return "Mauvais Sort";
+                            return "Impossible de se concentrer";
                     }
                     else
                     {
                         if (_index == 1)
-                            return "Crocs";
+                            return "Mord la cible";
                         if (_index == 2)
-                            return "Brasier";
+                            return "Fais un barbecue";
                         if (_index == 3)
-                            return "Ultima";
+                            return "Meilleur sort au monde";
                     }
-                    return "Attaquer";
+                    return "";
                 case "ashley":
                     if (_index == 1)
-                        return "Trempette";
+                        return "Fait peut-être quelque chose.";
                     if (_index == 2)
-                        return "Rayon Arc-en-Ciel";
+                        return "Dégâts aléatoires sur tout le monde";
                     if (_index == 3)
-                        return "Fierté de Licorne";
-                    return "Attaquer";
+                        return "Je suis une licorne, ouiiiiii!";
+                    return "";
                 case "grekhan":
                     if (_index == 1)
-                        return (_depressed) ? "Hache Ecrasée" : "Hache Ecrasante";
-                    if (_index == 2)
-                        return "Gain de Puissance";
-                    if (_index == 3)
-                        return "Par ici!";
-                    return "Attack";
-                case "wolf":
-                    if (_index == 0)
-                        return "Crocs";
-                    if (_index == 1)
-                        return "Coup de Boule";
-                    break;
-                case "snowwolf":
-                    if (_index == 0)
-                        return "Crocs Enneigés";
-                    if (_index == 1)
-                        return "Coup Violent";
-                    break;
-                case "bird":
-                    if (_index == 0)
-                        return "Piqué";
-                    if (_index == 1)
-                        return "Ailes Furieuses";
-                    break;
-                case "ducky":
-                    if (_index == 0)
-                        return "Coin";
-                    if (_index == 1)
-                        return "Coin Coin";
-                    if (_index == 2)
-                        return "Coin!";
-                    if (_index == 3)
-                        return "Coin?";
-                    break;
-                case "rabbit_jacob_01":
-                    if (_index == 0)
-                        return "Morsure";
-                    if (_index == 1)
-                        return "Regard de la Mort";
-                    break;
-                case "snake":
-                    if (_index == 0)
-                        return "Crocs";
-                    if (_index == 1)
-                        return "Jet d'Acide";
-                    if (_index == 2)
-                        return "Etreinte";
-                    break;
-                case "bunny":
-                    if (_index == 0)
-                        return "Poing Carotte";
-                    if (_index == 1)
-                        return "Terrier";
-                    break;
-                case "snowbunny":
-                    if (_index == 0)
-                        return "Poing Carotte";
-                    if (_index == 1)
-                        return "Terrier";
-                    break;
-                case "duckprey":
-                    if (_index == 0)
-                        return "Coin";
-                    break;
+                        return (_depressed) ? "Ecrase faiblement son ennemi" : "Ecrase son ennemi";
+                    return "";
             }
             Debug.LogWarning("Missing FR translation for " + _pawnId + " or index missing : " + _index + ", depressed? " + _depressed);
         }
         else
         {
+            if (_index == -1)
+                return "Comes with great responsability.";
             switch (_pawnId)
             {
                 case "lucky":
                     if (_index == 1)
-                        return "Paws";
+                        return "Who knows what these paws can do?";
                     if (_index == 2)
-                        return "Cat Ritual";
+                        return "Mew ?";
                     if (_index == 3)
-                        return "Purr";
-                    return "Attack";
+                        return "They seems happy.";
+                    return "";
                 case "emo":
                     if (_index == 1)
-                        return "Rapid Shot";
+                        return "Shoots faster than his shadow. Can do another action after.";
                     if (_index == 2)
-                        return "Fire Arrows";
-                    return "Attack";
+                        return "Fire fire arrows.";
+                    return "";
                 case "swag":
                     if (_depressed)
                     {
                         if (_index == 1)
-                            return "Low Cure";
+                            return "Heals an ally";
                         if (_index == 2)
-                            return "Cloudy Heal";
+                            return "Heals all allies";
                     }
                     else
                     {
                         if (_index == 1)
-                            return "Cure";
+                            return "Heals an ally";
                         if (_index == 2)
-                            return "Rainbow Heal";
+                            return "Heals all allies";
                         if (_index == 3)
-                            return "Power of Love";
+                            return "Strength comes from power of love";
                     }
-                    return "Attack";
+                    return "";
                 case "nana":
                     if (_depressed)
                     {
                         if (_index == 1)
-                            return "Berserk";
+                            return "Consequence of bad mood";
                     }
                     else
                     {
                         if (_index == 1)
-                            return "Cut";
+                            return "Cut the enemy to pieces";
                         if (_index == 2)
-                            return "You're weak!";
+                            return "Reduce an enemy's damage";
                         if (_index == 3)
-                            return "Crush Armor";
+                            return "Reduce an enemy's armor";
                     }
-                    return "Attack";
+                    return "";
                 case "lupus":
                     if (_depressed)
                     {
                         if (_index == 1)
-                            return "Rushed Fangs";
+                            return "Bite the target";
                         if (_index == 2)
-                            return "Ashes";
+                            return "Throw ashes everywhere";
                         if (_index == 3)
-                            return "Epic Fail";
+                            return "Can't focus";
                     }
                     else
                     {
                         if (_index == 1)
-                            return "Fangs";
+                            return "Bite the target";
                         if (_index == 2)
-                            return "Fire";
+                            return "Makes a barbecue";
                         if (_index == 3)
-                            return "Ultima";
+                            return "Best spell ever";
                     }
-                    return "Attack";
+                    return "";
                 case "ashley":
                     if (_index == 1)
-                        return "Splash";
+                        return "Maybe it does something.";
                     if (_index == 2)
-                        return "Rainbow Beam";
+                        return "Random damage to all";
                     if (_index == 3)
-                        return "Unicorn Pride";
-                    return "Attack";
+                        return "I'm an unicorn, yaaaaay!";
+                    return "";
                 case "grekhan":
                     if (_index == 1)
-                        return (_depressed) ? "Crushed Axe" : "Axe Crush";
-                    if (_index == 2)
-                        return "Power Up";
-                    if (_index == 3)
-                        return "Over Here!";
-                    return "Attack";
-                case "wolf":
-                    if (_index == 0)
-                        return "Fangs";
-                    if (_index == 1)
-                        return "Headbutt";
-                    break;
-                case "snowwolf":
-                    if (_index == 0)
-                        return "White Fangs";
-                    if (_index == 1)
-                        return "Dash";
-                    break;
-                case "bird":
-                    if (_index == 0)
-                        return "Nosedive";
-                    if (_index == 1)
-                        return "Wings of Fury";
-                    break;
-                case "ducky":
-                    if (_index == 0)
-                        return "Quack";
-                    if (_index == 1)
-                        return "Quack Quack";
-                    if (_index == 2)
-                        return "Quack!";
-                    if (_index == 3)
-                        return "Quack?";
-                    break;
-                case "rabbit_jacob_01":
-                    if (_index == 0)
-                        return "Bite";
-                    if (_index == 1)
-                        return "Death Stare";
-                    break;
-                case "snake":
-                    if (_index == 0)
-                        return "Fangs";
-                    if (_index == 1)
-                        return "Acid Spit";
-                    if (_index == 2)
-                        return "Restraint";
-                    break;
-                case "bunny":
-                    if (_index == 0)
-                        return "Carrot Punch";
-                    if (_index == 1)
-                        return "Burrow";
-                    break;
-                case "snowbunny":
-                    if (_index == 0)
-                        return "Carrot Punch";
-                    if (_index == 1)
-                        return "Burrow";
-                    break;
-                case "duckprey":
-                    if (_index == 0)
-                        return "Quack";
-                    break;
+                        return (_depressed) ? "Crush the ennemy weakly" : "Crush the enemy";
+                    return "";
             }
             Debug.LogWarning("Missing EN translation for " + _pawnId + " or index missing : " + _index + ", depressed? " + _depressed);
         }
@@ -1207,15 +1351,15 @@ public class Translater
             {
                 case SkillDescriptionDetailsEnum.Target:
                     if (_skillData.TargetType == TargetType.FoeAll)
-                        return "\nTarget: All enemies";
+                        return "\nCible: Tous les ennemis";
                     else if (_skillData.TargetType == TargetType.FoeSingle)
-                        return "\nTarget: One enemy";
+                        return "\nCible: Un ennemi";
                     else if (_skillData.TargetType == TargetType.FriendSingle)
-                        return "\nTarget: One ally";
+                        return "\nCible: Un allié";
                     else if (_skillData.TargetType == TargetType.FriendAll)
-                        return "\nTarget: All allies";
+                        return "\nCible: Tous les alliés";
                     else
-                        return "\nTarget: Self";
+                        return "\nCible: Soi";
                 case SkillDescriptionDetailsEnum.Damage:
                     if (_skillData.CharacterSkillIndex == 0)
                     {
@@ -1228,57 +1372,70 @@ public class Translater
                             else
                                 attackTotal += 3;
                         }
-                        return "\n\nDamage based on orange dots on current throw\nDamage this turn: " + attackTotal;
+                        return "\n\nDégâts basés sur les points oranges des dés de ce tour\nDégâts ce tour: " + attackTotal;
                     }
                     else
-                        return "\n\nDamage: " + _skillData.Damage;
+                        return "\n\nDégâts: " + _skillData.Damage;
                 case SkillDescriptionDetailsEnum.Effect:
                     string effect = "";
-                    effect += "\nEffect" + ((_skillData.Boeufs.Length > 1) ? "s" : "") + ": ";
+                    effect += "\nEffet" + ((_skillData.Boeufs.Length > 1) ? "s" : "") + ": ";
                     if (_skillData.SkillName.Contains("Rapid"))
-                        effect += "The more you shoot in a turn, the more magical power you gain.";
+                        effect += "Plus ce sort est utilisé dans un tour, plus la jauge de magie se remplit.";
                     else
                         for (int i = 0; i < _skillData.Boeufs.Length; i++)
                         {
                             BattleBoeuf curBoeuf = _skillData.Boeufs[i];
                             if (curBoeuf.BoeufType == BoeufType.Damage)
                             {
-                                effect += (curBoeuf.EffectValue < 0) ? "Reduce " : "Increase ";
-                                effect += "damage dealt by " + Mathf.Abs(curBoeuf.EffectValue);
+                                effect += (curBoeuf.EffectValue < 0) ? "Réduit " : "Augmente ";
+                                effect += "les dégâts infligés de " + Mathf.Abs(curBoeuf.EffectValue);
                             }
                             else if (curBoeuf.BoeufType == BoeufType.Defense)
                             {
-                                effect += (curBoeuf.EffectValue > 0) ? "Reduce " : "Increase ";
-                                effect += "damage taken by " + Mathf.Abs(curBoeuf.EffectValue);
+                                effect += (curBoeuf.EffectValue > 0) ? "Réduit " : "Augmente ";
+                                effect += "les dégâts subis de " + Mathf.Abs(curBoeuf.EffectValue);
                             }
                             else if (curBoeuf.BoeufType == BoeufType.Aggro)
                             {
-                                effect += "Becomes attacks' target.";
+                                effect += "Devient la cible des attaques.";
                             }
                             else if (curBoeuf.BoeufType == BoeufType.CostReduction)
                             {
-                                effect += (curBoeuf.EffectValue < 0) ? "Reduce " : "Increase ";
-                                effect += "chances of being targeted by " + Mathf.Abs(curBoeuf.EffectValue) + " percent";
+                                effect += (curBoeuf.EffectValue < 0) ? "Réduit " : "Augmente ";
+                                effect += "les chances d'être ciblé de " + Mathf.Abs(curBoeuf.EffectValue) + " pourcent";
                             }
                             else if (curBoeuf.BoeufType == BoeufType.IncreaseStocks)
                             {
-                                effect += (curBoeuf.EffectValue < 0) ? "Reduce " : "Increase ";
+                                effect += (curBoeuf.EffectValue < 0) ? "Réduit " : "Augmente ";
+                                effect += "la jauge ";
+
+                                int nbrOfJaugeAffected = 0;
                                 for (int j = 0; j < curBoeuf.SymbolsAffected.Length; j++)
                                 {
                                     if (curBoeuf.SymbolsAffected[j] == FaceType.Physical)
-                                        effect += "physical ";
+                                    {
+                                        effect += "physique ";
+                                        nbrOfJaugeAffected++;
+                                    }
                                     else if (curBoeuf.SymbolsAffected[j] == FaceType.Defensive)
+                                    {
                                         effect += "defensive ";
+                                    nbrOfJaugeAffected++;
+                                    }
                                     else
-                                        effect += "magic ";
+                                    {
+                                        effect += "magique ";
+                                        nbrOfJaugeAffected++;
+                                    }
                                 }
-                                effect += "gauges by " + Mathf.Abs(curBoeuf.EffectValue);
+                                effect += "de " + Mathf.Abs(curBoeuf.EffectValue);
+
                             }
-                            effect += " for " + (curBoeuf.Duration - 1) + " turns.\n";
+                            effect += " pendant " + (curBoeuf.Duration - 1) + " tours.\n";
                         }
                     return effect;
                 case SkillDescriptionDetailsEnum.HealValue:
-                    return "\n\nHeal value: " + _skillData.Damage;
+                    return "\n\nSoigne: " + _skillData.Damage + "PV";
             }
         }
         else

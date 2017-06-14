@@ -242,7 +242,7 @@ public class UIBattleHandler : MonoBehaviour {
                     fighterCurSkill = fighterComponent.BattleSkills[i];
 
                 currentSkill.GetChild((int)SkillButtonChildren.SkillName).GetComponent<SkillContainer>().SkillData = fighterCurSkill;
-                currentSkill.GetChild((int)SkillButtonChildren.SkillName).GetComponentInChildren<Text>().text = Translater.SkillName(_pawnInstanceForInit.Data.PawnId, fighterCurSkill.CharacterSkillIndex, isDepressed);
+                currentSkill.GetChild((int)SkillButtonChildren.SkillName).GetComponentInChildren<Text>().text = fighterCurSkill.SkillName;
                 currentSkill.GetComponent<SkillDescriptionUI>().SkillData = fighterCurSkill;
 
                 currentSkill.GetChild((int)SkillButtonChildren.Atk).GetComponentInChildren<Text>().text = "0";
@@ -289,7 +289,7 @@ public class UIBattleHandler : MonoBehaviour {
                     fighterCurSkill = fighterComponent.BattleSkills[i];
 
                 currentSkill.GetChild((int)SkillButtonChildren.SkillName).GetComponent<SkillContainer>().SkillData = fighterCurSkill;
-                currentSkill.GetChild((int)SkillButtonChildren.SkillName).GetComponentInChildren<Text>().text = Translater.SkillName(_pawnInstanceForReload.Data.PawnId, fighterCurSkill.CharacterSkillIndex, isDepressed);
+                currentSkill.GetChild((int)SkillButtonChildren.SkillName).GetComponentInChildren<Text>().text = fighterCurSkill.SkillName;
                 currentSkill.GetComponent<SkillDescriptionUI>().SkillData = fighterCurSkill;
                 foreach (Face face in fighterCurSkill.Cost)
                 {

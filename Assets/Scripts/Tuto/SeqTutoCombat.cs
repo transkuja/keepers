@@ -348,14 +348,13 @@ public class SeqTutoCombat : Sequence
         BattleHandler.CurrentBattleKeepers[0].GetComponent<Behaviour.Fighter>().BattleSkills.Clear();
         SkillBattle tutoSkill = new SkillBattle();
         tutoSkill.Damage = 20;
-        tutoSkill.Description = "Comes with great responsability.";
-        tutoSkill.SkillName = "Great Power";
         tutoSkill.TargetType = TargetType.FoeSingle;
         tutoSkill.SkillUser = BattleHandler.CurrentBattleKeepers[0].GetComponent<Behaviour.Fighter>();
         tutoSkill.Cost = new List<Face>();
         tutoSkill.Cost.Add(new Face(FaceType.Physical, 0));
         tutoSkill.Cost.Add(new Face(FaceType.Magical, 0));
         tutoSkill.Cost.Add(new Face(FaceType.Defensive, 0));
+        tutoSkill.CharacterSkillIndex = -1;
         BattleHandler.CurrentBattleKeepers[0].GetComponent<Behaviour.Fighter>().BattleSkills.Add(tutoSkill);
         GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().TutoReloadSkillPanel(BattleHandler.CurrentBattleKeepers[0]);
 
