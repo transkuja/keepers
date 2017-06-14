@@ -1527,6 +1527,18 @@ public class Translater
         else return "Select your characters";
     }
 
+    public static string GameSelection(string gameSelected)
+    {
+        if (CurrentLanguage == LanguageEnum.FR)
+        {
+            if (gameSelected == "new") return "Nouvelle Partie"; else return "Continuer";
+        }
+        else
+        {
+            if (gameSelected == "new") return "New Game"; else return "Continue";
+        }
+    }
+
     public static Sprite WinningScreen(bool _won)
     {
         if (CurrentLanguage == LanguageEnum.FR)

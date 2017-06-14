@@ -31,7 +31,10 @@ public class IngameScreens : MonoBehaviour {
                     transform.GetChild(0).GetChild((int)IngameScreensEnum.WinScreen).GetComponentInChildren<Image>().sprite = GameManager.Instance.SpriteUtils.level3;
                     break;
             }
+
+            transform.GetChild(0).GetChild((int)IngameScreensEnum.LanguageSelection).gameObject.SetActive(false);
         }
+
     }
 
     public static IngameScreens Instance
@@ -138,6 +141,24 @@ public class IngameScreens : MonoBehaviour {
         GameManager.Instance.Ui.GoActionPanelQ.transform.parent.SetParent(GameManager.Instance.Ui.transform);
         SceneManager.LoadScene(0);
     }
+
+    public void SetLanguage(string selectedLanguage)
+    {
+        Translater.CurrentLanguage = (LanguageEnum)System.Enum.Parse(typeof(LanguageEnum), selectedLanguage);
+        transform.GetChild(0).GetChild((int)IngameScreensEnum.LanguageSelection).gameObject.SetActive(false);
+
+        transform.GetChild(0).GetChild((int)IngameScreensEnum.GameSelection).GetChild(0).GetComponent<Text>().text = Translater.GameSelection("new");
+        transform.GetChild(0).GetChild((int)IngameScreensEnum.GameSelection).GetChild(1).GetComponent<Text>().text = Translater.GameSelection("");
+        transform.GetChild(0).GetChild((int)IngameScreensEnum.GameSelection).gameObject.SetActive(true);
+    }
+
+    public void ChooseGame(string selectedOption)
+    {
+        if (selectedOption == "new")
+            GameManager.Instance.ResetGame();
+
+        transform.GetChild(0).GetChild((int)IngameScreensEnum.GameSelection).gameObject.SetActive(false);
+    }
 }
 
 public enum IngameScreensEnum
@@ -149,5 +170,7 @@ public enum IngameScreensEnum
     EscapeMenu,
     OptionsMenu,
     MainQuestPanel,
-    QuestReminderButton
+    QuestReminderButton,
+    LanguageSelection,
+    GameSelection
 }

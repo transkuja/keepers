@@ -1214,6 +1214,58 @@ public class GameManager : MonoBehaviour
             Lose();
     }
     #endregion
+
+    public void ResetGame()
+    {
+        instance.PersistenceLoader.SetPawnUnlocked("grekhan", false);
+        instance.PersistenceLoader.SetPawnUnlocked("lupus", false);
+        instance.PersistenceLoader.SetPawnUnlocked("swag", false);
+        instance.PersistenceLoader.SetPawnUnlocked("lucky", false);
+        instance.PersistenceLoader.SetPawnUnlocked("emo", false);
+        instance.PersistenceLoader.Pd.dicPersistencePawns["grekhan"] = false;
+        instance.PersistenceLoader.Pd.dicPersistencePawns["lupus"] = false;
+        instance.PersistenceLoader.Pd.dicPersistencePawns["swag"] = false;
+        instance.PersistenceLoader.Pd.dicPersistencePawns["lucky"] = false;
+        instance.PersistenceLoader.Pd.dicPersistencePawns["emo"] = false;
+
+        instance.PersistenceLoader.SetLevelUnlocked("4", false);
+        instance.PersistenceLoader.SetLevelUnlocked("2", false);
+        instance.PersistenceLoader.SetLevelUnlocked("1", true);
+        instance.PersistenceLoader.Pd.dicPersistenceLevels["4"] = false;
+        instance.PersistenceLoader.Pd.dicPersistenceLevels["2"] = false;
+        instance.PersistenceLoader.Pd.dicPersistenceLevels["1"] = true;
+
+        instance.PersistenceLoader.SetEventUnlocked("1", false);
+        instance.PersistenceLoader.SetEventUnlocked("2", false);
+        instance.PersistenceLoader.SetEventUnlocked("3", false);
+        instance.PersistenceLoader.Pd.dicPersistenceEvents["1"] = false;
+        instance.PersistenceLoader.Pd.dicPersistenceEvents["2"] = false;
+        instance.PersistenceLoader.Pd.dicPersistenceEvents["3"] = false;
+
+        instance.PersistenceLoader.SetDeckUnlocked("deck_04", false);
+        instance.PersistenceLoader.SetDeckUnlocked("deck_01", true);
+        instance.PersistenceLoader.SetDeckUnlocked("deck_02", false);
+        instance.PersistenceLoader.Pd.dicPersistenceDecks["deck_04"] = false;
+        instance.PersistenceLoader.Pd.dicPersistenceDecks["deck_01"] = true;
+        instance.PersistenceLoader.Pd.dicPersistenceDecks["deck_02"] = false;
+
+        instance.PersistenceLoader.Pd.dicPersistenceSequences["seqfirstmove"] = false;
+        instance.PersistenceLoader.Pd.dicPersistenceSequences["seqtutocombat"] = false;
+        instance.PersistenceLoader.Pd.dicPersistenceSequences["seqmulticharacters"] = false;
+        instance.PersistenceLoader.Pd.dicPersistenceSequences["seqmoraleexplained"] = false;
+        instance.PersistenceLoader.Pd.dicPersistenceSequences["seqlowhunger"] = false;
+        instance.PersistenceLoader.Pd.dicPersistenceSequences["seqlowmorale"] = false;
+        instance.PersistenceLoader.Pd.dicPersistenceSequences["seqashleylowhunger"] = false;
+        instance.PersistenceLoader.Pd.dicPersistenceSequences["seqashleyescort"] = false;
+        instance.PersistenceLoader.SetSequenceUnlocked("seqfirstmove", false);
+        instance.PersistenceLoader.SetSequenceUnlocked("seqtutocombat", false);
+        instance.PersistenceLoader.SetSequenceUnlocked("seqmulticharacters", false);
+        instance.PersistenceLoader.SetSequenceUnlocked("seqmoraleexplained", false);
+        instance.PersistenceLoader.SetSequenceUnlocked("seqlowhunger", false);
+        instance.PersistenceLoader.SetSequenceUnlocked("seqlowmorale", false);
+        instance.PersistenceLoader.SetSequenceUnlocked("seqashleylowhunger", false);
+        instance.PersistenceLoader.SetSequenceUnlocked("seqashleyescort", false);
+    }
 }
 
 public enum GameState

@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 
 public class MenuController : MonoBehaviour {
 
+    [SerializeField]
     private MenuManager menuManager;
     private MenuUI menuUI;
     private BoxOpener boxOpener;
@@ -38,13 +39,27 @@ public class MenuController : MonoBehaviour {
         }
     }
 
+    public LevelDataBase Leveldb
+    {
+        get
+        {
+            if (leveldb == null)
+                leveldb = menuManager.Leveldb;
+            return leveldb;
+        }
+
+        set
+        {
+            leveldb = value;
+        }
+    }
+
     // Use this for initialization
     void Start()
     {
         menuManager = GetComponent<MenuManager>();
         menuUI = GetComponent<MenuUI>();
         boxOpener = GetComponent<BoxOpener>();
-        leveldb = menuManager.Leveldb;
         oncePressR = false;
     }
 
@@ -221,18 +236,18 @@ public class MenuController : MonoBehaviour {
                 menuUI.LevelCardSelected.GetComponent<CardLevel>().IsSelected = true;
 
                 menuManager.CardLevelSelected = card.levelIndex;
-                menuManager.DeckOfCardsSelected = leveldb.GetLevelById(card.levelIndex).deckId;
+                menuManager.DeckOfCardsSelected = Leveldb.GetLevelById(card.levelIndex).deckId;
 
                 menuManager.currentMiniature = Instantiate(menuManager.prefabsMiniatures[card.levelIndex - 1], menuManager.trVortex.position + Vector3.up * 0.2f, Quaternion.identity).GetComponent<Miniature>();
                 menuManager.currentMiniature.bStartHidden = true;
 
                 GameManager.Instance.ListEventSelected.Clear();
 
-                for (int i = 0; i < leveldb.GetLevelById(card.levelIndex).listEventsId.Count; i++)
+                for (int i = 0; i < Leveldb.GetLevelById(card.levelIndex).listEventsId.Count; i++)
                 {
-                    if (GameManager.Instance.PersistenceLoader.Pd.dicPersistenceEvents[leveldb.GetLevelById(card.levelIndex).listEventsId[i]] == true)
+                    if (GameManager.Instance.PersistenceLoader.Pd.dicPersistenceEvents[Leveldb.GetLevelById(card.levelIndex).listEventsId[i]] == true)
                     {
-                        GameManager.Instance.ListEventSelected.Add(leveldb.GetLevelById(card.levelIndex).listEventsId[i]);
+                        GameManager.Instance.ListEventSelected.Add(Leveldb.GetLevelById(card.levelIndex).listEventsId[i]);
                     }
                 }
                 menuManager.SetActiveChatBoxes(true);

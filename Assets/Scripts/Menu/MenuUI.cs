@@ -15,6 +15,7 @@ public class MenuUI : MonoBehaviour {
         }
     }
 
+    [SerializeField]
     private MenuManager menuManager;
     private BoxOpener box;
 

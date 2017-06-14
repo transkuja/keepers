@@ -270,54 +270,7 @@ public class DebugControls : MonoBehaviour {
 
             if (Input.GetKeyDown(KeyCode.R))
             {
-                GameManager.Instance.PersistenceLoader.SetPawnUnlocked("grekhan", false);
-                GameManager.Instance.PersistenceLoader.SetPawnUnlocked("lupus", false);
-                GameManager.Instance.PersistenceLoader.SetPawnUnlocked("swag", false);
-                GameManager.Instance.PersistenceLoader.SetPawnUnlocked("lucky", false);
-                GameManager.Instance.PersistenceLoader.SetPawnUnlocked("emo", false);
-                GameManager.Instance.PersistenceLoader.Pd.dicPersistencePawns["grekhan"] = false;
-                GameManager.Instance.PersistenceLoader.Pd.dicPersistencePawns["lupus"] = false;
-                GameManager.Instance.PersistenceLoader.Pd.dicPersistencePawns["swag"] = false;
-                GameManager.Instance.PersistenceLoader.Pd.dicPersistencePawns["lucky"] = false;
-                GameManager.Instance.PersistenceLoader.Pd.dicPersistencePawns["emo"] = false;
-
-                GameManager.Instance.PersistenceLoader.SetLevelUnlocked("4", false);
-                GameManager.Instance.PersistenceLoader.SetLevelUnlocked("2", false);
-                GameManager.Instance.PersistenceLoader.SetLevelUnlocked("1", true);
-                GameManager.Instance.PersistenceLoader.Pd.dicPersistenceLevels["4"] = false;
-                GameManager.Instance.PersistenceLoader.Pd.dicPersistenceLevels["2"] = false;
-                GameManager.Instance.PersistenceLoader.Pd.dicPersistenceLevels["1"] = true;
-
-                GameManager.Instance.PersistenceLoader.SetEventUnlocked("1", false);
-                GameManager.Instance.PersistenceLoader.SetEventUnlocked("2", false);
-                GameManager.Instance.PersistenceLoader.SetEventUnlocked("3", false);
-                GameManager.Instance.PersistenceLoader.Pd.dicPersistenceEvents["1"] = false;
-                GameManager.Instance.PersistenceLoader.Pd.dicPersistenceEvents["2"] = false;
-                GameManager.Instance.PersistenceLoader.Pd.dicPersistenceEvents["3"] = false;
-
-                GameManager.Instance.PersistenceLoader.SetDeckUnlocked("deck_04", false);
-                GameManager.Instance.PersistenceLoader.SetDeckUnlocked("deck_01", true);
-                GameManager.Instance.PersistenceLoader.SetDeckUnlocked("deck_02", false);
-                GameManager.Instance.PersistenceLoader.Pd.dicPersistenceDecks["deck_04"] = false;
-                GameManager.Instance.PersistenceLoader.Pd.dicPersistenceDecks["deck_01"] = true;
-                GameManager.Instance.PersistenceLoader.Pd.dicPersistenceDecks["deck_02"] = false;
-
-                GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqfirstmove"] = false;
-                GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqtutocombat"] = false;
-                GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqmulticharacters"] = false;
-                GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqmoraleexplained"] = false;
-                GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqlowhunger"] = false;
-                GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqlowmorale"] = false;
-                GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqashleylowhunger"] = false;
-                GameManager.Instance.PersistenceLoader.Pd.dicPersistenceSequences["seqashleyescort"] = false;
-                GameManager.Instance.PersistenceLoader.SetSequenceUnlocked("seqfirstmove", false);
-                GameManager.Instance.PersistenceLoader.SetSequenceUnlocked("seqtutocombat", false);
-                GameManager.Instance.PersistenceLoader.SetSequenceUnlocked("seqmulticharacters", false);
-                GameManager.Instance.PersistenceLoader.SetSequenceUnlocked("seqmoraleexplained", false);
-                GameManager.Instance.PersistenceLoader.SetSequenceUnlocked("seqlowhunger", false);
-                GameManager.Instance.PersistenceLoader.SetSequenceUnlocked("seqlowmorale", false);
-                GameManager.Instance.PersistenceLoader.SetSequenceUnlocked("seqashleylowhunger", false);
-                GameManager.Instance.PersistenceLoader.SetSequenceUnlocked("seqashleyescort", false);
+                GameManager.Instance.ResetGame();
                 GameManager.Instance.CurrentState = GameState.Normal;
                 AudioManager.Instance.Fade(AudioManager.Instance.menuMusic);
                 GameManager.Instance.Ui.GoActionPanelQ.transform.parent.SetParent(GameManager.Instance.Ui.transform);
