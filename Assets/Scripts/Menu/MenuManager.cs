@@ -92,19 +92,19 @@ public class MenuManager : MonoBehaviour {
                 GameObject goCardLevel = Instantiate(prefabLevelCard, goDeck.transform);
                 goCardLevel.transform.localPosition = Vector3.zero;
                 goCardLevel.transform.localRotation = GoDeck.transform.GetChild(0).rotation;
-                goCardLevel.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = leveldb.listLevels[i].name;
+                goCardLevel.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = Translater.LevelName(leveldb.listLevels[i].name);
                 switch (leveldb.listLevels[i].difficulty){
                     case "Easy":
-                        goCardLevel.transform.GetChild(0).GetChild(1).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteEasy;
+                        goCardLevel.transform.GetChild(0).GetChild(1).GetComponent<Image>().sprite = Translater.LevelDifficulty(1);
                         break;
                     case "Medium":
-                        goCardLevel.transform.GetChild(0).GetChild(1).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteMedium;
+                        goCardLevel.transform.GetChild(0).GetChild(1).GetComponent<Image>().sprite = Translater.LevelDifficulty(2);
                         break;
                     case "Hard":
-                        goCardLevel.transform.GetChild(0).GetChild(1).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteHard;
+                        goCardLevel.transform.GetChild(0).GetChild(1).GetComponent<Image>().sprite = Translater.LevelDifficulty(3);
                         break;
                     default:
-                        goCardLevel.transform.GetChild(0).GetChild(1).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteTrivial;
+                        goCardLevel.transform.GetChild(0).GetChild(1).GetComponent<Image>().sprite = Translater.LevelDifficulty(0);
                         break;
                 }
 

@@ -1584,4 +1584,36 @@ public class Translater
         else
             return GameManager.Instance.Texture2DUtils.creditsEN;
     }
+
+    public static string LevelName(string _levelName)
+    {
+        if (CurrentLanguage == LanguageEnum.FR)
+        {
+            if (_levelName == "Tutorial") return "Tutoriel";
+            if (_levelName == "The Journey") return "Le Périple";
+            if (_levelName == "Mother") return "Mère";
+            return "???";
+        }
+        else
+            return _levelName;
+    }
+
+    public static Sprite LevelDifficulty(int _diff)
+    {
+        if (CurrentLanguage == LanguageEnum.FR)
+        {
+            if (_diff == 1) return GameManager.Instance.SpriteUtils.spriteEasyFR;
+            if (_diff == 2) return GameManager.Instance.SpriteUtils.spriteMediumFR;
+            if (_diff == 3) return GameManager.Instance.SpriteUtils.spriteHardFR;
+            return GameManager.Instance.SpriteUtils.spriteTrivialFR;
+        }
+        else
+        {
+            if (_diff == 1) return GameManager.Instance.SpriteUtils.spriteEasy;
+            if (_diff == 2) return GameManager.Instance.SpriteUtils.spriteMedium;
+            if (_diff == 3) return GameManager.Instance.SpriteUtils.spriteHard;
+            return GameManager.Instance.SpriteUtils.spriteTrivial;
+
+        }
+    }
 }
