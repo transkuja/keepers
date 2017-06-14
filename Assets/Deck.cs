@@ -6,6 +6,13 @@ public class Deck : MonoBehaviour {
 
     private bool isOpen = false;
 
+    void Start()
+    {
+        Material mat = GetComponent<MeshRenderer>().material;
+        mat.mainTexture = Translater.DeckTexture();
+        mat.SetTexture("_EmissionMap", Translater.DeckTexture());
+    }
+
     public bool IsOpen
     {
         get

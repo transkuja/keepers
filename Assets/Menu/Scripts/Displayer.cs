@@ -15,6 +15,8 @@ public class Displayer : MonoBehaviour {
     {
         menuUI = GameObject.FindObjectOfType<MenuUI>();
         menuManager = GameObject.FindObjectOfType<MenuManager>();
+        Material mat = GetComponent<MeshRenderer>().material;
+        mat.mainTexture = Translater.CharactersCardsTexture();
     }
 
     public bool NeedToBeShown

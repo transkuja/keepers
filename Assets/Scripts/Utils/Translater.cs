@@ -1585,12 +1585,28 @@ public class Translater
             return GameManager.Instance.Texture2DUtils.creditsEN;
     }
 
+    public static Texture2D DeckTexture()
+    {
+        if (CurrentLanguage == LanguageEnum.FR)
+            return GameManager.Instance.Texture2DUtils.deckTextureFR;
+        else
+            return GameManager.Instance.Texture2DUtils.deckTextureEN;
+    }
+
+    public static Texture2D CharactersCardsTexture()
+    {
+        if (CurrentLanguage == LanguageEnum.FR)
+            return GameManager.Instance.Texture2DUtils.charactersCardsFR;
+        else
+            return GameManager.Instance.Texture2DUtils.charactersCardsEN;
+    }
+
     public static string LevelName(string _levelName)
     {
         if (CurrentLanguage == LanguageEnum.FR)
         {
             if (_levelName == "Tutorial") return "Tutoriel";
-            if (_levelName == "The Journey") return "Le Périple";
+            if (_levelName == "The journey") return "Le périple";
             if (_levelName == "Mother") return "Mère";
             return "???";
         }

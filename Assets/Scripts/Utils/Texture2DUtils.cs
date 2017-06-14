@@ -35,6 +35,13 @@ public class Texture2DUtils : MonoBehaviour {
     public Texture2D creditsEN;
     public Texture2D creditsFR;
 
+    [Header("Deck")]
+    public Texture2D deckTextureEN;
+    public Texture2D deckTextureFR;
+
+    [Header("Characters' Cards")]
+    public Texture2D charactersCardsEN;
+    public Texture2D charactersCardsFR;
 
     public Texture2D GetTextureFromFaceData(Face faceData)
     {
