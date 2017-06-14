@@ -94,10 +94,17 @@ public class SpriteUIUtils : MonoBehaviour {
     public Sprite level1;
     public Sprite level2;
     public Sprite level3;
+    public Sprite level1FR;
+    public Sprite level2FR;
+    public Sprite level3FR;
     public Sprite VictoryEN;
     public Sprite DefeatEN;
     public Sprite VictoryFR;
     public Sprite DefeatFR;
+
+    [Header("Defeat Screens")]
+    public Sprite loseScreen;
+    public Sprite loseScreenFR;
 
     [Header("Feedbacks")]
     public Sprite hungerFeedback;

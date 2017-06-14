@@ -1539,7 +1539,7 @@ public class Translater
         }
     }
 
-    public static Sprite WinningScreen(bool _won)
+    public static Sprite BattleWinningScreen(bool _won)
     {
         if (CurrentLanguage == LanguageEnum.FR)
         {
@@ -1551,5 +1551,37 @@ public class Translater
             if (_won) return GameManager.Instance.SpriteUtils.VictoryEN;
             return GameManager.Instance.SpriteUtils.DefeatEN;
         }
+    }
+
+    public static Sprite EndLevelWinningScreen(int _levelIndex)
+    {
+        if (CurrentLanguage == LanguageEnum.FR)
+        {
+            if (_levelIndex == 0) return GameManager.Instance.SpriteUtils.level1FR;
+            if (_levelIndex == 1) return GameManager.Instance.SpriteUtils.level2FR;
+            return GameManager.Instance.SpriteUtils.level3FR;
+        }
+        else
+        {
+            if (_levelIndex == 0) return GameManager.Instance.SpriteUtils.level1;
+            if (_levelIndex == 1) return GameManager.Instance.SpriteUtils.level2;
+            return GameManager.Instance.SpriteUtils.level3;
+        }
+    }
+
+    public static Sprite GameOverScreen()
+    {
+        if (CurrentLanguage == LanguageEnum.FR)
+            return GameManager.Instance.SpriteUtils.loseScreenFR;
+        else
+            return GameManager.Instance.SpriteUtils.loseScreen;
+    }
+
+    public static Texture2D CreditsTexture()
+    {
+        if (CurrentLanguage == LanguageEnum.FR)
+            return GameManager.Instance.Texture2DUtils.creditsFR;
+        else
+            return GameManager.Instance.Texture2DUtils.creditsEN;
     }
 }

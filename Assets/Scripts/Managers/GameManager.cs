@@ -77,6 +77,7 @@ public class GameManager : MonoBehaviour
     private List<GameObject> tilePortalsDisabled = new List<GameObject>();
 
     private bool hasLost = false;
+    public bool menuReload = false;
 
     void Awake()
     {
@@ -96,6 +97,9 @@ public class GameManager : MonoBehaviour
 
         else if (instance != this)
         {
+            if (SceneManager.GetActiveScene().name.Contains("Menu"))
+                instance.menuReload = true;
+
             DontReplayDuckAnimation();
             Destroy(gameObject);
         }
@@ -162,12 +166,16 @@ public class GameManager : MonoBehaviour
         if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Menu new"))
         {
             GameObject boxNavBox = GameObject.Find("Box Nav box");
+            GameObject duckNukeThem = GameObject.Find("DuckNukeThem");
+            if (boxNavBox == null || FindObjectOfType<MenuManager>() == null || GameObject.Find("NewMenu") == null || duckNukeThem == null)
+                return;            
+
             boxNavBox.GetComponent<Animator>().enabled = false;
             boxNavBox.GetComponent<NavMeshAgent>().baseOffset = 0.1f;
             boxNavBox.transform.localPosition = new Vector3(0.0f, 0.025f, -0.22f);
             boxNavBox.GetComponent<boxMove>().enabled = false;
 
-            GameObject.Find("DuckNukeThem").SetActive(false);
+            duckNukeThem.SetActive(false);
             FindObjectOfType<MenuManager>().DuckhavebringThebox = true;
 
             GameObject.Find("NewMenu").GetComponent<MenuUI>().pressR.gameObject.SetActive(false);

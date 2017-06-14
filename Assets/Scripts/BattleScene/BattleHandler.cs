@@ -617,7 +617,7 @@ public class BattleHandler {
         GameManager.Instance.BattleResultScreen.gameObject.SetActive(true);
         Transform header = GameManager.Instance.BattleResultScreen.GetChild((int)BattleResultScreenChildren.Header);
 
-        header.GetComponent<Image>().sprite = Translater.WinningScreen(isVictorious);
+        header.GetComponent<Image>().sprite = Translater.BattleWinningScreen(isVictorious);
         if (isVictorious)
             AudioManager.Instance.Fade(AudioManager.Instance.winningMusic, 0.2f);
 

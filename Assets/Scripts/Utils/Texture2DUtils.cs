@@ -31,6 +31,11 @@ public class Texture2DUtils : MonoBehaviour {
     public Texture2D buffCursor;
     public Texture2D magicCursor;
 
+    [Header("Credits")]
+    public Texture2D creditsEN;
+    public Texture2D creditsFR;
+
+
     public Texture2D GetTextureFromFaceData(Face faceData)
     {
         if (faceData.Type == FaceType.Physical)

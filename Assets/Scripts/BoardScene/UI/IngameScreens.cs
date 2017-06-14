@@ -11,6 +11,7 @@ public class IngameScreens : MonoBehaviour {
     private static IngameScreens instance = null;
     public GameObject pauseMenu;
     public GameObject optionsMenu;
+    public GameObject theMenu;
 
     public void Start()
     {
@@ -22,17 +23,28 @@ public class IngameScreens : MonoBehaviour {
             switch (GameManager.Instance.QuestManager.CurrentQuestDeck.LevelId)
             {
                 case "tuto":
-                    transform.GetChild(0).GetChild((int)IngameScreensEnum.WinScreen).GetComponentInChildren<Image>().sprite = GameManager.Instance.SpriteUtils.level1;
+                    transform.GetChild(0).GetChild((int)IngameScreensEnum.WinScreen).GetComponentInChildren<Image>().sprite = Translater.EndLevelWinningScreen(0);
                     break;
                 case "level1":
-                    transform.GetChild(0).GetChild((int)IngameScreensEnum.WinScreen).GetComponentInChildren<Image>().sprite = GameManager.Instance.SpriteUtils.level2;
+                    transform.GetChild(0).GetChild((int)IngameScreensEnum.WinScreen).GetComponentInChildren<Image>().sprite = Translater.EndLevelWinningScreen(1);
                     break;
                 case "level4":
-                    transform.GetChild(0).GetChild((int)IngameScreensEnum.WinScreen).GetComponentInChildren<Image>().sprite = GameManager.Instance.SpriteUtils.level3;
+                    transform.GetChild(0).GetChild((int)IngameScreensEnum.WinScreen).GetComponentInChildren<Image>().sprite = Translater.EndLevelWinningScreen(4);
                     break;
             }
 
             transform.GetChild(0).GetChild((int)IngameScreensEnum.LanguageSelection).gameObject.SetActive(false);
+
+        }
+        else
+        {
+            if (GameManager.Instance.menuReload)
+            {
+                transform.GetChild(0).GetChild((int)IngameScreensEnum.LanguageSelection).gameObject.SetActive(false);
+                if (theMenu != null)
+                    theMenu.SetActive(true);
+                GameManager.Instance.DontReplayDuckAnimation();
+            }
         }
 
     }
@@ -146,6 +158,8 @@ public class IngameScreens : MonoBehaviour {
     {
         Translater.CurrentLanguage = (LanguageEnum)System.Enum.Parse(typeof(LanguageEnum), selectedLanguage);
         transform.GetChild(0).GetChild((int)IngameScreensEnum.LanguageSelection).gameObject.SetActive(false);
+
+        transform.GetChild(0).GetChild((int)IngameScreensEnum.LoseScreen).GetComponentInChildren<Image>().sprite = Translater.GameOverScreen();
 
         transform.GetChild(0).GetChild((int)IngameScreensEnum.GameSelection).GetChild(0).GetComponent<Text>().text = Translater.GameSelection("new");
         transform.GetChild(0).GetChild((int)IngameScreensEnum.GameSelection).GetChild(1).GetComponent<Text>().text = Translater.GameSelection("");
