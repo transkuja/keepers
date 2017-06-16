@@ -28,8 +28,6 @@ public class SpriteUIUtils : MonoBehaviour {
     public Sprite spriteEndAction;
 
     public Sprite spriteAttack;
-    public Sprite spriteGuard;
-    public Sprite spriteUseSkill;
 
     public Sprite spriteTokenAction;
     public Sprite spriteNoAction;
@@ -38,7 +36,6 @@ public class SpriteUIUtils : MonoBehaviour {
 
     // for death
     [Header("Death")]
-    public Sprite spriteSupport;
     public Sprite spriteDeath;
 
     // Feedback ui
@@ -84,6 +81,10 @@ public class SpriteUIUtils : MonoBehaviour {
     public Sprite spriteAtkDesBoeufs;
     public Sprite spriteDefDesBoeufs;
     public Sprite spriteAggroDesBoeufs;
+    public Sprite VictoryEN;
+    public Sprite DefeatEN;
+    public Sprite VictoryFR;
+    public Sprite DefeatFR;
 
     // Menu
     [Header("Menu")]
@@ -102,10 +103,6 @@ public class SpriteUIUtils : MonoBehaviour {
     public Sprite level1FR;
     public Sprite level2FR;
     public Sprite level3FR;
-    public Sprite VictoryEN;
-    public Sprite DefeatEN;
-    public Sprite VictoryFR;
-    public Sprite DefeatFR;
 
     [Header("Defeat Screens")]
     public Sprite loseScreen;
