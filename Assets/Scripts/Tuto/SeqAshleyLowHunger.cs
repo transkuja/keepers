@@ -60,7 +60,6 @@ public class SeqAshleyLowHunger : Sequence {
 
         public void Message_fct()
         {
-            SeqAshleyLowHunger seqAshleyLowHunger = TutoManager.s_instance.GetComponent<SeqAshleyLowHunger>();
             if (feedback == null)
             {
                 feedback = Instantiate(TutoManager.s_instance.uiPointer, GameManager.Instance.Ui.transform.GetChild(0));

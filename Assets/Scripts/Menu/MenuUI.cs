@@ -78,7 +78,6 @@ public class MenuUI : MonoBehaviour {
     private bool aCardInfoIsShown;
     private bool isACardInfoMovingForShowing;
     private float cardInfoShownfLerp;
-    private int indexInfoShown = 0;
 
     // Pawn
     private bool isAPawnMoving;
@@ -720,8 +719,6 @@ public class MenuUI : MonoBehaviour {
         {
             isACardInfoMovingForShowing = false;
             cardInfoShownfLerp = 0;
-            indexInfoShown = 0;
-
 
 
 

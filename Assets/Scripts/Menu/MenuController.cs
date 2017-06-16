@@ -161,14 +161,13 @@ public class MenuController : MonoBehaviour {
             //    }
             //}
 
-            if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
             RaycastHit hit;
             if (boxOpener.IsBoxOpen)
             {
                 if (EventSystem.current.IsPointerOverGameObject())
                 {
-                    Debug.Log("OnUiComponent");
                     return;
                 }
 
