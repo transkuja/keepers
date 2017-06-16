@@ -159,6 +159,7 @@ public class IngameScreens : MonoBehaviour {
         Translater.CurrentLanguage = (LanguageEnum)System.Enum.Parse(typeof(LanguageEnum), selectedLanguage);
         transform.GetChild(0).GetChild((int)IngameScreensEnum.LanguageSelection).gameObject.SetActive(false);
 
+        Camera.main.GetComponent<CameraMenu>().ResetPosition = true;
         transform.GetChild(0).GetChild((int)IngameScreensEnum.LoseScreen).GetComponentInChildren<Image>().sprite = Translater.GameOverScreen();
 
         transform.GetChild(0).GetChild((int)IngameScreensEnum.GameSelection).GetChild(0).GetComponent<Text>().text = Translater.GameSelection("new");
