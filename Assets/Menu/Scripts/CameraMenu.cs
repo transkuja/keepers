@@ -33,8 +33,17 @@ public class CameraMenu : MonoBehaviour {
 
     void Start()
     {
-        originPos = transform.position;
-        transform.position += new Vector3(1.5f, 0.5f, 1.5f);
+        if (!GameManager.Instance.menuReload)
+        {
+            originPos = transform.position;
+            transform.position += new Vector3(1.5f, 0.5f, 1.5f);
+        }
+        else
+        {
+            foreach (Credits c in credits)
+                c.gameObject.SetActive(true);
+            GetComponent<Animator>().enabled = true;
+        }
     }
 
     void Update()
