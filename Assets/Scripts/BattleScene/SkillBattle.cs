@@ -247,6 +247,7 @@ public class SkillBattle {
             isMeantToHeal = _origin.isMeantToHeal;
             isMeantToBuff = _origin.isMeantToBuff;
             battleAnimation = _origin.battleAnimation;
+            characterSkillIndex = _origin.characterSkillIndex;
         }
     }
 
@@ -358,7 +359,7 @@ public class SkillBattle {
     {
         GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().LockCharactersPanelButtons();
         ConsumeCost();
-        if (SkillName.Contains("Rapid"))
+        if (SkillName.Contains("Rapid") || SkillName.Contains("Rapide"))
             skillUser.HasPlayedARapidSkill = true;
 
         GameObject skillNameUI = GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().SkillName;
@@ -539,7 +540,7 @@ public class SkillBattle {
     {
         GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().LockCharactersPanelButtons();
         ConsumeCost();
-        if (SkillName.Contains("Rapid"))
+        if (SkillName.Contains("Rapid") || SkillName.Contains("Rapide"))
             skillUser.HasPlayedARapidSkill = true;
 
         GameObject skillNameUI = GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().SkillName;

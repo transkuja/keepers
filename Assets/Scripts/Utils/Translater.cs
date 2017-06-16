@@ -1404,7 +1404,7 @@ public class Translater
                 case SkillDescriptionDetailsEnum.Effect:
                     string effect = "";
                     effect += "\nEffet" + ((_skillData.Boeufs.Length > 1) ? "s" : "") + ": ";
-                    if (_skillData.SkillName.Contains("Rapid"))
+                    if (_skillData.SkillName.Contains("Rapide"))
                         effect += "Plus ce sort est utilisé dans un tour, plus la jauge de magie se remplit.";
                     else
                         for (int i = 0; i < _skillData.Boeufs.Length; i++)
