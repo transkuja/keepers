@@ -26,9 +26,9 @@ public class QuestsContainer {
         quests = new List<Quest>();
 
         List<IQuestObjective> mainObjectives = new List<IQuestObjective>();
-        mainObjectives.Add(new PrisonerEscortObjective("Bring Ashley to The End, and ALIVE.", "Bring Ashley to The End, and ALIVE.", null, null));
+        mainObjectives.Add(new PrisonerEscortObjective(Translater.MainQuestTextForReminder(QuestTexts.ObjectiveTitle), "Bring Ashley to The End, and ALIVE.", null, null));
         quests.Add(new Quest(new QuestIdentifier("main_quest_01", ""), 
-                            new QuestText("The last unicorn seal", 
+                            new QuestText(Translater.MainQuestTextForReminder(QuestTexts.Title), 
                             "", 
                             "You're probably wondering why I gathered all of you here today. Well I'll be quick, I want you to bring this wonderful animal, Ashley, to my good and rich friend." + 
                             "Don't worry, you will be rewarded. His name is \"The End\", you'll see his flag from pretty far away, head towards it. I'm counting on you, it is extremely important.", 

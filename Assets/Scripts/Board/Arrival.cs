@@ -5,7 +5,7 @@ using UnityEngine;
 public class Arrival : MonoBehaviour {
 
     void Start () {
-        InterationImplementer.Add(new Interaction(CantEndGame), 0, "Can't End Game", GameManager.Instance.SpriteUtils.spriteEndAction);
+        InterationImplementer.Add(new Interaction(CantEndGame), 0, "Can't End Game", Translater.EndActionSpriteSwap());
         EventManager.OnPawnMove += UpdateAvailability;
 	}
 
@@ -15,14 +15,14 @@ public class Arrival : MonoBehaviour {
         if (pi == objective.prisoner.GetComponent<PawnInstance>() && t == objective.destination)
         {
             InterationImplementer.Remove("Can't End Game");
-            InterationImplementer.Add(new Interaction(ClickEnd), 0, "End Game", GameManager.Instance.SpriteUtils.spriteEndAction);
+            InterationImplementer.Add(new Interaction(ClickEnd), 0, "End Game", Translater.EndActionSpriteSwap());
         }
         else
         {
             if(InterationImplementer.listActionContainers.Find(x => x.strName == "End Game") != null)
             {
                 InterationImplementer.Remove("End Game");
-                InterationImplementer.Add(new Interaction(CantEndGame), 0, "Can't End Game", GameManager.Instance.SpriteUtils.spriteEndAction);
+                InterationImplementer.Add(new Interaction(CantEndGame), 0, "Can't End Game", Translater.EndActionSpriteSwap());
             }
         }
     }

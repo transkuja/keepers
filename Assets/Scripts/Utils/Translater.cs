@@ -445,6 +445,31 @@ public class Translater
         return "";
     }
 
+    public static string MainQuestTextForReminder(QuestTexts _qt)
+    {
+        if (CurrentLanguage == LanguageEnum.FR)
+        {
+            switch (_qt)
+            {
+                case QuestTexts.Title:
+                    return "Le dernier narval";
+                case QuestTexts.ObjectiveTitle:
+                    return "Amener Ashley EN VIE à La Fin.";
+            }
+        }
+        else
+        {
+            switch (_qt)
+            {
+                case QuestTexts.Title:
+                    return "The last unicorn seal";
+                case QuestTexts.ObjectiveTitle:
+                    return "Bring Ashley ALIVE to The End.";
+            }
+        }
+        return "";
+    }
+
     public static string SideQuestsText(string _level, int _questIndex, QuestTexts _qt, CharacterRace _race = CharacterRace.Human)
     {
         if (CurrentLanguage == LanguageEnum.FR)
@@ -1639,5 +1664,13 @@ public class Translater
             return (_isEmpty) ? GameManager.Instance.SpriteUtils.spriteNoActionFR : GameManager.Instance.SpriteUtils.spriteTokenActionFR;
         else
             return (_isEmpty) ? GameManager.Instance.SpriteUtils.spriteNoAction : GameManager.Instance.SpriteUtils.spriteTokenAction;
+    }
+
+    public static Sprite EndActionSpriteSwap()
+    {
+        if (CurrentLanguage == LanguageEnum.FR)
+            return GameManager.Instance.SpriteUtils.spriteEndActionFR;
+        else
+            return GameManager.Instance.SpriteUtils.spriteEndAction;
     }
 }
