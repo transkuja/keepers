@@ -159,7 +159,7 @@ namespace Behaviour
                 else
                     instance.AddFeedBackToQueue(GameManager.Instance.SpriteUtils.spriteMoralBuff, feedbackAmount);
 
-                currentMentalHealth = value + feedbackAmount;
+                currentMentalHealth = value;
 
                 if (feedbackAmount < 0 && currentMentalHealth <= data.MaxMentalHealth / 3.0f)
                 {
