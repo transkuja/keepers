@@ -44,9 +44,17 @@ public class Database
 
     public void Init()
     {
-        string path = Application.dataPath + "/../Data";
+        string path = Path.Combine(Application.streamingAssetsPath, "items.json");
+        string fileContents;
 
-        string fileContents = File.ReadAllText(path + "/items.json");
+        if (path.Contains("://"))
+        {
+            WWW www = new WWW(path);
+            fileContents = www.text;
+        }
+        else
+            fileContents = File.ReadAllText(path);
+
         JSONObject json = JSONObject.Parse(fileContents);
 
         Sprite[] sprites = Resources.LoadAll<Sprite>("Items");

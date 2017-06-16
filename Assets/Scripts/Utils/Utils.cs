@@ -45,5 +45,6 @@ public class Utils {
 
         File.WriteAllBytes(Application.dataPath + "/Textures/CardLevel/SavedScreen" + SceneManager.GetActiveScene().buildIndex + ".png", bytes);
     }
+
 }
 

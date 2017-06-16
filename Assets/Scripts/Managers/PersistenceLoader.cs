@@ -55,11 +55,27 @@ public class PersistenceLoader {
 
     public void Load()
     {
-        string pathBase = Application.dataPath + "/../Data";
+        string pathBase = Application.persistentDataPath;
+        string fileContents;
 
-        string fileContent = File.ReadAllText(pathBase + "/sauvegarde.json");
-        json = JSONObject.Parse(fileContent);
+        if (!File.Exists(pathBase + "/sauvegarde.json"))
+        {
+            string path = Path.Combine(Application.streamingAssetsPath, "sauvegardeReset.json");
 
+            if (path.Contains("://"))
+            {
+                WWW www = new WWW(path);
+                fileContents = www.text;
+            }
+            else
+                fileContents = File.ReadAllText(path);
+
+            File.WriteAllText(pathBase + "/sauvegarde.json", fileContents);
+        }
+        else
+            fileContents = File.ReadAllText(pathBase + "/sauvegarde.json");
+
+        json = JSONObject.Parse(fileContents);
 
         JSONArray pawnArray = json["Pawns"].Array;
         foreach (JSONValue value in pawnArray)
@@ -255,7 +271,7 @@ public class PersistenceLoader {
                 }
             }
         }
-        string pathBase = Application.dataPath + "/../Data";
+        string pathBase = Application.persistentDataPath;
         File.WriteAllText(pathBase + "/sauvegarde.json", json.ToString());
 
         return;
@@ -274,7 +290,7 @@ public class PersistenceLoader {
             }
         }
 
-        string pathBase = Application.dataPath + "/../Data";
+        string pathBase = Application.persistentDataPath;
         File.WriteAllText(pathBase + "/sauvegarde.json", json.ToString());
 
         return;

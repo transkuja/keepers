@@ -81,6 +81,8 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
+        Debug.Log(Application.persistentDataPath);
+
         if (instance == null)
         {
             instance = this;
@@ -1223,7 +1225,7 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
-    public void ResetGame()
+    public void ResetGameData()
     {
         instance.PersistenceLoader.SetPawnUnlocked("grekhan", false);
         instance.PersistenceLoader.SetPawnUnlocked("lupus", false);

@@ -33,10 +33,18 @@ public class LevelDataBase {
 
     public void Load()
     {
-        string pathBase = Application.dataPath + "/../Data";
+        string path = Path.Combine(Application.streamingAssetsPath, "levels.json");
+        string fileContents;
 
-        string fileContent = File.ReadAllText(pathBase + "/levels.json");
-        JSONObject json = JSONObject.Parse(fileContent);
+        if (path.Contains("://"))
+        {
+            WWW www = new WWW(path);
+            fileContents = www.text;
+        }
+        else
+            fileContents = File.ReadAllText(path);
+
+        JSONObject json = JSONObject.Parse(fileContents);
 
         JSONArray levelArray = json["Levels"].Array;
 

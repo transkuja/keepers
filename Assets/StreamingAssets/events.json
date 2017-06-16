@@ -1,0 +1,22 @@
+{ 
+	"Events": [
+		{ 
+			"id": "1", 
+			"name" : "event 1",
+			"description" : "Snow expected",
+			"cardModelName" : "Asset_Carte_Event_01"
+		},
+		{ 
+			"id": "2", 
+			"name" : "event 2",
+			"description" : "The easy way",
+			"cardModelName" : "Asset_Carte_Event_02"
+		},
+		{ 
+			"id": "3", 
+			"name" : "event 3",
+			"description" : "Desert heat wave",
+			"cardModelName" : "Asset_Carte_Event_03"
+		}
+	]
+ }

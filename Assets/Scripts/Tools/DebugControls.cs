@@ -270,7 +270,7 @@ public class DebugControls : MonoBehaviour {
 
             if (Input.GetKeyDown(KeyCode.R))
             {
-                GameManager.Instance.ResetGame();
+                GameManager.Instance.ResetGameData();
                 GameManager.Instance.CurrentState = GameState.Normal;
                 AudioManager.Instance.Fade(AudioManager.Instance.menuMusic);
                 GameManager.Instance.Ui.GoActionPanelQ.transform.parent.SetParent(GameManager.Instance.Ui.transform);

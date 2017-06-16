@@ -29,10 +29,18 @@ public class PawnDatabase {
 
     public void Init()
     {
-        string pathBase = Application.dataPath + "/../Data";
+        string path = Path.Combine(Application.streamingAssetsPath, "pawns.json");
+        string fileContents;
 
-        string fileContent = File.ReadAllText(pathBase + "/pawns.json");
-        JSONObject json = JSONObject.Parse(fileContent);
+        if (path.Contains("://"))
+        {
+            WWW www = new WWW(path);
+            fileContents = www.text;
+        }
+        else
+            fileContents = File.ReadAllText(path);
+
+        JSONObject json = JSONObject.Parse(fileContents);
 
         JSONArray pawnArray = json["Pawns"].Array;
 

@@ -1,0 +1,122 @@
+{
+	"items": [
+		{
+			"type": "Ressource",
+			"item" : { 
+				"id": "resource01",
+				"itemName": "Berries",
+				"description": "Restores 3 hunger",
+				"inventorySprite": "Items_0",
+				"ingameVisual": "Models/Items/Berry",
+				"use": "DecreaseHunger",
+				"value": 3
+			}
+		},
+		{
+			"type": "Ressource",
+			"item" : { 
+				"id": "resource02",
+				"itemName": "Mushroom",
+				"description": "Restores 5 hunger",
+				"inventorySprite": "Items_1",
+				"ingameVisual": "Models/Items/Mushroom",
+				"use": "DecreaseHunger",
+				"value": 5
+			}
+		},
+		{
+			"type": "Ressource",
+			"item" : { 
+				"id": "resource03",
+				"itemName": "Wheat",
+				"description": "Restores 10 hunger",
+				"inventorySprite": "Items_2",
+				"ingameVisual": "Models/Items/Wheat",
+				"use": "DecreaseHunger",
+				"value": 10
+			}
+		},
+		{
+			"type": "Ressource",
+			"item" : { 
+				"id": "resource04",
+				"itemName": "Ananas",
+				"description": "Restores 8 hunger",
+				"inventorySprite": "Items_4",
+				"ingameVisual": "Models/Items/Ananas",
+				"use": "DecreaseHunger",
+				"value": 8
+			}
+		},
+		{
+			"type": "Ressource",
+			"item" : { 
+				"id": "resource05",
+				"itemName": "RadisViolet",
+				"description": "Restores 5 hunger",
+				"inventorySprite": "Items_5",
+				"ingameVisual": "Models/Items/RadisViolet",
+				"use": "DecreaseHunger",
+				"value": 5
+			}
+		},
+		{
+			"type": "Ressource",
+			"item" : { 
+				"id": "resource06",
+				"itemName": "RadisRouge",
+				"description": "Restores 5 hunger",
+				"inventorySprite": "Items_6",
+				"ingameVisual": "Models/Items/RadisRouge",
+				"use": "DecreaseHunger",
+				"value": 5
+			}
+		},
+				{
+			"type": "Ressource",
+			"item" : { 
+				"id": "resource07",
+				"itemName": "Coconut",
+				"description": "Restores 7 hunger",
+				"inventorySprite": "Items_7",
+				"ingameVisual": "Models/Items/Coconut",
+				"use": "DecreaseHunger",
+				"value": 7
+			}
+		},
+				{
+			"type": "Ressource",
+			"item" : { 
+				"id": "resource08",
+				"itemName": "Meat",
+				"description": "Restores 15 hunger",
+				"inventorySprite": "Items_8",
+				"use": "DecreaseHunger",
+				"value": 15
+			}
+		},
+		{
+			"type": "Ressource",
+			"item" : { 
+				"id": "resource09",
+				"itemName": "Fish",
+				"description": "Restores 20 hunger",
+				"inventorySprite": "Items_9",
+				"use": "DecreaseHunger",
+				"value": 20
+			}
+		},
+		{
+			"type": "Ressource",
+			"item" : { 
+				"id": "thecookie",
+				"itemName": "Cookie",
+				"description": "Prevents starving",
+				"inventorySprite": "Items_3",
+				"ingameVisual": "",
+				"use": "DecreaseHunger",
+				"value": 9999
+			}
+		}
+	]
+}

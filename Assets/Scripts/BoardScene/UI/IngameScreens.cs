@@ -170,7 +170,7 @@ public class IngameScreens : MonoBehaviour {
     public void ChooseGame(string selectedOption)
     {
         if (selectedOption == "new")
-            GameManager.Instance.ResetGame();
+            GameManager.Instance.ResetGameData();
 
         transform.GetChild(0).GetChild((int)IngameScreensEnum.GameSelection).gameObject.SetActive(false);
     }

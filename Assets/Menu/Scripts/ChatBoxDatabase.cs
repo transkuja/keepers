@@ -23,10 +23,18 @@ public static class ChatBoxDatabase
     {
         tabEmotes = new List<string>[5] {new List<string>(),new List<string>(),new List<string>(),new List<string>(), new List<string>() };
 
-        string pathBase = Application.dataPath + "/../Data";
+        string path = Path.Combine(Application.streamingAssetsPath, "chatbox.json");
+        string fileContents;
 
-        string fileContent = File.ReadAllText(pathBase + "/chatbox.json");
-        JSONObject json = JSONObject.Parse(fileContent);
+        if (path.Contains("://"))
+        {
+            WWW www = new WWW(path);
+            fileContents = www.text;
+        }
+        else
+            fileContents = File.ReadAllText(path);
+
+        JSONObject json = JSONObject.Parse(fileContents);
 
         JSONArray Array = json["Awaiting"].Array;
         foreach (JSONValue entry in Array)

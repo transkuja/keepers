@@ -1,0 +1,53 @@
+{ 
+	"Awaiting": [   
+		"Pick me!",
+		"Click on me!",
+		"Over here!"
+	],
+	"Chosen": [   
+		"Yahouuu !", 
+		"I'm the chosen one!",
+		"Oh my god !",
+	],
+	"Picked": [   
+		"Let's get ready to rumble!", 
+		"Let's go!",
+		"I'm all out of gum ...",
+	],
+	"Unchosen": [   
+		"Nooooooo...", 
+		"Hey i'm not a toy!",
+		"Can't handle me ?",
+	],
+	"AwaitingFr": [   
+		"Par ici!", 
+		"Choisis-moi!",
+		"Clique sur moi!",
+	],
+	"ChosenFr": [   
+		"Yahouuu !", 
+		"Je suis l'élu!",
+		"Génial!",
+	],
+	"PickedFr": [   
+		"Prêt à partir!", 
+		"Allons-y!",
+		"L'aventure nous attend!",
+	],
+	"UnchosenFr": [   
+		"Nooooooon...", 
+		"Je ne suis pas un jouet!",
+	],
+	"WhoAmI": [   
+		"Remi !", 
+		"Seb !",
+		"Anthony !",
+		"Gwen Gwen ! ",
+		"Quentin !",
+		"Anais  !",
+		"Créajeux !",
+		"Quak Quak"
+	]
+
+
+ }

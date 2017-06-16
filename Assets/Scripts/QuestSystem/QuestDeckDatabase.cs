@@ -58,10 +58,18 @@ namespace QuestDeckLoader
 
         public void Init()
         {
-            string pathBase = Application.dataPath + "/../Data";
+            string path = Path.Combine(Application.streamingAssetsPath, "questDecks.json");
+            string fileContents;
 
-            string fileContent = File.ReadAllText(pathBase + "/questDecks.json");
-            JSONObject json = JSONObject.Parse(fileContent);
+            if (path.Contains("://"))
+            {
+                WWW www = new WWW(path);
+                fileContents = www.text;
+            }
+            else
+                fileContents = File.ReadAllText(path);
+
+            JSONObject json = JSONObject.Parse(fileContents);
 
             JSONArray questDeckArray = json["QuestDecks"].Array;
 
