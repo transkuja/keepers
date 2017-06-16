@@ -422,16 +422,16 @@ namespace Behaviour
                 if (actionPoint > i )
                 {
                     if (SelectedActionPointsUI.transform.childCount > i) 
-                        SelectedActionPointsUI.transform.GetChild(i).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteTokenAction;
+                        SelectedActionPointsUI.transform.GetChild(i).GetComponent<Image>().sprite = Translater.ActionPointsSprite(false);
                     if (shortcutActionPointUi.transform.childCount > i)
-                        shortcutActionPointUi.transform.GetChild(i).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteTokenAction;
+                        shortcutActionPointUi.transform.GetChild(i).GetComponent<Image>().sprite = Translater.ActionPointsSprite(false);
                 }
                 else
                 {
                     if (SelectedActionPointsUI.transform.childCount > i)
-                        SelectedActionPointsUI.transform.GetChild(i).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteNoAction;
+                        SelectedActionPointsUI.transform.GetChild(i).GetComponent<Image>().sprite = Translater.ActionPointsSprite(true);
                     if (shortcutActionPointUi.transform.childCount > i)
-                        shortcutActionPointUi.transform.GetChild(i).GetComponent<Image>().sprite = GameManager.Instance.SpriteUtils.spriteNoAction;
+                        shortcutActionPointUi.transform.GetChild(i).GetComponent<Image>().sprite = Translater.ActionPointsSprite(true);
                 }
             }
         }

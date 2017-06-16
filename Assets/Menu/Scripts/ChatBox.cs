@@ -42,7 +42,8 @@ public class ChatBox : MonoBehaviour {
     public float fScaleSpeed = 10;
     string[] lupusTexts = { "Wouf!", "Waf Wouf!", "Wouuuf?" };
     string[] luckyTexts = { "Mew!", "Mew Mew!", "Meooooow?" };
-    // Use this for initialization
+    string[] lupusTextsFR = { "Ouaf!", "Ouaf Wouf!", "Ouuuaf?" };
+    string[] luckyTextsFR = { "Miaou!", "Miaou Miaou!", "Miaouuuu?" };
 
     public void Start()
     {
@@ -77,11 +78,11 @@ public class ChatBox : MonoBehaviour {
                     {
                         //txt.text = tabEmotes[(int)mode][Random.Range(0, tabEmotes[(int)mode].Count)];
                         if (trTarget.name.Contains("Lupus"))
-                            txt.text = lupusTexts[Random.Range(0, 3)];
+                            txt.text = (Translater.CurrentLanguage == LanguageEnum.FR) ? lupusTextsFR[Random.Range(0, 3)] : lupusTexts[Random.Range(0, 3)];
                         else if (trTarget.name.Contains("Kitties"))
-                            txt.text = luckyTexts[Random.Range(0, 3)];
+                            txt.text = (Translater.CurrentLanguage == LanguageEnum.FR) ? luckyTextsFR[Random.Range(0, 3)] : luckyTexts[Random.Range(0, 3)];
                         else
-                            txt.text = ChatBoxDatabase.tabEmotes[(int)mode][Random.Range(0, ChatBoxDatabase.tabEmotes[(int)mode].Count)];
+                            txt.text = ChatBoxDatabase.TabEmotes[(int)mode][Random.Range(0, ChatBoxDatabase.TabEmotes[(int)mode].Count)];
 
                         TriggerScale();
                     }
@@ -204,11 +205,11 @@ public class ChatBox : MonoBehaviour {
     public void Say(ChatBox.ChatMode mode)
     {
         if (trTarget.name.Contains("Lupus"))
-            txt.text = lupusTexts[Random.Range(0, 3)];
+            txt.text = (Translater.CurrentLanguage == LanguageEnum.FR) ? lupusTextsFR[Random.Range(0, 3)] : lupusTexts[Random.Range(0, 3)];
         else if (trTarget.name.Contains("Kitties"))
-            txt.text = luckyTexts[Random.Range(0, 3)];
+            txt.text = (Translater.CurrentLanguage == LanguageEnum.FR) ? luckyTextsFR[Random.Range(0, 3)] : luckyTexts[Random.Range(0, 3)];
         else
-            txt.text = ChatBoxDatabase.tabEmotes[(int)mode][Random.Range(0, ChatBoxDatabase.tabEmotes[(int)mode].Count)];
+            txt.text = ChatBoxDatabase.TabEmotes[(int)mode][Random.Range(0, ChatBoxDatabase.TabEmotes[(int)mode].Count)];
         //transform.SetAsFirstSibling();
         TriggerScale();
     }
@@ -216,11 +217,11 @@ public class ChatBox : MonoBehaviour {
     public void Say(ChatBox.ChatMode mode , int i)
     {
         if (trTarget.name.Contains("Lupus"))
-            txt.text = lupusTexts[Random.Range(0, 3)];
+            txt.text = (Translater.CurrentLanguage == LanguageEnum.FR) ? lupusTextsFR[Random.Range(0, 3)] : lupusTexts[Random.Range(0, 3)];
         else if (trTarget.name.Contains("Kitties"))
-            txt.text = luckyTexts[Random.Range(0, 3)];
+            txt.text = (Translater.CurrentLanguage == LanguageEnum.FR) ? luckyTextsFR[Random.Range(0, 3)] : luckyTexts[Random.Range(0, 3)];
         else
-            txt.text = ChatBoxDatabase.tabEmotes[(int)mode][i];
+            txt.text = ChatBoxDatabase.TabEmotes[(int)mode][i];
         //transform.SetAsFirstSibling();
         TriggerScale();
     }

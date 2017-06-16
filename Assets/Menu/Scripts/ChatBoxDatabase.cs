@@ -7,6 +7,17 @@ using Boomlagoon.JSON;
 public static class ChatBoxDatabase
 {
     public static List<string>[] tabEmotes;
+    public static List<string>[] tabEmotesFR;
+
+    public static List<string>[] TabEmotes
+    {
+        get
+        {
+            if (Translater.CurrentLanguage == LanguageEnum.FR) return tabEmotesFR;
+            else            
+                return tabEmotes;            
+        }
+    }
 
     public static void Load()
     {
@@ -41,10 +52,37 @@ public static class ChatBoxDatabase
             tabEmotes[3].Add(entry.Str);
         }
 
+        tabEmotesFR = new List<string>[5] { new List<string>(), new List<string>(), new List<string>(), new List<string>(), new List<string>() };
+
+        Array = json["AwaitingFr"].Array;
+        foreach (JSONValue entry in Array)
+        {
+            tabEmotesFR[0].Add(entry.Str);
+        }
+
+        Array = json["ChosenFr"].Array;
+        foreach (JSONValue entry in Array)
+        {
+            tabEmotesFR[1].Add(entry.Str);
+        }
+
+        Array = json["PickedFr"].Array;
+        foreach (JSONValue entry in Array)
+        {
+            tabEmotesFR[2].Add(entry.Str);
+        }
+
+        Array = json["UnchosenFr"].Array;
+        foreach (JSONValue entry in Array)
+        {
+            tabEmotesFR[3].Add(entry.Str);
+        }
+
         Array = json["WhoAmI"].Array;
         foreach (JSONValue entry in Array)
         {
             tabEmotes[4].Add(entry.Str);
+            tabEmotesFR[4].Add(entry.Str);
         }
     }
 }

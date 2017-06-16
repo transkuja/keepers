@@ -33,6 +33,8 @@ public class SpriteUIUtils : MonoBehaviour {
 
     public Sprite spriteTokenAction;
     public Sprite spriteNoAction;
+    public Sprite spriteTokenActionFR;
+    public Sprite spriteNoActionFR;
 
     // for death
     [Header("Death")]
@@ -89,7 +91,6 @@ public class SpriteUIUtils : MonoBehaviour {
     public Sprite spriteEasy;
     public Sprite spriteMedium;
     public Sprite spriteHard;
-    public Sprite spriteTrivialFR;
     public Sprite spriteEasyFR;
     public Sprite spriteMediumFR;
     public Sprite spriteHardFR;

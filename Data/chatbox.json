@@ -1,8 +1,8 @@
 { 
 	"Awaiting": [   
-		"Claw is our master", 
-		"Pick me !",
-		"ZZZzzzzZzzz"
+		"Pick me!",
+		"Click on me!",
+		"Over here!"
 	],
 	"Chosen": [   
 		"Yahouuu !", 
@@ -18,6 +18,25 @@
 		"Nooooooo...", 
 		"Hey i'm not a toy!",
 		"Can't handle me ?",
+	],
+	"AwaitingFr": [   
+		"Par ici!", 
+		"Choisis-moi!",
+		"Clique sur moi!",
+	],
+	"ChosenFr": [   
+		"Yahouuu !", 
+		"Je suis l'élu!",
+		"Génial!",
+	],
+	"PickedFr": [   
+		"Prêt à partir!", 
+		"Allons-y!",
+		"L'aventure nous attend!",
+	],
+	"UnchosenFr": [   
+		"Nooooooon...", 
+		"Je ne suis pas un jouet!",
 	],
 	"WhoAmI": [   
 		"Remi !", 

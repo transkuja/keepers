@@ -1621,7 +1621,7 @@ public class Translater
             if (_diff == 1) return GameManager.Instance.SpriteUtils.spriteEasyFR;
             if (_diff == 2) return GameManager.Instance.SpriteUtils.spriteMediumFR;
             if (_diff == 3) return GameManager.Instance.SpriteUtils.spriteHardFR;
-            return GameManager.Instance.SpriteUtils.spriteTrivialFR;
+            return GameManager.Instance.SpriteUtils.spriteTrivial;
         }
         else
         {
@@ -1631,5 +1631,13 @@ public class Translater
             return GameManager.Instance.SpriteUtils.spriteTrivial;
 
         }
+    }
+
+    public static Sprite ActionPointsSprite(bool _isEmpty)
+    {
+        if (CurrentLanguage == LanguageEnum.FR)
+            return (_isEmpty) ? GameManager.Instance.SpriteUtils.spriteNoActionFR : GameManager.Instance.SpriteUtils.spriteTokenActionFR;
+        else
+            return (_isEmpty) ? GameManager.Instance.SpriteUtils.spriteNoAction : GameManager.Instance.SpriteUtils.spriteTokenAction;
     }
 }
