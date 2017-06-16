@@ -34,7 +34,7 @@ public class CameraMenu : MonoBehaviour {
     void Start()
     {
         originPos = transform.position;
-        transform.position += new Vector3(1.5f, 1.0f, 1.0f);
+        transform.position += new Vector3(1.5f, 0.5f, 1.5f);
     }
 
     void Update()
@@ -45,8 +45,13 @@ public class CameraMenu : MonoBehaviour {
             if (lerpParam >= 1.0f)
             {
                 resetPosition = false;
+                GetComponent<Animator>().enabled = true;
             }
             transform.position = Vector3.Lerp(lerpStartPosition, originPos, Mathf.Clamp(lerpParam, 0, 1));
         }
+    }
+
+    public void ShowMiniature()    {
+
     }
 }
