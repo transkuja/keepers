@@ -342,7 +342,7 @@ public class MenuUI : MonoBehaviour {
                 break;
             case "deck_02":
                 startButtonImg.transform.GetChild(0).GetComponent<Text>().color = Color.green;
-                if (menuManager.ListeSelectedKeepers.Count == 3)
+                if (menuManager.ListeSelectedKeepers.Count <= 3 && menuManager.ListeSelectedKeepers.Count > 0)
                 {
             
                     startButtonImg.transform.GetChild(1).GetComponent<Text>().color = Color.green;
@@ -357,7 +357,7 @@ public class MenuUI : MonoBehaviour {
             case "deck_03":
             case "deck_04":
                 startButtonImg.transform.GetChild(0).GetComponent<Text>().color = Color.green;
-                if (menuManager.ListeSelectedKeepers.Count == 3)
+                if (menuManager.ListeSelectedKeepers.Count <= 3 && menuManager.ListeSelectedKeepers.Count > 0)
                 {
 
                     startButtonImg.transform.GetChild(1).GetComponent<Text>().color = Color.green;
@@ -377,8 +377,8 @@ public class MenuUI : MonoBehaviour {
         }
 
         if (menuManager.ListeSelectedKeepers.Count == 0 || menuManager.CardLevelSelected == -1 || menuManager.DeckOfCardsSelected == string.Empty
-            || (menuManager.DeckOfCardsSelected == "deck_04" && menuManager.ListeSelectedKeepers.Count != 3)
-            || (menuManager.DeckOfCardsSelected == "deck_02" && menuManager.ListeSelectedKeepers.Count != 3)
+            || (menuManager.DeckOfCardsSelected == "deck_04" && (menuManager.ListeSelectedKeepers.Count > 3 || menuManager.ListeSelectedKeepers.Count == 0))
+            || (menuManager.DeckOfCardsSelected == "deck_02" && (menuManager.ListeSelectedKeepers.Count > 3 || menuManager.ListeSelectedKeepers.Count == 0))
             || (menuManager.DeckOfCardsSelected == "deck_01" && menuManager.ListeSelectedKeepers.Count != 1))
         {
             startButtonImg.GetComponent<Button>().interactable = false;
