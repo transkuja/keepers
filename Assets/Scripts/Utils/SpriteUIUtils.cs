@@ -26,6 +26,7 @@ public class SpriteUIUtils : MonoBehaviour {
     public Sprite spriteMoralBuff;
     public Sprite spriteMoralDebuff;
     public Sprite spriteEndAction;
+    public Sprite spriteEndActionFR;
 
     public Sprite spriteAttack;
 

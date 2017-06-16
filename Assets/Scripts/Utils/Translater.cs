@@ -1665,4 +1665,12 @@ public class Translater
         else
             return (_isEmpty) ? GameManager.Instance.SpriteUtils.spriteNoAction : GameManager.Instance.SpriteUtils.spriteTokenAction;
     }
+
+    public static Sprite EndActionSpriteSwap()
+    {
+        if (CurrentLanguage == LanguageEnum.FR)
+            return GameManager.Instance.SpriteUtils.spriteEndActionFR;
+        else
+            return GameManager.Instance.SpriteUtils.spriteEndAction;
+    }
 }
