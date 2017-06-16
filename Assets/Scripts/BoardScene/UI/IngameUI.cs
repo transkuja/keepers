@@ -359,7 +359,7 @@ public class IngameUI : MonoBehaviour
 
     public void UpdateDay()
     {
-       TurnPanel.transform.GetChild(2).GetComponentInChildren<Text>().text = Translater.EndTurnButtonText() + GameManager.Instance.NbTurn;
+       TurnPanel.transform.GetChild(2).GetComponentInChildren<Text>().text = Translater.EndTurnButtonText() + " " + GameManager.Instance.NbTurn;
     }
     #endregion
 

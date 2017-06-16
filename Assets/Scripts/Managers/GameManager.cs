@@ -81,8 +81,6 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        Debug.Log(Application.persistentDataPath);
-
         if (instance == null)
         {
             instance = this;
@@ -222,7 +220,7 @@ public class GameManager : MonoBehaviour
 
         instance.nbTurn = 1;
         hasLost = false;
-        GameManager.instance.Ui.UpdateDay();
+        instance.Ui.UpdateDay();
         instance.currentState = GameState.Normal;
         instance.ui.gameObject.SetActive(false);
         instance.ui.ResetIngameUI();
