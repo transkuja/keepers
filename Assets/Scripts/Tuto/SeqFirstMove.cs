@@ -46,9 +46,12 @@ public class SeqFirstMove : Sequence {
 
         public override void Reverse()
         {
-            if (GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().transform.GetChild(0).gameObject.GetComponent<ThrowDiceButtonFeedback>() != null)
-                Destroy(GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().transform.GetChild(0).gameObject.GetComponent<ThrowDiceButtonFeedback>());
-            GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().interactable = true;
+            if (GameManager.Instance.Ui.GoActionPanelQ != null)
+            {
+                if (GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().transform.GetChild(0).gameObject.GetComponent<ThrowDiceButtonFeedback>() != null)
+                    Destroy(GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().transform.GetChild(0).gameObject.GetComponent<ThrowDiceButtonFeedback>());
+                GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().interactable = true;
+            }
             Destroy(feedbackPointer);
             alreadyPlayed = false;
         }
@@ -73,7 +76,8 @@ public class SeqFirstMove : Sequence {
 
         public override void Reverse()
         {
-            GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().interactable = true;
+            if (GameManager.Instance.Ui.GoActionPanelQ != null)
+                GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().interactable = true;
             alreadyPlayed = false;
         }
     }
@@ -100,10 +104,13 @@ public class SeqFirstMove : Sequence {
     
         public override void Reverse()
         {
-            if (GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().gameObject.GetComponent<ThrowDiceButtonFeedback>() != null)
-                Destroy(GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().gameObject.GetComponent<ThrowDiceButtonFeedback>());
-            if (GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().gameObject.GetComponent<MouseClickExpected>() != null)
-                Destroy(GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().gameObject.GetComponent<MouseClickExpected>());
+            if (GameManager.Instance.Ui.GoActionPanelQ != null)
+            {
+                if (GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().gameObject.GetComponent<ThrowDiceButtonFeedback>() != null)
+                    Destroy(GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().gameObject.GetComponent<ThrowDiceButtonFeedback>());
+                if (GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().gameObject.GetComponent<MouseClickExpected>() != null)
+                    Destroy(GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().gameObject.GetComponent<MouseClickExpected>());
+            }
 
             alreadyPlayed = false;
         }
