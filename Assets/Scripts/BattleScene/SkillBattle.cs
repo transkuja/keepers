@@ -363,6 +363,8 @@ public class SkillBattle {
             skillUser.HasPlayedARapidSkill = true;
 
         GameObject skillNameUI = GameManager.Instance.GetBattleUI.GetComponent<UIBattleHandler>().SkillName;
+        Debug.Log(characterSkillIndex);
+
         if (Translater.CurrentLanguage != LanguageEnum.EN)
         {
             if (skillUser.GetComponent<LuckBased>() != null)

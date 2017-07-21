@@ -3,7 +3,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using Behaviour;
 
-public class SeqFirstMove : Sequence {
+public class SeqFirstMove : Sequence
+{
     private GameObject pawnMrResetti;
     public AnimationClip jumpAnimationClip;
 
@@ -46,12 +47,24 @@ public class SeqFirstMove : Sequence {
 
         public override void Reverse()
         {
-            if (GameManager.Instance.Ui.GoActionPanelQ != null)
+
+            if (GameManager.Instance != null)
             {
-                if (GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().transform.GetChild(0).gameObject.GetComponent<ThrowDiceButtonFeedback>() != null)
-                    Destroy(GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().transform.GetChild(0).gameObject.GetComponent<ThrowDiceButtonFeedback>());
-                GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().interactable = true;
+                if (GameManager.Instance.Ui != null)
+                {
+                    if (GameManager.Instance.Ui.GoActionPanelQ != null)
+                    {
+                        if (GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>() != null)
+                        {
+                            if (GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().transform.GetChild(0).gameObject.GetComponent<ThrowDiceButtonFeedback>() != null)
+                                Destroy(GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().transform.GetChild(0).gameObject.GetComponent<ThrowDiceButtonFeedback>());
+                            GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().interactable = true;
+
+                        }
+                    }
+                }
             }
+
             Destroy(feedbackPointer);
             alreadyPlayed = false;
         }
@@ -101,15 +114,24 @@ public class SeqFirstMove : Sequence {
             TutoManager.s_instance.EcrireMessage(str);
             TutoManager.s_instance.PlayingSequence.CurrentState = SequenceState.WaitingForClickUI;
         }
-    
+
         public override void Reverse()
         {
-            if (GameManager.Instance.Ui.GoActionPanelQ != null)
+            if (GameManager.Instance != null)
             {
-                if (GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().gameObject.GetComponent<ThrowDiceButtonFeedback>() != null)
-                    Destroy(GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().gameObject.GetComponent<ThrowDiceButtonFeedback>());
-                if (GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().gameObject.GetComponent<MouseClickExpected>() != null)
-                    Destroy(GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().gameObject.GetComponent<MouseClickExpected>());
+                if (GameManager.Instance.Ui != null)
+                {
+                    if (GameManager.Instance.Ui.GoActionPanelQ != null)
+                    {
+                        if (GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>() != null)
+                        {
+                            if (GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().gameObject.GetComponent<ThrowDiceButtonFeedback>() != null)
+                                Destroy(GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().gameObject.GetComponent<ThrowDiceButtonFeedback>());
+                            if (GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().gameObject.GetComponent<MouseClickExpected>() != null)
+                                Destroy(GameManager.Instance.Ui.GoActionPanelQ.GetComponentInChildren<Button>().gameObject.GetComponent<MouseClickExpected>());
+                        }
+                    }
+                }
             }
 
             alreadyPlayed = false;
@@ -138,7 +160,7 @@ public class SeqFirstMove : Sequence {
             if (feedbackMouse == null)
             {
                 feedbackMouse = Instantiate(GameManager.Instance.PrefabUIUtils.PrefabImageUI, GameManager.Instance.Ui.transform.GetChild(0));
-                feedbackMouse.transform.position = Camera.main.WorldToScreenPoint(GameManager.Instance.AllKeepersList[0].GetComponent<Interactable>().Feedback.position) + Vector3.up * (50 * (Screen.height/1080.0f));
+                feedbackMouse.transform.position = Camera.main.WorldToScreenPoint(GameManager.Instance.AllKeepersList[0].GetComponent<Interactable>().Feedback.position) + Vector3.up * (50 * (Screen.height / 1080.0f));
                 feedbackMouse.transform.localScale = Vector3.one;
                 feedbackMouse.AddComponent<ShowClickIsExpected>();
                 feedbackMouse.GetComponent<ShowClickIsExpected>().IsLeftClick = true;
@@ -456,7 +478,7 @@ public class SeqFirstMove : Sequence {
             if (feedback == null)
             {
                 feedback = Instantiate(TutoManager.s_instance.uiPointer, GameManager.Instance.Ui.transform.GetChild(0));
-                feedback.GetComponent<FlecheQuiBouge>().PointToPoint = GameManager.Instance.AllKeepersList[0].GetComponent<Inventory>().SelectedInventoryPanel.transform.position + Vector3.up * (100 * (Screen.height/1080.0f));
+                feedback.GetComponent<FlecheQuiBouge>().PointToPoint = GameManager.Instance.AllKeepersList[0].GetComponent<Inventory>().SelectedInventoryPanel.transform.position + Vector3.up * (100 * (Screen.height / 1080.0f));
                 feedback.GetComponent<FlecheQuiBouge>().distanceOffset = 250.0f;
 
                 feedback.transform.localEulerAngles = new Vector3(0, 0, 90);
