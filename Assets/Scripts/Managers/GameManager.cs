@@ -210,6 +210,7 @@ public class GameManager : MonoBehaviour
             instance.allKeepersList.Clear();
             persistenceLoader.Load();
             instance.archerInstance = null;
+            instance.prisonerInstance = null;
 
             instance.pausedAgents.Clear();
             instance.disabledModels.Clear();
